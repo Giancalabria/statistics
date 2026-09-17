@@ -10,7 +10,7 @@ parametro = st.selectbox(
 objetivo = st.radio("¿Qué querés calcular?", ["Intervalo de Confianza", "Tamaño de muestra (n)"])
 
 confianza = st.number_input(
-    "Nivel de confianza (1 - α)", min_value=0.5, max_value=0.999, value=0.95, step=0.01
+    "Nivel de confianza (1 - α)", min_value=0.5, max_value=0.999, value=0.95, step=0.01, format="%.5f"
 )
 alpha = 1 - confianza
 
@@ -23,16 +23,16 @@ if poblacion_finita:
 def mostrar_intervalo(nombre_parametro: str, result: intervals.IntervalResult) -> None:
     for w in result.warnings:
         st.warning(w)
-    st.latex(f"{result.a:.4f} \\le {nombre_parametro} \\le {result.b:.4f}")
+    st.latex(f"{result.a:.5f} \\le {nombre_parametro} \\le {result.b:.5f}")
     st.write(wording.texto_intervalo(nombre_parametro, result, confianza))
     with st.expander("Detalle del cálculo"):
         st.write(f"Distribución utilizada: {result.distribution}")
         if result.df is not None:
             st.write(f"Grados de libertad: {result.df}")
         if result.critical_value is not None:
-            st.write(f"Valor crítico: {result.critical_value}")
+            st.write(f"Valor crítico: {wording.fmt_num(result.critical_value)}")
         if result.error is not None:
-            st.write(f"Error muestral (e): {result.error:.4f}")
+            st.write(f"Error muestral (e): {result.error:.5f}")
         if result.finite_population:
             st.write("Se aplicó factor de corrección por finitud.")
 
@@ -47,12 +47,12 @@ if parametro == "Media":
     sigma_conocido = st.radio("¿Se conoce el desvío poblacional σ?", ["Sí", "No"]) == "Sí"
 
     if objetivo == "Intervalo de Confianza":
-        xbar = st.number_input("Media muestral (x̄)", value=0.0)
+        xbar = st.number_input("Media muestral (x̄)", value=0.0, format="%.5f")
         n = st.number_input("Tamaño de muestra (n)", min_value=2, step=1, value=30)
         if sigma_conocido:
-            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0)
+            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0, format="%.5f")
         else:
-            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0)
+            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f")
 
         if st.button("Calcular"):
             try:
@@ -65,11 +65,11 @@ if parametro == "Media":
                 st.error(f"Error: {e}")
 
     else:
-        e = st.number_input("Error muestral admitido (e)", min_value=1e-9, value=1.0)
+        e = st.number_input("Error muestral admitido (e)", min_value=1e-9, value=1.0, format="%.5f")
         if sigma_conocido:
-            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0)
+            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0, format="%.5f")
         else:
-            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0)
+            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f")
 
         if st.button("Calcular"):
             try:
@@ -88,7 +88,7 @@ elif parametro == "Varianza / Desvío":
             "varianza/desvío (solo para media y proporción)."
         )
     else:
-        s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0)
+        s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f")
         n = st.number_input("Tamaño de muestra (n)", min_value=2, step=1, value=30)
 
         if st.button("Calcular"):
@@ -110,7 +110,7 @@ else:  # Proporción
         if st.button("Calcular"):
             try:
                 p_hat = r / n
-                st.write(f"Proporción muestral: p̂ = {p_hat:.4f}")
+                st.write(f"Proporción muestral: p̂ = {p_hat:.5f}")
 
                 exacto = intervals.ic_proporcion_exacto(int(r), int(n), alpha)
                 st.subheader("Método exacto (Clopper-Pearson / transformación F)")
@@ -125,9 +125,9 @@ else:  # Proporción
     else:
         p_hat = st.number_input(
             "Proporción estimada (p̂) — usar 0.5 si no hay estimación previa",
-            min_value=0.0001, max_value=0.9999, value=0.5,
+            min_value=0.0, max_value=1.0, value=0.5, format="%.5f",
         )
-        e = st.number_input("Error admitido (e)", min_value=1e-9, value=0.05)
+        e = st.number_input("Error admitido (e)", min_value=1e-9, value=0.05, format="%.5f")
 
         if st.button("Calcular"):
             try:

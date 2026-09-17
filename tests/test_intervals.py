@@ -221,7 +221,7 @@ def test_ic_proporcion_normal_advierte_cuando_np_menor_a_5():
         (150, 600, 0.10, 0.2210, 0.2808),  # problema 1
         (3, 25, 0.05, 0.0254, 0.3122),      # problema 2a
         (1, 10, 0.10, 0.0051, 0.3942),      # problema 3a
-        (0, 10, 0.10, 0.0, 0.2589),         # problema 3b
+        (0, 10, 0.10, 0.0, 0.2057),         # problema 3b (unilateral: alpha entero arriba)
         (60, 600, 0.05, 0.0771, 0.1269),    # problema 4
         (198, 1000, 0.05, 0.1737, 0.2241),  # problema 5
         (9, 30, 0.05, 0.1473, 0.4940),      # problema 6
@@ -237,6 +237,21 @@ def test_ic_proporcion_exacto_casos_reales_de_la_guia(r, n, alpha, a_esperado, b
 def test_ic_proporcion_exacto_r_igual_a_n():
     result = intervals.ic_proporcion_exacto(10, 10, 0.05)
     assert result.b == 1.0
+    # Unilateral: la cota inferior se calcula con alpha entero, no alpha/2.
+    assert result.a == pytest.approx(0.05 ** (1 / 10))
+    assert len(result.warnings) == 1
+
+
+def test_ic_proporcion_exacto_r_cero_es_unilateral():
+    """Con r = 0 solo hay cota superior, asi que se usa alpha entero (no alpha/2).
+
+    Problema 3b del TEMA III: n=10, 90% -> [0 ; 0.2057] = 1 - alpha^(1/n).
+    """
+    result = intervals.ic_proporcion_exacto(0, 10, 0.10)
+    assert result.a == 0.0
+    assert result.b == pytest.approx(1 - 0.10 ** (1 / 10))
+    assert result.b == pytest.approx(0.2057, abs=1e-4)
+    assert len(result.warnings) == 1
 
 
 def test_n_proporcion():
@@ -317,12 +332,20 @@ def test_ic_proporcion_exacto_error_alpha_fuera_de_rango():
 
 
 def test_ic_proporcion_normal_error_p_hat_fuera_de_rango():
-    """Validar que p_hat debe estar entre 0 y 1 (exclusivo)."""
+    """Validar que p_hat debe estar entre 0 y 1 (inclusive)."""
     with pytest.raises(ValueError, match="p_hat debe estar entre 0 y 1"):
-        intervals.ic_proporcion_normal(0.0, 30, 0.05)
+        intervals.ic_proporcion_normal(-0.1, 30, 0.05)
 
     with pytest.raises(ValueError, match="p_hat debe estar entre 0 y 1"):
-        intervals.ic_proporcion_normal(1.0, 30, 0.05)
+        intervals.ic_proporcion_normal(1.1, 30, 0.05)
+
+
+def test_ic_proporcion_normal_acepta_p_hat_cero():
+    """Con r = 0 (p_hat = 0) no debe romper: degenera en [0, 0] y avisa."""
+    result = intervals.ic_proporcion_normal(0.0, 10, 0.10)
+    assert result.a == 0.0
+    assert result.b == 0.0
+    assert any("degenera" in w for w in result.warnings)
 
 
 def test_ic_proporcion_normal_error_alpha_fuera_de_rango():
@@ -332,9 +355,18 @@ def test_ic_proporcion_normal_error_alpha_fuera_de_rango():
 
 
 def test_n_proporcion_error_p_hat_fuera_de_rango():
-    """Validar que p_hat debe estar entre 0 y 1 (exclusivo)."""
+    """Validar que p_hat debe estar entre 0 y 1 (inclusive)."""
     with pytest.raises(ValueError, match="p_hat debe estar entre 0 y 1"):
-        intervals.n_proporcion(0.0, 0.05, 0.05)
+        intervals.n_proporcion(-0.1, 0.05, 0.05)
+
+    with pytest.raises(ValueError, match="p_hat debe estar entre 0 y 1"):
+        intervals.n_proporcion(1.5, 0.05, 0.05)
+
+
+def test_n_proporcion_acepta_p_hat_cero_con_advertencia():
+    result = intervals.n_proporcion(0.0, 0.05, 0.05)
+    assert result.n == 1
+    assert len(result.warnings) == 1
 
 
 def test_n_proporcion_error_alpha_fuera_de_rango():
