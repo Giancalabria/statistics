@@ -1,0 +1,4 @@
+streamlit>=1.38
+scipy>=1.13
+numpy>=1.26
+pytest>=8.0
