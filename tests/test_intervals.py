@@ -239,6 +239,17 @@ def test_ic_proporcion_exacto_r_igual_a_n():
     assert result.b == 1.0
 
 
+def test_ic_total_poblacional_multiplica_limites_por_n():
+    xbar, sigma, n, alpha, N = 50.0, 10.0, 25, 0.05, 1000
+    result = intervals.ic_media_sigma_conocido(xbar, sigma, n, alpha, N=N)
+    total = intervals.ic_total_poblacional(result, N)
+
+    assert total.a == pytest.approx(result.a * N)
+    assert total.b == pytest.approx(result.b * N)
+    assert total.point_estimate == pytest.approx(xbar * N)
+    assert total.error == pytest.approx(result.error * N)
+
+
 def test_n_proporcion():
     p_hat, e, alpha = 0.5, 0.05, 0.05
     result = intervals.n_proporcion(p_hat, e, alpha)

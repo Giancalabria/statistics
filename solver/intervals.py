@@ -121,6 +121,26 @@ def n_media_sigma_desconocido(
     return SampleSizeResult(n=n_finito, iterations=len(historial), converged_values=historial)
 
 
+def ic_total_poblacional(result: IntervalResult, N: float) -> IntervalResult:
+    """Convierte un IC de la media en un IC del total poblacional T = N * mu.
+
+    Varios ejercicios de la guía (p. ej. peso total de una tirada de fardos,
+    producción diaria total) piden T en vez de mu; se resuelve multiplicando
+    los límites del IC de la media por N.
+    """
+    return IntervalResult(
+        a=result.a * N,
+        b=result.b * N,
+        error=None if result.error is None else result.error * N,
+        point_estimate=result.point_estimate * N,
+        distribution=result.distribution,
+        df=result.df,
+        critical_value=result.critical_value,
+        finite_population=result.finite_population,
+        warnings=list(result.warnings),
+    )
+
+
 # ---------------------------------------------------------------------------
 # 1.2 Varianza / desvío poblacional (sigma^2, sigma)
 # ---------------------------------------------------------------------------

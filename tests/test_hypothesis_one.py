@@ -319,6 +319,41 @@ def test_ensayo_proporcion_error_alpha_fuera_de_rango():
         hyp.ensayo_proporcion(r=15, n=30, p0=0.5, alpha=1.0)
 
 
+# ---------------------------------------------------------------------------
+# curva_potencia_media (tabla de beta/potencia para varios mu1, tipo curva OC)
+# ---------------------------------------------------------------------------
+
+def test_curva_potencia_media_coincide_con_ensayo_individual():
+    mu0, sigma, n, alpha, tail = 2.0, 0.1, 10, 0.10, "bilateral"
+    mu1_list = [1.95, 2.0, 2.05]
+
+    tabla = hyp.curva_potencia_media(mu0, sigma, n, alpha, mu1_list, tail=tail, sigma_conocido=True)
+
+    assert [row[0] for row in tabla] == mu1_list
+    for mu1, beta, power in tabla:
+        individual = hyp.ensayo_media_sigma_conocido(
+            xbar=mu0, sigma=sigma, n=n, mu0=mu0, alpha=alpha, tail=tail, mu1=mu1
+        )
+        assert beta == pytest.approx(individual.beta)
+        assert power == pytest.approx(individual.power)
+        assert power == pytest.approx(1 - beta)
+
+
+def test_curva_potencia_media_sigma_desconocido():
+    mu0, s, n, alpha, tail = 10.0, 2.0, 20, 0.05, "derecha"
+    mu1_list = [11.0, 12.0]
+
+    tabla = hyp.curva_potencia_media(mu0, s, n, alpha, mu1_list, tail=tail, sigma_conocido=False)
+
+    assert len(tabla) == 2
+    for mu1, beta, power in tabla:
+        individual = hyp.ensayo_media_sigma_desconocido(
+            xbar=mu0, s=s, n=n, mu0=mu0, alpha=alpha, tail=tail, mu1=mu1
+        )
+        assert beta == pytest.approx(individual.beta)
+        assert power == pytest.approx(individual.power)
+
+
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, r"D:\UADE\Estadistica\code")

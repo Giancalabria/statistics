@@ -232,6 +232,34 @@ def ensayo_media_sigma_desconocido(
     return result
 
 
+def curva_potencia_media(
+    mu0: float,
+    sigma_or_s: float,
+    n: int,
+    alpha: float,
+    mu1_list: List[float],
+    tail: str = "derecha",
+    sigma_conocido: bool = True,
+) -> List[Tuple[float, float, float]]:
+    """Curva OC / de potencia: para cada mu1 en mu1_list, devuelve (mu1, beta, potencia).
+
+    Reutiliza ensayo_media_sigma_conocido/desconocido (el valor de x̄ no afecta
+    a beta/potencia, solo mu0, sigma o S, n, alpha, tail y mu1).
+    """
+    resultados = []
+    for mu1 in mu1_list:
+        if sigma_conocido:
+            r = ensayo_media_sigma_conocido(
+                xbar=mu0, sigma=sigma_or_s, n=n, mu0=mu0, alpha=alpha, tail=tail, mu1=mu1
+            )
+        else:
+            r = ensayo_media_sigma_desconocido(
+                xbar=mu0, s=sigma_or_s, n=n, mu0=mu0, alpha=alpha, tail=tail, mu1=mu1
+            )
+        resultados.append((mu1, r.beta, r.power))
+    return resultados
+
+
 def ensayo_varianza(
     s2: float,
     n: int,

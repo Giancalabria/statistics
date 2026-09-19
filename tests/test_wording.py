@@ -1,0 +1,23 @@
+"""Tests para solver/wording.py."""
+
+from solver import intervals
+from solver import wording
+
+
+def test_texto_tamano_muestra_sin_preliminar_no_menciona_delta():
+    n_result = intervals.SampleSizeResult(n=50)
+    texto = wording.texto_tamano_muestra(n_result)
+    assert "n = 50" in texto
+    assert "adicionales" not in texto
+
+
+def test_texto_tamano_muestra_con_preliminar_calcula_delta():
+    n_result = intervals.SampleSizeResult(n=50)
+    texto = wording.texto_tamano_muestra(n_result, n_preliminar=20)
+    assert "Δn = 50 - 20 = 30" in texto
+
+
+def test_texto_tamano_muestra_preliminar_mayor_a_n_da_delta_cero():
+    n_result = intervals.SampleSizeResult(n=50)
+    texto = wording.texto_tamano_muestra(n_result, n_preliminar=80)
+    assert "Δn = 50 - 80 = 0" in texto

@@ -3,6 +3,12 @@ import streamlit as st
 from solver import hypothesis_one as hyp
 from solver import wording
 
+
+def parse_numbers(texto: str):
+    import re
+    nums = re.split(r"[,\s]+", texto.strip())
+    return [float(n) for n in nums if n]
+
 st.title("Ensayo de Hipótesis (1 población)")
 
 parametro = st.selectbox(
@@ -94,6 +100,33 @@ if parametro == "Media":
                 mostrar_ensayo(result)
             except ValueError as e:
                 st.error(f"Error: {e}")
+
+        with st.expander("Tabla de curva de potencia (OC) para varios μ₁"):
+            st.write(
+                "Ingresá una lista de valores μ₁ (separados por comas o espacios) para ver "
+                "β y la potencia (1-β) en cada uno, sin tener que repetir el cálculo a mano."
+            )
+            mu1_texto = st.text_area("Valores de μ₁", value="", key="mu1_curva")
+            if st.button("Generar tabla", key="btn_curva_potencia"):
+                try:
+                    mu1_list = parse_numbers(mu1_texto)
+                    if not mu1_list:
+                        st.error("Ingresá al menos un valor de μ₁.")
+                    else:
+                        tabla = hyp.curva_potencia_media(
+                            mu0=mu0,
+                            sigma_or_s=sigma if sigma_conocido else s,
+                            n=n,
+                            alpha=alpha,
+                            mu1_list=mu1_list,
+                            tail=tail,
+                            sigma_conocido=sigma_conocido,
+                        )
+                        import pandas as pd
+                        df = pd.DataFrame(tabla, columns=["μ₁", "β", "Potencia (1-β)"])
+                        st.dataframe(df.round(4), hide_index=True)
+                except ValueError as e:
+                    st.error(f"Error: {e}")
 
     else:  # Calcular n para potencia fijada
         mu1 = st.number_input("Media alternativa a detectar (μ₁)", value=1.0)

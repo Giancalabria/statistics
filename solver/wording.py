@@ -4,6 +4,8 @@ No alcanza con mostrar el número: se acompaña con la notación
 P(A ≤ parámetro ≤ B) = 1-α o la frase de decisión correspondiente.
 """
 
+from typing import Optional
+
 from .intervals import IntervalResult, SampleSizeResult
 from .hypothesis_one import HypothesisTestResult
 from .chi_square import ChiSquareResult
@@ -17,12 +19,18 @@ def texto_intervalo(parametro: str, result: IntervalResult, confianza: float) ->
     )
 
 
-def texto_tamano_muestra(n_result: SampleSizeResult) -> str:
+def texto_tamano_muestra(n_result: SampleSizeResult, n_preliminar: Optional[int] = None) -> str:
     texto = f"El tamaño de muestra necesario es n = {n_result.n}."
     if n_result.iterations > 1:
         texto += (
             f" Calculado con el método iterativo en {n_result.iterations} iteración(es) "
             f"(valores intermedios de n: {n_result.converged_values})."
+        )
+    if n_preliminar is not None and n_preliminar > 0:
+        delta = max(0, n_result.n - n_preliminar)
+        texto += (
+            f" Como ya se relevaron n_preliminar = {n_preliminar} unidades, "
+            f"hay que tomar Δn = {n_result.n} - {n_preliminar} = {delta} unidades adicionales."
         )
     return texto
 

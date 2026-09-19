@@ -181,6 +181,11 @@ elif opcion == "Medias - Muestras Independientes":
 
     else:  # Tamaño de muestra
         e = st.number_input("Error muestral deseado (e)", min_value=1e-9, value=1.0)
+        n_preliminar_ind = st.number_input(
+            "Tamaño de muestra ya relevado por grupo (n preliminar, opcional)",
+            min_value=0, step=1, value=0,
+            help="Si ya mediste algunas unidades por grupo y querés saber cuántas más faltan (Δn).",
+        )
         if st.button("Calcular", key="btn_n_ind"):
             try:
                 if metodo == "Pooled":
@@ -190,7 +195,7 @@ elif opcion == "Medias - Muestras Independientes":
                     result = None
 
                 if result:
-                    st.success(wording.texto_tamano_muestra(result))
+                    st.success(wording.texto_tamano_muestra(result, n_preliminar=int(n_preliminar_ind) or None))
             except ValueError as e:
                 st.error(f"Error: {e}")
 
@@ -251,10 +256,15 @@ elif opcion == "Medias - Muestras Apareadas":
             mean_d = statistics.mean(differences)
             s_d = statistics.stdev(differences)
             e = st.number_input("Error muestral deseado (e)", min_value=1e-9, value=1.0, key="e_paired")
+            n_preliminar_paired = st.number_input(
+                "Tamaño de muestra ya relevado (n preliminar, opcional)",
+                min_value=0, step=1, value=0, key="n_prelim_paired",
+                help="Si ya mediste algunos pares y querés saber cuántos más faltan (Δn).",
+            )
 
             if st.button("Calcular", key="btn_n_paired"):
                 try:
                     result = ts.n_media_apareada_para_error(s_d, e, alpha)
-                    st.success(wording.texto_tamano_muestra(result))
+                    st.success(wording.texto_tamano_muestra(result, n_preliminar=int(n_preliminar_paired) or None))
                 except ValueError as e:
                     st.error(f"Error: {e}")
