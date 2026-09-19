@@ -13,7 +13,7 @@ opcion = st.selectbox(
 
 # Nivel de significación (aplica a todos)
 alpha = st.number_input(
-    "Nivel de significación (α)", min_value=0.001, max_value=0.5, value=0.05, step=0.01
+    "Nivel de significación (α)", min_value=0.001, max_value=0.5, value=0.05, step=0.01, format="%.5f"
 )
 
 
@@ -30,11 +30,11 @@ def mostrar_ensayo(result) -> None:
     if isinstance(result.critical_value, tuple):
         c1, c2 = result.critical_value
         if result.distribution == "F":
-            st.write(f"**Valores críticos**: {c1:.4f} ≤ j² ≤ {c2:.4f}")
+            st.write(f"**Valores críticos**: {c1:.5f} ≤ j² ≤ {c2:.5f}")
         else:
-            st.write(f"**Valores críticos**: {c1:.4f} ≤ parámetro ≤ {c2:.4f}")
+            st.write(f"**Valores críticos**: {c1:.5f} ≤ parámetro ≤ {c2:.5f}")
     else:
-        st.write(f"**Valor crítico**: {result.critical_value:.4f}")
+        st.write(f"**Valor crítico**: {result.critical_value:.5f}")
 
     # Decisión
     if result.rejects_h0:
@@ -56,7 +56,7 @@ def mostrar_intervalo(parametro: str, result) -> None:
     """Mostrar resultado de intervalo de confianza."""
     for w in result.warnings:
         st.warning(w)
-    st.latex(f"{result.a:.4f} \\le {parametro} \\le {result.b:.4f}")
+    st.latex(f"{result.a:.5f} \\le {parametro} \\le {result.b:.5f}")
     confianza = 1 - alpha
     st.write(wording.texto_intervalo(parametro, result, confianza))
     with st.expander("Detalle del cálculo"):
@@ -64,9 +64,9 @@ def mostrar_intervalo(parametro: str, result) -> None:
         if result.df is not None:
             st.write(f"Grados de libertad: {result.df}")
         if result.critical_value is not None:
-            st.write(f"Valor crítico: {result.critical_value}")
+            st.write(f"Valor crítico: {wording.fmt_num(result.critical_value)}")
         if result.error is not None:
-            st.write(f"Error muestral (e): {result.error:.4f}")
+            st.write(f"Error muestral (e): {result.error:.5f}")
 
 
 # ---------------------------------------------------------------------------
@@ -79,10 +79,10 @@ if opcion == "Varianzas (Test F)":
 
     col1, col2 = st.columns(2)
     with col1:
-        s1 = st.number_input("Desvío muestra 1 (S₁)", min_value=1e-9, value=1.0)
+        s1 = st.number_input("Desvío muestra 1 (S₁)", min_value=1e-9, value=1.0, format="%.5f")
         n1 = st.number_input("Tamaño muestra 1 (n₁)", min_value=2, step=1, value=30)
     with col2:
-        s2 = st.number_input("Desvío muestra 2 (S₂)", min_value=1e-9, value=1.0)
+        s2 = st.number_input("Desvío muestra 2 (S₂)", min_value=1e-9, value=1.0, format="%.5f")
         n2 = st.number_input("Tamaño muestra 2 (n₂)", min_value=2, step=1, value=30)
 
     objetivo_f = st.radio("¿Qué querés calcular?", ["Ensayo de hipótesis", "Intervalo de confianza para razón de varianzas"])
@@ -118,14 +118,14 @@ elif opcion == "Medias - Muestras Independientes":
     col1, col2 = st.columns(2)
     with col1:
         st.write("**Muestra 1:**")
-        xbar1 = st.number_input("Media muestral (x̄₁)", value=0.0, key="xbar1")
-        s1 = st.number_input("Desvío muestral (S₁)", min_value=1e-9, value=1.0, key="s1_ind")
+        xbar1 = st.number_input("Media muestral (x̄₁)", value=0.0, key="xbar1", format="%.5f")
+        s1 = st.number_input("Desvío muestral (S₁)", min_value=1e-9, value=1.0, key="s1_ind", format="%.5f")
         n1 = st.number_input("Tamaño muestra (n₁)", min_value=2, step=1, value=30, key="n1_ind")
 
     with col2:
         st.write("**Muestra 2:**")
-        xbar2 = st.number_input("Media muestral (x̄₂)", value=0.0, key="xbar2")
-        s2 = st.number_input("Desvío muestral (S₂)", min_value=1e-9, value=1.0, key="s2_ind")
+        xbar2 = st.number_input("Media muestral (x̄₂)", value=0.0, key="xbar2", format="%.5f")
+        s2 = st.number_input("Desvío muestral (S₂)", min_value=1e-9, value=1.0, key="s2_ind", format="%.5f")
         n2 = st.number_input("Tamaño muestra (n₂)", min_value=2, step=1, value=30, key="n2_ind")
 
     # Paso 1: Test F automático
@@ -140,7 +140,7 @@ elif opcion == "Medias - Muestras Independientes":
 
     # Paso 2: Recolectar parámetros del ensayo/IC
     st.divider()
-    delta0 = st.number_input("Diferencia bajo H0 (δ₀)", value=0.0)
+    delta0 = st.number_input("Diferencia bajo H0 (δ₀)", value=0.0, format="%.5f")
     objetivo_ind = st.radio(
         "¿Qué querés calcular?",
         ["Intervalo de Confianza", "Ensayo de Hipótesis", "Tamaño de muestra (n)"]
@@ -180,7 +180,7 @@ elif opcion == "Medias - Muestras Independientes":
                 st.error(f"Error: {e}")
 
     else:  # Tamaño de muestra
-        e = st.number_input("Error muestral deseado (e)", min_value=1e-9, value=1.0)
+        e = st.number_input("Error muestral deseado (e)", min_value=1e-9, value=1.0, format="%.5f")
         n_preliminar_ind = st.number_input(
             "Tamaño de muestra ya relevado por grupo (n preliminar, opcional)",
             min_value=0, step=1, value=0,
@@ -225,7 +225,7 @@ elif opcion == "Medias - Muestras Apareadas":
     if differences is not None:
         st.success(f"✓ Se ingresaron {len(differences)} pares (diferencias: {differences})")
 
-        delta0 = st.number_input("Diferencia bajo H0 (δ₀)", value=0.0, key="delta0_paired")
+        delta0 = st.number_input("Diferencia bajo H0 (δ₀)", value=0.0, key="delta0_paired", format="%.5f")
         objetivo_paired = st.radio(
             "¿Qué querés calcular?",
             ["Intervalo de Confianza", "Ensayo de Hipótesis", "Tamaño de muestra (n)"]
@@ -255,7 +255,7 @@ elif opcion == "Medias - Muestras Apareadas":
             import statistics
             mean_d = statistics.mean(differences)
             s_d = statistics.stdev(differences)
-            e = st.number_input("Error muestral deseado (e)", min_value=1e-9, value=1.0, key="e_paired")
+            e = st.number_input("Error muestral deseado (e)", min_value=1e-9, value=1.0, key="e_paired", format="%.5f")
             n_preliminar_paired = st.number_input(
                 "Tamaño de muestra ya relevado (n preliminar, opcional)",
                 min_value=0, step=1, value=0, key="n_prelim_paired",

@@ -12,7 +12,7 @@ tipo_contraste = st.selectbox(
 
 # Nivel de significación (igual para ambos)
 alpha = st.number_input(
-    "Nivel de significación (alpha)", min_value=0.001, max_value=0.5, value=0.05, step=0.01
+    "Nivel de significación (alpha)", min_value=0.001, max_value=0.5, value=0.05, step=0.01, format="%.5f"
 )
 
 
@@ -26,9 +26,9 @@ def mostrar_resultado_chi_square(result: chi.ChiSquareResult, contexto: str) -> 
     st.subheader("Resultado del Cálculo")
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("chi2 calculado", f"{result.chi2_calc:.4f}")
+        st.metric("chi2 calculado", f"{result.chi2_calc:.5f}")
     with col2:
-        st.metric("chi2 critico (gl={})".format(result.df), f"{result.chi2_critico:.4f}")
+        st.metric("chi2 critico (gl={})".format(result.df), f"{result.chi2_critico:.5f}")
 
     st.metric("Grados de libertad (nu)", result.df)
 
@@ -143,7 +143,7 @@ else:  # Tabla de contingencia
                     st.subheader("Tabla de Frecuencias Esperadas")
                     import pandas as pd
                     df_expected = pd.DataFrame(result.expected_table)
-                    st.dataframe(df_expected.round(4))
+                    st.dataframe(df_expected.round(5))
 
         except ValueError as e:
             st.error(f"Error: {e}")

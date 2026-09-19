@@ -60,7 +60,7 @@ def bondad_de_ajuste(
 
     if celdas_bajas:
         indices_str = ", ".join(str(i) for i, _ in celdas_bajas)
-        valores_str = ", ".join(f"{fe:.2f}" for _, fe in celdas_bajas)
+        valores_str = ", ".join(f"{fe:.5f}" for _, fe in celdas_bajas)
         warnings.append(
             f"Celdas con F_e_i < 5 detectadas en posición(es) {indices_str} "
             f"(valores: {valores_str}). Se recomienda agrupar estas categorías "
@@ -167,7 +167,7 @@ def tabla_contingencia(tabla_observada: List[List[float]], alpha: float) -> ChiS
 
     if celdas_bajas:
         indices_str = ", ".join(f"({i},{j})" for i, j, _ in celdas_bajas)
-        valores_str = ", ".join(f"{e:.2f}" for _, _, e in celdas_bajas)
+        valores_str = ", ".join(f"{e:.5f}" for _, _, e in celdas_bajas)
         warnings.append(
             f"Celdas con E_ij < 5 detectadas en posición(es) {indices_str} "
             f"(valores: {valores_str}). Se recomienda agrupar filas o columnas "

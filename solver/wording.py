@@ -11,11 +11,23 @@ from .hypothesis_one import HypothesisTestResult
 from .chi_square import ChiSquareResult
 
 
+DECIMALES = 5
+
+
+def fmt_num(value, decimals: int = DECIMALES) -> str:
+    """Formatea un valor numérico (o una tupla de valores) con `decimals` decimales."""
+    if isinstance(value, (tuple, list)):
+        return ", ".join(fmt_num(v, decimals) for v in value)
+    if isinstance(value, float):
+        return f"{value:.{decimals}f}"
+    return str(value)
+
+
 def texto_intervalo(parametro: str, result: IntervalResult, confianza: float) -> str:
     conf_pct = confianza * 100
     return (
         f"Con un nivel de confianza del {conf_pct:g}%, "
-        f"P({result.a:.4f} ≤ {parametro} ≤ {result.b:.4f}) = {confianza:.4g}."
+        f"P({result.a:.5f} ≤ {parametro} ≤ {result.b:.5f}) = {confianza:.4g}."
     )
 
 
@@ -44,11 +56,11 @@ def texto_ensayo(result, alpha: float) -> str:
     if result.distribution == "Binomial (exacto)":
         obs_str = f"r = {int(result.observed_value)}"
     elif "chi2" in result.distribution:
-        obs_str = f"S² = {result.observed_value:.4f}"
+        obs_str = f"S² = {result.observed_value:.5f}"
     elif result.distribution == "F":
-        obs_str = f"j² = {result.observed_value:.4f}"
+        obs_str = f"j² = {result.observed_value:.5f}"
     else:  # media (Z o t) o diferencia
-        obs_str = f"x̄ = {result.observed_value:.4f}"
+        obs_str = f"x̄ = {result.observed_value:.5f}"
 
     # Decidir si se rechaza o no
     if result.rejects_h0:
@@ -86,8 +98,8 @@ def texto_chi_cuadrado(result: ChiSquareResult, contexto: str, alpha: float) -> 
         decision = "NO se rechaza"
 
     texto = (
-        f"De acuerdo al estadístico de prueba χ² = {result.chi2_calc:.4f} "
-        f"(valor crítico: {result.chi2_critico:.4f}, gl = {result.df}), "
+        f"De acuerdo al estadístico de prueba χ² = {result.chi2_calc:.5f} "
+        f"(valor crítico: {result.chi2_critico:.5f}, gl = {result.df}), "
         f"al nivel de significación del {alpha_pct:g}%, {decision} "
         f"la hipótesis nula de que {contexto}."
     )

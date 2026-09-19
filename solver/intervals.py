@@ -186,11 +186,33 @@ def ic_proporcion_exacto(r: int, n: int, alpha: float) -> IntervalResult:
     if n < 1:
         raise ValueError(f"n debe ser al menos 1, no {n}")
     p_hat = r / n
-    a = 0.0 if r == 0 else dist.beta_value(alpha / 2, r, n - r + 1)
-    b = 1.0 if r == n else dist.beta_value(1 - alpha / 2, r + 1, n - r)
+    warnings = []
+
+    if r == 0:
+        # Con r = 0 el limite inferior es exactamente 0 y no consume riesgo: el
+        # intervalo tiene una sola cota, asi que el alpha entero va al extremo
+        # superior (no alpha/2). Ej.: n=10, alpha=0.10 -> [0 ; 0.2057].
+        a = 0.0
+        b = dist.beta_value(1 - alpha, r + 1, n - r)
+        warnings.append(
+            "Con r = 0 el intervalo es unilateral (solo cota superior): se usa \u03b1 "
+            "completo en el extremo superior, no \u03b1/2."
+        )
+    elif r == n:
+        # Simetrico al caso anterior: el limite superior es exactamente 1.
+        a = dist.beta_value(alpha, r, n - r + 1)
+        b = 1.0
+        warnings.append(
+            "Con r = n el intervalo es unilateral (solo cota inferior): se usa \u03b1 "
+            "completo en el extremo inferior, no \u03b1/2."
+        )
+    else:
+        a = dist.beta_value(alpha / 2, r, n - r + 1)
+        b = dist.beta_value(1 - alpha / 2, r + 1, n - r)
+
     return IntervalResult(
         a=a, b=b, error=(b - a) / 2, point_estimate=p_hat,
-        distribution="F (Clopper-Pearson)",
+        distribution="F (Clopper-Pearson)", warnings=warnings,
     )
 
 
@@ -201,9 +223,14 @@ def ic_proporcion_normal(p_hat: float, n: int, alpha: float) -> IntervalResult:
     """
     if not (0 < alpha < 1):
         raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
-    if not (0 < p_hat < 1):
-        raise ValueError(f"p_hat debe estar entre 0 y 1 (exclusivo), no {p_hat}")
+    if not (0 <= p_hat <= 1):
+        raise ValueError(f"p_hat debe estar entre 0 y 1, no {p_hat}")
     warnings = []
+    if p_hat in (0.0, 1.0):
+        warnings.append(
+            "Con p\u0302 = 0 (o p\u0302 = 1) el error estandar de la aproximacion normal es 0 "
+            "y el intervalo degenera en un punto: usar el metodo exacto."
+        )
     if n * p_hat < 5 or n * (1 - p_hat) < 5:
         warnings.append(
             "No se cumple n·p̂ ≥ 5 y n·(1-p̂) ≥ 5: la aproximación normal puede no ser confiable."
@@ -220,8 +247,15 @@ def ic_proporcion_normal(p_hat: float, n: int, alpha: float) -> IntervalResult:
 def n_proporcion(p_hat: float, e: float, alpha: float) -> SampleSizeResult:
     if not (0 < alpha < 1):
         raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
-    if not (0 < p_hat < 1):
-        raise ValueError(f"p_hat debe estar entre 0 y 1 (exclusivo), no {p_hat}")
+    if not (0 <= p_hat <= 1):
+        raise ValueError(f"p_hat debe estar entre 0 y 1, no {p_hat}")
     z = dist.z_two_tailed(alpha)
     n0 = ceil((z ** 2 * p_hat * (1 - p_hat)) / e ** 2 + 1)
-    return SampleSizeResult(n=n0)
+    warnings = []
+    if p_hat in (0.0, 1.0):
+        warnings.append(
+            "Con p\u0302 = 0 (o p\u0302 = 1) la varianza estimada p\u0302(1-p\u0302) es 0 y el n "
+            "que sale no tiene sentido practico: si no hay estimacion previa "
+            "confiable, usar el caso mas desfavorable p\u0302 = 0.5."
+        )
+    return SampleSizeResult(n=n0, warnings=warnings)

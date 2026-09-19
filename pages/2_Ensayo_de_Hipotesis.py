@@ -17,7 +17,7 @@ parametro = st.selectbox(
 
 # Nivel de significación
 alpha = st.number_input(
-    "Nivel de significación (α)", min_value=0.001, max_value=0.5, value=0.05, step=0.01
+    "Nivel de significación (α)", min_value=0.001, max_value=0.5, value=0.05, step=0.01, format="%.5f"
 )
 
 # Cola del ensayo
@@ -35,12 +35,12 @@ def mostrar_ensayo(result: hyp.HypothesisTestResult) -> None:
         if result.distribution == "Binomial (exacto)":
             st.write(f"**Valores críticos**: r_c1 = {c1}, r_c2 = {c2}")
         else:
-            st.write(f"**Valores críticos**: {c1:.4f} ≤ parámetro ≤ {c2:.4f}")
+            st.write(f"**Valores críticos**: {c1:.5f} ≤ parámetro ≤ {c2:.5f}")
     else:
         if result.distribution == "Binomial (exacto)":
             st.write(f"**Valor crítico**: r_c = {result.critical_value}")
         else:
-            st.write(f"**Valor crítico**: {result.critical_value:.4f}")
+            st.write(f"**Valor crítico**: {result.critical_value:.5f}")
 
     # Decisión
     if result.rejects_h0:
@@ -57,11 +57,11 @@ def mostrar_ensayo(result: hyp.HypothesisTestResult) -> None:
         if result.df is not None:
             st.write(f"Grados de libertad: {result.df}")
         if result.beta is not None:
-            st.write(f"Error Tipo II (β): {result.beta:.4f}")
+            st.write(f"Error Tipo II (β): {result.beta:.5f}")
         if result.power is not None:
-            st.write(f"Potencia (1-β): {result.power:.4f}")
+            st.write(f"Potencia (1-β): {result.power:.5f}")
         if result.p_value is not None:
-            st.write(f"Valor a posteriori (α*): {result.p_value:.4f}")
+            st.write(f"Valor a posteriori (α*): {result.p_value:.5f}")
 
 
 if parametro == "Media":
@@ -70,22 +70,22 @@ if parametro == "Media":
         "¿Qué querés hacer?", ["Ensayar la hipótesis (dado x̄)", "Calcular n para una potencia fijada"]
     )
 
-    mu0 = st.number_input("Media bajo H0 (μ₀)", value=0.0)
+    mu0 = st.number_input("Media bajo H0 (μ₀)", value=0.0, format="%.5f")
 
     if objetivo == "Ensayar la hipótesis (dado x̄)":
-        xbar = st.number_input("Media muestral (x̄)", value=0.0)
+        xbar = st.number_input("Media muestral (x̄)", value=0.0, format="%.5f")
         n = st.number_input("Tamaño de muestra (n)", min_value=2, step=1, value=30)
 
         if sigma_conocido:
-            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0)
+            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0, format="%.5f")
         else:
-            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0)
+            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f")
 
         # Opcionalmente calcular β y potencia
         calcular_potencia = st.checkbox("¿Calcular β y potencia? (proporcionar μ₁ alternativa)")
         mu1 = None
         if calcular_potencia:
-            mu1 = st.number_input("Media alternativa (μ₁)", value=1.0)
+            mu1 = st.number_input("Media alternativa (μ₁)", value=1.0, format="%.5f")
 
         if st.button("Calcular"):
             try:
@@ -129,15 +129,15 @@ if parametro == "Media":
                     st.error(f"Error: {e}")
 
     else:  # Calcular n para potencia fijada
-        mu1 = st.number_input("Media alternativa a detectar (μ₁)", value=1.0)
+        mu1 = st.number_input("Media alternativa a detectar (μ₁)", value=1.0, format="%.5f")
         beta_deseado = st.number_input(
-            "Error Tipo II admitido (β)", min_value=0.001, max_value=0.5, value=0.20, step=0.01
+            "Error Tipo II admitido (β)", min_value=0.001, max_value=0.5, value=0.20, step=0.01, format="%.5f"
         )
 
         if sigma_conocido:
-            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0)
+            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0, format="%.5f")
         else:
-            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0)
+            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f")
 
         if st.button("Calcular"):
             try:
@@ -158,15 +158,15 @@ if parametro == "Media":
                 st.error(f"Error: {e}")
 
 elif parametro == "Varianza":
-    s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0)
+    s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f")
     n = st.number_input("Tamaño de muestra (n)", min_value=2, step=1, value=30)
-    sigma0 = st.number_input("Desvío bajo H0 (σ₀)", min_value=1e-9, value=1.0)
+    sigma0 = st.number_input("Desvío bajo H0 (σ₀)", min_value=1e-9, value=1.0, format="%.5f")
 
     # Opcionalmente β y potencia
     calcular_potencia = st.checkbox("¿Calcular β y potencia? (proporcionar σ₁ alternativa)")
     sigma1 = None
     if calcular_potencia:
-        sigma1 = st.number_input("Desvío alternativo (σ₁)", min_value=1e-9, value=1.5)
+        sigma1 = st.number_input("Desvío alternativo (σ₁)", min_value=1e-9, value=1.5, format="%.5f")
 
     if st.button("Calcular"):
         try:
@@ -184,16 +184,16 @@ elif parametro == "Varianza":
 else:  # Proporción
     r = st.number_input("Cantidad de éxitos (r)", min_value=0, step=1, value=1)
     n = st.number_input("Tamaño de muestra (n)", min_value=1, step=1, value=30)
-    p0 = st.number_input("Proporción bajo H0 (p₀)", min_value=0.001, max_value=0.999, value=0.5)
+    p0 = st.number_input("Proporción bajo H0 (p₀)", min_value=0.001, max_value=0.999, value=0.5, format="%.5f")
 
     p_hat = r / n
-    st.write(f"Proporción muestral: p̂ = {p_hat:.4f}")
+    st.write(f"Proporción muestral: p̂ = {p_hat:.5f}")
 
     # Opcionalmente β y potencia
     calcular_potencia = st.checkbox("¿Calcular β y potencia? (proporcionar p₁ alternativa)")
     p1 = None
     if calcular_potencia:
-        p1 = st.number_input("Proporción alternativa (p₁)", min_value=0.001, max_value=0.999, value=0.6)
+        p1 = st.number_input("Proporción alternativa (p₁)", min_value=0.001, max_value=0.999, value=0.6, format="%.5f")
 
     if st.button("Calcular"):
         try:
