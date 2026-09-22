@@ -102,6 +102,144 @@ def ensayo_media_sigma_conocido(
     return result
 
 
+@dataclass
+class DisenoEnsayoResult:
+    """Diseño completo de un ensayo: no sólo n, también el punto crítico y la regla de decisión.
+
+    Responde el tipo de consigna "se desea un sistema de muestreo tal que si μ=μ₀ se
+    detenga con probabilidad α y si μ=μ₁ se detenga con probabilidad 1-β": hay que
+    indicar H0, la condición de rechazo (x̄_c), n y la regla de decisión.
+    """
+    h0_text: str
+    h1_text: str
+    tail: str
+    mu0: float
+    mu1: float
+    alpha: float
+    beta_objetivo: float
+    n_exacto: float          # n sin redondear (el que sale de la fórmula)
+    n: int                   # n redondeado hacia arriba
+    z_alpha: float
+    z_beta: float
+    critical_value: object   # x̄_c recalculado con el n redondeado (float, o tupla si bilateral)
+    xc_sistema: Optional[float]  # x̄_c de la intersección de ambas condiciones, sin redondear n
+    beta_real: float         # β efectivo en μ₁ con el n redondeado
+    potencia_real: float     # 1-β efectivo en μ₁ con el n redondeado
+    se: float                # σ/√n con el n redondeado
+    distribution: str = "Z"
+    df: Optional[float] = None
+    regla_decision: str = ""
+    warnings: List[str] = field(default_factory=list)
+
+
+def _z_alpha_para(tail: str, alpha: float) -> float:
+    return dist.z_two_tailed(alpha) if tail == "bilateral" else dist.z_one_tailed(alpha)
+
+
+def _potencia_media(xc, mu: float, se: float, tail: str) -> float:
+    """Potencia = P(rechazar H0 | μ) para el ensayo de media con región crítica xc."""
+    if tail == "derecha":
+        return 1 - dist.norm_cdf((xc - mu) / se)
+    if tail == "izquierda":
+        return dist.norm_cdf((xc - mu) / se)
+    c1, c2 = xc
+    return dist.norm_cdf((c1 - mu) / se) + (1 - dist.norm_cdf((c2 - mu) / se))
+
+
+def disenar_ensayo_media_sigma_conocido(
+    sigma: float,
+    mu0: float,
+    mu1: float,
+    alpha: float,
+    beta: float,
+    tail: Optional[str] = None,
+) -> DisenoEnsayoResult:
+    """Diseña el ensayo de media (σ conocido) a partir de las dos condiciones α y β.
+
+    Devuelve n, el punto crítico x̄_c, β/potencia reales y la regla de decisión.
+    Si `tail` es None se deduce de la posición de μ₁ respecto de μ₀ (criterio
+    optimista: H0 incluye a μ₀ y se rechaza hacia el lado donde está μ₁).
+    """
+    if not (0 < alpha < 1):
+        raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
+    if not (0 < beta < 1):
+        raise ValueError(f"beta debe estar entre 0 y 1, no {beta}")
+    if mu0 == mu1:
+        raise ValueError("μ₀ y μ₁ deben ser distintos para poder dimensionar la muestra.")
+
+    if tail is None:
+        tail = "izquierda" if mu1 < mu0 else "derecha"
+    if tail not in ("derecha", "izquierda", "bilateral"):
+        raise ValueError(f"tail debe ser 'derecha', 'izquierda' o 'bilateral', no {tail}")
+
+    warnings: List[str] = []
+    if tail == "derecha" and mu1 < mu0:
+        warnings.append("Elegiste cola derecha pero μ₁ < μ₀: revisá el sentido del ensayo.")
+    if tail == "izquierda" and mu1 > mu0:
+        warnings.append("Elegiste cola izquierda pero μ₁ > μ₀: revisá el sentido del ensayo.")
+
+    z_alpha = _z_alpha_para(tail, alpha)
+    z_beta = dist.z_value(1 - beta)
+    delta = abs(mu0 - mu1)
+
+    n_exacto = ((z_alpha + z_beta) * sigma / delta) ** 2
+    n = ceil(n_exacto)
+    se = sigma / sqrt(n)
+
+    if tail == "derecha":
+        h0_text, h1_text = f"μ ≤ {mu0}", f"μ > {mu0}"
+        critical_value = mu0 + z_alpha * se
+        # x̄_c donde ambas condiciones se cumplen exactamente (con n sin redondear)
+        xc_sistema = (mu0 * z_beta + mu1 * z_alpha) / (z_alpha + z_beta)
+    elif tail == "izquierda":
+        h0_text, h1_text = f"μ ≥ {mu0}", f"μ < {mu0}"
+        critical_value = mu0 - z_alpha * se
+        xc_sistema = (mu0 * z_beta + mu1 * z_alpha) / (z_alpha + z_beta)
+    else:
+        h0_text, h1_text = f"μ = {mu0}", f"μ ≠ {mu0}"
+        critical_value = (mu0 - z_alpha * se, mu0 + z_alpha * se)
+        xc_sistema = None
+
+    potencia_real = _potencia_media(critical_value, mu1, se, tail)
+    beta_real = 1 - potencia_real
+
+    if tail == "bilateral":
+        c1, c2 = critical_value
+        regla = (
+            f"Tomar una muestra de n = {n}. Si la media muestral cae fuera del intervalo "
+            f"[{c1:.4f}, {c2:.4f}] se rechaza H0."
+        )
+    else:
+        signo = ">" if tail == "derecha" else "<"
+        regla = (
+            f"Tomar una muestra de n = {n}. Si la media de esa muestra es "
+            f"{'superior' if tail == 'derecha' else 'inferior'} a "
+            f"{critical_value:.4f} (x̄ {signo} x̄_c) se rechaza H0."
+        )
+
+    return DisenoEnsayoResult(
+        h0_text=h0_text,
+        h1_text=h1_text,
+        tail=tail,
+        mu0=mu0,
+        mu1=mu1,
+        alpha=alpha,
+        beta_objetivo=beta,
+        n_exacto=n_exacto,
+        n=n,
+        z_alpha=z_alpha,
+        z_beta=z_beta,
+        critical_value=critical_value,
+        xc_sistema=xc_sistema,
+        beta_real=beta_real,
+        potencia_real=potencia_real,
+        se=se,
+        distribution="Z",
+        regla_decision=regla,
+        warnings=warnings,
+    )
+
+
 def n_media_sigma_conocido_para_potencia(
     sigma: float,
     mu0: float,
@@ -110,18 +248,123 @@ def n_media_sigma_conocido_para_potencia(
     beta: float,
     tail: str = "derecha",
 ) -> int:
-    """Calcula n para una potencia (1-β) fijada, σ conocido."""
+    """Calcula n para una potencia (1-β) fijada, σ conocido.
+
+    Atajo sobre `disenar_ensayo_media_sigma_conocido` cuando sólo interesa n.
+    """
+    return disenar_ensayo_media_sigma_conocido(
+        sigma=sigma, mu0=mu0, mu1=mu1, alpha=alpha, beta=beta, tail=tail
+    ).n
+
+
+def disenar_ensayo_media_sigma_desconocido(
+    s: float,
+    mu0: float,
+    mu1: float,
+    alpha: float,
+    beta: float,
+    tail: Optional[str] = None,
+    n_inicial: int = 100,
+    max_iter: int = 20,
+) -> DisenoEnsayoResult:
+    """Análogo a disenar_ensayo_media_sigma_conocido pero con S/t (σ desconocido).
+
+    Bucle iterativo igual al de intervals.n_media_sigma_desconocido: t depende de
+    nu=n-1, así que se itera hasta que el n que sale coincide con el que entra.
+    No se encontró un ejercicio real de la cátedra para validar este caso puntual
+    (σ desconocido + potencia fijada); la fórmula es la extensión analógica
+    directa del caso con σ conocido, verificar si aparece un ejercicio real.
+    """
     if not (0 < alpha < 1):
         raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
-    if tail == "bilateral":
-        z_alpha = dist.z_two_tailed(alpha)
-    else:
-        z_alpha = dist.z_one_tailed(alpha)
+    if not (0 < beta < 1):
+        raise ValueError(f"beta debe estar entre 0 y 1, no {beta}")
+    if mu0 == mu1:
+        raise ValueError("μ₀ y μ₁ deben ser distintos para poder dimensionar la muestra.")
 
-    z_beta = dist.z_value(1 - beta)
+    if tail is None:
+        tail = "izquierda" if mu1 < mu0 else "derecha"
+    if tail not in ("derecha", "izquierda", "bilateral"):
+        raise ValueError(f"tail debe ser 'derecha', 'izquierda' o 'bilateral', no {tail}")
+
     delta = abs(mu0 - mu1)
-    n = ceil(((z_alpha + z_beta) * sigma / delta) ** 2)
-    return n
+    n_actual = n_inicial
+    historial = []
+    for _ in range(max_iter):
+        df = n_actual - 1
+        t_alpha = dist.t_two_tailed(alpha, df) if tail == "bilateral" else dist.t_one_tailed(alpha, df)
+        t_beta = dist.t_value(1 - beta, df)
+        n_exacto = ((t_alpha + t_beta) * s / delta) ** 2
+        n_siguiente = ceil(n_exacto)
+        historial.append(n_siguiente)
+        if n_siguiente == n_actual:
+            break
+        n_actual = n_siguiente
+    else:
+        raise RuntimeError(
+            f"El bucle iterativo no convergió en {max_iter} iteraciones (historial: {historial})."
+        )
+
+    n = n_actual
+    df = n - 1
+    se = s / sqrt(n)
+
+    if tail == "derecha":
+        h0_text, h1_text = f"μ ≤ {mu0}", f"μ > {mu0}"
+        critical_value = mu0 + t_alpha * se
+        xc_sistema = (mu0 * t_beta + mu1 * t_alpha) / (t_alpha + t_beta)
+    elif tail == "izquierda":
+        h0_text, h1_text = f"μ ≥ {mu0}", f"μ < {mu0}"
+        critical_value = mu0 - t_alpha * se
+        xc_sistema = (mu0 * t_beta + mu1 * t_alpha) / (t_alpha + t_beta)
+    else:
+        h0_text, h1_text = f"μ = {mu0}", f"μ ≠ {mu0}"
+        critical_value = (mu0 - t_alpha * se, mu0 + t_alpha * se)
+        xc_sistema = None
+
+    # β/potencia se evalúan con la normal, igual que en ensayo_media_sigma_desconocido
+    potencia_real = _potencia_media(critical_value, mu1, se, tail)
+    beta_real = 1 - potencia_real
+
+    if tail == "bilateral":
+        c1, c2 = critical_value
+        regla = (
+            f"Tomar una muestra de n = {n}. Si la media muestral cae fuera del intervalo "
+            f"[{c1:.4f}, {c2:.4f}] se rechaza H0."
+        )
+    else:
+        signo = ">" if tail == "derecha" else "<"
+        regla = (
+            f"Tomar una muestra de n = {n}. Si la media de esa muestra es "
+            f"{'superior' if tail == 'derecha' else 'inferior'} a "
+            f"{critical_value:.4f} (x̄ {signo} x̄_c) se rechaza H0."
+        )
+
+    return DisenoEnsayoResult(
+        h0_text=h0_text,
+        h1_text=h1_text,
+        tail=tail,
+        mu0=mu0,
+        mu1=mu1,
+        alpha=alpha,
+        beta_objetivo=beta,
+        n_exacto=n_exacto,
+        n=n,
+        z_alpha=t_alpha,
+        z_beta=t_beta,
+        critical_value=critical_value,
+        xc_sistema=xc_sistema,
+        beta_real=beta_real,
+        potencia_real=potencia_real,
+        se=se,
+        distribution="t",
+        df=df,
+        regla_decision=regla,
+        warnings=[
+            "Caso no validado contra un ejercicio real de la cátedra "
+            "(σ desconocido + potencia fijada): es una extensión analógica."
+        ],
+    )
 
 
 def n_media_sigma_desconocido_para_potencia(
@@ -134,33 +377,11 @@ def n_media_sigma_desconocido_para_potencia(
     n_inicial: int = 100,
     max_iter: int = 20,
 ) -> int:
-    """Análogo a n_media_sigma_conocido_para_potencia pero con S/t (σ desconocido).
-
-    Mismo bucle iterativo que intervals.n_media_sigma_desconocido: t depende de
-    nu=n-1, así que se itera hasta que el n que sale coincide con el que entra.
-    No se encontró un ejercicio real de la cátedra para validar este caso puntual
-    (σ desconocido + potencia fijada); la fórmula es la extensión analógica
-    directa del caso con σ conocido, verificar si aparece un ejercicio real.
-    """
-    if not (0 < alpha < 1):
-        raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
-    delta = abs(mu0 - mu1)
-    n_actual = n_inicial
-    historial = []
-    for _ in range(max_iter):
-        df = n_actual - 1
-        t_alpha = dist.t_two_tailed(alpha, df) if tail == "bilateral" else dist.t_one_tailed(alpha, df)
-        t_beta = dist.t_value(1 - beta, df)
-        n_siguiente = ceil(((t_alpha + t_beta) * s / delta) ** 2)
-        historial.append(n_siguiente)
-        if n_siguiente == n_actual:
-            break
-        n_actual = n_siguiente
-    else:
-        raise RuntimeError(
-            f"El bucle iterativo no convergió en {max_iter} iteraciones (historial: {historial})."
-        )
-    return n_actual
+    """Atajo sobre `disenar_ensayo_media_sigma_desconocido` cuando sólo interesa n."""
+    return disenar_ensayo_media_sigma_desconocido(
+        s=s, mu0=mu0, mu1=mu1, alpha=alpha, beta=beta, tail=tail,
+        n_inicial=n_inicial, max_iter=max_iter,
+    ).n
 
 
 def ensayo_media_sigma_desconocido(

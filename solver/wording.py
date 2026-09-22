@@ -6,7 +6,7 @@ P(A ≤ parámetro ≤ B) = 1-α o la frase de decisión correspondiente.
 
 from typing import Optional
 
-from .intervals import IntervalResult, SampleSizeResult
+from .intervals import IntervalResult, SampleSizeResult, VarianceSampleSizeResult
 from .hypothesis_one import HypothesisTestResult
 from .chi_square import ChiSquareResult
 
@@ -43,6 +43,31 @@ def texto_tamano_muestra(n_result: SampleSizeResult, n_preliminar: Optional[int]
         texto += (
             f" Como ya se relevaron n_preliminar = {n_preliminar} unidades, "
             f"hay que tomar Δn = {n_result.n} - {n_preliminar} = {delta} unidades adicionales."
+        )
+    return texto
+
+
+def texto_tamano_muestra_varianza(
+    result: VarianceSampleSizeResult, n_preliminar: Optional[int] = None
+) -> str:
+    """Redacción del n para σ²/σ obtenido por relación entre límites (García)."""
+    if result.reduccion is not None and result.r_sigma_actual is not None:
+        texto = (
+            f"Para reducir un {result.reduccion * 100:g}% la relación entre límites "
+            f"(de R' = {result.r_sigma_actual:.4f} a R' = {result.r_sigma_objetivo:.4f}), "
+            f"el tamaño de muestra necesario es n = {result.n}."
+        )
+    else:
+        texto = (
+            f"Para lograr una relación entre límites R' = {result.r_sigma_objetivo:.4f}, "
+            f"el tamaño de muestra necesario es n = {result.n}."
+        )
+    texto += f" (Ecuación de García: a = {result.a:.4f}, ν = {result.nu:.2f}.)"
+    if n_preliminar is not None and n_preliminar > 0:
+        delta = max(0, result.n - n_preliminar)
+        texto += (
+            f" Como ya se relevaron n_preliminar = {n_preliminar} unidades, "
+            f"hay que tomar Δn = {result.n} - {n_preliminar} = {delta} unidades adicionales."
         )
     return texto
 

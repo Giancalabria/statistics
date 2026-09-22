@@ -33,7 +33,10 @@ población finita (con `N` conocido), aplicando el factor de corrección por fin
   - Tamaño de muestra `n` dado un error muestral admitido `e`, con σ conocido o desconocido.
 - **Varianza / Desvío**
   - IC para σ² y para σ (distribución χ²), calculados juntos a partir del desvío muestral.
-  - No ofrece cálculo de tamaño de muestra para este parámetro (no está definido en el esquema teórico).
+  - Tamaño de muestra `n` por **relación entre límites** R' = B'/A' (Ecuación de García): se puede
+    pedir una reducción porcentual de la relación actual (cargando los límites A' y B' del IC previo
+    o R' directamente) o fijar la relación objetivo. Informa a, ν, n, el Δn respecto de la muestra
+    preliminar y un control por búsqueda exacta sobre χ².
 - **Proporción**
   - IC por **método exacto** (Clopper-Pearson / transformación F), y opcionalmente comparación con
     la **aproximación normal**.

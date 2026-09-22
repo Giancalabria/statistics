@@ -259,3 +259,136 @@ def n_proporcion(p_hat: float, e: float, alpha: float) -> SampleSizeResult:
             "confiable, usar el caso mas desfavorable p\u0302 = 0.5."
         )
     return SampleSizeResult(n=n0, warnings=warnings)
+
+
+# ---------------------------------------------------------------------------
+# 1.2 bis — Tamaño de muestra para varianza / desvío (Ecuación de García)
+# ---------------------------------------------------------------------------
+
+@dataclass
+class VarianceSampleSizeResult:
+    """Resultado del cálculo de n para σ² / σ por relación entre límites.
+
+    A diferencia de la media, el IC de σ es asimétrico (χ² no es simétrica), así
+    que la precisión no se mide con un error ±e sino con el cociente R' = B'/A'
+    entre los límites del desvío. Reducir R' es reducir el ancho relativo del IC.
+    """
+    n: int
+    nu: float
+    a: float
+    r_sigma_objetivo: float           # R' buscado (cociente entre límites de σ)
+    r_var_objetivo: float             # R = (R')²  (cociente entre límites de σ²)
+    r_sigma_actual: Optional[float] = None    # R' de partida, si se informó
+    reduccion: Optional[float] = None         # fracción de reducción pedida (0.30 = 30%)
+    n_exacto: Optional[int] = None            # n mínimo por búsqueda exacta en χ²
+    r_sigma_logrado: Optional[float] = None   # R' real que da ese n_exacto
+    warnings: List[str] = field(default_factory=list)
+
+
+def relacion_limites(a: float, b: float) -> float:
+    """R' = B/A: cociente entre los límites de un IC (la 'precisión' en χ²)."""
+    if a <= 0:
+        raise ValueError(f"El límite inferior debe ser positivo, no {a}")
+    if b < a:
+        raise ValueError(f"El límite superior ({b}) no puede ser menor que el inferior ({a})")
+    return b / a
+
+
+def _n_varianza_exacto(r_sigma: float, alpha: float, n_max: int = 100_000) -> Tuple[Optional[int], Optional[float]]:
+    """Menor n entero tal que el cociente exacto χ²_{1-α/2}/χ²_{α/2} cumpla la relación.
+
+    Sirve como control del valor aproximado que devuelve la Ecuación de García.
+    """
+    n = 2
+    while n <= n_max:
+        df = n - 1
+        logrado = sqrt(dist.chi2_upper(alpha, df) / dist.chi2_lower(alpha, df))
+        if logrado <= r_sigma:
+            return n, logrado
+        n += 1
+    return None, None
+
+
+def n_varianza_por_relacion(
+    r_sigma_objetivo: float,
+    alpha: float,
+    r_sigma_actual: Optional[float] = None,
+    reduccion: Optional[float] = None,
+    verificar_exacto: bool = True,
+) -> VarianceSampleSizeResult:
+    """Ecuación de García: n para que el IC de σ tenga una relación B'/A' dada.
+
+    Es la inversión analítica de la aproximación de Wilson–Hilferty
+    χ²_{(p;ν)} ≈ ν·(1 - 2/(9ν) + Z_p·√(2/(9ν)))³, que evita el tanteo sobre la
+    tabla de χ². Con R = (R')² el cociente entre límites de la VARIANZA:
+
+        a = Z_{(1-α/2)} · (R^{1/3} + 1) / (2 · (R^{1/3} - 1))
+        ν = (2/9) · (a + √(a² + 1))²
+        n = ν + 1   (se redondea para arriba)
+
+    Nota: R^{1/3} = (R')^{2/3} es raíz CÚBICA de la relación de varianzas (viene
+    del cubo de Wilson–Hilferty); algunos apuntes la escriben como "√R" por
+    error de transcripción.
+    """
+    if not (0 < alpha < 1):
+        raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
+    if r_sigma_objetivo <= 1:
+        raise ValueError(
+            f"La relación objetivo entre límites debe ser mayor que 1, no {r_sigma_objetivo} "
+            "(R' = 1 significaría un intervalo de ancho nulo, o sea n infinito)."
+        )
+
+    r_var = r_sigma_objetivo ** 2
+    k = r_var ** (1 / 3)
+    z = dist.z_two_tailed(alpha)
+    a = z * (k + 1) / (2 * (k - 1))
+    nu = (2 / 9) * (a + sqrt(a * a + 1)) ** 2
+    n = ceil(nu + 1)
+
+    warnings = []
+    if r_sigma_actual is not None and r_sigma_objetivo >= r_sigma_actual:
+        warnings.append(
+            "La relación objetivo no es menor que la actual: el intervalo no se estrecha, "
+            "revisá el porcentaje de reducción cargado."
+        )
+
+    n_exacto = r_logrado = None
+    if verificar_exacto:
+        n_exacto, r_logrado = _n_varianza_exacto(r_sigma_objetivo, alpha)
+        if n_exacto is not None and abs(n_exacto - n) > 1:
+            warnings.append(
+                f"La Ecuación de García da n = {n} y la búsqueda exacta sobre χ² da "
+                f"n = {n_exacto}: se recomienda usar el exacto."
+            )
+
+    return VarianceSampleSizeResult(
+        n=n, nu=nu, a=a,
+        r_sigma_objetivo=r_sigma_objetivo, r_var_objetivo=r_var,
+        r_sigma_actual=r_sigma_actual, reduccion=reduccion,
+        n_exacto=n_exacto, r_sigma_logrado=r_logrado, warnings=warnings,
+    )
+
+
+def n_varianza_por_reduccion(
+    r_sigma_actual: float,
+    reduccion: float,
+    alpha: float,
+    verificar_exacto: bool = True,
+) -> VarianceSampleSizeResult:
+    """Variante típica de la guía: "disminuir un X% la relación entre límites".
+
+    La nueva relación conserva (1 - reduccion) de la original:
+        R'_objetivo = R'_actual · (1 - reduccion)
+    """
+    if not (0 < reduccion < 1):
+        raise ValueError(f"La reducción debe ser una fracción entre 0 y 1, no {reduccion}")
+    if r_sigma_actual <= 1:
+        raise ValueError(
+            f"La relación actual entre límites debe ser mayor que 1, no {r_sigma_actual}"
+        )
+    objetivo = r_sigma_actual * (1 - reduccion)
+    return n_varianza_por_relacion(
+        objetivo, alpha,
+        r_sigma_actual=r_sigma_actual, reduccion=reduccion,
+        verificar_exacto=verificar_exacto,
+    )

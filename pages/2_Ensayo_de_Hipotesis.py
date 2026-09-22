@@ -142,20 +142,109 @@ if parametro == "Media":
         if st.button("Calcular"):
             try:
                 if sigma_conocido:
-                    n_resultado = hyp.n_media_sigma_conocido_para_potencia(
+                    d = hyp.disenar_ensayo_media_sigma_conocido(
                         sigma=sigma, mu0=mu0, mu1=mu1, alpha=alpha, beta=beta_deseado, tail=tail
                     )
                 else:
-                    st.info(
-                        "No se validó este caso (σ desconocido + potencia fijada) contra "
-                        "ningún ejercicio real de la cátedra; es una extensión analógica."
-                    )
-                    n_resultado = hyp.n_media_sigma_desconocido_para_potencia(
+                    d = hyp.disenar_ensayo_media_sigma_desconocido(
                         s=s, mu0=mu0, mu1=mu1, alpha=alpha, beta=beta_deseado, tail=tail
                     )
-                st.success(f"El tamaño de muestra necesario es n = {n_resultado}.")
+                st.session_state["diseno"] = d
+                st.session_state["diseno_sigma"] = sigma if sigma_conocido else s
+                st.session_state["diseno_sigma_conocido"] = sigma_conocido
             except ValueError as e:
                 st.error(f"Error: {e}")
+                st.session_state.pop("diseno", None)
+
+        d = st.session_state.get("diseno")
+        if d is not None:
+            for w in d.warnings:
+                st.warning(w)
+
+            st.write(f"**Hipótesis nula (H0):** {d.h0_text}   |   **H1:** {d.h1_text}")
+
+            if isinstance(d.critical_value, tuple):
+                c1, c2 = d.critical_value
+                st.write(
+                    f"**Condición de rechazo:** se rechaza H0 si x̄ < {c1:.4f} o x̄ > {c2:.4f}"
+                )
+            else:
+                signo = ">" if d.tail == "derecha" else "<"
+                st.write(
+                    f"**Condición de rechazo (CR):** si x̄ {signo} x̄_c = "
+                    f"**{d.critical_value:.4f}** ⇒ se rechaza H0"
+                )
+
+            st.success(f"**Tamaño de muestra: n = {d.n}**")
+            st.write(f"**Regla de decisión:** {d.regla_decision}")
+
+            with st.expander("Detalle del cálculo"):
+                st.write(f"Distribución utilizada: {d.distribution}")
+                if d.df is not None:
+                    st.write(f"Grados de libertad: {d.df}")
+                etiqueta = "Z" if d.distribution == "Z" else "t"
+                st.write(f"{etiqueta}_α = {d.z_alpha:.4f}  |  {etiqueta}_β = {d.z_beta:.4f}")
+                st.write(f"n sin redondear = {d.n_exacto:.4f} → n = {d.n}")
+                st.write(f"Error estándar con el n final: σ/√n = {d.se:.5f}")
+                if d.xc_sistema is not None:
+                    st.write(
+                        f"x̄_c resolviendo el sistema sin redondear n = {d.xc_sistema:.4f} "
+                        "(es el valor que suelen traer las respuestas de la guía; "
+                        f"al redondear n a {d.n} el punto crítico que mantiene α exacto "
+                        f"pasa a ser {d.critical_value:.4f} si el ensayo es unilateral)."
+                    )
+                st.write(
+                    f"Con n = {d.n} y x̄_c, en μ₁ = {d.mu1}: "
+                    f"β = {d.beta_real:.4f}, potencia = {d.potencia_real:.4f} "
+                    f"(objetivo: potencia ≥ {1 - d.beta_objetivo:.4f})"
+                )
+
+            st.subheader("Potencia en otros valores de μ")
+            st.write(
+                "Probabilidad de rechazar H0 (de 'detectar') si la media verdadera es μ. "
+                "Sirve para la parte de 'calcular la probabilidad de detectar que μ vale X'."
+            )
+            mu_texto = st.text_input(
+                "Valores de μ (separados por comas o espacios)", value="", key="mu_diseno"
+            )
+            if mu_texto.strip():
+                try:
+                    mu_list = parse_numbers(mu_texto)
+                    tabla = hyp.curva_potencia_media(
+                        mu0=d.mu0,
+                        sigma_or_s=st.session_state["diseno_sigma"],
+                        n=d.n,
+                        alpha=d.alpha,
+                        mu1_list=mu_list,
+                        tail=d.tail,
+                        sigma_conocido=st.session_state["diseno_sigma_conocido"],
+                    )
+                    import pandas as pd
+                    st.dataframe(
+                        pd.DataFrame(tabla, columns=["μ", "β", "Potencia (1-β)"]).round(4),
+                        hide_index=True,
+                    )
+                except ValueError as e:
+                    st.error(f"Error: {e}")
+
+            with st.expander("Curva de potencia del ensayo"):
+                import numpy as np
+                import pandas as pd
+
+                delta = abs(d.mu0 - d.mu1)
+                centro = (d.mu0 + d.mu1) / 2
+                grilla = np.linspace(centro - 1.5 * delta, centro + 1.5 * delta, 60)
+                curva = hyp.curva_potencia_media(
+                    mu0=d.mu0,
+                    sigma_or_s=st.session_state["diseno_sigma"],
+                    n=d.n,
+                    alpha=d.alpha,
+                    mu1_list=list(grilla),
+                    tail=d.tail,
+                    sigma_conocido=st.session_state["diseno_sigma_conocido"],
+                )
+                df_curva = pd.DataFrame(curva, columns=["μ", "β", "Potencia (1-β)"])
+                st.line_chart(df_curva.set_index("μ")[["Potencia (1-β)"]])
 
 elif parametro == "Varianza":
     s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f")

@@ -82,6 +82,33 @@ def mostrar_n(n_result: intervals.SampleSizeResult, n_preliminar: int = 0) -> No
     st.success(wording.texto_tamano_muestra(n_result, n_preliminar=n_preliminar or None))
 
 
+def mostrar_n_varianza(result: intervals.VarianceSampleSizeResult, n_preliminar: int = 0) -> None:
+    for w in result.warnings:
+        st.warning(w)
+    st.success(wording.texto_tamano_muestra_varianza(result, n_preliminar=n_preliminar or None))
+    with st.expander("Detalle del cálculo (Ecuación de García)"):
+        if result.r_sigma_actual is not None:
+            st.write(f"Relación actual entre límites: R' = {result.r_sigma_actual:.5f}")
+        if result.reduccion is not None:
+            st.write(f"Reducción pedida: {result.reduccion * 100:g}%")
+        st.write(f"Relación objetivo del desvío: R' = {result.r_sigma_objetivo:.5f}")
+        st.write(f"Relación objetivo de varianzas: R = (R')² = {result.r_var_objetivo:.5f}")
+        st.latex(
+            r"a = \frac{Z_{(1-\alpha/2)}\,\left(\sqrt[3]{R}+1\right)}"
+            r"{2\left(\sqrt[3]{R}-1\right)}"
+            r"\qquad \nu = \frac{2}{9}\left(a+\sqrt{a^2+1}\right)^2"
+        )
+        st.write(f"∛R = {result.r_var_objetivo ** (1 / 3):.5f}")
+        st.write(f"Variable auxiliar de García: a = {result.a:.5f}")
+        st.write(f"Grados de libertad: ν = {result.nu:.5f}  →  n = ν + 1 = {result.nu + 1:.5f}")
+        st.write(f"Redondeo hacia arriba: **n = {result.n}**")
+        if result.n_exacto is not None:
+            st.write(
+                f"Control por búsqueda exacta sobre χ²: n = {result.n_exacto} "
+                f"(da R' = {result.r_sigma_logrado:.5f})"
+            )
+
+
 if parametro == "Media":
     sigma_conocido = st.radio("¿Se conoce el desvío poblacional σ?", ["Sí", "No"]) == "Sí"
 
@@ -133,10 +160,82 @@ if parametro == "Media":
 
 elif parametro == "Varianza / Desvío":
     if objetivo == "Tamaño de muestra (n)":
-        st.warning(
-            "El esquema teórico no define una fórmula de tamaño de muestra para la "
-            "varianza/desvío (solo para media y proporción)."
+        st.info(
+            "En χ² el intervalo es asimétrico, así que la precisión no se mide con un "
+            "error ±e sino con la **relación entre límites** R' = B'/A' del IC del "
+            "desvío. Se calcula con la **Ecuación de García** (inversión de "
+            "Wilson–Hilferty), que evita tantear la tabla de χ²."
         )
+
+        modo_relacion = st.radio(
+            "¿Cómo definís la precisión buscada?",
+            [
+                "Reducir un % la relación actual entre límites",
+                "Relación objetivo R' = B'/A' directa",
+            ],
+            key="var_n_modo",
+        )
+
+        r_actual = None
+        reduccion = None
+        r_objetivo = None
+
+        if modo_relacion.startswith("Reducir"):
+            fuente = st.radio(
+                "Relación actual (R')",
+                ["Ingresar los límites A' y B' del IC previo", "Ingresar R' directamente"],
+                key="var_n_fuente",
+                horizontal=True,
+            )
+            if fuente.startswith("Ingresar los límites"):
+                col_a, col_b = st.columns(2)
+                with col_a:
+                    a_prev = st.number_input(
+                        "Límite inferior del desvío (A')", min_value=1e-9, value=159.70, format="%.5f"
+                    )
+                with col_b:
+                    b_prev = st.number_input(
+                        "Límite superior del desvío (B')", min_value=1e-9, value=306.73, format="%.5f"
+                    )
+                try:
+                    r_actual = intervals.relacion_limites(a_prev, b_prev)
+                    st.write(f"Relación actual: R' = {b_prev:g} / {a_prev:g} = **{r_actual:.5f}**")
+                except ValueError as e:
+                    st.error(f"Error: {e}")
+            else:
+                r_actual = st.number_input(
+                    "Relación actual entre límites (R' = B'/A')",
+                    min_value=1.000001, value=1.92066, format="%.5f",
+                )
+            reduccion_pct = st.number_input(
+                "Reducción deseada de la relación (%)",
+                min_value=0.1, max_value=99.9, value=30.0, step=1.0, format="%.2f",
+            )
+            reduccion = reduccion_pct / 100
+        else:
+            r_objetivo = st.number_input(
+                "Relación objetivo entre límites (R' = B'/A')",
+                min_value=1.000001, value=1.34446, format="%.5f",
+            )
+
+        n_preliminar = st.number_input(
+            "Tamaño de muestra ya relevado (n preliminar, opcional)",
+            min_value=0, step=1, value=20,
+            help="Si ya mediste algunas unidades y querés saber cuántas más faltan (Δn).",
+            key="var_n_preliminar",
+        )
+
+        if st.button("Calcular"):
+            try:
+                if reduccion is not None:
+                    if r_actual is None:
+                        raise ValueError("Falta la relación actual entre límites.")
+                    result = intervals.n_varianza_por_reduccion(r_actual, reduccion, alpha)
+                else:
+                    result = intervals.n_varianza_por_relacion(r_objetivo, alpha)
+                mostrar_n_varianza(result, n_preliminar=int(n_preliminar))
+            except ValueError as e:
+                st.error(f"Error: {e}")
     else:
         n, _, s = input_resumen_muestra("varianza_ic", pedir_s=True)
 

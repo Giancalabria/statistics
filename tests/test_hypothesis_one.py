@@ -358,3 +358,48 @@ if __name__ == "__main__":
     import sys
     sys.path.insert(0, r"D:\UADE\Estadistica\code")
     pytest.main([__file__, "-v"])
+
+
+# ---------------------------------------------------------------------------
+# Diseño completo del ensayo (n + punto crítico + regla de decisión)
+# ---------------------------------------------------------------------------
+
+def test_diseno_media_sigma_conocido_dural():
+    """Ej. 16 "Dural": μ₀=38 con prob. de detener 0.10; μ₁=37 con prob. 0.95; σ=1.3.
+
+    Resp. de la guía: H0) μ ≥ 38; CR: x̄ < x̄_c = 37,56; n = 15;
+    potencia en μ = 37,5 igual a 0,5824.
+    """
+    d = hyp.disenar_ensayo_media_sigma_conocido(
+        sigma=1.3, mu0=38, mu1=37, alpha=0.10, beta=0.05
+    )
+
+    assert d.tail == "izquierda"          # se deduce de μ₁ < μ₀
+    assert d.n == 15
+    assert d.xc_sistema == pytest.approx(37.56, abs=0.005)
+    assert d.critical_value == pytest.approx(37.57, abs=0.005)
+    assert d.potencia_real >= 0.95        # con n redondeado se supera el objetivo
+
+    # b) probabilidad de detectar que la media vale 37,5
+    (_, _, potencia_375), = hyp.curva_potencia_media(
+        mu0=38, sigma_or_s=1.3, n=d.n, alpha=0.10, mu1_list=[37.5], tail=d.tail
+    )
+    assert potencia_375 == pytest.approx(0.5824, abs=0.001)
+
+
+def test_diseno_media_sigma_conocido_coincide_con_n_para_potencia():
+    d = hyp.disenar_ensayo_media_sigma_conocido(
+        sigma=0.1, mu0=2.0, mu1=1.95, alpha=0.10, beta=0.20, tail="bilateral"
+    )
+    assert d.n == hyp.n_media_sigma_conocido_para_potencia(
+        sigma=0.1, mu0=2.0, mu1=1.95, alpha=0.10, beta=0.20, tail="bilateral"
+    )
+    assert isinstance(d.critical_value, tuple)
+    assert d.xc_sistema is None
+
+
+def test_diseno_media_mu0_igual_mu1_es_error():
+    with pytest.raises(ValueError, match="distintos"):
+        hyp.disenar_ensayo_media_sigma_conocido(
+            sigma=1.0, mu0=10.0, mu1=10.0, alpha=0.05, beta=0.10
+        )

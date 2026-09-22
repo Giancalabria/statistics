@@ -95,6 +95,13 @@ El objetivo es construir un intervalo $[A; B]$ tal que $P(A \le \text{Parámetro
   - **Límite Superior ($B$)**: $B = \frac{(n-1)S^2}{\chi^2_{(\alpha/2; \nu)}}$ (se divide por la $\chi^2$ chica de área $\alpha/2$).
 - **Intervalo de Confianza para el Desvío ($\sigma$)**:
   $$[\sqrt{A} \le \sigma \le \sqrt{B}]$$
+- **Tamaño de muestra ($n$) — Ecuación de García**: como el intervalo es asimétrico, la precisión no se mide con un error $\pm e$ sino con la **relación entre límites** del IC del desvío:
+  $$R' = \frac{B'}{A'} = \frac{\sqrt{B}}{\sqrt{A}} \qquad R = (R')^2 = \frac{\chi^2_{(1-\alpha/2;\nu)}}{\chi^2_{(\alpha/2;\nu)}}$$
+  - Si el enunciado pide **disminuir un $k\%$** la relación anterior: $R'_{obj} = R'_{orig} \cdot (1 - k)$.
+  - Invirtiendo la aproximación de Wilson–Hilferty $\chi^2_{(p;\nu)} \approx \nu\left(1 - \frac{2}{9\nu} + Z_p\sqrt{\frac{2}{9\nu}}\right)^3$ se obtiene, sin tantear la tabla:
+    $$a = \frac{Z_{(1-\alpha/2)} \cdot \left(\sqrt[3]{R} + 1\right)}{2 \cdot \left(\sqrt[3]{R} - 1\right)} \qquad \nu = \frac{2}{9}\left(a + \sqrt{a^2 + 1}\right)^2 \qquad n = \lceil \nu + 1 \rceil$$
+  - **Atención a la notación**: el radical de $R$ es **cúbico** (viene del cubo de Wilson–Hilferty), equivalente a $(R')^{2/3}$. Varios apuntes lo transcriben como $\sqrt{R}$ por error, aunque después calculan la raíz cúbica.
+  - Si ya se relevó una muestra preliminar: $\Delta n = n - n_{prelim}$.
 
 ---
 

@@ -17,6 +17,7 @@
 
 2. [MÓDULO II: Inferencia sobre la Varianza (σ²) y Desvío Estándar (σ)](#módulo-ii-inferencia-sobre-la-varianza-σ²-y-desvío-estándar-σ)
    - 2.1 Intervalo de Confianza para Varianza (σ²) y Desvío (σ) con Chi-Cuadrado (χ²)
+     - Tamaño de muestra (n) por relación entre límites — Ecuación de García
    - 2.2 Ensayos de Hipótesis para Varianza Poblacional (σ²)
    - 2.3 Cálculo de Error Tipo II (β) en Ensayos de Varianza
 
@@ -24,7 +25,9 @@
    - 3.1 Intervalo de Confianza Exacto para Proporción (p) mediante Distribución F
    - 3.2 Tamaño de Muestra (n) para Proporción Poblacional
 
-4. [TABLA MASTER DE VALORES INTERMEDIOS PARA EXÁMENES](#tabla-master-de-valores-intermedios-para-exámenes)
+4. [MATRIZ DE DECISIÓN: α, 1-α, β y 1-β](#matriz-de-decisión-α-1-α-β-y-1-β)
+
+5. [TABLA MASTER DE VALORES INTERMEDIOS PARA EXÁMENES](#tabla-master-de-valores-intermedios-para-exámenes)
 
 ---
 
@@ -232,6 +235,33 @@ _(Nota de oro: El denominador de $A$ lleva el fractil más grande $\chi^2_{(1-\a
 
 $$A_\sigma = \sqrt{A_{\sigma^2}}, \quad B_\sigma = \sqrt{B_{\sigma^2}}$$
 
+### 📐 Tamaño de muestra (n) para σ² / σ — Ecuación de García
+
+En χ² el intervalo es **asimétrico**, así que la precisión no se mide restando límites (no hay un
+$\pm e$ como en la media) sino con el **cociente** entre ellos:
+
+$$R' = \frac{B_\sigma}{A_\sigma} \qquad R = (R')^2 = \frac{B_{\sigma^2}}{A_{\sigma^2}}$$
+
+Si el enunciado pide **disminuir un $k\%$** la relación anterior, la nueva conserva $(1-k)$ de la
+original: $R'_{obj} = R'_{orig} \cdot (1 - k)$.
+
+Invirtiendo la aproximación de Wilson–Hilferty se llega al $\nu$ buscado sin tantear la tabla de χ²:
+
+$$a = \frac{Z_{(1-\alpha/2)} \cdot \left(\sqrt[3]{R} + 1\right)}{2 \cdot \left(\sqrt[3]{R} - 1\right)}
+\qquad \nu = \frac{2}{9}\left(a + \sqrt{a^2 + 1}\right)^2 \qquad n = \lceil \nu + 1 \rceil$$
+
+⚠️ El radical de $R$ es **cúbico**, no cuadrado (sale del cubo de Wilson–Hilferty). Equivale a
+$(R')^{2/3}$. Varios apuntes lo escriben como $\sqrt{R}$ pero después calculan la raíz cúbica.
+
+Si ya hay una muestra preliminar: $\Delta n = n - n_{prelim}$.
+
+**Ejemplo (TEMA II, problema 7b)**: del inciso a salen $A' = 159{,}70$ y $B' = 306{,}73$ con
+$n = 20$, o sea $R'_{orig} = 1{,}9207$. Pedir un 30% menos da $R'_{obj} = 1{,}3445$,
+$R = 1{,}8076$, $\sqrt[3]{R} = 1{,}2181$, $a = 9{,}9646$, $\nu = 88{,}70$ y
+$n = 90$ supermercados → $\Delta n = 70$ adicionales.
+
+**En la app**: `Intervalos de Confianza` → `Varianza / Desvío` → `Tamaño de muestra (n)`.
+
 ---
 
 ## 2.2 Ensayos de Hipótesis para Varianza Poblacional (σ²)
@@ -323,6 +353,47 @@ $$n_{\text{teórico}} = \left[ \frac{Z_{(1-\alpha/2)}}{e_{\text{objetivo}}} \rig
 
 1. **Redondeo obligatorio**: $n_{\text{total}} = \lceil n_{\text{teórico}} \rceil$.
 2. **Muestra adicional**: $\Delta n = n_{\text{total}} - n_{\text{preliminar}}$.
+
+---
+
+# MATRIZ DE DECISIÓN: α, 1-α, β y 1-β
+
+---
+
+## 4.1 La matriz de los cuatro resultados posibles
+
+En todo ensayo de hipótesis hay **dos realidades posibles** (que $H_0$ sea verdadera o falsa) y **dos decisiones posibles** (rechazar o no rechazar $H_0$). El cruce da cuatro casilleros, dos correctos y dos erróneos:
+
+|                            | **Realidad: $H_0$ es VERDADERA**                                       | **Realidad: $H_0$ es FALSA (vale $H_1$)**                    |
+| :------------------------- | :--------------------------------------------------------------------- | :----------------------------------------------------------- |
+| **No se rechaza $H_0$**    | ✅ Decisión correcta<br>$1 - \alpha$ = **Nivel de confianza**           | ❌ **Error de Tipo II**<br>$\beta$ = riesgo del comprador     |
+| **Se rechaza $H_0$**       | ❌ **Error de Tipo I**<br>$\alpha$ = **Nivel de significación**         | ✅ Decisión correcta<br>$1 - \beta$ = **Potencia del ensayo** |
+
+Las probabilidades se leen **por columna** (condicionadas a la realidad), no por fila:
+
+$$\alpha + (1 - \alpha) = 1 \quad \text{(columna } H_0 \text{ verdadera)}$$
+$$\beta + (1 - \beta) = 1 \quad \text{(columna } H_0 \text{ falsa)}$$
+
+⚠️ **Error típico de examen**: creer que $\alpha + \beta = 1$. Es **falso**: pertenecen a columnas distintas (escenarios distintos de la realidad).
+
+---
+
+## 4.2 Qué significa cada valor
+
+| Símbolo      | Nombre                                    | Definición formal                             | Lectura en criollo                                                       |
+| :----------- | :---------------------------------------- | :-------------------------------------------- | :----------------------------------------------------------------------- |
+| $\alpha$     | Error Tipo I / Nivel de significación     | $P(\text{rechazar } H_0 \mid H_0 \text{ V})$   | Condenar a un inocente: rechazo $H_0$ siendo verdadera. Lo **fijo yo**.   |
+| $1 - \alpha$ | Nivel de confianza                        | $P(\text{no rechazar } H_0 \mid H_0 \text{ V})$ | Absolver a un inocente: acierto cuando $H_0$ es verdadera.               |
+| $\beta$      | Error Tipo II                             | $P(\text{no rechazar } H_0 \mid H_0 \text{ F})$ | Absolver a un culpable: no detecto el cambio real a $\mu_1$ / $\sigma_1$. |
+| $1 - \beta$  | Potencia del ensayo ($W$)                 | $P(\text{rechazar } H_0 \mid H_0 \text{ F})$   | Condenar a un culpable: detecto correctamente el cambio real.            |
+
+### 🔑 Puntos clave para el parcial
+
+1. $\alpha$ es un **dato del enunciado** (lo fija quien diseña el ensayo); $\beta$ es un **resultado calculado** y solo existe si se especifica un valor alternativo concreto ($\mu_1$, $\sigma_1^2$, $p_1$).
+2. $\beta$ **no es único**: hay un $\beta$ distinto para cada $\mu_1$ posible. Cuanto más lejos esté $\mu_1$ de $\mu_0$, más chico es $\beta$ y mayor la potencia.
+3. Con $n$ fijo, $\alpha$ y $\beta$ se mueven **en sentido contrario**: bajar $\alpha$ (ser más exigente para rechazar) agranda la zona de no rechazo y por lo tanto **sube** $\beta$.
+4. La única forma de bajar $\alpha$ y $\beta$ al mismo tiempo es **aumentar $n$** (ver 1.7: $n = \left[\frac{(Z_{(1-\alpha)} + Z_{(1-\beta)}) \cdot \sigma}{\mu_0 - \mu_1}\right]^2$).
+5. Nunca se "acepta" $H_0$: se **no rechaza**, porque el riesgo $\beta$ de esa decisión no está controlado.
 
 ---
 

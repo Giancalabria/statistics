@@ -384,3 +384,65 @@ def test_n_proporcion_error_alpha_fuera_de_rango():
     """Validar que alpha debe estar entre 0 y 1."""
     with pytest.raises(ValueError, match="alpha debe estar entre 0 y 1"):
         intervals.n_proporcion(0.5, 0.05, 2.0)
+
+
+# ---------------------------------------------------------------------------
+# Tamaño de muestra para varianza / desvío (Ecuación de García)
+# ---------------------------------------------------------------------------
+
+def test_relacion_limites():
+    assert intervals.relacion_limites(159.70, 306.73) == pytest.approx(1.92066, abs=1e-5)
+
+
+def test_relacion_limites_valida_orden_y_signo():
+    with pytest.raises(ValueError, match="límite inferior debe ser positivo"):
+        intervals.relacion_limites(0.0, 10.0)
+    with pytest.raises(ValueError, match="no puede ser menor que el inferior"):
+        intervals.relacion_limites(10.0, 5.0)
+
+
+def test_n_varianza_por_reduccion_problema_7b():
+    """TEMA II, problema 7b: IC previo A'=159.70, B'=306.73 con n=20; reducir R' un 30%."""
+    r_actual = intervals.relacion_limites(159.70, 306.73)
+    result = intervals.n_varianza_por_reduccion(r_actual, 0.30, 0.05)
+
+    assert result.r_sigma_objetivo == pytest.approx(1.34446, abs=1e-5)
+    assert result.r_var_objetivo == pytest.approx(1.80758, abs=1e-5)
+    assert result.a == pytest.approx(9.9646, abs=1e-3)
+    assert result.nu == pytest.approx(88.70, abs=0.05)
+    assert result.n == 90
+    assert result.n_exacto == 90
+    assert result.warnings == []
+
+
+def test_n_varianza_por_relacion_coincide_con_busqueda_exacta():
+    """La aproximación de García debe caer a lo sumo 1 unidad del n exacto."""
+    for r_objetivo in (1.2, 1.35, 1.5, 2.0):
+        for alpha in (0.10, 0.05, 0.01):
+            result = intervals.n_varianza_por_relacion(r_objetivo, alpha)
+            assert abs(result.n - result.n_exacto) <= 1
+
+
+def test_n_varianza_el_n_exacto_cumple_la_relacion_pedida():
+    result = intervals.n_varianza_por_relacion(1.35, 0.05)
+    assert result.r_sigma_logrado <= result.r_sigma_objetivo
+
+
+def test_n_varianza_relacion_objetivo_invalida():
+    with pytest.raises(ValueError, match="mayor que 1"):
+        intervals.n_varianza_por_relacion(1.0, 0.05)
+
+
+def test_n_varianza_alpha_invalido():
+    with pytest.raises(ValueError, match="alpha debe estar entre 0 y 1"):
+        intervals.n_varianza_por_relacion(1.5, 1.5)
+
+
+def test_n_varianza_reduccion_invalida():
+    with pytest.raises(ValueError, match="fracción entre 0 y 1"):
+        intervals.n_varianza_por_reduccion(1.92, 30, 0.05)
+
+
+def test_n_varianza_advierte_si_no_se_estrecha():
+    result = intervals.n_varianza_por_relacion(2.0, 0.05, r_sigma_actual=1.5)
+    assert any("no es menor que la actual" in w for w in result.warnings)
