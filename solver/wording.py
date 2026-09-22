@@ -32,7 +32,14 @@ def texto_intervalo(parametro: str, result: IntervalResult, confianza: float) ->
 
 
 def texto_tamano_muestra(n_result: SampleSizeResult, n_preliminar: Optional[int] = None) -> str:
-    texto = f"El tamaño de muestra necesario es n = {n_result.n}."
+    if n_result.reduccion is not None:
+        texto = (
+            f"Para reducir un {n_result.reduccion * 100:g}% el error (de e = "
+            f"{n_result.e_actual:.5f} a e = {n_result.e_nuevo:.5f}), "
+            f"el tamaño de muestra necesario es n = {n_result.n}."
+        )
+    else:
+        texto = f"El tamaño de muestra necesario es n = {n_result.n}."
     if n_result.iterations > 1:
         texto += (
             f" Calculado con el método iterativo en {n_result.iterations} iteración(es) "

@@ -30,6 +30,9 @@ class SampleSizeResult:
     iterations: int = 1
     converged_values: Optional[List[int]] = None
     warnings: List[str] = field(default_factory=list)
+    e_actual: Optional[float] = None    # error de partida, si se pidió por % de reducción
+    reduccion: Optional[float] = None   # fracción de reducción pedida (0.30 = 30%)
+    e_nuevo: Optional[float] = None     # error objetivo = e_actual * (1 - reduccion)
 
 
 # ---------------------------------------------------------------------------
@@ -119,6 +122,46 @@ def n_media_sigma_desconocido(
 
     n_finito = ceil((N * n_infinito) / (N + n_infinito))
     return SampleSizeResult(n=n_finito, iterations=len(historial), converged_values=historial)
+
+
+def _reduccion_a_e_nuevo(e_actual: float, reduccion: float) -> float:
+    if not (0 < reduccion < 1):
+        raise ValueError(f"La reducción debe ser una fracción entre 0 y 1, no {reduccion}")
+    if e_actual <= 0:
+        raise ValueError(f"El error actual debe ser positivo, no {e_actual}")
+    return e_actual * (1 - reduccion)
+
+
+def n_media_sigma_conocido_por_reduccion(
+    sigma: float, e_actual: float, reduccion: float, alpha: float, N: Optional[float] = None
+) -> SampleSizeResult:
+    """Igual que n_media_sigma_conocido, pero a partir de "reducir el error un X%"."""
+    e_nuevo = _reduccion_a_e_nuevo(e_actual, reduccion)
+    result = n_media_sigma_conocido(sigma, e_nuevo, alpha, N=N)
+    result.e_actual = e_actual
+    result.reduccion = reduccion
+    result.e_nuevo = e_nuevo
+    return result
+
+
+def n_media_sigma_desconocido_por_reduccion(
+    s: float,
+    e_actual: float,
+    reduccion: float,
+    alpha: float,
+    N: Optional[float] = None,
+    n_inicial: int = 100,
+    max_iter: int = 20,
+) -> SampleSizeResult:
+    """Igual que n_media_sigma_desconocido, pero a partir de "reducir el error un X%"."""
+    e_nuevo = _reduccion_a_e_nuevo(e_actual, reduccion)
+    result = n_media_sigma_desconocido(
+        s, e_nuevo, alpha, N=N, n_inicial=n_inicial, max_iter=max_iter
+    )
+    result.e_actual = e_actual
+    result.reduccion = reduccion
+    result.e_nuevo = e_nuevo
+    return result
 
 
 def ic_total_poblacional(result: IntervalResult, N: float) -> IntervalResult:

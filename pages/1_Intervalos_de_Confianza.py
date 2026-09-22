@@ -80,6 +80,14 @@ def mostrar_n(n_result: intervals.SampleSizeResult, n_preliminar: int = 0) -> No
     for w in n_result.warnings:
         st.warning(w)
     st.success(wording.texto_tamano_muestra(n_result, n_preliminar=n_preliminar or None))
+    if n_result.reduccion is not None:
+        with st.expander("Detalle del cálculo (reducción del error)"):
+            st.write(f"Error actual: e = {n_result.e_actual:.5f}")
+            st.write(f"Reducción pedida: {n_result.reduccion * 100:g}%")
+            st.write(
+                f"Error nuevo: e = {n_result.e_actual:.5f} × "
+                f"(1 - {n_result.reduccion:.2f}) = **{n_result.e_nuevo:.5f}**"
+            )
 
 
 def mostrar_n_varianza(result: intervals.VarianceSampleSizeResult, n_preliminar: int = 0) -> None:
@@ -137,7 +145,27 @@ if parametro == "Media":
                 st.error(f"Error: {e}")
 
     else:
-        e = st.number_input("Error muestral admitido (e)", min_value=1e-9, value=1.0, format="%.5f")
+        modo_precision = st.radio(
+            "¿Cómo definís la precisión buscada?",
+            ["Error muestral directo (e)", "Reducir un % el error actual"],
+            key="media_n_modo",
+        )
+
+        e = None
+        e_actual = None
+        reduccion = None
+        if modo_precision.startswith("Error muestral directo"):
+            e = st.number_input("Error muestral admitido (e)", min_value=1e-9, value=1.0, format="%.5f")
+        else:
+            e_actual = st.number_input(
+                "Error actual (e) del IC ya calculado", min_value=1e-9, value=1.0, format="%.5f"
+            )
+            reduccion_pct = st.number_input(
+                "Reducción deseada del error (%)",
+                min_value=0.1, max_value=99.9, value=30.0, step=1.0, format="%.2f",
+            )
+            reduccion = reduccion_pct / 100
+
         if sigma_conocido:
             sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0, format="%.5f")
         else:
@@ -150,10 +178,20 @@ if parametro == "Media":
 
         if st.button("Calcular"):
             try:
-                if sigma_conocido:
-                    n_result = intervals.n_media_sigma_conocido(sigma, e, alpha, N=N)
+                if reduccion is not None:
+                    if sigma_conocido:
+                        n_result = intervals.n_media_sigma_conocido_por_reduccion(
+                            sigma, e_actual, reduccion, alpha, N=N
+                        )
+                    else:
+                        n_result = intervals.n_media_sigma_desconocido_por_reduccion(
+                            s, e_actual, reduccion, alpha, N=N
+                        )
                 else:
-                    n_result = intervals.n_media_sigma_desconocido(s, e, alpha, N=N)
+                    if sigma_conocido:
+                        n_result = intervals.n_media_sigma_conocido(sigma, e, alpha, N=N)
+                    else:
+                        n_result = intervals.n_media_sigma_desconocido(s, e, alpha, N=N)
                 mostrar_n(n_result, n_preliminar=int(n_preliminar))
             except ValueError as e:
                 st.error(f"Error: {e}")
