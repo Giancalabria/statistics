@@ -446,3 +446,10 @@ def test_n_varianza_reduccion_invalida():
 def test_n_varianza_advierte_si_no_se_estrecha():
     result = intervals.n_varianza_por_relacion(2.0, 0.05, r_sigma_actual=1.5)
     assert any("no es menor que la actual" in w for w in result.warnings)
+
+
+def test_n_sigma_desconocido_que_oscila_entre_dos_valores():
+    """S=6, e=2, α=0,05: la iteración salta 37 ↔ 38. Con n=37 la fórmula pide 38 (no alcanza);
+    con n=38 pide 37 (alcanza). La respuesta es el menor n que alcanza: 38."""
+    r = intervals.n_media_sigma_desconocido(s=6, e=2, alpha=0.05)
+    assert r.n == 38

@@ -68,6 +68,8 @@ st.markdown(
 - **Ensayo de Hipótesis (1 población)**: media (Z y t), varianza (χ²), proporción (binomial exacto) — decisión, β/potencia y n para potencia fijada.
 - **Comparación de 2 poblaciones**: test F (varianzas), pooled/Welch automático (medias, muestras independientes), muestras apareadas.
 - **Contrastes chi-cuadrado**: bondad de ajuste (Fo/Fe provistos), tablas de contingencia (Fe auto-calculado).
+- **Interpretar un enunciado**: pegás el problema tal cual y te dice qué pide cada inciso, qué datos hay, cómo
+  presentarlo y ejercicios parecidos de la guía; después corregís lo que haga falta y calcula todo.
 """
 )
 

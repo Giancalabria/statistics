@@ -403,3 +403,36 @@ def test_diseno_media_mu0_igual_mu1_es_error():
         hyp.disenar_ensayo_media_sigma_conocido(
             sigma=1.0, mu0=10.0, mu1=10.0, alpha=0.05, beta=0.10
         )
+
+
+# ---------------------------------------------------------------------------
+# Diseño por potencia: varianza y plan de muestreo binomial (valores de la guía)
+# ---------------------------------------------------------------------------
+
+def test_n_varianza_para_potencia_guia_II_12():
+    r = hyp.n_varianza_para_potencia(sigma0=5, sigma1=8, alpha=0.05, beta=0.05)
+    assert r.n == 27
+    assert r.tail == "derecha"
+    assert r.beta_real <= 0.05
+
+
+def test_n_varianza_para_potencia_guia_II_8():
+    r = hyp.n_varianza_para_potencia(sigma0=0.09 ** 0.5, sigma1=0.11 ** 0.5, alpha=0.05, beta=0.05)
+    assert r.n == 540
+
+
+def test_plan_proporcion_guia_III_12():
+    r = hyp.disenar_plan_proporcion(p0=0.11, p1=0.16, alpha=0.05, beta=0.01)
+    assert (r.n, r.rc) == (739, 96)
+    assert r.alpha_real <= 0.05 and r.beta_real <= 0.01
+
+
+def test_plan_proporcion_guia_III_26():
+    r = hyp.disenar_plan_proporcion(p0=0.01, p1=0.02, alpha=0.01, beta=0.05)
+    assert (r.n, r.rc) == (2258, 35)
+
+
+def test_plan_proporcion_cola_izquierda_guia_III_14():
+    r = hyp.disenar_plan_proporcion(p0=0.14, p1=0.10, alpha=0.01, beta=0.05)
+    assert r.tail == "izquierda"
+    assert (r.n, r.rc) == (1043, 120)

@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Tuple
 
 from . import distributions as dist
-from .intervals import IntervalResult, SampleSizeResult
+from .intervals import IntervalResult, SampleSizeResult, iterar_n
 from .hypothesis_one import HypothesisTestResult
 
 
@@ -246,29 +246,13 @@ def n_media_diferencia_varianzas_iguales_para_error(
     """
     if not (0 < alpha < 1):
         raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
-    n_actual = n_inicial
-    historial = []
-
     # S_p cuando n1 = n2 = n: S_p = sqrt((S1^2 + S2^2) / 2)
     s_p = math.sqrt((s1 ** 2 + s2 ** 2) / 2)
 
-    for _ in range(max_iter):
-        df = 2 * n_actual - 2
-        t = dist.t_two_tailed(alpha, df)
-
-        # Formula: n = 2 * (t * S_p / e)^2
-        n_siguiente = math.ceil(2 * ((t * s_p) / e) ** 2)
-        historial.append(n_siguiente)
-
-        if n_siguiente == n_actual:
-            break
-        n_actual = n_siguiente
-    else:
-        raise RuntimeError(
-            f"El bucle iterativo no convergió en {max_iter} iteraciones "
-            f"(historial: {historial})."
-        )
-
+    # Formula: n = 2 * (t * S_p / e)^2, con ν = 2n - 2
+    n_actual, historial = iterar_n(
+        lambda n: math.ceil(2 * ((dist.t_two_tailed(alpha, 2 * n - 2) * s_p) / e) ** 2), n_inicial, max_iter
+    )
     return SampleSizeResult(n=n_actual, iterations=len(historial), converged_values=historial)
 
 
@@ -494,22 +478,7 @@ def n_media_apareada_para_error(
     """
     if not (0 < alpha < 1):
         raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
-    n_actual = n_inicial
-    historial = []
-
-    for _ in range(max_iter):
-        df = n_actual - 1
-        t = dist.t_two_tailed(alpha, df)
-        n_siguiente = math.ceil((t * s_d / e) ** 2)
-        historial.append(n_siguiente)
-
-        if n_siguiente == n_actual:
-            break
-        n_actual = n_siguiente
-    else:
-        raise RuntimeError(
-            f"El bucle iterativo no convergió en {max_iter} iteraciones "
-            f"(historial: {historial})."
-        )
-
+    n_actual, historial = iterar_n(
+        lambda n: math.ceil((dist.t_two_tailed(alpha, n - 1) * s_d / e) ** 2), n_inicial, max_iter
+    )
     return SampleSizeResult(n=n_actual, iterations=len(historial), converged_values=historial)

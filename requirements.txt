@@ -2,3 +2,4 @@ streamlit>=1.38
 scipy>=1.13
 numpy>=1.26
 pytest>=8.0
+pypdf>=4.0  # solo para herramientas/extraer_guia.py (la app no lo necesita)

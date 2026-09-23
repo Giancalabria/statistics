@@ -636,3 +636,130 @@ def ensayo_proporcion(
             result.beta = 1 - result.power
 
     return result
+
+
+# ---------------------------------------------------------------------------
+# Diseño por potencia fijada: varianza (χ²) y proporción (plan de muestreo binomial)
+# ---------------------------------------------------------------------------
+
+@dataclass
+class DisenoVarianzaResult:
+    n: int
+    tail: str
+    s2_c: float          # S²_c: valor crítico de la varianza muestral
+    beta_real: float
+    potencia_real: float
+    h0_text: str
+    h1_text: str
+
+
+def n_varianza_para_potencia(
+    sigma0: float,
+    sigma1: float,
+    alpha: float,
+    beta: float,
+    tail: Optional[str] = None,
+    n_max: int = 200_000,
+) -> DisenoVarianzaResult:
+    """Menor n tal que el ensayo de σ² con riesgo α tenga β ≤ `beta` cuando σ = σ₁.
+
+    Verificado contra la guía (TEMA II): σ₀=5, σ₁=8, α=0,05, β=0,05 -> n=27;
+    σ₀²=0,09, σ₁²=0,11, α=0,05, 1-β=0,95 -> n=540.
+    """
+    if not (0 < alpha < 1) or not (0 < beta < 1):
+        raise ValueError("α y β deben estar entre 0 y 1")
+    if sigma0 <= 0 or sigma1 <= 0 or sigma0 == sigma1:
+        raise ValueError("σ₀ y σ₁ deben ser positivos y distintos")
+    if tail is None:
+        tail = "derecha" if sigma1 > sigma0 else "izquierda"
+    if tail not in ("derecha", "izquierda"):
+        raise ValueError("Para dimensionar por potencia se usa un ensayo unilateral")
+    s0_2, s1_2 = sigma0 ** 2, sigma1 ** 2
+    for n in range(2, n_max):
+        df = n - 1
+        if tail == "derecha":
+            s2_c = s0_2 * dist.chi2_one_tailed(alpha, df) / df
+            b = dist.chi2_cdf(df * s2_c / s1_2, df)
+        else:
+            s2_c = s0_2 * dist.chi2_value(alpha, df) / df
+            b = 1 - dist.chi2_cdf(df * s2_c / s1_2, df)
+        if b <= beta:
+            h0, h1 = (f"σ² ≤ {s0_2:g}", f"σ² > {s0_2:g}") if tail == "derecha" else (f"σ² ≥ {s0_2:g}", f"σ² < {s0_2:g}")
+            return DisenoVarianzaResult(n=n, tail=tail, s2_c=s2_c, beta_real=b, potencia_real=1 - b,
+                                        h0_text=h0, h1_text=h1)
+    raise RuntimeError(f"No se encontró n ≤ {n_max} que cumpla las condiciones")
+
+
+@dataclass
+class PlanMuestreoResult:
+    """Plan de muestreo binomial: tomar n unidades y rechazar H0 según r_c."""
+    n: int
+    rc: int
+    tail: str
+    alpha_real: float
+    beta_real: float
+    potencia_real: float
+    h0_text: str
+    h1_text: str
+    regla_decision: str
+
+
+def disenar_plan_proporcion(
+    p0: float,
+    p1: float,
+    alpha: float,
+    beta: float,
+    tail: Optional[str] = None,
+    n_max: int = 50_000,
+) -> PlanMuestreoResult:
+    """Plan de muestreo (n, r_c) de menor n que cumple α y β con el modelo binomial exacto.
+
+    Cola derecha: se rechaza H0 si r ≥ r_c. Cola izquierda: si r ≤ r_c.
+    Verificado contra la guía (TEMA III): p₀=0,11, p₁=0,16, α=0,05, 1-β=0,99 ->
+    n=739, r_c=96; p₀=0,01, p₁=0,02, α=0,01, 1-β=0,95 -> n=2.258, r_c=35;
+    p₀=0,14, p₁=0,10, α=0,01, 1-β=0,95 -> n=1.043, r_c=120.
+    """
+    from scipy import stats
+
+    if not (0 < alpha < 1) or not (0 < beta < 1):
+        raise ValueError("α y β deben estar entre 0 y 1")
+    if not (0 < p0 < 1) or not (0 < p1 < 1) or p0 == p1:
+        raise ValueError("p₀ y p₁ deben estar entre 0 y 1 y ser distintos")
+    if tail is None:
+        tail = "derecha" if p1 > p0 else "izquierda"
+    if tail not in ("derecha", "izquierda"):
+        raise ValueError("El plan de muestreo se diseña con un ensayo unilateral")
+
+    for n in range(2, n_max):
+        if tail == "derecha":
+            rc = int(stats.binom.isf(alpha, n, p0)) + 1
+            while rc > 0 and stats.binom.sf(rc - 2, n, p0) <= alpha:
+                rc -= 1
+            while stats.binom.sf(rc - 1, n, p0) > alpha:
+                rc += 1
+            if rc > n:
+                continue
+            a_real = stats.binom.sf(rc - 1, n, p0)
+            b = stats.binom.cdf(rc - 1, n, p1)
+        else:
+            rc = int(stats.binom.ppf(alpha, n, p0))
+            while rc >= 0 and stats.binom.cdf(rc, n, p0) > alpha:
+                rc -= 1
+            while stats.binom.cdf(rc + 1, n, p0) <= alpha:
+                rc += 1
+            if rc < 0:
+                continue
+            a_real = stats.binom.cdf(rc, n, p0)
+            b = stats.binom.sf(rc, n, p1)
+        if b <= beta:
+            if tail == "derecha":
+                h0, h1 = f"p ≤ {p0:g}", f"p > {p0:g}"
+                regla = (f"Tomar una muestra de n = {n}. Si se encuentran r ≥ {rc} casos, "
+                         f"se rechaza H0.")
+            else:
+                h0, h1 = f"p ≥ {p0:g}", f"p < {p0:g}"
+                regla = (f"Tomar una muestra de n = {n}. Si se encuentran r ≤ {rc} casos, "
+                         f"se rechaza H0.")
+            return PlanMuestreoResult(n=n, rc=rc, tail=tail, alpha_real=float(a_real), beta_real=float(b),
+                                      potencia_real=float(1 - b), h0_text=h0, h1_text=h1, regla_decision=regla)
+    raise RuntimeError(f"No se encontró un plan con n ≤ {n_max}")

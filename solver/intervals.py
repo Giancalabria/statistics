@@ -85,6 +85,31 @@ def n_media_sigma_conocido(
     return SampleSizeResult(n=n)
 
 
+def iterar_n(requerido, n_inicial: int, max_iter: int) -> Tuple[int, List[int]]:
+    """Punto fijo n = requerido(n) para las fórmulas con t (ν depende de n).
+
+    A veces la iteración oscila entre dos valores (p. ej. 37 ↔ 38: con n = 37 la
+    fórmula pide 38 y con n = 38 pide 37). En ese caso la respuesta es el menor n
+    que ya alcanza, es decir el menor n con requerido(n) <= n.
+    """
+    n_actual = n_inicial
+    historial: List[int] = []
+    for _ in range(max_iter):
+        n_siguiente = requerido(n_actual)
+        historial.append(n_siguiente)
+        if n_siguiente == n_actual:
+            return n_actual, historial
+        if n_siguiente in historial[:-1]:
+            break  # ciclo
+        n_actual = n_siguiente
+    inicio = max(2, min(historial) // 2)
+    for n in range(inicio, 10_000_000):
+        if requerido(n) <= n:
+            historial.append(n)
+            return n, historial
+    raise RuntimeError(f"El bucle iterativo no convergió (historial: {historial}).")
+
+
 def n_media_sigma_desconocido(
     s: float,
     e: float,
@@ -96,27 +121,15 @@ def n_media_sigma_desconocido(
     """Algoritmo iterativo de §1.1 CASO B: t depende de nu=n-1, que depende de n.
 
     Se arranca con un n grande (n_inicial), se recalcula n con el t de ese nu,
-    y se repite hasta que el n que sale sea igual al que entró.
+    y se repite hasta que el n que sale sea igual al que entró (si oscila, ver
+    `iterar_n`).
     """
     if not (0 < alpha < 1):
         raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
-    n_actual = n_inicial
-    historial = []
-    for _ in range(max_iter):
-        df = n_actual - 1
-        t = dist.t_two_tailed(alpha, df)
-        n_siguiente = ceil((t * s / e) ** 2)
-        historial.append(n_siguiente)
-        if n_siguiente == n_actual:
-            break
-        n_actual = n_siguiente
-    else:
-        raise RuntimeError(
-            f"El bucle iterativo no convergió en {max_iter} iteraciones "
-            f"(historial: {historial})."
-        )
+    n_infinito, historial = iterar_n(
+        lambda n: ceil((dist.t_two_tailed(alpha, n - 1) * s / e) ** 2), n_inicial, max_iter
+    )
 
-    n_infinito = n_actual
     if N is None:
         return SampleSizeResult(n=n_infinito, iterations=len(historial), converged_values=historial)
 
