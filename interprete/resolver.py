@@ -18,7 +18,7 @@ from solver import wording
 from solver.muestra import resumen_muestra
 
 from .modelo import Analisis, Inciso
-from .presentacion import agregar_presentacion
+from .presentacion import agregar_presentacion, siete_pasos
 from .texto import fmt
 
 
@@ -27,6 +27,7 @@ class Resultado:
     titulo: str = ""
     pasos: List[str] = field(default_factory=list)      # markdown, en orden de presentación
     conclusion: str = ""
+    regla: str = ""                                       # regla de decisión en lenguaje llano (paso 5)
     resumen: str = ""                                     # una línea (para listados / evaluación)
     numeros: List[float] = field(default_factory=list)   # valores clave (para comparar con la guía)
     tabla: Optional[List[Dict[str, Any]]] = None          # curvas OC / potencia
@@ -54,16 +55,30 @@ def _p(param: str, a: float, b: float, alpha: float) -> str:
     return f"P({fmt(a, 4)} ≤ {param} ≤ {fmt(b, 4)}) = {fmt(1 - alpha, 4)}"
 
 
-def _ensayo_txt(r, alpha: float, obs: str) -> str:
-    decision = "se RECHAZA" if r.rejects_h0 else "NO se rechaza"
-    return (f"De acuerdo a la evidencia muestral ({obs}), al nivel de significación del {fmt(alpha * 100, 2)}%, "
-            f"{decision} la hipótesis nula H0: {_coma(r.h0_text)}.")
+def _acciones(d: Dict, h1: str):
+    """Qué se hace si se rechaza / si no se rechaza H0 (las del sistema de control, si las hay)."""
+    return (d.get("accion_rechazo") or f"se da por probado que {h1}",
+            d.get("accion_no_rechazo") or f"no se puede afirmar que {h1}")
+
+
+def _ensayo_txt(r, alpha: float, obs: str, d: Optional[Dict] = None) -> str:
+    """Conclusión formal (paso 7): nivel de significación + evidencia + acción que se sigue."""
+    d = d or {}
+    return _coma(wording.conclusion_formal(alpha, r.rejects_h0, f"H0: {r.h0_text}", r.h1_text, obs,
+                                           d.get("accion_rechazo"), d.get("accion_no_rechazo")))
+
+
+def _regla(d: Dict, que: str, cond: str, h1: str) -> str:
+    """Regla de decisión (paso 5) en lenguaje llano, antes de mirar el dato muestral."""
+    si, no = _acciones(d, _coma(h1))
+    return _coma(f"Se {que}. Si {cond}, se rechaza H0 → {si}. En caso contrario no se rechaza H0 → {no}.")
 
 
 def _coma(texto: str) -> str:
     """Los textos del solver usan punto decimal ('37.5698'): se pasan a coma."""
     import re
-    return re.sub(r"(\d)\.(\d)", r"\1,\2", texto)
+    texto = re.sub(r"(\d)\.(\d)", r"\1,\2", texto)
+    return re.sub(r"(\d),0(?![\d,])", r"\1", texto)  # 500,0 -> 500
 
 
 def _cv(v) -> str:
@@ -276,23 +291,28 @@ def _pasos_ensayo_media(d, r, alpha, res: Resultado, decidir=True):
     if conocido:
         crit = dist.z_two_tailed(alpha) if tail == "bilateral" else dist.z_one_tailed(alpha)
         res.pasos.append(f"**Distribución**: σ conocido → Z. Z{cuantil} = {fmt(crit, 4)}.")
-        base = f"σ/√n = {fmt(d['desvio'], 4)}/√{n}"
+        base = "σ/√n"
     else:
         crit = dist.t_two_tailed(alpha, n - 1) if tail == "bilateral" else dist.t_one_tailed(alpha, n - 1)
         res.pasos.append(f"**Distribución**: σ desconocido → t de Student, ν = {n - 1}. t{cuantil} = {fmt(crit, 4)}.")
-        base = f"S/√n = {fmt(d['desvio'], 4)}/√{n}"
+        base = "S/√n"
     if tail == "bilateral":
         c1, c2 = r.critical_value
-        res.pasos.append(f"**Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ {fmt(crit, 4)}·{base} = {fmt(c1, 4)} ; {fmt(c2, 4)}. "
+        res.pasos.append(f"**Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ {fmt(crit, 4)}·{base} = {fmt(d['mu0'], 4)} ∓ {fmt(crit, 4)}·{fmt(d['desvio'], 4)}/√{n} = {fmt(c1, 4)} ; {fmt(c2, 4)}. "
                          f"Si x̄ < {fmt(c1, 4)} o x̄ > {fmt(c2, 4)} ⇒ se rechaza H0.")
     else:
         op = "+" if tail == "derecha" else "-"
-        res.pasos.append(f"**Condición de rechazo**: x̄c = μ₀ {op} {fmt(crit, 4)}·{base} = {fmt(r.critical_value, 4)}. "
+        res.pasos.append(f"**Condición de rechazo**: x̄c = μ₀ {op} {fmt(crit, 4)}·{base} = {fmt(d['mu0'], 4)} {op} {fmt(crit, 4)}·{fmt(d['desvio'], 4)}/√{n} = {fmt(r.critical_value, 4)}. "
                          f"Si x̄ {_signo(tail)} {fmt(r.critical_value, 4)} ⇒ se rechaza H0.")
     if decidir and d.get("xbar") is not None:
         res.pasos.append(f"**Decisión**: x̄ = {fmt(d['xbar'], 4)} → " + ("cae en la zona de rechazo." if r.rejects_h0
                                                                          else "no cae en la zona de rechazo."))
-        res.conclusion = _ensayo_txt(r, alpha, f"x̄ = {fmt(d['xbar'], 4)}")
+        res.conclusion = _ensayo_txt(r, alpha, f"x̄ = {fmt(d['xbar'], 4)}", d)
+    if tail == "bilateral":
+        cond = f"x̄ < {fmt(r.critical_value[0], 4)} o x̄ > {fmt(r.critical_value[1], 4)}"
+    else:
+        cond = f"x̄ {_signo(tail)} {fmt(r.critical_value, 4)}"
+    res.regla = _regla(d, f"toma una muestra de n = {n} unidades y se calcula su media x̄", cond, r.h1_text)
     if r.beta is not None:
         res.pasos.append(f"**Con μ₁ = {fmt(d['mu1'], 4)}**: β = {fmt(r.beta, 4)}, potencia 1-β = {fmt(r.power, 4)}.")
 
@@ -506,7 +526,12 @@ def varianza_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
         return
     res.pasos.append(f"**Decisión**: S² = {fmt(s ** 2, 5)} (S = {fmt(s, 4)}) → " +
                      ("cae en la zona de rechazo." if r.rejects_h0 else "no cae en la zona de rechazo."))
-    res.conclusion = _ensayo_txt(r, alpha, f"S = {fmt(s, 4)}")
+    res.conclusion = _ensayo_txt(r, alpha, f"S = {fmt(s, 4)}", d)
+    if isinstance(crit, tuple):
+        cond = f"S < {fmt(sqrt(crit[0]), 4)} o S > {fmt(sqrt(crit[1]), 4)}"
+    else:
+        cond = f"S {_signo(tail)} {fmt(sqrt(crit), 4)}"
+    res.regla = _regla(d, f"toma una muestra de n = {n} unidades y se calcula su desvío S", cond, r.h1_text)
     res.resumen = f"H0: {r.h0_text}; Sc = {_cv(tuple(sqrt(c) for c in crit) if isinstance(crit, tuple) else sqrt(crit))}; " + \
                   ("RECHAZA H0" if r.rejects_h0 else "NO rechaza H0")
 
@@ -616,7 +641,13 @@ def prop_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
         return
     res.pasos.append(f"**Decisión**: r = {int(r_)} (p̂ = {fmt(p_obs, 4)}); valor a posteriori α* = {fmt(r.p_value, 4)} → " +
                      ("se rechaza H0." if r.rejects_h0 else "no se rechaza H0."))
-    res.conclusion = _ensayo_txt(r, alpha, f"r = {int(r_)}")
+    res.conclusion = _ensayo_txt(r, alpha, f"r = {int(r_)}", d)
+    if isinstance(r.critical_value, tuple):
+        cond = f"r ≤ {r.critical_value[0]} o r ≥ {r.critical_value[1]}"
+    else:
+        cond = f"r {'≥' if tail == 'derecha' else '≤'} {r.critical_value}"
+    res.regla = _regla(d, f"toma una muestra de n = {int(n)} unidades y se cuenta la cantidad r de casos", cond,
+                       r.h1_text)
     res.numeros.append(r.p_value)
     res.resumen = f"H0: {r.h0_text}; rc = {r.critical_value}; " + ("RECHAZA H0" if r.rejects_h0 else "NO rechaza H0")
 
@@ -683,7 +714,9 @@ def dos_var_ensayo(d, alpha, res: Resultado, estado):
     res.pasos.append(f"**Estadístico**: j² = S²mayor/S²menor = {fmt(max(s1, s2) ** 2, 4)}/{fmt(min(s1, s2) ** 2, 4)} = "
                      f"{fmt(r.observed_value, 4)} (mayor: {mayor}).")
     res.pasos.append(f"**Valor crítico**: F(1-α; ν_num; ν_den) = {fmt(r.critical_value, 4)}. Si j² > Fc ⇒ se rechaza H0.")
-    res.conclusion = _ensayo_txt(r, alpha, f"j² = {fmt(r.observed_value, 4)}")
+    res.conclusion = _ensayo_txt(r, alpha, f"j² = {fmt(r.observed_value, 4)}", d)
+    res.regla = _regla(d, "calcula j² = S²mayor/S²menor con las dos muestras",
+                       f"j² > {fmt(r.critical_value, 4)}", "σ₁² ≠ σ₂²")
     res.numeros = [r.observed_value, r.critical_value]
     res.resumen = f"j² = {fmt(r.observed_value, 4)} vs Fc = {fmt(r.critical_value, 4)}: " + ("RECHAZA" if r.rejects_h0 else "NO rechaza")
     if d.get("tail") in ("derecha", "izquierda") or d.get("delta0"):
@@ -753,7 +786,12 @@ def dos_medias_ensayo(d, alpha, res: Resultado, estado):
     res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}  (α = {fmt(alpha, 4)}; t con ν = {r.df}).")
     res.pasos.append(f"**Condición de rechazo**: d_c = {_cv(r.critical_value)}. Si d {_signo(tail)} d_c ⇒ se rechaza H0.")
     res.pasos.append(f"**Decisión**: d = {fmt(dbar, 4)} → " + ("se rechaza H0." if r.rejects_h0 else "no se rechaza H0."))
-    res.conclusion = _ensayo_txt(r, alpha, f"d = {fmt(dbar, 4)}")
+    res.conclusion = _ensayo_txt(r, alpha, f"d = {fmt(dbar, 4)}", d)
+    if isinstance(r.critical_value, tuple):
+        cond = f"d < {fmt(r.critical_value[0], 4)} o d > {fmt(r.critical_value[1], 4)}"
+    else:
+        cond = f"d {_signo(tail)} {fmt(r.critical_value, 4)}"
+    res.regla = _regla(d, "calcula la diferencia d entre las medias muestrales", cond, r.h1_text)
     res.numeros = (list(r.critical_value) if isinstance(r.critical_value, tuple) else [r.critical_value]) + [dbar]
     res.resumen = f"H0: {r.h0_text}; dc = {_cv(r.critical_value)}; " + ("RECHAZA H0" if r.rejects_h0 else "NO rechaza H0")
 
@@ -814,6 +852,8 @@ def chi_cont(d, alpha, res: Resultado, estado):
     res.avisos += r.warnings
     res.tabla = [{f"col {j + 1}": round(v, 3) for j, v in enumerate(fila)} for fila in r.expected_table]
     res.conclusion = _coma(wording.texto_chi_cuadrado(r, "las variables son independientes (no hay asociación / los grupos son homogéneos)", alpha))
+    res.regla = _regla(d, "calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada", f"χ² > {fmt(r.chi2_critico, 4)}",
+                       "las variables están asociadas")
     res.numeros = [r.chi2_calc, r.chi2_critico]
     res.resumen = f"χ² = {fmt(r.chi2_calc, 4)} vs {fmt(r.chi2_critico, 4)}: " + ("RECHAZA" if r.rejects_h0 else "NO rechaza")
 
@@ -839,6 +879,8 @@ def chi_ajuste(d, alpha, res: Resultado, estado):
     res.pasos.append("**Decisión**: " + ("χ² > χ²c ⇒ se rechaza H0." if r.rejects_h0 else "χ² ≤ χ²c ⇒ no se rechaza H0."))
     res.avisos += r.warnings
     res.conclusion = _coma(wording.texto_chi_cuadrado(r, "los datos siguen el modelo propuesto", alpha))
+    res.regla = _regla(d, "calcula χ² = Σ(Foᵢ - Feᵢ)²/Feᵢ con las frecuencias observadas",
+                       f"χ² > {fmt(r.chi2_critico, 4)}", "los datos no siguen el modelo propuesto")
     res.numeros = [r.chi2_calc, r.chi2_critico]
     res.resumen = f"χ² = {fmt(r.chi2_calc, 4)} vs {fmt(r.chi2_critico, 4)}: " + ("RECHAZA" if r.rejects_h0 else "NO rechaza")
 
@@ -875,6 +917,8 @@ def _ambos(d, alpha, tipo, res: Resultado, estado):
             dd["sigma_conocido"] = False
             dd.pop("mu1", None)
         DESPACHO[(tema, tipo)](dd, alpha, sub, estado)
+        if tipo == "ensayo":
+            sub.pasos = siete_pasos(sub.pasos, alpha, sub.regla)
         res.pasos.append(f"**— Sobre {nombre} —**")
         res.pasos += sub.pasos
         res.numeros += sub.numeros
@@ -917,7 +961,10 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
         # la cola efectiva: la que fijó este inciso (un diseño la corrige según μ₁) o la del inciso
         cola = estado.get("tail") if estado.get("tail") != cola_previa else (d.get("tail") or estado.get("tail"))
         res.pasos = agregar_presentacion(res.pasos, an.tema, inc.tipo, dict(d, alpha=alpha), an.criterio, cola)
-        res.pasos = [_coma(x) if x.startswith(("**Hipótesis**", "**Región crítica**")) else x for x in res.pasos]
+        res.pasos = [_coma(x) if x.startswith(("**Hipótesis**", "**Región crítica**", "**1 · Planteo")) else x
+                     for x in res.pasos]
+        if inc.tipo == "ensayo" and not d.get("ambos"):
+            res.pasos = siete_pasos(res.pasos, float(alpha), res.regla)
     except FaltaDato as e:
         res.errores.append(str(e))
         res.resumen = "faltan datos"

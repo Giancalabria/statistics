@@ -9,6 +9,7 @@ GUIA = Path(__file__).parent / "tutorial_guia_app_estadistica.md"
 
 # Etiquetas cortas para las pestañas (se busca por prefijo del título de nivel 1).
 ETIQUETAS = {
+    "METODOLOGÍA": "⭐ Metodología",
     "MÓDULO I:": "I · Media (μ)",
     "MÓDULO II:": "II · Varianza (σ²)",
     "MÓDULO III:": "III · Proporción (p)",

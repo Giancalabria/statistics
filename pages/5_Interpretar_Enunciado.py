@@ -298,7 +298,7 @@ if ss.get("resultados"):
         for p in res.pasos:
             st.markdown("- " + p)
         if res.conclusion:
-            st.success("**Conclusión:** " + res.conclusion)
+            st.success(("**7 · Conclusión formal:** " if inc.tipo == "ensayo" else "**Conclusión:** ") + res.conclusion)
         if res.tabla:
             df = pd.DataFrame(res.tabla)
             st.dataframe(df, hide_index=True)

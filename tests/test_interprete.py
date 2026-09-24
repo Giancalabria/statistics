@@ -316,3 +316,23 @@ def test_presentacion_justifica_h0_y_explica_distribuciones():
     assert "H0: μ ≥ 3,2" in texto  # coma decimal
     d = resolver(analizar(EXAMEN_P2, EXAMEN_I2))[3]
     assert "t de Student" in " ".join(d.pasos) and "χ²" in " ".join(d.pasos)
+
+
+def test_ensayo_sale_en_los_7_pasos_de_la_catedra():
+    an = analizar("Una máquina llena bolsas con distribución normal. Se sabe que el desvío es 15 gramos. Se toma una "
+                  "muestra de 25 bolsas y se obtiene una media de 506 gramos. Con un riesgo del 5%, ¿se puede afirmar "
+                  "que el peso medio supera los 500 gramos?", [])
+    a = resolver(an)[0]
+    numerados = [p[2] for p in a.pasos if p.startswith("**") and p[2].isdigit() and p[3:6] == " · "]
+    assert numerados == ["1", "2", "3", "4", "5", "6"]
+    rd = next(p for p in a.pasos if p.startswith("**5 · Regla de decisión"))
+    assert "n = 25" in rd and "504,9346" in rd and "En caso contrario" in rd
+    assert a.conclusion.startswith("A un nivel de significación del 5%, existe evidencia estadística suficiente")
+    assert "Por consiguiente" in a.conclusion and "acepta" not in a.conclusion
+
+
+def test_conclusion_formal_usa_la_accion_del_sistema_de_control():
+    an = analizar(EXAMEN_P2, EXAMEN_I2)
+    a = resolver(an)[0]
+    assert a.conclusion.count("A un nivel de significación") == 2
+    assert sum(p.startswith("**5 · Regla de decisión") for p in a.pasos) == 2

@@ -79,6 +79,24 @@ def texto_tamano_muestra_varianza(
     return texto
 
 
+def conclusion_formal(alpha: float, rechaza: bool, h0: str, h1: str, obs: str,
+                      si_rechaza: Optional[str] = None, si_no_rechaza: Optional[str] = None) -> str:
+    """Conclusión formal (paso 7 de la cátedra): arranca con el nivel de significación,
+    dice si hay evidencia para rechazar H0 y cierra con la acción que se sigue.
+
+    Nunca dice "se acepta H0": no rechazarla no equivale a probarla.
+    """
+    pct = f"{alpha * 100:g}"
+    if rechaza:
+        accion = si_rechaza or f"se da por probado que {h1}"
+        return (f"A un nivel de significación del {pct}%, existe evidencia estadística suficiente para rechazar "
+                f"la hipótesis nula {h0} ({obs} cae en la zona de rechazo). Por consiguiente, {accion}.")
+    accion = si_no_rechaza or (f"no se puede afirmar que {h1}: se mantiene H0 "
+                               f"(no rechazarla no equivale a probarla)")
+    return (f"A un nivel de significación del {pct}%, no existe evidencia estadística suficiente para rechazar "
+            f"la hipótesis nula {h0} ({obs} no cae en la zona de rechazo). Por consiguiente, {accion}.")
+
+
 def texto_ensayo(result, alpha: float) -> str:
     """Redacción formal de un ensayo de hipótesis, siguiendo §5 del esquema.
 
@@ -94,19 +112,7 @@ def texto_ensayo(result, alpha: float) -> str:
     else:  # media (Z o t) o diferencia
         obs_str = f"x̄ = {result.observed_value:.5f}"
 
-    # Decidir si se rechaza o no
-    if result.rejects_h0:
-        decision = "se RECHAZA"
-    else:
-        decision = "NO se rechaza"
-
-    alpha_pct = alpha * 100
-    texto = (
-        f"De acuerdo a la evidencia muestral ({obs_str}), al nivel de significación "
-        f"del {alpha_pct:g}%, {decision} la hipótesis nula: {result.h0_text}."
-    )
-
-    return texto
+    return conclusion_formal(alpha, result.rejects_h0, f"H0: {result.h0_text}", result.h1_text, obs_str)
 
 
 def texto_chi_cuadrado(result: ChiSquareResult, contexto: str, alpha: float) -> str:
@@ -121,19 +127,5 @@ def texto_chi_cuadrado(result: ChiSquareResult, contexto: str, alpha: float) -> 
     Returns:
         Texto formal siguiendo las convenciones de redacción.
     """
-    alpha_pct = alpha * 100
-
-    # Decidir si se rechaza o no
-    if result.rejects_h0:
-        decision = "se RECHAZA"
-    else:
-        decision = "NO se rechaza"
-
-    texto = (
-        f"De acuerdo al estadístico de prueba χ² = {result.chi2_calc:.5f} "
-        f"(valor crítico: {result.chi2_critico:.5f}, gl = {result.df}), "
-        f"al nivel de significación del {alpha_pct:g}%, {decision} "
-        f"la hipótesis nula de que {contexto}."
-    )
-
-    return texto
+    obs = f"χ² = {result.chi2_calc:.5f} [χ²c = {result.chi2_critico:.5f}; ν = {result.df}]"
+    return conclusion_formal(alpha, result.rejects_h0, f"de que {contexto}", f"no es cierto que {contexto}", obs)

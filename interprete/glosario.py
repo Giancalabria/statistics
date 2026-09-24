@@ -89,11 +89,15 @@ COMO_PRESENTAR = {
         "Si ya había una muestra: responder Δn = n - n_actual ('hay que tomar X más').",
     ],
     "ensayo": [
-        "Criterio (optimista / pesimista) y planteo H0 vs H1 (la igualdad siempre en H0).",
-        "Riesgo α y distribución del estadístico.",
-        "Condición de rechazo: valor crítico (x̄c, S²c, r_c) y 'si x̄ > x̄c se rechaza H0'.",
-        "Regla de decisión en palabras del problema y decisión con el dato muestral.",
-        "Conclusión: 'se rechaza / no se rechaza H0' (NUNCA 'se acepta H0') y qué significa en el contexto.",
+        "Planteo de hipótesis: criterio (optimista / pesimista), H0 vs H1 (la igualdad siempre en H0).",
+        "Nivel de significación α = P(rechazar H0 | H0 cierta).",
+        "Estadístico de prueba: Z (σ conocido), t con ν = n-1 (solo se tiene S), χ² (varianza), binomial (proporción).",
+        "Condición de rechazo (CR): valor crítico (x̄c, S²c, r_c) y zona de rechazo.",
+        "Regla de decisión (RD) en lenguaje llano y ANTES de calcular: 'se toma una muestra de n..., si x̄ > x̄c se "
+        "rechaza H0 → acción; si no → otra acción'.",
+        "Cálculos: valor observado y si cae o no en la zona de rechazo.",
+        "Conclusión formal: 'A un nivel de significación del α%, (no) existe evidencia estadística suficiente para "
+        "rechazar H0... Por consiguiente, <acción>' (NUNCA 'se acepta H0').",
     ],
     "beta": [
         "Recordar la región crítica del ensayo (x̄c).",

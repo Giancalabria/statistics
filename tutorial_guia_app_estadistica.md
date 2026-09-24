@@ -6,6 +6,9 @@
 
 ## 📌 ÍNDICE DE MÓDULOS
 
+0. [METODOLOGÍA DE LA CÁTEDRA: cómo presentar un examen](#metodología-de-la-cátedra-cómo-presentar-un-examen)
+   - Diagnóstico · Criterio pesimista/optimista · Los 7 pasos · Qué distribución usar · Cierre
+
 1. [MÓDULO I: Inferencia sobre la Media Poblacional (μ)](#módulo-i-inferencia-sobre-la-media-poblacional-μ)
    - 1.1 Intervalo de Confianza para μ con σ Conocido (Normal Z)
    - 1.2 Intervalo de Confianza para μ con σ Desconocido (t de Student)
@@ -28,6 +31,110 @@
 4. [MATRIZ DE DECISIÓN: α, 1-α, β y 1-β](#matriz-de-decisión-α-1-α-β-y-1-β)
 
 5. [TABLA MASTER DE VALORES INTERMEDIOS PARA EXÁMENES](#tabla-master-de-valores-intermedios-para-exámenes)
+
+---
+
+# METODOLOGÍA DE LA CÁTEDRA: cómo presentar un examen
+
+> Protocolo de resolución de la cátedra Dopazo – García. El examen no evalúa solo la cuenta: evalúa
+> que la **conclusión** se apoye en un **método** completo. Si falta un paso, el ítem no se da por bien resuelto.
+
+---
+
+## 1 · Diagnóstico: antes de calcular nada
+
+Traducí el enunciado a un modelo matemático **único** antes de tocar la calculadora. Anotá:
+
+| Elemento | Qué identificar | Por qué importa |
+| :--- | :--- | :--- |
+| **Variable aleatoria X** | El fenómeno que se mide (resistencia, tiempo de falla, peso...) | Define el parámetro (μ, σ², p) |
+| **Unidad de medida** | kg, horas, miles de $... | μ, σ y el total τ tienen que quedar en la misma unidad |
+| **Tipo de muestreo** | Aleatorio simple, estratificado, sistemático, por conglomerados | Condiciona la representatividad y el modelo de error |
+| **Población** | Infinita o finita (N) | Con N conocido va el factor √((N-n)/(N-1)) |
+| **Parámetro vs. estimador** | ¿Te dan σ (poblacional/histórico) o solo S (de la muestra)? | Decide Z o t de Student |
+
+**Por qué importa:** el **parámetro** (μ, σ², p) es una constante fija y desconocida; el **estimador**
+(x̄, S², p̂) es una **variable aleatoria** que cambia de muestra en muestra. La propiedad clave que pide la
+cátedra es la **consistencia**: al aumentar n, el estimador converge (estocásticamente) al parámetro — Ley de
+los Grandes Números. Confundir parámetro con estimador lleva a elegir mal el modelo.
+
+💡 **En la app**: la página *Interpretar un enunciado* hace este diagnóstico por vos (tema, datos, σ conocido o
+no, N) y te muestra de qué frase salió cada dato. Revisalo siempre antes de calcular.
+
+---
+
+## 2 · Criterio pesimista vs. optimista (qué va en H0)
+
+H0 representa el **status quo** y es la que "recibe la prueba de carga": solo se la abandona con evidencia.
+
+| Criterio | Dónde va lo que se quiere probar | Consecuencia |
+| :--- | :--- | :--- |
+| **Pesimista** | La mejora / el cambio va en **H1** | Hace falta evidencia fuerte para abandonar el status quo. El error grave (decidir un cambio que no se justifica) queda acotado por α. Ej.: seguridad de un puente, una inversión, comprar una máquina nueva. |
+| **Optimista** | Se asume que cumple / la mejora en **H0** | Se da por bueno salvo que los datos muestren lo contrario. Ej.: control de un proceso o de un lote que en principio cumple. |
+
+**Por qué importa:** elegir mal el criterio cambia la zona de rechazo y la sensibilidad del ensayo; en un sistema
+crítico puede dar una falsa sensación de seguridad. El nivel de significación **α** es el regulador del riesgo:
+es la probabilidad máxima de cometer un **error de tipo I** (rechazar H0 siendo cierta).
+
+💡 **En la app**: el intérprete detecta el criterio y lo justifica; si no estás de acuerdo lo podés cambiar y se
+invierte todo el planteo (en un diseño se intercambian μ₀↔μ₁ y α↔β).
+
+---
+
+## 3 · Los 7 pasos de un ensayo de hipótesis (en este orden)
+
+1. **Planteo de hipótesis**: H0 (con la igualdad) y H1 (la diferencia / mejora).
+2. **Nivel de significación**: se fija el riesgo α.
+3. **Estadístico de prueba**: se elige el modelo (Z, t, χ², F) y se justifica.
+   ⚠️ **Usar Z cuando solo se tiene el desvío muestral S es un error conceptual grave.**
+4. **Condición de rechazo (CR)**: fractiles y valor crítico (x̄c, S²c, r_c) que delimitan la zona de rechazo.
+5. **Regla de decisión (RD) en lenguaje llano**: *"Se toma una muestra de n unidades y se calcula ... Si ... se
+   rechaza H0 → [acción]; en caso contrario → [otra acción]"*. Se escribe **antes** de hacer los cálculos,
+   para no acomodar la decisión al resultado.
+6. **Cálculos**: se obtiene el valor observado del estadístico y se ve si cae en la zona de rechazo.
+7. **Conclusión formal**: la decisión, dicha con firmeza y en el contexto del problema.
+
+💡 **En la app**: al calcular un ensayo en *Interpretar un enunciado*, la resolución sale numerada con estos
+7 pasos, incluida la RD en lenguaje llano y la conclusión formal.
+
+---
+
+## 4 · Qué distribución usar
+
+Si X no es Normal, x̄ se considera aproximadamente Normal solo con **n ≥ 30** (Teorema Central del Límite).
+
+| Situación | Modelo | Detalle |
+| :--- | :--- | :--- |
+| σ **conocido** | Normal **Z** | Z = (x̄ - μ)/(σ/√n) |
+| σ **desconocido** (solo S) | **t de Student**, ν = n - 1 | t = (x̄ - μ)/(S/√n). Cuando ν → ∞ la t tiende a la Normal |
+| Población **finita** (N) | Z o t con factor de corrección | Error estándar × √((N-n)/(N-1)). **No es opcional**: sin él el error e queda inflado y el intervalo sale más ancho de lo que es |
+| **Total poblacional** | τ = N · μ | Límites del IC de μ multiplicados por N |
+| **Varianza / desvío** | **χ²**, ν = n - 1 | (n-1)·S²/σ² ~ χ². También para bondad de ajuste |
+| **n para la varianza** | **Ecuación de García** | Ver Módulo II §2.1: a = Z(1-α/2)·(∛R + 1) / (2·(∛R - 1)), ν = (2/9)·(a + √(a² + 1))², n = ⌈ν + 1⌉, con R = (B'/A')² |
+
+⚠️ Sobre la Ecuación de García: hay versiones del apunte que la escriben distinto (por ejemplo
+ν = 9 + a² + a·√(a² + 18)). La app usa la forma de arriba, que reproduce las respuestas de la Guía de Problemas
+(TEMA II, problema 7b → n = 90).
+
+---
+
+## 5 · Cierre: redondeo, regla de decisión y conclusión
+
+- **Redondeo**: los tamaños de muestra **n se redondean siempre hacia arriba** (así se cumple el riesgo pedido).
+  Los estimadores se informan con decimales coherentes con el instrumento de medición.
+- **Regla de decisión**: redactada en lenguaje operativo, para que una gerencia técnica sepa qué hacer sin
+  conocer la teoría de fractiles.
+- **Conclusión formal**: empieza por el **nivel de significación**, usa verbos de acción firmes y **nunca dice
+  "se acepta H0"** (no rechazarla no equivale a probarla).
+
+**Ejemplo de conclusión formal**
+
+> *"A un nivel de significación del 5%, existe evidencia estadística suficiente para rechazar la hipótesis nula
+> de que la media poblacional es de 100 unidades. Por consiguiente, se procede al rechazo del lote y a la
+> recalibración de la línea de producción para mitigar el riesgo de productos fuera de tolerancia."*
+
+**Por qué importa:** la conclusión es el puente entre la estadística y la decisión de ingeniería. Una conclusión
+ambigua le quita a la materia su utilidad como herramienta de gestión de calidad.
 
 ---
 

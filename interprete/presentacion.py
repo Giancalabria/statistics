@@ -8,6 +8,7 @@ población finita, sistema de control): sirven de guía para redactar, no
 reemplazan leer el problema. Se arman con los datos efectivos del inciso.
 """
 
+import re
 from typing import Dict, List, Optional
 
 from .texto import fmt
@@ -157,6 +158,54 @@ def explicar_distribuciones(tema: str, tipo: str, d: Dict) -> Optional[str]:
     else:
         return None
     return "**Modelos y distribuciones empleados**:  \n" + "  \n".join("• " + x for x in lineas)
+
+
+# ---------------------------------------------------------------------------
+# Los 7 pasos de la cátedra para un ensayo de hipótesis
+# ---------------------------------------------------------------------------
+
+# prefijo del paso -> (número de paso al que pertenece, título nuevo o None si se deja)
+PASOS_ENSAYO = {
+    "**Hipótesis**": (1, "**1 · Planteo de hipótesis**"),
+    "**Justificación de H0**": (1.5, None),  # va después del planteo
+    "**Distribución**": (3, "**3 · Estadístico de prueba**"),
+    "**Modelo**": (3, "**3 · Estadístico de prueba**"),
+    "**Estadístico**": (3, "**3 · Estadístico de prueba**"),
+    "**Modelos y distribuciones empleados**": (3.5, None),  # después de la línea del estadístico
+    "**Población finita**": (3, None),
+    "**Frecuencias esperadas**": (3, None),
+    "**Condición de rechazo**": (4, "**4 · Condición de rechazo (CR)**"),
+    "**Valor crítico**": (4, "**4 · Condición de rechazo (CR)**"),
+    "**Decisión**": (6, "**6 · Cálculos y decisión**"),
+}
+
+
+def siete_pasos(pasos: List[str], alpha: float, regla: str = "") -> List[str]:
+    """Ordena y numera los pasos de un ensayo como pide la cátedra:
+    1 hipótesis, 2 nivel de significación, 3 estadístico, 4 condición de rechazo,
+    5 regla de decisión (en lenguaje llano, ANTES de los cálculos), 6 cálculos.
+    La 7 (conclusión formal) es `Resultado.conclusion`.
+
+    Los pasos sin prefijo conocido quedan pegados al anterior (paso 0 si están al principio).
+    """
+    items = []
+    actual = 0
+    for p in pasos:
+        for prefijo, (num, titulo) in PASOS_ENSAYO.items():
+            if p.startswith(prefijo):
+                actual = num
+                if titulo:
+                    p = titulo + p[len(prefijo):]
+                if num == 1:
+                    p = re.sub(r"\s*\(α = [\d.,]+\)", "", p)  # α va en el paso 2
+                break
+        items.append((actual, p))
+    items.append((2, f"**2 · Nivel de significación**: α = {fmt(alpha, 4)} — riesgo máximo de cometer un error de "
+                     f"tipo I (rechazar H0 siendo cierta)."))
+    if regla:
+        items.append((5, f"**5 · Regla de decisión (RD)**: {regla}"))
+    items.sort(key=lambda x: x[0])  # estable: dentro de cada paso se mantiene el orden original
+    return [p for _, p in items]
 
 
 def agregar_presentacion(pasos: List[str], tema: str, tipo: str, d: Dict, criterio: Optional[str],
