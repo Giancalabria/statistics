@@ -763,3 +763,140 @@ def disenar_plan_proporcion(
             return PlanMuestreoResult(n=n, rc=rc, tail=tail, alpha_real=float(a_real), beta_real=float(b),
                                       potencia_real=float(1 - b), h0_text=h0, h1_text=h1, regla_decision=regla)
     raise RuntimeError(f"No se encontró un plan con n ≤ {n_max}")
+
+
+def planes_factibles(p0: float, p1: float, alpha: float, beta: float, tail: Optional[str] = None,
+                     cuantos: int = 3, n_max: int = 50_000) -> List[Tuple[int, int, int]]:
+    """[(r_c, n_mín, n_máx)] para los primeros `cuantos` r_c que admiten algún n (binomial exacto).
+
+    Para un r_c fijo, uno de los riesgos baja y el otro sube con n, así que los n que cumplen α y β
+    forman un rango: cualquiera sirve. La guía a veces informa el menor y a veces el mayor.
+    """
+    from scipy import stats
+    tail = tail or ("derecha" if p1 > p0 else "izquierda")
+    base = disenar_plan_proporcion(p0, p1, alpha, beta, tail, n_max)
+
+    def cumple(n, rc):
+        if tail == "derecha":
+            return stats.binom.sf(rc - 1, n, p0) <= alpha and stats.binom.cdf(rc - 1, n, p1) <= beta
+        return stats.binom.cdf(rc, n, p0) <= alpha and stats.binom.sf(rc, n, p1) <= beta
+
+    salida = []
+    rc = base.rc
+    n = base.n
+    intentos = 0
+    while len(salida) < cuantos and intentos < 40:
+        intentos += 1
+        # el menor n que cumple con este r_c (a partir del anterior) y después todos los consecutivos
+        m = n
+        while m < n_max and not cumple(m, rc):
+            m += 1
+            if m - n > 20 * max(1, rc) + 200:
+                break
+        if m < n_max and cumple(m, rc):
+            hasta = m
+            while cumple(hasta + 1, rc):
+                hasta += 1
+            salida.append((rc, m, hasta))
+            n = hasta
+        rc += 1 if tail == "derecha" else 1
+    return salida
+
+
+def _m_tabla(m: float, hacia: str) -> float:
+    """m redondeado a la resolución de una tabla de Poisson (0,1), del lado conservador."""
+    from math import ceil, floor
+    return (ceil(m * 10 - 1e-9) if hacia == "arriba" else floor(m * 10 + 1e-9)) / 10
+
+
+def plan_poisson_tabla(p0: float, rc: int, alpha: float, tail: str) -> Optional[Tuple[int, float]]:
+    """n por la aproximación de Poisson como la guía: m₀ = n·p₀ que cumple α buscado en la tabla (m al 0,1).
+
+    Cola derecha (rechazo si r ≥ r_c): mayor m₀ con P(r ≥ r_c | m₀) ≤ α → n = m₀/p₀ (hacia abajo).
+    Cola izquierda (rechazo si r ≤ r_c): menor m₀ con P(r ≤ r_c | m₀) ≤ α → n = m₀/p₀ (hacia arriba).
+    Solo para m₀ ≤ 20 (lo que cubren las tablas). Devuelve (n, m₀ de tabla)."""
+    from math import ceil, floor
+    from scipy import stats
+    from scipy.optimize import brentq
+    if tail == "derecha":
+        m = brentq(lambda x: stats.poisson.sf(rc - 1, x) - alpha, 1e-9, 1e4)
+        mt = _m_tabla(m, "abajo")
+        n = floor(mt / p0 + 1e-9)
+    else:
+        m = brentq(lambda x: stats.poisson.cdf(rc, x) - alpha, 1e-9, 1e4)
+        mt = _m_tabla(m, "arriba")
+        n = ceil(mt / p0 - 1e-9)
+    if mt > 20 or n < 1:
+        return None
+    return n, mt
+
+
+def n_plan_dado_poisson(p0: float, rc: int, prob_aceptar: float) -> Optional[Tuple[int, float]]:
+    """Plan con r_c fijo (se rechaza si r ≥ r_c): mayor n con P(aceptar | p₀) ≥ prob_aceptar usando la
+    tabla de Poisson (m al 0,1, hacia abajo). III-21: P(r ≤ 1) ≥ 0,95 con p₀ = 1% → m = 0,3 → n = 30."""
+    from math import floor
+    from scipy import stats
+    from scipy.optimize import brentq
+    m = brentq(lambda x: stats.poisson.cdf(rc - 1, x) - prob_aceptar, 1e-9, 1e4)
+    mt = _m_tabla(m, "abajo")
+    if mt > 20 or mt <= 0:
+        return None
+    return floor(mt / p0 + 1e-9), mt
+
+
+def _rc_binomial(n: int, p0: float, alpha: float, tail: str) -> int:
+    """Valor crítico exacto (binomial) para n dado: cola derecha r ≥ r_c, izquierda r ≤ r_c."""
+    return _buscar_rc_derecha(n, p0, alpha) if tail == "derecha" else _buscar_rc_izquierda(n, p0, alpha)
+
+
+def _prob_rechazo_binomial(n: int, rc: int, p: float, tail: str) -> float:
+    return dist.binom_upper_tail(rc, n, p) if tail == "derecha" else dist.binom_cdf(rc, n, p)
+
+
+def plan_proporcion_normal(
+    p0: float,
+    p1: float,
+    alpha: float,
+    beta: float,
+    tail: Optional[str] = None,
+) -> PlanMuestreoResult:
+    """Plan de muestreo con n por APROXIMACIÓN NORMAL, como lo informa la guía (TEMA III):
+
+        n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁)) / (p₁ - p₀)]²   (redondeado hacia arriba)
+
+    y con ese n el valor crítico r_c y las probabilidades reales salen del binomial exacto.
+    Verificado: p₀=0,11, p₁=0,16, α=0,05, β=0,01 -> n=749, r_c=98; p₀=0,14, p₁=0,10, α=0,01, β=0,05 -> n=1.058,
+    r_c=121; p₀=0,01, p₁=0,02, α=0,01, β=0,05 -> n=2.133, r_c=34.
+    """
+    from math import ceil
+
+    if not (0 < alpha < 1) or not (0 < beta < 1):
+        raise ValueError("α y β deben estar entre 0 y 1")
+    if not (0 < p0 < 1) or not (0 < p1 < 1) or p0 == p1:
+        raise ValueError("p₀ y p₁ deben estar entre 0 y 1 y ser distintos")
+    if tail is None:
+        tail = "derecha" if p1 > p0 else "izquierda"
+    z_a, z_b = dist.z_one_tailed(alpha), dist.z_one_tailed(beta)
+    n = ceil(((z_a * sqrt(p0 * (1 - p0)) + z_b * sqrt(p1 * (1 - p1))) / abs(p1 - p0)) ** 2)
+    n = max(n, 2)
+    rc = _rc_binomial(n, p0, alpha, tail)
+    a_real = _prob_rechazo_binomial(n, rc, p0, tail)
+    pot = _prob_rechazo_binomial(n, rc, p1, tail)
+    op = "≥" if tail == "derecha" else "≤"
+    h0, h1 = (f"p ≤ {p0:g}", f"p > {p0:g}") if tail == "derecha" else (f"p ≥ {p0:g}", f"p < {p0:g}")
+    return PlanMuestreoResult(n=n, rc=rc, tail=tail, alpha_real=float(a_real), beta_real=float(1 - pot),
+                              potencia_real=float(pot), h0_text=h0, h1_text=h1,
+                              regla_decision=f"Tomar una muestra de n = {n}. Si se encuentran r {op} {rc} casos, se rechaza H0.")
+
+
+def p_para_aceptacion(n: int, rc: int, prob_rechazo: float, tail: str = "derecha") -> float:
+    """Proporción p con la que un plan (n, r_c) rechaza con la probabilidad dada (binomial exacto).
+
+    Sirve para el AQL (rechazo = α) y el LTPD / lote malo (rechazo = 1-β). Verificado (guía TEMA III):
+    n=10, r_c=1: AQL con α=0,05 -> 0,005116; LTPD con β=0,10 -> 0,2057. n=100, r_c=9, β=0,15 -> p₁=0,1183."""
+    from scipy.optimize import brentq
+
+    def f(p):
+        return _prob_rechazo_binomial(n, rc, p, tail) - prob_rechazo
+
+    return float(brentq(f, 1e-12, 1 - 1e-12))

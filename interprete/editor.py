@@ -18,6 +18,8 @@ def a_texto(valor: Any, tipo: str) -> str:
         return "\n".join(" ; ".join(_num(v) for v in fila) for fila in valor)
     if tipo in ("float", "int"):
         return _num(valor)
+    if isinstance(valor, (list, tuple)):
+        return ", ".join(str(v) for v in valor)
     return str(valor)
 
 

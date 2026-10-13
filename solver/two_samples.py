@@ -659,3 +659,169 @@ def n_media_apareada_para_error(
         lambda n: math.ceil((dist.t_two_tailed(alpha, n - 1) * s_d / e) ** 2), n_inicial, max_iter
     )
     return SampleSizeResult(n=n_actual, iterations=len(historial), converged_values=historial)
+
+
+# ---------------------------------------------------------------------------
+# 3.4 Comparación de medias general (TEMA V): pooled / Welch / σ conocidos,
+#     hipótesis con diferencia δ₀ o proporcional (μ₁ = h·μ₂) y n con tamaños iguales
+# ---------------------------------------------------------------------------
+#
+# Con h ≠ 1 el parámetro es δ* = μ₁ - h·μ₂ (p. ej. 'B supera a A en un 24%' → H0: μB ≤ 1,24·μA):
+#     d* = x̄₁ - h·x̄₂,  σ(d*) = √(S₁²/n₁ + h²·S₂²/n₂)  (Welch)   o   Sa·√(1/n₁ + h²/n₂)  (pooled).
+# Verificado contra la guía: V-6 b) d*c = 0,0438, d) h = 1,2329; V-3 d) h = 1,0506; V-8 d) 4,90 %.
+
+METODOS_DOS_MEDIAS = ("pooled", "welch", "z")
+
+
+@dataclass
+class ErrorDosMedias:
+    """Error estándar de d* = x̄₁ - h·x̄₂ y sus grados de libertad."""
+    se: float
+    df: Optional[int]               # None si es Z (σ conocidos)
+    df_raw: Optional[float] = None  # ν de Aspin-Welch sin redondear
+    s_a: Optional[float] = None     # desvío amalgamado (pooled)
+
+
+def error_dos_medias(s1: float, n1: int, s2: float, n2: int, metodo: str, h: float = 1.0) -> ErrorDosMedias:
+    """σ(d*) para pooled (Sa), Welch (ν de Aspin-Welch, redondeado hacia abajo) o Z (σ₁, σ₂ conocidos)."""
+    if metodo not in METODOS_DOS_MEDIAS:
+        raise ValueError(f"metodo debe ser uno de {METODOS_DOS_MEDIAS}, no {metodo}")
+    if metodo == "pooled":
+        s_a = math.sqrt(((n1 - 1) * s1 ** 2 + (n2 - 1) * s2 ** 2) / (n1 + n2 - 2))
+        return ErrorDosMedias(se=s_a * math.sqrt(1 / n1 + h ** 2 / n2), df=n1 + n2 - 2, s_a=s_a)
+    v1, v2 = s1 ** 2 / n1, h ** 2 * s2 ** 2 / n2
+    if metodo == "z":
+        return ErrorDosMedias(se=math.sqrt(v1 + v2), df=None)
+    nu = (v1 + v2) ** 2 / (v1 ** 2 / (n1 - 1) + v2 ** 2 / (n2 - 1))
+    return ErrorDosMedias(se=math.sqrt(v1 + v2), df=math.floor(nu), df_raw=nu)
+
+
+def _fractil(alpha: float, df: Optional[int], dos_colas: bool) -> float:
+    if df is None:
+        return dist.z_two_tailed(alpha) if dos_colas else dist.z_one_tailed(alpha)
+    return dist.t_two_tailed(alpha, df) if dos_colas else dist.t_one_tailed(alpha, df)
+
+
+@dataclass
+class EnsayoDosMediasResult(HypothesisTestResult):
+    """Ensayo sobre δ* = μ₁ - h·μ₂ (h = 1: la diferencia de medias de siempre)."""
+    se: float = 0.0
+    fractil: float = 0.0
+    h: float = 1.0
+    delta0: float = 0.0
+    metodo: str = "pooled"
+    df_raw: Optional[float] = None
+    s_a: Optional[float] = None
+
+
+def ensayo_dos_medias(
+    xbar1: float, s1: float, n1: int, xbar2: float, s2: float, n2: int,
+    alpha: float, tail: str = "derecha", delta0: float = 0.0, h: float = 1.0, metodo: str = "pooled",
+) -> EnsayoDosMediasResult:
+    """Ensayo de H0 sobre δ* = μ₁ - h·μ₂ contra δ₀ (s1, s2 son σ₁, σ₂ si metodo = 'z').
+
+    Valor crítico: d*c = δ₀ ± fractil·σ(d*) (t con ν de pooled / Welch, o Z)."""
+    if not (0 < alpha < 1):
+        raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
+    if tail not in _SIGNO_H0:
+        raise ValueError(f"tail debe ser 'derecha', 'izquierda' o 'bilateral', no {tail}")
+    err = error_dos_medias(s1, n1, s2, n2, metodo, h)
+    q = _fractil(alpha, err.df, tail == "bilateral")
+    d = xbar1 - h * xbar2
+    if tail == "derecha":
+        crit = delta0 + q * err.se
+        rejects = d > crit
+    elif tail == "izquierda":
+        crit = delta0 - q * err.se
+        rejects = d < crit
+    else:
+        crit = (delta0 - q * err.se, delta0 + q * err.se)
+        rejects = d < crit[0] or d > crit[1]
+    param = "δ" if h == 1 else f"δ* = μ₁ - {h:g}·μ₂"
+    z = (d - delta0) / err.se
+    from scipy import stats
+    cdf = stats.norm.cdf(z) if err.df is None else stats.t.cdf(z, err.df)
+    p_value = 1 - cdf if tail == "derecha" else cdf if tail == "izquierda" else 2 * min(cdf, 1 - cdf)
+    return EnsayoDosMediasResult(
+        h0_text=f"{param} {_SIGNO_H0[tail]} {delta0:g}", h1_text=f"{param} {_SIGNO_H1[tail]} {delta0:g}",
+        tail=tail, critical_value=crit, observed_value=d, rejects_h0=rejects,
+        distribution="Z" if err.df is None else "t", df=err.df, p_value=float(p_value),
+        se=err.se, fractil=q, h=h, delta0=delta0, metodo=metodo, df_raw=err.df_raw, s_a=err.s_a,
+    )
+
+
+def ic_dos_medias(
+    xbar1: float, s1: float, n1: int, xbar2: float, s2: float, n2: int,
+    alpha: float, metodo: str = "pooled", cota: Optional[str] = None,
+) -> IntervalResult:
+    """IC para δ = μ₁ - μ₂. `cota` = 'inf' / 'sup': límite unilateral (α entero en una cola)."""
+    if not (0 < alpha < 1):
+        raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
+    err = error_dos_medias(s1, n1, s2, n2, metodo)
+    q = _fractil(alpha, err.df, cota is None)
+    d = xbar1 - xbar2
+    e = q * err.se
+    a = d - e if cota in (None, "inf") else -math.inf
+    b = d + e if cota in (None, "sup") else math.inf
+    return IntervalResult(a=a, b=b, error=e, point_estimate=d, distribution="Z" if err.df is None else "t",
+                          df=err.df, critical_value=q)
+
+
+def h_limite_dos_medias(
+    xbar1: float, s1: float, n1: int, xbar2: float, s2: float, n2: int,
+    alpha: float, metodo: str = "pooled", cota: str = "inf",
+) -> float:
+    """Relación h = μ₁/μ₂ mínima ('inf') o máxima ('sup') que se garantiza con 1-α de confianza.
+
+    Es el h que deja justo en el límite el ensayo H0: μ₁ ≤ h·μ₂ (o ≥):
+        x̄₁ - h·x̄₂ ∓ fractil(1-α; ν(h))·σ(d*(h)) = 0.
+    El incremento porcentual garantizado es (h - 1)·100."""
+    from scipy.optimize import brentq
+    signo = -1 if cota == "inf" else 1
+
+    def f(h):
+        err = error_dos_medias(s1, n1, s2, n2, metodo, h)
+        return xbar1 - h * xbar2 + signo * _fractil(alpha, err.df, False) * err.se
+
+    centro = xbar1 / xbar2
+    lo, hi = centro * 0.5, centro * 1.5
+    for _ in range(60):
+        if f(lo) * f(hi) < 0:
+            break
+        lo, hi = lo * 0.5, hi * 2
+    return brentq(f, lo, hi, xtol=1e-12)
+
+
+def nu_welch_iguales(s1: float, s2: float, n: int) -> float:
+    """ν de Aspin-Welch con n₁ = n₂ = n: (n-1)·(S₁² + S₂²)²/(S₁⁴ + S₂⁴)."""
+    return (n - 1) * (s1 ** 2 + s2 ** 2) ** 2 / (s1 ** 4 + s2 ** 4)
+
+
+def n_dos_medias_para_error(
+    s1: float, s2: float, e: float, alpha: float, metodo: str = "pooled", n_inicial: int = 30, max_iter: int = 50,
+) -> SampleSizeResult:
+    """n (igual en ambas muestras) para que el error del IC de δ sea e.
+
+    e = fractil·√((S₁² + S₂²)/n): pooled con ν = 2n - 2, Welch con ν = ⌊(n-1)(S₁²+S₂²)²/(S₁⁴+S₂⁴)⌋, Z sin iterar.
+    Verificado contra la guía: V-1 c) n = 45 (pooled), V-3 c) n = 43 (Welch)."""
+    if not (0 < alpha < 1):
+        raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
+    if metodo == "pooled":
+        return n_media_diferencia_varianzas_iguales_para_error(s1, s2, e, alpha, n_inicial, max_iter)
+    suma = s1 ** 2 + s2 ** 2
+    if metodo == "z":
+        n = math.ceil(dist.z_two_tailed(alpha) ** 2 * suma / e ** 2)
+        return SampleSizeResult(n=n, iterations=1, converged_values=[n])
+    n_actual, historial = iterar_n(
+        lambda n: math.ceil(dist.t_two_tailed(alpha, max(1, math.floor(nu_welch_iguales(s1, s2, n)))) ** 2 * suma / e ** 2),
+        n_inicial, max_iter,
+    )
+    return SampleSizeResult(n=n_actual, iterations=len(historial), converged_values=historial)
+
+
+def verificar_desvio_afirmado(s: float, n: int, sigma0: float, alpha: float) -> Tuple[float, bool]:
+    """¿El desvío que se afirma conocido (σ₀) es compatible con la muestra? H0: σ ≤ σ₀ (cola derecha, χ²).
+
+    Devuelve (Sc, rechaza): Sc = σ₀·√(χ²(1-α; n-1)/(n-1)); si S > Sc el σ afirmado no vale y se trabaja con S."""
+    sc = sigma0 * math.sqrt(dist.chi2_value(1 - alpha, n - 1) / (n - 1))
+    return sc, s > sc

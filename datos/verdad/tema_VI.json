@@ -1,0 +1,1225 @@
+[
+ {
+  "id": "VI-1",
+  "tema": "VI",
+  "numero": 1,
+  "pagina": 41,
+  "planteo": "Un economista al servicio de una agencia estatal desea determinar si la proporción de ocupación (ocupados, desocupados y sub-ocupados) en dos grandes áreas urbanas de la provincia son diferentes. Con base en muestras aleatorias de cada área, cada una de 500 y 800 personas respectivamente en cada área, el economista encuentra 35 y 37 personas desocupadas respectivamente en cada área, a su vez, encuentra 165 y 263 personas sub–ocupadas respectivamente en cada área. Bajo las suposiciones adecuadas y con un riesgo del 5%, ¿existe alguna razón para creer que la proporción de ocupación de las dos áreas son diferentes? Tabla: Observados por área (Solución): Atributo | Área 1 | Área 2 | Totales de Atributos; Desocupados (r1) | 35 | 37 | 72; Sub-ocupados (r2) | 165 | 263 | 428; Ocupados (fracasos) | 300 | 500 | 800; Totales de Muestra | 500 | 800 | 1300.",
+  "tablas": [
+   {
+    "titulo": "Observados por área (Solución)",
+    "columnas": [
+     "Atributo",
+     "Área 1",
+     "Área 2",
+     "Totales de Atributos"
+    ],
+    "filas": [
+     [
+      "Desocupados (r1)",
+      35,
+      37,
+      72
+     ],
+     [
+      "Sub-ocupados (r2)",
+      165,
+      263,
+      428
+     ],
+     [
+      "Ocupados (fracasos)",
+      300,
+      500,
+      800
+     ],
+     [
+      "Totales de Muestra",
+      500,
+      800,
+      1300
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Con un riesgo del 5%, ¿existe alguna razón para creer que la proporción de ocupación de las dos áreas son diferentes?",
+    "respuesta": "Pruebas de Consistencia: H0) p1 = p2, α = 0,05. Esperados: 27,6923; 44,3077; 164,6154; 263,3846; 307,6923; 492,3077. χ²calc = 3,4476; ν = (f−1)·(k−1) = 2; χ²(0,95;2) = 5,9915. No se rechaza la hipótesis planteada, de manera que se concluye que no se puede asegurar que la proporción de ocupación en las dos áreas sean diferentes. (Ilustrativo, por atributo: desocupados p̂1,1 = 0,07, p̂2,1 = 0,0463, α* = 0,046 → se rechaza; sub-ocupados p̂1,2 = 0,33, p̂2,2 = 0,3288, α* = 0,505 → no se rechaza; ocupados p̂1,3 = 0,6, p̂2,3 = 0,625, α* = 0,1996 → no se rechaza. Aproximación normal: desocupados gc = 0,0215, g = 0,0237 → se rechaza; sub-ocupados gc = 0,0441, g = 0,0012 → no se rechaza; ocupados gc = 0,0457, g = 0,025 → no se rechaza.)",
+    "valores": [
+     3.4476,
+     2,
+     5.9915
+    ],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Pruebas de Consistencia: H0) p1 = p2, α = 0,05. Esperados: 27,6923; 44,3077; 164,6154; 263,3846; 307,6923; 492,3077. χ²calc = 3,4476; ν = (f−1)·(k−1) = 2; χ²(0,95;2) = 5,9915. No se rechaza la hipótesis planteada, de manera que se concluye que no se puede asegurar que la proporción de ocupación en las dos áreas sean diferentes. (Ilustrativo, por atributo: desocupados p̂1,1 = 0,07, p̂2,1 = 0,0463, α* = 0,046 → se rechaza; sub-ocupados p̂1,2 = 0,33, p̂2,2 = 0,3288, α* = 0,505 → no se rechaza; ocupados p̂1,3 = 0,6, p̂2,3 = 0,625, α* = 0,1996 → no se rechaza. Aproximación normal: desocupados gc = 0,0215, g = 0,0237 → se rechaza; sub-ocupados gc = 0,0441, g = 0,0012 → no se rechaza; ocupados gc = 0,0457, g = 0,025 → no se rechaza.)",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "No se rechaza la hipótesis planteada, de manera que se concluye que no se puede asegurar que la proporción de ocupación en las dos áreas sean diferentes.",
+   "Se rechaza la hipótesis nula, de manera que se concluye que se puede asegurar que el porcentaje de desocupados en las dos áreas es diferente.",
+   "No se rechaza la hipótesis planteada, de manera que se concluye que no se puede asegurar que el porcentaje de sub–ocupados en las dos áreas sea diferente. Por lo cual se llega a la misma conclusión que utilizando las “Pruebas de Consistencia”.",
+   "No se rechaza la hipótesis planteada, de manera que se concluye que no se puede asegurar que el porcentaje de ocupados en las dos áreas sea diferente. Por lo cual se llega a la misma conclusión que utilizando las “Pruebas de Consistencia”.",
+   "Conclusión: la diferencia en las conclusiones obtenidas por Contraste o por el procedimiento adecuado y la aproximación Normal, se debe a que en el Contraste se está evaluando las diferencias de manera global, en cambio en el procedimiento adecuado, se está evaluando la diferencia por cada atributo."
+  ],
+  "observaciones": "Ejercicio resuelto (sin 'Resp:'); respuesta armada desde la Solución (p. 41-42). La tabla no está en el enunciado: es la de la Solución (observados). Los valores [χ²calc, ν, χ²crít] corresponden al contraste global; la Solución además da resultados por atributo (Fh/Gh y aproximación normal) que rechazan para desocupados.",
+  "alpha": 0.05
+ },
+ {
+  "id": "VI-2",
+  "tema": "VI",
+  "numero": 2,
+  "pagina": 43,
+  "planteo": "Para el tendido de cables en campaña, la empresa de telégrafos utiliza postes de madera de palmito, los que deben ser tratados para evitar la putrefacción en su parte enterrada. Para comparar dos tratamientos distintos, ha colocado alternativamente postes con uno y otro tratamiento, en total 32 postes de cada uno, en una zona baja. Después de 6 años se inspeccionaron a todos los postes y se tienen que reponer 10 que fueron tratados con el método “A” y 20 que fueron tratados con el método “B”. ¿Se puede afirmar que la diferencia es significativa en el porcentaje de fallas, para un riesgo del 2%? Tabla: Método | Postes | Repuestos (fallas); A | 32 | 10; B | 32 | 20.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Método",
+     "Postes",
+     "Repuestos (fallas)"
+    ],
+    "filas": [
+     [
+      "A",
+      32,
+      10
+     ],
+     [
+      "B",
+      32,
+      20
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se puede afirmar que la diferencia es significativa en el porcentaje de fallas, para un riesgo del 2%?",
+    "respuesta": "Resp: Se puede asegurar que la diferencia es significativa, el método “A” es mejor que el “B”.",
+    "valores": [],
+    "decision": "rechaza"
+   }
+  ],
+  "respuesta": "Resp: Se puede asegurar que la diferencia es significativa, el método “A” es mejor que el “B”.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Tabla armada a partir del texto (no hay tabla en la guía).",
+  "alpha": 0.02
+ },
+ {
+  "id": "VI-3",
+  "tema": "VI",
+  "numero": 3,
+  "pagina": 43,
+  "planteo": "Un proveedor suministra grandes lotes de conos de hilo vacíos con un porcentaje alto de defectuosos. Se considera la posibilidad de cambiar por otro proveedor cuyo producto es más caro pero que se espera tenga un porcentaje de defectuosos considerablemente menor. Se le hizo un pedido y se tomó una muestra de 250 conos, que arrojó un resultado de 20 defectuosos. Con el proveedor habitual, se tomó una muestra de 500 conos que arrojó un resultado de 75 defectuosos. Se considera que el resultado de las pruebas es concluyente para cambiar de proveedor, para un riesgo del 1%. Tabla: Proveedor | Muestra | Defectuosos; Nuevo | 250 | 20; Habitual | 500 | 75.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Proveedor",
+     "Muestra",
+     "Defectuosos"
+    ],
+    "filas": [
+     [
+      "Nuevo",
+      250,
+      20
+     ],
+     [
+      "Habitual",
+      500,
+      75
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿El resultado de las pruebas es concluyente para cambiar de proveedor, para un riesgo del 1%?",
+    "respuesta": "Resp: Se puede asegurar que los porcentajes de defectuosos son diferentes, se aconseja cambiar de proveedor.",
+    "valores": [],
+    "decision": "rechaza"
+   }
+  ],
+  "respuesta": "Resp: Se puede asegurar que los porcentajes de defectuosos son diferentes, se aconseja cambiar de proveedor.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Tabla armada a partir del texto. La consigna está redactada como afirmación (\"Se considera que...\") y no como pregunta.",
+  "alpha": 0.01
+ },
+ {
+  "id": "VI-4",
+  "tema": "VI",
+  "numero": 4,
+  "pagina": 43,
+  "planteo": "Una hilandería tiene 4 plantas similares que producen el mismo tipo de hilo. Con respecto a su elongación de rotura, el hilo se clasifica como de elongación baja (que se considera defectuoso), de elongación media (de 1ª calidad) y elongación alta (de 2ª calidad). Se tomaron muestras de 200 unidades en las 4 plantas, con los siguientes resultados: En la planta 1 se encontró 10 unidades de elongación baja, 176 unidades de elongación media y 14 unidades de elongación alta; en la planta 2 se encontró 16 unidades de elongación baja, 178 unidades de elongación media y 6 unidades de elongación alta; en la planta 3 se encontró 17 unidades de elongación baja, 174 unidades de elongación media y 9 unidades de elongación alta; en la planta 4 se encontró 8 unidades de elongación baja, 173 unidades de elongación media y 19 unidades de elongación alta. ¿Se puede asegurar que las proporciones en las 4 plantas es diferente? Tabla: Unidades por elongación (muestras de 200 por planta): Planta | Elongación baja | Elongación media | Elongación alta; 1 | 10 | 176 | 14; 2 | 16 | 178 | 6; 3 | 17 | 174 | 9; 4 | 8 | 173 | 19.",
+  "tablas": [
+   {
+    "titulo": "Unidades por elongación (muestras de 200 por planta)",
+    "columnas": [
+     "Planta",
+     "Elongación baja",
+     "Elongación media",
+     "Elongación alta"
+    ],
+    "filas": [
+     [
+      1,
+      10,
+      176,
+      14
+     ],
+     [
+      2,
+      16,
+      178,
+      6
+     ],
+     [
+      3,
+      17,
+      174,
+      9
+     ],
+     [
+      4,
+      8,
+      173,
+      19
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se puede asegurar que las proporciones en las 4 plantas es diferente?",
+    "respuesta": "Resp: Se puede asegurar que las proporciones de elongación en las 4 plantas son diferentes.",
+    "valores": [],
+    "decision": "rechaza"
+   }
+  ],
+  "respuesta": "Resp: Se puede asegurar que las proporciones de elongación en las 4 plantas son diferentes.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Tabla armada a partir del texto. La consigna no indica riesgo. La planta 4 suma 8+173+19 = 200 y las demás también suman 200."
+ },
+ {
+  "id": "VI-5",
+  "tema": "VI",
+  "numero": 5,
+  "pagina": 43,
+  "planteo": "En un taller metalúrgico se produce un tipo de biela para abastecer a una fábrica automotriz. Se toman nuestras semanales de 300 piezas y se efectúa un recuento de la cantidad de defectuosas. El control mensual consiste en verificar si no hubo variación semanal en el porcentaje de defectuosas. El último mes se obtuvo el siguiente resultado: la primera semana se observó 21 defectuosas; la segunda semana se observó 12 defectuosas; la tercera semana se observó 14 defectuosas, y, la cuarta semana se observó 11 defectuosas. ¿Se considera que los datos son concluyentes para afirmar que ha variado el porcentaje de defectuosas? Tabla: Muestras semanales de 300 piezas: Semana | Defectuosas | Muestra; 1 | 21 | 300; 2 | 12 | 300; 3 | 14 | 300; 4 | 11 | 300.",
+  "tablas": [
+   {
+    "titulo": "Muestras semanales de 300 piezas",
+    "columnas": [
+     "Semana",
+     "Defectuosas",
+     "Muestra"
+    ],
+    "filas": [
+     [
+      1,
+      21,
+      300
+     ],
+     [
+      2,
+      12,
+      300
+     ],
+     [
+      3,
+      14,
+      300
+     ],
+     [
+      4,
+      11,
+      300
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se considera que los datos son concluyentes para afirmar que ha variado el porcentaje de defectuosas?",
+    "respuesta": "Resp: No se puede asegurar que los porcentajes de defectuosas haya variado.",
+    "valores": [],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Resp: No se puede asegurar que los porcentajes de defectuosas haya variado.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Tabla armada a partir del texto. La consigna no indica riesgo. \"nuestras\" es errata de la guía por \"muestras\" (se transcribe tal cual)."
+ },
+ {
+  "id": "VI-6",
+  "tema": "VI",
+  "numero": 6,
+  "pagina": 43,
+  "planteo": "En una empresa que se trabaja 3 turnos se tienen la clasificación de los niveles de calidad fabricados en cada turno: En el turno mañana, sobre una muestra de 500 piezas se observan 450 piezas de primera calidad, 45 piezas de segunda calidad y 5 piezas defectuosas; en el turno tarde sobre 800 piezas se observaron 680 piezas de primera calidad, 80 piezas de segunda calidad y 40 piezas defectuosas, y, en el turno noche sobre 400 piezas se observaron 320 piezas de primera calidad, 40 piezas de segunda y 40 piezas defectuosas. Para un riesgo del 1%, ¿se puede asegurar que los niveles de calidad en los tres turnos difieren? Tabla: Turno | Primera calidad | Segunda calidad | Defectuosas | Muestra; Mañana | 450 | 45 | 5 | 500; Tarde | 680 | 80 | 40 | 800; Noche | 320 | 40 | 40 | 400.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Turno",
+     "Primera calidad",
+     "Segunda calidad",
+     "Defectuosas",
+     "Muestra"
+    ],
+    "filas": [
+     [
+      "Mañana",
+      450,
+      45,
+      5,
+      500
+     ],
+     [
+      "Tarde",
+      680,
+      80,
+      40,
+      800
+     ],
+     [
+      "Noche",
+      320,
+      40,
+      40,
+      400
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Para un riesgo del 1%, ¿se puede asegurar que los niveles de calidad en los tres turnos difieren?",
+    "respuesta": "Resp: Se puede asegurar que los niveles de calidad en los tres turnos son diferentes.",
+    "valores": [],
+    "decision": "rechaza"
+   }
+  ],
+  "respuesta": "Resp: Se puede asegurar que los niveles de calidad en los tres turnos son diferentes.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Tabla armada a partir del texto.",
+  "alpha": 0.01
+ },
+ {
+  "id": "VI-7",
+  "tema": "VI",
+  "numero": 7,
+  "pagina": 43,
+  "planteo": "En una fábrica de automotores se han recibido reclamos por fallas de pintura en los automóviles. Se supone que todo cliente que detecta una falla efectúa el reclamo en fábrica. La producción del último año fue de: 550 autos blancos, 450 azules, 480 rojos y 320 verdes. Se han presentado un total de 300 reclamos de los cuales el 30% es propietario de autos blancos, otro 30% de azules, el 25% de rojos y el 15% de verdes. Para un riesgo del 5%, ¿se puede considerar que los resultados son una prueba concluyente para afirmar que existe asociación entre el color de los autos y el porcentaje de fallas por pintura? Tabla: Color | Producción (autos) | % de los 300 reclamos; Blanco | 550 | 30; Azul | 450 | 30; Rojo | 480 | 25; Verde | 320 | 15.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Color",
+     "Producción (autos)",
+     "% de los 300 reclamos"
+    ],
+    "filas": [
+     [
+      "Blanco",
+      550,
+      30
+     ],
+     [
+      "Azul",
+      450,
+      30
+     ],
+     [
+      "Rojo",
+      480,
+      25
+     ],
+     [
+      "Verde",
+      320,
+      15
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Para un riesgo del 5%, ¿se puede considerar que los resultados son una prueba concluyente para afirmar que existe asociación entre el color de los autos y el porcentaje de fallas por pintura?",
+    "respuesta": "Resp: No se puede asegurar que exista relación entre el color de los autos y el porcentaje de fallas por pintura.",
+    "valores": [],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Resp: No se puede asegurar que exista relación entre el color de los autos y el porcentaje de fallas por pintura.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Enunciado entre p. 43 y 44 (se toma pagina 43). Tabla armada a partir del texto; reclamos en cantidad: 90, 90, 75, 45.",
+  "alpha": 0.05
+ },
+ {
+  "id": "VI-8",
+  "tema": "VI",
+  "numero": 8,
+  "pagina": 44,
+  "planteo": "Con el objeto de orientar su publicidad para neutralizar el efecto de la competencia, una empresa productora de artículos de consumo masivo ha realizado un ensayo sobre la preferencia del público en las distintas zonas del país, obteniendo estos resultados: Tabla: Preferencia | A | B | C | D | E; Empresa | 36 | 20 | 28 | 33 | 16; Competencia | 44 | 30 | 12 | 17 | 24.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Preferencia",
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "filas": [
+     [
+      "Empresa",
+      36,
+      20,
+      28,
+      33,
+      16
+     ],
+     [
+      "Competencia",
+      44,
+      30,
+      12,
+      17,
+      24
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se considera que existe evidencia para afirmar que ambas variables están asociadas?",
+    "respuesta": "Resp: Sí, la preferencia del público, a una marca, depende de la zona en donde se comercializa.",
+    "valores": [],
+    "decision": "rechaza"
+   }
+  ],
+  "respuesta": "Resp: Sí, la preferencia del público, a una marca, depende de la zona en donde se comercializa.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La consigna no indica riesgo. Columnas A-E son las Zonas."
+ },
+ {
+  "id": "VI-9",
+  "tema": "VI",
+  "numero": 9,
+  "pagina": 44,
+  "planteo": "Una cadena de perfumerías tiene en exclusividad los productos de una determinada marca. Uno de ellos, es un desodorante para dama, el cual se ofrece en 4 fragancias: “Neutro”, “Lavanda”, “Deportivo” y “Fresh”. Se registraron las preferencias de las clientas en 3 locales, con los siguientes resultados: Tabla: Local | Neutro | Lavanda | Deportivo | Fresh; Local 1 | 32 | 45 | 23 | 28; Local 2 | 14 | 51 | 15 | 14; Local 3 | 14 | 14 | 12 | 8.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Local",
+     "Neutro",
+     "Lavanda",
+     "Deportivo",
+     "Fresh"
+    ],
+    "filas": [
+     [
+      "Local 1",
+      32,
+      45,
+      23,
+      28
+     ],
+     [
+      "Local 2",
+      14,
+      51,
+      15,
+      14
+     ],
+     [
+      "Local 3",
+      14,
+      14,
+      12,
+      8
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se puede asegurar, con un 10% de riesgo, que las preferencias a las distintas fragancias difieren entre los locales en donde se comercializan? Indique claramente la hipótesis nula que ensaya.",
+    "respuesta": "H0) “La preferencia a una determinada fragancia es independiente del local donde se comercializa el desodorante”, α = 0,10. Esperados: Loc 1: 28,4444; 52,1481; 23,7037; 23,7037; Loc 2: 20,8889; 38,2963; 17,4074; 17,4074; Loc 3: 10,6667; 19,5556; 8,8889; 8,8889. χ²calc = 13,5075; ν = (f−1)·(k−1) = 6; χ²(0,90;6) = 10,6446. Se rechaza la hipótesis planteada, de manera que se concluye que la preferencia de cada fragancia depende del local donde se comercializa o sea que las preferencias difieren entre los locales.",
+    "valores": [
+     13.5075,
+     6,
+     10.6446
+    ],
+    "decision": "rechaza"
+   }
+  ],
+  "respuesta": "H0) “La preferencia a una determinada fragancia es independiente del local donde se comercializa el desodorante”, α = 0,10. Esperados: Loc 1: 28,4444; 52,1481; 23,7037; 23,7037; Loc 2: 20,8889; 38,2963; 17,4074; 17,4074; Loc 3: 10,6667; 19,5556; 8,8889; 8,8889. χ²calc = 13,5075; ν = (f−1)·(k−1) = 6; χ²(0,90;6) = 10,6446. Se rechaza la hipótesis planteada, de manera que se concluye que la preferencia de cada fragancia depende del local donde se comercializa o sea que las preferencias difieren entre los locales.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Se rechaza la hipótesis planteada, de manera que se concluye que la preferencia de cada fragancia depende del local donde se comercializa o sea que las preferencias difieren entre los locales."
+  ],
+  "observaciones": "Ejercicio resuelto (sin 'Resp:'); respuesta armada desde la Solución (p. 44-45). Totales: filas 128, 94, 48; columnas 60, 110, 50, 50; total 270.",
+  "alpha": 0.1
+ },
+ {
+  "id": "VI-10",
+  "tema": "VI",
+  "numero": 10,
+  "pagina": 45,
+  "planteo": "Se desea verificar si un dado está cargado. A tal efecto se lo arrojó 60 veces, obteniendo los siguientes resultados: Tabla: Número obtenido | Cantidad de ocurrencias; 1 | 14; 2 | 6; 3 | 6; 4 | 13; 5 | 16; 6 | 5.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Número obtenido",
+     "Cantidad de ocurrencias"
+    ],
+    "filas": [
+     [
+      1,
+      14
+     ],
+     [
+      2,
+      6
+     ],
+     [
+      3,
+      6
+     ],
+     [
+      4,
+      13
+     ],
+     [
+      5,
+      16
+     ],
+     [
+      6,
+      5
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se puede asegurar, con probabilidad de error de 0,05, que este dado esté cargado?",
+    "respuesta": "Resp: Sí, se puede asegurar que el dado está cargado debido a que no cumple con el modelo uniforme (el cual es el modelo de comportamiento teórico de un dado equilibrado).",
+    "valores": [],
+    "decision": "rechaza"
+   }
+  ],
+  "respuesta": "Resp: Sí, se puede asegurar que el dado está cargado debido a que no cumple con el modelo uniforme (el cual es el modelo de comportamiento teórico de un dado equilibrado).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Modelo uniforme discreto, parámetros dados (p = 1/6).",
+  "alpha": 0.05
+ },
+ {
+  "id": "VI-11",
+  "tema": "VI",
+  "numero": 11,
+  "pagina": 45,
+  "planteo": "Una persona denunció que en un casino privado había una ruleta adulterada. Su presunción estaría basada en el hecho de haber observado que el 0 se producía con una frecuencia excesiva y que los colores colorado y negro no se presentaban por igual. El juez solicitó entonces la asesoría de un consultor estadístico para que elevara el informe correspondiente. El consultor registró los datos de 1.000 bolas, con los siguientes resultados: Tabla: Resultado obtenido | Cantidad de ocurrencias; 0 (cero) | 42; Negro | 520; Colorado | 438.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Resultado obtenido",
+     "Cantidad de ocurrencias"
+    ],
+    "filas": [
+     [
+      "0 (cero)",
+      42
+     ],
+     [
+      "Negro",
+      520
+     ],
+     [
+      "Colorado",
+      438
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Indique las conclusiones del consultor.",
+    "respuesta": "Resp: Se puede asegurar que la ruleta está adulterada porque no se ajusta al modelo uniforme (el cual es el modelo de comportamiento teórico de una ruleta equilibrada).",
+    "valores": [],
+    "decision": "rechaza"
+   }
+  ],
+  "respuesta": "Resp: Se puede asegurar que la ruleta está adulterada porque no se ajusta al modelo uniforme (el cual es el modelo de comportamiento teórico de una ruleta equilibrada).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La consigna no indica riesgo. Modelo \"uniforme\" sobre los 37 números de la ruleta (p(0) = 1/37, p(negro) = p(colorado) = 18/37), parámetros dados; la guía no lo explicita."
+ },
+ {
+  "id": "VI-12",
+  "tema": "VI",
+  "numero": 12,
+  "pagina": 45,
+  "planteo": "Un distribuidor de acondicionadores de aire tiene dividida su región en 4 localidades. El mismo afirma que las instalaciones del equipo están igualmente distribuidas entre las 4 localidades. Un posible representante ensaya una muestra de 80 instalaciones realizadas el año anterior, y comprueba lo siguiente: Tabla: Zonas | Cantidad de instalaciones; A | 16; B | 22; C | 24; D | 18.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Zonas",
+     "Cantidad de instalaciones"
+    ],
+    "filas": [
+     [
+      "A",
+      16
+     ],
+     [
+      "B",
+      22
+     ],
+     [
+      "C",
+      24
+     ],
+     [
+      "D",
+      18
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se rechaza la afirmación del distribuidor?",
+    "respuesta": "Resp: No hay motivo para rechazar la afirmación del distribuidor, se puede considerar que las instalaciones están igualmente distribuidas entre las cuatro localidades.",
+    "valores": [],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Resp: No hay motivo para rechazar la afirmación del distribuidor, se puede considerar que las instalaciones están igualmente distribuidas entre las cuatro localidades.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La consigna no indica riesgo. Modelo uniforme, parámetros dados."
+ },
+ {
+  "id": "VI-13",
+  "tema": "VI",
+  "numero": 13,
+  "pagina": 45,
+  "planteo": "Históricamente, un fabricante de televisores ha vendido sus productos en la siguiente forma: el 40% de 24\", el 40% de 36\" y el 20% de 40\". Con el objeto de programar su producción para los próximos períodos, toma una muestra de 200 ventas recientes y encuentra los siguientes resultados: 85 TV de 24\", 65 TV de 36\" y 50 TV de 40\". Verificar si realmente hubo cambios respecto del patrón histórico de ventas, asumiendo un riesgo del 5%. Tabla: Tamaño | Proporción histórica (%) | Ventas observadas; 24\" | 40 | 85; 36\" | 40 | 65; 40\" | 20 | 50.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Tamaño",
+     "Proporción histórica (%)",
+     "Ventas observadas"
+    ],
+    "filas": [
+     [
+      "24\"",
+      40,
+      85
+     ],
+     [
+      "36\"",
+      40,
+      65
+     ],
+     [
+      "40\"",
+      20,
+      50
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Verificar si realmente hubo cambios respecto del patrón histórico de ventas, asumiendo un riesgo del 5%.",
+    "respuesta": "Resp: No se puede asegurar que el patrón histórico de ventas haya cambiado.",
+    "valores": [],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Resp: No se puede asegurar que el patrón histórico de ventas haya cambiado.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Tabla armada a partir del texto. La Resp está en la p. 46. Modelo multinomial con proporciones dadas (40%, 40%, 20%).",
+  "alpha": 0.05
+ },
+ {
+  "id": "VI-14",
+  "tema": "VI",
+  "numero": 14,
+  "pagina": 46,
+  "planteo": "Los datos de la tabla siguiente son consumos diarios de agua en una curtiembre: Tabla: Consumo diario (en miles de litros) | Cantidad de días observados; 20-30 | 6; 30-40 | 90; 40-50 | 232; 50-60 | 192; 60-70 | 66; 70-80 | 12; 80-90 | 2. n = 600 días.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Consumo diario (en miles de litros)",
+     "Cantidad de días observados"
+    ],
+    "filas": [
+     [
+      "20-30",
+      6
+     ],
+     [
+      "30-40",
+      90
+     ],
+     [
+      "40-50",
+      232
+     ],
+     [
+      "50-60",
+      192
+     ],
+     [
+      "60-70",
+      66
+     ],
+     [
+      "70-80",
+      12
+     ],
+     [
+      "80-90",
+      2
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Se desea ensayar la hipótesis de que los consumos diarios de agua en una curtiembre se comportan de acuerdo a un modelo normal.",
+    "respuesta": "Resp: Se puede asegurar, que los consumos diarios de agua en la curtiembre, no se comportan normalmente. Ver la resolución del problema en el apunte teórico (capítulo de Contrastes Chi – Cuadrado).",
+    "valores": [],
+    "decision": "rechaza"
+   }
+  ],
+  "respuesta": "Resp: Se puede asegurar, que los consumos diarios de agua en la curtiembre, no se comportan normalmente. Ver la resolución del problema en el apunte teórico (capítulo de Contrastes Chi – Cuadrado).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La consigna no indica riesgo. Modelo normal sin parámetros dados (hay que estimar μ y σ). La resolución remite al apunte teórico."
+ },
+ {
+  "id": "VI-15",
+  "tema": "VI",
+  "numero": 15,
+  "pagina": 46,
+  "planteo": "Se cree que la variable aleatoria “duración de herramientas de corte” tiene distribución Gumbel del mínimo con aplicaciones en la Teoría de Confiabilidad. Los parámetros de esta distribución son: “θ” que es el modo de la variable y “β” que es un parámetro de escala. Para verificar este supuesto, se registraron las duraciones de herramientas de corte provenientes de un torno automático y se obtuvieron los siguientes resultados, agrupados en una tabla de frecuencias: Tabla: Duración (en horas) | Observaciones; 0-15 | 8; 15-30 | 40; 30-45 | 30; 45-60 | 25; 60-75 | 18; 75-90 | 15; 90-105 | 7.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Duración (en horas)",
+     "Observaciones"
+    ],
+    "filas": [
+     [
+      "0-15",
+      8
+     ],
+     [
+      "15-30",
+      40
+     ],
+     [
+      "30-45",
+      30
+     ],
+     [
+      "45-60",
+      25
+     ],
+     [
+      "60-75",
+      18
+     ],
+     [
+      "75-90",
+      15
+     ],
+     [
+      "90-105",
+      7
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Para un riesgo del 1%, se puede rechazar la afirmación de que esta variable tiene un comportamiento según el modelo Gumbel del mínimo?",
+    "respuesta": "a) Sí, esta variable no se comporta según el modelo Gumbel del mínimo.",
+    "valores": [],
+    "decision": "rechaza"
+   },
+   {
+    "letra": "b",
+    "texto": "Si se rechaza el comportamiento Gumbel del mínimo, verificar el ajuste a un comportamiento Gumbel del Máximo y de Weibull; ¿cuál es el mejor de los ajustes?",
+    "respuesta": "b) El Modelo Gumbel del Máximo es un buen candidato, se puede suponer que sigue este comportamiento. El Modelo de Weibull es un buen candidato, se puede suponer que sigue este comportamiento. El Modelo que mejor se ajusta de los 2 candidatos es el de Weibull.",
+    "valores": [],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Resp: a) Sí, esta variable no se comporta según el modelo Gumbel del mínimo. b) El Modelo Gumbel del Máximo es un buen candidato, se puede suponer que sigue este comportamiento. El Modelo de Weibull es un buen candidato, se puede suponer que sigue este comportamiento. El Modelo que mejor se ajusta de los 2 candidatos es el de Weibull.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Modelos Gumbel del mínimo, Gumbel del máximo y Weibull, sin parámetros dados (hay que estimarlos). n = 143. En b) no se rechaza ninguno de los dos candidatos; el mejor ajuste es Weibull.",
+  "alpha": 0.01
+ },
+ {
+  "id": "VI-16",
+  "tema": "VI",
+  "numero": 16,
+  "pagina": 46,
+  "planteo": "La siguiente tabla muestra la cantidad de reclamos por día de un determinado modelo de levanta cristales. Por estudios anteriores, se supone que la cantidad diaria de levanta cristales de un modelo de automóvil que llegan reclamados a fábrica por defectos responde a un proceso de Poisson, o sea que la cantidad de reclamos que llegan en un día a la fábrica se modelan según una distribución Poissoniana. Se tienen los registros correspondientes a una muestra de un total de 684 días observados con los siguientes datos de reclamos: Tabla: Cantidad de reclamos (r) | Ocurrencias (cantidad de días observados); 0 | 26; 1 | 62; 2 | 120; 3 | 145; 4 | 131; 5 | 101; 6 | 61; 7 | 27; 8 | 9; 9 | 1; 10 | 1.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Cantidad de reclamos (r)",
+     "Ocurrencias (cantidad de días observados)"
+    ],
+    "filas": [
+     [
+      0,
+      26
+     ],
+     [
+      1,
+      62
+     ],
+     [
+      2,
+      120
+     ],
+     [
+      3,
+      145
+     ],
+     [
+      4,
+      131
+     ],
+     [
+      5,
+      101
+     ],
+     [
+      6,
+      61
+     ],
+     [
+      7,
+      27
+     ],
+     [
+      8,
+      9
+     ],
+     [
+      9,
+      1
+     ],
+     [
+      10,
+      1
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se puede asegurar las premisas estipuladas?",
+    "respuesta": "Resp: No se puede decir que no sigue el modelo de Poisson, por lo tanto, se considera que el modelo de Poisson se ajusta adecuadamente a la variable “cantidad de reclamos por día”.",
+    "valores": [],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Resp: No se puede decir que no sigue el modelo de Poisson, por lo tanto, se considera que el modelo de Poisson se ajusta adecuadamente a la variable “cantidad de reclamos por día”.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La consigna no indica riesgo. Modelo Poisson sin parámetro dado (estimar λ con la media). Las ocurrencias suman 684, coincide con el enunciado."
+ },
+ {
+  "id": "VI-17",
+  "tema": "VI",
+  "numero": 17,
+  "pagina": 47,
+  "planteo": "Los siguientes datos son consumos de electricidad (medidos en Kwh) de 100 usuarios de Buenos Aires y Gran Buenos Aires. Tabla: Consumos (en Kwh) | Cantidad de usuarios; 0-100 | 18; 100-200 | 34; 200-300 | 28; 300-400 | 12; 400-500 | 4; 500-600 | 2; 600-1400 | 2.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Consumos (en Kwh)",
+     "Cantidad de usuarios"
+    ],
+    "filas": [
+     [
+      "0-100",
+      18
+     ],
+     [
+      "100-200",
+      34
+     ],
+     [
+      "200-300",
+      28
+     ],
+     [
+      "300-400",
+      12
+     ],
+     [
+      "400-500",
+      4
+     ],
+     [
+      "500-600",
+      2
+     ],
+     [
+      "600-1400",
+      2
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Verificar si los datos permiten afirmar que los consumos de electricidad es una variable que se ajusta a un modelo Log-Normal.",
+    "respuesta": "Resp: No se puede asegurar que los consumos de electricidad, no se ajusten al modelo Log-Normal, por lo tanto, se considera que el modelo Log-Normal es un buen candidato para esta variable. Ver la resolución del problema en el apunte teórico (capítulo de Contrastes Chi – Cuadrado).",
+    "valores": [],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Resp: No se puede asegurar que los consumos de electricidad, no se ajusten al modelo Log-Normal, por lo tanto, se considera que el modelo Log-Normal es un buen candidato para esta variable. Ver la resolución del problema en el apunte teórico (capítulo de Contrastes Chi – Cuadrado).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La consigna no indica riesgo. Modelo log-normal sin parámetros dados (estimar). Último intervalo 600 – 1.400 (más ancho que los demás). La resolución remite al apunte teórico."
+ },
+ {
+  "id": "VI-18",
+  "tema": "VI",
+  "numero": 18,
+  "pagina": 47,
+  "planteo": "El modelo de Vilfredo Pareto suele utilizarse para representar salarios de una empresa y también ofertas de licitaciones. Siendo “θ” el modo y el valor mínimo de la variable (salario mínimo), que generalmente se conoce, y “b” un parámetro de forma que puede calcularse en función de la media. Considere los siguientes datos de salarios de una empresa, en la cual el salario mínimo es de 400 U$s: Tabla: Salario (en U$s) | Cantidad de empleados; 400-500 | 59; 500-600 | 34; 600-700 | 26; 700-800 | 20; 800-1000 | 21; 1000-1200 | 15; 1200-1500 | 11; 1500-2000 | 10; 2000-3000 | 12; 3000-5000 | 6.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Salario (en U$s)",
+     "Cantidad de empleados"
+    ],
+    "filas": [
+     [
+      "400-500",
+      59
+     ],
+     [
+      "500-600",
+      34
+     ],
+     [
+      "600-700",
+      26
+     ],
+     [
+      "700-800",
+      20
+     ],
+     [
+      "800-1000",
+      21
+     ],
+     [
+      "1000-1200",
+      15
+     ],
+     [
+      "1200-1500",
+      11
+     ],
+     [
+      "1500-2000",
+      10
+     ],
+     [
+      "2000-3000",
+      12
+     ],
+     [
+      "3000-5000",
+      6
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Ensayar la hipótesis de que los salarios de esta empresa tienen un comportamiento según el modelo de Pareto.",
+    "respuesta": "Resp: No se puede afirmar que los salarios de esta empresa, no se comporten según el modelo de Pareto, por lo tanto, se considera que el modelo de Pareto es un buen candidato para esta variable.",
+    "valores": [],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Resp: No se puede afirmar que los salarios de esta empresa, no se comporten según el modelo de Pareto, por lo tanto, se considera que el modelo de Pareto es un buen candidato para esta variable.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La consigna no indica riesgo. Modelo Pareto: θ = 400 U$s dado; b se estima en función de la media. n = 214."
+ },
+ {
+  "id": "VI-19",
+  "tema": "VI",
+  "numero": 19,
+  "pagina": 47,
+  "planteo": "En una fábrica de baterías para uso industrial, para un determinado tipo se obtuvieron los siguientes datos de duración en días de uso continuo: Tabla: Duración (en días) | Cantidad de baterías; 0-40 | 38; 40-80 | 105; 80-120 | 120; 120-160 | 96; 160-200 | 80; 200-240 | 43; 240-280 | 15; 280-320 | 3.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Duración (en días)",
+     "Cantidad de baterías"
+    ],
+    "filas": [
+     [
+      "0-40",
+      38
+     ],
+     [
+      "40-80",
+      105
+     ],
+     [
+      "80-120",
+      120
+     ],
+     [
+      "120-160",
+      96
+     ],
+     [
+      "160-200",
+      80
+     ],
+     [
+      "200-240",
+      43
+     ],
+     [
+      "240-280",
+      15
+     ],
+     [
+      "280-320",
+      3
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se puede considerar que la duración se ajusta a un Modelo de Weibull?",
+    "respuesta": "Resp: No se puede afirmar que la duración de las baterías, no se comporta según el modelo de Weibull, por lo tanto, se considera que el modelo de Weibull es un buen candidato para esta variable.",
+    "valores": [],
+    "decision": "no_rechaza"
+   }
+  ],
+  "respuesta": "Resp: No se puede afirmar que la duración de las baterías, no se comporta según el modelo de Weibull, por lo tanto, se considera que el modelo de Weibull es un buen candidato para esta variable.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Tabla en p. 47; pregunta y Resp en p. 48. La consigna no indica riesgo. Modelo Weibull sin parámetros dados (estimar). n = 500."
+ },
+ {
+  "id": "VI-20",
+  "tema": "VI",
+  "numero": 20,
+  "pagina": 48,
+  "planteo": "En ensayos de vida realizados sobre dos equipos similares de distintas marcas se obtienen los siguientes resultados: Tabla: Cantidad de conjuntos observados: Duración (en miles de horas) | Marca A | Marca B; 10-12 | 2 | None; 12-14 | 6 | 8; 14-16 | 13 | 18; 16-18 | 18 | 32; 18-20 | 30 | 57; 20-22 | 22 | 39; 22-24 | 16 | 26; 24-26 | 5 | 13; 26-28 | 1 | 10.",
+  "tablas": [
+   {
+    "titulo": "Cantidad de conjuntos observados",
+    "columnas": [
+     "Duración (en miles de horas)",
+     "Marca A",
+     "Marca B"
+    ],
+    "filas": [
+     [
+      "10-12",
+      2,
+      null
+     ],
+     [
+      "12-14",
+      6,
+      8
+     ],
+     [
+      "14-16",
+      13,
+      18
+     ],
+     [
+      "16-18",
+      18,
+      32
+     ],
+     [
+      "18-20",
+      30,
+      57
+     ],
+     [
+      "20-22",
+      22,
+      39
+     ],
+     [
+      "22-24",
+      16,
+      26
+     ],
+     [
+      "24-26",
+      5,
+      13
+     ],
+     [
+      "26-28",
+      1,
+      10
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Qué marca se elegiría si no hay notoria diferencia de precios?",
+    "respuesta": "a) nA = 113; x̄A = 19,0531 miles de horas; SA = 3,2892; nB = 203; x̄B = 19,7685; SB = 3,3479. Comparación de desvíos (H0: σB ≤ σA, α = 10%): jc = 1,1157 (jc² = 1,2448); j = 1,0179 (j² = 1,036): no se rechaza, se suponen desvíos iguales. Sa = 3,3271 miles de horas; ν = 314. H0) μB ≤ μA, α = 5%: dc = 0,6442 miles de horas; d = 0,7154 miles de horas. Se rechaza: se puede asegurar que la marca “B” tiene una mayor duración que la marca “A”, entonces se elegiría la marca “B”.",
+    "valores": [
+     113,
+     19.0531,
+     3.2892,
+     203,
+     19.7685,
+     3.3479,
+     1.1157,
+     1.2448,
+     1.0179,
+     1.036,
+     3.3271,
+     314,
+     0.6442,
+     0.7154
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Según especificación del fabricante la duración de los conjuntos de la marca \"A\" tienen distribución normal con un valor medio de 20.000 horas y un desvío estándar de 2.500 horas; verificar si cumple con la especificación del fabricante.",
+    "respuesta": "b) H0) La duración de la marca “A” se comporta normalmente con μ = 20.000 hs y σ = 2.500 hs. Amalgamando quedan 6 clases (FO: 21, 18, 30, 22, 16, 6; FE: 6,20; 17,75; 32,55; 32,55; 17,75; 6,20), ningún parámetro estimado, ν = 5; χ²(0,95;5) = 11,0705; χ²calc = 39,1307. Se rechaza: la duración de la marca “A” no sigue el modelo normal con los parámetros especificados por el fabricante.",
+    "valores": [
+     39.1307,
+     5,
+     11.0705
+    ],
+    "decision": "rechaza"
+   },
+   {
+    "letra": "c",
+    "texto": "Caso contrario verificar si sigue una distribución normal.",
+    "respuesta": "c) H0) La duración de la marca “A” se comporta normalmente (parámetros estimados x̄A = 19,0531, SA = 3,2892). Amalgamando quedan 7 clases (FO: 8, 13, 18, 30, 22, 16, 6; FE: 7,03; 12,93; 22,35; 27,00; 22,78; 13,42; 7,49), dos parámetros estimados, ν = 4; χ²(0,95;4) = 9,4877; χ²calc = 2,1333. No se rechaza: el modelo normal es un buen candidato para la duración de la marca “A”.",
+    "valores": [
+     2.1333,
+     4,
+     9.4877
+    ],
+    "decision": "no_rechaza"
+   },
+   {
+    "letra": "d",
+    "texto": "Si por especificación se estipula una duración mínima de 14.000 hs, estimar para la marca “B” (con 5% de riesgo) el porcentaje de equipos que no cumplen con la especificación.",
+    "respuesta": "d) 8 de 203 equipos de la marca “B” con duración menor a 14.000 hs, p̂ = 0,0394 (3,94%). Con el modelo binomial: A = 0,0171, B = 0,0762; P(1,71% ≤ p ≤ 7,62%) = 0,95.",
+    "valores": [
+     0.0394,
+     0.0171,
+     0.0762
+    ]
+   }
+  ],
+  "respuesta": "a) nA = 113; x̄A = 19,0531 miles de horas; SA = 3,2892; nB = 203; x̄B = 19,7685; SB = 3,3479. Comparación de desvíos (H0: σB ≤ σA, α = 10%): jc = 1,1157 (jc² = 1,2448); j = 1,0179 (j² = 1,036): no se rechaza, se suponen desvíos iguales. Sa = 3,3271 miles de horas; ν = 314. H0) μB ≤ μA, α = 5%: dc = 0,6442 miles de horas; d = 0,7154 miles de horas. Se rechaza: se puede asegurar que la marca “B” tiene una mayor duración que la marca “A”, entonces se elegiría la marca “B”. b) H0) La duración de la marca “A” se comporta normalmente con μ = 20.000 hs y σ = 2.500 hs. Amalgamando quedan 6 clases (FO: 21, 18, 30, 22, 16, 6; FE: 6,20; 17,75; 32,55; 32,55; 17,75; 6,20), ningún parámetro estimado, ν = 5; χ²(0,95;5) = 11,0705; χ²calc = 39,1307. Se rechaza: la duración de la marca “A” no sigue el modelo normal con los parámetros especificados por el fabricante. c) H0) La duración de la marca “A” se comporta normalmente (parámetros estimados x̄A = 19,0531, SA = 3,2892). Amalgamando quedan 7 clases (FO: 8, 13, 18, 30, 22, 16, 6; FE: 7,03; 12,93; 22,35; 27,00; 22,78; 13,42; 7,49), dos parámetros estimados, ν = 4; χ²(0,95;4) = 9,4877; χ²calc = 2,1333. No se rechaza: el modelo normal es un buen candidato para la duración de la marca “A”. d) 8 de 203 equipos de la marca “B” con duración menor a 14.000 hs, p̂ = 0,0394 (3,94%). Con el modelo binomial: A = 0,0171, B = 0,0762; P(1,71% ≤ p ≤ 7,62%) = 0,95.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "De manera que la hipótesis no se rechaza por lo cual no se puede probar que los desvíos poblacionales sean distintos, de manera que se supone que los desvíos poblacionales son iguales.",
+   "De manera que la hipótesis se rechaza, por lo cual se puede asegurar que la marca “B” tiene una mayor duración que la marca “A”, entonces se elegiría la marca “B”.",
+   "Se rechaza la hipótesis planteada, de manera que se puede asegurar que la duración de la marca “A” no sigue el modelo normal con los parámetros especificados por el fabricante.",
+   "No se rechaza la hipótesis planteada, de manera que no se puede asegurar que la duración de la marca “A” no sigue un modelo normal, por lo tanto, se considera que el modelo normal es un buen candidato para el ajuste del comportamiento de la duración de los conjuntos de la marca “A”.",
+   "Se concluye que el porcentaje de equipos de la marca “B” con duración inferior a 14.000 horas estará comprendido entre 1,71% y 7,62%, afirmándolo con un 95% de confianza, o sea: P(1,71% ≤ p ≤ 7,62%) = 0,95."
+  ],
+  "observaciones": "Ejercicio resuelto (sin 'Resp:'); respuesta armada desde la Solución (p. 48-50). Marca B en 10-12 figura \"---\" (se pone null, equivale a 0). El riesgo varía por inciso: a) 10% para desvíos y 5% para medias; b), c) 5%; d) 5% (95% de confianza); alpha = 0.05 es el de la consigna d). En la Solución a) se usa t(0,95;314) = 1,6497. En d) la Solución usa \"8 con duraciones menores a 14.000\" (12-14 de la marca B).",
+  "alpha": 0.05
+ }
+]

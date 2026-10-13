@@ -1,0 +1,902 @@
+[
+ {
+  "id": "III-1",
+  "tema": "III",
+  "numero": 1,
+  "pagina": 18,
+  "planteo": "El rating de un programa de televisión se mide como el porcentaje de hogares que está viendo el programa en un momento dado. Las compañías medidoras de rating cuentan con un panel de hogares colaboradores, los cuales tienen asociado un people meter (que es un dispositivo que registra a cada minuto si el televisor está encendido y en qué canal, y guarda la información del día en una base de datos). Se toma una compañía medidora la cual tiene un panel de 600 hogares colaboradores y ha registrado el rating de un determinado programa en 25 puntos. Es decir que el 25% de los hogares del panel vio todo el programa ese día.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Calcular un intervalo de confianza del 90% para el rating de ese determinado programa.",
+    "respuesta": "Entre 22,10% y 28,08% (A = 0,2210; B = 0,2808; e = 0,0299).",
+    "valores": [
+     0.221,
+     0.2808
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Sabiendo que cada people meter cuesta 320 U$s, calcular la inversión adicional en dispositivos necesaria para medir el rating con un error de muestreo de ± 1%.",
+    "respuesta": "n = 5.074 hogares en total (aproximación normal); 4.474 people meter más; inversión adicional de 1.431.680 U$s.",
+    "valores": [
+     5074,
+     4474,
+     1431680
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 22,10% y 28,08%. b) n = 5.074 hogares; 4.474 people meter más; inversión adicional de 1.431.680 U$s.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Se concluye que el porcentaje de hogares de la población de establecimientos estará comprendido entre 22,10% y 28,08%, afirmándolo con un 90% de confianza, o sea: P(22,10% ≤ p ≤ 28,08%) = 0,90.",
+   "Para calcular el valor de n, de manera que se reduzca el error a 0,01, no se puede calcular con el modelo binomial y hay que usar aproximaciones, en este caso se utiliza la distribución normal como aproximación.",
+   "Se necesitan un total de 5.074 hogares colaboradores. Significa que se necesitarán 4.474 people meter más, y, como cada people meter tiene un costo de 320 U$s, se necesitará una inversión adicional de 1.431.680 U$s."
+  ],
+  "observaciones": ""
+ },
+ {
+  "id": "III-2",
+  "tema": "III",
+  "numero": 2,
+  "pagina": 18,
+  "planteo": "En un taller metalúrgico se controla diariamente la fracción defectuosa de un tipo de biela (se considera defectuosa la biela a la cual se le detecta poros de fundición). El control consiste en tomar una muestra de 25 unidades y sometiéndolas a un ensayo de ultrasonido para detectar dichos poros. En una de estas muestras se encontraron 3 unidades defectuosas. Se pide calcular:",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Los límites de confianza del 95% para la fracción defectuosa.",
+    "respuesta": "Entre 0,0254 (2,54%) y 0,3122 (31,22%).",
+    "valores": [
+     0.0254,
+     0.3122
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "La fracción defectuosa máxima que hay en la población con una probabilidad de 0,95.",
+    "respuesta": "B = 0,2818 (28,18%).",
+    "valores": [
+     0.2818
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 0,0254 (2,54%) y 0,3122 (31,22%). b) B = 0,2818 (28,18%).",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Entre el 2,54% y 31,22%, con un 95% de confianza."
+  ],
+  "observaciones": "La solución anuncia las expresiones exactas con el modelo F pero no las muestra (la página pasa directo al inciso b)."
+ },
+ {
+  "id": "III-3",
+  "tema": "III",
+  "numero": 3,
+  "pagina": 19,
+  "planteo": "Calcular los límites de confianza del 90% de la fracción de defectuosa, si de un proceso productivo se tomó una muestra de 10 unidades en la cual se encontró:",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "1 unidad defectuosa.",
+    "respuesta": "Entre 0,0051 (0,51%) y 0,3942 (39,42%).",
+    "valores": [
+     0.0051,
+     0.3942
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "0 unidades defectuosas.",
+    "respuesta": "Entre 0 (0%) y 0,2589 (25,89%).",
+    "valores": [
+     0,
+     0.2589
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 0,0051 (0,51%) y 0,3942 (39,42%). b) Entre 0 (0%) y 0,2589 (25,89%).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "En b) (r = 0) la guía usa α/2 = 0,05 para el límite superior (0,2589); con r = 0 el límite unilateral con α = 0,10 daría 0,2057. Se transcribe igual."
+ },
+ {
+  "id": "III-4",
+  "tema": "III",
+  "numero": 4,
+  "pagina": 19,
+  "planteo": "En un estudio de muestreo de trabajo se indica que, sobre una muestra de 600 observaciones, una máquina se mantuvo inactiva el 10% del tiempo total.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Cuáles serán los límites de confianza para la proporción de tiempo inactivo? (Tomar un Nivel de Confianza de 0,95).",
+    "respuesta": "Entre 0,0771 (7,71%) y 0,1269 (12,69%).",
+    "valores": [
+     0.0771,
+     0.1269
+    ]
+   }
+  ],
+  "respuesta": "Entre 0,0771 (7,71%) y 0,1269 (12,69%).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-5",
+  "tema": "III",
+  "numero": 5,
+  "pagina": 19,
+  "planteo": "La producción de llantas del país se clasifica en tres categorías: llantas de primera, llantas con acabado imperfecto y llantas defectuosas. Las últimas dos categorías implican pérdidas para la compañía, ya que se venden en un precio menor o se desechan. En una fábrica de importancia se obtuvieron 198 llantas, en una muestra aleatoria de 1.000 llantas, que no cumplieron los requisitos para ser de primera.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Estimar, con un intervalo de confianza del 95%, el porcentaje de llantas que no son de primera en toda la producción del país.",
+    "respuesta": "Entre 17,37 y 22,41%.",
+    "valores": [
+     17.37,
+     22.41
+    ]
+   }
+  ],
+  "respuesta": "Entre 17,37 y 22,41%.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-6",
+  "tema": "III",
+  "numero": 6,
+  "pagina": 19,
+  "planteo": "Un inspector de control de calidad ha encontrado, en una muestra de 30 tornillos, que el 30% de los mismos tienen algún tipo de defecto.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Se desea conocer el intervalo de confianza del 95% para el porcentaje de tornillos defectuosos de toda la producción.",
+    "respuesta": "Entre 14,73 y 49,40%.",
+    "valores": [
+     14.73,
+     49.4
+    ]
+   }
+  ],
+  "respuesta": "Entre 14,73 y 49,40%.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-7",
+  "tema": "III",
+  "numero": 7,
+  "pagina": 19,
+  "planteo": "En los presupuestos de mano de obra se ha establecido el nivel de ausentismo en un valor igual al 7% respecto de los \"días – hombre\" disponibles. En un análisis efectuado sobre 1.000 \"días – hombre\" se ha registrado un 8,5% de ausentismo.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Para un riesgo del 10%, ¿se puede decir que se han modificado las condiciones previstas en los presupuestos?",
+    "respuesta": "Si, se puede asegurar que el nivel de ausentismo ha aumentado.",
+    "valores": []
+   }
+  ],
+  "respuesta": "Si, se puede asegurar que el nivel de ausentismo ha aumentado.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-8",
+  "tema": "III",
+  "numero": 8,
+  "pagina": 19,
+  "planteo": "Una empresa comercializadora de cosméticos ha diseñado un nuevo catálogo para promocionar un producto, con el cual espera aumentar el porcentaje de clientes compradores en 2 puntos al menos. Con el catálogo actual, se sabe que cada vez que el mismo se envía a potenciales clientes, el porcentaje de compradores es del 8%. Para probar la efectividad del nuevo catálogo se envían una cantidad de 100 catálogos a posibles clientes y al tiempo se reciben 14 pedidos.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Calcular el intervalo de confianza del 90% para el porcentaje de compradores.",
+    "respuesta": "Entre 8,66 y 21,02%.",
+    "valores": [
+     8.66,
+     21.02
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular el nuevo tamaño de muestra para un error muestral de 0,02.",
+    "respuesta": "n = 816 catálogos (por aproximación normal).",
+    "valores": [
+     816
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Se considera que la prueba ha sido concluyente para cambiar de catálogo asumiendo un 5% de riesgo?, es decir, ¿se considera que la prueba permite asegurar que con el nuevo catálogo el porcentaje de clientes compradores es superior al 10%?",
+    "respuesta": "No, no se puede asegurar que con el nuevo catálogo el porcentaje de compradores sea superior al 10%.",
+    "valores": []
+   },
+   {
+    "letra": "d",
+    "texto": "¿Cuál es la probabilidad de cambiar de catálogo si con el nuevo se logra una efectividad de respuesta del 12%?",
+    "respuesta": "1–β = 0,1415.",
+    "valores": [
+     0.1415
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 8,66 y 21,02%. b) n = 816 catálogos (por aproximación normal). c) No, no se puede asegurar que con el nuevo catálogo el porcentaje de compradores sea superior al 10%. d) 1–β = 0,1415.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-9",
+  "tema": "III",
+  "numero": 9,
+  "pagina": 19,
+  "planteo": "Una empresa productora de bebidas gaseosas iniciará una campaña publicitaria televisiva si el porcentaje de televidentes que ven programas deportivos en forma continuada es superior al 60%. A efectos de tomar una decisión se analiza una muestra de 500 televidentes comprobando que 325 de ellos ven programas deportivos en forma continuada, y se establece en un 10% el riesgo máximo de iniciar la campaña cuando el porcentaje no supera el 60%.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "A la luz de los datos obtenidos, ¿Se aconseja iniciar la campaña?",
+    "respuesta": "Sí, se puede afirmar que el porcentaje de televidentes es superior al 60% y se aconseja iniciar la campaña.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de no iniciar la campaña cuando el porcentaje de televidentes es del 66%?",
+    "respuesta": "β = 0,0724.",
+    "valores": [
+     0.0724
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál es la probabilidad de iniciar la campaña cuando dicho porcentaje es del 68%?",
+    "respuesta": "1–β = 0,9922.",
+    "valores": [
+     0.9922
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Dibujar las curvas Característica Operativa y de Potencia.",
+    "respuesta": "Ver procedimiento de construcción de las curvas en el problema 12.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) Sí, se puede afirmar que el porcentaje de televidentes es superior al 60% y se aconseja iniciar la campaña. b) β = 0,0724. c) 1–β = 0,9922. d) Ver procedimiento de construcción de las curvas en el problema 12.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-10",
+  "tema": "III",
+  "numero": 10,
+  "pagina": 20,
+  "planteo": "El director de un instituto superior de enseñanza no está conforme con la inscripción obtenida en los cursos a distancia, que actualmente es sólo del 5% sobre las cartas enviadas. Decide entonces encomendar la tarea de reorganizar dichos cursos a uno de sus profesores, quien ha de proponer los temas y programas. Se van a enviar n cartas a posibles interesados, tal que valga 0,20 la probabilidad de concluir erróneamente que la proporción aumentó y 0,90 la probabilidad de detectar que aumentó 2 puntos porcentuales.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la condición de rechazo y la regla de decisión.",
+    "respuesta": "CR: Si r ≥ rc = 37 ⇒ rechazo la H0, si en una muestra de 638 cartas hay 37 o más inscriptos, se concluye que el porcentaje de inscriptos aumentó; o n = 652 cartas y rc = 38 (por aproximación normal).",
+    "valores": [
+     37,
+     638,
+     652,
+     38
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Hallar la probabilidad de detectar que la proporción aumentó 1 punto porcentual.",
+    "respuesta": "1–β = 0,6080 o 1–β = 0,5966 (por Normal).",
+    "valores": [
+     0.608,
+     0.5966
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Suponer que se envían las n cartas y responden favorablemente el 5,2%, ¿se puede concluir que la proporción aumentó?",
+    "respuesta": "No, no se puede asegurar que la proporción de inscriptos haya aumentado.",
+    "valores": []
+   },
+   {
+    "letra": "d",
+    "texto": "Hallar la probabilidad de no detectar que la proporción aumentó en 2 puntos porcentuales.",
+    "respuesta": "β = 0,10 (es dato).",
+    "valores": [
+     0.1
+    ]
+   }
+  ],
+  "respuesta": "a) CR: Si r ≥ rc = 37 ⇒ rechazo la H0, si en una muestra de 638 cartas hay 37 o más inscriptos, se concluye que el porcentaje de inscriptos aumentó; o n = 652 cartas y rc = 38 (por aproximación normal). b) 1–β = 0,6080 o 1–β = 0,5966 (por Normal). c) No, no se puede asegurar que la proporción de inscriptos haya aumentado. d) β = 0,10 (es dato).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-11",
+  "tema": "III",
+  "numero": 11,
+  "pagina": 20,
+  "planteo": "El proceso productivo de una pieza trabaja en condiciones normales con un 12% de unidades defectuosas. Este porcentaje se controla periódicamente tomando muestras de 50 unidades y contando cuántas defectuosas hay. Si el proceso está bajo control, la probabilidad de detenerlo y revisarlo debe valer 0,05.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Cuántas defectuosas se deberán encontrar en la muestra de 50 para detener el proceso y revisarlo?",
+    "respuesta": "Por lo menos 11 defectuosas.",
+    "valores": [
+     11
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de no detener el proceso cuando el porcentaje de defectuosas es del 14%? Dibuje la curva característica de operación.",
+    "respuesta": "β = 0,9176. Ver procedimiento de construcción de la curva en el problema 12.",
+    "valores": [
+     0.9176
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas unidades se deberán controlar si se pretende disminuir a 0,50 la probabilidad anterior?",
+    "respuesta": "n = 755 piezas, o n = 715 piezas (por aproximación normal), o n= 855 piezas (por aproximación de Poisson). En este caso la aproximación de Poisson no es correcta, la cual sería adecuada si n = 50.",
+    "valores": [
+     755,
+     715,
+     855
+    ]
+   }
+  ],
+  "respuesta": "a) Por lo menos 11 defectuosas. b) β = 0,9176. Ver procedimiento de construcción de la curva en el problema 12. c) n = 755 piezas, o n = 715 piezas (por aproximación normal), o n= 855 piezas (por aproximación de Poisson). En este caso la aproximación de Poisson no es correcta, la cual sería adecuada si n = 50.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-12",
+  "tema": "III",
+  "numero": 12,
+  "pagina": 20,
+  "planteo": "Problema fundamental del Control de Recepción: En una empresa industrial se desea diseñar un sistema periódico de muestreo para el control de recepción de una pieza que es suministrada en grandes cantidades. El proveedor admite que, como máximo, le rechacen el 5% de las partidas buenas, que son aquellas que tienen un 11% de unidades defectuosas. A su vez, el comprador desea rechazar el 99% de las partidas malas, que son aquellas cuyo porcentaje defectuoso es del 16%.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Determinar el Plan de Muestreo, o sea, ¿Cuántas unidades deberán revisarse de cada partida y cuántas defectuosas deberán encontrarse en la muestra de control para rechazar la partida?",
+    "respuesta": "H0) p ≤ p0 = 0,11. n = 739 piezas y rc = 96 defectuosas (α = 0,0499; β = 0,0098); o n = 749 piezas y rc = 98 defectuosas (por aproximación normal).",
+    "valores": [
+     739,
+     96,
+     749,
+     98
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de rechazar una partida que tiene un 14% de unidades defectuosas?",
+    "respuesta": "1–β = 0,7996 (β = 0,2004); con los datos de la aproximación normal: 1–β = 0,7793 (β = 0,2207).",
+    "valores": [
+     0.7996,
+     0.7793
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Trazar las Curvas Característica Operativa y de Potencia, marcando claramente las variables en los ejes y los valores numéricos de abscisa y ordenada de tres puntos al menos.",
+    "respuesta": "Tabla de β y 1–β en función de p1 con n = 739 y rc = 96 (β = Fb(95/739; p1)) y gráfico de las curvas.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) n = 739 piezas y rc = 96 defectuosas, o n = 749 y rc = 98 (por aproximación normal). b) 1–β = 0,7996, o 1–β = 0,7793 (por aproximación normal). c) Curvas OC y de potencia a partir de la tabla de β para distintos p1.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Luego de iterar, con computadora, distintos valores de rc y n se llega a la siguiente solución óptima: n = 739 piezas y rc = 96 defectuosas.",
+   "La hipótesis se rechaza si en las 739 piezas elegidas al azar del lote recepcionado se encuentran por lo menos 96 defectuosas, de esa forma rechazamos la partida.",
+   "Si no se cuenta con un programa que realice la búsqueda se debe utilizar una aproximación. En este caso, según los criterios de aproximaciones, se puede utilizar la aproximación por Normal (n = 749).",
+   "La hipótesis se rechaza si en las 749 piezas elegidas al azar del lote recepcionado se encuentran por lo menos 98 defectuosas, y de esa forma rechazamos la partida."
+  ],
+  "observaciones": "En c) la tabla de la guía da p1 = 0,11 – 1,948 – 2,000 – 2,052 – 2,104 con β = 0,05 – 0,50 – 0,90 – 0,50 – 0,05 y 1–β = 0,95 – 0,50 – 0,10 – 0,50 – 0,95: valores incoherentes (p1 > 1, β no monótona), aparentemente copiados de otro problema; el gráfico muestra abscisas 0,11 a 0,16."
+ },
+ {
+  "id": "III-13",
+  "tema": "III",
+  "numero": 13,
+  "pagina": 21,
+  "planteo": "El control de recepción de una pieza seriada se realiza revisando 100 unidades, rechazando el lote si se encuentran 9 o más defectuosas. De este modo, el comprador afirma que es pequeño el riesgo del proveedor (probabilidad de que le rechacen un lote que contiene el 5% defectuoso admitido por contrato) y, el comprador, tiene en cambio un riesgo del 15% de aceptar un lote \"malo\".",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula que se está ensayando y calcular el riesgo del proveedor.",
+    "respuesta": "H0) p ≤ p0 = 0,05 (hipótesis optimista); α = Gb(9/100; 0,05) = 0,0631.",
+    "valores": [
+     0.0631
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular el porcentaje defectuoso poblacional del lote definido como malo.",
+    "respuesta": "p1 = 0,1183 (11,83%).",
+    "valores": [
+     0.1183
+    ]
+   }
+  ],
+  "respuesta": "a) H0) p ≤ p0 = 0,05; α = 0,0631. b) p1 = 0,1183 (11,83%).",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "El riesgo del proveedor, que se debe calcular, es precisamente el valor de α, es decir, el nivel de significación del ensayo (el Error de Tipo I): α = Gb(9/100; 0,05) = 0,0631.",
+   "Averiguando el valor de p1 que satisface la ecuación β = 0,15 = Fb(8/100; p1), se tiene que p1 = 0,1183 (o sea 11,83%)."
+  ],
+  "observaciones": ""
+ },
+ {
+  "id": "III-14",
+  "tema": "III",
+  "numero": 14,
+  "pagina": 22,
+  "planteo": "Para una pieza que se produce en grandes cantidades, se estudia la posibilidad de cambiar la materia prima por otra más costosa, si es posible asegurar una disminución importante en el porcentaje de defectuosas, que actualmente llega al 14%. Si se logra disminuir dicho porcentaje al 10%, se desea una probabilidad de 0,95 de cambiar la materia prima, pero si no hubiera disminución alguna, se establece en un 0,01 dicha probabilidad.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula apropiada a esta situación, el tamaño de la muestra, la condición de rechazo y la regla de decisión.",
+    "respuesta": "(Criterio pesimista) H0) p ≥ p0 = 0,14, n = 1.043 piezas o n = 1.058 piezas (por aproximación normal); CR: Si r ≤ rc = 120 defectuosas rechazo la H0 o Si r ≤ rc = 121 defectuosas rechazo la H0 (por aproximación normal); RD: Si de una muestra de 1.043 piezas hay 120 defectuosas o menos se cambia la materia prima o Si de una muestra de 1.058 piezas hay 121 defectuosas o menos se cambia la materia prima (por aproximación normal).",
+    "valores": [
+     1043,
+     1058,
+     120,
+     121
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de no efectuar el cambio, cuando con él se obtiene un porcentaje defectuoso del 12% y dibujar una curva que dé probabilidades de no efectuar el cambio en función del parámetro de ensayo, marcando los valores numéricos de abscisa y ordenada de 3 puntos al menos.",
+    "respuesta": "β = 0,6680, o β = 0,6942 (por aproximación normal). Ver procedimiento de construcción de la curva en el problema 12.",
+    "valores": [
+     0.668,
+     0.6942
+    ]
+   }
+  ],
+  "respuesta": "a) (Criterio pesimista) H0) p ≥ p0 = 0,14, n = 1.043 piezas o n = 1.058 piezas (por aproximación normal); CR: Si r ≤ rc = 120 defectuosas rechazo la H0 o Si r ≤ rc = 121 defectuosas rechazo la H0 (por aproximación normal); RD: Si de una muestra de 1.043 piezas hay 120 defectuosas o menos se cambia la materia prima o Si de una muestra de 1.058 piezas hay 121 defectuosas o menos se cambia la materia prima (por aproximación normal). b) β = 0,6680, o β = 0,6942 (por aproximación normal). Ver procedimiento de construcción de la curva en el problema 12.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-15",
+  "tema": "III",
+  "numero": 15,
+  "pagina": 22,
+  "planteo": "Una empresa forestal ha resuelto explotar un monte de eucaliptus si se puede asegurar que el porcentaje de árboles mayores a 5 metros supera el 70%. Se eligieron 30 árboles al azar y se hallaron 25 mayores de 5 metros. Se ha fijado en un 5% el riesgo de explotarlo erróneamente.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se aconseja la explotación del monte?",
+    "respuesta": "H0) p ≤ p0 = 0,70; rc = 26 éxitos. Como se encontraron 25, no se rechaza H0: no se aconseja explotar el monte (α* = Gb(25/30; 0,70) = 0,0766 > α).",
+    "valores": [
+     26,
+     0.0766
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Si se eligieran 100 árboles al azar, ¿cuántos deberían superar los 5 metros para aconsejar la explotación?",
+    "respuesta": "rc = 78 árboles como mínimo.",
+    "valores": [
+     78
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Estimar, con la muestra obtenida y con un 5% de riesgo, el porcentaje de árboles mayores a 5 metros.",
+    "respuesta": "Entre 65,27% y 94,36% (A = 0,6527; B = 0,9436).",
+    "valores": [
+     0.6527,
+     0.9436
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "¿Cuántos árboles deberían seleccionarse si se pretende disminuir en un 30% la relación de estimación anterior?",
+    "respuesta": "R = 1,44546 → R = 1,01182; n ≈ 22.255 árboles (aproximación normal); n ≈ 26.909 árboles (aproximación de Poisson).",
+    "valores": [
+     1.44546,
+     1.01182,
+     22255,
+     26909
+    ]
+   },
+   {
+    "letra": "e",
+    "texto": "¿Cuántos árboles deberían seleccionarse si se pretende disminuir en un 50% el error de la estimación anterior?",
+    "respuesta": "e = 0,145395 → 0,072698; n ≈ 102 árboles (aproximación normal).",
+    "valores": [
+     0.145395,
+     0.072698,
+     102
+    ]
+   }
+  ],
+  "respuesta": "a) No se aconseja la explotación (rc = 26; se hallaron 25; α* = 0,0766). b) rc = 78 árboles. c) Entre 65,27% y 94,36%. d) n = 22.255 árboles (aprox. normal) o 26.909 (aprox. Poisson). e) n = 102 árboles.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Si de una muestra de 30 árboles elegidos al azar se encuentran 26 o más árboles mayores que 5 metros, se rechaza la hipótesis nula y se recomienda explotar el monte.",
+   "Como la cantidad de árboles mayores a 5 metros que se encontraron en la muestra, fueron 25 árboles, no se puede rechazar la hipótesis nula. Por lo cual no se aconseja explotar el monte porque no se puede asegurar que el porcentaje de árboles mayores a 5 metros sea superior al 70%.",
+   "También se puede utilizar el procedimiento \"A posteriori\": α* = Gb(25/30; 0,70) = 0,0766, y como el α* es mayor que el α estipulado no se puede rechazar la hipótesis nula, arribando a la misma conclusión.",
+   "El valor crítico que satisface la ecuación es: rc = 78 éxitos, se deberían encontrar en la muestra de 100 por lo menos 78 árboles superiores a 5 metros.",
+   "Se concluye que el porcentaje de árboles con longitud superior a 5 metros del monte estará comprendido entre 65,27% y 94,36%, afirmándolo con un 95% de confianza, o sea: P(65,27% ≤ p ≤ 94,36%) = 0,95.",
+   "Si se quiere reducir la relación entre límites, se debe aumentar el tamaño de la muestra; se deben usar aproximaciones ya que no hay un procedimiento de cálculo para el uso de la distribución binomial.",
+   "Para reducir el error muestral en un 50% no queda otra alternativa que usar la aproximación normal ya que la aproximación de Poisson trabaja solamente con la relación entre límites y no con el error muestral."
+  ],
+  "observaciones": "d) La guía da dos resultados según la aproximación (normal 22.255; Poisson 26.909), sin indicar cuál adopta."
+ },
+ {
+  "id": "III-16",
+  "tema": "III",
+  "numero": 16,
+  "pagina": 23,
+  "planteo": "En una empresa productora de artículos de consumo masivo se ha lanzado una campaña publicitaria sobre un jabón en polvo cuya penetración en el mercado era del 12%. Se desea ahora realizar una encuesta para comprobar si la campaña ha sido efectiva, en cuyo caso se realizará una campaña similar sobre otro de los productos. A tal efecto, si no se ha conseguido el resultado deseado, se establece una probabilidad de 0,01 de tomar una decisión errónea, y en cambio, si hay un aumento en la penetración de 3 puntos se considera un resultado razonablemente bueno, en cuyo caso la probabilidad de tomar una decisión equivocada se establece en 0,10.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula apropiada a esta situación, la condición de rechazo y la regla de decisión.",
+    "respuesta": "(Criterio pesimista) H0) p ≤ p0 = 0,12; CR: Si r ≥ rc = 233 éxitos se rechaza la H0 o r ≥ rc = 229 éxitos (por aproximación normal); RD: Si de una muestra de 1.675 encuestados por lo menos 233 se encuentran interesados, se concluye que la campaña ha sido efectiva o Si de una muestra de 1.637 encuestados por lo menos 228 se encuentran interesados se concluye que la campaña ha sido efectiva (por aproximación normal).",
+    "valores": [
+     233,
+     229,
+     1675,
+     1637,
+     228
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de efectuar otra campaña cuando con ésta se ha obtenido un aumento de 2 puntos.",
+    "respuesta": "1–β = 0,5527, o 1–β = 0,5443 (por aproximación normal).",
+    "valores": [
+     0.5527,
+     0.5443
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Qué tamaño de muestra se debería tomar si se pretende que la probabilidad anterior valga 0,90? y ¿cuál sería en este caso la regla de decisión?",
+    "respuesta": "n = 3.667, RD: Si de una muestra de 3.667 encuestados por lo menos 487 se encuentran interesados, se concluye que la campaña ha sido efectiva o Si de una muestra de 3.604 encuestados por lo menos 479 se encuentran interesados se concluye que la campaña ha sido efectiva (por aproximación normal).",
+    "valores": [
+     3667,
+     487,
+     3604,
+     479
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Dibujar la curva que representa dichas probabilidades en función de la penetración obtenida en el mercado, teniendo en cuenta ambos tamaños de muestra.",
+    "respuesta": "Ver procedimiento de construcción de la curva en el problema 12.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) (Criterio pesimista) H0) p ≤ p0 = 0,12; CR: Si r ≥ rc = 233 éxitos se rechaza la H0 o r ≥ rc = 229 éxitos (por aproximación normal); RD: Si de una muestra de 1.675 encuestados por lo menos 233 se encuentran interesados, se concluye que la campaña ha sido efectiva o Si de una muestra de 1.637 encuestados por lo menos 228 se encuentran interesados se concluye que la campaña ha sido efectiva (por aproximación normal). b) 1–β = 0,5527, o 1–β = 0,5443 (por aproximación normal). c) n = 3.667, RD: Si de una muestra de 3.667 encuestados por lo menos 487 se encuentran interesados, se concluye que la campaña ha sido efectiva o Si de una muestra de 3.604 encuestados por lo menos 479 se encuentran interesados se concluye que la campaña ha sido efectiva (por aproximación normal). d) Ver procedimiento de construcción de la curva en el problema 12.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "a) Inconsistencia interna: la CR por aproximación normal da rc = 229 pero la RD correspondiente dice 'por lo menos 228'."
+ },
+ {
+  "id": "III-17",
+  "tema": "III",
+  "numero": 17,
+  "pagina": 24,
+  "planteo": "En un proceso de mecanizado de precisión de ejes de bronce, el diámetro es variable con distribución normal de media 10 mm y desvío estándar 0,046 mm. La tolerancia de esta pieza es 10±0,08 mm por lo que se tiene un 4,1% de unidades en bajo-medida (defectuosas) pues la P(x ≤ 9,92) = φ(−1,74) = 0,041. Las unidades en sobremedida no se consideran defectuosas pues se vuelven a tornear. Se estima que, utilizando una nueva aleación, más costosa, se puede disminuir dicho porcentaje siendo el equilibrio económico para un 2,5%. Se desea no más de 0,10 la probabilidad de cambiar de aleación si el porcentaje no se modifica.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Establecer la hipótesis nula apropiada, el tamaño de la muestra y la regla de decisión.",
+    "respuesta": "(Criterio pesimista) H0) p ≥ p0 = 0,041; n = 226 piezas o n = 253 piezas (por aproximación Normal), debería ser más apropiada la aproximación de Poisson que da n = 227; RD: Si en una muestra de 226 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación o RD: Si en una muestra de 253 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación (por aproximación Normal) o RD: Si en una muestra de 227 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación (por aproximación de Poisson).",
+    "valores": [
+     226,
+     253,
+     227,
+     5
+    ]
+   }
+  ],
+  "respuesta": "(Criterio pesimista) H0) p ≥ p0 = 0,041; n = 226 piezas o n = 253 piezas (por aproximación Normal), debería ser más apropiada la aproximación de Poisson que da n = 227; RD: Si en una muestra de 226 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación o RD: Si en una muestra de 253 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación (por aproximación Normal) o RD: Si en una muestra de 227 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación (por aproximación de Poisson).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "El enunciado no fija explícitamente β para p1 = 2,5% (con n = 226, rc = 5 resulta 1–β ≈ 0,50, o sea el 'equilibrio económico' se interpreta como β = 0,50)."
+ },
+ {
+  "id": "III-18",
+  "tema": "III",
+  "numero": 18,
+  "pagina": 24,
+  "planteo": "La fórmula del látex utilizada en diversas aplicaciones es un secreto industrial de cada fabricante. En una empresa se fabrica con el látex un determinado artículo. En el proceso de fabricación se tiene un porcentaje de defectuosos del 6%, pero se está considerando cambiar la formulación actual por otra más costosa, con la esperanza de disminuir el porcentaje de defectuosos. Si este porcentaje bajara al 4%, se desearía una probabilidad de 0,90 de cambiar, pero si no bajara, la probabilidad de cambio debe valer 0,01.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula apropiada, el tamaño de la muestra a tomar y el valor crítico.",
+    "respuesta": "(Criterio pesimista) H0) p ≥ p0 = 0,06; n = 1.585 unidades o n = 1.615 unidades (por aproximación normal); rc = 73 o menos defectuosos o 74 o menos defectuosos (por aproximación normal).",
+    "valores": [
+     1585,
+     1615,
+     73,
+     74
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de adoptar la nueva fórmula si con ella se obtiene un 5% de unidades defectuosas y dibujar una curva que dé probabilidades de adoptar la nueva fórmula en función del parámetro de ensayo, marcando claramente los valores numéricos de abscisa y ordenada de 3 puntos al menos.",
+    "respuesta": "1–β = 0,2569 o 1–β = 0,2403 (por aproximación Normal). Ver procedimiento de construcción de la curva en el problema 12.",
+    "valores": [
+     0.2569,
+     0.2403
+    ]
+   }
+  ],
+  "respuesta": "a) (Criterio pesimista) H0) p ≥ p0 = 0,06; n = 1.585 unidades o n = 1.615 unidades (por aproximación normal); rc = 73 o menos defectuosos o 74 o menos defectuosos (por aproximación normal). b) 1–β = 0,2569 o 1–β = 0,2403 (por aproximación Normal). Ver procedimiento de construcción de la curva en el problema 12.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-19",
+  "tema": "III",
+  "numero": 19,
+  "pagina": 24,
+  "planteo": "Una persona denunció que en un casino privado había una ruleta adulterada pues había observado que el cero se producía con frecuencia excesiva. El juez solicitó entonces la asesoría de un consultor estadístico para que elevara el informe correspondiente. El consultor registró datos de 1.000 bolas en las cuales el cero se presentó 42 veces.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se considera que la denuncia tiene fundamento estadístico?",
+    "respuesta": "Si, se puede afirmar que el cero se produce con frecuencia excesiva, o sea que la denuncia tiene fundamento estadístico.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Si el cero tuviera una probabilidad de 0,05, ¿cuál sería con ese tamaño de muestra la probabilidad de detectar la anomalía? (Nota: En una ruleta equilibrada y convencional, la probabilidad de cero es 1/37).",
+    "respuesta": "1–β = 0,9789.",
+    "valores": [
+     0.9789
+    ]
+   }
+  ],
+  "respuesta": "a) Si, se puede afirmar que el cero se produce con frecuencia excesiva, o sea que la denuncia tiene fundamento estadístico. b) 1–β = 0,9789.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "El enunciado no indica el riesgo α; la respuesta es consistente con α = 0,05 (rc = 37)."
+ },
+ {
+  "id": "III-20",
+  "tema": "III",
+  "numero": 20,
+  "pagina": 24,
+  "planteo": "Para el plan de muestreo: n = 10 y rc = 1.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Calcular el AQL y LTPD para riesgos de proveedor (α) y consumidor (β) 5% y 10% respectivamente.",
+    "respuesta": "AQL = p0 = 0,005116 y LTPD = p1 = 0,2057.",
+    "valores": [
+     0.005116,
+     0.2057
+    ]
+   }
+  ],
+  "respuesta": "AQL = p0 = 0,005116 y LTPD = p1 = 0,2057.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-21",
+  "tema": "III",
+  "numero": 21,
+  "pagina": 24,
+  "planteo": "De un proceso productivo de horneada de piezas para tratamiento térmico se extrae una muestra de n unidades. La horneada se rechaza si en la muestra se encuentra como mínimo dos piezas defectuosas:",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Qué valor debe tener n para que la probabilidad de aceptación (de una horneada dónde el 1% de defectuosas es aceptable) sea mayor a 0,95?",
+    "respuesta": "n = 35 piezas o n = 30 piezas (por aproximación de Poisson).",
+    "valores": [
+     35,
+     30
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de aceptar (con ese plan de muestreo) un lote que contenga el 11% de defectuosas?",
+    "respuesta": "β = 0,0902 o β = 0,1586 (por aproximación de Poisson).",
+    "valores": [
+     0.0902,
+     0.1586
+    ]
+   }
+  ],
+  "respuesta": "a) n = 35 piezas o n = 30 piezas (por aproximación de Poisson). b) β = 0,0902 o β = 0,1586 (por aproximación de Poisson).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-22",
+  "tema": "III",
+  "numero": 22,
+  "pagina": 25,
+  "planteo": "Describir el plan de muestreo, de un proceso productivo, que mejor satisfaga las siguientes condiciones:",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "AQL = p0 = 1,5% y LTPD = p1 = 4% para un riesgo del consumidor (β) y proveedor (α) del 10% y 5% respectivamente.",
+    "respuesta": "n = 353 y rc = 10 o n = 325 y rc = 10 (por aproximación Poisson).",
+    "valores": [
+     353,
+     10,
+     325,
+     10
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "AQL = p0 = 2% y LTPD = p1 = 5% para un riesgo del consumidor (β) y proveedor (α) del 10% y 15% respectivamente.",
+    "respuesta": "n = 218 y rc = 7 o n = 186 y rc = 7 (por aproximación Poisson).",
+    "valores": [
+     218,
+     7,
+     186,
+     7
+    ]
+   }
+  ],
+  "respuesta": "a) n = 353 y rc = 10 o n = 325 y rc = 10 (por aproximación Poisson). b) n = 218 y rc = 7 o n = 186 y rc = 7 (por aproximación Poisson).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-23",
+  "tema": "III",
+  "numero": 23,
+  "pagina": 25,
+  "planteo": "Se supone que el porcentaje de defectuosos de un proceso de manufactura es del 4%. El proceso se vigila diariamente mediante la toma de muestras de n = 80 unidades. Éste se detiene cada vez que se encuentran cinco o más unidades defectuosas en la muestra.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Si el verdadero porcentaje de unidades defectuosas es de 5,5%, ¿cuál es la probabilidad de detener el proceso?",
+    "respuesta": "1–β = 0,4510.",
+    "valores": [
+     0.451
+    ]
+   }
+  ],
+  "respuesta": "1–β = 0,4510.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-24",
+  "tema": "III",
+  "numero": 24,
+  "pagina": 25,
+  "planteo": "Se supone que la calidad de un lote muy grande es del 5% de unidades defectuosas como máximo. Un plan de muestreo requiere una muestra de 40 unidades y un número de aceptación de menor o igual a 2 unidades defectuosas.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Cuál es la probabilidad de que el lote sea aceptado?",
+    "respuesta": "1–α = 0,6767.",
+    "valores": [
+     0.6767
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Si la calidad del lote fuera del 6,25% de unidades defectuosas, ¿cuál es la probabilidad de que el lote sea aceptado?",
+    "respuesta": "β = 0,5397.",
+    "valores": [
+     0.5397
+    ]
+   }
+  ],
+  "respuesta": "a) 1–α = 0,6767. b) β = 0,5397.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-25",
+  "tema": "III",
+  "numero": 25,
+  "pagina": 25,
+  "planteo": "En la década del '70 se descubrió que la sustancia cancerígena (NDMA) se formaba durante el secado de la malta verde usada en la fabricación de cerveza; se sabe que la presencia de esta sustancia era del 5% en las observaciones. En la década del '80 se desarrolla un nuevo proceso de secado inoculando un inhibidor biogenético para minimizar la formación de NDMA. Se obtuvo una muestra de 160 observaciones y se detecta una presencia del 1,25% de NDMA.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se puede asegurar que el porcentaje de presencia de NDMA ha disminuido? (Asumir un riesgo del 5%).",
+    "respuesta": "Sí, se puede asegurar que el porcentaje de presencia de formación de NDMA se ha reducido.",
+    "valores": []
+   }
+  ],
+  "respuesta": "Sí, se puede asegurar que el porcentaje de presencia de formación de NDMA se ha reducido.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "III-26",
+  "tema": "III",
+  "numero": 26,
+  "pagina": 25,
+  "planteo": "Un proceso productivo debe trabajar con máximo del 1% de defectuosos en condiciones normales de funcionamiento. A fin de controlarlo periódicamente se establece un sistema de muestreo de manera que se cumplan las siguientes condiciones: 1°- detener el proceso productivo con un riesgo máximo del 1%, si trabaja en condiciones normales de funcionamiento; 2°- detener el proceso productivo con una seguridad del 95%, si el porcentaje de defectuosos se incrementa al 2%.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Se desea establecer el plan de muestreo adecuado.",
+    "respuesta": "n = 2.258 y rc = 35, si en una muestra de 2.258 piezas hay 35 o más defectuosas, se concluye que el porcentaje de defectuosas aumentó y el proceso productivo no trabaja en condiciones normales de funcionamiento; o n = 2.133 piezas y rc = 34 defectuosas (por aproximación normal).",
+    "valores": [
+     2258,
+     35,
+     2133,
+     34
+    ]
+   }
+  ],
+  "respuesta": "n = 2.258 y rc = 35, si en una muestra de 2.258 piezas hay 35 o más defectuosas, se concluye que el porcentaje de defectuosas aumentó y el proceso productivo no trabaja en condiciones normales de funcionamiento; o n = 2.133 piezas y rc = 34 defectuosas (por aproximación normal).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ }
+]

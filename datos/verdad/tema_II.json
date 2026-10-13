@@ -1,0 +1,581 @@
+[
+ {
+  "id": "II-1",
+  "tema": "II",
+  "numero": 1,
+  "pagina": 13,
+  "planteo": "Un proceso produce cierta clase de cojinetes de bolas (rulemanes) cuyo diámetro interior debe ser de 3 cm. Se seleccionaron en forma aleatoria 12 de estos cojinetes y se miden sus diámetros internos, que resultaron ser (valores en cm): 3,01 – 3,05 – 2,99 – 2,99 – 3,00 – 3,02 – 2,98 – 2,99 – 2,97 – 3,02 – 3,01 – 2,97.",
+  "tablas": [
+   {
+    "titulo": "Diámetros internos (cm)",
+    "columnas": [],
+    "filas": [
+     [
+      3.01,
+      3.05,
+      2.99,
+      2.99,
+      3.0,
+      3.02
+     ],
+     [
+      2.98,
+      2.99,
+      2.97,
+      3.02,
+      3.01,
+      2.97
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Determinar un intervalo de confianza del 95% para la varianza (σ²).",
+    "respuesta": "Entre 0,00027 y 0,00158 cm².",
+    "valores": [
+     0.00027,
+     0.00158
+    ]
+   }
+  ],
+  "respuesta": "Entre 0,00027 y 0,00158 cm².",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Con χ² exactos el límite superior da 0,001572 (redondearía a 0,00157); la guía dice 0,00158. Se transcribe tal cual."
+ },
+ {
+  "id": "II-2",
+  "tema": "II",
+  "numero": 2,
+  "pagina": 13,
+  "planteo": "Un torno automático produce cierta pieza de bronce que tiene una dimensión crítica cuya variabilidad se trata de controlar a tal efecto se midieron 5 piezas con los siguientes resultados en mm: 25,4 – 25,1 – 24,9 – 25,2 – 25,0.",
+  "tablas": [
+   {
+    "titulo": "Dimensión crítica (mm)",
+    "columnas": [],
+    "filas": [
+     [
+      25.4,
+      25.1,
+      24.9,
+      25.2,
+      25.0
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Entre qué límites se encontrará la varianza de esta dimensión con un 90% de Confianza?",
+    "respuesta": "Entre 0,0155 y 0,2083 mm².",
+    "valores": [
+     0.0155,
+     0.2083
+    ]
+   }
+  ],
+  "respuesta": "Entre 0,0155 y 0,2083 mm².",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "II-3",
+  "tema": "II",
+  "numero": 3,
+  "pagina": 13,
+  "planteo": "La desviación estándar de la resistencia a la rotura de una partida de 30 piezas producidas por una compañía fue de 200 kg.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Estimar con un nivel de confianza del 95% el desvío estándar de la resistencia a la rotura de todas las piezas.",
+    "respuesta": "Entre 159,28 y 268,87 kg.",
+    "valores": [
+     159.28,
+     268.87
+    ]
+   }
+  ],
+  "respuesta": "Entre 159,28 y 268,87 kg.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "II-4",
+  "tema": "II",
+  "numero": 4,
+  "pagina": 13,
+  "planteo": "En una muestra de 15 tubos fluorescentes pertenecientes al último lote de producción, se obtuvo que la desviación estándar de la duración ha sido de 120 horas.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Estimar el desvío estándar de la duración de todos los tubos con un riesgo del 10%.",
+    "respuesta": "Entre 92,25 y 175,17 horas.",
+    "valores": [
+     92.25,
+     175.17
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular el tamaño de muestra necesario para reducir en un 30% la relación entre los límites del desvío anterior.",
+    "respuesta": "n = 69 tubos.",
+    "valores": [
+     69
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 92,25 y 175,17 horas. b) n = 69 tubos.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "II-5",
+  "tema": "II",
+  "numero": 5,
+  "pagina": 13,
+  "planteo": "Se han tomado datos de tensión de rotura, en Kg/mm², de una aleación de aluminio, obteniéndose los siguientes resultados: 37,6 – 38,4 – 38,8 – 37,9.",
+  "tablas": [
+   {
+    "titulo": "Tensión de rotura (Kg/mm²)",
+    "columnas": [],
+    "filas": [
+     [
+      37.6,
+      38.4,
+      38.8,
+      37.9
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Calcular los límites de confianza del 90% para el desvío estándar.",
+    "respuesta": "Entre 0,32 Kg/mm² y 1,56 Kg/mm² (S = 0,5315; R' = B'/A' = 4,7128).",
+    "valores": [
+     0.32,
+     1.56
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuántos datos más habría que tomar para que el límite superior, del intervalo para el desvío estándar, sea el doble que el límite inferior?",
+    "respuesta": "n = 14 datos en total, o sea 10 datos más de los 4 iniciales (a = 3,6227; ν = 12,11).",
+    "valores": [
+     14,
+     10
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 0,32 y 1,56 Kg/mm². b) n = 14 datos en total, o sea 10 datos más.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Se concluye que el desvío estándar de la población estará comprendido entre 0,32 Kg/mm² y 1,56 Kg/mm², afirmándolo con un 90% de confianza, o sea: P(0,32 Kg/mm² ≤ σ ≤ 1,56 Kg/mm²) = 0,90.",
+   "Se necesitaría una muestra de 14 datos en total, o sea se deberían tomar 10 datos más de los 4 seleccionados en la muestra inicial."
+  ],
+  "observaciones": ""
+ },
+ {
+  "id": "II-6",
+  "tema": "II",
+  "numero": 6,
+  "pagina": 14,
+  "planteo": "El peso de los ovillos de hilo que salen de una ovilladora tiene distribución Normal con un desvío estándar que se controla periódicamente con muestras de 20 ovillos. Una de dichas muestras arrojó un desvío de 15 gramos.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Calcular los límites de confianza del 95% para el desvío.",
+    "respuesta": "Entre 11,40 y 21,91 gramos.",
+    "valores": [
+     11.4,
+     21.91
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Qué tamaño de muestra habría que tomar para tener un intervalo de confianza cuyo límite superior sea un 50% mayor que el inferior?",
+    "respuesta": "n = 49 ovillos en total.",
+    "valores": [
+     49
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 11,40 y 21,91 gramos. b) n = 49 ovillos en total.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "II-7",
+  "tema": "II",
+  "numero": 7,
+  "pagina": 14,
+  "planteo": "El promedio de ventas semanales en dólares por distribuidor de un determinado producto en una muestra de 20 supermercados, ha sido durante el año pasado de 3.500 U$s con un desvío estándar de 210 U$s.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Estimar con un riesgo del 5% el desvío estándar de las ventas semanales por distribuidor, en todos los supermercados, durante el año pasado.",
+    "respuesta": "Entre 159,70 y 306,73 U$s.",
+    "valores": [
+     159.7,
+     306.73
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuántos supermercados más habría que analizar si se pretende disminuir en un 30% la relación entre ambos límites anterior?",
+    "respuesta": "n = 90 supermercados en total, o sea, 70 supermercados más.",
+    "valores": [
+     90,
+     70
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 159,70 y 306,73 U$s. b) n = 90 supermercados en total, o sea, 70 supermercados más.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "II-8",
+  "tema": "II",
+  "numero": 8,
+  "pagina": 14,
+  "planteo": "Se espera tener una cierta variación aleatoria nominal en el espesor de las láminas de plástico que una máquina produce. Para determinar cuándo la variación en el espesor se encuentra dentro de ciertos límites, cada día se seleccionan en forma aleatoria 12 láminas de plástico y se mide su espesor en milímetros. Los datos que se obtuvieron son los siguientes: 12,6 – 11,9 – 12,3 – 12,8 – 11,8 – 11,7 – 12,4 – 12,1 – 12,3 – 12,0 – 12,5 – 12,9.",
+  "tablas": [
+   {
+    "titulo": "Espesor (mm)",
+    "columnas": [],
+    "filas": [
+     [
+      12.6,
+      11.9,
+      12.3,
+      12.8,
+      11.8,
+      11.7
+     ],
+     [
+      12.4,
+      12.1,
+      12.3,
+      12.0,
+      12.5,
+      12.9
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Obtener el intervalo de confianza del 90% para la varianza poblacional desconocida del espesor.",
+    "respuesta": "Entre 0,0834 y 0,3591 mm².",
+    "valores": [
+     0.0834,
+     0.3591
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Si no es aceptable una varianza mayor de 0,09 mm², para un riesgo del 5%, ¿existe alguna razón para preocuparse con base en esta evidencia?",
+    "respuesta": "No, no se puede asegurar que la varianza sea mayor que 0,09 mm².",
+    "valores": []
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál es la probabilidad de detectar que la varianza es de 0,11 mm²?",
+    "respuesta": "1-β = 0,1375.",
+    "valores": [
+     0.1375
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "¿Cuántas láminas más se deberán medir si se quiere que la probabilidad anterior valga 0,95?",
+    "respuesta": "n = 540 láminas en total, o sea, 528 láminas más.",
+    "valores": [
+     540,
+     528
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 0,0834 y 0,3591 mm². b) No, no se puede asegurar que la varianza sea mayor que 0,09 mm². c) 1-β = 0,1375. d) n = 540 láminas en total, o sea, 528 láminas más.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "II-9",
+  "tema": "II",
+  "numero": 9,
+  "pagina": 14,
+  "planteo": "Una máquina envasadora de botellas de gaseosas dosifica volúmenes variables cuyo desvío estándar no debe superar los 15 cm³. Se controla periódicamente tomando muestras de 10 envases y midiendo los volúmenes dosificados. Una de las muestras arrojó un desvío de 18,2 cm³.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se recomienda detener la máquina y revisarla con un riesgo máximo del 5%?",
+    "respuesta": "H0) σ ≤ σ0 = 15 cm³; Sc = 20,5664 cm³. Como S = 18,2 cm³ no supera el crítico, no se recomienda detener la máquina: no se puede asegurar que el desvío supere los 15 cm³ (χ²c = 13,2496 < 16,9190).",
+    "valores": [
+     20.5664,
+     13.2496,
+     16.919
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de no detectar que la máquina envasadora dosifica con un desvío estándar de 16 cm³?",
+    "respuesta": "β = 0,9054.",
+    "valores": [
+     0.9054
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántos envases más se deberían controlar para que la probabilidad anterior valga 0,10?",
+    "respuesta": "n = 1.025 envases en total, o sea 1.015 envases más (R = 1,137; a = 33,9220; ν = 1.023,29).",
+    "valores": [
+     1025,
+     1015
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Estimar con la muestra obtenida, en el enunciado, y un riesgo del 5% la desviación estándar de los volúmenes dosificados.",
+    "respuesta": "Entre 12,51 cm³ y 33,23 cm³.",
+    "valores": [
+     12.51,
+     33.23
+    ]
+   }
+  ],
+  "respuesta": "a) No se recomienda detener la máquina (Sc = 20,5664 cm³ > 18,2 cm³). b) β = 0,9054. c) n = 1.025 envases en total, o sea 1.015 más. d) Entre 12,51 y 33,23 cm³.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Esta hipótesis se rechaza si en una muestra de 10 envases el desvío es mayor que 20,5663 cm³.",
+   "Como la muestra obtenida arrojó un desvío de 18,2 cm³, no se recomienda detener la máquina y revisarla porque no se puede asegurar que el desvío estándar de dosificación de la máquina supere los 15 cm³.",
+   "Como no se rechaza la hipótesis, se arriba a la misma conclusión.",
+   "Se necesitaría una muestra de 1.025 envases en total, o sea se deberían controlar 1.015 envases más de los 10 seleccionados en la muestra inicial.",
+   "Se concluye que el desvío estándar de la población estará comprendido entre 12,51 cm³ y 33,23 cm³, afirmándolo con un 95% de confianza, o sea: P(12,51 cm³ ≤ σ ≤ 33,23 cm³) = 0,95."
+  ],
+  "observaciones": "El crítico se calcula como Sc = 20,5664 cm³ pero en el texto de la conclusión figura 20,5663 cm³."
+ },
+ {
+  "id": "II-10",
+  "tema": "II",
+  "numero": 10,
+  "pagina": 15,
+  "planteo": "Una compañía embotelladora considera la posibilidad de comprar una nueva máquina dosificadora si se puede asegurar que el desvío estándar de los volúmenes dosificados es menor que 15 cm³, y a efectos de tomar una decisión se realiza una prueba con 20 envases arrojando, esta, un desvío estándar de 12,5 cm³.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se recomendaría comprar la máquina con un riesgo máximo del 5%?",
+    "respuesta": "No, porque no se puede asegurar que el desvío sea menor que 15 cm³.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar con un riesgo del 5% la desviación estándar máxima de los volúmenes dosificados.",
+    "respuesta": "B' = 17,14 cm³.",
+    "valores": [
+     17.14
+    ]
+   }
+  ],
+  "respuesta": "a) No, porque no se puede asegurar que el desvío sea menor que 15 cm³. b) B' = 17,14 cm³.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Con χ²(0,05;19) = 10,1170 exacto, B' da 17,13 cm³; la guía da 17,14 (diferencia de redondeo)."
+ },
+ {
+  "id": "II-11",
+  "tema": "II",
+  "numero": 11,
+  "pagina": 15,
+  "planteo": "La volatilidad de una acción está dada por el desvío estándar de su cotización diaria. A mayor volatilidad mayor riesgo, pero también mayor posibilidad de obtener mayores ganancias en el corto plazo. Durante los últimos 20 días se obtuvo, para una acción dada, un desvío estándar de 25 U$s.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede asegurar, con 10% de riesgo, que el desvío verdadero es superior a 20 U$s?",
+    "respuesta": "Si, se puede asegurar que el desvío es superior a 20 U$s.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Establecer un intervalo de confianza del 80% para el desvío verdadero.",
+    "respuesta": "Entre 20,89 y 31,93 U$s.",
+    "valores": [
+     20.89,
+     31.93
+    ]
+   }
+  ],
+  "respuesta": "a) Si, se puede asegurar que el desvío es superior a 20 U$s. b) Entre 20,89 y 31,93 U$s.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "II-12",
+  "tema": "II",
+  "numero": 12,
+  "pagina": 16,
+  "planteo": "El control de la variabilidad de los pesos de suelas de goma se realiza tomando muestras de suelas periódicas de 10 unidades, deteniendo el proceso tecnológico en caso de que el desvío poblacional \"σ\" de los pesos tome un valor mayor que el desvío estipulado en la especificación. El valor considerado adecuado por especificación para el desvío de la población es de 5 gramos como máximo y, de ser así, la probabilidad de detener el proceso indebidamente se ha establecido en 0,05.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Calcular el valor crítico (Sc) del desvío estándar muestral.",
+    "respuesta": "Para rechazar la hipótesis y detener el proceso tecnológico, S debe ser mayor que Sc = 6,86 gramos.",
+    "valores": [
+     6.86
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de no detectar que el desvío es de 8 gramos?",
+    "respuesta": "β = 0.3222.",
+    "valores": [
+     0.3222
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas suelas más se deberán tomar si se quiere que la probabilidad anterior valga 0,05?",
+    "respuesta": "n = 27 suelas en total, o sea 17 suelas más.",
+    "valores": [
+     27,
+     17
+    ]
+   }
+  ],
+  "respuesta": "a) Para rechazar la hipótesis y detener el proceso tecnológico, S debe ser mayor que Sc = 6,86 gramos. b) β = 0.3222. c) n = 27 suelas en total, o sea 17 suelas más.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "En b) la guía escribe 0.3222 con punto decimal."
+ },
+ {
+  "id": "II-13",
+  "tema": "II",
+  "numero": 13,
+  "pagina": 16,
+  "planteo": "Una hilandería adquiere una nueva máquina cuyo fabricante asegura gran regularidad en espesores y tensionado del hilado. Para un determinado tipo, el peso promedio por metro máximo deberá ser de 1,5 gramos con un desvío estándar máximo de 0,015 gramos/metro, lo que entra cómodamente en las especificaciones de la máquina. No obstante, dada la importancia del peso medio (por su incidencia directa en los costos) y de la variabilidad que afecta a la calidad del producto, se realiza una prueba piloto de la que se extraen 9 muestras de 1 metro con los siguientes resultados: Muestra N°: 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9; Peso (g/m): 1,55 - 1,50 - 1,54 - 1,57 - 1,51 - 1,52 - 1,53 - 1,52 - 1,56.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Muestra N°",
+     "Peso (g/m)"
+    ],
+    "filas": [
+     [
+      1,
+      1.55
+     ],
+     [
+      2,
+      1.5
+     ],
+     [
+      3,
+      1.54
+     ],
+     [
+      4,
+      1.57
+     ],
+     [
+      5,
+      1.51
+     ],
+     [
+      6,
+      1.52
+     ],
+     [
+      7,
+      1.53
+     ],
+     [
+      8,
+      1.52
+     ],
+     [
+      9,
+      1.56
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Asumiendo un 5% de riesgo máximo, ¿qué se puede decir a la luz de los resultados obtenidos en la prueba piloto?",
+    "respuesta": "H0) σ ≤ 0,015 g/m: Sc = 0,0209 g/m < S = 0,0235 g/m, se rechaza; el desvío no cumple la especificación. H0) μ ≤ 1,5 g/m: x̄c = 1,52 g/m < x̄ = 1,5333 g/m, se rechaza; el promedio no cumple la especificación. No se cumplen las especificaciones del fabricante (ni μ ni σ).",
+    "valores": [
+     0.0209,
+     1.52
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar el peso medio por metro y el desvío standard de la producción total de la máquina con un Nivel de Confianza del 95%.",
+    "respuesta": "Media: entre 1,51 g/m y 1,56 g/m (1,533 ± 0,0180). Desvío: entre 0,0158 g/m y 0,0450 g/m (R' = 2,8363).",
+    "valores": [
+     1.51,
+     1.56,
+     0.0158,
+     0.045,
+     2.8363
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas muestras más se deberán extraer y adicionar a la prueba piloto para disminuir en un 60% la relación entre límites de la estimación del desvío standard calculado en b)?",
+    "respuesta": "n = 485 muestras en total, o sea 476 muestras más (R' = 1,1345; R = 1,2871; a = 23,3106; ν = 483,45).",
+    "valores": [
+     485,
+     476
+    ]
+   }
+  ],
+  "respuesta": "a) Se rechazan ambas hipótesis (Sc = 0,0209 g/m; x̄c = 1,52 g/m): no se cumplen las especificaciones. b) μ entre 1,51 y 1,56 g/m; σ entre 0,0158 y 0,0450 g/m. c) n = 485 muestras en total, o sea 476 más.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Esta hipótesis se rechaza si en las 9 muestras el desvío es mayor que 0,0209 g/m. Como las 9 muestras obtenidas arrojaron un desvío de 0,0235 g/m, se rechaza la hipótesis y se puede asegurar que el desvío estándar no cumple con la especificación del fabricante que debe ser de 0,015 g/m como máximo.",
+   "Esta hipótesis se rechaza si en las 9 muestras el promedio es mayor que 1,52 g/m. Como las 9 muestras obtenidas arrojaron un promedio de 1,5333 g/m, se rechaza la hipótesis y se puede asegurar que el promedio no cumple con la especificación del fabricante que debe ser de 1,5 g/m.",
+   "Por lo tanto, se concluye que no se cumplen con las especificaciones establecidas por el fabricante (tanto μ como σ).",
+   "Se concluye que el peso por metro promedio de todos los hilos estará comprendido entre 1,51 g/m y 1,56 g/m, afirmándolo con un 95% de confianza, o sea: P(1,51 g/m ≤ μ ≤ 1,56 g/m) = 0,95.",
+   "Se concluye que el desvío estándar de la población estará comprendido entre 0,0158 g/m y 0,0450 g/m, afirmándolo con un 95% de confianza.",
+   "Se necesitaría 485 muestras en total, o sea se deberían tomar 476 muestras más de las 9 seleccionadas inicialmente."
+  ],
+  "observaciones": "En b) la expresión probabilística dice P(0,0158 g/m ≤ σ ≤ 0,04450 g/m) = 0,95 (errata, el límite calculado es 0,0450). En c) 'disminuir en un 60%' se resuelve como R' = 2,8363·0,4 = 1,1345."
+ }
+]

@@ -1,0 +1,280 @@
+[
+ {
+  "id": "IV-1",
+  "tema": "IV",
+  "numero": 1,
+  "pagina": 26,
+  "planteo": "En un taller metalúrgico se han incorporado dos nuevos tornos automáticos de distinta marca. Con ambos tornos se hace la misma pieza. Con el fin de compararlos se toma como base las medidas (en décimas de mm) de los diámetros de dos conjuntos de piezas hechos en cada uno de ellos. Se obtuvieron los siguientes resultados: S1 = 3,6 de una muestra n1 = 13 piezas y S2 = 5,4 de una muestra n2 = 25 piezas.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Calcular los límites de confianza del 90% para la relación entre las varianzas poblacionales.",
+    "respuesta": "Entre 0,2035 y 1,1136 décimas de mm², para la relación (σ1/σ2)², o Entre 0,8980 y 4,9127 décimas de mm², para la relación (σ2/σ1)².",
+    "valores": [
+     0.2035,
+     1.1136,
+     0.898,
+     4.9127
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Si se decidiera trabajar con muestras iguales en cada torno, ¿cuál sería el tamaño de muestra en cada uno para reducir la relación entre límites anterior a la mitad?",
+    "respuesta": "n = 45 piezas, para ambos tornos.",
+    "valores": [
+     45
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Calcular los límites de confianza del 90% para la relación entre los desvíos poblacionales.",
+    "respuesta": "Entre 0,4511 y 1,0553 décimas de mm (para la relación σ1/σ2); o Entre 0,9476 y 2,2165 décimas de mm (para la relación σ2/σ1).",
+    "valores": [
+     0.4511,
+     1.0553,
+     0.9476,
+     2.2165
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Si se decidiera trabajar con muestras iguales en cada torno, ¿cuál sería el tamaño de muestra en cada uno para reducir la relación entre los límites de estimación anterior a la mitad?",
+    "respuesta": "n = 444 piezas, para ambos tornos.",
+    "valores": [
+     444
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 0,2035 y 1,1136 décimas de mm², para la relación (σ1/σ2)², o Entre 0,8980 y 4,9127 décimas de mm², para la relación (σ2/σ1)². b) n = 45 piezas, para ambos tornos. c) Entre 0,4511 y 1,0553 décimas de mm (para la relación σ1/σ2); o Entre 0,9476 y 2,2165 décimas de mm (para la relación σ2/σ1). d) n = 444 piezas, para ambos tornos.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La Resp expresa los límites de la relación de varianzas en 'décimas de mm²' y los de la relación de desvíos en 'décimas de mm', aunque las relaciones son adimensionales; se transcribe tal cual."
+ },
+ {
+  "id": "IV-2",
+  "tema": "IV",
+  "numero": 2,
+  "pagina": 26,
+  "planteo": "En un taller de manufactura de una pieza de una aleación especial “Dural”, se considera la posibilidad de cambiar la composición química por otra más costosa a efectos de disminuir el desvío estándar de la dimensión crítica en más de un 20%, estableciéndose en 0,1 la probabilidad de cambio si el desvío disminuyera sólo en un 20%. Se hizo una prueba con 21 piezas del material actual (A), obteniéndose un desvío de 0,084 mm y luego otra prueba con 13 piezas de la aleación propuesta (P), que arrojó un desvío de 0,06 mm.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Cuál es la decisión recomendada?",
+    "respuesta": "H0: σP ≥ 0,8·σA; para φ = σP/σA, H0: φ ≥ φ0 = 0,8. jc = 0,5574 (j²c = 0,3107); j = SP/SA = 0,7143 (j² = 0,5102). No se rechaza la H0: no se aconseja el cambio de composición química, porque no se puede probar que la aleación propuesta disminuya el desvío en más de un 20% respecto de la aleación actual.",
+    "valores": [
+     0.5574,
+     0.3107,
+     0.7143,
+     0.5102
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de no cambiar la composición química cuando el desvío disminuye en un 30%?",
+    "respuesta": "β = 0,7897 (para φ1 = 0,70).",
+    "valores": [
+     0.7897
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál sería el tamaño de muestra, en cada una de las aleaciones, si se pretende que la probabilidad anterior valga 0,05? (considerar trabajar con el mismo tamaño de muestra en ambas aleaciones).",
+    "respuesta": "ν = 482 ⇒ n = nP = nA = 483 piezas de cada aleación.",
+    "valores": [
+     482,
+     483
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Con los datos obtenidos en el enunciado, calcular un intervalo de confianza del 90% para la relación entre los desvíos.",
+    "respuesta": "Entre 0,4732 y 1,1392 (para la relación φ = σP/σA).",
+    "valores": [
+     0.4732,
+     1.1392
+    ]
+   },
+   {
+    "letra": "e",
+    "texto": "¿Cuál sería el tamaño de muestra, en cada una de las aleaciones, si se pretende disminuir a la mitad la relación de la estimación anterior? (considerar trabajar con el mismo tamaño de muestra en ambas aleaciones).",
+    "respuesta": "ν = 317 ⇒ n = nA = nP = 318 piezas de cada aleación.",
+    "valores": [
+     317,
+     318
+    ]
+   }
+  ],
+  "respuesta": "a) H0: σP ≥ 0,8·σA; para φ = σP/σA, H0: φ ≥ φ0 = 0,8. jc = 0,5574 (j²c = 0,3107); j = SP/SA = 0,7143 (j² = 0,5102). No se rechaza la H0: no se aconseja el cambio de composición química, porque no se puede probar que la aleación propuesta disminuya el desvío en más de un 20% respecto de la aleación actual. b) β = 0,7897 (para φ1 = 0,70). c) ν = 482 ⇒ n = nP = nA = 483 piezas de cada aleación. d) Entre 0,4732 y 1,1392 (para la relación φ = σP/σA). e) ν = 317 ⇒ n = nA = nP = 318 piezas de cada aleación.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "De manera que la hipótesis no se rechaza por lo cual no se aconseja el cambio de composición química, porque no se puede probar que la aleación propuesta disminuya el desvío en más de un 20% respecto de la aleación actual.",
+   "β = 1 − F_F-S(0,6341) = 0,7897.",
+   "O sea que se deben elegir 483 piezas de cada aleación.",
+   "Los límites de la relación se encontrarán entre 0,4732 y 1,1392. Quiere decir que el desvío estándar de la aleación propuesta puede ser mayor que la actual en un 47,32% o el desvío estándar de la aleación actual puede ser mayor que la propuesta en un 87,78% (o sea que la aleación propuesta puede incrementar su desvío estándar como máximo en un 13,92% respecto de la actual.",
+   "Como n = ν + 1: n = nA = nP = 318 piezas de cada aleación."
+  ],
+  "observaciones": "Sin 'Resp:'; respuesta armada desde la Solución. En d) la Solución usa R' = B'/A' = 2,4069, en e) R' = 1,2035 y R = 1,4483 para iterar ν. Las frases de porcentajes en d) (47,32%, 87,78%, 13,92%) se transcriben tal cual; el paréntesis queda sin cerrar en la guía."
+ },
+ {
+  "id": "IV-3",
+  "tema": "IV",
+  "numero": 3,
+  "pagina": 27,
+  "planteo": "Una empresa agropecuaria posee dos establecimientos de invernada para engorde de novillos Angus, denominados “La Providencia” y “Casablanca”. Los lotes que salen a venta en ambos presentan pesos promedio razonablemente controlados, pero hay dudas en la variabilidad pues parece, por lo que se aprecia visualmente, que no son todos iguales de parejos lo cual se debe, probablemente, a distintos criterios de selección por parte de los capataces. A efectos de la comparación, se registraron los pesos de 50 animales terminados de cada establecimiento, con los siguientes resultados: Establecimiento: “La Providencia” | “Casablanca”; Muestra: n = 50 | 50; Media: x̄ = 428 kg | 432 kg; Desvío: S = 12 kg | 18 kg.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Establecimiento",
+     "“La Providencia”",
+     "“Casablanca”"
+    ],
+    "filas": [
+     [
+      "Muestra: n =",
+      50,
+      50
+     ],
+     [
+      "Media: x̄ =",
+      "428 kg",
+      "432 kg"
+     ],
+     [
+      "Desvío: S =",
+      "12 kg",
+      "18 kg"
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede asegurar, con 5% de error, que los desvíos difieren (o sea que el de Casablanca es mayor al de La Providencia)?",
+    "respuesta": "Si, se puede asegurar que los desvíos difieren (en Casablanca el desvío es mayor que en La Providencia).",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de no detectar que el desvío de Casablanca es un 20% mayor que el desvío de La Providencia.",
+    "respuesta": "β = 0,649.",
+    "valores": [
+     0.649
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál debería ser el tamaño de muestra en cada establecimiento para que la probabilidad anterior valga 0,10?",
+    "respuesta": "n = 260 animales terminados en cada establecimiento.",
+    "valores": [
+     260
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Con los datos del problema, establecer los límites de confianza del 90% para la relación de dichos desvíos.",
+    "respuesta": "Entre 1,1831 y 1,9017 (para la relación σCa/σLP); quiere decir que el desvío de Casablanca puede ser mayor que el de La Providencia entre un 18,31% y un 90,17%.",
+    "valores": [
+     1.1831,
+     1.9017
+    ]
+   },
+   {
+    "letra": "e",
+    "texto": "Recalcular el tamaño de muestra para un intervalo de estimación cuyo límite superior sea un 50% mayor que el inferior.",
+    "respuesta": "En cada establecimiento 68 animales terminados.",
+    "valores": [
+     68
+    ]
+   }
+  ],
+  "respuesta": "a) Si, se puede asegurar que los desvíos difieren (en Casablanca el desvío es mayor que en La Providencia). b) β = 0,649. c) n = 260 animales terminados en cada establecimiento. d) Entre 1,1831 y 1,9017 (para la relación σCa/σLP); quiere decir que el desvío de Casablanca puede ser mayor que el de La Providencia entre un 18,31% y un 90,17%. c) En cada establecimiento 68 animales terminados.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "En la Resp la última parte está rotulada 'c)' pero corresponde al inciso e) (68 animales); se transcribe tal cual en 'respuesta' y se asigna al inciso e)."
+ },
+ {
+  "id": "IV-4",
+  "tema": "IV",
+  "numero": 4,
+  "pagina": 27,
+  "planteo": "En una hilandería se considera la posibilidad de reacondicionar a nuevo las hiladoras, si es posible asegurar con el reacondicionamiento, una reducción del 12% en el desvío estándar de la producción por máquina. Se eligieron entonces 4 máquinas al azar y se las reacondicionó, registrándose luego la producción de cada una para un período dado; se obtuvo así una media de 1.470 metros de hilado con un desvío estándar de 132 metros. Como se desconocía la producción de las máquinas sin reacondicionar, se registró la producción de 16 de ellas en el mismo período, obteniéndose una media de 1.208 metros con un desvío de 354 metros.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede asegurar, con 10% de error, que hay una reducción del 12% en el desvío de las máquinas reacondicionadas respecto de las sin reacondicionar?",
+    "respuesta": "Si, se puede asegurar que hay una reducción de más del 12% (las máquinas reacondicionadas tienen un desvío estándar un 12% menor que el desvío de las máquinas sin reacondicionar).",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de detectar una reducción del 30%?",
+    "respuesta": "1−β = 0,1779.",
+    "valores": [
+     0.1779
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Calcular el tamaño de muestra necesario para que la probabilidad anterior valga 0,90.",
+    "respuesta": "n = 128 máquinas reacondicionadas y 128 máquinas sin reacondicionamiento.",
+    "valores": [
+     128
+    ]
+   }
+  ],
+  "respuesta": "a) Si, se puede asegurar que hay una reducción de más del 12% (las máquinas reacondicionadas tienen un desvío estándar un 12% menor que el desvío de las máquinas sin reacondicionar). b) 1−β = 0,1779. c) n = 128 máquinas reacondicionadas y 128 máquinas sin reacondicionamiento.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "IV-5",
+  "tema": "IV",
+  "numero": 5,
+  "pagina": 28,
+  "planteo": "Se quiere realizar un experimento para probar la eficacia de un aditivo en la fórmula de un tipo de látex, con el que se espera una reducción significativa de la desviación estándar. A tal fin se estipulan las siguientes condiciones: se establece un riesgo máximo del 5% de adoptar el aditivo si no hay reducción del desvío estándar y una probabilidad de 0,99 de adoptar el aditivo si la reducción de la desviación es de un 30% respecto a la fórmula sin el aditivo.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula apropiada, el tamaño de la muestra a tomar, establecer la condición de rechazo y la regla de decisión.",
+    "respuesta": "H0: σCA ≥ σSA, para la relación φ = σCA/σSA, H0: φ ≥ φ0 = 1, nCA = 127 muestras de látex con aditivo y nCA = 127 muestras de látex sin aditivo. CR: Si j < jc = 0,8632 ⇒ Rechazo la H0. RD: Si en 127 muestras de cada fórmula de látex, la relación j = σCA/σSA es menor que 0,8632, se rechaza la H0 y se adopta el aditivo en la fórmula del látex.",
+    "valores": [
+     127,
+     0.8632
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de adoptar el aditivo si con él se obtiene una reducción del 20% respecto de la fórmula sin el aditivo.",
+    "respuesta": "1−β = 0,1972.",
+    "valores": [
+     0.1972
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas muestras más habría que observar de cada fórmula del látex para que la probabilidad anterior valga 0,9?",
+    "respuesta": "nCA = nSA = 174 muestras, o sea 47 muestras más de cada fórmula del látex.",
+    "valores": [
+     174,
+     47
+    ]
+   }
+  ],
+  "respuesta": "a) H0: σCA ≥ σSA, para la relación φ = σCA/σSA, H0: φ ≥ φ0 = 1, nCA = 127 muestras de látex con aditivo y nCA = 127 muestras de látex sin aditivo. CR: Si j < jc = 0,8632 ⇒ Rechazo la H0. RD: Si en 127 muestras de cada fórmula de látex, la relación j = σCA/σSA es menor que 0,8632, se rechaza la H0 y se adopta el aditivo en la fórmula del látex. b) 1−β = 0,1972. c) nCA = nSA = 174 muestras, o sea 47 muestras más de cada fórmula del látex.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "En la Resp a) dice 'nCA = 127 muestras de látex sin aditivo' (debería ser nSA); y la RD define j = σCA/σSA (cociente de desvíos poblacionales, cuando j es el muestral SCA/SSA). Se transcribe tal cual."
+ }
+]

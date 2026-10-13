@@ -1,0 +1,1290 @@
+[
+ {
+  "id": "V-1",
+  "tema": "V",
+  "numero": 1,
+  "pagina": 29,
+  "planteo": "En la década del '70 se descubrió que la sustancia cancerígena (NDMA) se formaba durante el secado de la malta verde usada en la fabricación de cerveza. En la década del '80 se desarrolla un nuevo proceso de secado inoculando un inhibidor biogenético para minimizar la formación promedio de NDMA. Se obtuvieron muestras de ambos procesos con los siguientes resultados expresados en partes por billón de NDMA: Proceso Viejo: 6 – 4 – 5 – 5 – 6 – 5 – 5 – 6 – 4 – 6 – 7 – 4; Proceso Nuevo: 2 – 1 – 2 – 2 – 1 – 0 – 3 – 2 – 1 – 0 – 1 – 3.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Proceso",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12"
+    ],
+    "filas": [
+     [
+      "Proceso Viejo",
+      6,
+      4,
+      5,
+      5,
+      6,
+      5,
+      5,
+      6,
+      4,
+      6,
+      7,
+      4
+     ],
+     [
+      "Proceso Nuevo",
+      2,
+      1,
+      2,
+      2,
+      1,
+      0,
+      3,
+      2,
+      1,
+      0,
+      1,
+      3
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Qué se puede decir, del nuevo proceso de secado, a la luz de los resultados obtenidos? (Asumir un riesgo del 1%).",
+    "respuesta": "Desvíos: H0: σN ≤ σV (φ = σN/σV, H0: φ ≤ φ0 = 1), jc = 1,4923 (j²c = 2,2269), j = 1,0359 (j² = 1,0732): no se rechaza, se suponen desvíos iguales; Sa = 0,9828 p.p.b., ν = 22. Medias: H0: μN ≥ μV (δ = μN − μV, H0: δ ≥ δ0 = 0), dc = −1,0064 p.p.b., d = 1,5 − 5,25 = −3,75 p.p.b. Se rechaza la hipótesis: se puede asegurar que el proceso nuevo ha minimizado la formación de NDMA.",
+    "valores": [
+     1.4923,
+     1.0359,
+     0.9828,
+     22,
+     -1.0064,
+     -3.75
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular los límites de confianza del 90% para la diferencia entre las formaciones promedio de NDMA de ambos procesos.",
+    "respuesta": "Entre 3,06 y 4,44 partes por billón (δ = μV − μN; 3,75 ± 0,6890), con un error de muestreo e = 0,6890 p.p.b.",
+    "valores": [
+     3.06,
+     4.44,
+     0.689
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas muestras más habría que tener de ambos procesos para reducir el error anterior a la mitad? (considerar trabajar con el mismo tamaño de muestra en ambos procesos de secado).",
+    "respuesta": "n = 45 en cada proceso, o sea 33 muestras más.",
+    "valores": [
+     45,
+     33
+    ]
+   }
+  ],
+  "respuesta": "a) Desvíos: H0: σN ≤ σV (φ = σN/σV, H0: φ ≤ φ0 = 1), jc = 1,4923 (j²c = 2,2269), j = 1,0359 (j² = 1,0732): no se rechaza, se suponen desvíos iguales; Sa = 0,9828 p.p.b., ν = 22. Medias: H0: μN ≥ μV (δ = μN − μV, H0: δ ≥ δ0 = 0), dc = −1,0064 p.p.b., d = 1,5 − 5,25 = −3,75 p.p.b. Se rechaza la hipótesis: se puede asegurar que el proceso nuevo ha minimizado la formación de NDMA. b) Entre 3,06 y 4,44 partes por billón (δ = μV − μN; 3,75 ± 0,6890), con un error de muestreo e = 0,6890 p.p.b. c) n = 45 en cada proceso, o sea 33 muestras más.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Proceso Viejo: nV = 12, x̄V = 5,25 p.p.b., SV = 0,9653 p.p.b.; Proceso Nuevo: nN = 12, x̄N = 1,5 p.p.b., SN = 1,0 p.p.b.",
+   "De manera que la hipótesis no se rechaza por lo cual no se puede probar que los desvíos poblacionales sean distintos, de manera que se supone que los desvíos poblacionales son iguales.",
+   "De manera que la hipótesis se rechaza, por lo cual se puede asegurar que el proceso nuevo ha minimizado la formación de NDMA.",
+   "Se concluye que la diferencia entre las medias poblacionales estará comprendida entre 3,06 partes por billón y 4,44 partes por billón, afirmándolo con un 90% de confianza.",
+   "El resultado se obtiene con n = 45. Se necesitan un total de 45 muestras, o sea que se necesitarán incluir en la experimentación realizada 33 muestras más."
+  ],
+  "observaciones": "Sin 'Resp:'; respuesta armada desde la Solución. La prueba de desvíos se hace con riesgo 10% (F(0,90;11;11)). En c) la Solución dice 'en ambas aleaciones' (arrastre de otro problema)."
+ },
+ {
+  "id": "V-2",
+  "tema": "V",
+  "numero": 2,
+  "pagina": 30,
+  "planteo": "Se desea comparar dos raciones “A” y “B” para la crianza de potrillos sangre pura de carrera a efectos de lo cual se seleccionó un conjunto de 12 potrillos machos, todos hijos de un mismo semental, para el experimento. Se eligieron 6 al azar y se les asignó la ración “A”, en tanto que a los restantes se les asignó la ración “B”. Se les suministraron las raciones durante un el mismo lapso y se registraron los siguientes aumentos de alzada en cm: Ración “A”: 1,5 – 2,5 – 3,5 – 2,0 – 3,0 – 3,5; Ración “B”: 2,5 – 2,0 – 4,5 – 4,0 – 3,5 – 4,0.",
+  "tablas": [
+   {
+    "titulo": "Aumentos de alzada (cm)",
+    "columnas": [
+     "Ración",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6"
+    ],
+    "filas": [
+     [
+      "Ración “A”",
+      1.5,
+      2.5,
+      3.5,
+      2.0,
+      3.0,
+      3.5
+     ],
+     [
+      "Ración “B”",
+      2.5,
+      2.0,
+      4.5,
+      4.0,
+      3.5,
+      4.0
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se considera que este experimento es concluyente para poder afirmar, con probabilidad máxima de error de 0,05, que las dos raciones difieren en cuanto a la influencia en el crecimiento promedio de los potrillos?",
+    "respuesta": "No, no se puede asegurar que la ración “B” aumente el crecimiento promedio de los potrillos respecto de la ración “A”.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cómo se plantearía, a priori de los datos, la hipótesis nula apropiada si se advierte que la ración “B” es más cara que la “A” y que sólo se la adoptará si se puede asegurar, con un riesgo del 10%, que con ella la alzada media supera a la que se obtendría con “A” en 0,5 cm al menos?",
+    "respuesta": "H0: μB ≤ μA + 0,5 cm; o H0: δ ≤ 0,5 cm, para δ = μB − μA y α = 0,10.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) No, no se puede asegurar que la ración “B” aumente el crecimiento promedio de los potrillos respecto de la ración “A”. b) H0: μB ≤ μA + 0,5 cm; o H0: δ ≤ 0,5 cm, para δ = μB − μA y α = 0,10.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "El inciso a) pregunta si las raciones 'difieren' (bilateral) pero la Resp habla de que 'B' aumente el crecimiento respecto de 'A' (unilateral)."
+ },
+ {
+  "id": "V-3",
+  "tema": "V",
+  "numero": 3,
+  "pagina": 30,
+  "planteo": "En una hilandería se considera la posibilidad de reacondicionar a nuevo las hiladoras, si es posible asegurar con el reacondicionamiento, con un riesgo máximo del 5%, un aumento estadísticamente discernible en la producción media por máquina. Se eligieron entonces 4 máquinas al azar y se las reacondicionó, registrándose luego la producción de cada una para un período dado; se obtuvo así una media de 1.470 metros de hilado con un desvío estándar de 132 metros. Como se desconocía la producción de las máquinas sin reacondicionar, se registró la producción de 16 de ellas en el mismo período, obteniéndose una media de 1.208 metros con un desvío de 354 metros. Tener en cuenta las conclusiones obtenidas en el problema 4 del tema anterior de la presente guía (página 28).",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede aconsejar, con un riesgo máximo del 5%, el reacondicionamiento de todas las máquinas?",
+    "respuesta": "Desvíos: H0: σSR ≤ σCR (φ = σSR/σCR, H0: φ ≤ φ0 = 1), jc = 2,2804 (j²c = 5,2003), j = 2,6818 (j² = 7,1922): se rechaza, los desvíos son distintos (Welch, νaw = 14,2641 → 14). Medias: H0: μCR ≤ μSR (δ = μCR − μSR, H0: δ ≤ δ0 = 0), dc = 194,4494 m, d = 1.470 − 1.208 = 262 m. Se rechaza la hipótesis: las máquinas reacondicionadas tienen una producción promedio mayor; se aconseja el reacondicionamiento de todas las máquinas.",
+    "valores": [
+     2.2804,
+     2.6818,
+     14.2641,
+     14,
+     194.4494,
+     262
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular los límites de confianza del 90% para la diferencia entre las producciones medias.",
+    "respuesta": "Entre 67,55 metros y 456,45 metros (δ = μCR − μSR; 262 ± 194,4482), con un error de muestreo e = 194,4482.",
+    "valores": [
+     67.55,
+     456.45,
+     194.4482
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Si se considera tomar una muestra igual de máquinas reacondicionadas y de máquinas sin reacondicionamiento, ¿Cuántas máquinas se deberían observar en el período dado para reducir a la mitad el error de estimación anterior?",
+    "respuesta": "n = 43 máquinas de cada tipo (e = 97,2247 m), o sea 39 máquinas reacondicionadas más y 27 máquinas sin reacondicionar más.",
+    "valores": [
+     43,
+     39,
+     27
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Con los datos iniciales, ¿qué diferencia mínima porcentual se puede garantizar, para las máquinas reacondicionadas, con un 5% de riesgo?",
+    "respuesta": "h = 1,0506: el incremento porcentual mínimo garantizado es del 5,06%.",
+    "valores": [
+     1.0506,
+     5.06
+    ]
+   }
+  ],
+  "respuesta": "a) Desvíos: H0: σSR ≤ σCR (φ = σSR/σCR, H0: φ ≤ φ0 = 1), jc = 2,2804 (j²c = 5,2003), j = 2,6818 (j² = 7,1922): se rechaza, los desvíos son distintos (Welch, νaw = 14,2641 → 14). Medias: H0: μCR ≤ μSR (δ = μCR − μSR, H0: δ ≤ δ0 = 0), dc = 194,4494 m, d = 1.470 − 1.208 = 262 m. Se rechaza la hipótesis: las máquinas reacondicionadas tienen una producción promedio mayor; se aconseja el reacondicionamiento de todas las máquinas. b) Entre 67,55 metros y 456,45 metros (δ = μCR − μSR; 262 ± 194,4482), con un error de muestreo e = 194,4482. c) n = 43 máquinas de cada tipo (e = 97,2247 m), o sea 39 máquinas reacondicionadas más y 27 máquinas sin reacondicionar más. d) h = 1,0506: el incremento porcentual mínimo garantizado es del 5,06%.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "De manera que la hipótesis se rechaza por lo cual se puede probar que los desvíos poblacionales son distintos.",
+   "De manera que la hipótesis se rechaza, por lo cual se puede asegurar que las máquinas reacondicionadas tienen una producción promedio mayor que las máquinas sin reacondicionar. Por lo cual se aconseja el reacondicionamiento de todas las máquinas.",
+   "Se concluye que la diferencia entre las medias poblacionales estará comprendida entre 67,55 metros y 456,45 metros, afirmándolo con un 90% de confianza.",
+   "El resultado se obtiene con n = 43. Se necesitan un total de 43 máquinas de cada tipo, o sea que se necesitarán incluir en la observación realizada 39 máquinas reacondicionadas más y 27 máquinas sin reacondicionar más.",
+   "Se puede estipular que el incremento porcentual mínimo garantizado de las máquinas con reacondicionamiento respecto de las máquinas sin reacondicionamiento es del 5,06%."
+  ],
+  "observaciones": "Sin 'Resp:'; respuesta armada desde la Solución. El valor crítico de a) es 194,4494 m mientras que el error de b) es 194,4482 (misma expresión 1,7613·√(132²/4+354²/16)); diferencia de redondeo en la guía. El enunciado remite al problema 4 del Tema IV 'página 28' (empieza en la 27)."
+ },
+ {
+  "id": "V-4",
+  "tema": "V",
+  "numero": 4,
+  "pagina": 32,
+  "planteo": "Se desea estudiar la efectividad de un nuevo aditivo para combustible, a efectos de lo cual se realizó una prueba sobre 10 corridas en distintos automóviles que arrojaron un consumo medio de 4,2 litros con un desvío estándar de 0,58 litros. Además, se efectuó una prueba similar, también sobre 10 corridas, con otros automóviles de la misma marca y modelo y el mismo trayecto, pero sin el aditivo, obteniéndose un consumo medio de 5,25 litros con un desvío de 0,63 litros.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede asegurar que el aditivo reduce el consumo medio en 0,5 litros al menos para el recorrido dado?",
+    "respuesta": "Se puede asegurar que el aditivo reduce el consumo de combustible en más de 0,5 litros.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Se puede asegurar que el aditivo reduce el consumo medio en un 10% al menos para el recorrido dado?",
+    "respuesta": "Se puede asegurar que el aditivo reduce el consumo de combustible en más del 10%.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) Se puede asegurar que el aditivo reduce el consumo de combustible en más de 0,5 litros. b) Se puede asegurar que el aditivo reduce el consumo de combustible en más del 10%.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "El enunciado no indica el riesgo α a utilizar."
+ },
+ {
+  "id": "V-5",
+  "tema": "V",
+  "numero": 5,
+  "pagina": 32,
+  "planteo": "Se desea comparar la efectividad para el engorde de novillos de dos variedades de cebada forrajera como pastoreo, a efectos de lo cual se seleccionó un lote lo más parejo posible, dividiéndolo en dos grupos de 15 animales cada uno, que se pastorearon durante el mismo lapso de tiempo en potreros sembrados con dichas variedades, registrándose los aumentos de peso en kg de todos los novillos, datos que, luego de procesados, arrojaron los siguientes resultados: Variedad “A”: Promedio (x̄) = 25 kg, Desvío std. (S) = 3,4 kg; Variedad “B”: Promedio (x̄) = 26,2 kg, Desvío std. (S) = 2,8 kg.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "",
+     "Promedio (x̄)",
+     "Desvío std. (S)"
+    ],
+    "filas": [
+     [
+      "Variedad “A”",
+      "25 kg",
+      "3,4 kg"
+     ],
+     [
+      "Variedad “B”",
+      "26,2 kg",
+      "2,8 kg"
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Considera que estos datos son concluyentes al 5% de riesgo?",
+    "respuesta": "No se puede asegurar que la variedad “B” sea más efectiva para el engorde promedio de los novillos que la variedad “A”.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la diferencia de aumento de peso mínima que puede garantizarse para la variedad “B” con 5% de riesgo?",
+    "respuesta": "(− 0,73) kg, se estima que la variedad “A” puede engordar más que la “B” en 0,73 kg.",
+    "valores": [
+     -0.73
+    ]
+   }
+  ],
+  "respuesta": "a) No se puede asegurar que la variedad “B” sea más efectiva para el engorde promedio de los novillos que la variedad “A”. b) (− 0,73) kg, se estima que la variedad “A” puede engordar más que la “B” en 0,73 kg.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-6",
+  "tema": "V",
+  "numero": 6,
+  "pagina": 32,
+  "planteo": "Se tienen dos enconadoras de hilo de coser cuyas producciones se desean comparar. Para realizar dicha comparación, se realizó un experimento en el que se midió la cantidad de metros de hilo enconados, en ambas máquinas, durante el mismo lapso de tiempo (n = 90 días), obteniéndose los resultados de la siguiente tabla (en miles de km). Se tiene la presunción, no la certeza, de que los desvíos de ambas enconadoras son iguales. Hilo (en miles de km) : Cant. días observados de Máquina “A” | Hilo (en miles de km) : Cant. días observados de Máquina “B”: 1,2 – 1,3: 8 | 1,6 – 1,7: 8; 1,3 – 1,4: 12 | 1,7 – 1,8: 13; 1,4 – 1,5: 14 | 1,8 – 1,9: 14; 1,5 – 1,6: 26 | 1,9 – 2,0: 30; 1,6 – 1,7: 19 | 2,0 – 2,1: 10; 1,7 – 1,8: 8 | 2,1 – 2,2: 9; 1,8 – 1,9: 3 | 2,2 – 2,3: 6.",
+  "tablas": [
+   {
+    "titulo": "Producción de hilo (en miles de km)",
+    "columnas": [
+     "Hilo (en miles de km)",
+     "Cant. días observados de Máquina “A”",
+     "Hilo (en miles de km)",
+     "Cant. días observados de Máquina “B”"
+    ],
+    "filas": [
+     [
+      "1,2 – 1,3",
+      8,
+      "1,6 – 1,7",
+      8
+     ],
+     [
+      "1,3 – 1,4",
+      12,
+      "1,7 – 1,8",
+      13
+     ],
+     [
+      "1,4 – 1,5",
+      14,
+      "1,8 – 1,9",
+      14
+     ],
+     [
+      "1,5 – 1,6",
+      26,
+      "1,9 – 2,0",
+      30
+     ],
+     [
+      "1,6 – 1,7",
+      19,
+      "2,0 – 2,1",
+      10
+     ],
+     [
+      "1,7 – 1,8",
+      8,
+      "2,1 – 2,2",
+      9
+     ],
+     [
+      "1,8 – 1,9",
+      3,
+      "2,2 – 2,3",
+      6
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede asegurar que con la máquina “B” se obtiene como mínimo una producción superior en 100 km respecto de la máquina “A”?",
+    "respuesta": "Desvíos: H0: σB ≤ σA (φ = σB/σA), jc = 1,1462 (j²c = 1,3137), j = 1,0605 (j² = 1,1248): no se rechaza, se amalgama Sa = 0,157723 miles de km, ν = 178. H0: μB ≤ μA + 0,100 (δ0 = 0,100), dc = 0,1389 miles de km, d = 1,93 − 1,53 = 0,40 miles de km. Se rechaza la hipótesis: se puede asegurar que la máquina “B” produce en promedio 100 km más que la máquina “A”.",
+    "valores": [
+     1.1462,
+     1.0605,
+     0.157723,
+     178,
+     0.1389,
+     0.4
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Se puede asegurar que con la máquina “B” se obtiene como mínimo una producción superior en un 24% que con la máquina “A”?",
+    "respuesta": "H0: μB ≤ 1,24·μA (δ* = μB − 1,24·μA ≤ 0), d*c = 0,0438 miles de km, d* = 1,93 − 1,24·1,53 = 0,0328 miles de km. No se rechaza: no se puede asegurar que la máquina “B” produzca en promedio un 24% más que la máquina “A”.",
+    "valores": [
+     0.0438,
+     0.0328
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál es la diferencia de producción mínima, en miles de km, que se puede garantizar para la máquina “B” con un 5% de riesgo?",
+    "respuesta": "A = 0,361124 miles de km: la diferencia mínima es 0,361124 miles de km (361,12 km) con 95% de confianza.",
+    "valores": [
+     0.361124
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "¿Qué diferencia porcentual mínima se puede garantizar para la máquina “B” con un 5% de riesgo?",
+    "respuesta": "h = 1,2329: el incremento porcentual mínimo garantizado de la máquina “B” respecto de la “A” es del 23,29%.",
+    "valores": [
+     1.2329,
+     23.29
+    ]
+   }
+  ],
+  "respuesta": "a) Desvíos: H0: σB ≤ σA (φ = σB/σA), jc = 1,1462 (j²c = 1,3137), j = 1,0605 (j² = 1,1248): no se rechaza, se amalgama Sa = 0,157723 miles de km, ν = 178. H0: μB ≤ μA + 0,100 (δ0 = 0,100), dc = 0,1389 miles de km, d = 1,93 − 1,53 = 0,40 miles de km. Se rechaza la hipótesis: se puede asegurar que la máquina “B” produce en promedio 100 km más que la máquina “A”. b) H0: μB ≤ 1,24·μA (δ* = μB − 1,24·μA ≤ 0), d*c = 0,0438 miles de km, d* = 1,93 − 1,24·1,53 = 0,0328 miles de km. No se rechaza: no se puede asegurar que la máquina “B” produzca en promedio un 24% más que la máquina “A”. c) A = 0,361124 miles de km: la diferencia mínima es 0,361124 miles de km (361,12 km) con 95% de confianza. d) h = 1,2329: el incremento porcentual mínimo garantizado de la máquina “B” respecto de la “A” es del 23,29%.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Máquina “A”: nA = 90; x̄A = 1,53 miles de km; SA = 0,153022 miles de km. Máquina “B”: nB = 90; x̄B = 1,93 miles de km; SB = 0,162287 miles de km.",
+   "De manera que la hipótesis no se rechaza por lo cual no se puede probar que los desvíos poblacionales son distintos.",
+   "De manera que la hipótesis se rechaza, por lo cual se puede asegurar que la máquina “B” produce en promedio 100 km más que la máquina “A”.",
+   "De manera que la hipótesis no se rechaza, por lo cual no se puede asegurar que la máquina “B” produzca en promedio un 24% más que la máquina “A”.",
+   "Se concluye que la diferencia mínima entre las medias poblacionales será 0,361124 miles de km, afirmándolo con un 95% de confianza. Quiere decir que con la máquina “B” se puede esperar una producción promedio mínima de 361,12 km respecto de la máquina “A”.",
+   "Se puede estipular que el incremento porcentual mínimo garantizado de la máquina “B” respecto de la máquina “A” es del 23,29%."
+  ],
+  "observaciones": "Sin 'Resp:'; respuesta armada desde la Solución. El enunciado no fija α para a) y b); la Solución usa 5% (y 10% para la prueba de desvíos)."
+ },
+ {
+  "id": "V-7",
+  "tema": "V",
+  "numero": 7,
+  "pagina": 34,
+  "planteo": "Se ha desarrollado una nueva variedad de maíz híbrido que tendrá un costo de producción mayor que la variedad actual. Para efectuar la comparación se sembraron 10 parcelas al azar con cada variedad, obteniéndose los siguientes rendimientos en quintales por parcela: Variedad Actual (A): Promedio (x̄) = 15,2, Desvío std. (S) = 1,63; Variedad Nueva (N): Promedio (x̄) = 17,1, Desvío std. (S) = 1,43. Para lanzar el nuevo producto al mercado, se desea tener un 95% de seguridad de que el rendimiento medio de la variedad nueva supera en un 10%, al menos, al de la variedad actual.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "",
+     "Promedio (x̄)",
+     "Desvío std. (S)"
+    ],
+    "filas": [
+     [
+      "Variedad Actual (A)",
+      15.2,
+      1.63
+     ],
+     [
+      "Variedad Nueva (N)",
+      17.1,
+      1.43
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Establecer la hipótesis nula apropiada, efectuar el ensayo e indicar la decisión a tomar.",
+    "respuesta": "H0: μN ≤ 1,10·μA; o H0: δ* ≤ 0, no se recomienda el uso de la nueva variedad de maíz, no se puede asegurar que la variedad nueva supere a la actual en más de un 10%.",
+    "valores": []
+   }
+  ],
+  "respuesta": "H0: μN ≤ 1,10·μA; o H0: δ* ≤ 0, no se recomienda el uso de la nueva variedad de maíz, no se puede asegurar que la variedad nueva supere a la actual en más de un 10%.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-8",
+  "tema": "V",
+  "numero": 8,
+  "pagina": 34,
+  "planteo": "Se realizó un experimento para probar la eficacia de un aditivo en la fórmula de un tipo de látex, que se espera aumente la resistencia media a la tracción del producto. Se realizaron 21 ensayos con el aditivo, que arrojaron una resistencia media de 8,5 kg con un desvío estándar de 1,2 kg. Con respecto al comportamiento del producto sin el aditivo, jamás se había realizado un experimento para analizarlo, razón por la cual se aprovechó la oportunidad y se realizaron 61 ensayos que arrojaron una resistencia media de 7,6 kg, con un desvío estándar de 1,25 kg.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Aseguraría, con 5% de riesgo de equivocarse, que el aditivo aumenta la resistencia media en 0,45 kg al menos?",
+    "respuesta": "No se puede asegurar que el aditivo aumente la resistencia en 0,45 kg como mínimo.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la diferencia mínima en la resistencia media que se obtiene con el aditivo, con 95% de confianza?",
+    "respuesta": "0,3788 kg, el aditivo puede aumentar la resistencia del látex en 0,3788 kg.",
+    "valores": [
+     0.3788
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Aseguraría, con 5% de riesgo de equivocarse, que el aditivo aumenta la resistencia media en un 10% al menos?",
+    "respuesta": "No se puede asegurar que el aditivo aumente la resistencia en un 10% como mínimo.",
+    "valores": []
+   },
+   {
+    "letra": "d",
+    "texto": "¿Cuál es el porcentaje mínimo de aumento en la resistencia media que se obtiene con el aditivo con 95% de confianza?",
+    "respuesta": "El incremento porcentual mínimo es del 4,90%.",
+    "valores": [
+     4.9
+    ]
+   }
+  ],
+  "respuesta": "a) No se puede asegurar que el aditivo aumente la resistencia en 0,45 kg como mínimo. b) 0,3788 kg, el aditivo puede aumentar la resistencia del látex en 0,3788 kg. c) No se puede asegurar que el aditivo aumente la resistencia en un 10% como mínimo. d) El incremento porcentual mínimo es del 4,90%.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-9",
+  "tema": "V",
+  "numero": 9,
+  "pagina": 34,
+  "planteo": "Se realizó un experimento para comparar dos marcas de máquinas cosechadoras, John Deere y Vasalli, se han tomado 5 máquinas elegidas al azar de cada marca y se registraron los volúmenes cosechados en toneladas durante un día, con los siguientes resultados: John Deere (JD): 3,2 – 2,8 – 2,4 – 3,6 – 2,7; Vasalli (V): 2,5 – 2,2 – 3,7 – 2,1 – 2,9. Aceptando que la variabilidad en los resultados se debe a las siguientes causas: Primero la diferencia entre las parcelas cosechadas, segundo las contingencias de la tarea (roturas, paradas, etc.), y tercero la diferencia entre las máquinas. Entonces, las causas primera y segunda influyen igual para ambas marcas, pero no tenemos información sobre la causa tercera, es decir que las diferencias entre máquinas podrían ser distintas para John Deere y Vasalli.",
+  "tablas": [
+   {
+    "titulo": "Volúmenes cosechados (t/día)",
+    "columnas": [
+     "Marca",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5"
+    ],
+    "filas": [
+     [
+      "John Deere (JD)",
+      3.2,
+      2.8,
+      2.4,
+      3.6,
+      2.7
+     ],
+     [
+      "Vasalli (V)",
+      2.5,
+      2.2,
+      3.7,
+      2.1,
+      2.9
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Es posible asegurar con 10% de riesgo que los volúmenes medios cosechados son diferentes?",
+    "respuesta": "No se puede asegurar que los volúmenes promedio cosechados sean diferentes, por lo cual se consideran iguales.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Calcule un intervalo de confianza del 80% para la diferencia entre los volúmenes medios cosechados.",
+    "respuesta": "Entre (−0,2397) y 0,7598 Tn/día (para δ = μJD − μV), se puede esperar como mínimo que John Deere coseche en promedio 0,2397 Tn/día menos que Vasalli o como máximo coseche en promedio 0,7598 Tn/día más.",
+    "valores": [
+     -0.2397,
+     0.7598
+    ]
+   }
+  ],
+  "respuesta": "a) No se puede asegurar que los volúmenes promedio cosechados sean diferentes, por lo cual se consideran iguales. b) Entre (−0,2397) y 0,7598 Tn/día (para δ = μJD − μV), se puede esperar como mínimo que John Deere coseche en promedio 0,2397 Tn/día menos que Vasalli o como máximo coseche en promedio 0,7598 Tn/día más.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-10",
+  "tema": "V",
+  "numero": 10,
+  "pagina": 35,
+  "planteo": "En una empresa productora de artículos de consumo masivo se ha lanzado una campaña publicitaria sobre un jabón en polvo a efectos de incrementar las ventas mensuales. Se desea ahora comprobar si la campaña ha sido efectiva, en cuyo caso se realizará una campaña similar sobre otro de los productos. A tal efecto, si no se ha conseguido el resultado deseado, se establece una probabilidad de 0,05 de tomar una decisión equivocada. Se registraron las ventas durante los cuatro meses que duró la campaña obteniéndose un promedio de 642.000 unidades con un desvío estándar de 73.000 unidades. Con respecto a las ventas anteriores a la campaña, no se disponía de registros históricos extensos que permitieran conocer su valor exacto, pero pudo obtenerse los datos correspondientes a los últimos 12 meses que arrojaron un valor medio de 570.000 unidades con un desvío estándar de 45.000 unidades.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Cuál sería la decisión si se deseara tener la casi seguridad de que con la campaña las ventas promedio se incrementan en 50.000 unidades por lo menos?",
+    "respuesta": "No se puede asegurar que la campaña haya incrementado las ventas en 50.000 unidades por lo menos.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Ídem a), si se deseara asegurar un incremento del 10% por lo menos.",
+    "respuesta": "No puedo asegurar que la campaña haya incrementado las ventas en un 10% por lo menos.",
+    "valores": []
+   },
+   {
+    "letra": "c",
+    "texto": "Alguien ensayó la hipótesis de que las ventas medias con la campaña eran inferiores a 580.000 unidades y la rechazó; calcule la probabilidad de que se haya equivocado.",
+    "respuesta": "α = 0,094 o más.",
+    "valores": [
+     0.094
+    ]
+   }
+  ],
+  "respuesta": "a) No se puede asegurar que la campaña haya incrementado las ventas en 50.000 unidades por lo menos. b) No puedo asegurar que la campaña haya incrementado las ventas en un 10% por lo menos. c) α = 0,094 o más.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-11",
+  "tema": "V",
+  "numero": 11,
+  "pagina": 35,
+  "planteo": "Se desea estudiar la efectividad de un nuevo plaguicida contra el pulgón en cultivos de avena amarilla, que es muy sensible a dicho insecto. Para efectuar la prueba se fumigaron 5 parcelas infectadas y se obtuvo en la cosecha un rendimiento medio de 20 quintales por parcela, con un desvío de 2,5 quintales por parcela. Con el producto tradicional se hizo una prueba similar, en otras 5 parcelas infectadas, con un rendimiento medio de 19,5 quintales por parcela, con un desvío de 3 quintales por parcela.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Aseguraría, con un 10% de riesgo, que con el nuevo producto se obtiene una diferencia mínima de 0,2 quintales por parcela?",
+    "respuesta": "No se puede asegurar que el nuevo plaguicida mejore el rendimiento en 0,2 quintales como mínimo.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál sería la conclusión si se tuviera el dato de que, con el producto tradicional, el rendimiento medio en cultivos infectados es de 19,5 quintales por parcela?",
+    "respuesta": "No se puede asegurar que el nuevo plaguicida mejore el rendimiento.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) No se puede asegurar que el nuevo plaguicida mejore el rendimiento en 0,2 quintales como mínimo. b) No se puede asegurar que el nuevo plaguicida mejore el rendimiento.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-12",
+  "tema": "V",
+  "numero": 12,
+  "pagina": 35,
+  "planteo": "Para ensayar dos nuevas variedades de trigo bajo condiciones agrícolas normales, una sociedad de cereales eligió al azar 8 fincas plantando ambas variedades en parcelas experimentales de cada finca. La producción de las 8 fincas fue la siguiente (valores en quintales por parcela): Finca: I II III IV V VI VII VIII; Variedad “A”: 86 87 56 93 84 93 75 79; Variedad “B”: 80 79 58 91 77 82 74 66.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Finca",
+     "I",
+     "II",
+     "III",
+     "IV",
+     "V",
+     "VI",
+     "VII",
+     "VIII"
+    ],
+    "filas": [
+     [
+      "Variedad “A”",
+      86,
+      87,
+      56,
+      93,
+      84,
+      93,
+      75,
+      79
+     ],
+     [
+      "Variedad “B”",
+      80,
+      79,
+      58,
+      91,
+      77,
+      82,
+      74,
+      66
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Se puede asegurar, con un riesgo del 5%, que la producción obtenida con la Variedad “A” es mayor que la producción de la Variedad “B” en más de 2 quintales por parcela.",
+    "respuesta": "Se puede asegurar que la producción de la Variedad “A” es mayor que la de la Variedad “B” en más de 2 quintales por parcela.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar la diferencia entre las producciones medias con un intervalo de confianza del 90%.",
+    "respuesta": "Entre 2,32 y 9,18 quintales por parcela (para δ = μA − μB), con la variedad “A” se obtiene una producción mínima de 2,32 quintales por parcela mayor que la variedad “B” y de 9,18 quintales por parcela como máximo.",
+    "valores": [
+     2.32,
+     9.18
+    ]
+   }
+  ],
+  "respuesta": "a) Se puede asegurar que la producción de la Variedad “A” es mayor que la de la Variedad “B” en más de 2 quintales por parcela. b) Entre 2,32 y 9,18 quintales por parcela (para δ = μA − μB), con la variedad “A” se obtiene una producción mínima de 2,32 quintales por parcela mayor que la variedad “B” y de 9,18 quintales por parcela como máximo.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-13",
+  "tema": "V",
+  "numero": 13,
+  "pagina": 35,
+  "planteo": "A efectos de determinar el poder calorífico de un combustible se propone un método simplificado que se supone dará buenos resultados, sin diferencias significativas respecto del método clásico. Se efectúa una serie de mediciones de distintas muestras, usando el método propuesto y el clásico (calorímetro de combustión), obteniéndose los siguientes resultados (Muestra Nº: Método Propuesto / Método Clásico): 1: 164,65 / 165,20; 2: 178,60 / 179,20; 3: 188,20 / 189,20; 4: 200,60 / 201,30; 5: 188,50 / 189,20; 6: 145,60 / 145,20; 7: 130,25 / 131,15; 8: 199,95 / 199,20; 9: 160,90 / 161,20; 10: 155,10 / 155,20; 11: 131,15 / 133,15; 12: 174,15 / 174,20; 13: 129,75 / 130,10; 14: 156,40 / 158,30.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Muestra Nº",
+     "Método Propuesto",
+     "Método Clásico",
+     "Muestra Nº",
+     "Método Propuesto",
+     "Método Clásico"
+    ],
+    "filas": [
+     [
+      1,
+      164.65,
+      165.2,
+      8,
+      199.95,
+      199.2
+     ],
+     [
+      2,
+      178.6,
+      179.2,
+      9,
+      160.9,
+      161.2
+     ],
+     [
+      3,
+      188.2,
+      189.2,
+      10,
+      155.1,
+      155.2
+     ],
+     [
+      4,
+      200.6,
+      201.3,
+      11,
+      131.15,
+      133.15
+     ],
+     [
+      5,
+      188.5,
+      189.2,
+      12,
+      174.15,
+      174.2
+     ],
+     [
+      6,
+      145.6,
+      145.2,
+      13,
+      129.75,
+      130.1
+     ],
+     [
+      7,
+      130.25,
+      131.15,
+      14,
+      156.4,
+      158.3
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Teniendo en cuenta que se utilizaría el método propuesto si no hay diferencias significativas en las mediciones promedio, ¿Recomendaría el método propuesto, asumiendo un riesgo del 1%?",
+    "respuesta": "No, porque se puede asegurar que el método propuesto presenta diferencias significativas en las mediciones respecto del método clásico.",
+    "valores": []
+   }
+  ],
+  "respuesta": "No, porque se puede asegurar que el método propuesto presenta diferencias significativas en las mediciones respecto del método clásico.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "El planteo empieza en la página 35 y la tabla está en la 36."
+ },
+ {
+  "id": "V-14",
+  "tema": "V",
+  "numero": 14,
+  "pagina": 36,
+  "planteo": "Se supone que una tinta especial para calzado puede producir un aumento en la duración media, a efectos de lo cual se diseñó un experimento suministrando a 8 personas un par de zapatos, uno de los cuales fue tratado y el otro no. De este modo se espera eliminar la fuerte variabilidad existente entre las personas. Se obtuvieron así los siguientes resultados de duración en semanas, llamando duración al lapso comprendido entre el comienzo de uso y el momento en que aparecen las primeras grietas del cuero: Persona: 1 2 3 4 5 6 7 8; Zapato sin tratar: 12 7 18 15 20 8 13 13; Zapato tratado: 14 7 21 14 23 9 14 12.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Persona",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8"
+    ],
+    "filas": [
+     [
+      "Zapato sin tratar",
+      12,
+      7,
+      18,
+      15,
+      20,
+      8,
+      13,
+      13
+     ],
+     [
+      "Zapato tratado",
+      14,
+      7,
+      21,
+      14,
+      23,
+      9,
+      14,
+      12
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Se considera que el resultado ha sido concluyente, asumiendo un riesgo del 5%?",
+    "respuesta": "No, no se puede asegurar que la tinta especial aumente la duración del cuero en el calzado.",
+    "valores": []
+   }
+  ],
+  "respuesta": "No, no se puede asegurar que la tinta especial aumente la duración del cuero en el calzado.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-15",
+  "tema": "V",
+  "numero": 15,
+  "pagina": 36,
+  "planteo": "Para conocer la influencia del ruido sobre el tiempo para la realización de una tarea, se realiza una prueba en un tiempo de operación estipulado de 8 horas con una muestra de operarios de la misma calificación con los siguientes resultados: Una muestra de 10 operarios sometidos, a un nivel bajo de ruido, hicieron un promedio de 6,3 piezas por hora durante el tiempo de operación estipulado con un desvío de 3,5 piezas por hora para ese tiempo. Una muestra de 12 operarios sometidos, a un alto nivel sonoro, rindieron, para el mismo tiempo estipulado, un promedio de 5,2 piezas por hora y un desvío de 3,1 piezas por hora.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Asumiendo un riesgo del 1%, ¿se puede decir que el alto nivel sonoro influye sobre los tiempos de producción?",
+    "respuesta": "No se puede asegurar que el alto nivel sonoro influya sobre los tiempos de producción.",
+    "valores": []
+   }
+  ],
+  "respuesta": "No se puede asegurar que el alto nivel sonoro influya sobre los tiempos de producción.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-16",
+  "tema": "V",
+  "numero": 16,
+  "pagina": 36,
+  "planteo": "Se quiere comprobar si la introducción de un determinado acelerante en el material plástico usado para obtener piezas por inyección, aumenta la dureza promedio del mismo. Para ello se toma la dureza en piezas fabricadas con plástico sin acelerante y con acelerante, con los siguientes resultados de dureza (medida en grados Shore): Sin acelerante: 69,3 75,4 71,3 69,5 72,8 73,7 72,3 70,4 71,9 69,7; Con acelerante: 75,3 76,7 70,8 72,7 69,1.",
+  "tablas": [
+   {
+    "titulo": "Dureza (grados Shore)",
+    "columnas": [
+     "Grupo",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10"
+    ],
+    "filas": [
+     [
+      "Sin acelerante",
+      69.3,
+      75.4,
+      71.3,
+      69.5,
+      72.8,
+      73.7,
+      72.3,
+      70.4,
+      71.9,
+      69.7
+     ],
+     [
+      "Con acelerante",
+      75.3,
+      76.7,
+      70.8,
+      72.7,
+      69.1
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Se quiere comprobar si la introducción de un determinado acelerante en el material plástico usado para obtener piezas por inyección, aumenta la dureza promedio del mismo.",
+    "respuesta": "No se puede asegurar que el acelerante aumente la dureza promedio del material plástico.",
+    "valores": []
+   }
+  ],
+  "respuesta": "No se puede asegurar que el acelerante aumente la dureza promedio del material plástico.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La guía no trae una consigna explícita después de la tabla ni indica el riesgo α; como texto del inciso se usa la frase del planteo ('Se quiere comprobar si ... aumenta la dureza promedio'). La fila 'Con acelerante' tiene 5 datos y 'Sin acelerante' 10."
+ },
+ {
+  "id": "V-17",
+  "tema": "V",
+  "numero": 17,
+  "pagina": 37,
+  "planteo": "Un fabricante desea comparar el proceso de armado actual para uno de sus productos con un método propuesto que supuestamente reduce el tiempo de armado. Se seleccionaron 8 trabajadores de la planta de armado y se les pidió que armaran las unidades con ambos procesos. Los siguientes resultados son los tiempos en minutos observados: Trabajador: 1 2 3 4 5 6 7 8; Proceso Actual (A): 38 32 41 35 42 32 45 37; Proceso Propuesto (P): 30 32 34 37 35 26 38 32.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Trabajador",
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8"
+    ],
+    "filas": [
+     [
+      "Proceso Actual (A)",
+      38,
+      32,
+      41,
+      35,
+      42,
+      32,
+      45,
+      37
+     ],
+     [
+      "Proceso Propuesto (P)",
+      30,
+      32,
+      34,
+      37,
+      35,
+      26,
+      38,
+      32
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Para un riesgo del 5%, ¿existe alguna razón para creer que el tiempo de armado para el proceso actual es mayor que el del método propuesto por más de 2 minutos?",
+    "respuesta": "H0: μA ≤ μP + 2 (δ = μA − μP, H0: δ ≤ δ0 = 2); muestras apareadas, d̄ = 4,75', Sd = 3,6936', ν = 7, dc = 4,4741'. Se rechaza la hipótesis: se puede asegurar que el tiempo promedio del proceso de armado actual es mayor al tiempo promedio del proceso propuesto en más de 2 minutos.",
+    "valores": [
+     4.75,
+     3.6936,
+     7,
+     4.4741
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Obtener un intervalo de confianza del 90% para la diferencia entre las medias de los tiempos de armado.",
+    "respuesta": "Entre 2,27' y 7,23' (δ = μA − μP; 4,75 ± 2,4741), con un error de muestreo e = 2,4741 minutos.",
+    "valores": [
+     2.27,
+     7.23,
+     2.4741
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántos trabajadores más se deberán incluir en el estudio para reducir a la tercera parte el error de estimación anterior?",
+    "respuesta": "e = 0,8247 minutos; n = 57 trabajadores en total, o sea 49 trabajadores más.",
+    "valores": [
+     0.8247,
+     57,
+     49
+    ]
+   }
+  ],
+  "respuesta": "a) H0: μA ≤ μP + 2 (δ = μA − μP, H0: δ ≤ δ0 = 2); muestras apareadas, d̄ = 4,75', Sd = 3,6936', ν = 7, dc = 4,4741'. Se rechaza la hipótesis: se puede asegurar que el tiempo promedio del proceso de armado actual es mayor al tiempo promedio del proceso propuesto en más de 2 minutos. b) Entre 2,27' y 7,23' (δ = μA − μP; 4,75 ± 2,4741), con un error de muestreo e = 2,4741 minutos. c) e = 0,8247 minutos; n = 57 trabajadores en total, o sea 49 trabajadores más.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Como la comparación de ambos procesos se realiza en la misma unidad experimental (trabajador), hay que trabajar con muestras apareadas.",
+   "Diferencias por trabajador (en minutos): 8, 0, 7, −2, 7, 6, 7, 5.",
+   "De manera que la hipótesis se rechaza, por lo cual se puede asegurar que el tiempo promedio del proceso de armado actual es mayor al tiempo promedio del proceso propuesto en más de 2 minutos.",
+   "Se concluye que la diferencia entre las medias poblacionales estará comprendida entre 2,27' y 7,23', afirmándolo con un 90% de confianza.",
+   "El resultado se obtiene con n = 57. Se necesitan un total de 57 trabajadores, o sea que se necesitarán incluir en el estudio realizado 49 trabajadores más."
+  ],
+  "observaciones": "Sin 'Resp:'; respuesta armada desde la Solución."
+ },
+ {
+  "id": "V-18",
+  "tema": "V",
+  "numero": 18,
+  "pagina": 37,
+  "planteo": "El interferón alfa es conocido por su efecto antiviral y anti proliferativo, se ha podido obtener por la vía del ADN recombinante (IFN alfa 2b hu-r). Con el objetivo de determinar el tiempo y la temperatura de almacenamiento de esta proteína se realizó un estudio de estabilidad bajo condiciones aceleradas. La función estabilizante de la albúmina humana sobre biomoléculas se ha destacado por diferentes autores empleándose para la estabilización de proteínas en la fase de investigación y muchas veces en los productos farmacéuticos (un exceso de albúmina en la formulación de interleucina 2 recombinante logró estabilizar la preparación liofilizada). Los siguientes datos muestran los resultados de un estudio de estabilidad del IFN alfa 2b hu-r bajo condiciones aceleradas y bajo condiciones reales de almacenamiento, tanto en presencia como en ausencia de albúmina. El material se dividió en dos partes (en envases de condiciones estériles), a una parte se le adicionó albúmina humana (en solución al 20% en volumen) como preservante. Los valores están medidos en constantes de la velocidad de degradación expresada en días^(-1). (Muestra Nº: Con albúmina humana / Sin albúmina humana): 1: −0,01653 / −0,01542; 2: −0,15279 / −0,08274; 3: −1,12040 / −0,77950; 4: −0,89723 / −0,59815; 5: −0,25473 / −0,18869; 6: −0,07298 / −0,06635.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Muestra Nº",
+     "Con albúmina humana",
+     "Sin albúmina humana"
+    ],
+    "filas": [
+     [
+      1,
+      -0.01653,
+      -0.01542
+     ],
+     [
+      2,
+      -0.15279,
+      -0.08274
+     ],
+     [
+      3,
+      -1.1204,
+      -0.7795
+     ],
+     [
+      4,
+      -0.89723,
+      -0.59815
+     ],
+     [
+      5,
+      -0.25473,
+      -0.18869
+     ],
+     [
+      6,
+      -0.07298,
+      -0.06635
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Determinar si existen diferencias significativas en la velocidad de degradación de la proteína con presencia y sin presencia de la albúmina (aceptando un riesgo del 1%).",
+    "respuesta": "No se puede asegurar que existan diferencias significativas en la velocidad de degradación de la proteína.",
+    "valores": []
+   }
+  ],
+  "respuesta": "No se puede asegurar que existan diferencias significativas en la velocidad de degradación de la proteína.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "V-19",
+  "tema": "V",
+  "numero": 19,
+  "pagina": 38,
+  "planteo": "A la proteína \"IFN alfa 2b hu-r\", se le realizó un estudio de actividad biológica determinada por ensayo de titulación (función antiviral del IFN alfa) expresado en UI/mL (tomando un valor de actividad biológica inicial de 10,8 x 106 UI/mL) a diferentes temperaturas. Las pruebas se hicieron dividiendo al material en dos partes (en envases de condiciones estériles), a una parte se le adicionó albúmina humana (en solución al 20% en volumen) como preservante. (Muestra Nº: 4 ºC Sin albúmina, 4 ºC Con albúmina, −20 ºC Sin albúmina, −20 ºC Con albúmina, −70 ºC Sin albúmina, −70 ºC Con albúmina): 1: 2,41 3,16 6,39 8,27 5,04 4,91; 2: 3,28 3,95 2,76 2,56 3,57 5,69; 3: 12,24 11,22 12,60 9,00 12,90 16,50; 4: 3,20 4,52 2,26 2,26 3,26 3,26; 5: 9,40 6,40 7,40 9,90 7,30 8,00; 6: 5,48 5,91 4,05 5,74 6,32 5,21; 7: 6,77 7,36 6,38 7,13 7,18 5,70.",
+  "tablas": [
+   {
+    "titulo": "Actividad biológica (UI/mL)",
+    "columnas": [
+     "Muestra Nº",
+     "4 ºC Sin albúmina",
+     "4 ºC Con albúmina",
+     "−20 ºC Sin albúmina",
+     "−20 ºC Con albúmina",
+     "−70 ºC Sin albúmina",
+     "−70 ºC Con albúmina"
+    ],
+    "filas": [
+     [
+      1,
+      2.41,
+      3.16,
+      6.39,
+      8.27,
+      5.04,
+      4.91
+     ],
+     [
+      2,
+      3.28,
+      3.95,
+      2.76,
+      2.56,
+      3.57,
+      5.69
+     ],
+     [
+      3,
+      12.24,
+      11.22,
+      12.6,
+      9.0,
+      12.9,
+      16.5
+     ],
+     [
+      4,
+      3.2,
+      4.52,
+      2.26,
+      2.26,
+      3.26,
+      3.26
+     ],
+     [
+      5,
+      9.4,
+      6.4,
+      7.4,
+      9.9,
+      7.3,
+      8.0
+     ],
+     [
+      6,
+      5.48,
+      5.91,
+      4.05,
+      5.74,
+      6.32,
+      5.21
+     ],
+     [
+      7,
+      6.77,
+      7.36,
+      6.38,
+      7.13,
+      7.18,
+      5.7
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Determinar si existen diferencias significativas en la Actividad biológica con presencia y sin presencia de albúmina (sugerencia: para el alcance visto en la materia se propone hacer tres comparaciones, uno para cada temperatura de almacenamiento). Asumir un riesgo del 5%.",
+    "respuesta": "No se puede asegurar que existan diferencias en la actividad biológica con presencia y sin presencia de albúmina en las pruebas realizadas a distintas temperaturas: a 4 ºC, a -20 ºC y a -70 ºC,",
+    "valores": []
+   }
+  ],
+  "respuesta": "No se puede asegurar que existan diferencias en la actividad biológica con presencia y sin presencia de albúmina en las pruebas realizadas a distintas temperaturas: a 4 ºC, a -20 ºC y a -70 ºC,",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "'10,8 x 106 UI/mL' probablemente sea 10,8 × 10^6 (exponente perdido en la guía); se transcribe tal cual. La Resp termina en coma."
+ },
+ {
+  "id": "V-20",
+  "tema": "V",
+  "numero": 20,
+  "pagina": 38,
+  "planteo": "En un Ingenio azucarero, que tiene plantación propia de caña de azúcar, se le aplica al cultivo un compuesto biogenético en forma de gramicida con el objeto de aumentar la madurez y el rinde de la caña en la obtención de jugo para la producción de azúcar. A tal efecto se eligieron parcelas al azar, a las cuales se le aplicó el tratamiento y a las otras no, obteniéndose los siguientes resultados (medidos en rendimiento por unidad de volumen seleccionado). De 655 observaciones provenientes de parcelas a las cuales se les aplicó el tratamiento, se obtuvo un rinde promedio de 9,97 con un desvío de 0,366; mientras que de 599 observaciones provenientes de parcelas a las cuales no se les aplicó el tratamiento, se obtuvo un rinde promedio de 9,83 con un desvío de 0,3342.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Se puede afirmar con un riesgo del 10 % que la aplicación del tratamiento aumenta el rinde de la caña.",
+    "respuesta": "Si, se puede asegurar que la aplicación del tratamiento en la plantación aumenta el rinde de la caña de azúcar.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es el incremento porcentual mínimo que puede asegurarse en el rinde de la caña si se le aplica el tratamiento para un 95% de confianza?",
+    "respuesta": "Se puede esperar un incremento porcentual mínimo del 1,09%.",
+    "valores": [
+     1.09
+    ]
+   }
+  ],
+  "respuesta": "a) Si, se puede asegurar que la aplicación del tratamiento en la plantación aumenta el rinde de la caña de azúcar. b) Se puede esperar un incremento porcentual mínimo del 1,09%.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "El enunciado empieza en la página 38 y los incisos/Resp están en la 39."
+ },
+ {
+  "id": "V-21",
+  "tema": "V",
+  "numero": 21,
+  "pagina": 39,
+  "planteo": "Se emplean dos máquinas para llenar botellas de plástico con un volumen neto medido en cm³. El departamento de control de calidad considera que ambas máquinas llenan las botellas con el mismo volumen neto promedio y además considera que los procesos de llenado son normales, con desviaciones estándares de σA = 0,015 cm³ y σB = 0,018 cm³. Se toma una muestra aleatoria de 10 botellas de la producción de cada máquina, obteniendo los siguientes resultados, visualizados en la siguiente tabla (medidos en cm³): Máquina “A”: 16,03 – 16,04 – 16,05 – 16,05 – 16,02 – 16,01 – 15,96 – 15,98 – 16,02 – 15,99; Máquina “B”: 16,02 – 15,97 – 15,96 – 16,01 – 15,99 – 16,03 – 16,04 – 16,02 – 16,01 – 16,00.",
+  "tablas": [
+   {
+    "titulo": "Volumen neto (cm³), dos columnas por máquina como en la guía",
+    "columnas": [
+     "Máquina “A”",
+     "Máquina “A”",
+     "Máquina “B”",
+     "Máquina “B”"
+    ],
+    "filas": [
+     [
+      16.03,
+      16.01,
+      16.02,
+      16.03
+     ],
+     [
+      16.04,
+      15.96,
+      15.97,
+      16.04
+     ],
+     [
+      16.05,
+      15.98,
+      15.96,
+      16.02
+     ],
+     [
+      16.05,
+      16.02,
+      16.01,
+      16.01
+     ],
+     [
+      16.02,
+      15.99,
+      15.99,
+      16.0
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Es posible creer que el departamento de control de calidad esté en lo correcto? (Asumir un riesgo del 5%)",
+    "respuesta": "Desvíos conocidos: H0: σA ≤ σA0 = 0,015 cm³, Sc = 0,0206 cm³, SA = 0,0303: se rechaza (el desvío estipulado no es correcto para “A”); H0: σB ≤ σB0 = 0,018 cm³, Sc = 0,0247 cm³, SB = 0,0255: se rechaza (no es correcto para “B”). Igualdad de desvíos: H0: σA ≤ σB (φ = σA/σB), jc = 1,5622 (j²c = 2,4403), j = 1,1875 (j² = 1,4103): no se rechaza, Sa = 0,028 cm³, ν = 18. Medias: H0: μA ≤ μB (δ = μA − μB, δ0 = 0), dc = 0,0217 cm³, d = 16,015 − 16,005 = 0,01 cm³: no se rechaza, se considera que ambas máquinas llenan las botellas con el mismo volumen neto. El departamento de control de calidad está en lo cierto respecto del llenado del volumen neto de ambas máquinas y no está en lo cierto respecto de los desvíos estándares de ambas máquinas.",
+    "valores": [
+     0.0206,
+     0.0247,
+     1.5622,
+     1.1875,
+     0.028,
+     18,
+     0.0217,
+     0.01
+    ]
+   }
+  ],
+  "respuesta": "Desvíos conocidos: H0: σA ≤ σA0 = 0,015 cm³, Sc = 0,0206 cm³, SA = 0,0303: se rechaza (el desvío estipulado no es correcto para “A”); H0: σB ≤ σB0 = 0,018 cm³, Sc = 0,0247 cm³, SB = 0,0255: se rechaza (no es correcto para “B”). Igualdad de desvíos: H0: σA ≤ σB (φ = σA/σB), jc = 1,5622 (j²c = 2,4403), j = 1,1875 (j² = 1,4103): no se rechaza, Sa = 0,028 cm³, ν = 18. Medias: H0: μA ≤ μB (δ = μA − μB, δ0 = 0), dc = 0,0217 cm³, d = 16,015 − 16,005 = 0,01 cm³: no se rechaza, se considera que ambas máquinas llenan las botellas con el mismo volumen neto. El departamento de control de calidad está en lo cierto respecto del llenado del volumen neto de ambas máquinas y no está en lo cierto respecto de los desvíos estándares de ambas máquinas.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Máquina “A”: nA = 10; x̄A = 16,015 cm³; SA = 0,0303 cm³. Máquina “B”: nB = 10; x̄B = 16,005 cm³; SB = 0,0255 cm³.",
+   "Se rechaza la hipótesis nula, se puede asegurar que el desvío poblacional estipulado no es correcto para la máquina “A”.",
+   "Se rechaza la hipótesis nula, se puede asegurar que el desvío poblacional estipulado no es correcto para la máquina “B”.",
+   "Se concluye que ambos desvíos poblacionales son desconocidos, por lo que hay que averiguar si se los puede suponer iguales o se los puede probar distintos.",
+   "De manera que la hipótesis no se rechaza por lo cual no se puede probar que los desvíos poblacionales sean distintos, de manera que se supone que los desvíos poblacionales son iguales.",
+   "De manera que la hipótesis no se rechaza, por lo cual no se puede asegurar que las máquinas llenan las botellas en forma diferente (con distinto volumen neto), se considera que ambas máquinas llenan las botellas con el mismo volumen neto. Por lo cual, se considera que el departamento de control de calidad está en lo cierto respecto al llenado del volumen neto de ambas máquinas y no está en lo cierto respecto de los desvíos estándares de ambas máquinas."
+  ],
+  "observaciones": "Sin 'Resp:'; respuesta armada desde la Solución. La pregunta es sobre igualdad de medias (bilateral) pero la Solución plantea H0: μA ≤ μB unilateral con t(0,95;18) = 1,7341. Las pruebas de desvío usan χ²(0,95;9) = 16,9190 (unilaterales). La tabla tiene dos columnas por máquina; el orden de los datos aplanados en el planteo es por columna."
+ }
+]

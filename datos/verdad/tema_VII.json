@@ -1,0 +1,1403 @@
+[
+ {
+  "id": "VII-1",
+  "tema": "VII",
+  "numero": 1,
+  "pagina": 51,
+  "planteo": "Se desea establecer una ecuación para pronosticar el Producto Bruto Interno de un país correspondiente al Sector Agropecuario, Silvicultura y Pesca en función del área sembrada de las 5 oleaginosas principales (soja, maní, girasol, algodón y lino), a partir de los siguientes datos: [Tabla: Área sembrada (en 10^6 hectáreas) PBI (en millones de U$s) ; 3,0402 8,014 ; 2,9819 7,891 ; 3,0934 8,207 ; 3,805 8,31 ; 5,423 8,45]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Área sembrada (en 10^6 hectáreas)",
+     "PBI (en millones de U$s)"
+    ],
+    "filas": [
+     [
+      3.0402,
+      8.014
+     ],
+     [
+      2.9819,
+      7.891
+     ],
+     [
+      3.0934,
+      8.207
+     ],
+     [
+      3.805,
+      8.31
+     ],
+     [
+      5.423,
+      8.45
+     ]
+    ],
+    "variable_y": "PBI (en millones de U$s)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Calcular el estimador puntual del pronóstico de un año para un área sembrada de 5.401.000 hectáreas.",
+    "respuesta": "8,488544 millones de U$s.",
+    "valores": [
+     8.488544
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Analizar el ajuste de los datos al modelo lineal mediante el coeficiente de correlación y ensayando la hipótesis de β1 = 0.",
+    "respuesta": "Se rechaza la hipótesis, por lo tanto, se puede afirmar que existe relación lineal entre las variables y como el valor de r = 0,8372 es alto, se puede considerar que dicha relación es fuerte para el uso dado.",
+    "valores": [
+     0.8372
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Establecer límites del 90% de confianza para dicho pronóstico.",
+    "respuesta": "Entre 8,028998 y 8,94809 millones de U$s.",
+    "valores": [
+     8.028998,
+     8.94809
+    ]
+   }
+  ],
+  "respuesta": "a) 8,488544 millones de U$s. b) Se rechaza la hipótesis, por lo tanto, se puede afirmar que existe relación lineal entre las variables y como el valor de r = 0,8372 es alto, se puede considerar que dicha relación es fuerte para el uso dado. c) Entre 8,028998 y 8,94809 millones de U$s.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "x0 = 5,401 (10^6 ha). La recta no figura en la guía; con los datos da ŷ ≈ 7,5091 + 0,1813·x (consistente con a). En c) no se aclara si es IC del valor medio o de predicción individual ('pronóstico de un año' sugiere individual).",
+  "que_pide": [
+   "recta",
+   "pronostico_puntual",
+   "r",
+   "ensayo_beta1",
+   "ic_pronostico_individual"
+  ]
+ },
+ {
+  "id": "VII-2",
+  "tema": "VII",
+  "numero": 2,
+  "pagina": 51,
+  "planteo": "Los siguientes datos han sido tomados para estudiar la relación entre las ventas de un producto (en miles de unidades) y la relación precio del competidor/precio del propio producto: [Tabla: Relación precio de competidor/precio del propio producto Ventas (en miles de unidades) ; 0,8 36,4 ; 0,75 32,1 ; 0,6 32,3 ; 0,92 40,3 ; 0,86 37,1]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Relación precio de competidor/precio del propio producto",
+     "Ventas (en miles de unidades)"
+    ],
+    "filas": [
+     [
+      0.8,
+      36.4
+     ],
+     [
+      0.75,
+      32.1
+     ],
+     [
+      0.6,
+      32.3
+     ],
+     [
+      0.92,
+      40.3
+     ],
+     [
+      0.86,
+      37.1
+     ]
+    ],
+    "variable_y": "Ventas (en miles de unidades)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Investigue la asociación lineal mediante los dos criterios básicos.",
+    "respuesta": "Se rechaza la hipótesis, por lo tanto, se puede afirmar que existe relación lineal entre las variables y como el valor de r = 0,8816 es alto, se puede considerar que dicha relación es fuerte para el uso dado.",
+    "valores": [
+     0.8816
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcule la venta mínima que se obtendrá con un 90% de confianza para un mes en que la relación es igual a 0,80.",
+    "respuesta": "A = 32,594 miles de unidades.",
+    "valores": [
+     32.594
+    ]
+   }
+  ],
+  "respuesta": "Se rechaza la hipótesis, por lo tanto, se puede afirmar que existe relación lineal entre las variables y como el valor de r = 0,8816 es alto, se puede considerar que dicha relación es fuerte para el uso dado. b) A = 32,594 miles de unidades.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La Resp no rotula el inciso a). 'Dos criterios básicos' = ensayo de β1 = 0 y valor de r (riesgo no indicado). b) límite inferior unilateral (90%) de pronóstico individual en x0 = 0,80.",
+  "que_pide": [
+   "recta",
+   "ensayo_beta1",
+   "r",
+   "limite_inferior_pronostico_individual"
+  ]
+ },
+ {
+  "id": "VII-3",
+  "tema": "VII",
+  "numero": 3,
+  "pagina": 51,
+  "planteo": "Un ensayo de marketing se realizó para estudiar la relación entre el tiempo que requiere un comprador para decidirse en su compra y el número de presentaciones distintas del producto exhibidas. Las marcas se eliminaron de los productos para neutralizar el efecto de las preferencias. El estudio se realizó pidiéndoles a los compradores que seleccionen los artículos basándose exclusivamente en las descripciones y en los diseños de las presentaciones de cada producto. De los 15 participantes cada uno ha utilizado un tiempo hasta llegar a una selección que fue registrado en la siguiente tabla: [Tabla: Cantidad de presentaciones Tiempo (en segundos) ; 2 5 ; 2 8 ; 2 8 ; 2 7 ; 2 9 ; 3 7 ; 3 9 ; 3 8 ; 3 9 ; 3 10 ; 4 10 ; 4 11 ; 4 10 ; 4 12 ; 4 9]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Cantidad de presentaciones",
+     "Tiempo (en segundos)"
+    ],
+    "filas": [
+     [
+      2,
+      5
+     ],
+     [
+      2,
+      8
+     ],
+     [
+      2,
+      8
+     ],
+     [
+      2,
+      7
+     ],
+     [
+      2,
+      9
+     ],
+     [
+      3,
+      7
+     ],
+     [
+      3,
+      9
+     ],
+     [
+      3,
+      8
+     ],
+     [
+      3,
+      9
+     ],
+     [
+      3,
+      10
+     ],
+     [
+      4,
+      10
+     ],
+     [
+      4,
+      11
+     ],
+     [
+      4,
+      10
+     ],
+     [
+      4,
+      12
+     ],
+     [
+      4,
+      9
+     ]
+    ],
+    "variable_y": "Tiempo (en segundos)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Hallar la recta de mínimos cuadrados.",
+    "respuesta": "ŷ = 4,3 + 1,5·x",
+    "valores": [
+     4.3,
+     1.5
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Presentan los datos suficiente evidencia que indique que el tiempo requerido para decidir está linealmente relacionado al número de presentaciones?",
+    "respuesta": "Sí, se puede afirmar que existe relación lineal entre las variables y es válido para su uso, dado que el valor de r = 0,7285 puede considerarse una relación adecuada.",
+    "valores": [
+     0.7285
+    ]
+   }
+  ],
+  "respuesta": "a) ŷ = 4,3 + 1,5·x b) Sí, se puede afirmar que existe relación lineal entre las variables y es válido para su uso, dado que el valor de r = 0,7285 puede considerarse una relación adecuada.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "En la guía la tabla está en filas, primero 'Tiempo (en segundos)' y luego 'Cantidad de presentaciones'; x = presentaciones, y = tiempo (verificado con la recta). Riesgo del ensayo no indicado.",
+  "que_pide": [
+   "recta",
+   "ensayo_beta1",
+   "r"
+  ]
+ },
+ {
+  "id": "VII-4",
+  "tema": "VII",
+  "numero": 4,
+  "pagina": 51,
+  "planteo": "En un estudio de distintos fondos para inversión se desarrolló un procedimiento consistente en construir la llamada “recta característica” para cada posible fondo. Esta es la recta de regresión de la rentabilidad del fondo considerado sobre la rentabilidad promedio del mercado bursátil. Si para un fondo de inversión la pendiente de su recta es significativamente distinta de cero, se dice que el fondo es muy sensible a las fluctuaciones de la bolsa de valores y por ende es una inversión riesgosa. Si el fondo tiene una recta con pendiente cercana a cero se dice que es una inversión estable y de poco riesgo. La rentabilidad del fondo \"Penn Square Mutual\" y la rentabilidad promedio en el mercado bursátil se han observado en el período de 10 años consecutivos y se dan en la siguiente tabla (los valores negativos figuran entre paréntesis): [Tabla: Año Bolsa Fondo ; 1 12,9 18,4 ; 2 9,1 29,7 ; 3 -13,1 -12,3 ; 4 20,1 10,8 ; 5 7,7 23,6 ; 6 -11,4 -16,2 ; 7 0,1 5,8 ; 8 10,8 7,2 ; 9 15,6 7,7 ; 10 -17,4 -8,8]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Año",
+     "Bolsa",
+     "Fondo"
+    ],
+    "filas": [
+     [
+      1,
+      12.9,
+      18.4
+     ],
+     [
+      2,
+      9.1,
+      29.7
+     ],
+     [
+      3,
+      -13.1,
+      -12.3
+     ],
+     [
+      4,
+      20.1,
+      10.8
+     ],
+     [
+      5,
+      7.7,
+      23.6
+     ],
+     [
+      6,
+      -11.4,
+      -16.2
+     ],
+     [
+      7,
+      0.1,
+      5.8
+     ],
+     [
+      8,
+      10.8,
+      7.2
+     ],
+     [
+      9,
+      15.6,
+      7.7
+     ],
+     [
+      10,
+      -17.4,
+      -8.8
+     ]
+    ],
+    "variable_y": "Fondo"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Hallar la recta de regresión de la rentabilidad del fondo \"Penn Square Mutual\" en función de la rentabilidad promedio en el mercado bursátil.",
+    "respuesta": "ŷ = 3,5504 + 0,8836·x",
+    "valores": [
+     3.5504,
+     0.8836
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Hallar un intervalo de confianza del 95% para el coeficiente de regresión.",
+    "respuesta": "Por cada punto adicional en la rentabilidad promedio del mercado bursátil la rentabilidad del fondo aumenta entre 0,2712 (como mínimo) y 1,4960 (como máximo).",
+    "valores": [
+     0.2712,
+     1.496
+    ]
+   }
+  ],
+  "respuesta": "a) ŷ = 3,5504 + 0,8836·x b) Por cada punto adicional en la rentabilidad promedio del mercado bursátil la rentabilidad del fondo aumenta entre 0,2712 (como mínimo) y 1,4960 (como máximo).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Los valores entre paréntesis de la guía son negativos (transcriptos con signo menos). x = Bolsa, y = Fondo; la columna Año no interviene. Ejercicio empieza en p. 51 y sigue en p. 52.",
+  "que_pide": [
+   "recta",
+   "ic_beta1"
+  ]
+ },
+ {
+  "id": "VII-5",
+  "tema": "VII",
+  "numero": 5,
+  "pagina": 52,
+  "planteo": "Considere una compañía distribuidora de gas natural que desea predecir la demanda diaria de una ciudad (medida en 10^5 m³), de un día para el siguiente, a partir del pronóstico de la temperatura media (en ºC). A tal efecto, se registraron datos de 10 días que, luego de procesados, arrojaron: Σx = 97 ; Σx² = 1.169 ; Σy = 21,16 ; Σy² = 48,68 ; Σy·x = 180,9326",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede asegurar que por cada grado que desciende la temperatura, la demanda de gas aumenta en más de 7.000 m³?",
+    "respuesta": "No se puede asegurar que por cada grado que desciende la temperatura la demanda aumente en más de 7.000 m³.",
+    "valores": [],
+    "decision": "no_rechaza"
+   },
+   {
+    "letra": "b",
+    "texto": "Si para un día el pronóstico de temperatura media es de 5ºC, ¿qué demanda mínima de gas se puede asegurar con un 90% de confianza?",
+    "respuesta": "A = 199.813,14 m³.",
+    "valores": [
+     199813.14
+    ]
+   }
+  ],
+  "respuesta": "a) No se puede asegurar que por cada grado que desciende la temperatura la demanda aumente en más de 7.000 m³. b) A = 199.813,14 m³.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Datos resumidos (sumatorias, ver campo 'sumatorias'), n = 10; x = temperatura (ºC), y = demanda (10^5 m³). a) ensayo unilateral de β1 contra -0,07 (7.000 m³ = 0,07·10^5 m³); el riesgo no se indica. b) límite inferior unilateral (90%) de pronóstico individual en x0 = 5; la Resp está en m³ (= 1,9981314·10^5 m³).",
+  "que_pide": [
+   "recta",
+   "ensayo_beta1_valor",
+   "limite_inferior_pronostico_individual"
+  ],
+  "sumatorias": {
+   "n": 10,
+   "Sx": 97,
+   "Sx2": 1169,
+   "Sy": 21.16,
+   "Sy2": 48.68,
+   "Sxy": 180.9326
+  }
+ },
+ {
+  "id": "VII-6",
+  "tema": "VII",
+  "numero": 6,
+  "pagina": 52,
+  "planteo": "Un Jefe de Producto desea convencer a la Gerencia de que, por cada 1.000 dólares que se invierte en publicidad, pueden esperar un aumento de 2.500 dólares como mínimo en las ventas. A tal efecto, se presenta la siguiente tabla de datos históricos (valores expresados en miles de dólares): [Tabla: Gastos de publicidad Ventas ; 5 72 ; 7,2 79 ; 6,3 73 ; 4,2 59 ; 5,4 67 ; 6,8 69]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Gastos de publicidad",
+     "Ventas"
+    ],
+    "filas": [
+     [
+      5.0,
+      72
+     ],
+     [
+      7.2,
+      79
+     ],
+     [
+      6.3,
+      73
+     ],
+     [
+      4.2,
+      59
+     ],
+     [
+      5.4,
+      67
+     ],
+     [
+      6.8,
+      69
+     ]
+    ],
+    "variable_y": "Ventas"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede considerar que los datos confirman la afirmación del Jefe de Producto?",
+    "respuesta": "No se puede asegurar que por cada 1.000 dólares que se invierten en publicidad las ventas aumenten como mínimo en 2.500 dólares.",
+    "valores": [],
+    "decision": "no_rechaza"
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar con un 95% de confianza las ventas promedio si se decide no realizar ningún gasto de publicidad.",
+    "respuesta": "Entre 13,4885 y 72,4836 miles de U$s.",
+    "valores": [
+     13.4885,
+     72.4836
+    ]
+   }
+  ],
+  "respuesta": "a) No se puede asegurar que por cada 1.000 dólares que se invierten en publicidad las ventas aumenten como mínimo en 2.500 dólares. b) Entre 13,4885 y 72,4836 miles de U$s.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "a) ensayo unilateral de β1 contra 2,5 (riesgo no indicado). b) IC del valor medio en x0 = 0 (equivale a IC de β0). La recta no figura en la guía; con los datos da ŷ ≈ 42,986 + 4,6156·x.",
+  "que_pide": [
+   "recta",
+   "ensayo_beta1_valor",
+   "ic_pronostico_medio"
+  ]
+ },
+ {
+  "id": "VII-7",
+  "tema": "VII",
+  "numero": 7,
+  "pagina": 52,
+  "planteo": "El continuo aumento en el precio del petróleo en los últimos años ha originado un aumento en los costos para el industrial que tiene que transportar sus bienes al mercado. Para abatir esos costos de transporte, el industrial ha sustituido los medios usuales de transporte por otros más baratos, por ejemplo, el flete ferroviario en lugar de carga aérea. En un estudio hecho en una compañía para estudiar los costos de transporte aéreo, se seleccionaron al azar 9 facturas para estimar la relación entre el costo por unidad transportada y la distancia recorrida. Los resultados se presentan en la siguiente tabla: [Tabla: Distancia recorrida (en cientos de Km) Costo (en U$s/unidad transportada) ; 6 49 ; 13 93 ; 27 159 ; 15 115 ; 9 66 ; 11 90 ; 21 139 ; 14 98 ; 12 88]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Distancia recorrida (en cientos de Km)",
+     "Costo (en U$s/unidad transportada)"
+    ],
+    "filas": [
+     [
+      6,
+      49
+     ],
+     [
+      13,
+      93
+     ],
+     [
+      27,
+      159
+     ],
+     [
+      15,
+      115
+     ],
+     [
+      9,
+      66
+     ],
+     [
+      11,
+      90
+     ],
+     [
+      21,
+      139
+     ],
+     [
+      14,
+      98
+     ],
+     [
+      12,
+      88
+     ]
+    ],
+    "variable_y": "Costo (en U$s/unidad transportada)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Hallar la recta de mínimos cuadrados.",
+    "respuesta": "ŷ = 24,7125 + 5,2702·x",
+    "valores": [
+     24.7125,
+     5.2702
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar, con un 90% de confianza, el costo medio de transporte por unidad para aquellas cargas que se enviarán a 1.700 km.",
+    "respuesta": "Entre 109,39 y 119,23 U$s/unidad transportada.",
+    "valores": [
+     109.39,
+     119.23
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Por lógica, si la distancia recorrida fuese de 0 km, entonces el costo debiera ser de 0 U$s. Explicar ¿por qué la recta de mínimos cuadrados no pasa por el origen?, ¿debería pasar por el origen?",
+    "respuesta": "La recta hallada no pasa por el origen porque la misma responde al entorno de observación (el cual no tiene a 0 como punto de observación). La recta debería pasar por el origen, por lo cual se debería hallar la recta con el intercepto igual a 0, que es: ŷ = 6,7470·x.",
+    "valores": [
+     6.747
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Analizar si el modelo doble logarítmico ajusta mejor al problema e indicar el significado de dicho modelo.",
+    "respuesta": "El modelo será: ŷ = 12,0026·x^0,8026, el modelo lineal nos queda ln(ŷ) = 2,4851 + 0,8026·ln(x). Este modelo ajusta mejor y además indica el cambio porcentual del costo de transporte ante un cambio porcentual en la distancia recorrida, o sea cuando la distancia recorrida aumenta en 1% el costo por unidad transportada aumenta en 0,8026%. Este modelo corresponde a la elasticidad del costo por unidad transportada respecto de la distancia recorrida. La respuesta para la pregunta b) sería: entre 111,59 y 121,88 U$s/unidad transportada.",
+    "valores": [
+     12.0026,
+     0.8026,
+     2.4851,
+     111.59,
+     121.88
+    ]
+   }
+  ],
+  "respuesta": "a) ŷ = 24,7125 + 5,2702·x b) Entre 109,39 y 119,23 U$s/unidad transportada. c) La recta hallada no pasa por el origen porque la misma responde al entorno de observación (el cual no tiene a 0 como punto de observación). La recta debería pasar por el origen, por lo cual se debería hallar la recta con el intercepto igual a 0, que es: ŷ = 6,7470·x. d) El modelo será: ŷ = 12,0026·x^0,8026, el modelo lineal nos queda ln(ŷ) = 2,4851 + 0,8026·ln(x). Este modelo ajusta mejor y además indica el cambio porcentual del costo de transporte ante un cambio porcentual en la distancia recorrida, o sea cuando la distancia recorrida aumenta en 1% el costo por unidad transportada aumenta en 0,8026%. Este modelo corresponde a la elasticidad del costo por unidad transportada respecto de la distancia recorrida. La respuesta para la pregunta b) sería: entre 111,59 y 121,88 U$s/unidad transportada.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "x en cientos de km: 1.700 km → x0 = 17. En d) el IC de b) se recalcula con el modelo doble logarítmico (en escala log y antitransformado). Resp en p. 53.",
+  "que_pide": [
+   "recta",
+   "ic_pronostico_medio",
+   "recta_por_origen",
+   "modelo_transformado_doble_log",
+   "ic_pronostico_medio_log"
+  ]
+ },
+ {
+  "id": "VII-8",
+  "tema": "VII",
+  "numero": 8,
+  "pagina": 53,
+  "planteo": "Se condujo un experimento en un supermercado para estudiar la relación entre la cantidad de espacio destinado a un determinado café y su volumen de ventas semanales. La cantidad de espacio destinado en la estantería se varía en exhibidores de 3, 6 y 9 anaqueles al azar durante 12 semanas, mientras que, para las otras marcas de café, se mantuvieron constantes en exhibidores de 3 anaqueles. Los datos del experimento se dan a continuación: [Tabla: Cantidad de exhibidores Ventas semanales (en unidades) ; 6 526 ; 3 421 ; 6 581 ; 9 630 ; 3 412 ; 9 560 ; 6 434 ; 3 443 ; 9 590 ; 6 570 ; 3 346 ; 9 672]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Cantidad de exhibidores",
+     "Ventas semanales (en unidades)"
+    ],
+    "filas": [
+     [
+      6,
+      526
+     ],
+     [
+      3,
+      421
+     ],
+     [
+      6,
+      581
+     ],
+     [
+      9,
+      630
+     ],
+     [
+      3,
+      412
+     ],
+     [
+      9,
+      560
+     ],
+     [
+      6,
+      434
+     ],
+     [
+      3,
+      443
+     ],
+     [
+      9,
+      590
+     ],
+     [
+      6,
+      570
+     ],
+     [
+      3,
+      346
+     ],
+     [
+      9,
+      672
+     ]
+    ],
+    "variable_y": "Ventas semanales (en unidades)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Hallar la recta de mínimos cuadrados, validar el modelo e interpretar ambos estimadores en términos del problema.",
+    "respuesta": "ŷ = 307,916̄ + 34,583̄·x, existe relación lineal entre variables, r = 0,8738 (se puede considerar que la relación es fuerte) o sea que el modelo se puede considerar válido para lo que se está empleando. El valor de b1 indica que por cada anaquel adicional en la exhibición del café las ventas semanales se incrementarán en aproximadamente 34,58 unidades, el valor de b0 indica que si no se exhibiera el café las ventas semanales serían aproximadamente de 307,92 unidades (esto es ridículo ya que, si el café no se exhibe, el mismo no se vende). Este es otro ejemplo de un modelo con intercepto igual a 0.",
+    "valores": [
+     307.9167,
+     34.5833,
+     0.8738
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar la fuerza de la relación de ambas variables para un 90% de confianza.",
+    "respuesta": "Entre 0,6645 y 0,9561.",
+    "valores": [
+     0.6645,
+     0.9561
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Indicar y estimar, para un 90% de confianza, la influencia porcentual que tiene la cantidad de anaqueles de exhibición en las ventas semanales.",
+    "respuesta": "r² = 0,7636, indica que la cantidad de anaqueles en la exhibición influyen, aproximadamente, en un 76,36% en las ventas semanales, se estima que la influencia porcentual se encuentra entre el 44,15% y 91,4%.",
+    "valores": [
+     0.7636,
+     44.15,
+     91.4
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "El gerente comercial afirma que por cada anaquel adicional en la exhibición las ventas semanales se incrementarán en 20 unidades, para un riesgo del 5%, ¿es correcta la afirmación del gerente?",
+    "respuesta": "Se puede asegurar que por cada anaquel adicional en la exhibición las ventas semanales se incrementarán en más de 20 unidades, se considera correcta la afirmación del gerente.",
+    "valores": [],
+    "decision": "rechaza"
+   },
+   {
+    "letra": "e",
+    "texto": "Estimar con un 90% de confianza la contribución marginal que tiene cada anaquel adicional en las ventas semanales.",
+    "respuesta": "Entre 23,55 y 45,62 unidades/anaquel de exhibición.",
+    "valores": [
+     23.55,
+     45.62
+    ]
+   },
+   {
+    "letra": "f",
+    "texto": "Hallar un intervalo de confianza del 90% para la venta media semanal de café si se presenta en exhibidores de 6 anaqueles.",
+    "respuesta": "Entre 488,40 y 542,44 unidades en promedio.",
+    "valores": [
+     488.4,
+     542.44
+    ]
+   },
+   {
+    "letra": "g",
+    "texto": "Si durante la semana entrante se va a presentar el café en un exhibidor de 6 anaqueles, hallar un intervalo de predicción del 90% para las ventas semanales. Explicar la diferencia entre este intervalo y el obtenido en el punto anterior.",
+    "respuesta": "Entre 418 y 613 unidades.",
+    "valores": [
+     418,
+     613
+    ]
+   },
+   {
+    "letra": "h",
+    "texto": "La recta por lógica tiene intercepto igual a 0, ¿cómo sería el modelo estimador?",
+    "respuesta": "ŷ = 78,5714·x",
+    "valores": [
+     78.5714
+    ]
+   }
+  ],
+  "respuesta": "a) ŷ = 307,916̄ + 34,583̄·x, existe relación lineal entre variables, r = 0,8738 (se puede considerar que la relación es fuerte) o sea que el modelo se puede considerar válido para lo que se está empleando. El valor de b1 indica que por cada anaquel adicional en la exhibición del café las ventas semanales se incrementarán en aproximadamente 34,58 unidades, el valor de b0 indica que si no se exhibiera el café las ventas semanales serían aproximadamente de 307,92 unidades (esto es ridículo ya que, si el café no se exhibe, el mismo no se vende). Este es otro ejemplo de un modelo con intercepto igual a 0. b) Entre 0,6645 y 0,9561. c) r² = 0,7636, indica que la cantidad de anaqueles en la exhibición influyen, aproximadamente, en un 76,36% en las ventas semanales, se estima que la influencia porcentual se encuentra entre el 44,15% y 91,4%. d) Se puede asegurar que por cada anaquel adicional en la exhibición las ventas semanales se incrementarán en más de 20 unidades, se considera correcta la afirmación del gerente. e) Entre 23,55 y 45,62 unidades/anaquel de exhibición. f) Entre 488,40 y 542,44 unidades en promedio. g) Entre 418 y 613 unidades. h) ŷ = 78,5714·x",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La guía escribe los coeficientes con período: 307,916̄ y 34,583̄ (= 307,9167 y 34,5833). En la tabla de la guía la fila de Ventas va primero; x = exhibidores. g) la Resp no incluye la explicación de la diferencia entre intervalos. d) no aclara la forma de H0 (unilateral β1 > 20).",
+  "que_pide": [
+   "recta",
+   "r",
+   "ensayo_beta1",
+   "ic_rho",
+   "r2",
+   "ic_rho2",
+   "ensayo_beta1_valor",
+   "ic_beta1",
+   "ic_pronostico_medio",
+   "ic_pronostico_individual",
+   "recta_por_origen"
+  ]
+ },
+ {
+  "id": "VII-9",
+  "tema": "VII",
+  "numero": 9,
+  "pagina": 53,
+  "planteo": "Una variable independiente que muestre una asociación negativa fuerte con la variable dependiente es tan útil como una que muestre una asociación positiva. El hecho importante es que la relación sea fuerte, esto es, la magnitud absoluta del coeficiente de correlación entre las 2 variables. Considerar por ejemplo a las tasas de interés y el número de nuevas construcciones. Las tasas de interés son indicadores clave para predecir el número de construcciones. Suponer que los datos de la siguiente tabla representan las tasas de interés en hipotecas y el registro de nuevas construcciones iniciadas en 8 años consecutivos: [Tabla: Año Tasa de interés (en %) Cantidad de licencias de construcción ; 1 6,5 2165 ; 2 6 2984 ; 3 6,5 2780 ; 4 7,5 1940 ; 5 8,5 1750 ; 6 9,5 1535 ; 7 10 962 ; 8 9 1310]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Año",
+     "Tasa de interés (en %)",
+     "Cantidad de licencias de construcción"
+    ],
+    "filas": [
+     [
+      1,
+      6.5,
+      2165
+     ],
+     [
+      2,
+      6.0,
+      2984
+     ],
+     [
+      3,
+      6.5,
+      2780
+     ],
+     [
+      4,
+      7.5,
+      1940
+     ],
+     [
+      5,
+      8.5,
+      1750
+     ],
+     [
+      6,
+      9.5,
+      1535
+     ],
+     [
+      7,
+      10.0,
+      962
+     ],
+     [
+      8,
+      9.0,
+      1310
+     ]
+    ],
+    "variable_y": "Cantidad de licencias de construcción"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Hallar la recta de mínimos cuadrados.",
+    "respuesta": "ŷ = 5.344,2197 − 430,3584·x",
+    "valores": [
+     5344.2197,
+     -430.3584
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular el coeficiente de correlación.",
+    "respuesta": "r = −0,9401",
+    "valores": [
+     -0.9401
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Si los indicadores económicos indican que la tasa de interés para hipotecas será del 8,5% para el próximo año, pronosticar el número de licencias de construcción que se otorgarán durante el año entrante mediante un intervalo de predicción del 95%.",
+    "respuesta": "Entre 1.014 y 2.358 licencias.",
+    "valores": [
+     1014,
+     2358
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Analizar si el modelo logarítmico lineal ajusta mejor al problema e indicar el significado de dicho modelo.",
+    "respuesta": "El modelo será: ŷ = 11.640,5·0,7913^x, el modelo lineal nos queda ln(ŷ) = 9,3623 − 0,2341·x. Este modelo ajusta mejor y además indica el cambio porcentual de las licencias de construcción ante un cambio unitario de la tasa de interés. o sea cuando la tasa de interés aumenta en 1% las licencias de construcción disminuyen en 23,41%. La respuesta para la pregunta c) sería: entre 1.108 y 2.285 licencias.",
+    "valores": [
+     11640.5,
+     0.7913,
+     9.3623,
+     -0.2341,
+     1108,
+     2285
+    ]
+   }
+  ],
+  "respuesta": "a) ŷ = 5.344,2197 − 430,3584·x b) r = −0,9401 c) Entre 1.014 y 2.358 licencias. d) El modelo será: ŷ = 11.640,5·0,7913^x, el modelo lineal nos queda ln(ŷ) = 9,3623 − 0,2341·x. Este modelo ajusta mejor y además indica el cambio porcentual de las licencias de construcción ante un cambio unitario de la tasa de interés. o sea cuando la tasa de interés aumenta en 1% las licencias de construcción disminuyen en 23,41%. La respuesta para la pregunta c) sería: entre 1.108 y 2.285 licencias.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Modelo log-lineal (exponencial): ln y = β0 + β1·x, ŷ = e^b0·(e^b1)^x. La guía interpreta b1 = -0,2341 como 'disminuyen en 23,41%' (aproximación; 1 − 0,7913 = 20,87%). La columna Año no interviene. Incisos y Resp en p. 54.",
+  "que_pide": [
+   "recta",
+   "r",
+   "ic_pronostico_individual",
+   "modelo_transformado_log_lineal",
+   "ic_pronostico_individual_log"
+  ]
+ },
+ {
+  "id": "VII-10",
+  "tema": "VII",
+  "numero": 10,
+  "pagina": 54,
+  "planteo": "¿Existe relación entre el consumo de energía de un país y su P.B.I.? Se estaría dispuesto a suponer que un país con mayor ingreso per cápita requeriría de mayor consumo de energía. Para examinar esta cuestión se eligieron al azar 14 países obteniendo para ellos el consumo per cápita (en kWh) y el P.B.I. per cápita por año (en U$s), cuyos valores se presentan en la siguiente tabla: [Tabla Fuente: Banco Mundial, 2014 (Consumo) y Banco Mundial, 2018 (PBI): País Consumo de energía P.B.I. ; Noruega 23000 81807 ; Canadá 15588 46210 ; E.E.U.U. 12994 62641 ; Australia 10071 57305 ; Japón 7820 39287 ; Francia 6940 41464 ; Dinamarca 5859 60726 ; Grecia 5063 20324 ; Italia 5002 34318 ; Uruguay 3085 17278 ; Argentina 3075 11653 ; Venezuela 2719 16055 ; Brasil 2620 8921 ; India 805 2016]",
+  "tablas": [
+   {
+    "titulo": "Fuente: Banco Mundial, 2014 (Consumo) y Banco Mundial, 2018 (PBI)",
+    "columnas": [
+     "País",
+     "Consumo de energía",
+     "P.B.I."
+    ],
+    "filas": [
+     [
+      "Noruega",
+      23000,
+      81807
+     ],
+     [
+      "Canadá",
+      15588,
+      46210
+     ],
+     [
+      "E.E.U.U.",
+      12994,
+      62641
+     ],
+     [
+      "Australia",
+      10071,
+      57305
+     ],
+     [
+      "Japón",
+      7820,
+      39287
+     ],
+     [
+      "Francia",
+      6940,
+      41464
+     ],
+     [
+      "Dinamarca",
+      5859,
+      60726
+     ],
+     [
+      "Grecia",
+      5063,
+      20324
+     ],
+     [
+      "Italia",
+      5002,
+      34318
+     ],
+     [
+      "Uruguay",
+      3085,
+      17278
+     ],
+     [
+      "Argentina",
+      3075,
+      11653
+     ],
+     [
+      "Venezuela",
+      2719,
+      16055
+     ],
+     [
+      "Brasil",
+      2620,
+      8921
+     ],
+     [
+      "India",
+      805,
+      2016
+     ]
+    ],
+    "variable_y": "Consumo de energía"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Determine mediante un coeficiente adecuado el grado de relación lineal entre el consumo de energía y el P.B.I.",
+    "respuesta": "r = 0,8567.",
+    "valores": [
+     0.8567
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Estime con un 95% de confianza dicho coeficiente.",
+    "respuesta": "Entre 0,5978 y 0,9538.",
+    "valores": [
+     0.5978,
+     0.9538
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Presentan los datos suficiente evidencia sobre la existencia de una relación lineal entre ambas variables?",
+    "respuesta": "Sí, se puede asegurar que existe relación lineal entre las variable y fuerte, de manera que el modelo es válido para el uso que se le está dando.",
+    "valores": []
+   },
+   {
+    "letra": "d",
+    "texto": "Analizar si el modelo doble logarítmico es mejor que el modelo lineal, explicar el motivo.",
+    "respuesta": "El modelo doble logarítmico es mejor dado que su valor del coeficiente de correlación es r = 0,9297, dado que son variables econométricas referentes a individuos de una población. El modelo será: ŷ = 1,4808·x^0,8087, el modelo lineal nos queda ln(ŷ) = 0,3926 + 0,8087·ln(x). Indica el cambio porcentual del consumo de energía ante un cambio porcentual en el P.B.I., o sea cuando el P.B.I. aumenta en 1% el consumo de energía en 0,8087%. Este modelo corresponde a la elasticidad del consumo de energía respecto del P.B.I. del país.",
+    "valores": [
+     0.9297,
+     1.4808,
+     0.8087,
+     0.3926
+    ]
+   }
+  ],
+  "respuesta": "a) r = 0,8567. b) Entre 0,5978 y 0,9538. c) Sí, se puede asegurar que existe relación lineal entre las variable y fuerte, de manera que el modelo es válido para el uso que se le está dando. d) El modelo doble logarítmico es mejor dado que su valor del coeficiente de correlación es r = 0,9297, dado que son variables econométricas referentes a individuos de una población. El modelo será: ŷ = 1,4808·x^0,8087, el modelo lineal nos queda ln(ŷ) = 0,3926 + 0,8087·ln(x). Indica el cambio porcentual del consumo de energía ante un cambio porcentual en el P.B.I., o sea cuando el P.B.I. aumenta en 1% el consumo de energía en 0,8087%. Este modelo corresponde a la elasticidad del consumo de energía respecto del P.B.I. del país.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "En el modelo doble log y = consumo, x = P.B.I. (verificado con los datos: ln ŷ = 0,3926 + 0,8087·ln x). 'el consumo de energía en 0,8087%' (falta 'aumenta', tal cual en la guía). Riesgo de c) no indicado.",
+  "que_pide": [
+   "r",
+   "ic_rho",
+   "ensayo_beta1",
+   "modelo_transformado_doble_log"
+  ]
+ },
+ {
+  "id": "VII-11",
+  "tema": "VII",
+  "numero": 11,
+  "pagina": 54,
+  "planteo": "En el problema de la distribución de la energía eléctrica se trabaja con la relación entre el consumo de los usuarios y su máxima demanda de potencia. Considerar al respecto los siguientes datos: [Tabla: Consumo (en Kwh) Potencia (en Kw) ; 110 0,7 ; 568 2,41 ; 245 1,19 ; 324 1,53 ; 76 0,53]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Consumo (en Kwh)",
+     "Potencia (en Kw)"
+    ],
+    "filas": [
+     [
+      110,
+      0.7
+     ],
+     [
+      568,
+      2.41
+     ],
+     [
+      245,
+      1.19
+     ],
+     [
+      324,
+      1.53
+     ],
+     [
+      76,
+      0.53
+     ]
+    ],
+    "variable_y": "Potencia (en Kw)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Si se supone que la relación es del tipo y = α·x^β, donde la variable “x” es el consumo y la variable “y” es la potencia, estimar los parámetros “α” y “β” e investigar la validez del modelo.",
+    "respuesta": "Se debe estudiar el siguiente modelo: ln y = ln α + β·ln x, el cual se estima con el modelo: ln ŷ = ln a + b·ln x, siendo a y b los estimadores de α y β: ln ŷ = −3,8635 + 0,743·ln x; a = 0,0210 y b = 0,7430. El modelo es válido para el uso correspondiente con un valor de r = 0,9987.",
+    "valores": [
+     -3.8635,
+     0.743,
+     0.021,
+     0.9987
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Si el consumo de un usuario es de 450 Kwh, ¿cuál es la máxima demanda de potencia con una probabilidad de 0,05?",
+    "respuesta": "2,1728 Kw.",
+    "valores": [
+     2.1728
+    ]
+   }
+  ],
+  "respuesta": "Se debe estudiar el siguiente modelo: ln y = ln α + β·ln x, el cual se estima con el modelo: ln ŷ = ln a + b·ln x, siendo a y b los estimadores de α y β: ln ŷ = −3,8635 + 0,743·ln x; a = 0,0210 y b = 0,7430. El modelo es válido para el uso correspondiente con un valor de r = 0,9987. b) 2,1728 Kw.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La Resp no rotula el inciso a). b) se interpreta como límite superior unilateral (95%) de pronóstico individual en x0 = 450, calculado en escala log y antitransformado. Incisos y Resp en p. 55.",
+  "que_pide": [
+   "modelo_transformado_doble_log",
+   "r",
+   "ensayo_beta1",
+   "limite_superior_pronostico_individual_log"
+  ]
+ },
+ {
+  "id": "VII-12",
+  "tema": "VII",
+  "numero": 12,
+  "pagina": 55,
+  "planteo": "En la producción de herramientas, el método para deformar acero a temperatura normal mantiene una relación lineal con la dureza del mismo ya que, a medida que la deformación crece, se ve afectada la dureza del acero. Para investigar esta relación se evaluaron 12 muestras de acero, los resultados obtenidos se visualizan en la siguiente tabla: [Tabla: Deformación (en mm) Dureza Brinell (en kg/mm²) ; 6 70 ; 9 68 ; 10 66 ; 12 55 ; 14 52 ; 15 50 ; 18 48 ; 22 44 ; 26 40 ; 28 37 ; 33 35 ; 35 30]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Deformación (en mm)",
+     "Dureza Brinell (en kg/mm²)"
+    ],
+    "filas": [
+     [
+      6,
+      70
+     ],
+     [
+      9,
+      68
+     ],
+     [
+      10,
+      66
+     ],
+     [
+      12,
+      55
+     ],
+     [
+      14,
+      52
+     ],
+     [
+      15,
+      50
+     ],
+     [
+      18,
+      48
+     ],
+     [
+      22,
+      44
+     ],
+     [
+      26,
+      40
+     ],
+     [
+      28,
+      37
+     ],
+     [
+      33,
+      35
+     ],
+     [
+      35,
+      30
+     ]
+    ],
+    "variable_y": "Dureza Brinell (en kg/mm²)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Hallar la recta de mínimos cuadrados, validar el modelo e interpretar ambos estimadores en términos del problema.",
+    "respuesta": "ŷ = 74,6589 − 1,3198·x; S = 3,7867; Sb1 = 0,1179; r = −0,9624; r² = 0,9261. H0) ρ = 0 (β1 = 0): t_obs = −11,1963 (|t_obs| = 11,1963) vs t(0,95;10) = 1,8125: se rechaza; existe relación lineal fuerte y el modelo es válido. b1: por cada mm adicional de deformación la dureza se reduce en promedio 1,3198 kg/mm²; b0: con deformación nula la dureza sería 74,6589 kg/mm².",
+    "valores": [
+     74.6589,
+     -1.3198,
+     3.7867,
+     0.1179,
+     -0.9624,
+     0.9261,
+     -11.1963,
+     1.8125
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar la fuerza de la relación de ambas variables para un 95% de confianza.",
+    "respuesta": "Z = −3,9536 ± 0,6533: Zρmín = −2,6301; ZρMáx = −1,3235 (tal cual en la guía). P(−0,9897 ≤ ρ ≤ −0,8676) = 0,95.",
+    "valores": [
+     -3.9536,
+     0.6533,
+     -2.6301,
+     -1.3235,
+     -0.9897,
+     -0.8676
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Indicar y estimar, para un 95% de confianza, la influencia porcentual que tiene la deformación del acero en la dureza del mismo.",
+    "respuesta": "r² = 0,9261 (92,61%); P(0,7528 ≤ ρ² ≤ 0,9795) = 0,95: la influencia se encuentra entre el 75,28% y el 97,95%.",
+    "valores": [
+     0.9261,
+     0.7528,
+     0.9795
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Se puede afirmar que, por cada milímetro adicional en la deformación del acero, la dureza brinell disminuye en más de 1 kg/mm², para un riesgo del 5%.",
+    "respuesta": "H0) β1 ≥ −1 kg/mm²; b1c = −1 − 1,8125·0,1179 = −1,2136; se rechaza la hipótesis nula: por cada mm de deformación la dureza brinell disminuye en más de 1 kg/mm².",
+    "valores": [
+     -1.2136
+    ]
+   },
+   {
+    "letra": "e",
+    "texto": "Estimar con un 95% de confianza la contribución marginal que tiene cada milímetro de deformación del acero en la dureza brinell del mismo.",
+    "respuesta": "−1,3198 ± 2,2281·0,1179 = −1,3198 ± 0,2626: entre −1,5824 y −1,0572 (kg/mm²)/mm.",
+    "valores": [
+     -1.5824,
+     -1.0572
+    ]
+   },
+   {
+    "letra": "f",
+    "texto": "Hallar un intervalo de confianza del 95% para la dureza brinell promedio del acero, si la deformación del mismo fuese de 10 mm.",
+    "respuesta": "ŷ0 = 61,4612 kg/mm²; 61,4612 ± 2,2281·3,7867·√(1/12 + (10−19)²/(5.364−12·19²)) = 61,4612 ± 3,3941: entre 58,0671 y 64,8554 kg/mm².",
+    "valores": [
+     61.4612,
+     3.3941,
+     58.0671,
+     64.8554
+    ]
+   },
+   {
+    "letra": "g",
+    "texto": "Si a un determinado acero se lo somete a una deformación de 10 mm, hallar un intervalo de predicción del 95% para la dureza brinell.",
+    "respuesta": "61,4612 ± 9,0943: entre 52,3667 y 70,5557 kg/mm².",
+    "valores": [
+     61.4612,
+     9.0943,
+     52.3667,
+     70.5557
+    ]
+   }
+  ],
+  "respuesta": "a) ŷ = 74,6589 − 1,3198·x; S = 3,7867; Sb1 = 0,1179; r = −0,9624; r² = 0,9261. H0) ρ = 0 (β1 = 0): t_obs = −11,1963 (|t_obs| = 11,1963) vs t(0,95;10) = 1,8125: se rechaza; existe relación lineal fuerte y el modelo es válido. b1: por cada mm adicional de deformación la dureza se reduce en promedio 1,3198 kg/mm²; b0: con deformación nula la dureza sería 74,6589 kg/mm². b) Z = −3,9536 ± 0,6533: Zρmín = −2,6301; ZρMáx = −1,3235 (tal cual en la guía). P(−0,9897 ≤ ρ ≤ −0,8676) = 0,95. c) r² = 0,9261 (92,61%); P(0,7528 ≤ ρ² ≤ 0,9795) = 0,95: la influencia se encuentra entre el 75,28% y el 97,95%. d) H0) β1 ≥ −1 kg/mm²; b1c = −1 − 1,8125·0,1179 = −1,2136; se rechaza la hipótesis nula: por cada mm de deformación la dureza brinell disminuye en más de 1 kg/mm². e) −1,3198 ± 2,2281·0,1179 = −1,3198 ± 0,2626: entre −1,5824 y −1,0572 (kg/mm²)/mm. f) ŷ0 = 61,4612 kg/mm²; 61,4612 ± 2,2281·3,7867·√(1/12 + (10−19)²/(5.364−12·19²)) = 61,4612 ± 3,3941: entre 58,0671 y 64,8554 kg/mm². g) 61,4612 ± 9,0943: entre 52,3667 y 70,5557 kg/mm².",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "n = 12; Σx = 228, x̄ = 19; Σx² = 5.364; Σy = 595, ȳ = 49,583̄; Σy² = 31.443; Σxy = 9.943.",
+   "Quiere decir que, por cada milímetro adicional en la deformación del acero, la dureza brinell se reduce en promedio 1,3198 kg/mm².",
+   "Quiere decir que, si la deformación en milímetros del acero fuese nula, la dureza brinell sería 74,6589 kg/mm².",
+   "La recta de mínimos cuadrados queda: ŷ = 74,6589 − 1,3198·x.",
+   "Se rechaza la hipótesis y se puede afirmar que existe relación lineal entre las variables, y como el valor de r es alto dicha relación es fuerte o consistente. De manera que el modelo es válido para cualquier campo de aplicación ya que el valor de r es mayor que 0,90.",
+   "La relación es considerada fuerte y consistente para cualquier campo de aplicación.",
+   "r² = 0,9261, o sea que el 92,61% de la dureza brinell del acero se explica por la deformación en milímetros. La influencia se encuentra entre el 75,28% y el 97,95% con un 95% de confianza.",
+   "Se rechaza la hipótesis nula, entonces se puede afirmar que por cada milímetro de deformación en el acero la dureza brinell disminuye en más de 1 kg/mm².",
+   "Con un 95% de seguridad los límites estarán comprendidos entre −1,5824 y −1,0572 (kg/mm²)/mm.",
+   "Los límites de la dureza brinell promedio del acero estarán comprendidos entre 58,0671 kg/mm² y 64,8554 kg/mm², con un 95% de seguridad.",
+   "Los límites de la dureza brinell del acero estarán comprendidos entre 52,3667 kg/mm² y 70,5557 kg/mm², con un 95% de seguridad."
+  ],
+  "observaciones": "Sin 'Resp:'; respuesta armada desde la Solución (pp. 55-56). En a) se plantea H0) ρ = 0 / β1 = 0 con riesgo 5% pero se compara con t(0,95;10) = 1,8125 (valor de tabla unilateral); los IC usan t(0,975;10) = 2,2281 y Z(0,975) = 1,96. b) Z = ½·ln((1+r)/(1−r)) ± Z·1/√(n−3) = −3,9536 ± 0,6533 en la guía, pero ½·ln((1−0,9624)/(1+0,9624)) = −1,98 y Zmín/Zmáx = −2,6301/−1,3235 corresponden a −1,9768 ± 0,6533; el '−3,9536' parece ser ln(...) sin el ½ (se transcribe igual). d) se resuelve por valor crítico: b1c = β1 − t(0,95;10)·Sb1 y se compara con b1.",
+  "que_pide": [
+   "recta",
+   "r",
+   "r2",
+   "ensayo_beta1",
+   "ic_rho",
+   "ic_rho2",
+   "ensayo_beta1_valor",
+   "ic_beta1",
+   "ic_pronostico_medio",
+   "ic_pronostico_individual"
+  ]
+ },
+ {
+  "id": "VII-13",
+  "tema": "VII",
+  "numero": 13,
+  "pagina": 57,
+  "planteo": "La carbonatación del hormigón armado influye en la duración de estructuras debido a la corrosión de las varillas de acero de refuerzo. La carbonatación del hormigón es el resultado de una reacción química que baja el pH lo suficiente para iniciar la corrosión de las varillas. Es muy importante controlar la penetración en profundidad de la carbonatación debida a la porosidad del hormigón. Se han tomado datos de varias muestras de una estructura de hormigón armado midiéndose la resistencia (a la rotura o quiebre) medida en mega pascales (MPa) y la profundidad de carbonatación medida en milímetros (mm). Se parte de la base que la carbonatación (X) es la variable que influye sobre la variable resistencia (Y). Los valores obtenidos de 18 muestras fueron: [Tabla: X = Carbonatación (en mm) Y = Resistencia al quiebre (en MPa) ; 8 22,8 ; 15 27,2 ; 16,5 23,7 ; 20 17,1 ; 20 21,5 ; 27,5 18,6 ; 30 16,1 ; 30 20,4 ; 35 13,4 ; 38 18,5 ; 40 12,4 ; 45 13,2 ; 50 11,4 ; 50 10,3 ; 55 14,1 ; 55 9,7 ; 59 12 ; 65 6,8]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "X = Carbonatación (en mm)",
+     "Y = Resistencia al quiebre (en MPa)"
+    ],
+    "filas": [
+     [
+      8,
+      22.8
+     ],
+     [
+      15,
+      27.2
+     ],
+     [
+      16.5,
+      23.7
+     ],
+     [
+      20,
+      17.1
+     ],
+     [
+      20,
+      21.5
+     ],
+     [
+      27.5,
+      18.6
+     ],
+     [
+      30,
+      16.1
+     ],
+     [
+      30,
+      20.4
+     ],
+     [
+      35,
+      13.4
+     ],
+     [
+      38,
+      18.5
+     ],
+     [
+      40,
+      12.4
+     ],
+     [
+      45,
+      13.2
+     ],
+     [
+      50,
+      11.4
+     ],
+     [
+      50,
+      10.3
+     ],
+     [
+      55,
+      14.1
+     ],
+     [
+      55,
+      9.7
+     ],
+     [
+      59,
+      12
+     ],
+     [
+      65,
+      6.8
+     ]
+    ],
+    "variable_y": "Y = Resistencia al quiebre (en MPa)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Hallar la recta de mínimos cuadrados, validar el modelo e interpretar ambos estimadores en términos del problema.",
+    "respuesta": "ŷ = 26,8212 − 0,2938·x, existe relación lineal entre variables, r = 0,8964 (se puede considerar que la relación es fuerte) o sea que el modelo se puede considerar válido para lo que se está empleando. El valor de b1 indica que por cada mm de penetración en el hormigón, la resistencia al quiebre disminuye en aproximadamente 0,2937 Mpa, el valor de b0 indica que, si no se hubiera penetración en el hormigón, la resistencia al quiebre sería aproximadamente de 26,8212 Mpa.",
+    "valores": [
+     26.8212,
+     -0.2938,
+     0.8964
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar la fuerza de la relación de ambas variables para un 95% de confianza.",
+    "respuesta": "Entre (-0,96105) y (-0,73858).",
+    "valores": [
+     -0.96105,
+     -0.73858
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Indicar y estimar, para un 95% de confianza, la influencia porcentual que tiene la penetración del poro en el hormigón en la resistencia al quiebre del mismo.",
+    "respuesta": "r² = 0,8035, indica que la penetración en el hormigón influye, aproximadamente, en un 80,35% en la resistencia al quiebre, se estima que la influencia porcentual se encuentra entre el 54,55% y 92,37%.",
+    "valores": [
+     0.8035,
+     54.55,
+     92.37
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Se puede afirmar que, por cada milímetro en la penetración en el hormigón, la resistencia al quiebre disminuye en más de 0,25 Mpa, para un riesgo del 5%.",
+    "respuesta": "No se puede asegurar que la resistencia al quiebre disminuya en más de 0,25 Mpa.",
+    "valores": [],
+    "decision": "no_rechaza"
+   },
+   {
+    "letra": "e",
+    "texto": "Estimar con un 95% de confianza la contribución marginal que tiene cada milímetro de penetración en la resistencia al quiebre del hormigón.",
+    "respuesta": "Entre (-0,2937) y (-0,3708) Mpa/mm.",
+    "valores": [
+     -0.2937,
+     -0.3708
+    ]
+   },
+   {
+    "letra": "f",
+    "texto": "Hallar un intervalo de confianza del 95% para la resistencia al quiebre promedio, si la penetración fuese de 10 mm.",
+    "respuesta": "Entre 21,4769 y 26,2905 Mpa.",
+    "valores": [
+     21.4769,
+     26.2905
+    ]
+   },
+   {
+    "letra": "g",
+    "texto": "Si en un determinado sector de la estructura del hormigón se encuentra una penetración de 10 mm, hallar un intervalo de predicción del 95% para la resistencia al quiebre.",
+    "respuesta": "Entre 18,0109 y 29,7565 Mpa.",
+    "valores": [
+     18.0109,
+     29.7565
+    ]
+   }
+  ],
+  "respuesta": "a) ŷ = 26,8212 − 0,2938·x, existe relación lineal entre variables, r = 0,8964 (se puede considerar que la relación es fuerte) o sea que el modelo se puede considerar válido para lo que se está empleando. El valor de b1 indica que por cada mm de penetración en el hormigón, la resistencia al quiebre disminuye en aproximadamente 0,2937 Mpa, el valor de b0 indica que, si no se hubiera penetración en el hormigón, la resistencia al quiebre sería aproximadamente de 26,8212 Mpa. b) Entre (-0,96105) y (-0,73858). c) r² = 0,8035, indica que la penetración en el hormigón influye, aproximadamente, en un 80,35% en la resistencia al quiebre, se estima que la influencia porcentual se encuentra entre el 54,55% y 92,37%. d) No se puede asegurar que la resistencia al quiebre disminuya en más de 0,25 Mpa. e) Entre (-0,2937) y (-0,3708) Mpa/mm. f) Entre 21,4769 y 26,2905 Mpa. g) Entre 18,0109 y 29,7565 Mpa.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La Resp no rotula el inciso a) (se le agregó 'a)' en 'respuesta'). r = 0,8964 figura sin signo aunque la pendiente es negativa (con los datos r = −0,8964). La interpretación de b1 dice 0,2937 vs 0,2938 en la recta. e) 'Entre (-0,2937) y (-0,3708)' parece inconsistente: −0,2937 es la estimación puntual, no un límite (con los datos: b1 = −0,29375, Sb1 = 0,03632, t(0,975;16) = 2,1199 → IC entre −0,3707 y −0,2168). d) consistente con los datos (t = (−0,2938+0,25)/0,0363 ≈ −1,20, no se rechaza).",
+  "que_pide": [
+   "recta",
+   "r",
+   "ensayo_beta1",
+   "ic_rho",
+   "r2",
+   "ic_rho2",
+   "ensayo_beta1_valor",
+   "ic_beta1",
+   "ic_pronostico_medio",
+   "ic_pronostico_individual"
+  ]
+ }
+]

@@ -8,6 +8,7 @@ import streamlit as st
 from interprete import buscador, glosario
 from interprete.analizador import analizar, cambiar_criterio, separar_incisos
 from interprete.editor import a_texto, de_texto
+from interprete.tablas import buscar_tablas, desde_texto_editado, a_texto as tabla_a_texto
 from interprete.modelo import (CAMPOS_INCISO, CAMPOS_PLANTEO, COLAS, TEMAS, TIPOS, TIPOS_POR_TEMA, Analisis,
                                Inciso)
 from interprete.resolver import resolver
@@ -25,8 +26,9 @@ ss.setdefault("incisos", [""])
 ss.setdefault("ver", 0)          # versión del análisis (renueva las claves de los widgets)
 ss.setdefault("analisis", None)
 ss.setdefault("resultados", None)
+if "tabla_txt_nueva" in ss:
+    ss["tabla_txt"] = ss.pop("tabla_txt_nueva")
 
-TEMAS_PARCIAL = {"media", "varianza", "proporcion"}
 
 # ---------------------------------------------------------------------------
 # 1) Enunciado
@@ -66,11 +68,26 @@ if st.button("➕ Agregar inciso"):
     st.rerun()
 st.caption("Si el problema no tiene incisos dejalos vacíos: la pregunta se toma del planteo.")
 
+with st.expander("📋 Tabla de datos (regresión, frecuencias por clase, contingencia, muestras apareadas)",
+                 expanded=bool(ss.get("tabla_txt"))):
+    st.text_area("Pegá la tabla: primer renglón con los encabezados y una fila por renglón (separá con | ; o tab). "
+                 "Si la dejás vacía, se busca la tabla dentro del planteo.", key="tabla_txt", height=150,
+                 placeholder="Área sembrada (en 10^6 ha) | PBI (en millones de U$s)\n3,0402 | 8,014\n2,9819 | 7,891")
+    if st.button("Buscar la tabla en el planteo"):
+        encontradas = buscar_tablas(ss.get("planteo", ""))
+        if encontradas:
+            ss["tabla_txt_nueva"] = tabla_a_texto(encontradas[0])
+            st.rerun()
+        else:
+            st.info("No encontré una tabla en el planteo.")
+
 if st.button("🔍 Interpretar", type="primary"):
     if not ss.get("planteo", "").strip():
         st.error("Escribí el planteo.")
     else:
-        ss["analisis"] = analizar(ss["planteo"], [tx for tx in ss["incisos"] if tx.strip()])
+        tabla = desde_texto_editado(ss.get("tabla_txt", "")) if ss.get("tabla_txt", "").strip() else None
+        ss["analisis"] = analizar(ss["planteo"], [tx for tx in ss["incisos"] if tx.strip()],
+                                  tablas=[tabla] if tabla else None)
         ss["resultados"] = None
         ss["cambios_criterio"] = None
         ss["ver"] += 1
@@ -92,8 +109,6 @@ tema = st.selectbox("Tema detectado", temas, index=temas.index(an.tema), format_
                     key=f"v{V}_tema")
 for r in an.razones_tema:
     st.caption("↳ " + r)
-if tema not in TEMAS_PARCIAL:
-    st.info("Este tema no entra en el primer parcial (se calcula igual si la app lo soporta).")
 if an.criterio:
     criterios = ["optimista", "pesimista"]
     elegido = st.radio("Criterio para plantear H0", criterios, index=criterios.index(an.criterio), horizontal=True,
@@ -170,8 +185,6 @@ for k, inc in enumerate(an.incisos):
             opciones = opciones + [inc.tipo]
         tipo = st.selectbox("Tipo de pregunta", opciones, index=opciones.index(inc.tipo),
                             format_func=lambda t: TIPOS[t], key=f"v{V}_i{k}_tipo")
-        if tema not in TEMAS_PARCIAL or (tema == "proporcion" and tipo in ("ensayo", "beta", "diseno", "curva")):
-            st.caption("ℹ️ Esta parte no entra en el primer parcial.")
         params = {}
         claves_p = [c for c in inc.params if c in CAMPOS_INCISO]
         if tipo in ("ensayo", "beta", "diseno", "curva") and "tail" not in claves_p:
@@ -216,7 +229,7 @@ for k, inc in enumerate(an.incisos):
 # ---------------------------------------------------------------------------
 
 st.subheader("5 · Ejercicios parecidos de la guía")
-solo_parcial = st.checkbox("Solo los que entran en el primer parcial", value=True, key="solo_parcial")
+solo_parcial = st.checkbox("Solo los que entraban en el primer parcial", value=False, key="solo_parcial")
 parecidos = buscador.buscar(an.planteo + " " + " ".join(i.texto for i in an.incisos), k=4, tema=tema,
                             solo_parcial=solo_parcial)
 if not parecidos:
@@ -298,7 +311,12 @@ if ss.get("resultados"):
         for a in res.avisos:
             st.warning(a)
         for p in res.pasos:
-            st.markdown("- " + p)
+            if "\n|" in p:  # paso con una tabla: la tabla va fuera de la viñeta
+                texto, _, tabla_md = p.partition("\n\n")
+                st.markdown("- " + texto)
+                st.markdown(tabla_md)
+            else:
+                st.markdown("- " + p)
         if res.conclusion:
             st.success(("**7 · Conclusión formal:** " if inc.tipo == "ensayo" else "**Conclusión:** ") + res.conclusion)
         if res.tabla:

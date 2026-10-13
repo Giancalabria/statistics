@@ -68,7 +68,11 @@ st.markdown(
 - **Intervalos de Confianza**: media, varianza/desvío, proporción — IC y tamaño de muestra.
 - **Ensayo de Hipótesis (1 población)**: media (Z y t), varianza (χ²), proporción (binomial exacto) — decisión, β/potencia y n para potencia fijada.
 - **Comparación de 2 poblaciones**: test F (varianzas), pooled/Welch automático (medias, muestras independientes), muestras apareadas.
-- **Contrastes chi-cuadrado**: bondad de ajuste (Fo/Fe provistos), tablas de contingencia (Fe auto-calculado).
+- **Contrastes chi-cuadrado**: ajuste a un modelo (Normal, Poisson, Weibull, Gumbel, Pareto, Log-Normal... con las Fe
+  calculadas y clases amalgamadas), bondad de ajuste con Fe dadas, tablas de contingencia.
+- **Regresión**: recta, validación, intervalos (β1, ρ, pronóstico promedio / individual), modelos linealizables,
+  modelo lineal general y selección de modelos (DET, Cp, R² ajustado, PRESS).
+- **Guía resuelta**: los 142 ejercicios de la guía resueltos paso a paso, con la respuesta de la guía al lado.
 - **Interpretar un enunciado**: pegás el problema tal cual y te dice qué pide cada inciso, qué datos hay, cómo
   presentarlo y ejercicios parecidos de la guía; después corregís lo que haga falta y calcula todo.
 """

@@ -1,0 +1,1204 @@
+[
+ {
+  "id": "VIII-1",
+  "tema": "VIII",
+  "numero": 1,
+  "pagina": 58,
+  "planteo": "En la absorción de tierra y sedimento en la que se mide la magnitud en la que los productos químicos se acumulan en forma condensada en la superficie es una característica importante que influye en la eficiencia de insecticidas y varios productos químicos. Se presentan los siguientes datos en la siguiente tabla: [Tabla: Observación Índice de Absorción Cant. de hierro extraíble Cant. de aluminio extraíble ; 1 4 61 13 ; 2 18 175 21 ; 3 14 111 24 ; 4 18 124 23 ; 5 26 130 64 ; 6 26 173 38 ; 7 21 169 33 ; 8 30 169 61 ; 9 28 160 39 ; 10 36 244 71 ; 11 65 257 112 ; 12 62 333 88 ; 13 40 199 54] Se quiere averiguar la relación existente entre el índice de absorción de fosfato en función de la cantidad de hierro extraíble y la cantidad de aluminio extraíble. Realizar un análisis completo.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Observación",
+     "Índice de Absorción",
+     "Cant. de hierro extraíble",
+     "Cant. de aluminio extraíble"
+    ],
+    "variable_y": "Índice de Absorción",
+    "filas": [
+     [
+      1,
+      4,
+      61,
+      13
+     ],
+     [
+      2,
+      18,
+      175,
+      21
+     ],
+     [
+      3,
+      14,
+      111,
+      24
+     ],
+     [
+      4,
+      18,
+      124,
+      23
+     ],
+     [
+      5,
+      26,
+      130,
+      64
+     ],
+     [
+      6,
+      26,
+      173,
+      38
+     ],
+     [
+      7,
+      21,
+      169,
+      33
+     ],
+     [
+      8,
+      30,
+      169,
+      61
+     ],
+     [
+      9,
+      28,
+      160,
+      39
+     ],
+     [
+      10,
+      36,
+      244,
+      71
+     ],
+     [
+      11,
+      65,
+      257,
+      112
+     ],
+     [
+      12,
+      62,
+      333,
+      88
+     ],
+     [
+      13,
+      40,
+      199,
+      54
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Se quiere averiguar la relación existente entre el índice de absorción de fosfato en función de la cantidad de hierro extraíble y la cantidad de aluminio extraíble. Realizar un análisis completo.",
+    "respuesta": "Análisis de sensibilidad: queda solo el modelo completo y = f(x1; x2) (los demás se descartan por Cp > 5·p). ŷ = −7,3507 + 0,1127·x1 + 0,3490·x2; S = 4,3794; S² = 19,1789; C1 = 0,000046; C2 = 0,0002651; R² = 0,9485; R²Aj = 0,9438; Sb1 = 0,0297; Sb2 = 0,0713. Ensayo global H0) ρ² = 0 (β1 = β2 = 0): F = 92,0874 > F(0,95;2;10) = 4,1028, se rechaza: modelo globalmente adecuado. H0) β1 = 0: t = 3,7969 > t(0,95;10) = 1,8125, se rechaza (X1 aporta). H0) β2 = 0: t = 4,8944 > 1,8125, se rechaza (X2 aporta). El modelo completo es válido y explica el índice de absorción en un 94,38%. Coeficientes de determinación parciales: R²x1 = 0,7055 (calculado con el modelo simple ŷ = −10,6112 + 0,2282·x1): X1 aporta un 70,55% cuando además actúa X2; R²x2 = 0,5904 (con el modelo simple ŷ = 2,0325 + 0,5641·x2): X2 aporta un 59,04% cuando además actúa X1.",
+    "valores": [
+     -7.3507,
+     0.1127,
+     0.349,
+     4.3794,
+     19.1789,
+     4.6e-05,
+     0.0002651,
+     0.9485,
+     0.9438,
+     0.0297,
+     0.0713,
+     92.0874,
+     4.1028,
+     3.7969,
+     1.8125,
+     4.8944,
+     -10.6112,
+     0.2282,
+     0.7055,
+     2.0325,
+     0.5641,
+     0.5904
+    ]
+   }
+  ],
+  "respuesta": "Análisis de sensibilidad: queda solo el modelo completo y = f(x1; x2) (los demás se descartan por Cp > 5·p). ŷ = −7,3507 + 0,1127·x1 + 0,3490·x2; S = 4,3794; S² = 19,1789; C1 = 0,000046; C2 = 0,0002651; R² = 0,9485; R²Aj = 0,9438; Sb1 = 0,0297; Sb2 = 0,0713. Ensayo global H0) ρ² = 0 (β1 = β2 = 0): F = 92,0874 > F(0,95;2;10) = 4,1028, se rechaza: modelo globalmente adecuado. H0) β1 = 0: t = 3,7969 > t(0,95;10) = 1,8125, se rechaza (X1 aporta). H0) β2 = 0: t = 4,8944 > 1,8125, se rechaza (X2 aporta). El modelo completo es válido y explica el índice de absorción en un 94,38%. Coeficientes de determinación parciales: R²x1 = 0,7055 (calculado con el modelo simple ŷ = −10,6112 + 0,2282·x1): X1 aporta un 70,55% cuando además actúa X2; R²x2 = 0,5904 (con el modelo simple ŷ = 2,0325 + 0,5641·x2): X2 aporta un 59,04% cuando además actúa X1.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Para el procesamiento de los datos y cálculos correspondientes se debe usar computadora.",
+   "Primero se realiza el análisis de sensibilidad para saber cuál es el mejor modelo candidato (tabla: y=f(x1): DET 1, Cp/p 12,4775, R² 0,8250, R²Aj 0,8091, S² 59,2017, PRESS 913,7020; y=f(x2): DET 1, Cp/p 7,7082, R² 0,8742, R²Aj 0,8627, S² 42,5709, PRESS 634,4821; y=f(x1;x2): DET 0,3689, Cp/p 1, R² 0,9485, R²Aj 0,9382, S² 19,1789, PRESS 334,4554).",
+   "El único modelo que queda del análisis es el modelo completo: y = f(x1 ; x2). Los demás se descartan por tener el “Cp” mayor a 5 veces el valor de “p”.",
+   "El modelo es: ŷ = −7,3507 + 0,1127·x1 + 0,3490·x2.",
+   "F_calc = (0,9485/2)/((1−0,9485)/(13−3)) = 92,0874; se compara con F(0,95;2;10) = 4,1028. Se rechaza la hipótesis, por lo tanto, se puede considerar al modelo en forma global adecuado.",
+   "t_obs = 0,1127/0,0297 = 3,7969 vs t(0,95;10) = 1,8125. Se rechaza la hipótesis y se puede afirmar que la variable “X1” aporta significativamente un grado de explicación en el estudio de la variable “Y”.",
+   "t_obs = 0,3490/0,0713 = 4,8944 vs t(0,95;10) = 1,8125. Se rechaza la hipótesis y se puede afirmar que la variable “X2” aporta significativamente un grado de explicación en el estudio de la variable “Y”.",
+   "Se puede afirmar que el modelo completo es válido y adecuado. De manera que el modelo completo explica al índice de absorción en un 94,38% aproximadamente.",
+   "Modelo de regresión simple con “X1”: ŷ = −10,6112 + 0,2282·x1 (b01 = −10,6112, b1' = 0,2282). R²x1 = [(b0−b01)·Σy + (b1−b1')·Σy·x1 + b2·Σy·x2] / [Σy² − b01·Σy − b1'·Σy·x1] = [(−7,3507+10,6112)·388 + (0,1127−0,2282)·82.252 + 0,349·24.899] / [15.302 + 10,6112·388 − 0,2282·82.252] = 0,7055. Quiere decir que la variable “X1” aporta un 70,55% de explicación en la variable “Y” cuando además actúa “X2”.",
+   "Modelo de regresión simple con “X2”: ŷ = 2,0325 + 0,5641·x2 (b02 = 2,0325, b2' = 0,5641). R²x2 = [(−7,3507−2,0325)·388 + 0,1127·82.252 + (0,349−0,5641)·24.899] / [15.302 − 2,0325·388 − 0,5641·24.899] = 0,5904. Quiere decir que la variable “X2” aporta un 59,04% de explicación en la variable “Y” cuando además actúa “X1”."
+  ],
+  "observaciones": "Sin 'Resp:'; respuesta armada desde la Solución (pp. 58-59). Sumatorias usadas en la Solución: Σy = 388, Σy·x1 = 82.252, Σy·x2 = 24.899, Σy² = 15.302. La Solución escribe Sb2 = S·√C1 (errata: debería ser √C2; el valor 0,0713 sí usa C2). R²Aj = 0,9438 en el texto vs 0,9382 en la tabla de sensibilidad (1 − 0,0515·12/10 = 0,9382, parece transposición de dígitos); el '94,38%' de la conclusión usa el del texto. Los ensayos t parciales (bilaterales, riesgo 5%) se comparan con t(0,95;10) = 1,8125. Los coeficientes de determinación parciales: R²x1 se calcula con la regresión simple de Y sobre X1 (y viceversa), aunque el texto dice 'X1 aporta ... cuando además actúa X2' (coeficiente parcial de la variable que se agrega: la nomenclatura parece cruzada; se transcribe igual). Coeficientes verificados con los datos.",
+  "que_pide": [
+   "seleccion_modelos_cp",
+   "coeficientes_mco",
+   "S",
+   "R2",
+   "R2_ajustado",
+   "anova_global",
+   "t_parciales",
+   "R2_parciales"
+  ],
+  "tablas_solucion": [
+   {
+    "titulo": "Análisis de sensibilidad (Solución)",
+    "columnas": [
+     "Modelo Candidato",
+     "DET",
+     "Cp/p",
+     "R2",
+     "R2Aj",
+     "S2",
+     "PRESS"
+    ],
+    "filas": [
+     [
+      "y = f(x1)",
+      1,
+      12.4775,
+      0.825,
+      0.8091,
+      59.2017,
+      913.702
+     ],
+     [
+      "y = f(x2)",
+      1,
+      7.7082,
+      0.8742,
+      0.8627,
+      42.5709,
+      634.4821
+     ],
+     [
+      "y = f(x1 ; x2)",
+      0.3689,
+      1,
+      0.9485,
+      0.9382,
+      19.1789,
+      334.4554
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "id": "VIII-2",
+  "tema": "VIII",
+  "numero": 2,
+  "pagina": 59,
+  "planteo": "Se ha registrado la producción anual de trigo en una región agrícola. Considere las variables: “Y” (Producción de trigo de la región, en miles de toneladas); “X1” (Área sembrada de trigo en una región agrícola, en miles de hectáreas), y, “X2” (Lluvia caída en los meses de setiembre y octubre, en mm). Los siguientes datos se han registrado en los últimos 10 años de las variables mencionadas: [Tabla: X1 X2 Y ; 24,81 46 43,127 ; 15,71 35 16,653 ; 14,58 135 92,322 ; 34,04 11 38,084 ; 27,09 57 61,939 ; 49,7 14 92,376 ; 20,37 12 24,373 ; 25,75 96 74,029 ; 36,09 32 70,772 ; 28,05 45 68,749]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "X1",
+     "X2",
+     "Y"
+    ],
+    "filas": [
+     [
+      24.81,
+      46,
+      43.127
+     ],
+     [
+      15.71,
+      35,
+      16.653
+     ],
+     [
+      14.58,
+      135,
+      92.322
+     ],
+     [
+      34.04,
+      11,
+      38.084
+     ],
+     [
+      27.09,
+      57,
+      61.939
+     ],
+     [
+      49.7,
+      14,
+      92.376
+     ],
+     [
+      20.37,
+      12,
+      24.373
+     ],
+     [
+      25.75,
+      96,
+      74.029
+     ],
+     [
+      36.09,
+      32,
+      70.772
+     ],
+     [
+      28.05,
+      45,
+      68.749
+     ]
+    ],
+    "variable_y": "Y"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Efectúe la estimación de los parámetros del modelo lineal general y su validación global.",
+    "respuesta": "ŷ = −40,2208 + 2,3931·x1 + 0,6702·x2; el modelo, en forma global, es adecuado; las variables X1 y X2 aportan significativamente un grado de explicación en el estudio de Y.",
+    "valores": [
+     -40.2208,
+     2.3931,
+     0.6702
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Determinar los coeficientes de determinación múltiple (el común, el ajustado y los parciales).",
+    "respuesta": "R² = 0,9073 (90,73%), R²Aj = 0,8957 (89,57%), se puede decir que el modelo (en forma global) aporta para la explicación de “Y” el 89,57%; R²x1 = 0,8877 (88,77%), la variable “X1” aporta el 88,77% en la explicación de “Y” cuando está actuando “X2” y R²x2 = 0,8738 (87,38%), la variable “X2” aporta el 87,38% en la explicación de “Y” cuando está actuando “X1”.",
+    "valores": [
+     0.9073,
+     0.8957,
+     0.8877,
+     0.8738
+    ]
+   }
+  ],
+  "respuesta": "a) ŷ = −40,2208 + 2,3931·x1 + 0,6702·x2; el modelo, en forma global, es adecuado; las variables X1 y X2 aportan significativamente un grado de explicación en el estudio de Y. b) R² = 0,9073 (90,73%), R²Aj = 0,8957 (89,57%), se puede decir que el modelo (en forma global) aporta para la explicación de “Y” el 89,57%; R²x1 = 0,8877 (88,77%), la variable “X1” aporta el 88,77% en la explicación de “Y” cuando está actuando “X2” y R²x2 = 0,8738 (87,38%), la variable “X2” aporta el 87,38% en la explicación de “Y” cuando está actuando “X1”.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Coeficientes y R² = 0,9073 verificados con los datos. R²Aj con n = 10, p = 3 da 1 − 0,0927·9/7 = 0,8808, no 0,8957 como dice la guía (se transcribe igual). El riesgo de los ensayos no se indica (presumiblemente 5%).",
+  "que_pide": [
+   "coeficientes_mco",
+   "anova_global",
+   "t_parciales",
+   "R2",
+   "R2_ajustado",
+   "R2_parciales"
+  ]
+ },
+ {
+  "id": "VIII-3",
+  "tema": "VIII",
+  "numero": 3,
+  "pagina": 59,
+  "planteo": "Se quiere estudiar el tiempo para la realización de una prueba atlética de deportistas. Se han tomado datos de 6 atletas, de las siguientes variables: [Tabla: X1: Estatura (en cm) X2: Peso (en kg) X3: Edad (en años) Y: Tiempo de realización de la prueba (en segundos) ; 165 64 25 15 ; 175 68 40 25 ; 180 68 30 17 ; 200 72 42 30 ; 195 70 28 25 ; 183 68 45 32]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "X1: Estatura (en cm)",
+     "X2: Peso (en kg)",
+     "X3: Edad (en años)",
+     "Y: Tiempo de realización de la prueba (en segundos)"
+    ],
+    "filas": [
+     [
+      165,
+      64,
+      25,
+      15
+     ],
+     [
+      175,
+      68,
+      40,
+      25
+     ],
+     [
+      180,
+      68,
+      30,
+      17
+     ],
+     [
+      200,
+      72,
+      42,
+      30
+     ],
+     [
+      195,
+      70,
+      28,
+      25
+     ],
+     [
+      183,
+      68,
+      45,
+      32
+     ]
+    ],
+    "variable_y": "Y: Tiempo de realización de la prueba (en segundos)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Estime los parámetros del modelo lineal general y efectúe la validación.",
+    "respuesta": "ŷ = 40,4622 + 0,647·x1 − 2,3392·x2 + 0,7138·x3, el modelo en forma global no es adecuado para el análisis; según el análisis solamente nos quedamos con el modelo que contiene a la variable x3 (el cual es el modelo más simple y es la variable que aporta significativamente un grado de explicación en el estudio de Y).",
+    "valores": [
+     40.4622,
+     0.647,
+     -2.3392,
+     0.7138
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Considere el modelo con las variables X1 y X3 solamente y compárelo con el modelo completo, ¿cuál elegiría?",
+    "respuesta": "El modelo con x1 y x3 es mejor que el modelo completo, pero la variable x1 no aporta explicación en el estudio de Y. El modelo válido es: ŷ = −0,6408 + 0,7040·x3",
+    "valores": [
+     -0.6408,
+     0.704
+    ]
+   }
+  ],
+  "respuesta": "a) ŷ = 40,4622 + 0,647·x1 − 2,3392·x2 + 0,7138·x3, el modelo en forma global no es adecuado para el análisis; según el análisis solamente nos quedamos con el modelo que contiene a la variable x3 (el cual es el modelo más simple y es la variable que aporta significativamente un grado de explicación en el estudio de Y). b) El modelo con x1 y x3 es mejor que el modelo completo, pero la variable x1 no aporta explicación en el estudio de Y. El modelo válido es: ŷ = −0,6408 + 0,7040·x3",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Coeficientes del modelo completo y del modelo con x3 verificados con los datos. En b) no se dan los coeficientes del modelo con X1 y X3. Riesgo no indicado.",
+  "que_pide": [
+   "coeficientes_mco",
+   "anova_global",
+   "t_parciales",
+   "comparacion_modelos",
+   "seleccion_modelos_cp"
+  ]
+ },
+ {
+  "id": "VIII-4",
+  "tema": "VIII",
+  "numero": 4,
+  "pagina": 59,
+  "planteo": "La eficiencia en el diseño de ciertos incineradores de desperdicios, requieren información acerca del “Contenido Energético” de los desperdicios. Se proporcionan los siguientes datos acerca del contenido energético del compost de desperdicios (en Kcal/kg), en función de tres variables de composición física del compost: el “porcentaje de plásticos en peso” (X1), el “porcentaje de papel en peso” (X2), el “porcentaje de basura orgánica en peso” (X3) y el “porcentaje de humedad en peso” (X4). Se observan en la siguiente tabla una muestra de 30 datos proporcionados para desperdicios obtenidos en cierta región: [Tabla: Obs. Cont. energético (Y) % de plástico (X1) % de papel (X2) % de basura (X3) % de humedad (X4) ; 1 947 18,69 15,65 45,01 58,21 ; 2 1407 19,43 23,51 39,69 46,31 ; 3 1452 19,24 24,23 43,16 46,63 ; 4 1553 22,64 22,2 35,76 45,85 ; 5 989 16,54 23,56 41,2 55,14 ; 6 1162 21,44 23,65 35,56 54,24 ; 7 1466 19,53 24,45 40,18 47,2 ; 8 1656 23,97 19,39 44,11 43,82 ; 9 1254 21,45 23,84 35,41 51,01 ; 10 1336 20,34 26,5 34,21 49,06 ; 11 1097 17,03 23,46 32,45 53,23 ; 12 1266 21,03 26,99 38,19 51,78 ; 13 1401 20,49 19,87 41,35 46,69 ; 14 1223 20,45 23,03 43,59 53,57 ; 15 1216 18,81 22,62 42,2 52,98 ; 16 1334 18,28 21,87 41,5 47,44 ; 17 1155 21,41 20,47 41,2 54,68 ; 18 1453 25,11 22,59 37,02 48,74 ; 19 1278 21,04 26,27 38,66 53,22 ; 20 1153 17,99 28,22 44,18 53,37 ; 21 1225 18,73 29,39 34,77 51,06 ; 22 1237 18,49 26,58 37,55 50,66 ; 23 1327 22,08 24,88 37,07 50,72 ; 24 1229 14,28 26,27 35,8 48,24 ; 25 1205 17,74 23,61 37,36 49,92 ; 26 1221 20,54 26,58 35,4 53,58 ; 27 1138 18,25 13,77 51,32 51,38 ; 28 1295 19,09 25,62 39,54 50,13 ; 29 1391 21,25 20,63 40,72 48,67 ; 30 1372 21,62 22,71 36,22 48,19]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Obs.",
+     "Cont. energético (Y)",
+     "% de plástico (X1)",
+     "% de papel (X2)",
+     "% de basura (X3)",
+     "% de humedad (X4)"
+    ],
+    "variable_y": "Cont. energético (Y)",
+    "filas": [
+     [
+      1,
+      947,
+      18.69,
+      15.65,
+      45.01,
+      58.21
+     ],
+     [
+      2,
+      1407,
+      19.43,
+      23.51,
+      39.69,
+      46.31
+     ],
+     [
+      3,
+      1452,
+      19.24,
+      24.23,
+      43.16,
+      46.63
+     ],
+     [
+      4,
+      1553,
+      22.64,
+      22.2,
+      35.76,
+      45.85
+     ],
+     [
+      5,
+      989,
+      16.54,
+      23.56,
+      41.2,
+      55.14
+     ],
+     [
+      6,
+      1162,
+      21.44,
+      23.65,
+      35.56,
+      54.24
+     ],
+     [
+      7,
+      1466,
+      19.53,
+      24.45,
+      40.18,
+      47.2
+     ],
+     [
+      8,
+      1656,
+      23.97,
+      19.39,
+      44.11,
+      43.82
+     ],
+     [
+      9,
+      1254,
+      21.45,
+      23.84,
+      35.41,
+      51.01
+     ],
+     [
+      10,
+      1336,
+      20.34,
+      26.5,
+      34.21,
+      49.06
+     ],
+     [
+      11,
+      1097,
+      17.03,
+      23.46,
+      32.45,
+      53.23
+     ],
+     [
+      12,
+      1266,
+      21.03,
+      26.99,
+      38.19,
+      51.78
+     ],
+     [
+      13,
+      1401,
+      20.49,
+      19.87,
+      41.35,
+      46.69
+     ],
+     [
+      14,
+      1223,
+      20.45,
+      23.03,
+      43.59,
+      53.57
+     ],
+     [
+      15,
+      1216,
+      18.81,
+      22.62,
+      42.2,
+      52.98
+     ],
+     [
+      16,
+      1334,
+      18.28,
+      21.87,
+      41.5,
+      47.44
+     ],
+     [
+      17,
+      1155,
+      21.41,
+      20.47,
+      41.2,
+      54.68
+     ],
+     [
+      18,
+      1453,
+      25.11,
+      22.59,
+      37.02,
+      48.74
+     ],
+     [
+      19,
+      1278,
+      21.04,
+      26.27,
+      38.66,
+      53.22
+     ],
+     [
+      20,
+      1153,
+      17.99,
+      28.22,
+      44.18,
+      53.37
+     ],
+     [
+      21,
+      1225,
+      18.73,
+      29.39,
+      34.77,
+      51.06
+     ],
+     [
+      22,
+      1237,
+      18.49,
+      26.58,
+      37.55,
+      50.66
+     ],
+     [
+      23,
+      1327,
+      22.08,
+      24.88,
+      37.07,
+      50.72
+     ],
+     [
+      24,
+      1229,
+      14.28,
+      26.27,
+      35.8,
+      48.24
+     ],
+     [
+      25,
+      1205,
+      17.74,
+      23.61,
+      37.36,
+      49.92
+     ],
+     [
+      26,
+      1221,
+      20.54,
+      26.58,
+      35.4,
+      53.58
+     ],
+     [
+      27,
+      1138,
+      18.25,
+      13.77,
+      51.32,
+      51.38
+     ],
+     [
+      28,
+      1295,
+      19.09,
+      25.62,
+      39.54,
+      50.13
+     ],
+     [
+      29,
+      1391,
+      21.25,
+      20.63,
+      40.72,
+      48.67
+     ],
+     [
+      30,
+      1372,
+      21.62,
+      22.71,
+      36.22,
+      48.19
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Determinar cuál es el mejor modelo candidato.",
+    "respuesta": "Hay 15 modelos candidatos, para saber cuál es el que mejor se ajusta, hay que hacer el análisis de sensibilidad: se descartan, por CP, los modelos con la variable X1, con la variable X2, con la variable X3, con la variable X4, con las variables X1 X2, con las variables X1 X3, con las variables X2 X3, con las variables X2 X4, con las variables X3 X4, con las variables X1 X2 X3, con las variables X2 X3 X4. Quedan como mejores candidatos los siguientes modelos en orden de importancia: con las variables X1 X2 X3 X4, con las variables X1 X2 X4, con las variables X1 X4, con las variables X1 X3 X4. Los dos modelos mejores son los primeros, el completo y el que no tiene el porcentaje de basura orgánica (X3). Por principio de Parsimonia se podría recomendar el que tiene las variables X1, X2, X4; pero la variable X3 se considera muy importante para el problema. No obstante si aplicamos el modelo logarítmico lineal: ln(y) = ln(β0) + ln(β1)·x1 + ln(β2)·x2 + ln(β3)·x3 + ln(β4)·x4, este ajusta mucho mejor y además todas las variables aportan significativamente un grado de explicación al modelo.",
+    "valores": [
+     15
+    ]
+   }
+  ],
+  "respuesta": "Hay 15 modelos candidatos, para saber cuál es el que mejor se ajusta, hay que hacer el análisis de sensibilidad: se descartan, por CP, los modelos con la variable X1, con la variable X2, con la variable X3, con la variable X4, con las variables X1 X2, con las variables X1 X3, con las variables X2 X3, con las variables X2 X4, con las variables X3 X4, con las variables X1 X2 X3, con las variables X2 X3 X4. Quedan como mejores candidatos los siguientes modelos en orden de importancia: con las variables X1 X2 X3 X4, con las variables X1 X2 X4, con las variables X1 X4, con las variables X1 X3 X4. Los dos modelos mejores son los primeros, el completo y el que no tiene el porcentaje de basura orgánica (X3). Por principio de Parsimonia se podría recomendar el que tiene las variables X1, X2, X4; pero la variable X3 se considera muy importante para el problema. No obstante si aplicamos el modelo logarítmico lineal: ln(y) = ln(β0) + ln(β1)·x1 + ln(β2)·x2 + ln(β3)·x3 + ln(β4)·x4, este ajusta mucho mejor y además todas las variables aportan significativamente un grado de explicación al modelo.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "El enunciado dice 'tres variables de composición física' pero enumera cuatro (X1..X4). La Resp no trae coeficientes ni valores de Cp. 'valores' = [15] (cantidad de modelos candidatos). Modelo log-lineal propuesto: ln y lineal en x1..x4. Planteo en p. 59, tabla y Resp en p. 60.",
+  "que_pide": [
+   "seleccion_modelos_cp",
+   "coeficientes_mco",
+   "t_parciales",
+   "modelo_transformado_log_lineal"
+  ]
+ },
+ {
+  "id": "VIII-5",
+  "tema": "VIII",
+  "numero": 5,
+  "pagina": 60,
+  "planteo": "Se llevó a cabo un experimento para determinar la dureza de pastillas de freno, en función de los porcentajes de dos componentes fundamentales, azufre y neopreno, obteniéndose los siguientes datos: [Tabla: X1 (% de azufre) X2 (% de neopreno) Y (dureza en shore) ; 5 3 64,36 ; 5 4,23 61,92 ; 5 5,57 60,68 ; 5,26 3 63,76 ; 5,26 4,23 63,5 ; 5,26 5,57 62,64 ; 5,51 3 69,04 ; 5,51 4,23 63,88 ; 5,51 5,57 64,75] Investigue la validez del modelo lineal general para la relación entre estas variables.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "X1 (% de azufre)",
+     "X2 (% de neopreno)",
+     "Y (dureza en shore)"
+    ],
+    "filas": [
+     [
+      5.0,
+      3.0,
+      64.36
+     ],
+     [
+      5.0,
+      4.23,
+      61.92
+     ],
+     [
+      5.0,
+      5.57,
+      60.68
+     ],
+     [
+      5.26,
+      3.0,
+      63.76
+     ],
+     [
+      5.26,
+      4.23,
+      63.5
+     ],
+     [
+      5.26,
+      5.57,
+      62.64
+     ],
+     [
+      5.51,
+      3.0,
+      69.04
+     ],
+     [
+      5.51,
+      4.23,
+      63.88
+     ],
+     [
+      5.51,
+      5.57,
+      64.75
+     ]
+    ],
+    "variable_y": "Y (dureza en shore)"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Investigue la validez del modelo lineal general para la relación entre estas variables.",
+    "respuesta": "El modelo, en forma global, es adecuado; las variables X1 y X2 aportan significativamente un grado de explicación en el estudio de Y, el modelo es: ŷ = 32,1281 + 6,9785·x1 − 1,1660·x2.",
+    "valores": [
+     32.1281,
+     6.9785,
+     -1.166
+    ]
+   }
+  ],
+  "respuesta": "El modelo, en forma global, es adecuado; las variables X1 y X2 aportan significativamente un grado de explicación en el estudio de Y, el modelo es: ŷ = 32,1281 + 6,9785·x1 − 1,1660·x2.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Coeficientes verificados con los datos (R² ≈ 0,7488, no figura en la guía). Riesgo no indicado. Consigna y Resp en p. 61.",
+  "que_pide": [
+   "coeficientes_mco",
+   "anova_global",
+   "t_parciales"
+  ]
+ },
+ {
+  "id": "VIII-6",
+  "tema": "VIII",
+  "numero": 6,
+  "pagina": 61,
+  "planteo": "La energía eléctrica (Y) consumida cada mes por una planta química se considera relacionada con la temperatura ambiente promedio (X1), el número de días del mes (X2), la pureza promedio del producto (X3) y las toneladas obtenidas del producto (X4). Se dispone de los datos históricos del año anterior: [Tabla: Y X1 X2 X3 X4 ; 240 25 24 91 100 ; 236 31 21 90 95 ; 290 45 24 88 110 ; 274 60 25 87 88 ; 301 65 25 91 94 ; 316 72 26 94 99 ; 300 80 25 87 97 ; 296 84 25 86 96 ; 267 75 24 88 110 ; 276 60 25 91 105 ; 288 50 25 90 100 ; 261 38 23 89 98]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Y",
+     "X1",
+     "X2",
+     "X3",
+     "X4"
+    ],
+    "filas": [
+     [
+      240,
+      25,
+      24,
+      91,
+      100
+     ],
+     [
+      236,
+      31,
+      21,
+      90,
+      95
+     ],
+     [
+      290,
+      45,
+      24,
+      88,
+      110
+     ],
+     [
+      274,
+      60,
+      25,
+      87,
+      88
+     ],
+     [
+      301,
+      65,
+      25,
+      91,
+      94
+     ],
+     [
+      316,
+      72,
+      26,
+      94,
+      99
+     ],
+     [
+      300,
+      80,
+      25,
+      87,
+      97
+     ],
+     [
+      296,
+      84,
+      25,
+      86,
+      96
+     ],
+     [
+      267,
+      75,
+      24,
+      88,
+      110
+     ],
+     [
+      276,
+      60,
+      25,
+      91,
+      105
+     ],
+     [
+      288,
+      50,
+      25,
+      90,
+      100
+     ],
+     [
+      261,
+      38,
+      23,
+      89,
+      98
+     ]
+    ],
+    "variable_y": "Y"
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Hay asociación lineal entre las variables?",
+    "respuesta": "El análisis global me indica que el modelo en forma completa sería adecuado, pero ninguna de las variables “x” aporta explicación en el estudio de la variable “Y”, por lo cual el modelo completo no es válido.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Determinar el mejor modelo de regresión correspondiente a la energía consumida.",
+    "respuesta": "Hay 15 modelos candidatos como el modelo completo no es válido, hay que hacer el análisis de sensibilidad: no se descarta ninguno por DET; se descarta por CP el modelo con la variable X4, el modelo con la variable X3 y el modelo con las variables X3 y X4. Después de que quedan 12 modelos se determina que el mejor modelo es el que contiene solamente la variable X2; luego en orden de importancia le sigue el que contiene a las variables X1 y X2 (pero éste presenta, en el ensayo de β1 = 0, el inconveniente de no pasar dicho ensayo; la variable x1 no aporta explicación en el estudio de Y); siendo el modelo más adecuado: ŷ = −90,1607 + 15,1607·x2. A continuación, se presenta la tabla del análisis de sensibilidad (ver tablas_solucion).",
+    "valores": [
+     -90.1607,
+     15.1607
+    ]
+   }
+  ],
+  "respuesta": "a) El análisis global me indica que el modelo en forma completa sería adecuado, pero ninguna de las variables “x” aporta explicación en el estudio de la variable “Y”, por lo cual el modelo completo no es válido. b) Hay 15 modelos candidatos como el modelo completo no es válido, hay que hacer el análisis de sensibilidad: no se descarta ninguno por DET; se descarta por CP el modelo con la variable X4, el modelo con la variable X3 y el modelo con las variables X3 y X4. Después de que quedan 12 modelos se determina que el mejor modelo es el que contiene solamente la variable X2; luego en orden de importancia le sigue el que contiene a las variables X1 y X2 (pero éste presenta, en el ensayo de β1 = 0, el inconveniente de no pasar dicho ensayo; la variable x1 no aporta explicación en el estudio de Y); siendo el modelo más adecuado: ŷ = −90,1607 + 15,1607·x2. A continuación, se presenta la tabla del análisis de sensibilidad (ver tablas_solucion).",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [
+   "Tabla del análisis de sensibilidad incluida en la Resp (12 modelos; ver 'tablas_solucion')."
+  ],
+  "observaciones": "La tabla de sensibilidad de la Resp lista 12 modelos (faltan f(x3), f(x4) y f(x3;x4), descartados por Cp). Coeficientes de ŷ = −90,1607 + 15,1607·x2 verificados (R²Aj de f(x2) = 0,6090 coincide), pero los S² (≈0,02) y PRESS (≈0,004) de la tabla no corresponden a la escala de Y (S² del modelo f(x2) con Y lineal ≈ 236,6; con ln Y ≈ 0,0031): posible escala transformada, no se puede determinar. 'Hay 15 modelos candidatos como el modelo completo...' tal cual (falta puntuación).",
+  "que_pide": [
+   "coeficientes_mco",
+   "anova_global",
+   "t_parciales",
+   "seleccion_modelos_cp",
+   "det",
+   "R2_ajustado",
+   "press"
+  ],
+  "tablas_solucion": [
+   {
+    "titulo": "Tabla del análisis de sensibilidad (Resp)",
+    "columnas": [
+     "Modelo Candidato",
+     "DET",
+     "Cp/p",
+     "R2Aj",
+     "S2",
+     "PRESS"
+    ],
+    "filas": [
+     [
+      "y = f(x1)",
+      1,
+      1.97,
+      0.5212,
+      0.02897,
+      0.004087
+     ],
+     [
+      "y = f(x2)",
+      1,
+      0.87,
+      0.609,
+      0.02366,
+      0.003473
+     ],
+     [
+      "y = f(x1 ; x2)",
+      0.5638,
+      0.46,
+      0.6717,
+      0.01987,
+      0.003506
+     ],
+     [
+      "y = f(x1 ; x3)",
+      0.9173,
+      1.28,
+      0.5615,
+      0.02653,
+      0.003936
+     ],
+     [
+      "y = f(x1 ; x4)",
+      0.9994,
+      1.98,
+      0.4681,
+      0.03219,
+      0.006182
+     ],
+     [
+      "y = f(x2 ; x3)",
+      0.9873,
+      1.23,
+      0.5677,
+      0.02616,
+      0.004831
+     ],
+     [
+      "y = f(x2 ; x4)",
+      0.9994,
+      1.25,
+      0.5657,
+      0.02628,
+      0.004438
+     ],
+     [
+      "y = f(x1 ; x2 ; x3)",
+      0.4256,
+      0.75,
+      0.649,
+      0.02124,
+      0.003757
+     ],
+     [
+      "y = f(x1 ; x2 ; x4)",
+      0.5634,
+      0.84,
+      0.6309,
+      0.02233,
+      0.005266
+     ],
+     [
+      "y = f(x1 ; x3 ; x4)",
+      0.9116,
+      1.46,
+      0.5069,
+      0.02984,
+      0.006652
+     ],
+     [
+      "y = f(x2 ; x3 ; x4)",
+      0.98,
+      1.42,
+      0.514,
+      0.02941,
+      0.006314
+     ],
+     [
+      "y = f(x1 ; x2 ; x3 ; x4)",
+      0.4219,
+      1.0,
+      0.5989,
+      0.02427,
+      0.00614
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "id": "VIII-7",
+  "tema": "VIII",
+  "numero": 7,
+  "pagina": 61,
+  "planteo": "Se cree que la variable a explicar (cantidad de combustible en porcentaje con respecto a la cantidad del petróleo en crudo), se puede expresar como combinación lineal de cuatro variables: la gravedad del crudo (X1), la presión del vapor del crudo (X2), la temperatura para la cual se ha evaporado un 10% (X3) y la temperatura para la cual se ha evaporado el 100% (X4). A partir de los 20 datos que se muestran en la siguiente tabla, investigue cuál es el mejor modelo que explica la variable cantidad del combustible en porcentaje con respecto a la cantidad del petróleo en crudo. [Tabla: Y X1 X2 X3 X4 ; 6,9 38,4 6,1 220 235 ; 14,4 40,3 4,8 231 307 ; 7,4 40 6,1 217 212 ; 8,5 31,8 0,2 316 365 ; 8 40,8 3,5 210 218 ; 2,8 41,3 1,8 267 235 ; 5 38,1 1,2 274 285 ; 12,2 50,8 8,6 190 205 ; 10 32,2 5,2 236 267 ; 15,2 38,4 6,1 220 300 ; 26,8 40,3 4,8 213 367 ; 14 32,2 2,4 284 351 ; 14,7 31,8 0,2 316 379 ; 6,4 41,3 1,8 267 275 ; 17,6 38,1 1,2 274 365 ; 22,3 50,8 8,6 190 275 ; 24,8 32,2 5,2 236 360 ; 26 38,4 6,1 220 365 ; 34,9 40,3 4,8 231 395 ; 18,2 40 6,1 217 272]",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Y",
+     "X1",
+     "X2",
+     "X3",
+     "X4"
+    ],
+    "variable_y": "Y",
+    "filas": [
+     [
+      6.9,
+      38.4,
+      6.1,
+      220,
+      235
+     ],
+     [
+      14.4,
+      40.3,
+      4.8,
+      231,
+      307
+     ],
+     [
+      7.4,
+      40,
+      6.1,
+      217,
+      212
+     ],
+     [
+      8.5,
+      31.8,
+      0.2,
+      316,
+      365
+     ],
+     [
+      8,
+      40.8,
+      3.5,
+      210,
+      218
+     ],
+     [
+      2.8,
+      41.3,
+      1.8,
+      267,
+      235
+     ],
+     [
+      5,
+      38.1,
+      1.2,
+      274,
+      285
+     ],
+     [
+      12.2,
+      50.8,
+      8.6,
+      190,
+      205
+     ],
+     [
+      10,
+      32.2,
+      5.2,
+      236,
+      267
+     ],
+     [
+      15.2,
+      38.4,
+      6.1,
+      220,
+      300
+     ],
+     [
+      26.8,
+      40.3,
+      4.8,
+      213,
+      367
+     ],
+     [
+      14,
+      32.2,
+      2.4,
+      284,
+      351
+     ],
+     [
+      14.7,
+      31.8,
+      0.2,
+      316,
+      379
+     ],
+     [
+      6.4,
+      41.3,
+      1.8,
+      267,
+      275
+     ],
+     [
+      17.6,
+      38.1,
+      1.2,
+      274,
+      365
+     ],
+     [
+      22.3,
+      50.8,
+      8.6,
+      190,
+      275
+     ],
+     [
+      24.8,
+      32.2,
+      5.2,
+      236,
+      360
+     ],
+     [
+      26,
+      38.4,
+      6.1,
+      220,
+      365
+     ],
+     [
+      34.9,
+      40.3,
+      4.8,
+      231,
+      395
+     ],
+     [
+      18.2,
+      40,
+      6.1,
+      217,
+      272
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "A partir de los 20 datos que se muestran en la siguiente tabla, investigue cuál es el mejor modelo que explica la variable cantidad del combustible en porcentaje con respecto a la cantidad del petróleo en crudo.",
+    "respuesta": "El modelo más adecuado es el que contiene a las variables X3 y X4, las cuales aportan significativamente un grado de explicación en el estudio de Y, el modelo es: ŷ = 15,9557 − 0,1827·x3 + 0,1424·x4.",
+    "valores": [
+     15.9557,
+     -0.1827,
+     0.1424
+    ]
+   }
+  ],
+  "respuesta": "El modelo más adecuado es el que contiene a las variables X3 y X4, las cuales aportan significativamente un grado de explicación en el estudio de Y, el modelo es: ŷ = 15,9557 − 0,1827·x3 + 0,1424·x4.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La tabla está partida entre p. 61 (6 filas) y p. 62 (14 filas); total 20 filas. Coeficientes del modelo con X3 y X4 verificados con los datos.",
+  "que_pide": [
+   "seleccion_modelos_cp",
+   "coeficientes_mco",
+   "anova_global",
+   "t_parciales"
+  ]
+ }
+]

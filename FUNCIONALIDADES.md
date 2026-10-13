@@ -15,12 +15,18 @@ de la interfaz (probada con `pytest` en `tests/`).
 | `pages/2_Ensayo_de_Hipotesis.py` | Módulo de Ensayo de Hipótesis (1 población). |
 | `pages/3_Comparacion_2_Poblaciones.py` | Módulo de Comparación de 2 Poblaciones. |
 | `pages/4_Chi_Cuadrado.py` | Módulo de Contrastes Chi-Cuadrado. |
-| `pages/5_Interpretar_Enunciado.py` | Intérprete de enunciados: se pega el problema y dice qué pide, qué datos hay y lo resuelve. |
-| `interprete/` | Lógica del intérprete (reglas offline, sin IA): `analizador.py`, `resolver.py`, `buscador.py`, `glosario.py`. |
-| `datos/guia_ejercicios.json` | Los 142 ejercicios de la Guía de Problemas 2026 extraídos del PDF (enunciado, incisos, respuesta, resolución). |
-| `herramientas/` | Scripts de mantenimiento: `extraer_guia.py` (PDF → JSON), `evaluar_guia.py` (mide el intérprete contra la guía), `ver_analisis.py`. `herramientas/tmp/` es temporal (no se versiona). |
+| `pages/5_Interpretar_Enunciado.py` | Intérprete de enunciados: se pega el problema (y opcionalmente la tabla de datos) y dice qué pide, qué datos hay y lo resuelve. |
+| `pages/6_Regresion.py` | Regresión y correlación simple (TEMA VII) y modelo lineal general (TEMA VIII). |
+| `pages/7_Guia_Resuelta.py` | La Guía de Problemas resuelta paso a paso (`Guia_resuelta.md`), con buscador y lista de discrepancias. |
+| `interprete/` | Lógica del intérprete (reglas offline, sin IA): `analizador.py`, `resolver.py`, `buscador.py`, `glosario.py`, `tablas.py` (tablas de datos en el texto), `chi_modelos.py` (TEMA VI), `regresion.py` (TEMAS VII y VIII). |
+| `datos/verdad/tema_*.json` | Transcripción de la Guía de Problemas 2026 verificada página por página contra el PDF: enunciado, incisos, tablas estructuradas, respuesta de cada inciso y sus valores numéricos, notas sobre erratas de la guía. |
+| `datos/guia_ejercicios.json` | Los 142 ejercicios unidos (`herramientas/armar_guia.py`). Es lo que usan el buscador, el evaluador y el generador de resueltos. |
+| `Guia_resuelta.md` | Todos los ejercicios de la guía resueltos por la app paso a paso, con la respuesta de la guía al lado y la lista de discrepancias (`herramientas/generar_resueltos.py`). |
+| `herramientas/` | Scripts de mantenimiento: `armar_guia.py` (verdad → JSON), `evaluar_guia.py` (mide el intérprete contra los valores de la guía, temas I–VIII), `generar_resueltos.py` (arma `Guia_resuelta.md`), `extraer_guia.py` (extracción automática vieja del PDF, ya no se usa para el JSON), `ver_analisis.py`. |
 | `solver/distributions.py` | Wrappers sobre `scipy.stats` (valores críticos e inversos para Z, t, χ², F, Beta, Binomial; factor de corrección por finitud). |
 | `solver/intervals.py`, `hypothesis_one.py`, `two_samples.py`, `chi_square.py` | Lógica estadística de cada módulo. |
+| `solver/ajuste.py` | Bondad de ajuste χ² calculando las frecuencias esperadas de un modelo (uniforme, binomial, Poisson, normal, log-normal, exponencial, gamma, Weibull, Gumbel máx/mín, Pareto), con estimación por momentos y amalgamado de clases. |
+| `solver/regresion.py` | Regresión simple (recta, r, ensayos e intervalos, modelos linealizables, recta por el origen, desde sumatorias) y múltiple (b, R², R² ajustado, F global, t parciales, PRESS, DET, Cp, VIF, selección de modelos). |
 | `solver/wording.py` | Genera las conclusiones en lenguaje natural (redacción formal de resultados). |
 | `esquema_teorico_examen_estadistica.md` | Árbol de decisión teórico que la app sigue. |
 
@@ -86,8 +92,11 @@ potencia y valor p (α*).
   - Si se rechaza H0 (varianzas distintas) → método **Welch**.
   
   Con el método elegido, permite calcular IC para la diferencia de medias δ, ensayo de hipótesis
-  (dado δ₀ y tipo de cola), o tamaño de muestra `n` para un error deseado (solo implementado para
-  el caso pooled; Welch requiere búsqueda iterativa no implementada).
+  (dado δ₀ y tipo de cola), o tamaño de muestra `n` para un error deseado (pooled; en el intérprete también
+  Welch y σ conocidos con Z). En el intérprete además: datos agrupados de dos grupos, varias comparaciones con/sin,
+  "supera en un X%" (H0: μ₁ ≤ h·μ₂), β / potencia para una diferencia real δ₁, y el **criterio de la cátedra**
+  para "¿difieren?": en una comparación el ensayo se plantea unilateral en el sentido de los datos (el bilateral
+  se muestra como referencia).
 - **Medias — Muestras apareadas**: el usuario ingresa las diferencias d_i entre pares (texto libre
   separado por comas o espacios). Se aplica el ensayo t de una muestra sobre esas diferencias:
   IC para δ, ensayo de hipótesis, o tamaño de muestra `n` (con S_d calculado a partir de las
@@ -95,7 +104,17 @@ potencia y valor p (α*).
 
 ## 4. Contrastes Chi-Cuadrado
 
-- **Bondad de ajuste**: el usuario ingresa las frecuencias observadas (F_o) y esperadas (F_e) —ya
+(Planes de muestreo de proporciones, en el intérprete: además del plan binomial exacto de menor n se listan los
+rangos de n válidos para los primeros r_c —la guía a veces informa el mayor— y la "aproximación de Poisson" como la
+calcula la guía, con la tabla de Poisson (m al 0,1).)
+
+- **Ajuste a un modelo (calcula las Fe)**: se carga la tabla de frecuencias (clases `20-30 ; 6` o valores `0 ; 26`)
+  y el modelo: uniforme, binomial, Poisson, normal, log-normal, exponencial, gamma, Weibull, Gumbel del máximo y del
+  mínimo, Pareto. Los parámetros que no se cargan se estiman por momentos con las marcas de clase (x̄ y S corregido;
+  Weibull por el coeficiente de variación como la tabla de la cátedra; Pareto con el mínimo θ dado y b = μ/(μ-θ)) y
+  cada uno resta un grado de libertad. La primera y la última clase llegan al borde del dominio y las clases con
+  Fe < 5 se amalgaman con la vecina. Muestra la tabla Fo / P / Fe antes y después de amalgamar.
+- **Bondad de ajuste (Fe ya calculadas)**: el usuario ingresa las frecuencias observadas (F_o) y esperadas (F_e) —ya
   calculadas para el modelo a probar— y la cantidad de parámetros estimados `p` (afecta los grados
   de libertad). Devuelve χ² calculado, χ² crítico, grados de libertad y decisión.
 - **Tabla de contingencia** (independencia/homogeneidad): el usuario ingresa una tabla de
@@ -105,7 +124,27 @@ potencia y valor p (α*).
 Ambos casos muestran χ² calculado, χ² crítico, grados de libertad, decisión (rechaza/no rechaza
 H0) y conclusión redactada formalmente.
 
-## 5. Interpretar un enunciado
+## 5. Regresión y correlación (TEMAS VII y VIII)
+
+Se pega la tabla de datos y se elige la variable a explicar y las explicativas.
+
+- **Simple**: recta de mínimos cuadrados (también por el origen y modelos linealizables: doble logarítmico,
+  logarítmico lineal, lineal-logarítmico, inverso), r y r², validación de la cátedra (H0: β1 = 0 con
+  |tc| > t(1-α; n-2) y criterio de r² según el campo de aplicación), IC para β1, IC para ρ (Fisher) y ρ²,
+  pronóstico puntual e intervalos para la ley promedio y de predicción (bilaterales o mínimo / máximo), ensayo de
+  β1 contra un valor con el valor crítico b1c (casos I y II de la cátedra). También desde sumatorias (Σx, Σx², ...).
+- **Múltiple (modelo lineal general)**: b = (X'X)⁻¹X'y, S², R², R² ajustado, análisis global (F), análisis individual
+  (t con los Cii de (X'X)⁻¹), coeficientes de determinación parcial, y la tabla de selección de todos los modelos
+  candidatos (R² ajustado, S², PRESS, DET, Cp, Cp/p, VIF) con el mejor candidato según DET > 0,1 y Cp/p < 5.
+
+## 6. Guía resuelta
+
+`Guia_resuelta.md` (y la página *Guía Resuelta*) tiene los 142 ejercicios de la guía resueltos por la app con los
+pasos en el orden de la cátedra, la respuesta de la guía al lado, una marca ✅ / ⚠️ por inciso y al final la lista
+de discrepancias con la guía para revisar. Se regenera con `python herramientas/generar_resueltos.py` cada vez que
+se mejora el solver o el intérprete.
+
+## 7. Interpretar un enunciado
 
 Pantalla para cuando lo difícil es **entender qué pide el profesor**. Funciona 100% offline: no usa
 modelos de lenguaje sino reglas armadas con el estilo de redacción de la Guía de Problemas, así que
@@ -116,8 +155,8 @@ Flujo:
 1. Se pega el **planteo** y se cargan los **incisos** (o se pega el enunciado completo y se usa
    *Separar incisos*).
 2. **Interpretar** muestra:
-   - **Tema** detectado (media, varianza, proporción, 2 poblaciones, χ²) con el motivo, y si entra o
-     no en el primer parcial.
+   - **Tema** detectado (media, varianza, proporción, 2 poblaciones, χ², regresión, modelo lineal general) con
+     el motivo. Se puede pegar aparte la **tabla de datos** (o la busca en el planteo).
    - **Criterio** para plantear H0 (optimista / pesimista) cuando corresponde. Se puede **cambiar a mano**:
      se invierte el planteo (en un diseño con α y β se intercambian μ₀↔μ₁ y α↔β; las colas unilaterales se
      dan vuelta; en un sistema de control, rechazar H0 pasa de "detener" a "seguir") y la pantalla lista

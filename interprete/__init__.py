@@ -8,3 +8,7 @@ Flujo:
     analizador.analizar(planteo, incisos) -> Analisis   (editable por el usuario)
     resolver.resolver(analisis)            -> resultados por inciso
 """
+
+# Temas resueltos en módulos aparte: se registran al importarse.
+from . import chi_modelos, regresion  # noqa: E402,F401
+from . import dos_muestras  # noqa: E402,F401  (TEMA V: comparación de dos medias)

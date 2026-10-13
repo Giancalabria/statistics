@@ -33,6 +33,8 @@ class SampleSizeResult:
     e_actual: Optional[float] = None    # error de partida, si se pidió por % de reducción
     reduccion: Optional[float] = None   # fracción de reducción pedida (0.30 = 30%)
     e_nuevo: Optional[float] = None     # error objetivo = e_actual * (1 - reduccion)
+    n_exacto: Optional[float] = None    # valor de la fórmula antes de redondear hacia arriba
+    n_infinito: Optional[int] = None    # n para población infinita (antes de corregir por N)
 
 
 # ---------------------------------------------------------------------------
@@ -78,11 +80,12 @@ def n_media_sigma_conocido(
     if not (0 < alpha < 1):
         raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
     z = dist.z_two_tailed(alpha)
-    n_inf = ceil((z * sigma / e) ** 2)
+    n_exacto = (z * sigma / e) ** 2
+    n_inf = ceil(n_exacto)
     if N is None:
-        return SampleSizeResult(n=n_inf)
+        return SampleSizeResult(n=n_inf, n_exacto=n_exacto, n_infinito=n_inf)
     n = ceil((N * n_inf) / (N + n_inf))
-    return SampleSizeResult(n=n)
+    return SampleSizeResult(n=n, n_exacto=n_exacto, n_infinito=n_inf)
 
 
 def iterar_n(requerido, n_inicial: int, max_iter: int) -> Tuple[int, List[int]]:
@@ -131,10 +134,12 @@ def n_media_sigma_desconocido(
     )
 
     if N is None:
-        return SampleSizeResult(n=n_infinito, iterations=len(historial), converged_values=historial)
+        return SampleSizeResult(n=n_infinito, iterations=len(historial), converged_values=historial,
+                                n_infinito=n_infinito)
 
     n_finito = ceil((N * n_infinito) / (N + n_infinito))
-    return SampleSizeResult(n=n_finito, iterations=len(historial), converged_values=historial)
+    return SampleSizeResult(n=n_finito, iterations=len(historial), converged_values=historial,
+                            n_infinito=n_infinito)
 
 
 def _reduccion_a_e_nuevo(e_actual: float, reduccion: float) -> float:

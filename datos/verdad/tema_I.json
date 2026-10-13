@@ -1,0 +1,1534 @@
+[
+ {
+  "id": "I-1",
+  "tema": "I",
+  "numero": 1,
+  "pagina": 1,
+  "planteo": "Una máquina llenadora de latas de café dosifica cantidades variables con distribución Normal de desvío estándar 15 gramos. A intervalos regulares se toman muestras de 10 envases con el fin de estimar la dosificación media. Una de estas muestras arrojó una media de 246 gramos.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Estimar la dosificación media con un 90% de confianza.",
+    "respuesta": "Entre 238,19 y 253,81 gramos.",
+    "valores": [
+     238.19,
+     253.81
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuántos envases más habría que pesar para poder obtener una estimación cuyo error de muestreo sea de 5 gramos?",
+    "respuesta": "15 envases más.",
+    "valores": [
+     15
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 238,19 y 253,81 gramos. b) 15 envases más.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "a) Con Z=1,6449 el cálculo da 246 ± 7,80 → 238,20 y 253,80; la guía informa 238,19 y 253,81 (diferencia de redondeo)."
+ },
+ {
+  "id": "I-2",
+  "tema": "I",
+  "numero": 2,
+  "pagina": 1,
+  "planteo": "Una empresa dedicada a la fabricación de envases de vidrio, cuenta con un plantel numeroso de operarios, y desea estimar el tiempo medio de tardanza de los mismos. El estudio se realizará sobre la base de las tarjetas horarias, estableciendo que: El máximo error muestral admitido debe ser de 2 minutos; el nivel de confianza debe ser del 99%, y, el desvío estándar poblacional es de 5 minutos (conocido por ensayos anteriores).",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Calcular el tamaño adecuado de muestra.",
+    "respuesta": "42 tarjetas.",
+    "valores": [
+     42
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Se ha tomado la muestra y se obtuvo que la tardanza media, de la muestra, fue de 15 minutos; estimar la tardanza media de todo el personal.",
+    "respuesta": "Entre 13,01 y 16,99 minutos.",
+    "valores": [
+     13.01,
+     16.99
+    ]
+   }
+  ],
+  "respuesta": "a) 42 tarjetas. b) Entre 13,01 y 16,99 minutos.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-3",
+  "tema": "I",
+  "numero": 3,
+  "pagina": 1,
+  "planteo": "En una zona de Capital Federal se realizará un muestreo sobre una población compuesta por negocios minoristas, con el objeto de estimar el número medio de empleados por establecimiento. La experiencia en encuestas por muestreo indica que el desvío estándar es de 1,2 empleados por establecimiento. Se han obtenido los siguientes resultados muestrales: Cantidad de empleados | Número de establecimientos: 0 | 2; 1 | 4; 2 | 5; 3 | 6; 4 | 4; 5 | 2.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Cantidad de empleados",
+     "Número de establecimientos"
+    ],
+    "filas": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      6
+     ],
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      2
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿El tamaño de muestra extraído es correcto si se pretende un error muestral de ± 0,5 empleados, y un nivel de confianza en la estimación del 95%?",
+    "respuesta": "n = 22,13 → 23 establecimientos; la muestra obtenida fue de 23 establecimientos, el tamaño de muestra extraído es correcto.",
+    "valores": [
+     22.13,
+     23
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar el número medio de empleados para todos los negocios minoristas.",
+    "respuesta": "Entre 2,03 y 3,02 empleados (x̄ = 2,5217 ± 0,4904), con un 95% de confianza.",
+    "valores": [
+     2.03,
+     3.02
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Ídem a) y b) considerando que el desvío histórico no se conoce.",
+    "respuesta": "Con S = 1,4419: n = 35 establecimientos, el tamaño de muestra no es correcto, se necesitan 12 establecimientos más. Estimación: entre 1,89 y 3,15 empleados (x̄ = 2,5217 ± 0,6235), con un 95% de confianza.",
+    "valores": [
+     35,
+     12,
+     1.89,
+     3.15
+    ]
+   }
+  ],
+  "respuesta": "a) n = 23; el tamaño de muestra extraído (23) es correcto. b) Entre 2,03 y 3,02 empleados. c) n = 35 establecimientos (12 más), no es correcto; entre 1,89 y 3,15 empleados.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Primero se procesan los resultados muestrales: n = 23 establecimientos, x̄ = 2,5217 empleados y S = 1,4419 empleados.",
+   "La muestra obtenida en los resultados fue de 23 establecimientos, entonces se concluye que el tamaño de muestra extraído es correcto.",
+   "Se concluye que el promedio de la población de establecimientos estará comprendido entre 2,03 empleados y 3,02 empleados, afirmándolo con un 95% de confianza, o sea: P(2,03 empleados ≤ μ ≤ 3,02 empleados) = 0,95.",
+   "c) Si el desvío histórico (poblacional), σ = 1,2, se considera desconocido se debe tener en cuenta al desvío obtenido del procesamiento de los resultados muestrales, S = 1,4419.",
+   "El resultado se obtiene con n = 35 establecimientos. De manera que se concluye que el tamaño de muestra no es correcto y se necesitarán incluir en la muestra obtenida, 12 establecimientos más.",
+   "Se concluye que el promedio de la población de establecimientos estará comprendido entre 1,89 empleados y 3,15 empleados, afirmándolo con un 95% de confianza, o sea: P(1,89 empleados ≤ μ ≤ 3,15 empleados) = 0,95."
+  ],
+  "observaciones": "Redondeo: 2,5217 + 0,4904 = 3,0121 (la guía dice 3,02) y 2,5217 − 0,6235 = 1,8982 (la guía dice 1,89)."
+ },
+ {
+  "id": "I-4",
+  "tema": "I",
+  "numero": 4,
+  "pagina": 2,
+  "planteo": "Las ventas de una revista semanal han sido las siguientes (en miles) en las últimas cuatro semanas: 15,4 – 18,5 – 16,3 – 19,2.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Estimar la venta media semanal con un 95% de confianza.",
+    "respuesta": "Entre 14.496,13 y 20.203,88 unidades (x̄ = 17,35 ± 2,8539 miles), con un 95% de confianza.",
+    "valores": [
+     14496.13,
+     20203.88
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuántas semanas más harían falta para poder dar un intervalo con un error de muestreo de ± 1 (± 1.000 ejemplares)?",
+    "respuesta": "n = 15 semanas de muestra, o sea 11 semanas más de las que se tenían al principio.",
+    "valores": [
+     15,
+     11
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 14.496,13 y 20.203,88 unidades. b) n = 15 semanas en total, 11 semanas más.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "Primero se procesan los resultados muestrales: n = 4 semanas, x̄ = 17,35 miles de unidades y S = 1,793507 miles de unidades.",
+   "Se concluye que el promedio de la población de las ventas semanales estará comprendido entre 14.496,13 unidades y 20.203,88 unidades, afirmándolo con un 95% de confianza, o sea: P(14.496,13 unidades ≤ μ ≤ 20.203,88 unidades) = 0,95.",
+   "b) Se utiliza n = [t(0,975;ν=n−1)·S/e]² = [t(0,975;ν=n−1)·1,793507/1]², se debe utilizar el método iterativo para llegar a la solución, comenzando con un n arbitrario (n = 100 semanas).",
+   "n = 15 ⇒ ν = 14 ⇒ t = 2,1448 ⇒ n = 15. Coincide el resultado, de manera que la solución son un total de 15 semanas de muestra, o sea 11 semanas más de las que se tenían al principio."
+  ],
+  "observaciones": ""
+ },
+ {
+  "id": "I-5",
+  "tema": "I",
+  "numero": 5,
+  "pagina": 2,
+  "planteo": "En una fábrica de materiales eléctricos se desea estimar el peso promedio del último lote de rollos de alambre de cobre salido de producción. Para ello se eligió al azar una muestra de 20 rollos que arrojó un promedio de 38 kg. Se conoce, además, de registros históricos, el desvío poblacional que vale 4,2 kg.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Estimar el peso medio de los rollos con un 95% de confianza.",
+    "respuesta": "Entre 36,15 y 39,85 kg.",
+    "valores": [
+     36.15,
+     39.85
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuántos rollos más habría que pesar para poder obtener una estimación cuyo error de muestreo sea de 1 kg?",
+    "respuesta": "48 rollos más.",
+    "valores": [
+     48
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 36,15 y 39,85 kg. b) 48 rollos más.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "a) 38 ± 1,96·4,2/√20 = 38 ± 1,84 → 36,16 y 39,84; la guía informa 36,15 y 39,85 (diferencia de redondeo)."
+ },
+ {
+  "id": "I-6",
+  "tema": "I",
+  "numero": 6,
+  "pagina": 3,
+  "planteo": "En una fábrica de alfombras se desea estimar el peso promedio de los rollos que salen a despacho, que es muy variable pues su longitud está determinada por la aparición de fallas en el material. Una muestra de 60 rollos arrojó un peso medio de 48,5 kg con un desvío estándar de 42 kg.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Estimar el peso medio de los rollos con un 10% de riesgo.",
+    "respuesta": "Entre 39,43 y 57,57 kg.",
+    "valores": [
+     39.43,
+     57.57
+    ]
+   }
+  ],
+  "respuesta": "Entre 39,43 y 57,57 kg.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-7",
+  "tema": "I",
+  "numero": 7,
+  "pagina": 3,
+  "planteo": "El nivel promedio de colesterol para una muestra aleatoria de 25 hombres de 30 años de edad fue de 214 unidades (miligramos de colesterol por cada 100 mililitros de sangre) y la varianza dio 456 unidades².",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "¿Entre qué valores se encontrará el nivel promedio de colesterol con un Nivel de Confianza del 95%?",
+    "respuesta": "Entre 205,18 y 222,82 unidades.",
+    "valores": [
+     205.18,
+     222.82
+    ]
+   }
+  ],
+  "respuesta": "Entre 205,18 y 222,82 unidades.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-8",
+  "tema": "I",
+  "numero": 8,
+  "pagina": 3,
+  "planteo": "El control de recepción de las partidas de un tipo de hilo de coser industrial, se realiza pesando una muestra de 10 ovillos de cada partida, rechazando la partida si el peso medio de la muestra resulta inferior a cierto valor crítico. El valor mínimo admisible del peso medio de los ovillos de toda la partida es de 250 gramos y la probabilidad máxima de rechazar una partida que cumple con dicha especificación es de 0,05. Se sabe, además, por disponer de registros históricos extensos, que el desvío estándar de esta variable es de 15 gramos.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Indicar la hipótesis nula apropiada a esta situación, su condición de rechazo y la regla de decisión.",
+    "respuesta": "H0) μ ≥ μ0 = 250 g; CR: Si x̄ < x̄c = 242,19 g ⇒ Rechazo H0; RD: Si de una muestra de 10 ovillos el peso promedio, de la misma, es inferior a 242,19 gramos, se rechaza la partida.",
+    "valores": [
+     242.19
+    ]
+   }
+  ],
+  "respuesta": "H0) μ ≥ μ0 = 250 g; CR: Si x̄ < x̄c = 242,19 g ⇒ Rechazo H0; RD: Si de una muestra de 10 ovillos el peso promedio, de la misma, es inferior a 242,19 gramos, se rechaza la partida.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "250 − 1,6449·15/√10 = 242,20; la guía informa 242,19 (redondeo)."
+ },
+ {
+  "id": "I-9",
+  "tema": "I",
+  "numero": 9,
+  "pagina": 3,
+  "planteo": "Una carpintería de Capital Federal recibe periódicamente grandes partidas de madera de cedro procedentes de un aserradero de Salta. Una partida se considera aceptable si la longitud media de sus tablas es mayor o igual que 4 metros. Al examinar una muestra de 5 tablas de una partida recién recibida, se obtuvieron los siguientes resultados (en metros): 3,8 – 3,74 – 3,98 – 4,1 – 3,9. Se sabe además que la longitud de las tablas se distribuye Normalmente con un desvío estándar de 0,15 metros.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se considera aceptable esta partida si se establece en 0,05 la probabilidad de rechazarla indebidamente? Justificar conceptualmente el planteo optimista de la hipótesis.",
+    "respuesta": "No hay pruebas suficientes para asegurar que la longitud media sea inferior a los 4 metros, por lo cual se considera aceptable la partida.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál sería la probabilidad de aceptar una partida cuya longitud media sea de 3,85 metros?",
+    "respuesta": "β = 0,2775.",
+    "valores": [
+     0.2775
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Dibujar las curvas Característica Operativa y de Potencia.",
+    "respuesta": "Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+    "valores": []
+   },
+   {
+    "letra": "d",
+    "texto": "¿Cuántas tablas habría que medir de cada partida para que dicha probabilidad anterior valga 0,1?",
+    "respuesta": "9 tablas.",
+    "valores": [
+     9
+    ]
+   }
+  ],
+  "respuesta": "a) No hay pruebas suficientes para asegurar que la longitud media sea inferior a los 4 metros, por lo cual se considera aceptable la partida. b) β = 0,2775. c) Ver procedimiento de construcción de las curvas en los problemas 24 y 27. d) 9 tablas.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-10",
+  "tema": "I",
+  "numero": 10,
+  "pagina": 3,
+  "planteo": "El consumo de combustible de un automóvil para un determinado recorrido es una variable aleatoria de la cual se ha tomado una importante cantidad de datos que han arrojado una media de 11,2 litros con un desvío estándar de 1,3 litros, valores estos que pueden considerarse parámetros poblacionales. Se desea ensayar el efecto de un nuevo aditivo con el que se espera reducir el consumo medio y, de confirmarse esta suposición, se lanzará al mercado. Dados los costos implicados, se establece un riesgo del 5% de lanzar el producto cuando no produce el efecto deseado. Se realiza una prueba preliminar en la cual, sobre 10 corridas (de igual recorrido) se registra un consumo medio de 10,6 litros. Parece razonable asumir que el desvío estándar no se modificará.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se considera que el resultado de la prueba es concluyente para lanzar el aditivo al mercado?",
+    "respuesta": "No, no se puede asegurar que el consumo promedio ha disminuido.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de lanzar el producto cuando con él se tiene un consumo medio de 10,5 litros?",
+    "respuesta": "1–β = 0,5231.",
+    "valores": [
+     0.5231
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas corridas habría que efectuar para que la probabilidad anterior valga 0,90?",
+    "respuesta": "30 corridas (de igual recorrido).",
+    "valores": [
+     30
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Dibujar las curvas Característica Operativa y de Potencia para ambos tamaños de muestra.",
+    "respuesta": "Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) No, no se puede asegurar que el consumo promedio ha disminuido. b) 1–β = 0,5231. c) 30 corridas (de igual recorrido). d) Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-11",
+  "tema": "I",
+  "numero": 11,
+  "pagina": 4,
+  "planteo": "Un cliente recibe habitualmente una partida de medidores eléctricos que, según las especificaciones del contrato, el promedio de las pérdidas debe ser menor o igual a 1 watt. Una muestra de 10 medidores, de una partida recién recibida, arroja una pérdida media de 1,06 watts. Se sabe, además, por experiencia anterior, que las pérdidas se distribuyen Normalmente con un desvío de 0,1 watts.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Asumiendo un 10% el riesgo de rechazar la partida indebidamente, ¿puede aceptarse la misma?",
+    "respuesta": "No, se puede asegurar que las pérdidas promedio son mayores que 1 watts.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de aceptar una partida cuya pérdida media sea de 1,05 watts?",
+    "respuesta": "β = 0,3831.",
+    "valores": [
+     0.3831
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál debería ser el tamaño de muestra si se pretende que la probabilidad anterior valga 0,10?",
+    "respuesta": "27 medidores.",
+    "valores": [
+     27
+    ]
+   }
+  ],
+  "respuesta": "a) No, se puede asegurar que las pérdidas promedio son mayores que 1 watts. b) β = 0,3831. c) 27 medidores.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-12",
+  "tema": "I",
+  "numero": 12,
+  "pagina": 4,
+  "planteo": "Una cadena de supermercados considera la posibilidad de cambiar sus máquinas registradoras por otras más modernas lanzadas al mercado recientemente. Se ha establecido la conveniencia de la inversión si se puede asegurar que el tiempo medio de atención por cliente ha de ser inferior a los 2 minutos y se desea que valga 0,05 la probabilidad de tomar una decisión errónea en tal sentido. Se sabe que, con las máquinas actuales, el desvío estándar respecto del tiempo de atención es de 1,5 minutos, teniéndose razones fundadas para asumir que con las máquinas nuevas no ha de modificarse. Se realizó un ensayo con las máquinas nuevas, en el cual se atendieron 40 personas en 68 minutos.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Cuál sería, con esta información, la decisión recomendada?",
+    "respuesta": "No comprar las nuevas máquinas.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál sería la probabilidad de comprar las nuevas máquinas, si con ellas el tiempo medio de atención fuera de 1,8 minutos?",
+    "respuesta": "1–β = 0,2113.",
+    "valores": [
+     0.2113
+    ]
+   }
+  ],
+  "respuesta": "a) No comprar las nuevas máquinas. b) 1–β = 0,2113.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-13",
+  "tema": "I",
+  "numero": 13,
+  "pagina": 4,
+  "planteo": "El consumo diario de combustible en una planta industrial es una variable cuya desviación estándar es de 23 litros. Se considera la posibilidad de introducir una modificación en el proceso tecnológico, que sólo se justificará si se logra obtener un consumo medio inferior a 200 litros. A efectos de tomar una decisión, se trabajó durante 5 días con el proceso modificado obteniéndose un consumo medio de 180 litros.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se aconseja efectuar la modificación con probabilidad máxima de error de 0,05?",
+    "respuesta": "Sí, se puede asegurar que el consumo medio es inferior a 200 litros.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar con un 20% de riesgo el consumo medio de combustible con el proceso modificado.",
+    "respuesta": "Entre 166,81 y 193,19 litros.",
+    "valores": [
+     166.81,
+     193.19
+    ]
+   }
+  ],
+  "respuesta": "a) Sí, se puede asegurar que el consumo medio es inferior a 200 litros. b) Entre 166,81 y 193,19 litros.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-14",
+  "tema": "I",
+  "numero": 14,
+  "pagina": 4,
+  "planteo": "En una curtiembre, el consumo diario de uno de los productos químicos principales es variable con una media de 580 litros y un desvío estándar de 72 litros. El Jefe de Producción ha propuesto una modificación en una de las etapas del proceso, que implicará mayores costos, pero que se justificaría si se lograra una disminución del 10% en el consumo medio. Si así ocurriera, se desea que la probabilidad de implementar la modificación sea de 0,90, pero si no se obtuviera resultado alguno, el riesgo se establece en un 5%.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula apropiada a esta situación, calcular el tamaño de la muestra a tomar, indicar la condición de rechazo y la regla de decisión correspondiente.",
+    "respuesta": "(Criterio Pesimista) H0) μ ≥ μ0 = 580 litros; n = 14 días; CR: Si x̄ < x̄c = 548,34 litros ⇒ Rechazo H0; RD: Si de una muestra de n = 14 días de observación el consumo promedio es inferior a 548,34 litros, se implementará la modificación.",
+    "valores": [
+     14,
+     548.34
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de implementar la modificación si con ella se obtiene una disminución del 5% en el consumo medio y dibujar la curva de potencia del ensayo, marcando claramente los valores numéricos de abscisa y ordenada de 3 puntos al menos.",
+    "respuesta": "1–β = 0,4452. Procedimiento de construcción de las curvas en problemas 24 y 27.",
+    "valores": [
+     0.4452
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Si se decidiera hacer el ensayo de hipótesis dos veces, cada una con una muestra de n días, y el consumo hubiera disminuido en un 5%, ¿cuál sería la probabilidad de que ninguna de las muestras lo detecte?",
+    "respuesta": "β² = 0,3078.",
+    "valores": [
+     0.3078
+    ]
+   }
+  ],
+  "respuesta": "a) (Criterio Pesimista) H0) μ ≥ μ0 = 580 litros; n = 14 días; CR: Si x̄ < x̄c = 548,34 litros ⇒ Rechazo H0; RD: Si de una muestra de n = 14 días de observación el consumo promedio es inferior a 548,34 litros, se implementará la modificación. b) 1–β = 0,4452. Procedimiento de construcción de las curvas en problemas 24 y 27. c) β² = 0,3078.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-15",
+  "tema": "I",
+  "numero": 15,
+  "pagina": 5,
+  "planteo": "Un fabricante estudia la posibilidad de compra de un equipo para elaborar herramientas para la construcción. La compra será viable si se puede asegurar que el equipo requiere en promedio menos de 12 minutos de tiempo de preparación por cada hora de operación. El jefe de compras visita una empresa en donde se está instalado el equipo y por la información que recibe comprueba que 25 horas de operación seleccionadas al azar, han requerido un total de 4 horas y 30 minutos de tiempo de preparación. Se sabe, además, que el desvío estándar del tiempo de preparación por hora de operación es de 2 minutos. Si se establece en un 5% el riesgo de comprar equivocadamente el equipo:",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se aconseja comprar el equipo?",
+    "respuesta": "Sí, se puede asegurar que el equipo requiere en promedio menos de 12 minutos de preparación.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de no efectuar la compra si el tiempo medio de preparación es de 11 minutos?",
+    "respuesta": "β = 0,1963.",
+    "valores": [
+     0.1963
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas horas habría que operar el equipo si se pretende que la probabilidad anterior valga 0,10?",
+    "respuesta": "35 horas.",
+    "valores": [
+     35
+    ]
+   }
+  ],
+  "respuesta": "a) Sí, se puede asegurar que el equipo requiere en promedio menos de 12 minutos de preparación. b) β = 0,1963. c) 35 horas.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-16",
+  "tema": "I",
+  "numero": 16,
+  "pagina": 5,
+  "planteo": "Se desea establecer un sistema de muestreo periódico para controlar la resistencia a la rotura de unas piezas de “Dural”, de modo tal que se cumplan las siguientes condiciones: i) Si la resistencia media es de 38 kg/mm², detener el proceso productivo con probabilidad 0,1; ii) si dicho parámetro vale 37 kg/mm², detener el proceso con probabilidad 0,95. Se sabe que esta variable tiene un desvío estándar de 1,3 kg/mm².",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula apropiada, su condición de rechazo, el tamaño de la muestra a tomar y la regla de decisión.",
+    "respuesta": "(Criterio Optimista) H0) μ ≥ μ0 = 38 kg/mm²; CR: Si x̄ < x̄c = 37,56 kg/mm² ⇒ Rechazo H0; n = 15 piezas; RD: Si de una muestra de 15 piezas, la resistencia promedio de la misma es inferior a 37,56 kg/mm² se detiene el proceso.",
+    "valores": [
+     37.56,
+     15
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de detectar que la resistencia media vale 37,5 kg/mm².",
+    "respuesta": "1–β = 0,5824.",
+    "valores": [
+     0.5824
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Dibujar la curva de potencia del ensayo.",
+    "respuesta": "Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) (Criterio Optimista) H0) μ ≥ μ0 = 38 kg/mm²; CR: Si x̄ < x̄c = 37,56 kg/mm² ⇒ Rechazo H0; n = 15 piezas; RD: Si de una muestra de 15 piezas, la resistencia promedio de la misma es inferior a 37,56 kg/mm² se detiene el proceso. b) 1–β = 0,5824. c) Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "38 − 1,2816·1,3/√15 = 37,57; la guía informa 37,56 (redondeo)."
+ },
+ {
+  "id": "I-17",
+  "tema": "I",
+  "numero": 17,
+  "pagina": 5,
+  "planteo": "Se desea diseñar un sistema de muestreo periódico para controlar el rendimiento de un proceso químico, cuyo valor estándar (rendimiento promedio) es del 80%; la probabilidad de detenerlo y revisarlo equivocadamente debe ser de 0,05, pero cuando baja al 75% se desea una probabilidad de 0,90 de detectarlo. Entre distintas pruebas, los valores de rendimiento son una variable aleatoria cuyo desvío es del 6%.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula apropiada, su condición de rechazo y la regla de decisión.",
+    "respuesta": "(Criterio Optimista) H0) μ ≥ μ0 = 80%; CR: Si x̄ < x̄c = 77,26% ⇒ Rechazo H0; RD: Si de una muestra de 13 observaciones el rendimiento promedio es menor que 77,26% se detiene el proceso.",
+    "valores": [
+     77.26,
+     13
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de detener el proceso cuando su rendimiento es del 76%.",
+    "respuesta": "1–β = 0,776.",
+    "valores": [
+     0.776
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Dibujar las curvas Característica Operativa y de Potencia.",
+    "respuesta": "Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+    "valores": []
+   },
+   {
+    "letra": "d",
+    "texto": "Si en un ensayo de prueba se obtuvo un rendimiento medio de 75%, ¿qué decisión tomaría?",
+    "respuesta": "Detener el proceso y revisarlo.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) (Criterio Optimista) H0) μ ≥ μ0 = 80%; CR: Si x̄ < x̄c = 77,26% ⇒ Rechazo H0; RD: Si de una muestra de 13 observaciones el rendimiento promedio es menor que 77,26% se detiene el proceso. b) 1–β = 0,776. c) Ver procedimiento de construcción de las curvas en los problemas 24 y 27. d) Detener el proceso y revisarlo.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-18",
+  "tema": "I",
+  "numero": 18,
+  "pagina": 5,
+  "planteo": "La resistencia a la rotura de cierto tipo de alambre es una variable aleatoria con una media de 280 kg y un desvío estándar de 20 kg. Se cree que un proceso de fabricación recién desarrollado puede aumentar la resistencia media sin modificar el desvío estándar, pero sólo se lo implementará si se tiene una razonable seguridad de que efectivamente es así. Se ha establecido en 0,05 la probabilidad de implementar el nuevo método cuando en realidad la resistencia no se modifica, y en 0,15 la probabilidad de no implementarlo si se incrementa en 10 kg.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Establecer la hipótesis nula, la condición de rechazo y la regla de decisión.",
+    "respuesta": "(Criterio Pesimista) H0) μ ≤ μ0 = 280 kg; CR: Si x̄ > x̄c = 286,11 kg ⇒ Rechazo H0; RD: Si de una muestra de 29 observaciones la resistencia promedio es mayor que 286,11 kg se implementa el nuevo método de fabricación.",
+    "valores": [
+     286.11,
+     29
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de implementar el nuevo método si la resistencia media aumenta en 5 kg?",
+    "respuesta": "1–β = 0,3826.",
+    "valores": [
+     0.3826
+    ]
+   }
+  ],
+  "respuesta": "a) (Criterio Pesimista) H0) μ ≤ μ0 = 280 kg; CR: Si x̄ > x̄c = 286,11 kg ⇒ Rechazo H0; RD: Si de una muestra de 29 observaciones la resistencia promedio es mayor que 286,11 kg se implementa el nuevo método de fabricación. b) 1–β = 0,3826.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-19",
+  "tema": "I",
+  "numero": 19,
+  "pagina": 6,
+  "planteo": "Una compañía desea diseñar un sistema de muestreo periódico para controlar la recepción de grandes partidas de un producto. El proveedor desea tener la seguridad de que le rechacen a lo sumo el 5% de las partidas buenas, que son aquellas que cumplen con la especificación de que la resistencia media mínima es de 1.250 kg. A su vez, el cliente desea rechazar al menos el 90% de las partidas malas, que son aquellas cuya resistencia media es inferior a 1.100 kg. Ambos firman un contrato en el cual constan las condiciones anteriores y se establece que la decisión de rechazar o aceptar una partida se tomará en función del resultado de una muestra de n unidades elegidas al azar de la misma. Existen registros históricos por los cuales se sabe que el desvío de la resistencia a la rotura es de 180 kg.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula apropiada, su condición de rechazo y la regla de decisión.",
+    "respuesta": "(Criterio Optimista) H0) μ ≥ μ0 = 1.250 kg; CR: Si x̄ < x̄c = 1.167,88 kg ⇒ Rechazo H0; RD: Si de una muestra de 13 unidades la resistencia promedio es menor que 1.167,88 kg se rechaza la partida.",
+    "valores": [
+     1167.88,
+     13
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de detectar que una partida dada resiste en promedio 1.200 kg.",
+    "respuesta": "1–β = 0,26.",
+    "valores": [
+     0.26
+    ]
+   }
+  ],
+  "respuesta": "a) (Criterio Optimista) H0) μ ≥ μ0 = 1.250 kg; CR: Si x̄ < x̄c = 1.167,88 kg ⇒ Rechazo H0; RD: Si de una muestra de 13 unidades la resistencia promedio es menor que 1.167,88 kg se rechaza la partida. b) 1–β = 0,26.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-20",
+  "tema": "I",
+  "numero": 20,
+  "pagina": 6,
+  "planteo": "La resistencia a la rotura de un tipo de látex es una variable con una media de 4,5 kg y un desvío estándar de 0,3 kg. Se cree que un aditivo recientemente desarrollado por los técnicos puede incrementar la resistencia media. Si así no ocurriera, se desea un 0,05 de probabilidad de tomar la decisión incorrecta. Si la resistencia se incrementa en 0,2 kg, se desea una probabilidad de 0,99 de adoptar el aditivo.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula apropiada a esta situación, el tamaño de la muestra a tomar, la condición de rechazo y la regla de decisión.",
+    "respuesta": "(Criterio Pesimista) H0) μ ≤ μ0 = 4,5 kg; n = 36 muestras; CR: Si x̄ > x̄c = 4,59 kg ⇒ Rechazo H0; RD: Si de una muestra de 36 observaciones la resistencia promedio es mayor que 4,59 kg se adopta el aditivo.",
+    "valores": [
+     36,
+     4.59
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Realizar tablas de valores para las curvas operativa y de potencia y graficarlas.",
+    "respuesta": "Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) (Criterio Pesimista) H0) μ ≤ μ0 = 4,5 kg; n = 36 muestras; CR: Si x̄ > x̄c = 4,59 kg ⇒ Rechazo H0; RD: Si de una muestra de 36 observaciones la resistencia promedio es mayor que 4,59 kg se adopta el aditivo. b) Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "Posible inconsistencia: con n = 36, x̄c = 4,5 + 1,6449·0,3/√36 = 4,5822 ≈ 4,58 kg, no 4,59 kg como informa la guía."
+ },
+ {
+  "id": "I-21",
+  "tema": "I",
+  "numero": 21,
+  "pagina": 6,
+  "planteo": "El tipo de aceite usado en las unidades de una empresa trasportista es una variable que incide sensiblemente en el costo de mantenimiento. En la actualidad se tiene un costo promedio por unidad de 250 U$s por mes y se desea realizar un experimento con otro tipo de aceite más costoso que el actual a los efectos de comprobar una posible disminución del costo promedio total de mantenimiento. Se ha establecido un presupuesto experimental de 6 meses y una probabilidad de 0,01 de tomar una decisión equivocada en caso de que el costo mensual no disminuya. Se sabe que el costo mensual tiene un desvío estándar de 30 U$s, valor este que se ha mantenido muy estable con el tiempo y seguramente no se modificará con el nuevo aceite. Se realizó la prueba durante los 6 meses y se obtuvo un costo promedio por unidad de 232 U$s por mes.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Establecer la hipótesis nula apropiada, realizar el ensayo e indicar la decisión recomendada.",
+    "respuesta": "(Criterio Pesimista) H0) μ ≥ μ0 = 250 U$s; No se rechaza la hipótesis nula, por lo tanto, se concluye que no se cambia por el nuevo tipo de aceite.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular la probabilidad de tomar una decisión equivocada para el caso en que el costo baje en un 10% y dibujar la curva operativa del ensayo indicando claramente las variables que se llevan en los ejes y los valores numéricos de abscisa y ordenada de tres puntos al menos.",
+    "respuesta": "β = 0,6122. Procedimiento de construcción de curvas en problemas 24 y 27.",
+    "valores": [
+     0.6122
+    ]
+   }
+  ],
+  "respuesta": "a) (Criterio Pesimista) H0) μ ≥ μ0 = 250 U$s; No se rechaza la hipótesis nula, por lo tanto, se concluye que no se cambia por el nuevo tipo de aceite. b) β = 0,6122. Procedimiento de construcción de curvas en problemas 24 y 27.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-22",
+  "tema": "I",
+  "numero": 22,
+  "pagina": 6,
+  "planteo": "Un fabricante de pilas para linternas afirma que la vida media de ellas excede las 30 horas y las ofrece en condiciones muy ventajosas. Una empresa desea comprar una cantidad muy grande de pilas si la afirmación es cierta y a efectos de evaluarla se plantean en la gerencia 2 alternativas. Alternativa 1: algunos sostienen que, en principio, no hay motivos para dudar del fabricante deseando considerar la oferta, estableciendo en 0,10 la probabilidad de no concretar la operación cuando la vida media exceda las 30 hs, y en 0,05 la probabilidad de concretarla si la vida media es de 27 hs. Alternativa 2: otros en cambio consideran, por las condiciones tan ventajosas, que la afirmación del fabricante debe tomarse con cautela, siendo conveniente establecer una probabilidad de 0,05 de concretar la operación si la vida media no supera las 30 hs, y en 0,90 la probabilidad de concretarla si la vida media es de 32 hs. Se sabe que la duración de las pilas es una variable aleatoria con una desviación estándar de 5,5 hs.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Indicar, para cada una de las alternativas, la hipótesis nula apropiada, la condición de rechazo y la regla de decisión.",
+    "respuesta": "Alternativa 1: (Criterio Optimista) H0) μ ≥ μ0 = 30 hs; CR: Si x̄ < x̄c = 28,69 hs ⇒ Rechazo H0; RD: Si de una muestra de 29 pilas la duración promedio es menor que 28,69 hs no concretar la operación. Alternativa 2: (Criterio Pesimista) H0) μ ≤ μ0 = 30 hs; CR: Si x̄ > x̄c = 31,13 hs ⇒ Rechazo H0; RD: Si de una muestra de 65 pilas la duración promedio es mayor que 31,13 hs concretar la operación.",
+    "valores": [
+     28.69,
+     29,
+     31.13,
+     65
+    ]
+   }
+  ],
+  "respuesta": "Alternativa 1: (Criterio Optimista) H0) μ ≥ μ0 = 30 hs; CR: Si x̄ < x̄c = 28,69 hs ⇒ Rechazo H0; RD: Si de una muestra de 29 pilas la duración promedio es menor que 28,69 hs no concretar la operación. Alternativa 2: (Criterio Pesimista) H0) μ ≤ μ0 = 30 hs; CR: Si x̄ > x̄c = 31,13 hs ⇒ Rechazo H0; RD: Si de una muestra de 65 pilas la duración promedio es mayor que 31,13 hs concretar la operación.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La Resp está en la página 7. Alternativa 2: con n = 65, 30 + 1,6449·5,5/√65 = 31,12; la guía informa 31,13 (redondeo)."
+ },
+ {
+  "id": "I-23",
+  "tema": "I",
+  "numero": 23,
+  "pagina": 7,
+  "planteo": "El control de recepción de las partidas de hilado que llegan a una tejeduría se efectúa a través de una muestra de 10 ovillos midiéndose en cada uno la resistencia del hilado, cuyo valor medio para toda la partida debe ser de 25 kg por lo menos. El proveedor acepta un riesgo máximo del 5% de recibir de vuelta una partida buena y el comprador, a su vez, desea rechazar el 99% por lo menos de las partidas consideradas malas. Se sabe que la resistencia a la rotura de este hilado es una variable aleatoria con un desvío de 2,2 kg.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Cuál es la resistencia media muestral mínima para aceptar una partida?",
+    "respuesta": "x̄c = 23,86 kg.",
+    "valores": [
+     23.86
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la resistencia media poblacional de las partidas consideradas malas por el comprador?",
+    "respuesta": "μ1 = 22,23 kg.",
+    "valores": [
+     22.23
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Dibujar la curva que describe las probabilidades de detectar partidas malas.",
+    "respuesta": "Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) x̄c = 23,86 kg. b) μ1 = 22,23 kg. c) Ver procedimiento de construcción de las curvas en los problemas 24 y 27.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-24",
+  "tema": "I",
+  "numero": 24,
+  "pagina": 7,
+  "planteo": "El departamento de Ingeniería de una empresa ha desarrollado una modificación de su contactor modelo “AX–2”. Luego de algunas pruebas experimentales, se piensa que el nuevo modelo tendrá una vida útil promedio de por lo menos un 10% superior al actual. De acuerdo con registros históricos, la vida del “AX–2” tiene una media de 10.000.000 contactos con un desvío de 2.300.000. Después de algunas discusiones, la Gerencia General decide fabricar una serie de prototipos y someterlos a pruebas exhaustivas. Como el contactor actual está muy bien posicionado en el mercado y si bien el nuevo modelo tendría el mismo costo, el Gerente Comercial opina que le parece razonable aceptar un riesgo del 15% de poner en el mercado el nuevo modelo en caso de que su vida media sea exactamente un 10% superior a la actual. Dado el costo de los prototipos, se recomienda además al Jefe de Ingeniería, que limite la cantidad a ensayar de modo que la probabilidad de recomendar el cambio si la vida media no aumentó sea a lo sumo de 0,05. Se asumirá además que el desvío estándar no se modificará.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar la hipótesis nula, la condición de rechazo y la regla de decisión.",
+    "respuesta": "(Criterio Pesimista) H0) μ ≤ μ0 = 10 millones de contactos; α = 0,05; n = 2; CR: Si x̄ > x̄c = 12,67510045 millones de contactos ⇒ Rechazo H0; RD: se realizará una prueba con 2 prototipos del nuevo modelo de contactor y se calculará el promedio de sus duraciones, si este promedio supera los 12.675.100,45 contactos, se adoptará el nuevo modelo.",
+    "valores": [
+     2,
+     12675100.45
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Dibujar la curva de potencia del ensayo.",
+    "respuesta": "Tabla de la curva de potencia (1–β = 1 − φ((12,6751 − μ1)/(2,3/√2))): μ1 = 10 → 0,05; 11 → 0,15; 12,67 → 0,50; 15,36 → 0,95 (μ1 en millones de contactos).",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) H0) μ ≤ μ0 = 10 millones de contactos (criterio pesimista); n = 2 prototipos; CR: Si x̄ > x̄c = 12,67510045 millones de contactos ⇒ Rechazo H0; RD: con 2 prototipos, si el promedio de sus duraciones supera los 12.675.100,45 contactos, se adopta el nuevo modelo. b) Curva de potencia: (10; 0,05), (11; 0,15), (12,67; 0,50), (15,36; 0,95).",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "a) Por tratarse de una inversión con riesgo económico, se recomienda ensayar una hipótesis con criterio pesimista, adoptando como μ0 el peor valor, es decir 10 (millones de contactos), o sea: H0) μ ≤ μ0 = 10 millones de contactos.",
+   "De acuerdo con el enunciado, el valor de α es 0,05.",
+   "Para calcular el valor de n se utiliza el dato de 0,15, que es la probabilidad de poner en el mercado el nuevo modelo en caso de que su vida media alcance los 11 millones de contactos (1–β = 0,15), de manera que Z(1−β) = Z(0,15) = −1,0364.",
+   "n = [(1,6449 − 1,0364)·2,3/(11 − 10)]² = 2. Ahora se puede calcular el crítico: x̄c = 10 + 1,6449·2,3/√2 = 12,67510045 millones de contactos.",
+   "La regla de decisión es: se realizará una prueba con 2 prototipos del nuevo modelo de contactor y se calculará el promedio de sus duraciones, si este promedio supera los 12.675.100,45 contactos, se adoptará el nuevo modelo."
+  ],
+  "observaciones": ""
+ },
+ {
+  "id": "I-25",
+  "tema": "I",
+  "numero": 25,
+  "pagina": 8,
+  "planteo": "La recaudación mensual de un club en concepto de cuotas de socios es variable con una media de 128.000 U$s y un desvío de 12.500 U$s. A efectos de aumentar la recaudación, se contratan los servicios de una compañía de cobranzas que obtiene, en los primeros 4 meses una media de 140.000 U$s; esta compañía cobra 5.000 U$s por sus servicios.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Si se asume que el desvío estándar no se modifica y se toma un riesgo del 10%, ¿se continuaría contratando a esta compañía?",
+    "respuesta": "H0) μ ≤ μ0 = 128.000 U$s (pesimista); x̄c = 136.009,70 U$s. La recaudación media neta es 135.000 U$s, la hipótesis no se rechaza y no se recomienda continuar con esta compañía (equivalente: con valores brutos, crítico de 141.010 U$s).",
+    "valores": [
+     136009.7,
+     141010
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál sería la probabilidad de no detectar que la recaudación media (sin descontar lo que cobra) aumenta a 145.000 U$s (bruto)?",
+    "respuesta": "β = φ(−0,6384) = 0,2616.",
+    "valores": [
+     0.2616
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál sería la respuesta a la pregunta a) si la compañía cobrara por sus servicios una comisión del 2% sobre el monto recaudado?",
+    "respuesta": "La recaudación bruta deberá superar los 138.785,41 U$s; la hipótesis nula se rechazaría y convendría continuar con la compañía.",
+    "valores": [
+     138785.41
+    ]
+   }
+  ],
+  "respuesta": "a) No se rechaza H0 (neto 135.000 < x̄c = 136.009,70 U$s): no se recomienda continuar con la compañía. b) β = 0,2616. c) El bruto deberá superar 138.785,41 U$s; se rechaza H0 y convendría continuar con la compañía.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "a) Se ensaya la siguiente hipótesis pesimista porque hay riesgo económico: H0) μ ≤ μ0 = 128.000 U$s.",
+   "Siendo el crítico: x̄c = 128.000 + Z(0,90)·12.500/√4 = 128.000 + 1,2826·12.500/√4 = 136.009,70 U$s.",
+   "Esta hipótesis se rechazará si la compañía de cobranzas obtiene una recaudación media neta mayor o igual a 136.010 U$s (siendo este valor el crítico). Como se obtuvo una recaudación media bruta de 140.000 U$s, que equivale a un valor neto de 135.000 U$s, la hipótesis no se rechaza y no se recomienda continuar con esta compañía.",
+   "Se obtiene el mismo resultado con valores brutos tomando μ0 = 133.000 U$s, con lo cual el valor crítico es de 141.010 U$s.",
+   "b) β = P(x̄ < x̄c / μ = μ1) = φ((136.010 − 140.000)/(12.500/√4)) = φ(−0,6384) = 0,2616.",
+   "c) En este caso la hipótesis que se ensaya también es pesimista: H0) μ ≤ μ0 = 128.000 U$s. Como se cobra el 2% de comisión, el bruto se calcula dividiendo el neto por 0,98, por lo tanto, la recaudación bruta deberá superar los 138.785,41 U$s. En este caso la hipótesis nula se rechazaría y convendría continuar con la compañía."
+  ],
+  "observaciones": "En la Solución el fractil se escribe Z(0,90) = 1,2826 (el valor tabulado es 1,2816); con 1,2816 el crítico daría 136.009,70 igualmente, por lo que parece un error tipográfico. Valores b) usan 136.010 neto y 140.000 neto (= 145.000 bruto − 5.000)."
+ },
+ {
+  "id": "I-26",
+  "tema": "I",
+  "numero": 26,
+  "pagina": 8,
+  "planteo": "En una pieza fabricada que ha de acoplarse a otras piezas, hay una dimensión crítica cuyo valor medio debe ser aproximadamente de 11,5 cm. La variabilidad del proceso de fabricación está dada por el desvío estándar que vale 0,1 cm. El proceso se considera bajo control si con una muestra de n piezas, no hay motivos para pensar que la dimensión media es diferente de 11,5 cm.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Cuál deberá ser el tamaño de la muestra si se establece en 0,10 la probabilidad de revisar el proceso equivocadamente y en 0,05 la probabilidad de no revisarlo cuando la dimensión media es de 11,4 cm?",
+    "respuesta": "n = 11 piezas.",
+    "valores": [
+     11
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuáles serán los límites de control?",
+    "respuesta": "LIC = x̄c1 = 11,45 cm y LSC = x̄c2 = 11,55 cm.",
+    "valores": [
+     11.45,
+     11.55
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál es la probabilidad de revisar el proceso cuando la dimensión media es de 11,46 cm?",
+    "respuesta": "1–β = 0,3766.",
+    "valores": [
+     0.3766
+    ]
+   }
+  ],
+  "respuesta": "a) n = 11 piezas. b) LIC = x̄c1 = 11,45 cm y LSC = x̄c2 = 11,55 cm. c) 1–β = 0,3766.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La Resp está en la página 9."
+ },
+ {
+  "id": "I-27",
+  "tema": "I",
+  "numero": 27,
+  "pagina": 9,
+  "planteo": "Un torno automático produce una pieza cuya longitud tiene distribución Normal con un desvío estándar de 0,1 cm. Si el torno está bien ajustado, el valor medio es de 2 cm, pero cuando la herramienta de corte adopta una posición incorrecta, dicho promedio se altera, aumentando o disminuyendo, sin llegar a modificarse el desvío estándar; en ese caso debe corregirse la posición de la herramienta. Una muestra de 10 piezas arrojó una longitud media de 2,04 cm.",
+  "tablas": [
+   {
+    "titulo": "Curvas OC y de potencia (Solución d)",
+    "columnas": [
+     "n",
+     "μ1",
+     "β",
+     "1–β"
+    ],
+    "filas": [
+     [
+      10,
+      1.896,
+      0.05,
+      0.95
+     ],
+     [
+      10,
+      1.948,
+      0.5,
+      0.5
+     ],
+     [
+      10,
+      2.0,
+      0.9,
+      0.1
+     ],
+     [
+      10,
+      2.052,
+      0.5,
+      0.5
+     ],
+     [
+      10,
+      2.104,
+      0.05,
+      0.95
+     ],
+     [
+      25,
+      1.921,
+      0.01,
+      0.99
+     ],
+     [
+      25,
+      1.967,
+      0.5,
+      0.5
+     ],
+     [
+      25,
+      2.0,
+      0.9,
+      0.1
+     ],
+     [
+      25,
+      2.033,
+      0.5,
+      0.5
+     ],
+     [
+      25,
+      2.079,
+      0.01,
+      0.99
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Si se establece en un 0,10 la probabilidad de concluir erróneamente que el torno está desajustado, ¿cuál sería la conclusión?",
+    "respuesta": "H0) μ = μ0 = 2 cm (bilateral); LIC = x̄c1 = 1,9479 cm y LSC = x̄c2 = 2,0521 cm; CR: Si x̄ < 1,9479 cm o x̄ > 2,0521 cm ⇒ Rechazo H0. Como x̄ = 2,04 cm, no se rechaza H0: el torno no necesita ajuste.",
+    "valores": [
+     1.9479,
+     2.0521
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Si el torno estuviera desajustado y la longitud media fuera de 1,95 cm, ¿cuál sería la probabilidad de no efectuar el ajuste?",
+    "respuesta": "β = 0,5259.",
+    "valores": [
+     0.5259
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál debería ser el tamaño de la muestra si se desea reducir dicha probabilidad a 0,20?",
+    "respuesta": "n = 25 piezas.",
+    "valores": [
+     25
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "Dibujar las curvas Característica Operativa y de Potencia para ambos tamaños de muestra.",
+    "respuesta": "Tabla: n = 10: μ1 = 1,896 / 1,948 / 2,000 / 2,052 / 2,104 → β = 0,05 / 0,50 / 0,90 / 0,50 / 0,05 (1–β = 0,95 / 0,50 / 0,10 / 0,50 / 0,95). n = 25: μ1 = 1,921 / 1,967 / 2,000 / 2,033 / 2,079 → β = 0,01 / 0,50 / 0,90 / 0,50 / 0,01 (1–β = 0,99 / 0,50 / 0,10 / 0,50 / 0,99).",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) H0) μ = 2 cm; límites 1,9479 y 2,0521 cm; con x̄ = 2,04 no se rechaza H0, el torno no necesita ajuste. b) β = 0,5259. c) n = 25 piezas. d) Curvas OC y de potencia según tabla para n = 10 y n = 25.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "a) Hay que ensayar una hipótesis bilateral, la cual no tiene criterio, adoptando como μ0 el valor deseado para el ajuste óptimo del torno: H0) μ = μ0 = 2 cm. α = 0,10; n = 10 piezas.",
+   "x̄c1 = LIC = 2 − 1,6449·0,1/√10 = 1,9479 cm y x̄c2 = LSC = 2 + 1,6449·0,1/√10 = 2,0521 cm.",
+   "La regla de decisión es: RD: Si de una muestra de 10 piezas la longitud promedio está por debajo de 1,94 cm o está por encima de 2,06 cm, detengo el torno y efectúo el ajuste de la pieza.",
+   "Como la muestra de 10 piezas arrojó una longitud media de 2,04 cm, no puedo rechazar la H0. Por lo tanto, se considera que el torno no necesita ajuste.",
+   "b) β = P(x̄c1 ≤ x̄ ≤ x̄c2 / μ = μ1) = φ((2,05 − 1,95)/(0,1/√10)) − φ((1,94 − 1,95)/(0,1/√10)) = 0,5259.",
+   "c) Z(0,80) = 0,8416; n = [(1,6449 + 0,8416)·0,1/(2 − 1,95)]² = 25. Quiere decir que el tamaño de la muestra debe ser de 25 piezas."
+  ],
+  "observaciones": "En la Solución la RD dice 'por debajo de 1,94 cm o por encima de 2,06 cm' y en b) la fórmula muestra 2,05 y 1,94, mientras que los críticos calculados son 1,9479 y 2,0521 cm (el resultado β = 0,5259 corresponde a los críticos 1,9479/2,0521). Para n = 25 la tabla da β = 0,90 en μ1 = 2,000."
+ },
+ {
+  "id": "I-28",
+  "tema": "I",
+  "numero": 28,
+  "pagina": 10,
+  "planteo": "Las ventas mensuales de un producto son variables con un valor medio de 700.000 unidades. Durante 5 meses se ha desarrollado una campaña publicitaria registrándose los siguientes volúmenes de venta en miles de unidades: 607; 725; 784; 790 y 810.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede considerar que los datos arrojan una concluyente evidencia para poder afirmar con un riesgo máximo del 1% que la campaña ha sido efectiva?",
+    "respuesta": "No, no se puede afirmar que la campaña fue efectiva.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar el volumen medio de ventas con un 95% de confianza.",
+    "respuesta": "Entre 640.812,02 y 845.587,98 unidades.",
+    "valores": [
+     640812.02,
+     845587.98
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Durante cuántos meses más habría que continuar con la campaña si se pretende disminuir en un 50% el error muestral de la estimación anterior?",
+    "respuesta": "8 meses más.",
+    "valores": [
+     8
+    ]
+   }
+  ],
+  "respuesta": "a) No, no se puede afirmar que la campaña fue efectiva. b) Entre 640.812,02 y 845.587,98 unidades. c) 8 meses más.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-29",
+  "tema": "I",
+  "numero": 29,
+  "pagina": 10,
+  "planteo": "El departamento de producción de una empresa ha resuelto instalar un nuevo dispositivo en el proceso productivo si existe una razonable seguridad de que la producción media por hora aumenta en un 10% como mínimo. Actualmente la producción media es de 100 unidades por hora. Se establece en un 5% el riesgo máximo de instalar equivocadamente el nuevo dispositivo y, a efectos de tomar una decisión, se realiza una prueba durante 50 horas obteniéndose un promedio de 120 unidades con un desvío estándar de 10 unidades.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "única",
+    "texto": "Establecer la hipótesis adecuada e indicar ¿qué decisión se tomaría?",
+    "respuesta": "H0) μ ≤ μ0 = 110 unidades. Se toma la decisión de instalar el nuevo dispositivo, se puede asegurar que la producción por hora promedio aumenta.",
+    "valores": []
+   }
+  ],
+  "respuesta": "H0) μ ≤ μ0 = 110 unidades. Se toma la decisión de instalar el nuevo dispositivo, se puede asegurar que la producción por hora promedio aumenta.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-30",
+  "tema": "I",
+  "numero": 30,
+  "pagina": 10,
+  "planteo": "Una pequeña fábrica de pinturas ha desarrollado un producto que puede competir en calidad y precio con el de la empresa líder del ramo. Se ha establecido la conveniencia de su lanzamiento si se puede asegurar una venta media mayor que 100 litros por cliente y por año. A tal efecto, se enviaron muestras gratis a 16 posibles clientes, interrogándoselos luego sobre el volumen anual de pintura que estarían dispuestos a comprar. Se obtuvo así una media muestral de 114 litros con un desvío estándar de 18 litros.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Asumiendo un riesgo del 10%, ¿cuál sería la decisión recomendada?",
+    "respuesta": "Se toma la decisión de lanzar el nuevo producto, se puede asegura que el volumen de venta anual promedio tiene un valor mayor que 100 litros.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular los límites de confianza del 90% para el volumen medio de pintura.",
+    "respuesta": "Entre 106,11 y 121,89 litros.",
+    "valores": [
+     106.11,
+     121.89
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿A cuántos clientes más habría que enviar muestras para poder dar un intervalo cuya amplitud sea la mitad del anterior?",
+    "respuesta": "43 clientes más.",
+    "valores": [
+     43
+    ]
+   }
+  ],
+  "respuesta": "a) Se toma la decisión de lanzar el nuevo producto, se puede asegura que el volumen de venta anual promedio tiene un valor mayor que 100 litros. b) Entre 106,11 y 121,89 litros. c) 43 clientes más.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-31",
+  "tema": "I",
+  "numero": 31,
+  "pagina": 10,
+  "planteo": "Una empresa radicada en el interior del país comenzará una campaña de ventas si el ingreso medio de las familias de la zona supera los 1.000 U$s por mes. A efectos de tomar una decisión se toma una muestra de 100 familias registrándose un ingreso medio en el último mes de 1.100 U$s y un desvío estándar de 923 U$s. Asumiendo una probabilidad de 0,01 de comenzar la campaña equivocadamente:",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se aconseja comenzar la campaña de ventas?",
+    "respuesta": "No se aconseja comenzar la campaña, no se puede asegurar que los ingresos promedio por familia de la región superen los 1.000 U$s.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Calcular los límites de confianza del 90% para el ingreso medio de esta zona.",
+    "respuesta": "Entre 946,74 y 1.253,26 U$s.",
+    "valores": [
+     946.74,
+     1253.26
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Recalcular tamaño de muestra para reducir a la mitad el error muestral del intervalo hallado anteriormente.",
+    "respuesta": "n = 395 familias.",
+    "valores": [
+     395
+    ]
+   }
+  ],
+  "respuesta": "a) No se aconseja comenzar la campaña, no se puede asegurar que los ingresos promedio por familia de la región superen los 1.000 U$s. b) Entre 946,74 y 1.253,26 U$s. c) n = 395 familias.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": "La Resp está en la página 11."
+ },
+ {
+  "id": "I-32",
+  "tema": "I",
+  "numero": 32,
+  "pagina": 11,
+  "planteo": "Una empresa que produce galletitas desea controlar el funcionamiento de una máquina empaquetadora que, en condiciones normales, el peso medio de los paquetes debe ser 250 gramos. Se tomó una muestra de 20 paquetes obteniéndose un peso medio de 280 gramos y una desviación estándar de 15 gramos, y se establece en un 1% el riesgo máximo de detener y revisar la máquina si funciona correctamente. Luego de evaluar los resultados de la muestra se decide detener la máquina y revisarla.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se considera que la decisión tomada es correcta?",
+    "respuesta": "Sí, se pudo asegurar que la máquina estaba fuera de control.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "¿Estimar con un 1% de riesgo el peso promedio de los paquetes?",
+    "respuesta": "Entre 270,40 y 289,60 gramos.",
+    "valores": [
+     270.4,
+     289.6
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cómo se disminuye el error de la estimación anterior en un 30%?",
+    "respuesta": "Aumentando el tamaño de la muestra a 37 paquetes.",
+    "valores": [
+     37
+    ]
+   }
+  ],
+  "respuesta": "a) Sí, se pudo asegurar que la máquina estaba fuera de control. b) Entre 270,40 y 289,60 gramos. c) Aumentando el tamaño de la muestra a 37 paquetes.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-33",
+  "tema": "I",
+  "numero": 33,
+  "pagina": 11,
+  "planteo": "Los siguientes datos representan los tiempos de armado de circuitos electrónicos elegidos al azar: Tpo. (en minutos) | Cantidad: 9,5 – 9,8 | 4; 9,8 – 10,1 | 10; 10,1 – 10,4 | 35; 10,4 – 10,7 | 12; 10,7 – 11,0 | 8; 11,0 – 11,3 | 6. Se supone que el tiempo necesario para armar una unidad es una variable aleatoria con un desvío estándar de σ = 0,65 minutos.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Tpo. (en minutos) desde",
+     "Tpo. (en minutos) hasta",
+     "Cantidad"
+    ],
+    "filas": [
+     [
+      9.5,
+      9.8,
+      4
+     ],
+     [
+      9.8,
+      10.1,
+      10
+     ],
+     [
+      10.1,
+      10.4,
+      35
+     ],
+     [
+      10.4,
+      10.7,
+      12
+     ],
+     [
+      10.7,
+      11.0,
+      8
+     ],
+     [
+      11.0,
+      11.3,
+      6
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Basándose en esta muestra, ¿existe alguna razón para creer, con un nivel de confianza del 95%, que el tiempo medio de armado es mayor de 10,25 minutos?",
+    "respuesta": "No, no hay razón para creer que el tiempo medio es mayor que 10,25 minutos.",
+    "valores": []
+   },
+   {
+    "letra": "b",
+    "texto": "Si no se conociera el desvío estándar de la variable, ¿se arribaría a la misma conclusión que el punto anterior?",
+    "respuesta": "No se arriba a la misma conclusión, en este caso se tiene seguridad para afirmar que el tiempo medio de armado es mayor a 10,25 minutos.",
+    "valores": []
+   }
+  ],
+  "respuesta": "a) No, no hay razón para creer que el tiempo medio es mayor que 10,25 minutos. b) No se arriba a la misma conclusión, en este caso se tiene seguridad para afirmar que el tiempo medio de armado es mayor a 10,25 minutos.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-34",
+  "tema": "I",
+  "numero": 34,
+  "pagina": 11,
+  "planteo": "Por investigaciones anteriores se sabe que el peso promedio de los cerdos de 6 semanas es de 45 kg con un σ = 8 kg. Se ensaya un nuevo tipo de alimentación con una población total de 1.200 cerdos de un establecimiento, seleccionando una muestra al azar de 36 de ellos arrojando un peso medio de 47 Kg. Se considera que el desvío histórico se mantiene.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se puede decir que se ha incrementado el peso promedio de los cerdos?",
+    "respuesta": "Si se toma un 6,39% o más de riesgo, la respuesta es “si”; caso contrario, la respuesta es: “no puede asegurarse que el peso medio de los cerdos se haya incrementado”.",
+    "valores": [
+     6.39
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar con un 90% de confianza el peso promedio de la población de cerdos de dicho establecimiento.",
+    "respuesta": "Entre 44,84 y 49,16 kg.",
+    "valores": [
+     44.84,
+     49.16
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "Estimar con un 90% de confianza el peso total de la población de cerdos de dicho establecimiento.",
+    "respuesta": "Entre 53.808,01 y 58.991,99 kg.",
+    "valores": [
+     53808.01,
+     58991.99
+    ]
+   },
+   {
+    "letra": "d",
+    "texto": "¿Cuántos cerdos más habría que seleccionar de la población para reducir en un 70% el error de estimación?",
+    "respuesta": "272 cerdos más, seleccionados de la población de 1.200.",
+    "valores": [
+     272
+    ]
+   }
+  ],
+  "respuesta": "a) Si se toma un 6,39% o más de riesgo, la respuesta es “si”; caso contrario, la respuesta es: “no puede asegurarse que el peso medio de los cerdos se haya incrementado”. b) Entre 44,84 y 49,16 kg. c) Entre 53.808,01 y 58.991,99 kg. d) 272 cerdos más, seleccionados de la población de 1.200.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-35",
+  "tema": "I",
+  "numero": 35,
+  "pagina": 11,
+  "planteo": "El tiempo estándar (tiempo promedio) para el montaje de un conjunto es de 360 segundos con un desvío estándar de 50 segundos:",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Dentro de qué límites variará el tiempo medio durante una jornada de 8 horas, para que se pueda decir que el operario trabaja en forma estándar? (Se acepta un error de tipo I de 0,05).",
+    "respuesta": "De una muestra de 80 conjuntos, los límites de control son: P(349,04\" ≤ x̄ ≤ 370,96\") = 0,95.",
+    "valores": [
+     80,
+     349.04,
+     370.96
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál será el error de tipo II si el operario realmente está utilizando un tiempo medio 8% superior al estándar y si las muestras que se utilizan para este control son de 20 conjuntos durante el período controlado?",
+    "respuesta": "β = 0,2690.",
+    "valores": [
+     0.269
+    ]
+   }
+  ],
+  "respuesta": "a) De una muestra de 80 conjuntos, los límites de control son: P(349,04\" ≤ x̄ ≤ 370,96\") = 0,95. b) β = 0,2690.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ },
+ {
+  "id": "I-36",
+  "tema": "I",
+  "numero": 36,
+  "pagina": 12,
+  "planteo": "Un fabricante de azúcar envasa en bolsas de papel de 1 kg lo que es correcto cuando el proceso está bajo control. Periódicamente se toma una muestra de 9 unidades, de un lote de producción, para controlar el proceso de embolsado. Sobre un lote de 1.400 bolsas terminadas, se tomó una muestra al azar arrojando una media que resultó de 1,10 kg y un desvío de 0,15 kg.",
+  "tablas": [],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Plantear la hipótesis adecuada al problema y determinar si el proceso se encuentra fuera de control, a la luz de los datos obtenidos, para un riesgo del 10%.",
+    "respuesta": "H0) μ ≤ μ0 = 1 kg; x̄c = 1,07 kg; CR: Si x̄ > 1,07 kg ⇒ Rechazo H0. Como x̄ = 1,10 kg se rechaza H0: hay razones suficientes para afirmar que el proceso se encuentra fuera de control.",
+    "valores": [
+     1.07
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "Estimar para un 95% de confianza el peso promedio del lote producido.",
+    "respuesta": "Entre 0,985 kg y 1,215 kg (1,1 ± 0,1149), con un 95% de confianza.",
+    "valores": [
+     0.985,
+     1.215
+    ]
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas bolsas más habría que añadir a la muestra para reducir el error a 0,01 kg?",
+    "respuesta": "n∞ = 867; n = 1.400·867/(1.400 + 867) = 536 bolsas en total, o sea 527 bolsas más.",
+    "valores": [
+     867,
+     536,
+     527
+    ]
+   }
+  ],
+  "respuesta": "a) H0) μ ≤ 1 kg; x̄c = 1,07 kg; se rechaza H0, el proceso está fuera de control. b) Entre 0,985 y 1,215 kg. c) n = 536 bolsas, 527 bolsas más.",
+  "respuesta_fuente": "solucion",
+  "resuelto": true,
+  "conclusiones": [
+   "a) De acuerdo a lo planteado por el problema se debería ensayar una hipótesis bilateral, pero como la pregunta estipula que se analice a la luz de los datos obtenidos, ensayamos la siguiente hipótesis: H0) μ ≤ μ0 = 1 kg, porque se sospecha que el verdadero valor de μ es mayor que 1 kg.",
+   "x̄c = μ0 + t(0,90;8)·(s/√n)·√((N−n)/N) = 1 + 1,3968·(0,15/√9)·√((1.400−9)/1.400) = 1,07 kg.",
+   "La regla de decisión es: RD: Si de una muestra de 9 bolsas el peso promedio es mayor que 1,07 kg, detengo el proceso para revisarlo. Como la muestra de 9 bolsas arrojó un peso promedio de 1,10 kg, puedo rechazar la H0. Por lo tanto, hay razones suficientes para afirmar que el proceso se encuentra fuera de control.",
+   "Se concluye que el peso promedio del lote producido de 1.400 bolsas estará comprendido entre 0,985 kg y 1,215 kg, afirmándolo con un 95% de confianza, o sea: P(0,985 kg ≤ μ ≤ 1,215 kg) = 0,95. Para un error muestral de e = 0,1149 kg.",
+   "c) El resultado se obtiene con n∞ = 867. De manera que se debe corregir el resultado con la expresión: n = N·n∞/(N + n∞) = 1.400·867/(1.400 + 867) = 536. Se necesitan un total de 536 bolsas, o sea que se necesitarán incluir en la muestra obtenida 527 bolsas más."
+  ],
+  "observaciones": "b) 2,306·0,05·√(1.391/1.400) = 0,1149 según la guía; el cálculo directo da ≈ 0,1151 (redondeo). El planteo usa hipótesis unilateral aunque el enunciado sugiere bilateral (la propia Solución lo aclara)."
+ },
+ {
+  "id": "I-37",
+  "tema": "I",
+  "numero": 37,
+  "pagina": 12,
+  "planteo": "El consejo estatal formado para controlar la calidad de agua selecciona cada semana 5 muestras de una fuente de abastecimiento y determina la concentración promedio de una sustancia tóxica. Los siguientes datos son las cantidades promedio en partes por millón, de la sustancia tóxica, durante 12 semanas: Semana: 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - 10 - 11 - 12; Media: 5,2 - 4,9 - 5,5 - 5,4 - 4,8 - 4,6 - 5,5 - 4,7 - 5,1 - 4,5 - 5,8 - 5,6.",
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Semana",
+     "Media (ppm)"
+    ],
+    "filas": [
+     [
+      1,
+      5.2
+     ],
+     [
+      2,
+      4.9
+     ],
+     [
+      3,
+      5.5
+     ],
+     [
+      4,
+      5.4
+     ],
+     [
+      5,
+      4.8
+     ],
+     [
+      6,
+      4.6
+     ],
+     [
+      7,
+      5.5
+     ],
+     [
+      8,
+      4.7
+     ],
+     [
+      9,
+      5.1
+     ],
+     [
+      10,
+      4.5
+     ],
+     [
+      11,
+      5.8
+     ],
+     [
+      12,
+      5.6
+     ]
+    ]
+   }
+  ],
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Si se toma como valor nominal un promedio de 5 ppm con un σ = 0,5 ppm, obtener, para un riesgo del 5%, los límites de control para la concentración promedio. ¿Existe alguna razón para alarmarse para este período?",
+    "respuesta": "Entre 4,56 y 5,44 ppm, si hay razones para alarmarse porque se encuentran valores fuera de los límites.",
+    "valores": [
+     4.56,
+     5.44
+    ]
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de tener una concentración media, en la semana, de 6,6 ppm?",
+    "respuesta": "Es prácticamente imposible.",
+    "valores": []
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuál es la probabilidad de detectar un desplazamiento en el valor de la concentración media de 5 ppm a 5,25 ppm?",
+    "respuesta": "1–β = 0,2009.",
+    "valores": [
+     0.2009
+    ]
+   }
+  ],
+  "respuesta": "a) Entre 4,56 y 5,44 ppm, si hay razones para alarmarse porque se encuentran valores fuera de los límites. b) Es prácticamente imposible. c) 1–β = 0,2009.",
+  "respuesta_fuente": "resp",
+  "resuelto": false,
+  "conclusiones": [],
+  "observaciones": ""
+ }
+]
