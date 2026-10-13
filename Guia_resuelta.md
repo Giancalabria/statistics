@@ -2,7 +2,7 @@
 
 Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_ejercicios.json` (transcripción verificada contra el PDF) y el intérprete + solver de la app. Cada inciso muestra los pasos en el orden de la cátedra, la conclusión, la respuesta de la guía y si coinciden.
 
-**Resumen:** ✅ 300 incisos coinciden · ⚠️ 7 no coinciden · ℹ️ 18 sin valores para comparar.
+**Resumen:** ✅ 305 incisos coinciden · ⚠️ 2 no coinciden · ℹ️ 18 sin valores para comparar.
 
 Índice: [Tema I](#tema-i--inferencia-para-medias) · [Tema II](#tema-ii--inferencia-sobre-varianzas--desvíos) · [Tema III](#tema-iii--procesos-de-bernoulli-proporciones) · [Tema IV](#tema-iv--comparación-de-varianzas) · [Tema V](#tema-v--comparación-de-dos-medias) · [Tema VI](#tema-vi--contrastes-chi-cuadrado) · [Tema VII](#tema-vii--regresión-y-correlación-simple) · [Tema VIII](#tema-viii--modelo-lineal-general)
 
@@ -28,7 +28,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ conocido → Z. Z(1-α/2) = Z(0,95) = 1,6449.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n = 246 ∓ 1,6449·15/√10 = 246 ∓ 7,8022.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 238,1978 y 253,8022, afirmándolo con un 90% de confianza, o sea: P(238,1978 ≤ μ ≤ 253,8022) = 0,9.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 238,19 y 253,81, afirmándolo con un 90% de confianza, o sea: P(238,19 ≤ μ ≤ 253,81) = 0,9 (límites redondeados hacia afuera; sin redondear: 238,197774 y 253,802226).
 
 **Respuesta de la guía:** Entre 238,19 y 253,81 gramos.
 
@@ -86,7 +86,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ conocido → Z. Z(1-α/2) = Z(0,995) = 2,5758.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n = 15 ∓ 2,5758·5/√42 = 15 ∓ 1,9873.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 13,0127 y 16,9873, afirmándolo con un 99% de confianza, o sea: P(13,0127 ≤ μ ≤ 16,9873) = 0,99.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 13,01 y 16,99, afirmándolo con un 99% de confianza, o sea: P(13,01 ≤ μ ≤ 16,99) = 0,99 (límites redondeados hacia afuera; sin redondear: 13,012705 y 16,987295).
 
 **Respuesta de la guía:** Entre 13,01 y 16,99 minutos.
 
@@ -139,7 +139,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ conocido → Z. Z(1-α/2) = Z(0,975) = 1,96.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n = 2,5217 ∓ 1,96·1,2/√23 = 2,5217 ∓ 0,4904.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 2,0313 y 3,0122, afirmándolo con un 95% de confianza, o sea: P(2,0313 ≤ μ ≤ 3,0122) = 0,95.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 2,031 y 3,013, afirmándolo con un 95% de confianza, o sea: P(2,031 ≤ μ ≤ 3,013) = 0,95 (límites redondeados hacia afuera; sin redondear: 2,031322 y 3,012156).
 
 **Respuesta de la guía:** Entre 2,03 y 3,02 empleados (x̄ = 2,5217 ± 0,4904), con un 95% de confianza.
 
@@ -169,7 +169,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ desconocido → t de Student con ν = n-1 = 22. t(0,975; 22) = 2,0739.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 2,5217 ∓ 2,0739·1,4419/√23 = 2,5217 ∓ 0,6235.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 1,8982 y 3,1453, afirmándolo con un 95% de confianza, o sea: P(1,8982 ≤ μ ≤ 3,1453) = 0,95.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 1,898 y 3,146, afirmándolo con un 95% de confianza, o sea: P(1,898 ≤ μ ≤ 3,146) = 0,95 (límites redondeados hacia afuera; sin redondear: 1,898218 y 3,14526).
 
 > 📝 *Notas de la transcripción:* Redondeo: 2,5217 + 0,4904 = 3,0121 (la guía dice 3,02) y 2,5217 − 0,6235 = 1,8982 (la guía dice 1,89).
 
@@ -207,9 +207,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Límites**: A;B = x̄ ∓ t·S/√n = 17,35 ∓ 3,1824·1,7935/√4 = 17,35 ∓ 2,8539.
 - **En unidades** (los datos venían en miles, × 1.000): entre 14.496,13 y 20.203,87 (e = 2.853,87).
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 14,4961 y 20,2039, afirmándolo con un 95% de confianza, o sea: P(14,4961 ≤ μ ≤ 20,2039) = 0,95. En unidades: entre 14.496,13 y 20.203,87.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 14,49 y 20,21, afirmándolo con un 95% de confianza, o sea: P(14,49 ≤ μ ≤ 20,21) = 0,95 (límites redondeados hacia afuera; sin redondear: 14,49613 y 20,20387). En unidades: entre 14.496,13 y 20.203,87.
 
 **Respuesta de la guía:** Entre 14.496,13 y 20.203,88 unidades (x̄ = 17,35 ± 2,8539 miles), con un 95% de confianza.
+
+> ≈ Coincide solo aproximadamente (20.203,88): Errata de la guía: el límite exacto 20.203,8696 se informa 20.203,88 (redondeado da 20.203,87).
 
 #### b) Tamaño de muestra ✅
 
@@ -257,7 +259,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ conocido → Z. Z(1-α/2) = Z(0,975) = 1,96.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n = 38 ∓ 1,96·4,2/√20 = 38 ∓ 1,8407.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 36,1593 y 39,8407, afirmándolo con un 95% de confianza, o sea: P(36,1593 ≤ μ ≤ 39,8407) = 0,95.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 36,15 y 39,85, afirmándolo con un 95% de confianza, o sea: P(36,15 ≤ μ ≤ 39,85) = 0,95 (límites redondeados hacia afuera; sin redondear: 36,159303 y 39,840697).
 
 **Respuesta de la guía:** Entre 36,15 y 39,85 kg.
 
@@ -298,7 +300,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ desconocido → t de Student con ν = n-1 = 59. t(0,95; 59) = 1,6711.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 48,5 ∓ 1,6711·42/√60 = 48,5 ∓ 9,061.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 39,439 y 57,561, afirmándolo con un 90% de confianza, o sea: P(39,439 ≤ μ ≤ 57,561) = 0,9.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 39,43 y 57,57, afirmándolo con un 90% de confianza, o sea: P(39,43 ≤ μ ≤ 57,57) = 0,9 (límites redondeados hacia afuera; sin redondear: 39,439038 y 57,560962).
 
 **Respuesta de la guía:** Entre 39,43 y 57,57 kg.
 
@@ -322,7 +324,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ desconocido → t de Student con ν = n-1 = 24. t(0,975; 24) = 2,0639.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 214 ∓ 2,0639·21,3542/√25 = 214 ∓ 8,8146.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 205,1854 y 222,8146, afirmándolo con un 95% de confianza, o sea: P(205,1854 ≤ μ ≤ 222,8146) = 0,95.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 205,18 y 222,82, afirmándolo con un 95% de confianza, o sea: P(205,18 ≤ μ ≤ 222,82) = 0,95 (límites redondeados hacia afuera; sin redondear: 205,185437 y 222,814563).
 
 **Respuesta de la guía:** Entre 205,18 y 222,82 unidades.
 
@@ -351,7 +353,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: σ conocido → Z. Z(1-α) = 1,6449.
-- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 250 - 1,6449·15/√10 = 242,1978. Si x̄ < 242,1978 ⇒ se rechaza H0.
+- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 250 - 1,6449·15/√10 = 242,1978. Si x̄ < 242,1978 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 242,19; la decisión se toma con el valor exacto.
 - **Regla de decisión**: Si en una muestra de 10 la media es menor que 242,1978 se rechaza H0.
 
 **Conclusión:** Si en una muestra de 10 la media es menor que 242,1978 se rechaza H0.
@@ -389,7 +391,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 4 - 1,6449·0,15/√5 = 3,8897. Si x̄ < 3,8897 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 4 - 1,6449·0,15/√5 = 3,8897. Si x̄ < 3,8897 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 3,88; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ < 3,8897, se rechaza H0 → se da por probado que μ < 4. En caso contrario no se rechaza H0 → no se puede afirmar que μ < 4.
 - **6 · Cálculos y decisión**: x̄ = 3,904 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0762 (se rechaza H0 para cualquier α ≥ α*).
@@ -408,11 +410,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 4,0, x̄c = 3,8897.
-- **β** = P(x̄ ≥ x̄c | μ = 3,85) con Z = (x̄c - μ₁)/(σ/√n) = (3,8897 - 3,85)/0,0671 = 0,5912 → β = 0,2772.
-- **Potencia** 1-β = 0,7228.
+- **Región crítica** (del ensayo): H0: μ ≥ 4,0, x̄c = 3,8897; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 3,8896), como la cátedra.
+- **β** = P(x̄ ≥ x̄c | μ = 3,85) con Z = (x̄c - μ₁)/(σ/√n) = (3,8896 - 3,85)/0,0671 = 0,5903 → β = 0,2775.
+- **Potencia** 1-β = 0,7225.
 
-**Conclusión:** La probabilidad pedida es β = 0,2772 (potencia 1-β = 0,7228).
+**Conclusión:** La probabilidad pedida es β = 0,2775 (potencia 1-β = 0,7225).
 
 **Respuesta de la guía:** β = 0,2775.
 
@@ -486,7 +488,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 11,2 - 1,6449·1,3/√10 = 10,5238. Si x̄ < 10,5238 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 11,2 - 1,6449·1,3/√10 = 10,5238. Si x̄ < 10,5238 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 10,52; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su media x̄. Si x̄ < 10,5238, se rechaza H0 → se da por probado que μ < 11,2. En caso contrario no se rechaza H0 → no se puede afirmar que μ < 11,2.
 - **6 · Cálculos y decisión**: x̄ = 10,6 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0722 (se rechaza H0 para cualquier α ≥ α*).
@@ -504,7 +506,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 11,2, x̄c = 10,5238.
+- **Región crítica** (del ensayo): H0: μ ≥ 11,2, x̄c = 10,5238; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 10,5238), como la cátedra.
 - **β** = P(x̄ ≥ x̄c | μ = 10,5) con Z = (x̄c - μ₁)/(σ/√n) = (10,5238 - 10,5)/0,4111 = 0,0579 → β = 0,4769.
 - **Potencia** 1-β = 0,5231.
 
@@ -579,7 +581,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 1 + 1,2816·0,1/√10 = 1,0405. Si x̄ > 1,0405 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 1 + 1,2816·0,1/√10 = 1,0405. Si x̄ > 1,0405 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,05; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su media x̄. Si x̄ > 1,0405, se rechaza H0 → se da por probado que μ > 1. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 1.
 - **6 · Cálculos y decisión**: x̄ = 1,06 → cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0289 (se rechaza H0 para cualquier α ≥ α*).
@@ -597,11 +599,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≤ 1,0, x̄c = 1,0405.
-- **β** = P(x̄ ≤ x̄c | μ = 1,05) con Z = (x̄c - μ₁)/(σ/√n) = (1,0405 - 1,05)/0,0316 = -0,2996 → β = 0,3822.
-- **Potencia** 1-β = 0,6178.
+- **Región crítica** (del ensayo): H0: μ ≤ 1,0, x̄c = 1,0405; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 1,0406), como la cátedra.
+- **β** = P(x̄ ≤ x̄c | μ = 1,05) con Z = (x̄c - μ₁)/(σ/√n) = (1,0406 - 1,05)/0,0316 = -0,2973 → β = 0,3831.
+- **Potencia** 1-β = 0,6169.
 
-**Conclusión:** La probabilidad pedida es β = 0,3822 (potencia 1-β = 0,6178).
+**Conclusión:** La probabilidad pedida es β = 0,3831 (potencia 1-β = 0,6169).
 
 **Respuesta de la guía:** β = 0,3831.
 
@@ -655,7 +657,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 2 - 1,6449·1,5/√40 = 1,6099. Si x̄ < 1,6099 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 2 - 1,6449·1,5/√40 = 1,6099. Si x̄ < 1,6099 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,60; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 40 unidades y se calcula su media x̄. Si x̄ < 1,6099, se rechaza H0 → se da por probado que μ < 2. En caso contrario no se rechaza H0 → no se puede afirmar que μ < 2.
 - **6 · Cálculos y decisión**: x̄ = 1,7 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,103 (se rechaza H0 para cualquier α ≥ α*).
@@ -673,11 +675,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 2,0, x̄c = 1,6099.
-- **β** = P(x̄ ≥ x̄c | μ = 1,8) con Z = (x̄c - μ₁)/(σ/√n) = (1,6099 - 1,8)/0,2372 = -0,8016 → β = 0,7886.
-- **Potencia** 1-β = 0,2114.
+- **Región crítica** (del ensayo): H0: μ ≥ 2,0, x̄c = 1,6099; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 1,6098), como la cátedra.
+- **β** = P(x̄ ≥ x̄c | μ = 1,8) con Z = (x̄c - μ₁)/(σ/√n) = (1,6098 - 1,8)/0,2372 = -0,802 → β = 0,7887.
+- **Potencia** 1-β = 0,2113.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,2114 (β = 0,7886).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,2113 (β = 0,7887).
 
 **Respuesta de la guía:** 1–β = 0,2113.
 
@@ -707,7 +709,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 200 - 1,6449·23/√5 = 183,0812. Si x̄ < 183,0812 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 200 - 1,6449·23/√5 = 183,0812. Si x̄ < 183,0812 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 183,08; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ < 183,0812, se rechaza H0 → se da por probado que μ < 200. En caso contrario no se rechaza H0 → no se puede afirmar que μ < 200.
 - **6 · Cálculos y decisión**: x̄ = 180 → cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0259 (se rechaza H0 para cualquier α ≥ α*).
@@ -727,7 +729,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ conocido → Z. Z(1-α/2) = Z(0,9) = 1,2816.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n = 180 ∓ 1,2816·23/√5 = 180 ∓ 13,1819.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 166,8181 y 193,1819, afirmándolo con un 80% de confianza, o sea: P(166,8181 ≤ μ ≤ 193,1819) = 0,8.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 166,81 y 193,19, afirmándolo con un 80% de confianza, o sea: P(166,81 ≤ μ ≤ 193,19) = 0,8 (límites redondeados hacia afuera; sin redondear: 166,818072 y 193,181928).
 
 **Respuesta de la guía:** Entre 166,81 y 193,19 litros.
 
@@ -776,8 +778,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 580,0, x̄c = 548,3484.
-- **β** = P(x̄ ≥ x̄c | μ = 551) con Z = (x̄c - μ₁)/(σ/√n) = (548,3484 - 551)/19,2428 = -0,1378 → β = 0,5548.
+- **Región crítica** (del ensayo): H0: μ ≥ 580,0, x̄c = 548,3484; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 548,3483), como la cátedra.
+- **β** = P(x̄ ≥ x̄c | μ = 551) con Z = (x̄c - μ₁)/(σ/√n) = (548,3483 - 551)/19,2428 = -0,1378 → β = 0,5548.
 - **Potencia** 1-β = 0,4452.
 - Se toman valores de μ del lado de H1 (cola izquierda), con n = 14 y α = 0,05; para cada uno se calcula β = P(no rechazar H0 | μ) y la potencia 1-β.
 - En el eje X va el parámetro μ; en el eje Y la probabilidad (β para la curva OC, 1-β para la de potencia). Marcá al menos 3 puntos con sus valores.
@@ -795,8 +797,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 580,0, x̄c = 548,3484.
-- **β** = P(x̄ ≥ x̄c | μ = 551) con Z = (x̄c - μ₁)/(σ/√n) = (548,3484 - 551)/19,2428 = -0,1378 → β = 0,5548.
+- **Región crítica** (del ensayo): H0: μ ≥ 580,0, x̄c = 548,3484; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 548,3483), como la cátedra.
+- **β** = P(x̄ ≥ x̄c | μ = 551) con Z = (x̄c - μ₁)/(σ/√n) = (548,3483 - 551)/19,2428 = -0,1378 → β = 0,5548.
 - **Potencia** 1-β = 0,4452.
 - **Ensayos repetidos** (muestras independientes): P(ninguna de las 2 muestras lo detecte) = β^2 = 0,5548^2 = 0,3078.
 
@@ -831,7 +833,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 12 - 1,6449·2/√25 = 11,3421. Si x̄ < 11,3421 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 12 - 1,6449·2/√25 = 11,3421. Si x̄ < 11,3421 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 11,34; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 25 unidades y se calcula su media x̄. Si x̄ < 11,3421, se rechaza H0 → se da por probado que μ < 12. En caso contrario no se rechaza H0 → no se puede afirmar que μ < 12.
 - **6 · Cálculos y decisión**: x̄ = 10,8 → cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0013 (se rechaza H0 para cualquier α ≥ α*).
@@ -849,11 +851,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 12,0, x̄c = 11,3421.
-- **β** = P(x̄ ≥ x̄c | μ = 11) con Z = (x̄c - μ₁)/(σ/√n) = (11,3421 - 11)/0,4 = 0,8551 → β = 0,1962.
-- **Potencia** 1-β = 0,8038.
+- **Región crítica** (del ensayo): H0: μ ≥ 12,0, x̄c = 11,3421; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 11,342), como la cátedra.
+- **β** = P(x̄ ≥ x̄c | μ = 11) con Z = (x̄c - μ₁)/(σ/√n) = (11,342 - 11)/0,4 = 0,855 → β = 0,1963.
+- **Potencia** 1-β = 0,8037.
 
-**Conclusión:** La probabilidad pedida es β = 0,1962 (potencia 1-β = 0,8038).
+**Conclusión:** La probabilidad pedida es β = 0,1963 (potencia 1-β = 0,8037).
 
 **Respuesta de la guía:** β = 0,1963.
 
@@ -928,8 +930,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 38,0, x̄c = 37,5698.
-- **β** = P(x̄ ≥ x̄c | μ = 37,5) con Z = (x̄c - μ₁)/(σ/√n) = (37,5698 - 37,5)/0,3357 = 0,2081 → β = 0,4176.
+- **Región crítica** (del ensayo): H0: μ ≥ 38,0, x̄c = 37,5698; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 37,5698), como la cátedra.
+- **β** = P(x̄ ≥ x̄c | μ = 37,5) con Z = (x̄c - μ₁)/(σ/√n) = (37,5698 - 37,5)/0,3357 = 0,2079 → β = 0,4176.
 - **Potencia** 1-β = 0,5824.
 
 **Conclusión:** La probabilidad pedida es la potencia 1-β = 0,5824 (β = 0,4176).
@@ -1000,8 +1002,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 80,0, x̄c = 77,2628.
-- **β** = P(x̄ ≥ x̄c | μ = 76) con Z = (x̄c - μ₁)/(σ/√n) = (77,2628 - 76)/1,6641 = 0,7588 → β = 0,224.
+- **Región crítica** (del ensayo): H0: μ ≥ 80,0, x̄c = 77,2628; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 77,2627), como la cátedra.
+- **β** = P(x̄ ≥ x̄c | μ = 76) con Z = (x̄c - μ₁)/(σ/√n) = (77,2627 - 76)/1,6641 = 0,7588 → β = 0,224.
 - **Potencia** 1-β = 0,776.
 
 **Conclusión:** La probabilidad pedida es la potencia 1-β = 0,776 (β = 0,224).
@@ -1092,8 +1094,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≤ 280,0, x̄c = 286,1088.
-- **β** = P(x̄ ≤ x̄c | μ = 285) con Z = (x̄c - μ₁)/(σ/√n) = (286,1088 - 285)/3,7139 = 0,2986 → β = 0,6174.
+- **Región crítica** (del ensayo): H0: μ ≤ 280,0, x̄c = 286,1088; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 286,1089), como la cátedra.
+- **β** = P(x̄ ≤ x̄c | μ = 285) con Z = (x̄c - μ₁)/(σ/√n) = (286,1089 - 285)/3,7139 = 0,2986 → β = 0,6174.
 - **Potencia** 1-β = 0,3826.
 
 **Conclusión:** La probabilidad pedida es la potencia 1-β = 0,3826 (β = 0,6174).
@@ -1144,7 +1146,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 1250,0, x̄c = 1,167,8839.
+- **Región crítica** (del ensayo): H0: μ ≥ 1250,0, x̄c = 1,167,8839; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 1,167,8839), como la cátedra.
 - **β** = P(x̄ ≥ x̄c | μ = 1.200) con Z = (x̄c - μ₁)/(σ/√n) = (1.167,8839 - 1.200)/49,923 = -0,6433 → β = 0,74.
 - **Potencia** 1-β = 0,26.
 
@@ -1231,7 +1233,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 2,3263·σ/√n = 250 - 2,3263·30/√6 = 221,5082. Si x̄ < 221,5082 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 2,3263·σ/√n = 250 - 2,3263·30/√6 = 221,5082. Si x̄ < 221,5082 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 221,50; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 6 unidades y se calcula su media x̄. Si x̄ < 221,5082, se rechaza H0 → se da por probado que μ < 250. En caso contrario no se rechaza H0 → no se puede afirmar que μ < 250.
 - **6 · Cálculos y decisión**: x̄ = 232 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0708 (se rechaza H0 para cualquier α ≥ α*).
@@ -1249,8 +1251,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ ≥ 250,0, x̄c = 221,5082.
-- **β** = P(x̄ ≥ x̄c | μ = 225) con Z = (x̄c - μ₁)/(σ/√n) = (221,5082 - 225)/12,2474 = -0,2851 → β = 0,6122.
+- **Región crítica** (del ensayo): H0: μ ≥ 250,0, x̄c = 221,5082; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 221,5081), como la cátedra.
+- **β** = P(x̄ ≥ x̄c | μ = 225) con Z = (x̄c - μ₁)/(σ/√n) = (221,5081 - 225)/12,2474 = -0,2851 → β = 0,6122.
 - **Potencia** 1-β = 0,3878.
 - Se toman valores de μ del lado de H1 (cola izquierda), con n = 6 y α = 0,01; para cada uno se calcula β = P(no rechazar H0 | μ) y la potencia 1-β.
 - En el eje X va el parámetro μ; en el eje Y la probabilidad (β para la curva OC, 1-β para la de potencia). Marcá al menos 3 puntos con sus valores.
@@ -1330,7 +1332,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: σ conocido → Z. Z(1-α) = 1,6449.
-- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 25 - 1,6449·2,2/√10 = 23,8557. Si x̄ < 23,8557 ⇒ se rechaza H0.
+- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 25 - 1,6449·2,2/√10 = 23,8557. Si x̄ < 23,8557 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 23,85; la decisión se toma con el valor exacto.
 - **Regla de decisión**: Si en una muestra de 10 la media es menor que 23,8557 se rechaza H0.
 - **Media alternativa** (la que se detecta con 1-β = 0,99): μ₁ = x̄c - Z(1-β)·σ/√n = 23,8557 - 2,3263·2,2/√10 = 22,2372.
 
@@ -1353,7 +1355,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: σ conocido → Z. Z(1-α) = 1,6449.
-- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 25 - 1,6449·2,2/√10 = 23,8557. Si x̄ < 23,8557 ⇒ se rechaza H0.
+- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 25 - 1,6449·2,2/√10 = 23,8557. Si x̄ < 23,8557 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 23,85; la decisión se toma con el valor exacto.
 - **Regla de decisión**: Si en una muestra de 10 la media es menor que 23,8557 se rechaza H0.
 - **Media alternativa** (la que se detecta con 1-β = 0,99): μ₁ = x̄c - Z(1-β)·σ/√n = 23,8557 - 2,3263·2,2/√10 = 22,2372.
 
@@ -1466,7 +1468,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 128.000 + 1,2816·12.500/√4 = 136.009,6973. Si x̄ > 136.009,6973 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 128.000 + 1,2816·12.500/√4 = 136.009,6973. Si x̄ > 136.009,6973 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 136.009,70; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 4 unidades y se calcula su media x̄. Si x̄ > 136,009,6973, se rechaza H0 → se da por probado que μ > 128000. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 128000.
 - **6 · Cálculos y decisión**: x̄ = 135.000 → no cae en la zona de rechazo.
 - **Equivalente en valores brutos**: la media bruta debería superar x̄c bruto = 141.009,7 (se obtuvo 140.000).
@@ -1486,7 +1488,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Valor alternativo neto** (el enunciado lo da sin descontar): μ₁ - 5.000 = 145.000 - 5.000 = 140.000
-- **Región crítica** (del ensayo): H0: μ ≤ 128000,0, x̄c = 136,009,6973.
+- **Región crítica** (del ensayo): H0: μ ≤ 128000,0, x̄c = 136,009,6973; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 136,009,6973), como la cátedra.
 - **β** = P(x̄ ≤ x̄c | μ = 140.000) con Z = (x̄c - μ₁)/(σ/√n) = (136.009,6973 - 140.000)/6.250 = -0,6384 → β = 0,2616.
 - **Potencia** 1-β = 0,7384.
 
@@ -1510,7 +1512,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 128.000 + 1,2816·12.500/√4 = 136.009,6973. Si x̄ > 136.009,6973 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 128.000 + 1,2816·12.500/√4 = 136.009,6973. Si x̄ > 136.009,6973 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 136.009,70; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 4 unidades y se calcula su media x̄. Si x̄ > 136,009,6973, se rechaza H0 → se da por probado que μ > 128000. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 128000.
 - **6 · Cálculos y decisión**: x̄ = 137.200 → cae en la zona de rechazo.
 - **Con μ₁ = 145.000**: β = 0,0752, potencia 1-β = 0,9248.
@@ -1585,7 +1587,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: σ conocido → Z. Z(1-α/2) = 1,6449.
-- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,6449·σ/√n = 11,5 ∓ 1,6449·0,1/√11 = 11,4504 ; 11,5496. Si x̄ < 11,4504 o x̄ > 11,5496 ⇒ se rechaza H0.
+- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,6449·σ/√n = 11,5 ∓ 1,6449·0,1/√11 = 11,4504 ; 11,5496. Si x̄ < 11,4504 o x̄ > 11,5496 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 11,45 ; 11,55.
 - **Con μ₁ = 11,4**: β = 0,0473, potencia 1-β = 0,9527.
 - **Regla de decisión**: Si en una muestra de 11 la media cae fuera de [11,4504 ; 11,5496] se rechaza H0.
 
@@ -1602,7 +1604,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ = 11,5, x̄c = 11,4504 ; 11,5496.
+- **Región crítica** (del ensayo): H0: μ = 11,5, x̄c = 11,4504 ; 11,5496; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 11,4504 ; 11,5496), como la cátedra.
 - **β** = P(x̄c₁ ≤ x̄ ≤ x̄c₂ | μ = 11,46) = Φ((11,5496 - 11,46)/0,0302) - Φ((11,4504 - 11,46)/0,0302) = 0,6234.
 - **Potencia** 1-β = 0,3766.
 
@@ -1655,7 +1657,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c₁;x̄c₂ = μ₀ ∓ 1,6449·σ/√n = 2 ∓ 1,6449·0,1/√10 = 1,948 ; 2,052. Si x̄ < 1,948 o x̄ > 2,052 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c₁;x̄c₂ = μ₀ ∓ 1,6449·σ/√n = 2 ∓ 1,6449·0,1/√10 = 1,948 ; 2,052. Si x̄ < 1,948 o x̄ > 2,052 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 1,94 ; 2,06.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su media x̄. Si x̄ < 1,948 o x̄ > 2,052, se rechaza H0 → se da por probado que μ ≠ 2. En caso contrario no se rechaza H0 → no se puede afirmar que μ ≠ 2.
 - **6 · Cálculos y decisión**: x̄ = 2,04 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,2059 (se rechaza H0 para cualquier α ≥ α*).
@@ -1673,11 +1675,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ = 2,0, x̄c = 1,948 ; 2,052.
-- **β** = P(x̄c₁ ≤ x̄ ≤ x̄c₂ | μ = 1,95) = Φ((2,052 - 1,95)/0,0316) - Φ((1,948 - 1,95)/0,0316) = 0,5248.
-- **Potencia** 1-β = 0,4752.
+- **Región crítica** (del ensayo): H0: μ = 2,0, x̄c = 1,948 ; 2,052; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 1,9479 ; 2,0521), como la cátedra.
+- **β** = P(x̄c₁ ≤ x̄ ≤ x̄c₂ | μ = 1,95) = Φ((2,0521 - 1,95)/0,0316) - Φ((1,9479 - 1,95)/0,0316) = 0,5259.
+- **Potencia** 1-β = 0,4741.
 
-**Conclusión:** La probabilidad pedida es β = 0,5248 (potencia 1-β = 0,4752).
+**Conclusión:** La probabilidad pedida es β = 0,5259 (potencia 1-β = 0,4741).
 
 **Respuesta de la guía:** β = 0,5259.
 
@@ -1761,7 +1763,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
 • Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S).
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 3,7469·S/√n = 700.000 + 3,7469·82.460,2935/√5 = 838.177,544. Si x̄ > 838.177,544 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 3,7469·S/√n = 700.000 + 3,7469·82.460,2935/√5 = 838.177,544. Si x̄ > 838.177,544 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 838.177,55; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ > 838,177,544, se rechaza H0 → se da por probado que μ > 700000. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 700000.
 - **6 · Cálculos y decisión**: x̄ = 743.200 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,1532 (se rechaza H0 para cualquier α ≥ α*).
@@ -1781,7 +1783,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ desconocido → t de Student con ν = n-1 = 4. t(0,975; 4) = 2,7764.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 743.200 ∓ 2,7764·82.460,2935/√5 = 743.200 ∓ 102.387,9777.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 640.812,0223 y 845.587,9777, afirmándolo con un 95% de confianza, o sea: P(640.812,0223 ≤ μ ≤ 845.587,9777) = 0,95.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 640.812,02 y 845.587,98, afirmándolo con un 95% de confianza, o sea: P(640.812,02 ≤ μ ≤ 845.587,98) = 0,95 (límites redondeados hacia afuera; sin redondear: 640.812,022311 y 845.587,977689).
 
 **Respuesta de la guía:** Entre 640.812,02 y 845.587,98 unidades.
 
@@ -1826,7 +1828,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: σ conocido → Z. Z(1-α) = 1,6449.
-- **Condición de rechazo**: x̄c = μ₀ + 1,6449·σ/√n = 100 + 1,6449·10/√50 = 102,3262. Si x̄ > 102,3262 ⇒ se rechaza H0.
+- **Condición de rechazo**: x̄c = μ₀ + 1,6449·σ/√n = 100 + 1,6449·10/√50 = 102,3262. Si x̄ > 102,3262 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 102,33; la decisión se toma con el valor exacto.
 - **Regla de decisión**: Si en una muestra de 50 la media es mayor que 102,3262 se rechaza H0.
 - **Media alternativa** (la que se detecta con 1-β = 0,9): μ₁ = x̄c + Z(1-β)·σ/√n = 102,3262 + 1,2816·10/√50 = 104,1386.
 
@@ -1860,7 +1862,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
 • Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S).
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,3406·S/√n = 100 + 1,3406·18/√16 = 106,0327. Si x̄ > 106,0327 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,3406·S/√n = 100 + 1,3406·18/√16 = 106,0327. Si x̄ > 106,0327 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 106,04; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 16 unidades y se calcula su media x̄. Si x̄ > 106,0327, se rechaza H0 → se da por probado que μ > 100. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 100.
 - **6 · Cálculos y decisión**: x̄ = 114 → cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0036 (se rechaza H0 para cualquier α ≥ α*).
@@ -1879,7 +1881,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ desconocido → t de Student con ν = n-1 = 15. t(0,95; 15) = 1,7531.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 114 ∓ 1,7531·18/√16 = 114 ∓ 7,8887.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 106,1113 y 121,8887, afirmándolo con un 90% de confianza, o sea: P(106,1113 ≤ μ ≤ 121,8887) = 0,9.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 106,11 y 121,89, afirmándolo con un 90% de confianza, o sea: P(106,11 ≤ μ ≤ 121,89) = 0,9 (límites redondeados hacia afuera; sin redondear: 106,111273 y 121,888727).
 
 **Respuesta de la guía:** Entre 106,11 y 121,89 litros.
 
@@ -1924,7 +1926,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
 • Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S).
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,3646·S/√n = 1.000 + 2,3646·923/√100 = 1.218,2531. Si x̄ > 1.218,2531 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,3646·S/√n = 1.000 + 2,3646·923/√100 = 1.218,2531. Si x̄ > 1.218,2531 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1.218,26; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 100 unidades y se calcula su media x̄. Si x̄ > 1,218,2531, se rechaza H0 → se da por probado que μ > 1000. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 1000.
 - **6 · Cálculos y decisión**: x̄ = 1.100 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,1406 (se rechaza H0 para cualquier α ≥ α*).
@@ -1943,7 +1945,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ desconocido → t de Student con ν = n-1 = 99. t(0,95; 99) = 1,6604.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 1.100 ∓ 1,6604·923/√100 = 1.100 ∓ 153,2541.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 946,7459 y 1.253,2541, afirmándolo con un 90% de confianza, o sea: P(946,7459 ≤ μ ≤ 1.253,2541) = 0,9.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 946,74 y 1.253,26, afirmándolo con un 90% de confianza, o sea: P(946,74 ≤ μ ≤ 1.253,26) = 0,9 (límites redondeados hacia afuera; sin redondear: 946,745896 y 1.253,254104).
 
 **Respuesta de la guía:** Entre 946,74 y 1.253,26 U$s.
 
@@ -1990,7 +1992,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
 • Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S).
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,5395·S/√n = 250 + 2,5395·15/√20 = 258,5177. Si x̄ > 258,5177 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,5395·S/√n = 250 + 2,5395·15/√20 = 258,5177. Si x̄ > 258,5177 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 258,52; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 20 unidades y se calcula su media x̄. Si x̄ > 258,5177, se rechaza H0 → se da por probado que μ > 250. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 250.
 - **6 · Cálculos y decisión**: x̄ = 280 → cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0 (se rechaza H0 para cualquier α ≥ α*).
@@ -2009,7 +2011,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: σ desconocido → t de Student con ν = n-1 = 19. t(0,995; 19) = 2,8609.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 280 ∓ 2,8609·15/√20 = 280 ∓ 9,5959.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 270,4041 y 289,5959, afirmándolo con un 99% de confianza, o sea: P(270,4041 ≤ μ ≤ 289,5959) = 0,99.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 270,40 y 289,60, afirmándolo con un 99% de confianza, o sea: P(270,40 ≤ μ ≤ 289,60) = 0,99 (límites redondeados hacia afuera; sin redondear: 270,404134 y 289,595866).
 
 **Respuesta de la guía:** Entre 270,40 y 289,60 gramos.
 
@@ -2064,7 +2066,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6449·σ/√n = 10,25 + 1,6449·0,65/√75 = 10,3735. Si x̄ > 10,3735 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6449·σ/√n = 10,25 + 1,6449·0,65/√75 = 10,3735. Si x̄ > 10,3735 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 10,38; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 75 unidades y se calcula su media x̄. Si x̄ > 10,3735, se rechaza H0 → se da por probado que μ > 10,25. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 10,25.
 - **6 · Cálculos y decisión**: x̄ = 10,362 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0678 (se rechaza H0 para cualquier α ≥ α*).
@@ -2088,7 +2090,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
 • Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S).
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6657·S/√n = 10,25 + 1,6657·0,3716/√75 = 10,3215. Si x̄ > 10,3215 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6657·S/√n = 10,25 + 1,6657·0,3716/√75 = 10,3215. Si x̄ > 10,3215 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 10,33; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 75 unidades y se calcula su media x̄. Si x̄ > 10,3215, se rechaza H0 → se da por probado que μ > 10,25. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 10,25.
 - **6 · Cálculos y decisión**: x̄ = 10,362 → cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0055 (se rechaza H0 para cualquier α ≥ α*).
@@ -2122,16 +2124,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Población finita** (N = 1.200): factor √((N-n)/(N-1)) = 0,9853 → σ·factor = 7,8824.
+- **Población finita** (N = 1.200): factor √((N-n)/N) = 0,9849 → σ·factor = 7,8791.
 - **3 · Estadístico de prueba**: σ conocido → Z. Z(1-α) = 1,6449.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
-• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/(N-1)).  
+• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/N).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6449·σ/√n = 45 + 1,6449·7,8824/√36 = 47,1609. Si x̄ > 47,1609 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 36 unidades y se calcula su media x̄. Si x̄ > 47,1609, se rechaza H0 → se da por probado que μ > 45. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 45.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6449·σ/√n = 45 + 1,6449·7,8791/√36 = 47,16. Si x̄ > 47,16 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 47,16; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 36 unidades y se calcula su media x̄. Si x̄ > 47,16, se rechaza H0 → se da por probado que μ > 45. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 45.
 - **6 · Cálculos y decisión**: x̄ = 47 → no cae en la zona de rechazo.
-- **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,064 (se rechaza H0 para cualquier α ≥ α*).
+- **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0639 (se rechaza H0 para cualquier α ≥ α*).
 
 **Conclusión:** A un nivel de significación del 5%, no existe evidencia estadística suficiente para rechazar la hipótesis nula H0: μ ≤ 45 (x̄ = 47 no cae en la zona de rechazo). Por consiguiente, no se puede afirmar que μ > 45: se mantiene H0 (no rechazarla no equivale a probarla).
 
@@ -2143,12 +2145,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
-• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/(N-1)).  
+• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/N).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
 - **Distribución**: σ conocido → Z. Z(1-α/2) = Z(0,95) = 1,6449.
-- **Límites**: A;B = x̄ ∓ Z·σ/√n · √((N-n)/(N-1)) = 47 ∓ 1,6449·8/√36 · √((N-n)/(N-1)) = 47 ∓ 2,1609.
+- **Límites**: A;B = x̄ ∓ Z·σ/√n · √((N-n)/N) = 47 ∓ 1,6449·8/√36 · √((N-n)/N) = 47 ∓ 2,16.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 44,8391 y 49,1609, afirmándolo con un 90% de confianza, o sea: P(44,8391 ≤ μ ≤ 49,1609) = 0,9.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 44,84 y 49,16, afirmándolo con un 90% de confianza, o sea: P(44,84 ≤ μ ≤ 49,16) = 0,9 (límites redondeados hacia afuera; sin redondear: 44,840009 y 49,159991).
 
 **Respuesta de la guía:** Entre 44,84 y 49,16 kg.
 
@@ -2158,13 +2160,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
-• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/(N-1)).  
+• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/N).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.
 - **Distribución**: σ conocido → Z. Z(1-α/2) = Z(0,95) = 1,6449.
-- **Límites**: A;B = x̄ ∓ Z·σ/√n · √((N-n)/(N-1)) = 47 ∓ 1,6449·8/√36 · √((N-n)/(N-1)) = 47 ∓ 2,1609.
+- **Límites**: A;B = x̄ ∓ Z·σ/√n · √((N-n)/N) = 47 ∓ 1,6449·8/√36 · √((N-n)/N) = 47 ∓ 2,16.
 - **Total poblacional** T = N·μ: se multiplican los límites por N = 1.200.
 
-**Conclusión:** El total poblacional estará entre 53.806,93 y 58.993,07: P(53.806,9306 ≤ T ≤ 58.993,0694) = 0,9
+**Conclusión:** El total poblacional estará entre 53.808,01 y 58.991,99 (límites redondeados hacia afuera; sin redondear: 53.808,011284 y 58.991,988716): P(53.808,01 ≤ T ≤ 58.991,99) = 0,9
 
 **Respuesta de la guía:** Entre 53.808,01 y 58.991,99 kg.
 
@@ -2174,11 +2176,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale el Teorema Central del Límite).  
-• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/(N-1)).  
+• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/N).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • El tamaño de muestra sale de despejar n del error e = (fractil)·σ/√n.
-- **Error buscado**: e = e_actual·(1 - 0,7) = 2,1609·0,3 = 0,6483.
-- **Fórmula** (σ conocido): n = (Z·σ/e)² = (1,6449·8/0,6483)² = 412,03 → se redondea hacia arriba.
+- **Error buscado**: e = e_actual·(1 - 0,7) = 2,16·0,3 = 0,648.
+- **Fórmula** (σ conocido): n = (Z·σ/e)² = (1,6449·8/0,648)² = 412,37 → se redondea hacia arriba.
 - **Población finita**: n∞ = 413; n = N·n∞/(N + n∞) = 1.200·413/(1.200 + 413) → n = 308.
 
 **Conclusión:** El tamaño de muestra necesario es n = 308. Como ya se tomaron 36, hay que agregar Δn = 308 - 36 = 272 unidades más.
@@ -2211,7 +2213,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: σ conocido → Z. Z(1-α/2) = 1,96.
-- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,96·σ/√n = 360 ∓ 1,96·50/√80 = 349,0435 ; 370,9565. Si x̄ < 349,0435 o x̄ > 370,9565 ⇒ se rechaza H0.
+- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,96·σ/√n = 360 ∓ 1,96·50/√80 = 349,0435 ; 370,9565. Si x̄ < 349,0435 o x̄ > 370,9565 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 349,04 ; 370,96.
 - **Regla de decisión**: Si en una muestra de 80 la media cae fuera de [349,0435 ; 370,9565] se rechaza H0.
 
 **Conclusión:** Si en una muestra de 80 la media cae fuera de [349,0435 ; 370,9565] se rechaza H0.
@@ -2227,7 +2229,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ = 360,0, x̄c = 338,0869 ; 381,9131.
+- **Región crítica** (del ensayo): H0: μ = 360,0, x̄c = 338,0869 ; 381,9131; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 338,0869 ; 381,9131), como la cátedra.
 - **β** = P(x̄c₁ ≤ x̄ ≤ x̄c₂ | μ = 388,8) = Φ((381,9131 - 388,8)/11,1803) - Φ((338,0869 - 388,8)/11,1803) = 0,2689.
 - **Potencia** 1-β = 0,7311.
 
@@ -2247,31 +2249,29 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Tema detectado por la app: Media de 1 población (μ).*
 
-#### a) Ensayo de hipótesis (decidir) ⚠️
+#### a) Ensayo de hipótesis (decidir) ✅
 
-*Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '≠'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
+*Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
-- **1 · Planteo de hipótesis**: H0: μ = 1  vs  H1: μ ≠ 1.
+- **1 · Planteo de hipótesis**: H0: μ ≤ 1  vs  H1: μ > 1.
 - **Justificación de H0**:  
-• **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ = 1 supone que cumple; H1: μ ≠ 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
+• **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≤ 1 supone que cumple; H1: μ > 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
 • α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
-• El ensayo es bilateral (sin dirección): la zona de rechazo está donde apunta H1.
+• El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Población finita** (N = 1.400): factor √((N-n)/(N-1)) = 0,9971 → σ·factor = 0,1496.
-- **3 · Estadístico de prueba**: σ desconocido → t de Student, ν = 8. t(1-α/2) = 1,8595.
+- **Población finita** (N = 1.400): factor √((N-n)/N) = 0,9968 → σ·factor = 0,1495.
+- **3 · Estadístico de prueba**: σ desconocido → t de Student, ν = 8. t(1-α) = 1,3968.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
-• Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S). Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/(N-1)).
-- **4 · Condición de rechazo (CR)**: x̄c₁;x̄c₂ = μ₀ ∓ 1,8595·S/√n = 1 ∓ 1,8595·0,1496/√9 = 0,9073 ; 1,0927. Si x̄ < 0,9073 o x̄ > 1,0927 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 9 unidades y se calcula su media x̄. Si x̄ < 0,9073 o x̄ > 1,0927, se rechaza H0 → se da por probado que μ ≠ 1. En caso contrario no se rechaza H0 → no se puede afirmar que μ ≠ 1.
+• Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S). Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/N).
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,3968·S/√n = 1 + 1,3968·0,1495/√9 = 1,0696. Si x̄ > 1,0696 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,07; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 9 unidades y se calcula su media x̄. Si x̄ > 1,0696, se rechaza H0 → se da por probado que μ > 1. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 1.
 - **6 · Cálculos y decisión**: x̄ = 1,1 → cae en la zona de rechazo.
-- **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0798 (se rechaza H0 para cualquier α ≥ α*).
+- **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0399 (se rechaza H0 para cualquier α ≥ α*).
 
-**Conclusión:** A un nivel de significación del 10%, existe evidencia estadística suficiente para rechazar la hipótesis nula H0: μ = 1 (x̄ = 1,1 cae en la zona de rechazo). Por consiguiente, se da por probado que μ ≠ 1.
+**Conclusión:** A un nivel de significación del 10%, existe evidencia estadística suficiente para rechazar la hipótesis nula H0: μ ≤ 1 (x̄ = 1,1 cae en la zona de rechazo). Por consiguiente, se da por probado que μ > 1.
 
 **Respuesta de la guía:** H0) μ ≤ μ0 = 1 kg; x̄c = 1,07 kg; CR: Si x̄ > 1,07 kg ⇒ Rechazo H0. Como x̄ = 1,10 kg se rechaza H0: hay razones suficientes para afirmar que el proceso se encuentra fuera de control.
-
-> ⚠️ **No coincide con la guía** (no aparecen: 1,07). Ver la lista de discrepancias.
 
 #### b) Intervalo de confianza (estimar) ✅
 
@@ -2279,11 +2279,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
-• Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S). Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/(N-1)).
+• Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S). Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/N).
 - **Distribución**: σ desconocido → t de Student con ν = n-1 = 8. t(0,975; 8) = 2,306.
-- **Límites**: A;B = x̄ ∓ t·S/√n · √((N-n)/(N-1)) = 1,1 ∓ 2,306·0,15/√9 · √((N-n)/(N-1)) = 1,1 ∓ 0,115.
+- **Límites**: A;B = x̄ ∓ t·S/√n · √((N-n)/N) = 1,1 ∓ 2,306·0,15/√9 · √((N-n)/N) = 1,1 ∓ 0,1149.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 0,985 y 1,215, afirmándolo con un 95% de confianza, o sea: P(0,985 ≤ μ ≤ 1,215) = 0,95.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 0,985 y 1,215, afirmándolo con un 95% de confianza, o sea: P(0,985 ≤ μ ≤ 1,215) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,985071 y 1,214929).
 
 **Respuesta de la guía:** Entre 0,985 kg y 1,215 kg (1,1 ± 0,1149), con un 95% de confianza.
 
@@ -2293,7 +2293,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
-• Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S). Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/(N-1)).  
+• Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S). Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor √((N-n)/N).  
 • El tamaño de muestra sale de despejar n del error e = (fractil)·σ/√n (con t se itera porque ν depende de n).
 - **Fórmula** (σ desconocido): n = (t(1-α/2; n-1)·S/e)². Como t depende de n se itera: [886, 867, 867].
 - **Población finita**: n∞ = 867; n = N·n∞/(N + n∞) = 1.400·867/(1.400 + 867) → n = 536.
@@ -2357,7 +2357,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: σ conocido → Z. Z(1-α/2) = 1,96.
-- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,96·σ/√n = 5 ∓ 1,96·0,5/√5 = 4,5617 ; 5,4383. Si x̄ < 4,5617 o x̄ > 5,4383 ⇒ se rechaza H0.
+- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,96·σ/√n = 5 ∓ 1,96·0,5/√5 = 4,5617 ; 5,4383. Si x̄ < 4,5617 o x̄ > 5,4383 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 4,56 ; 5,44.
 - **Regla de decisión**: Si en una muestra de 5 la media cae fuera de [4,5617 ; 5,4383] se rechaza H0.
 - **Control de cada período** (cada valor es la media de una muestra de 5): 1: 5,2, 2: 4,9, 3: 5,5 ✗, 4: 5,4, 5: 4,8, 6: 4,6, 7: 5,5 ✗, 8: 4,7, 9: 5,1, 10: 4,5 ✗, 11: 5,8 ✗, 12: 5,6 ✗.
 
@@ -2392,11 +2392,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar.  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Región crítica** (del ensayo): H0: μ = 5,0, x̄c = 4,5617 ; 5,4383.
-- **β** = P(x̄c₁ ≤ x̄ ≤ x̄c₂ | μ = 5,25) = Φ((5,4383 - 5,25)/0,2236) - Φ((4,5617 - 5,25)/0,2236) = 0,799.
-- **Potencia** 1-β = 0,201.
+- **Región crítica** (del ensayo): H0: μ = 5,0, x̄c = 4,5617 ; 5,4383; para β se usa redondeado hacia afuera a 4 decimales (x̄c = 4,5617 ; 5,4383), como la cátedra.
+- **β** = P(x̄c₁ ≤ x̄ ≤ x̄c₂ | μ = 5,25) = Φ((5,4383 - 5,25)/0,2236) - Φ((4,5617 - 5,25)/0,2236) = 0,7991.
+- **Potencia** 1-β = 0,2009.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,201 (β = 0,799).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,2009 (β = 0,7991).
 
 **Respuesta de la guía:** 1–β = 0,2009.
 
@@ -2431,7 +2431,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 11·0,0005/21,92 = 0,00027 ; B = (n-1)·S²/χ²(α/2) = 11·0,0005/3,8157 = 0,00157.
 - **Desvío**: A' = √A = 0,0165 ; B' = √B = 0,0397. Relación entre límites R' = B'/A' = 2,3968.
 
-**Conclusión:** Con un 95% de confianza: P(0,0003 ≤ σ² ≤ 0,0016) = 0,95 y P(0,0165 ≤ σ ≤ 0,0397) = 0,95.
+**Conclusión:** Con un 95% de confianza: P(0,00027 ≤ σ² ≤ 0,00158) = 0,95 y P(0,0165 ≤ σ ≤ 0,0397) = 0,95 (límites redondeados hacia afuera; sin redondear: σ² entre 0,000274 y 0,001572, σ entre 0,016545 y 0,039654).
 
 **Respuesta de la guía:** Entre 0,00027 y 0,00158 cm².
 
@@ -2465,7 +2465,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 4·0,037/9,4877 = 0,0156 ; B = (n-1)·S²/χ²(α/2) = 4·0,037/0,7107 = 0,20824.
 - **Desvío**: A' = √A = 0,1249 ; B' = √B = 0,4563. Relación entre límites R' = B'/A' = 3,6537.
 
-**Conclusión:** Con un 90% de confianza: P(0,0156 ≤ σ² ≤ 0,2082) = 0,9 y P(0,1249 ≤ σ ≤ 0,4563) = 0,9.
+**Conclusión:** Con un 90% de confianza: P(0,0155 ≤ σ² ≤ 0,2083) = 0,9 y P(0,124 ≤ σ ≤ 0,457) = 0,9 (límites redondeados hacia afuera; sin redondear: σ² entre 0,015599 y 0,208239, σ entre 0,124896 y 0,456332).
 
 **Respuesta de la guía:** Entre 0,0155 y 0,2083 mm².
 
@@ -2490,7 +2490,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 29·40.000/45,7223 = 25.370,5601 ; B = (n-1)·S²/χ²(α/2) = 29·40.000/16,0471 = 72.287,33205.
 - **Desvío**: A' = √A = 159,2814 ; B' = √B = 268,863. Relación entre límites R' = B'/A' = 1,688.
 
-**Conclusión:** Con un 95% de confianza: P(25.370,5601 ≤ σ² ≤ 72.287,332) = 0,95 y P(159,2814 ≤ σ ≤ 268,863) = 0,95.
+**Conclusión:** Con un 95% de confianza: P(25.370,5601 ≤ σ² ≤ 72.287,3321) = 0,95 y P(159,28 ≤ σ ≤ 268,87) = 0,95 (límites redondeados hacia afuera; sin redondear: σ² entre 25.370,560102 y 72.287,332045, σ entre 159,281387 y 268,863036).
 
 **Respuesta de la guía:** Entre 159,28 y 268,87 kg.
 
@@ -2516,7 +2516,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 14·14.400/23,6848 = 8.511,79128 ; B = (n-1)·S²/χ²(α/2) = 14·14.400/6,5706 = 30.681,98294.
 - **Desvío**: A' = √A = 92,2594 ; B' = √B = 175,1627. Relación entre límites R' = B'/A' = 1,8986.
 
-**Conclusión:** Con un 90% de confianza: P(8.511,7913 ≤ σ² ≤ 30.681,9829) = 0,9 y P(92,2594 ≤ σ ≤ 175,1627) = 0,9.
+**Conclusión:** Con un 90% de confianza: P(8.511,7912 ≤ σ² ≤ 30.681,9830) = 0,9 y P(92,25 ≤ σ ≤ 175,17) = 0,9 (límites redondeados hacia afuera; sin redondear: σ² entre 8.511,791276 y 30.681,982937, σ entre 92,25937 y 175,162733).
 
 **Respuesta de la guía:** Entre 92,25 y 175,17 horas.
 
@@ -2565,7 +2565,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 3·0,2825/7,8147 = 0,10845 ; B = (n-1)·S²/χ²(α/2) = 3·0,2825/0,3518 = 2,40872.
 - **Desvío**: A' = √A = 0,3293 ; B' = √B = 1,552. Relación entre límites R' = B'/A' = 4,7128.
 
-**Conclusión:** Con un 90% de confianza: P(0,1084 ≤ σ² ≤ 2,4087) = 0,9 y P(0,3293 ≤ σ ≤ 1,552) = 0,9.
+**Conclusión:** Con un 90% de confianza: P(0,1084 ≤ σ² ≤ 2,4088) = 0,9 y P(0,32 ≤ σ ≤ 1,56) = 0,9 (límites redondeados hacia afuera; sin redondear: σ² entre 0,108449 y 2,408722, σ entre 0,329316 y 1,552006).
 
 **Respuesta de la guía:** Entre 0,32 Kg/mm² y 1,56 Kg/mm² (S = 0,5315; R' = B'/A' = 4,7128).
 
@@ -2615,7 +2615,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 19·225/32,8523 = 130,12777 ; B = (n-1)·S²/χ²(α/2) = 19·225/8,9065 = 479,98564.
 - **Desvío**: A' = √A = 11,4074 ; B' = √B = 21,9086. Relación entre límites R' = B'/A' = 1,9206.
 
-**Conclusión:** Con un 95% de confianza: P(130,1278 ≤ σ² ≤ 479,9856) = 0,95 y P(11,4074 ≤ σ ≤ 21,9086) = 0,95.
+**Conclusión:** Con un 95% de confianza: P(130,1277 ≤ σ² ≤ 479,9857) = 0,95 y P(11,40 ≤ σ ≤ 21,91) = 0,95 (límites redondeados hacia afuera; sin redondear: σ² entre 130,127769 y 479,985638, σ entre 11,407356 y 21,908575).
 
 **Respuesta de la guía:** Entre 11,40 y 21,91 gramos.
 
@@ -2657,7 +2657,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 19·44.100/32,8523 = 25.505,04272 ; B = (n-1)·S²/χ²(α/2) = 19·44.100/8,9065 = 94.077,18514.
 - **Desvío**: A' = √A = 159,703 ; B' = √B = 306,72. Relación entre límites R' = B'/A' = 1,9206.
 
-**Conclusión:** Con un 95% de confianza: P(25.505,0427 ≤ σ² ≤ 94.077,1851) = 0,95 y P(159,703 ≤ σ ≤ 306,72) = 0,95.
+**Conclusión:** Con un 95% de confianza: P(25.505,0427 ≤ σ² ≤ 94.077,1852) = 0,95 y P(159,70 ≤ σ ≤ 306,73) = 0,95 (límites redondeados hacia afuera; sin redondear: σ² entre 25.505,042718 y 94.077,185137, σ entre 159,702983 y 306,720044).
 
 **Respuesta de la guía:** Entre 159,70 y 306,73 U$s.
 
@@ -2709,7 +2709,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 11·0,1493/19,6751 = 0,08348 ; B = (n-1)·S²/χ²(α/2) = 11·0,1493/4,5748 = 0,35903.
 - **Desvío**: A' = √A = 0,2889 ; B' = √B = 0,5992. Relación entre límites R' = B'/A' = 2,0738.
 
-**Conclusión:** Con un 90% de confianza: P(0,0835 ≤ σ² ≤ 0,359) = 0,9 y P(0,2889 ≤ σ ≤ 0,5992) = 0,9.
+**Conclusión:** Con un 90% de confianza: P(0,0834 ≤ σ² ≤ 0,3591) = 0,9 y P(0,288 ≤ σ ≤ 0,600) = 0,9 (límites redondeados hacia afuera; sin redondear: σ² entre 0,083481 y 0,359031, σ entre 0,288931 y 0,599192).
 
 **Respuesta de la guía:** Entre 0,0834 y 0,3591 mm².
 
@@ -2728,7 +2728,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.
-- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 0,09·χ²/11 = 0,16098 (Sc = 0,4012). Si S² > S²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 0,09·χ²/11 = 0,16098 (Sc = 0,4012). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 0,402.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 12 unidades y se calcula su desvío S. Si S > 0,4012, se rechaza H0 → se da por probado que σ² > 0,09. En caso contrario no se rechaza H0 → no se puede afirmar que σ² > 0,09.
 - **6 · Cálculos y decisión**: S² = 0,14932 (S = 0,3864) → no cae en la zona de rechazo.
 - **Equivalente con χ²**: χ²calc = ν·S²/σ₀² = 11·0,14932/0,09 = 18,25 contra χ² de tabla = 19,6751.
@@ -2748,7 +2748,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.  
 • Para β / potencia se usa que (n-1)·S²/σ₁² ~ χ²(n-1) cuando el desvío verdadero es σ₁.
 - **Distribución**: χ² con ν = 11.
-- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 0,09·χ²/11 = 0,16098 (Sc = 0,4012). Si S² > S²c ⇒ se rechaza H0.
+- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 0,09·χ²/11 = 0,16098 (Sc = 0,4012). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 0,402.
 - **β** = P(no rechazar H0 | σ = 0,3317) = 0,8625.
 - **Potencia** 1-β = 0,1375.
 
@@ -2803,7 +2803,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.
-- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 225·χ²/9 = 422,97444 (Sc = 20,5663). Si S² > S²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 225·χ²/9 = 422,97444 (Sc = 20,5663). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 20,57.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su desvío S. Si S > 20,5663, se rechaza H0 → se da por probado que σ² > 225. En caso contrario no se rechaza H0 → no se puede afirmar que σ² > 225.
 - **6 · Cálculos y decisión**: S² = 331,24 (S = 18,2) → no cae en la zona de rechazo.
 - **Equivalente con χ²**: χ²calc = ν·S²/σ₀² = 9·331,24/225 = 13,2496 contra χ² de tabla = 16,919.
@@ -2822,7 +2822,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.  
 • Para β / potencia se usa que (n-1)·S²/σ₁² ~ χ²(n-1) cuando el desvío verdadero es σ₁.
 - **Distribución**: χ² con ν = 9.
-- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 225·χ²/9 = 422,97444 (Sc = 20,5663). Si S² > S²c ⇒ se rechaza H0.
+- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 225·χ²/9 = 422,97444 (Sc = 20,5663). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 20,57.
 - **β** = P(no rechazar H0 | σ = 16) = 0,9054.
 - **Potencia** 1-β = 0,0946.
 
@@ -2860,7 +2860,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 9·331,24/19,0228 = 156,71537 ; B = (n-1)·S²/χ²(α/2) = 9·331,24/2,7004 = 1.103,97407.
 - **Desvío**: A' = √A = 12,5186 ; B' = √B = 33,2261. Relación entre límites R' = B'/A' = 2,6541.
 
-**Conclusión:** Con un 95% de confianza: P(156,7154 ≤ σ² ≤ 1.103,9741) = 0,95 y P(12,5186 ≤ σ ≤ 33,2261) = 0,95.
+**Conclusión:** Con un 95% de confianza: P(156,7153 ≤ σ² ≤ 1.103,9741) = 0,95 y P(12,51 ≤ σ ≤ 33,23) = 0,95 (límites redondeados hacia afuera; sin redondear: σ² entre 156,715365 y 1.103,974075, σ entre 12,518601 y 33,226105).
 
 **Respuesta de la guía:** Entre 12,51 cm³ y 33,23 cm³.
 
@@ -2901,7 +2901,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.
-- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 225·χ²/19 = 119,80673 (Sc = 10,9456). Si S² < S²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 225·χ²/19 = 119,80673 (Sc = 10,9456). Si S² < S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 10,94.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 20 unidades y se calcula su desvío S. Si S < 10,9456, se rechaza H0 → se da por probado que σ² < 225. En caso contrario no se rechaza H0 → no se puede afirmar que σ² < 225.
 - **6 · Cálculos y decisión**: S² = 156,25 (S = 12,5) → no cae en la zona de rechazo.
 - **Equivalente con χ²**: χ²calc = ν·S²/σ₀² = 19·156,25/225 = 13,1944 contra χ² de tabla = 10,117.
@@ -2922,7 +2922,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 19·156,25/30,1435 = 98,48715 ; B = (n-1)·S²/χ²(α/2) = 19·156,25/10,117 = 293,44135.
 - **Desvío**: A' = √A = 9,9241 ; B' = √B = 17,1301. Relación entre límites R' = B'/A' = 1,7261.
 
-**Conclusión:** Con un 95% de confianza, σ ≤ 17,1301: P(σ ≤ 17,1301) = 0,95.
+**Conclusión:** Con un 95% de confianza, σ ≤ 17,14: P(σ ≤ 17,14) = 0,95 (cota máxima redondeada hacia arriba; sin redondear 17,13013).
 
 **Respuesta de la guía:** B' = 17,14 cm³.
 
@@ -2953,7 +2953,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.
-- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 400·χ²/19 = 572,70676 (Sc = 23,9313). Si S² > S²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 400·χ²/19 = 572,70676 (Sc = 23,9313). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 23,94.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 20 unidades y se calcula su desvío S. Si S > 23,9313, se rechaza H0 → se da por probado que σ² > 400. En caso contrario no se rechaza H0 → no se puede afirmar que σ² > 400.
 - **6 · Cálculos y decisión**: S² = 625 (S = 25) → cae en la zona de rechazo.
 - **Equivalente con χ²**: χ²calc = ν·S²/σ₀² = 19·625/400 = 29,6875 contra χ² de tabla = 27,2036.
@@ -2973,7 +2973,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 19·625/27,2036 = 436,52357 ; B = (n-1)·S²/χ²(α/2) = 19·625/11,6509 = 1.019,23369.
 - **Desvío**: A' = √A = 20,8931 ; B' = √B = 31,9254. Relación entre límites R' = B'/A' = 1,528.
 
-**Conclusión:** Con un 80% de confianza: P(436,5236 ≤ σ² ≤ 1.019,2337) = 0,8 y P(20,8931 ≤ σ ≤ 31,9254) = 0,8.
+**Conclusión:** Con un 80% de confianza: P(436,5235 ≤ σ² ≤ 1.019,2337) = 0,8 y P(20,89 ≤ σ ≤ 31,93) = 0,8 (límites redondeados hacia afuera; sin redondear: σ² entre 436,523572 y 1.019,233688, σ entre 20,893147 y 31,92544).
 
 **Respuesta de la guía:** Entre 20,89 y 31,93 U$s.
 
@@ -3003,7 +3003,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.  
 • Para β / potencia se usa que (n-1)·S²/σ₁² ~ χ²(n-1) cuando el desvío verdadero es σ₁.
 - **Distribución**: χ² con ν = 9.
-- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 25·χ²/9 = 46,99716 (Sc = 6,8554). Si S² > S²c ⇒ se rechaza H0.
+- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 25·χ²/9 = 46,99716 (Sc = 6,8554). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 6,86.
 - **Equivalente con χ²**: χ²calc = ν·S²/σ₀² = 9·25/25 = 9 contra χ² de tabla = 16,919.
 
 **Conclusión:** Valor crítico y condición de rechazo arriba.
@@ -3020,7 +3020,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.  
 • Para β / potencia se usa que (n-1)·S²/σ₁² ~ χ²(n-1) cuando el desvío verdadero es σ₁.
 - **Distribución**: χ² con ν = 9.
-- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 25·χ²/9 = 46,99716 (Sc = 6,8554). Si S² > S²c ⇒ se rechaza H0.
+- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 25·χ²/9 = 46,99716 (Sc = 6,8554). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 6,86.
 - **β** = P(no rechazar H0 | σ = 8) = 0,3222.
 - **Potencia** 1-β = 0,6778.
 
@@ -3089,7 +3089,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 1,5  vs  H1: μ > 1,5.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: σ desconocido → t de Student, ν = 8. t(1-α) = 1,8595.
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,8595·S/√n = 1,5 + 1,8595·0,0235/√9 = 1,5145. Si x̄ > 1,5145 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,8595·S/√n = 1,5 + 1,8595·0,0235/√9 = 1,5145. Si x̄ > 1,5145 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,52; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 9 unidades y se calcula su media x̄. Si x̄ > 1,5145, se rechaza H0 → se da por probado que μ > 1,5. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 1,5.
 - **6 · Cálculos y decisión**: x̄ = 1,5333 → cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,0014 (se rechaza H0 para cualquier α ≥ α*).
@@ -3097,7 +3097,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: σ² ≤ 0,000225  vs  H1: σ² > 0,000225.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² con ν = 8.
-- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 0,00022·χ²/8 = 0,00044 (Sc = 0,0209). Si S² > S²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 0,00022·χ²/8 = 0,00044 (Sc = 0,0209). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 0,0209.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 9 unidades y se calcula su desvío S. Si S > 0,0209, se rechaza H0 → se da por probado que σ² > 0,000225. En caso contrario no se rechaza H0 → no se puede afirmar que σ² > 0,000225.
 - **6 · Cálculos y decisión**: S² = 0,00055 (S = 0,0235) → cae en la zona de rechazo.
 - **Equivalente con χ²**: χ²calc = ν·S²/σ₀² = 8·0,00055/0,00022 = 19,5556 contra χ² de tabla = 15,5073.
@@ -3122,7 +3122,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Varianza**: A = (n-1)·S²/χ²(1-α/2) = 8·0,0006/17,5345 = 0,00025 ; B = (n-1)·S²/χ²(α/2) = 8·0,0006/2,1797 = 0,00202.
 - **Desvío**: A' = √A = 0,0158 ; B' = √B = 0,0449. Relación entre límites R' = B'/A' = 2,8363.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 1,5153 y 1,5514, afirmándolo con un 95% de confianza, o sea: P(1,5153 ≤ μ ≤ 1,5514) = 0,95. Con un 95% de confianza: P(0,0003 ≤ σ² ≤ 0,002) = 0,95 y P(0,0158 ≤ σ ≤ 0,0449) = 0,95.
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 1,5153 y 1,5514, afirmándolo con un 95% de confianza, o sea: P(1,5153 ≤ μ ≤ 1,5514) = 0,95 (límites redondeados hacia afuera; sin redondear: 1,515306 y 1,55136). Con un 95% de confianza: P(0,00025 ≤ σ² ≤ 0,00202) = 0,95 y P(0,0158 ≤ σ ≤ 0,0450) = 0,95 (límites redondeados hacia afuera; sin redondear: σ² entre 0,000251 y 0,002019, σ entre 0,015841 y 0,044929).
 
 **Respuesta de la guía:** Media: entre 1,51 g/m y 1,56 g/m (1,533 ± 0,0180). Desvío: entre 0,0158 g/m y 0,0450 g/m (R' = 2,8363).
 
@@ -3181,7 +3181,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,221 ; B = 0,2808.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,2209 ; 0,2791] (e = 0,0291).
 
-**Conclusión:** El porcentaje poblacional estará entre 22,1% y 28,08%, con un 90% de confianza: P(0,221 ≤ p ≤ 0,2808) = 0,9.
+**Conclusión:** El porcentaje poblacional estará entre 22,1% y 28,08%, con un 90% de confianza: P(0,2210 ≤ p ≤ 0,2808) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,22105 y 0,280792).
 
 **Respuesta de la guía:** Entre 22,10% y 28,08% (A = 0,2210; B = 0,2808; e = 0,0299).
 
@@ -3231,7 +3231,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0255 ; B = 0,3122.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [-0,01 ; 0,25] (e = 0,13).
 
-**Conclusión:** El porcentaje poblacional estará entre 2,55% y 31,22%, con un 95% de confianza: P(0,0255 ≤ p ≤ 0,3122) = 0,95.
+**Conclusión:** El porcentaje poblacional estará entre 2,54% y 31,22%, con un 95% de confianza: P(0,0254 ≤ p ≤ 0,3122) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,025465 y 0,31219).
 
 **Respuesta de la guía:** Entre 0,0254 (2,54%) y 0,3122 (31,22%).
 
@@ -3248,7 +3248,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0335 ; B = 0,2817.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,0109 ; 0,2291] (e = 0,1091).
 
-**Conclusión:** Con un 95% de confianza, p ≤ 0,2817: P(p ≤ 0,2817) = 0,95.
+**Conclusión:** Con un 95% de confianza, p ≤ 0,2818: P(p ≤ 0,2818) = 0,95 (cota máxima redondeada hacia arriba; sin redondear 0,281723).
 
 **Respuesta de la guía:** B = 0,2818 (28,18%).
 
@@ -3283,29 +3283,27 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0051 ; B = 0,3942.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [-0,0645 ; 0,2645] (e = 0,1645).
 
-**Conclusión:** El porcentaje poblacional estará entre 0,51% y 39,42%, con un 90% de confianza: P(0,0051 ≤ p ≤ 0,3942) = 0,9.
+**Conclusión:** El porcentaje poblacional estará entre 0,51% y 39,42%, con un 90% de confianza: P(0,0051 ≤ p ≤ 0,3942) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,005116 y 0,394163).
 
 **Respuesta de la guía:** Entre 0,0051 (0,51%) y 0,3942 (39,42%).
 
-#### b) Intervalo de confianza (estimar) ⚠️
+#### b) Intervalo de confianza (estimar) ✅
 
 *Qué pide:* Estimar la proporción poblacional p con un 90% de confianza mediante un intervalo de confianza. La cátedra usa el modelo exacto (Beta / F).
 
-> ⚠️ Con r = 0 el intervalo es unilateral (solo cota superior): se usa α completo en el extremo superior, no α/2.
+> ⚠️ Con r = 0 el límite inferior es 0. Como la guía (III-3b), el superior se calcula con α/2; con α entero en el extremo superior (cota unilateral) daría 0.2057.
 
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 10, r = 0, p̂ = r/n = 0.
-- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0 ; B = 0,2057.
+- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0 ; B = 0,2589.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0 ; 0] (e = 0).
 
-**Conclusión:** El porcentaje poblacional estará entre 0% y 20,57%, con un 90% de confianza: P(0 ≤ p ≤ 0,2057) = 0,9.
+**Conclusión:** El porcentaje poblacional estará entre 0% y 25,89%, con un 90% de confianza: P(0,0000 ≤ p ≤ 0,2589) = 0,9 (límites redondeados hacia afuera; sin redondear: 0 y 0,258866).
 
 **Respuesta de la guía:** Entre 0 (0%) y 0,2589 (25,89%).
-
-> ⚠️ **No coincide con la guía** (no aparecen: 0,2589). Ver la lista de discrepancias.
 
 > 📝 *Notas de la transcripción:* En b) (r = 0) la guía usa α/2 = 0,05 para el límite superior (0,2589); con r = 0 el límite unilateral con α = 0,10 daría 0,2057. Se transcribe igual.
 
@@ -3331,7 +3329,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0772 ; B = 0,1268.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,076 ; 0,124] (e = 0,024).
 
-**Conclusión:** El porcentaje poblacional estará entre 7,72% y 12,68%, con un 95% de confianza: P(0,0772 ≤ p ≤ 0,1268) = 0,95.
+**Conclusión:** El porcentaje poblacional estará entre 7,71% y 12,69%, con un 95% de confianza: P(0,0771 ≤ p ≤ 0,1269) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,07718 y 0,126843).
 
 **Respuesta de la guía:** Entre 0,0771 (7,71%) y 0,1269 (12,69%).
 
@@ -3357,7 +3355,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,1737 ; B = 0,2241.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,1733 ; 0,2227] (e = 0,0247).
 
-**Conclusión:** El porcentaje poblacional estará entre 17,37% y 22,41%, con un 95% de confianza: P(0,1737 ≤ p ≤ 0,2241) = 0,95.
+**Conclusión:** El porcentaje poblacional estará entre 17,37% y 22,41%, con un 95% de confianza: P(0,1737 ≤ p ≤ 0,2241) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,17372 y 0,224072).
 
 **Respuesta de la guía:** Entre 17,37 y 22,41%.
 
@@ -3383,7 +3381,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,1473 ; B = 0,494.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,1332 ; 0,4668] (e = 0,1668).
 
-**Conclusión:** El porcentaje poblacional estará entre 14,73% y 49,4%, con un 95% de confianza: P(0,1473 ≤ p ≤ 0,494) = 0,95.
+**Conclusión:** El porcentaje poblacional estará entre 14,73% y 49,4%, con un 95% de confianza: P(0,1473 ≤ p ≤ 0,4940) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,147345 y 0,493959).
 
 **Respuesta de la guía:** Entre 14,73 y 49,40%.
 
@@ -3445,7 +3443,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0867 ; B = 0,2102.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,0826 ; 0,1974] (e = 0,0574).
 
-**Conclusión:** El porcentaje poblacional estará entre 8,67% y 21,02%, con un 90% de confianza: P(0,0867 ≤ p ≤ 0,2102) = 0,9.
+**Conclusión:** El porcentaje poblacional estará entre 8,66% y 21,02%, con un 90% de confianza: P(0,0866 ≤ p ≤ 0,2102) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,086668 y 0,210174).
 
 **Respuesta de la guía:** Entre 8,66 y 21,02%.
 
@@ -3628,8 +3626,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 38 | 654 | 656 |
 | 39 | 670 | 675 |
 
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₁/p₀ = 1,4; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 9,3651; ν = 2/9·(a + √(a² + 1))² = 78,4; c = ⌊ν/2⌋ = 39 → g.l. = 2c = 78; n = máx[χ²(α; 78)/(2p₀) ; χ²(1-β; 78)/(2p₁)] = máx[673,41 ; 674,1] → n = 675; r_c = c + 1 = 40. Es una aproximación gruesa: el plan puede no cumplir α y β exactos.
 
-**Conclusión:** Tomar una muestra de n = 638. Si se encuentran r ≥ 37 casos, se rechaza H0. (Por aproximación normal: n = 652 y r_c = 38.)
+**Conclusión:** Tomar una muestra de n = 638. Si se encuentran r ≥ 37 casos, se rechaza H0. (Por aproximación normal: n = 652 y r_c = 38.) (Por aproximación de Poisson: n = 675 y r_c = 40.)
 
 **Respuesta de la guía:** CR: Si r ≥ rc = 37 ⇒ rechazo la H0, si en una muestra de 638 cartas hay 37 o más inscriptos, se concluye que el porcentaje de inscriptos aumentó; o n = 652 cartas y rc = 38 (por aproximación normal).
 
@@ -3743,7 +3742,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 **Respuesta de la guía:** β = 0,9176. Ver procedimiento de construcción de la curva en el problema 12.
 
-#### c) Diseñar el ensayo (H0, n, valor crítico, regla de decisión) ⚠️
+#### c) Diseñar el ensayo (H0, n, valor crítico, regla de decisión) ✅
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
@@ -3768,12 +3767,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 107 | 762 | 762 |
 | 108 | 769 | 770 |
 
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₁/p₀ = 1,1667; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 16,4204; ν = 2/9·(a + √(a² + 1))² = 240,11; c = ⌊ν/2⌋ = 120 → g.l. = 2c = 240; n = máx[χ²(α; 240)/(2p₀) ; χ²(1-β; 240)/(2p₁)] = máx[854,73 ; 854,76] → n = 855; r_c = c + 1 = 121. Es una aproximación gruesa: el plan puede no cumplir α y β exactos. Con p de este tamaño la aproximación de Poisson no es adecuada (sirve para p chico); se informa como referencia, como hace la guía en III-11c.
 
-**Conclusión:** Tomar una muestra de n = 755. Si se encuentran r ≥ 106 casos, se rechaza H0. (Por aproximación normal: n = 715 y r_c = 101.)
+**Conclusión:** Tomar una muestra de n = 755. Si se encuentran r ≥ 106 casos, se rechaza H0. (Por aproximación normal: n = 715 y r_c = 101.) (Por aproximación de Poisson: n = 855 y r_c = 121.)
 
 **Respuesta de la guía:** n = 755 piezas, o n = 715 piezas (por aproximación normal), o n= 855 piezas (por aproximación de Poisson). En este caso la aproximación de Poisson no es correcta, la cual sería adecuada si n = 50.
-
-> ⚠️ **No coincide con la guía** (no aparecen: 855). Ver la lista de discrepancias.
 
 ---
 
@@ -3812,8 +3810,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 97 | 746 | 747 |
 | 98 | 753 | 755 |
 
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₁/p₀ = 1,4545; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 15,7481; ν = 2/9·(a + √(a² + 1))² = 220,89; c = ⌊ν/2⌋ = 110 → g.l. = 2c = 220; n = máx[χ²(α; 220)/(2p₀) ; χ²(1-β; 220)/(2p₁)] = máx[848,51 ; 849,12] → n = 850; r_c = c + 1 = 111. Es una aproximación gruesa: el plan puede no cumplir α y β exactos. Con p de este tamaño la aproximación de Poisson no es adecuada (sirve para p chico); se informa como referencia, como hace la guía en III-11c.
 
-**Conclusión:** Tomar una muestra de n = 739. Si se encuentran r ≥ 96 casos, se rechaza H0. (Por aproximación normal: n = 749 y r_c = 98.)
+**Conclusión:** Tomar una muestra de n = 739. Si se encuentran r ≥ 96 casos, se rechaza H0. (Por aproximación normal: n = 749 y r_c = 98.) (Por aproximación de Poisson: n = 850 y r_c = 111.)
 
 **Respuesta de la guía:** H0) p ≤ p0 = 0,11. n = 739 piezas y rc = 96 defectuosas (α = 0,0499; β = 0,0098); o n = 749 piezas y rc = 98 defectuosas (por aproximación normal).
 
@@ -3955,8 +3954,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 121 | 1051 | 1052 |
 | 122 | 1059 | 1062 |
 
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₀/p₁ = 1,4; a = [Z(1-α) + Z(1-β)·∛R]/[2(∛R - 1)] = 17,5519; ν = 2/9·(a + √(a² + 1))² = 274,28; r_c = ⌈(ν-2)/2⌉ = 137 → g.l. = 2r_c + 2 = 276; n = máx[χ²(1-α; 276)/(2p₀) ; χ²(β; 276)/(2p₁)] = máx[1.191,35 ; 1.192,62] → n = 1193. Es una aproximación gruesa: el plan puede no cumplir α y β exactos. Con p de este tamaño la aproximación de Poisson no es adecuada (sirve para p chico); se informa como referencia, como hace la guía en III-11c.
 
-**Conclusión:** Tomar una muestra de n = 1043. Si se encuentran r ≤ 120 casos, se rechaza H0. (Por aproximación normal: n = 1058 y r_c = 121.)
+**Conclusión:** Tomar una muestra de n = 1043. Si se encuentran r ≤ 120 casos, se rechaza H0. (Por aproximación normal: n = 1058 y r_c = 121.) (Por aproximación de Poisson: n = 1193 y r_c = 137.)
 
 **Respuesta de la guía:** (Criterio pesimista) H0) p ≥ p0 = 0,14, n = 1.043 piezas o n = 1.058 piezas (por aproximación normal); CR: Si r ≤ rc = 120 defectuosas rechazo la H0 o Si r ≤ rc = 121 defectuosas rechazo la H0 (por aproximación normal); RD: Si de una muestra de 1.043 piezas hay 120 defectuosas o menos se cambia la materia prima o Si de una muestra de 1.058 piezas hay 121 defectuosas o menos se cambia la materia prima (por aproximación normal).
 
@@ -4047,7 +4047,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,6528 ; B = 0,9436.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,6977 ; 0,969] (e = 0,1356).
 
-**Conclusión:** El porcentaje poblacional estará entre 65,28% y 94,36%, con un 95% de confianza: P(0,6528 ≤ p ≤ 0,9436) = 0,95.
+**Conclusión:** El porcentaje poblacional estará entre 65,27% y 94,36%, con un 95% de confianza: P(0,6527 ≤ p ≤ 0,9436) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,652788 y 0,943578).
 
 **Respuesta de la guía:** Entre 65,27% y 94,36% (A = 0,6527; B = 0,9436).
 
@@ -4135,8 +4135,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 234 | 1682 | 1682 |
 | 235 | 1689 | 1690 |
 
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₁/p₀ = 1,25; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 24,5251; ν = 2/9·(a + √(a² + 1))² = 535,1; c = ⌊ν/2⌋ = 267 → g.l. = 2c = 534; n = máx[χ²(α; 534)/(2p₀) ; χ²(1-β; 534)/(2p₁)] = máx[1.920,53 ; 1.920,95] → n = 1921; r_c = c + 1 = 268. Es una aproximación gruesa: el plan puede no cumplir α y β exactos. Con p de este tamaño la aproximación de Poisson no es adecuada (sirve para p chico); se informa como referencia, como hace la guía en III-11c.
 
-**Conclusión:** Tomar una muestra de n = 1675. Si se encuentran r ≥ 233 casos, se rechaza H0. (Por aproximación normal: n = 1637 y r_c = 229.)
+**Conclusión:** Tomar una muestra de n = 1675. Si se encuentran r ≥ 233 casos, se rechaza H0. (Por aproximación normal: n = 1637 y r_c = 229.) (Por aproximación de Poisson: n = 1921 y r_c = 268.)
 
 **Respuesta de la guía:** (Criterio pesimista) H0) p ≤ p0 = 0,12; CR: Si r ≥ rc = 233 éxitos se rechaza la H0 o r ≥ rc = 229 éxitos (por aproximación normal); RD: Si de una muestra de 1.675 encuestados por lo menos 233 se encuentran interesados, se concluye que la campaña ha sido efectiva o Si de una muestra de 1.637 encuestados por lo menos 228 se encuentran interesados se concluye que la campaña ha sido efectiva (por aproximación normal).
 
@@ -4161,6 +4162,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 **Respuesta de la guía:** 1–β = 0,5527, o 1–β = 0,5443 (por aproximación normal).
 
+> ≈ Coincide solo aproximadamente (0,5443): La guía calcula la potencia con el r_c = 228 de su RD (0,5443); con el r_c conservador 229 la aproximación normal da 0,5159 y el plan exacto 0,5527.
+
 #### c) Diseñar el ensayo (H0, n, valor crítico, regla de decisión) ✅
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
@@ -4177,6 +4180,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Condiciones**: P(rechazar | p₀ = 0,12) ≤ α = 0,01 y P(no rechazar | p₁ = 0,14) ≤ β = 0,1.
 - **Plan (binomial exacto, se itera n)**: n = 3660, r_c = 486. α real = 0,01, β real = 0,0994.
 - **Regla de decisión**: Tomar una muestra de n = 3660. Si se encuentran r ≥ 486 casos, se rechaza H0.
+- **Plan «más próximo a las premisas»** (el que suele informar la guía): entre los planes que cumplen α y β con r_c = 486 o 487, el de menor |α_real - α| + |β_real - β| es n = 3667, r_c = 487 (α real = 0,00983, β real = 0,09974). Los dos planes son válidos: el de n mínimo es el más barato.
 - **Por aproximación normal** (la guía la informa como alternativa): n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 3604; con ese n el binomial da r_c = 479 (α real = 0,0099, β real = 0,1048).
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
 
@@ -4186,8 +4190,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 487 | 3667 | 3668 |
 | 488 | 3675 | 3675 |
 
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₁/p₀ = 1,1667; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 35,3765; ν = 2/9·(a + √(a² + 1))² = 1.112,88; c = ⌊ν/2⌋ = 556 → g.l. = 2c = 1112; n = máx[χ²(α; 1112)/(2p₀) ; χ²(1-β; 1112)/(2p₁)] = máx[4.188,5 ; 4.188,75] → n = 4189; r_c = c + 1 = 557. Es una aproximación gruesa: el plan puede no cumplir α y β exactos. Con p de este tamaño la aproximación de Poisson no es adecuada (sirve para p chico); se informa como referencia, como hace la guía en III-11c.
 
-**Conclusión:** Tomar una muestra de n = 3660. Si se encuentran r ≥ 486 casos, se rechaza H0. (Por aproximación normal: n = 3604 y r_c = 479.)
+**Conclusión:** Tomar una muestra de n = 3660. Si se encuentran r ≥ 486 casos, se rechaza H0. (Plan más próximo a las premisas: n = 3667 y r_c = 487.) (Por aproximación normal: n = 3604 y r_c = 479.) (Por aproximación de Poisson: n = 4189 y r_c = 557.)
 
 **Respuesta de la guía:** n = 3.667, RD: Si de una muestra de 3.667 encuestados por lo menos 487 se encuentran interesados, se concluye que la campaña ha sido efectiva o Si de una muestra de 3.604 encuestados por lo menos 479 se encuentran interesados se concluye que la campaña ha sido efectiva (por aproximación normal).
 
@@ -4233,6 +4238,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Condiciones**: P(rechazar | p₀ = 0,041) ≤ α = 0,1 y P(no rechazar | p₁ = 0,025) ≤ β = 0,5.
 - **Plan (binomial exacto, se itera n)**: n = 225, r_c = 5. α real = 0,0979, β real = 0,4937.
 - **Regla de decisión**: Tomar una muestra de n = 225. Si se encuentran r ≤ 5 casos, se rechaza H0.
+- **Plan «más próximo a las premisas»** (el que suele informar la guía): entre los planes que cumplen α y β con r_c = 5 o 6, el de menor |α_real - α| + |β_real - β| es n = 226, r_c = 5 (α real = 0,09572, β real = 0,49799). Los dos planes son válidos: el de n mínimo es el más barato.
 - **Por aproximación normal** (la guía la informa como alternativa): n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 253; con ese n el binomial da r_c = 5 (α real = 0,0508, β real = 0,6076).
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
 
@@ -4242,9 +4248,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 6 | 255 | 266 |
 | 7 | 285 | 306 |
 
-- **Por aproximación de Poisson** (como la guía, con la tabla de Poisson: m al 0,1): con r_c = 5, m₀ = n·p₀ tal que P(r ≤ 5 | m₀) ≤ α en la tabla → m₀ = 9,3 → n = m₀/p₀ = 227.
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₀/p₁ = 1,64; a = [Z(1-α) + Z(1-β)·∛R]/[2(∛R - 1)] = 3,5743; ν = 2/9·(a + √(a² + 1))² = 11,8; r_c = ⌈(ν-2)/2⌉ = 5 → g.l. = 2r_c + 2 = 12; n = máx[χ²(1-α; 12)/(2p₀) ; χ²(β; 12)/(2p₁)] = máx[226,21 ; 226,81] → n = 227. Es una aproximación gruesa: el plan puede no cumplir α y β exactos.
 
-**Conclusión:** Tomar una muestra de n = 225. Si se encuentran r ≤ 5 casos, se rechaza H0. (Por aproximación normal: n = 253 y r_c = 5.) (Por aproximación de Poisson con la tabla: n = 227.)
+**Conclusión:** Tomar una muestra de n = 225. Si se encuentran r ≤ 5 casos, se rechaza H0. (Plan más próximo a las premisas: n = 226 y r_c = 5.) (Por aproximación normal: n = 253 y r_c = 5.) (Por aproximación de Poisson: n = 227 y r_c = 5.)
 
 **Respuesta de la guía:** (Criterio pesimista) H0) p ≥ p0 = 0,041; n = 226 piezas o n = 253 piezas (por aproximación Normal), debería ser más apropiada la aproximación de Poisson que da n = 227; RD: Si en una muestra de 226 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación o RD: Si en una muestra de 253 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación (por aproximación Normal) o RD: Si en una muestra de 227 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación (por aproximación de Poisson).
 
@@ -4277,6 +4283,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Condiciones**: P(rechazar | p₀ = 0,06) ≤ α = 0,01 y P(no rechazar | p₁ = 0,04) ≤ β = 0,1.
 - **Plan (binomial exacto, se itera n)**: n = 1561, r_c = 72. α real = 0,01, β real = 0,099.
 - **Regla de decisión**: Tomar una muestra de n = 1561. Si se encuentran r ≤ 72 casos, se rechaza H0.
+- **Plan «más próximo a las premisas»** (el que suele informar la guía): entre los planes que cumplen α y β con r_c = 72 o 73, el de menor |α_real - α| + |β_real - β| es n = 1562, r_c = 72 (α real = 0,00982, β real = 0,09992). Los dos planes son válidos: el de n mínimo es el más barato.
 - **Por aproximación normal** (la guía la informa como alternativa): n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 1615; con ese n el binomial da r_c = 74 (α real = 0,0077, β real = 0,1062).
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
 
@@ -4286,8 +4293,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 73 | 1580 | 1585 |
 | 74 | 1599 | 1608 |
 
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₀/p₁ = 1,5; a = [Z(1-α) + Z(1-β)·∛R]/[2(∛R - 1)] = 13,1064; ν = 2/9·(a + √(a² + 1))² = 153,13; r_c = ⌈(ν-2)/2⌉ = 76 → g.l. = 2r_c + 2 = 154; n = máx[χ²(1-α; 154)/(2p₀) ; χ²(β; 154)/(2p₁)] = máx[1.647,85 ; 1.649,76] → n = 1650. Es una aproximación gruesa: el plan puede no cumplir α y β exactos.
 
-**Conclusión:** Tomar una muestra de n = 1561. Si se encuentran r ≤ 72 casos, se rechaza H0. (Por aproximación normal: n = 1615 y r_c = 74.)
+**Conclusión:** Tomar una muestra de n = 1561. Si se encuentran r ≤ 72 casos, se rechaza H0. (Plan más próximo a las premisas: n = 1562 y r_c = 72.) (Por aproximación normal: n = 1615 y r_c = 74.) (Por aproximación de Poisson: n = 1650 y r_c = 76.)
 
 **Respuesta de la guía:** (Criterio pesimista) H0) p ≥ p0 = 0,06; n = 1.585 unidades o n = 1.615 unidades (por aproximación normal); rc = 73 o menos defectuosos o 74 o menos defectuosos (por aproximación normal).
 
@@ -4309,6 +4317,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 **Conclusión:** La probabilidad pedida es la potencia 1-β = 0,2629 (β = 0,7371).
 
 **Respuesta de la guía:** 1–β = 0,2569 o 1–β = 0,2403 (por aproximación Normal). Ver procedimiento de construcción de la curva en el problema 12.
+
+> ≈ Coincide solo aproximadamente (0,2569): La guía usa su plan 1.585 / 73, que cumple α y β pero no es el de n mínimo (1.561 / 72) ni el más próximo a las premisas (1.562 / 72): ninguna regla lo reproduce.
 
 ---
 
@@ -4452,7 +4462,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Tema detectado por la app: Proporción de 1 población (p).*
 
-#### a) Diseñar el ensayo (H0, n, valor crítico, regla de decisión) ⚠️
+#### a) Diseñar el ensayo (H0, n, valor crítico, regla de decisión) ✅
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
@@ -4477,15 +4487,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 11 | 383 | 413 |
 | 12 | 413 | 463 |
 
-- **Por aproximación de Poisson** (como la guía, con la tabla de Poisson: m al 0,1): con r_c = 10, m₀ = n·p₀ tal que P(r ≥ 10 | m₀) ≤ α en la tabla → m₀ = 5,4 → n = m₀/p₀ = 360.
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₁/p₀ = 2,6667; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 4,606; ν = 2/9·(a + √(a² + 1))² = 19,3; c = ⌊ν/2⌋ = 9 → g.l. = 2c = 18; n = máx[χ²(α; 18)/(2p₀) ; χ²(1-β; 18)/(2p₁)] = máx[313,02 ; 324,87] → n = 325; r_c = c + 1 = 10. Es una aproximación gruesa: el plan puede no cumplir α y β exactos.
 
-**Conclusión:** Tomar una muestra de n = 353. Si se encuentran r ≥ 10 casos, se rechaza H0. (Por aproximación normal: n = 326 y r_c = 10.) (Por aproximación de Poisson con la tabla: n = 360.)
+**Conclusión:** Tomar una muestra de n = 353. Si se encuentran r ≥ 10 casos, se rechaza H0. (Por aproximación normal: n = 326 y r_c = 10.) (Por aproximación de Poisson: n = 325 y r_c = 10.)
 
 **Respuesta de la guía:** n = 353 y rc = 10 o n = 325 y rc = 10 (por aproximación Poisson).
 
-> ⚠️ **No coincide con la guía** (no aparecen: 325). Ver la lista de discrepancias.
-
-#### b) Diseñar el ensayo (H0, n, valor crítico, regla de decisión) ⚠️
+#### b) Diseñar el ensayo (H0, n, valor crítico, regla de decisión) ✅
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
@@ -4501,6 +4509,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Condiciones**: P(rechazar | p₀ = 0,02) ≤ α = 0,15 y P(no rechazar | p₁ = 0,05) ≤ β = 0,1.
 - **Plan (binomial exacto, se itera n)**: n = 209, r_c = 7. α real = 0,1282, β real = 0,0983.
 - **Regla de decisión**: Tomar una muestra de n = 209. Si se encuentran r ≥ 7 casos, se rechaza H0.
+- **Plan «más próximo a las premisas»** (el que suele informar la guía): entre los planes que cumplen α y β con r_c = 7 o 8, el de menor |α_real - α| + |β_real - β| es n = 218, r_c = 7 (α real = 0,14941, β real = 0,07751). Los dos planes son válidos: el de n mínimo es el más barato.
 - **Por aproximación normal** (la guía la informa como alternativa): n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 201; con ese n el binomial da r_c = 7 (α real = 0,1107, β real = 0,1207).
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
 
@@ -4510,13 +4519,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 8 | 234 | 258 |
 | 9 | 258 | 299 |
 
-- **Por aproximación de Poisson** (como la guía, con la tabla de Poisson: m al 0,1): con r_c = 7, m₀ = n·p₀ tal que P(r ≥ 7 | m₀) ≤ α en la tabla → m₀ = 4,3 → n = m₀/p₀ = 215.
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₁/p₀ = 2,5; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 3,7628; ν = 2/9·(a + √(a² + 1))² = 13,03; c = ⌊ν/2⌋ = 6 → g.l. = 2c = 12; n = máx[χ²(α; 12)/(2p₀) ; χ²(1-β; 12)/(2p₁)] = máx[177,85 ; 185,49] → n = 186; r_c = c + 1 = 7. Es una aproximación gruesa: el plan puede no cumplir α y β exactos.
 
-**Conclusión:** Tomar una muestra de n = 209. Si se encuentran r ≥ 7 casos, se rechaza H0. (Por aproximación normal: n = 201 y r_c = 7.) (Por aproximación de Poisson con la tabla: n = 215.)
+**Conclusión:** Tomar una muestra de n = 209. Si se encuentran r ≥ 7 casos, se rechaza H0. (Plan más próximo a las premisas: n = 218 y r_c = 7.) (Por aproximación normal: n = 201 y r_c = 7.) (Por aproximación de Poisson: n = 186 y r_c = 7.)
 
 **Respuesta de la guía:** n = 218 y rc = 7 o n = 186 y rc = 7 (por aproximación Poisson).
-
-> ⚠️ **No coincide con la guía** (no aparecen: 186). Ver la lista de discrepancias.
 
 ---
 
@@ -4655,8 +4662,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 36 | 2315 | 2358 |
 | 37 | 2372 | 2439 |
 
+- **Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): R = p₁/p₀ = 2; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 8,8024; ν = 2/9·(a + √(a² + 1))² = 69,32; c = ⌊ν/2⌋ = 34 → g.l. = 2c = 68; n = máx[χ²(α; 68)/(2p₀) ; χ²(1-β; 68)/(2p₁)] = máx[2.191,9 ; 2.206,25] → n = 2207; r_c = c + 1 = 35. Es una aproximación gruesa: el plan puede no cumplir α y β exactos.
 
-**Conclusión:** Tomar una muestra de n = 2258. Si se encuentran r ≥ 35 casos, se rechaza H0. (Por aproximación normal: n = 2133 y r_c = 34.)
+**Conclusión:** Tomar una muestra de n = 2258. Si se encuentran r ≥ 35 casos, se rechaza H0. (Por aproximación normal: n = 2133 y r_c = 34.) (Por aproximación de Poisson: n = 2207 y r_c = 35.)
 
 **Respuesta de la guía:** n = 2.258 y rc = 35, si en una muestra de 2.258 piezas hay 35 o más defectuosas, se concluye que el porcentaje de defectuosas aumentó y el proceso productivo no trabaja en condiciones normales de funcionamiento; o n = 2.133 piezas y rc = 34 defectuosas (por aproximación normal).
 
@@ -4687,7 +4695,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **IC para φ = σ(Muestra 2)/σ(Muestra 1)** (raíz de los límites): [0,9476 ; 2,2164]. Inversa σ(Muestra 1)/σ(Muestra 2): [0,4512 ; 1,0552].
 - **Relación entre límites** B/A: 5,4704 para las varianzas y 2,3389 para los desvíos.
 
-**Conclusión:** Con un 90% de confianza: P(0,898 ≤ σ²(Muestra 2)/σ²(Muestra 1) ≤ 4,9126) = 0,9.
+**Conclusión:** Con un 90% de confianza: P(0,8980 ≤ σ²(Muestra 2)/σ²(Muestra 1) ≤ 4,9127) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,898031 y 4,912605).
 
 **Respuesta de la guía:** Entre 0,2035 y 1,1136 décimas de mm², para la relación (σ1/σ2)², o Entre 0,8980 y 4,9127 décimas de mm², para la relación (σ2/σ1)².
 
@@ -4718,7 +4726,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **IC para φ = σ(Muestra 2)/σ(Muestra 1)** (raíz de los límites): [0,9476 ; 2,2164]. Inversa σ(Muestra 1)/σ(Muestra 2): [0,4512 ; 1,0552].
 - **Relación entre límites** B/A: 5,4704 para las varianzas y 2,3389 para los desvíos.
 
-**Conclusión:** Con un 90% de confianza: P(0,9476 ≤ σ(Muestra 2)/σ(Muestra 1) ≤ 2,2164) = 0,9.
+**Conclusión:** Con un 90% de confianza: P(0,9476 ≤ σ(Muestra 2)/σ(Muestra 1) ≤ 2,2165) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,947645 y 2,21644).
 
 **Respuesta de la guía:** Entre 0,4511 y 1,0553 décimas de mm (para la relación σ1/σ2); o Entre 0,9476 y 2,2165 décimas de mm (para la relación σ2/σ1).
 
@@ -4815,7 +4823,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Regla de decisión**: Si en 483 muestras de cada grupo la relación j = S(P)/S(A) es menor que 0,7546, se rechaza H0 → se da por probado que φ = σ(P)/σ(A) < 0,8. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(P)/σ(A) < 0,8.
 - Con n = 483: β real = 0,0497, potencia real = 0,9503.
 
-**Conclusión:** n = 483 en cada muestra (P y A). Si en 483 muestras de cada grupo la relación j = S(P)/S(A) es menor que 0,7546, se rechaza H0 → se da por probado que φ = σ(P)/σ(A) < 0,8. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(P)/σ(A) < 0,8. (Hoy hay 13 de P y 21 de A: Δn = 470 y 462.)
+**Conclusión:** ν = 482: n = 483 en cada muestra (P y A). Si en 483 muestras de cada grupo la relación j = S(P)/S(A) es menor que 0,7546, se rechaza H0 → se da por probado que φ = σ(P)/σ(A) < 0,8. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(P)/σ(A) < 0,8. (Hoy hay 13 de P y 21 de A: Δn = 470 y 462.)
 
 **Respuesta de la guía:** ν = 482 ⇒ n = nP = nA = 483 piezas de cada aleación.
 
@@ -4831,7 +4839,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **IC para φ = σ(P)/σ(A)** (raíz de los límites): [0,4733 ; 1,1392]. Inversa σ(A)/σ(P): [0,8778 ; 2,1128].
 - **Relación entre límites** B/A: 5,7932 para las varianzas y 2,4069 para los desvíos.
 
-**Conclusión:** Con un 90% de confianza: P(0,4733 ≤ σ(P)/σ(A) ≤ 1,1392) = 0,9.
+**Conclusión:** Con un 90% de confianza: P(0,4732 ≤ σ(P)/σ(A) ≤ 1,1392) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,473298 y 1,139188).
 
 **Respuesta de la guía:** Entre 0,4732 y 1,1392 (para la relación φ = σP/σA).
 
@@ -4944,7 +4952,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Regla de decisión**: Si en 260 muestras de cada grupo la relación j = S(Casablanca)/S(La Providencia) es mayor que 1,1078, se rechaza H0 → se da por probado que φ = σ(Casablanca)/σ(La Providencia) > 1. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(Casablanca)/σ(La Providencia) > 1.
 - Con n = 260: β real = 0,0995, potencia real = 0,9005.
 
-**Conclusión:** n = 260 en cada muestra (Casablanca y La Providencia). Si en 260 muestras de cada grupo la relación j = S(Casablanca)/S(La Providencia) es mayor que 1,1078, se rechaza H0 → se da por probado que φ = σ(Casablanca)/σ(La Providencia) > 1. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(Casablanca)/σ(La Providencia) > 1. Respecto de las 50 anteriores: Δn = 210 más en cada una.
+**Conclusión:** ν = 259: n = 260 en cada muestra (Casablanca y La Providencia). Si en 260 muestras de cada grupo la relación j = S(Casablanca)/S(La Providencia) es mayor que 1,1078, se rechaza H0 → se da por probado que φ = σ(Casablanca)/σ(La Providencia) > 1. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(Casablanca)/σ(La Providencia) > 1. Respecto de las 50 anteriores: Δn = 210 más en cada una.
 
 **Respuesta de la guía:** n = 260 animales terminados en cada establecimiento.
 
@@ -4960,7 +4968,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **IC para φ = σ(Casablanca)/σ(La Providencia)** (raíz de los límites): [1,1832 ; 1,9017]. Inversa σ(La Providencia)/σ(Casablanca): [0,5258 ; 0,8452].
 - **Relación entre límites** B/A: 2,5834 para las varianzas y 1,6073 para los desvíos.
 
-**Conclusión:** Con un 90% de confianza: P(1,1832 ≤ σ(Casablanca)/σ(La Providencia) ≤ 1,9017) = 0,9. El desvío de Casablanca es mayor que el de La Providencia entre un 18,32% y un 90,17%.
+**Conclusión:** Con un 90% de confianza: P(1,1831 ≤ σ(Casablanca)/σ(La Providencia) ≤ 1,9017) = 0,9 (límites redondeados hacia afuera; sin redondear: 1,183162 y 1,901684). El desvío de Casablanca es mayor que el de La Providencia entre un 18,32% y un 90,17%.
 
 **Respuesta de la guía:** Entre 1,1831 y 1,9017 (para la relación σCa/σLP); quiere decir que el desvío de Casablanca puede ser mayor que el de La Providencia entre un 18,31% y un 90,17%.
 
@@ -5055,7 +5063,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Regla de decisión**: Si en 128 muestras de cada grupo la relación j = S(reacondicionadas)/S(sin reacondicionar) es menor que 0,7851, se rechaza H0 → se da por probado que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88.
 - Con n = 128: β real = 0,0986, potencia real = 0,9014.
 
-**Conclusión:** n = 128 en cada muestra (reacondicionadas y sin reacondicionar). Si en 128 muestras de cada grupo la relación j = S(reacondicionadas)/S(sin reacondicionar) es menor que 0,7851, se rechaza H0 → se da por probado que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88. (Hoy hay 4 de reacondicionadas y 16 de sin reacondicionar: Δn = 124 y 112.)
+**Conclusión:** ν = 127: n = 128 en cada muestra (reacondicionadas y sin reacondicionar). Si en 128 muestras de cada grupo la relación j = S(reacondicionadas)/S(sin reacondicionar) es menor que 0,7851, se rechaza H0 → se da por probado que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88. (Hoy hay 4 de reacondicionadas y 16 de sin reacondicionar: Δn = 124 y 112.)
 
 **Respuesta de la guía:** n = 128 máquinas reacondicionadas y 128 máquinas sin reacondicionamiento.
 
@@ -5091,7 +5099,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Regla de decisión**: Si en 127 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8632, se rechaza H0 → se da por probado que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(con aditivo)/σ(sin aditivo) < 1.
 - Con n = 127: β real = 0,0097, potencia real = 0,9903.
 
-**Conclusión:** n = 127 en cada muestra (con aditivo y sin aditivo). Si en 127 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8632, se rechaza H0 → se da por probado que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(con aditivo)/σ(sin aditivo) < 1.
+**Conclusión:** ν = 126: n = 127 en cada muestra (con aditivo y sin aditivo). Si en 127 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8632, se rechaza H0 → se da por probado que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(con aditivo)/σ(sin aditivo) < 1.
 
 **Respuesta de la guía:** H0: σCA ≥ σSA, para la relación φ = σCA/σSA, H0: φ ≥ φ0 = 1, nCA = 127 muestras de látex con aditivo y nCA = 127 muestras de látex sin aditivo. CR: Si j < jc = 0,8632 ⇒ Rechazo la H0. RD: Si en 127 muestras de cada fórmula de látex, la relación j = σCA/σSA es menor que 0,8632, se rechaza la H0 y se adopta el aditivo en la fórmula del látex.
 
@@ -5134,7 +5142,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Regla de decisión**: Si en 174 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8821, se rechaza H0 → se da por probado que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(con aditivo)/σ(sin aditivo) < 1.
 - Con n = 174: β real = 0,0998, potencia real = 0,9002.
 
-**Conclusión:** n = 174 en cada muestra (con aditivo y sin aditivo). Si en 174 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8821, se rechaza H0 → se da por probado que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(con aditivo)/σ(sin aditivo) < 1. Respecto de las 127 anteriores: Δn = 47 más en cada una.
+**Conclusión:** ν = 173: n = 174 en cada muestra (con aditivo y sin aditivo). Si en 174 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8821, se rechaza H0 → se da por probado que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no se puede afirmar que φ = σ(con aditivo)/σ(sin aditivo) < 1. Respecto de las 127 anteriores: Δn = 47 más en cada una.
 
 **Respuesta de la guía:** nCA = nSA = 174 muestras, o sea 47 muestras más de cada fórmula del látex.
 
@@ -5191,7 +5199,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 0,982807; ν = n₁ + n₂ - 2 = 22.
 - **IC para δ = μ(Proceso Nuevo) - μ(Proceso Viejo)** (t con Sa (desvíos iguales)): d = -3,75; e = t(0,95; 22)·σ(d) = 1,7171·0,401229 = 0,689.
 
-**Conclusión:** P(-4,439 ≤ μ(Proceso Nuevo) - μ(Proceso Viejo) ≤ -3,061) = 0,9 (e = 0,689). Para μ(Proceso Viejo) - μ(Proceso Nuevo): entre 3,061 y 4,439.
+**Conclusión:** P(-4,44 ≤ μ(Proceso Nuevo) - μ(Proceso Viejo) ≤ -3,06) = 0,9 (e = 0,689). Para μ(Proceso Viejo) - μ(Proceso Nuevo): entre 3,06 y 4,44. Límites redondeados hacia afuera; sin redondear: -4,438968 y -3,061032.
 
 **Respuesta de la guía:** Entre 3,06 y 4,44 partes por billón (δ = μV − μN; 3,75 ± 0,6890), con un error de muestreo e = 0,6890 p.p.b.
 
@@ -5328,9 +5336,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - ν de Aspin-Welch = (S₁²/n₁ + S₂²/n₂)²/[(S₁²/n₁)²/(n₁-1) + (S₂²/n₂)²/(n₂-1)] = 14,2641 → ν = 14.
 - **IC para δ = μ(reacondicionadas) - μ(sin reacondicionar)** (t de Welch (desvíos distintos)): d = 262; e = t(0,95; 14)·σ(d) = 1,7613·110,400408 = 194,4494.
 
-**Conclusión:** P(67,5506 ≤ μ(reacondicionadas) - μ(sin reacondicionar) ≤ 456,4494) = 0,9 (e = 194,4494). Para μ(sin reacondicionar) - μ(reacondicionadas): entre -456,4494 y -67,5506.
+**Conclusión:** P(67,55 ≤ μ(reacondicionadas) - μ(sin reacondicionar) ≤ 456,45) = 0,9 (e = 194,4494). Para μ(sin reacondicionar) - μ(reacondicionadas): entre -456,45 y -67,55. Límites redondeados hacia afuera; sin redondear: 67,550643 y 456,449357.
 
 **Respuesta de la guía:** Entre 67,55 metros y 456,45 metros (δ = μCR − μSR; 262 ± 194,4482), con un error de muestreo e = 194,4482.
+
+> ≈ Coincide solo aproximadamente (194,4482): Errata de la guía: imprime e = 194,4494 en a) y 194,4482 en b); los límites (67,55 y 456,45) coinciden.
 
 #### c) Tamaño de muestra ✅
 
@@ -5476,7 +5486,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 3,114482; ν = n₁ + n₂ - 2 = 28.
 - **Límite para δ = μ(Variedad “B”) - μ(Variedad “A”)** (t con Sa (desvíos iguales)): d = 1,2; e = t(0,95; 28)·σ(d) = 1,7011·1,137248 = 1,9346.
 
-**Conclusión:** Con un 95% de confianza, μ(Variedad “B”) - μ(Variedad “A”) ≥ -0,7346: la diferencia mínima garantizada para Variedad “B” es -0,7346.
+**Conclusión:** Con un 95% de confianza, μ(Variedad “B”) - μ(Variedad “A”) ≥ -0,735: la diferencia mínima garantizada para Variedad “B” es -0,735 (redondeada hacia abajo; sin redondear -0,734608).
 
 **Respuesta de la guía:** (− 0,73) kg, se estima que la variedad “A” puede engordar más que la “B” en 0,73 kg.
 
@@ -5562,7 +5572,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 0,157723; ν = n₁ + n₂ - 2 = 178.
 - **Límite para δ = μ(Máquina “B”) - μ(Máquina “A”)** (t con Sa (desvíos iguales)): d = 0,4; e = t(0,95; 178)·σ(d) = 1,6535·0,023512 = 0,0389.
 
-**Conclusión:** Con un 95% de confianza, μ(Máquina “B”) - μ(Máquina “A”) ≥ 0,3611: la diferencia mínima garantizada para Máquina “B” es 0,3611.
+**Conclusión:** Con un 95% de confianza, μ(Máquina “B”) - μ(Máquina “A”) ≥ 0,361: la diferencia mínima garantizada para Máquina “B” es 0,361 (redondeada hacia abajo; sin redondear 0,361124).
 
 **Respuesta de la guía:** A = 0,361124 miles de km: la diferencia mínima es 0,361124 miles de km (361,12 km) con 95% de confianza.
 
@@ -5675,7 +5685,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 1,237689; ν = n₁ + n₂ - 2 = 80.
 - **Límite para δ = μ(con aditivo) - μ(sin aditivo)** (t con Sa (desvíos iguales)): d = 0,9; e = t(0,95; 80)·σ(d) = 1,6641·0,313144 = 0,5211.
 
-**Conclusión:** Con un 95% de confianza, μ(con aditivo) - μ(sin aditivo) ≥ 0,3789: la diferencia mínima garantizada para con aditivo es 0,3789.
+**Conclusión:** Con un 95% de confianza, μ(con aditivo) - μ(sin aditivo) ≥ 0,378: la diferencia mínima garantizada para con aditivo es 0,378 (redondeada hacia abajo; sin redondear 0,378889).
 
 **Respuesta de la guía:** 0,3788 kg, el aditivo puede aumentar la resistencia del látex en 0,3788 kg.
 
@@ -5766,7 +5776,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 0,565685; ν = n₁ + n₂ - 2 = 8.
 - **IC para δ = μ(John Deere (JD)) - μ(Vasalli (V))** (t con Sa (desvíos iguales)): d = 0,26; e = t(0,9; 8)·σ(d) = 1,3968·0,357771 = 0,4997.
 
-**Conclusión:** P(-0,2397 ≤ μ(John Deere (JD)) - μ(Vasalli (V)) ≤ 0,7597) = 0,8 (e = 0,4997). Para μ(Vasalli (V)) - μ(John Deere (JD)): entre -0,7597 y 0,2397.
+**Conclusión:** P(-0,240 ≤ μ(John Deere (JD)) - μ(Vasalli (V)) ≤ 0,760) = 0,8 (e = 0,4997). Para μ(Vasalli (V)) - μ(John Deere (JD)): entre -0,760 y 0,240. Límites redondeados hacia afuera; sin redondear: -0,23974 y 0,75974.
 
 **Respuesta de la guía:** Entre (−0,2397) y 0,7598 Tn/día (para δ = μJD − μV), se puede esperar como mínimo que John Deere coseche en promedio 0,2397 Tn/día menos que Vasalli o como máximo coseche en promedio 0,7598 Tn/día más.
 
@@ -5838,7 +5848,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
 • Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S).
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,3534·S/√n = 580.000 + 2,3534·73.000/√4 = 665.897,7654. Si x̄ > 665.897,7654 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,3534·S/√n = 580.000 + 2,3534·73.000/√4 = 665.897,7654. Si x̄ > 665.897,7654 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 665.897,77; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 4 unidades y se calcula su media x̄. Si x̄ > 665,897,7654, se rechaza H0 → se da por probado que μ > 580000. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 580000.
 - **6 · Cálculos y decisión**: x̄ = 642.000 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,094 (se rechaza H0 para cualquier α ≥ α*).
@@ -5893,7 +5903,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.  
 • Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con ν = n - 1 grados de libertad (más "ancha" que la Normal por la incertidumbre de S).
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,5332·S/√n = 19,5 + 1,5332·2,5/√5 = 21,2142. Si x̄ > 21,2142 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,5332·S/√n = 19,5 + 1,5332·2,5/√5 = 21,2142. Si x̄ > 21,2142 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 21,22; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ > 21,2142, se rechaza H0 → se da por probado que μ > 19,5. En caso contrario no se rechaza H0 → no se puede afirmar que μ > 19,5.
 - **6 · Cálculos y decisión**: x̄ = 20 → no cae en la zona de rechazo.
 - **Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = 0,3389 (se rechaza H0 para cualquier α ≥ α*).
@@ -5945,7 +5955,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes, primero un test F decide si las varianzas pueden considerarse iguales: si sí, t con S combinado (ν = n₁ + n₂ - 2); si no, t de Welch (ν aproximado).
 - **Muestras apareadas**: dᵢ = x(Variedad “A”) - x(Variedad “B”) → d̄ = 5,75, S_d = 5,12, n = 8 pares (ν = 7); e = t(0,95; 7)·S_d/√n = 3,4295.
 
-**Conclusión:** P(2,3205 ≤ μ(Variedad “A”) - μ(Variedad “B”) ≤ 9,1795) = 0,9 (e = 3,4295). Para μ(Variedad “B”) - μ(Variedad “A”): entre -9,1795 y -2,3205.
+**Conclusión:** P(2,32 ≤ μ(Variedad “A”) - μ(Variedad “B”) ≤ 9,18) = 0,9 (e = 3,4295). Para μ(Variedad “B”) - μ(Variedad “A”): entre -9,18 y -2,32. Límites redondeados hacia afuera; sin redondear: 2,320454 y 9,179546.
 
 **Respuesta de la guía:** Entre 2,32 y 9,18 quintales por parcela (para δ = μA − μB), con la variedad “A” se obtiene una producción mínima de 2,32 quintales por parcela mayor que la variedad “B” y de 9,18 quintales por parcela como máximo.
 
@@ -6137,7 +6147,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes, primero un test F decide si las varianzas pueden considerarse iguales: si sí, t con S combinado (ν = n₁ + n₂ - 2); si no, t de Welch (ν aproximado).
 - **Muestras apareadas**: dᵢ = x(Proceso Actual (A)) - x(Proceso Propuesto (P)) → d̄ = 4,75, S_d = 3,6936, n = 8 pares (ν = 7); e = t(0,95; 7)·S_d/√n = 2,4741.
 
-**Conclusión:** P(2,2759 ≤ μ(Proceso Actual (A)) - μ(Proceso Propuesto (P)) ≤ 7,2241) = 0,9 (e = 2,4741). Para μ(Proceso Propuesto (P)) - μ(Proceso Actual (A)): entre -7,2241 y -2,2759.
+**Conclusión:** P(2,27 ≤ μ(Proceso Actual (A)) - μ(Proceso Propuesto (P)) ≤ 7,23) = 0,9 (e = 2,4741). Para μ(Proceso Propuesto (P)) - μ(Proceso Actual (A)): entre -7,23 y -2,27. Límites redondeados hacia afuera; sin redondear: 2,275883 y 7,224117.
 
 **Respuesta de la guía:** Entre 2,27' y 7,23' (δ = μA − μP; 4,75 ± 2,4741), con un error de muestreo e = 2,4741 minutos.
 
@@ -7434,6 +7444,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 **Respuesta de la guía:** b) H0) La duración de la marca “A” se comporta normalmente con μ = 20.000 hs y σ = 2.500 hs. Amalgamando quedan 6 clases (FO: 21, 18, 30, 22, 16, 6; FE: 6,20; 17,75; 32,55; 32,55; 17,75; 6,20), ningún parámetro estimado, ν = 5; χ²(0,95;5) = 11,0705; χ²calc = 39,1307. Se rechaza: la duración de la marca “A” no sigue el modelo normal con los parámetros especificados por el fabricante.
 
+> ≈ Coincide solo aproximadamente (39,1307): La cátedra usa probabilidades de la tabla normal (z con 2 decimales, P con 4) y Fe con 2 decimales; con precisión completa χ² difiere menos del 1 % y la decisión no cambia. Redondear solo P y Fe no alcanza para reproducirlo.
+
 #### c) Ensayo de hipótesis (decidir) ✅
 
 *Qué pide:* Bondad de ajuste χ² a Normal: se compara χ² calculado contra el crítico.
@@ -7483,6 +7495,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 **Respuesta de la guía:** c) H0) La duración de la marca “A” se comporta normalmente (parámetros estimados x̄A = 19,0531, SA = 3,2892). Amalgamando quedan 7 clases (FO: 8, 13, 18, 30, 22, 16, 6; FE: 7,03; 12,93; 22,35; 27,00; 22,78; 13,42; 7,49), dos parámetros estimados, ν = 4; χ²(0,95;4) = 9,4877; χ²calc = 2,1333. No se rechaza: el modelo normal es un buen candidato para la duración de la marca “A”.
 
+> ≈ Coincide solo aproximadamente (2,1333): Ídem b): probabilidades de tabla en la guía; con precisión completa difiere menos del 1 % y la decisión no cambia.
+
 #### d) Intervalo de confianza (estimar) ✅
 
 *Qué pide:* Estimar la proporción poblacional p con un 95% de confianza mediante un intervalo de confianza. La cátedra usa el modelo exacto (Beta / F).
@@ -7495,7 +7509,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0172 ; B = 0,0762.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,0126 ; 0,0662] (e = 0,0268).
 
-**Conclusión:** El porcentaje poblacional estará entre 1,72% y 7,62%, con un 95% de confianza: P(0,0172 ≤ p ≤ 0,0762) = 0,95.
+**Conclusión:** El porcentaje poblacional estará entre 1,71% y 7,62%, con un 95% de confianza: P(0,0171 ≤ p ≤ 0,0762) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,017165 y 0,076172).
 
 **Respuesta de la guía:** d) 8 de 203 equipos de la marca “B” con duración menor a 14.000 hs, p̂ = 0,0394 (3,94%). Con el modelo binomial: A = 0,0171, B = 0,0762; P(1,71% ≤ p ≤ 7,62%) = 0,95.
 
@@ -7570,7 +7584,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 7,5091 + 0,1813·5,401 = 8,4885.
 - **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,3534; error = 0,4595.
 
-**Conclusión:** Con un 90% de confianza, el valor de y para x₀ = 5,401 estará entre 8,029 y 8,9481: P(8,029 ≤ y(x₀) ≤ 8,9481) = 0,9.
+**Conclusión:** Con un 90% de confianza, el valor de y para x₀ = 5,401 estará entre 8,0289 y 8,9481: P(8,0289 ≤ y(x₀) ≤ 8,9481) = 0,9 (límites redondeados hacia afuera; sin redondear: 8,028998 y 8,94809).
 
 **Respuesta de la guía:** Entre 8,028998 y 8,94809 millones de U$s.
 
@@ -7621,7 +7635,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 15,9398 + 25,0638·0,8 = 35,9909.
 - **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α; ν) = 1,6377; error = 3,3963.
 
-**Conclusión:** Con un 90% de confianza el valor mínimo de y para x₀ = 0,8 es 32,5946.
+**Conclusión:** Con un 90% de confianza el valor mínimo de y para x₀ = 0,8 es 32,5946 (redondeado hacia abajo; sin redondear 32,594608).
 
 **Respuesta de la guía:** A = 32,594 miles de unidades.
 
@@ -7772,9 +7786,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α; ν) = 1,3968; error = 0,619.
 - **En unidades**: × 100.000 → 199.812,46.
 
-**Conclusión:** Con un 90% de confianza el valor mínimo de y para x₀ = 5 es 1,9981 (199.812,46 en unidades).
+**Conclusión:** Con un 90% de confianza el valor mínimo de y para x₀ = 5 es 1,9981 (199.812,45 en unidades) (redondeado hacia abajo; sin redondear 1,998125).
 
 **Respuesta de la guía:** A = 199.813,14 m³.
+
+> ≈ Coincide solo aproximadamente (199.813,14): La guía usa t de tabla con 4 decimales (1,3968) y da 199.813,14; con el t exacto es 199.812,46. Usar t de tabla en toda la regresión empeora otros 16 límites, por eso la app usa el valor exacto.
 
 > 📝 *Notas de la transcripción:* Datos resumidos (sumatorias, ver campo 'sumatorias'), n = 10; x = temperatura (ºC), y = demanda (10^5 m³). a) ensayo unilateral de β1 contra -0,07 (7.000 m³ = 0,07·10^5 m³); el riesgo no se indica. b) límite inferior unilateral (90%) de pronóstico individual en x0 = 5; la Resp está en m³ (= 1,9981314·10^5 m³).
 
@@ -7821,7 +7837,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 42,986 + 4,6156·0 = 42,986.
 - **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,7764; error = 29,4975.
 
-**Conclusión:** Con un 95% de confianza, el promedio de y para x₀ = 0 estará entre 13,4885 y 72,4836: P(13,4885 ≤ μy(x₀) ≤ 72,4836) = 0,95.
+**Conclusión:** Con un 95% de confianza, el promedio de y para x₀ = 0 estará entre 13,4885 y 72,4836: P(13,4885 ≤ μy(x₀) ≤ 72,4836) = 0,95 (límites redondeados hacia afuera; sin redondear: 13,488533 y 72,483556).
 
 **Respuesta de la guía:** Entre 13,4885 y 72,4836 miles de U$s.
 
@@ -7873,7 +7889,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 24,7125 + 5,2702·17 = 114,3062.
 - **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8946; error = 4,9154.
 
-**Conclusión:** Con un 90% de confianza, el promedio de y para x₀ = 17 estará entre 109,3908 y 119,2215: P(109,3908 ≤ μy(x₀) ≤ 119,2215) = 0,9.
+**Conclusión:** Con un 90% de confianza, el promedio de y para x₀ = 17 estará entre 109,3907 y 119,2216: P(109,3907 ≤ μy(x₀) ≤ 119,2216) = 0,9 (límites redondeados hacia afuera; sin redondear: 109,390785 y 119,221517).
 
 **Respuesta de la guía:** Entre 109,39 y 119,23 U$s/unidad transportada.
 
@@ -7910,7 +7926,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8946; error = 0,0441.
 - **Antitransformando** (e^límite): [111,5925 ; 121,8754].
 
-**Conclusión:** El modelo doble logarítmico ajusta mejor que el lineal (r² 0,9763 vs 0,9624). b1 = 0,8026 es la elasticidad: si «Distancia recorrida (en cientos de Km)» aumenta 1%, «Costo (en U$s/unidad transportada)» cambia 0,8026%. Con un 90% de confianza, el promedio de y para x₀ = 17 estará entre 4,7149 y 4,803: P(4,7149 ≤ μy(x₀) ≤ 4,803) = 0,9.
+**Conclusión:** El modelo doble logarítmico ajusta mejor que el lineal (r² 0,9763 vs 0,9624). b1 = 0,8026 es la elasticidad: si «Distancia recorrida (en cientos de Km)» aumenta 1%, «Costo (en U$s/unidad transportada)» cambia 0,8026%. Con un 90% de confianza, el promedio de y para x₀ = 17 estará entre 4,7148 y 4,8030: P(4,7148 ≤ μy(x₀) ≤ 4,8030) = 0,9 (límites redondeados hacia afuera; sin redondear: 4,714854 y 4,802999).
 
 **Respuesta de la guía:** El modelo será: ŷ = 12,0026·x^0,8026, el modelo lineal nos queda ln(ŷ) = 2,4851 + 0,8026·ln(x). Este modelo ajusta mejor y además indica el cambio porcentual del costo de transporte ante un cambio porcentual en la distancia recorrida, o sea cuando la distancia recorrida aumenta en 1% el costo por unidad transportada aumenta en 0,8026%. Este modelo corresponde a la elasticidad del costo por unidad transportada respecto de la distancia recorrida. La respuesta para la pregunta b) sería: entre 111,59 y 121,88 U$s/unidad transportada.
 
@@ -8023,7 +8039,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 307,9167 + 34,5833·6 = 515,4167.
 - **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8125; error = 27,0164.
 
-**Conclusión:** Con un 90% de confianza, el promedio de y para x₀ = 6 estará entre 488,4002 y 542,4331: P(488,4002 ≤ μy(x₀) ≤ 542,4331) = 0,9.
+**Conclusión:** Con un 90% de confianza, el promedio de y para x₀ = 6 estará entre 488,4002 y 542,4331: P(488,4002 ≤ μy(x₀) ≤ 542,4331) = 0,9 (límites redondeados hacia afuera; sin redondear: 488,400245 y 542,433089).
 
 **Respuesta de la guía:** Entre 488,40 y 542,44 unidades en promedio.
 
@@ -8035,7 +8051,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 307,9167 + 34,5833·6 = 515,4167.
 - **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8125; error = 97,4091.
 
-**Conclusión:** Con un 90% de confianza, el valor de y para x₀ = 6 estará entre 418,0076 y 612,8258: P(418,0076 ≤ y(x₀) ≤ 612,8258) = 0,9.
+**Conclusión:** Con un 90% de confianza, el valor de y para x₀ = 6 estará entre 418,0075 y 612,8258: P(418,0075 ≤ y(x₀) ≤ 612,8258) = 0,9 (límites redondeados hacia afuera; sin redondear: 418,007572 y 612,825762).
 
 **Respuesta de la guía:** Entre 418 y 613 unidades.
 
@@ -8117,7 +8133,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 5.344,2197 + -430,3584·8,5 = 1.686,1734.
 - **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,4469; error = 671,422.
 
-**Conclusión:** Con un 95% de confianza, el valor de y para x₀ = 8,5 estará entre 1.014,7514 y 2.357,5955: P(1.014,7514 ≤ y(x₀) ≤ 2.357,5955) = 0,95.
+**Conclusión:** Con un 95% de confianza, el valor de y para x₀ = 8,5 estará entre 1.014,7513 y 2.357,5955: P(1.014,7513 ≤ y(x₀) ≤ 2.357,5955) = 0,95 (límites redondeados hacia afuera; sin redondear: 1.014,751369 y 2.357,595452).
 
 **Respuesta de la guía:** Entre 1.014 y 2.358 licencias.
 
@@ -8141,7 +8157,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,4469; error = 0,3614.
 - **Antitransformando** (e^límite): [1.108,716 ; 2.284,1488].
 
-**Conclusión:** El modelo logarítmico lineal ajusta mejor que el lineal (r² 0,886 vs 0,8839). Por cada unidad adicional de «Tasa de interés (en %)», «Cantidad de licencias de construcción» cambia un -20,87% (factor e^b1 = 0,7913). Con un 95% de confianza, el valor de y para x₀ = 8,5 estará entre 7,011 y 7,7337: P(7,011 ≤ y(x₀) ≤ 7,7337) = 0,95.
+**Conclusión:** El modelo logarítmico lineal ajusta mejor que el lineal (r² 0,886 vs 0,8839). Por cada unidad adicional de «Tasa de interés (en %)», «Cantidad de licencias de construcción» cambia un -20,87% (factor e^b1 = 0,7913). Con un 95% de confianza, el valor de y para x₀ = 8,5 estará entre 7,0109 y 7,7338: P(7,0109 ≤ y(x₀) ≤ 7,7338) = 0,95 (límites redondeados hacia afuera; sin redondear: 7,010958 y 7,733749).
 
 **Respuesta de la guía:** El modelo será: ŷ = 11.640,5·0,7913^x, el modelo lineal nos queda ln(ŷ) = 9,3623 − 0,2341·x. Este modelo ajusta mejor y además indica el cambio porcentual de las licencias de construcción ante un cambio unitario de la tasa de interés. o sea cuando la tasa de interés aumenta en 1% las licencias de construcción disminuyen en 23,41%. La respuesta para la pregunta c) sería: entre 1.108 y 2.285 licencias.
 
@@ -8295,7 +8311,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α; ν) = 2,3534; error = 0,1004.
 - **Antitransformando** (e^límite): 2,1728.
 
-**Conclusión:** Con un 95% de confianza el valor máximo de y para x₀ = 450 es 0,776.
+**Conclusión:** Con un 95% de confianza el valor máximo de y para x₀ = 450 es 0,7761 (redondeado hacia arriba; sin redondear 0,776).
 
 **Respuesta de la guía:** 2,1728 Kw.
 
@@ -8407,7 +8423,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 74,6589 + -1,3198·10 = 61,4612.
 - **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,2281; error = 3,3941.
 
-**Conclusión:** Con un 95% de confianza, el promedio de y para x₀ = 10 estará entre 58,0671 y 64,8553: P(58,0671 ≤ μy(x₀) ≤ 64,8553) = 0,95.
+**Conclusión:** Con un 95% de confianza, el promedio de y para x₀ = 10 estará entre 58,0671 y 64,8554: P(58,0671 ≤ μy(x₀) ≤ 64,8554) = 0,95 (límites redondeados hacia afuera; sin redondear: 58,067136 y 64,855345).
 
 **Respuesta de la guía:** ŷ0 = 61,4612 kg/mm²; 61,4612 ± 2,2281·3,7867·√(1/12 + (10−19)²/(5.364−12·19²)) = 61,4612 ± 3,3941: entre 58,0671 y 64,8554 kg/mm².
 
@@ -8419,9 +8435,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 74,6589 + -1,3198·10 = 61,4612.
 - **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,2281; error = 9,0945.
 
-**Conclusión:** Con un 95% de confianza, el valor de y para x₀ = 10 estará entre 52,3668 y 70,5557: P(52,3668 ≤ y(x₀) ≤ 70,5557) = 0,95.
+**Conclusión:** Con un 95% de confianza, el valor de y para x₀ = 10 estará entre 52,3667 y 70,5557: P(52,3667 ≤ y(x₀) ≤ 70,5557) = 0,95 (límites redondeados hacia afuera; sin redondear: 52,366787 y 70,555694).
 
 **Respuesta de la guía:** 61,4612 ± 9,0943: entre 52,3667 y 70,5557 kg/mm².
+
+> ≈ Coincide solo aproximadamente (9,0943): La guía informa la semiamplitud ±9,0943 calculada con t de tabla (2,2281); los límites del intervalo coinciden.
 
 > 📝 *Notas de la transcripción:* Sin 'Resp:'; respuesta armada desde la Solución (pp. 55-56). En a) se plantea H0) ρ = 0 / β1 = 0 con riesgo 5% pero se compara con t(0,95;10) = 1,8125 (valor de tabla unilateral); los IC usan t(0,975;10) = 2,2281 y Z(0,975) = 1,96. b) Z = ½·ln((1+r)/(1−r)) ± Z·1/√(n−3) = −3,9536 ± 0,6533 en la guía, pero ½·ln((1−0,9624)/(1+0,9624)) = −1,98 y Zmín/Zmáx = −2,6301/−1,3235 corresponden a −1,9768 ± 0,6533; el '−3,9536' parece ser ln(...) sin el ½ (se transcribe igual). d) se resuelve por valor crítico: b1c = β1 − t(0,95;10)·Sb1 y se compara con b1.
 
@@ -8553,7 +8571,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 26,8212 + -0,2938·10 = 23,8837.
 - **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,1199; error = 2,4067.
 
-**Conclusión:** Con un 95% de confianza, el promedio de y para x₀ = 10 estará entre 21,477 y 26,2904: P(21,477 ≤ μy(x₀) ≤ 26,2904) = 0,95.
+**Conclusión:** Con un 95% de confianza, el promedio de y para x₀ = 10 estará entre 21,4769 y 26,2905: P(21,4769 ≤ μy(x₀) ≤ 26,2905) = 0,95 (límites redondeados hacia afuera; sin redondear: 21,476971 y 26,290443).
 
 **Respuesta de la guía:** Entre 21,4769 y 26,2905 Mpa.
 
@@ -8565,7 +8583,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 26,8212 + -0,2938·10 = 23,8837.
 - **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,1199; error = 5,8728.
 
-**Conclusión:** Con un 95% de confianza, el valor de y para x₀ = 10 estará entre 18,0109 y 29,7565: P(18,0109 ≤ y(x₀) ≤ 29,7565) = 0,95.
+**Conclusión:** Con un 95% de confianza, el valor de y para x₀ = 10 estará entre 18,0109 y 29,7565: P(18,0109 ≤ y(x₀) ≤ 29,7565) = 0,95 (límites redondeados hacia afuera; sin redondear: 18,010919 y 29,756495).
 
 **Respuesta de la guía:** Entre 18,0109 y 29,7565 Mpa.
 
@@ -8617,6 +8635,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 **Conclusión:** El modelo, en forma global, es adecuado y todas las variables aportan significativamente a la explicación de Y. R² = 0,9485, R² ajustado = 0,9382.
 
 **Respuesta de la guía:** Análisis de sensibilidad: queda solo el modelo completo y = f(x1; x2) (los demás se descartan por Cp > 5·p). ŷ = −7,3507 + 0,1127·x1 + 0,3490·x2; S = 4,3794; S² = 19,1789; C1 = 0,000046; C2 = 0,0002651; R² = 0,9485; R²Aj = 0,9438; Sb1 = 0,0297; Sb2 = 0,0713. Ensayo global H0) ρ² = 0 (β1 = β2 = 0): F = 92,0874 > F(0,95;2;10) = 4,1028, se rechaza: modelo globalmente adecuado. H0) β1 = 0: t = 3,7969 > t(0,95;10) = 1,8125, se rechaza (X1 aporta). H0) β2 = 0: t = 4,8944 > 1,8125, se rechaza (X2 aporta). El modelo completo es válido y explica el índice de absorción en un 94,38%. Coeficientes de determinación parciales: R²x1 = 0,7055 (calculado con el modelo simple ŷ = −10,6112 + 0,2282·x1): X1 aporta un 70,55% cuando además actúa X2; R²x2 = 0,5904 (con el modelo simple ŷ = 2,0325 + 0,5641·x2): X2 aporta un 59,04% cuando además actúa X1.
+
+> ≈ Coincide solo aproximadamente (0,9438, 92,0874): F: la guía usa R² redondeado a 0,9485 y da 92,0874; exacto es 92,0256 (la decisión no cambia). El texto dice R²aj = 0,9438 (dígitos transpuestos): su propia tabla y el cálculo dan 0,9382.
 
 > 📝 *Notas de la transcripción:* Sin 'Resp:'; respuesta armada desde la Solución (pp. 58-59). Sumatorias usadas en la Solución: Σy = 388, Σy·x1 = 82.252, Σy·x2 = 24.899, Σy² = 15.302. La Solución escribe Sb2 = S·√C1 (errata: debería ser √C2; el valor 0,0713 sí usa C2). R²Aj = 0,9438 en el texto vs 0,9382 en la tabla de sensibilidad (1 − 0,0515·12/10 = 0,9382, parece transposición de dígitos); el '94,38%' de la conclusión usa el del texto. Los ensayos t parciales (bilaterales, riesgo 5%) se comparan con t(0,95;10) = 1,8125. Los coeficientes de determinación parciales: R²x1 se calcula con la regresión simple de Y sobre X1 (y viceversa), aunque el texto dice 'X1 aporta ... cuando además actúa X2' (coeficiente parcial de la variable que se agrega: la nomenclatura parece cruzada; se transcribe igual). Coeficientes verificados con los datos.
 
@@ -8700,6 +8720,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 **Conclusión:** El modelo, en forma global, es adecuado y todas las variables aportan significativamente a la explicación de Y. R² = 0,9073, R² ajustado = 0,8808.
 
 **Respuesta de la guía:** R² = 0,9073 (90,73%), R²Aj = 0,8957 (89,57%), se puede decir que el modelo (en forma global) aporta para la explicación de “Y” el 89,57%; R²x1 = 0,8877 (88,77%), la variable “X1” aporta el 88,77% en la explicación de “Y” cuando está actuando “X2” y R²x2 = 0,8738 (87,38%), la variable “X2” aporta el 87,38% en la explicación de “Y” cuando está actuando “X1”.
+
+> ≈ Coincide solo aproximadamente (0,8957): La guía da R²aj = 0,8957, que sale con (n − 1)/(n − k); con la fórmula de la teoría, (n − 1)/(n − p), es 0,8808.
 
 > 📝 *Notas de la transcripción:* Coeficientes y R² = 0,9073 verificados con los datos. R²Aj con n = 10, p = 3 da 1 − 0,0927·9/7 = 0,8808, no 0,8957 como dice la guía (se transcribe igual). El riesgo de los ensayos no se indica (presumiblemente 5%).
 
@@ -9084,10 +9106,22 @@ Incisos donde lo calculado no coincide con la respuesta de la guía. Puede ser u
 
 | Ejercicio | Inciso | Respuesta de la guía | Valores que no aparecen | La app da | Notas |
 |---|---|---|---|---|---|
-| I-36 | a | H0) μ ≤ μ0 = 1 kg; x̄c = 1,07 kg; CR: Si x̄ > 1,07 kg ⇒ Rechazo H0. Como x̄ = 1,10 kg se rechaza H0: hay razones suficientes para afirmar que el proceso se encuentra fuera de control. | 1,07 | H0: μ = 1.0; x̄c = 0,9073 ; 1,0927; RECHAZA H0 | b) 2,306·0,05·√(1.391/1.400) = 0,1149 según la guía; el cálculo directo da ≈ 0,1151 (redondeo). El planteo usa hipótesis unilateral aunque el enunciado sugiere bilateral (la propia Solución lo aclara). |
-| III-3 | b | Entre 0 (0%) y 0,2589 (25,89%). | 0,2589 | IC p: [0 ; 0,2057] | En b) (r = 0) la guía usa α/2 = 0,05 para el límite superior (0,2589); con r = 0 el límite unilateral con α = 0,10 daría 0,2057. Se transcribe igual. |
-| III-11 | c | n = 755 piezas, o n = 715 piezas (por aproximación normal), o n= 855 piezas (por aproximación de Poisson). En este caso la aproximación de Poisson no es correcta, la cual sería adecuada si n = 50. | 855 | n = 755; rc = 106 / normal: n = 715; rc = 101 |  |
-| III-15 | d | R = 1,44546 → R = 1,01182; n ≈ 22.255 árboles (aproximación normal); n ≈ 26.909 árboles (aproximación de Poisson). | 26.909 | n = 22255 | d) La guía da dos resultados según la aproximación (normal 22.255; Poisson 26.909), sin indicar cuál adopta. |
-| III-16 | a | (Criterio pesimista) H0) p ≤ p0 = 0,12; CR: Si r ≥ rc = 233 éxitos se rechaza la H0 o r ≥ rc = 229 éxitos (por aproximación normal); RD: Si de una muestra de 1.675 encuestados por lo menos 233 se encuentran interesados,  | 228 | n = 1675; rc = 233 / normal: n = 1637; rc = 229 | a) Inconsistencia interna: la CR por aproximación normal da rc = 229 pero la RD correspondiente dice 'por lo menos 228'. |
-| III-22 | a | n = 353 y rc = 10 o n = 325 y rc = 10 (por aproximación Poisson). | 325 | n = 353; rc = 10 / normal: n = 326; rc = 10 / Poisson: n = 360 |  |
-| III-22 | b | n = 218 y rc = 7 o n = 186 y rc = 7 (por aproximación Poisson). | 186 | n = 209; rc = 7 / normal: n = 201; rc = 7 / Poisson: n = 215 |  |
+| III-15 | d | R = 1,44546 → R = 1,01182; n ≈ 22.255 árboles (aproximación normal); n ≈ 26.909 árboles (aproximación de Poisson). | 26.909 | n = 22255 | Poisson: la guía da 26.909 tanteando valores de n; la relación entre límites cambia apenas 4·10⁻⁷ por unidad de n, así que el n depende de cómo se tantea. La app informa la aproximación normal (22.255), que sí coincide. |
+| III-16 | a | (Criterio pesimista) H0) p ≤ p0 = 0,12; CR: Si r ≥ rc = 233 éxitos se rechaza la H0 o r ≥ rc = 229 éxitos (por aproximación normal); RD: Si de una muestra de 1.675 encuestados por lo menos 233 se encuentran interesados,  | 228 | n = 1675; rc = 233 / normal: n = 1637; rc = 229 / Poisson: n = 1921; rc = 268 | Inconsistencia de la guía: la CR por aproximación normal dice r_c = 229 (conservador) y la RD dice 228 (con 228, α real = 0,0101 > 0,01). La app informa 229. |
+
+## Coinciden solo aproximadamente
+
+Valores que coinciden con tolerancia pero no en todos los dígitos que informa la guía. Casi siempre es un redondeo intermedio de la cátedra (valores de tabla) o una errata; la explicación está en `datos/diferencias_explicadas.json` y las reglas en `CONVENCIONES_CATEDRA.md`.
+
+| Ejercicio | Inciso | Valores de la guía | Explicación |
+|---|---|---|---|
+| I-4 | a | 20.203,88 | Errata de la guía: el límite exacto 20.203,8696 se informa 20.203,88 (redondeado da 20.203,87). |
+| III-16 | b | 0,5443 | La guía calcula la potencia con el r_c = 228 de su RD (0,5443); con el r_c conservador 229 la aproximación normal da 0,5159 y el plan exacto 0,5527. |
+| III-18 | b | 0,2569 | La guía usa su plan 1.585 / 73, que cumple α y β pero no es el de n mínimo (1.561 / 72) ni el más próximo a las premisas (1.562 / 72): ninguna regla lo reproduce. |
+| V-3 | b | 194,4482 | Errata de la guía: imprime e = 194,4494 en a) y 194,4482 en b); los límites (67,55 y 456,45) coinciden. |
+| VI-20 | b | 39,1307 | La cátedra usa probabilidades de la tabla normal (z con 2 decimales, P con 4) y Fe con 2 decimales; con precisión completa χ² difiere menos del 1 % y la decisión no cambia. Redondear solo P y Fe no alcanza para reproducirlo. |
+| VI-20 | c | 2,1333 | Ídem b): probabilidades de tabla en la guía; con precisión completa difiere menos del 1 % y la decisión no cambia. |
+| VII-5 | b | 199.813,14 | La guía usa t de tabla con 4 decimales (1,3968) y da 199.813,14; con el t exacto es 199.812,46. Usar t de tabla en toda la regresión empeora otros 16 límites, por eso la app usa el valor exacto. |
+| VII-12 | g | 9,0943 | La guía informa la semiamplitud ±9,0943 calculada con t de tabla (2,2281); los límites del intervalo coinciden. |
+| VIII-1 | única | 0,9438, 92,0874 | F: la guía usa R² redondeado a 0,9485 y da 92,0874; exacto es 92,0256 (la decisión no cambia). El texto dice R²aj = 0,9438 (dígitos transpuestos): su propia tabla y el cálculo dan 0,9382. |
+| VIII-2 | b | 0,8957 | La guía da R²aj = 0,8957, que sale con (n − 1)/(n − k); con la fórmula de la teoría, (n − 1)/(n − p), es 0,8808. |

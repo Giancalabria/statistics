@@ -22,7 +22,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(RAIZ))
 sys.path.insert(0, str(RAIZ / "herramientas"))
 
-from evaluar_guia import coincide, decision_de, decision_de_texto, emparejar, entradas  # noqa: E402
+from evaluar_guia import coincide, coincide_exacto, decision_de, decision_de_texto, emparejar, entradas  # noqa: E402
 from interprete.analizador import analizar  # noqa: E402
 from interprete.modelo import TEMAS, TIPOS  # noqa: E402
 from interprete.resolver import resolver  # noqa: E402
@@ -84,6 +84,15 @@ def resolver_ejercicio(ej):
     return an, resolver(an), corregido
 
 
+EXPLICADAS = {k: v for k, v in json.loads((RAIZ / "datos" / "diferencias_explicadas.json").read_text(encoding="utf-8"))
+              .items() if not k.startswith("_")}
+
+
+def aproximados(guia_inc, numeros):
+    """Valores de la guía que coinciden solo con tolerancia, no dígito a dígito."""
+    return [v for v in guia_inc.get("valores") or [] if coincide(v, numeros) and not coincide_exacto(v, numeros)]
+
+
 def estado_inciso(guia_inc, res, numeros):
     esperado = guia_inc.get("valores") or []
     if esperado:
@@ -95,7 +104,7 @@ def estado_inciso(guia_inc, res, numeros):
     return "ℹ️", []
 
 
-def md_ejercicio(ej, discrepancias, resumen):
+def md_ejercicio(ej, discrepancias, resumen, aprox_lista=None):
     an, resultados, corregido = resolver_ejercicio(ej)
     out = [f"### {ej['id']} · Problema {ej['numero']} (pág. {ej['pagina']}){' ✍️' if corregido else ''}", ""]
     out.append(f"**Enunciado.** {ej['planteo']}")
@@ -146,10 +155,17 @@ def md_ejercicio(ej, discrepancias, resumen):
         if guia_inc.get("respuesta"):
             out.append(f"**Respuesta de la guía:** {guia_inc['respuesta']}")
             out.append("")
+        explicacion = EXPLICADAS.get(f"{ej['id']}:{inc.letra}", "")
+        aprox = aproximados(guia_inc, nums) if marca == "✅" else []
+        if aprox and aprox_lista is not None:
+            aprox_lista.append((ej["id"], inc.letra, aprox, explicacion))
+            out.append(f"> ≈ Coincide solo aproximadamente ({', '.join(fmt(v, 6) for v in aprox)})" +
+                       (f": {explicacion}" if explicacion else "."))
+            out.append("")
         if marca == "⚠️":
             discrepancias.append((ej["id"], inc.letra, guia_inc.get("respuesta", ""), faltan,
                                   res.resumen or (res.errores[0] if res.errores else ""),
-                                  ej.get("observaciones", "")))
+                                  explicacion or ej.get("observaciones", "")))
             out.append(f"> ⚠️ **No coincide con la guía**" + (f" (no aparecen: {', '.join(fmt(v, 6) for v in faltan)})"
                                                               if faltan else "") + ". Ver la lista de discrepancias.")
             out.append("")
@@ -170,14 +186,14 @@ def md_ejercicio(ej, discrepancias, resumen):
 def main():
     filtros = [a for a in sys.argv[1:] if not a.startswith("-")]
     sel = [e for e in GUIA if not filtros or e["id"] in filtros or e["tema"] in filtros]
-    discrepancias, resumen = [], {}
+    discrepancias, resumen, aprox = [], {}, []
     cuerpo = []
     tema_actual = None
     for ej in sel:
         if ej["tema"] != tema_actual:
             tema_actual = ej["tema"]
             cuerpo += [f"## TEMA {tema_actual} — {NOMBRES_TEMA[tema_actual]}", ""]
-        cuerpo += md_ejercicio(ej, discrepancias, resumen)
+        cuerpo += md_ejercicio(ej, discrepancias, resumen, aprox)
     cab = ["# Guía de Problemas de Estadística Aplicada 2026 — resuelta", "",
            "Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_ejercicios.json` "
            "(transcripción verificada contra el PDF) y el intérprete + solver de la app. Cada inciso muestra los pasos "
@@ -194,6 +210,13 @@ def main():
     for eid, letra, resp, faltan, app, obs in discrepancias:
         limpio = lambda s: (s or "").replace("|", "/").replace("\n", " ")[:220]
         pie.append(f"| {eid} | {letra} | {limpio(resp)} | {', '.join(fmt(v, 6) for v in faltan)} | {limpio(app)} | {limpio(obs)} |")
+    pie += ["", "## Coinciden solo aproximadamente", "",
+            "Valores que coinciden con tolerancia pero no en todos los dígitos que informa la guía. Casi siempre es un "
+            "redondeo intermedio de la cátedra (valores de tabla) o una errata; la explicación está en "
+            "`datos/diferencias_explicadas.json` y las reglas en `CONVENCIONES_CATEDRA.md`.", "",
+            "| Ejercicio | Inciso | Valores de la guía | Explicación |", "|---|---|---|---|"]
+    for eid, letra, vals, expl in aprox:
+        pie.append(f"| {eid} | {letra} | {', '.join(fmt(v, 6) for v in vals)} | {(expl or 'sin revisar').replace('|', '/')} |")
     texto = "\n".join(cab + cuerpo + pie) + "\n"
     if filtros:
         sys.stdout.reconfigure(encoding="utf-8")

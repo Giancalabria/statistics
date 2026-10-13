@@ -1,0 +1,15 @@
+{
+  "_descripcion": "Por qué un valor de la guía no coincide (o coincide solo aproximadamente) con lo que calcula la app. Clave: 'EJERCICIO:inciso'. Lo usa herramientas/generar_resueltos.py. Ver CONVENCIONES_CATEDRA.md.",
+  "I-4:a": "Errata de la guía: el límite exacto 20.203,8696 se informa 20.203,88 (redondeado da 20.203,87).",
+  "III-15:d": "Poisson: la guía da 26.909 tanteando valores de n; la relación entre límites cambia apenas 4·10⁻⁷ por unidad de n, así que el n depende de cómo se tantea. La app informa la aproximación normal (22.255), que sí coincide.",
+  "III-16:a": "Inconsistencia de la guía: la CR por aproximación normal dice r_c = 229 (conservador) y la RD dice 228 (con 228, α real = 0,0101 > 0,01). La app informa 229.",
+  "III-16:b": "La guía calcula la potencia con el r_c = 228 de su RD (0,5443); con el r_c conservador 229 la aproximación normal da 0,5159 y el plan exacto 0,5527.",
+  "III-18:b": "La guía usa su plan 1.585 / 73, que cumple α y β pero no es el de n mínimo (1.561 / 72) ni el más próximo a las premisas (1.562 / 72): ninguna regla lo reproduce.",
+  "V-3:b": "Errata de la guía: imprime e = 194,4494 en a) y 194,4482 en b); los límites (67,55 y 456,45) coinciden.",
+  "VI-20:b": "La cátedra usa probabilidades de la tabla normal (z con 2 decimales, P con 4) y Fe con 2 decimales; con precisión completa χ² difiere menos del 1 % y la decisión no cambia. Redondear solo P y Fe no alcanza para reproducirlo.",
+  "VI-20:c": "Ídem b): probabilidades de tabla en la guía; con precisión completa difiere menos del 1 % y la decisión no cambia.",
+  "VII-5:b": "La guía usa t de tabla con 4 decimales (1,3968) y da 199.813,14; con el t exacto es 199.812,46. Usar t de tabla en toda la regresión empeora otros 16 límites, por eso la app usa el valor exacto.",
+  "VII-12:g": "La guía informa la semiamplitud ±9,0943 calculada con t de tabla (2,2281); los límites del intervalo coinciden.",
+  "VIII-1:única": "F: la guía usa R² redondeado a 0,9485 y da 92,0874; exacto es 92,0256 (la decisión no cambia). El texto dice R²aj = 0,9438 (dígitos transpuestos): su propia tabla y el cálculo dan 0,9382.",
+  "VIII-2:b": "La guía da R²aj = 0,8957, que sale con (n − 1)/(n − k); con la fórmula de la teoría, (n − 1)/(n − p), es 0,8808."
+}

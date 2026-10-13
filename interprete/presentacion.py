@@ -89,7 +89,7 @@ def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: 
 def _modelo_media(d: Dict, tipo: str) -> List[str]:
     finita = d.get("N")
     fpc = (f" Como la población es finita (N = {_v(finita)}) y se muestrea sin reposición, el error estándar lleva "
-           f"el factor √((N-n)/(N-1)).") if finita else ""
+           f"el factor √((N-n)/N).") if finita else ""
     if d.get("sigma_conocido"):
         lineas = ["La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale "
                   "el Teorema Central del Límite).",

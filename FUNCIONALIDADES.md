@@ -22,11 +22,14 @@ de la interfaz (probada con `pytest` en `tests/`).
 | `datos/verdad/tema_*.json` | Transcripción de la Guía de Problemas 2026 verificada página por página contra el PDF: enunciado, incisos, tablas estructuradas, respuesta de cada inciso y sus valores numéricos, notas sobre erratas de la guía. |
 | `datos/guia_ejercicios.json` | Los 142 ejercicios unidos (`herramientas/armar_guia.py`). Es lo que usan el buscador, el evaluador y el generador de resueltos. |
 | `Guia_resuelta.md` | Todos los ejercicios de la guía resueltos por la app paso a paso, con la respuesta de la guía al lado y la lista de discrepancias (`herramientas/generar_resueltos.py`). |
-| `herramientas/` | Scripts de mantenimiento: `armar_guia.py` (verdad → JSON), `evaluar_guia.py` (mide el intérprete contra los valores de la guía, temas I–VIII), `generar_resueltos.py` (arma `Guia_resuelta.md`), `extraer_guia.py` (extracción automática vieja del PDF, ya no se usa para el JSON), `ver_analisis.py`. |
+| `herramientas/` | Scripts de mantenimiento: `armar_guia.py` (verdad → JSON), `evaluar_guia.py` (mide el intérprete contra los valores de la guía, temas I–VIII, con tolerancia y dígito a dígito), `generar_resueltos.py` (arma `Guia_resuelta.md`), `extraer_guia.py` (extracción automática vieja del PDF, ya no se usa para el JSON), `ver_analisis.py`. |
 | `solver/distributions.py` | Wrappers sobre `scipy.stats` (valores críticos e inversos para Z, t, χ², F, Beta, Binomial; factor de corrección por finitud). |
 | `solver/intervals.py`, `hypothesis_one.py`, `two_samples.py`, `chi_square.py` | Lógica estadística de cada módulo. |
 | `solver/ajuste.py` | Bondad de ajuste χ² calculando las frecuencias esperadas de un modelo (uniforme, binomial, Poisson, normal, log-normal, exponencial, gamma, Weibull, Gumbel máx/mín, Pareto), con estimación por momentos y amalgamado de clases. |
 | `solver/regresion.py` | Regresión simple (recta, r, ensayos e intervalos, modelos linealizables, recta por el origen, desde sumatorias) y múltiple (b, R², R² ajustado, F global, t parciales, PRESS, DET, Cp, VIF, selección de modelos). |
+| `interprete/redondeo.py` | Redondeo de presentación de la cátedra: intervalos y críticos hacia afuera, decimales por tipo de valor (ver `CONVENCIONES_CATEDRA.md`). |
+| `datos/diferencias_explicadas.json` | Por qué cada valor de la guía que no coincide (o coincide solo aproximadamente) es distinto: errata, valor de tabla, etc. |
+| `CONVENCIONES_CATEDRA.md` | Reglas de la cátedra verificadas contra la guía (población finita √((N-n)/N), β con crítico redondeado, planes de muestreo, etc.) y las evaluadas y descartadas. |
 | `solver/wording.py` | Genera las conclusiones en lenguaje natural (redacción formal de resultados). |
 | `esquema_teorico_examen_estadistica.md` | Árbol de decisión teórico que la app sigue. |
 
@@ -36,7 +39,7 @@ de la interfaz (probada con `pytest` en `tests/`).
 
 Permite elegir el **parámetro** a estimar (Media, Varianza/Desvío o Proporción), el **objetivo**
 (calcular el IC o el tamaño de muestra `n`) y el **nivel de confianza**. Opcionalmente admite
-población finita (con `N` conocido), aplicando el factor de corrección por finitud (fpc).
+población finita (con `N` conocido), aplicando el factor de corrección por finitud de la cátedra, √((N−n)/N).
 
 - **Media**
   - IC con σ conocido (distribución Z) o σ desconocido (distribución t, con grados de libertad).

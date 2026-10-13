@@ -13,6 +13,8 @@ respuesta es solo verbal se compara la decisión (rechaza / no rechaza).
 Métricas:
 - tema: el tema detectado coincide con el TEMA de la guía.
 - valores: cuántos de los valores de la respuesta aparecen (con tolerancia de redondeo) en lo calculado.
+- exactos: de esos, cuántos coinciden en todos los dígitos que informa la guía (redondeo común o hacia
+  afuera). Los que solo coinciden «aprox.» delatan una convención de la cátedra que no se aplica.
 - decisiones: en incisos sin valores, si la decisión coincide.
 """
 
@@ -43,6 +45,28 @@ def coincide(v: float, calculados) -> bool:
             tol = max(0.011 if abs(v) >= 0.1 else 0.0006, abs(v) * 0.003)
             if abs(cand - v) <= tol:
                 return True
+    return False
+
+
+def _decimales(v: float) -> int:
+    s = repr(float(v))
+    if "e" in s:
+        return 6
+    return len(s.split(".")[1].rstrip("0")) if "." in s else 0
+
+
+def coincide_exacto(v: float, calculados) -> bool:
+    """v coincide dígito a dígito con algún calculado redondeado a los decimales de v (común o hacia afuera)."""
+    import math
+    d = _decimales(v)
+    k = 10 ** d
+    for c in calculados:
+        if c is None:
+            continue
+        for cand in (c, c * 100):
+            for r in (round(cand, d), math.floor(cand * k + 1e-9) / k, math.ceil(cand * k - 1e-9) / k):
+                if abs(r - v) < 10 ** -(d + 3):
+                    return True
     return False
 
 
@@ -113,13 +137,15 @@ def evaluar(ej, verbose=False, solo_fallas=False):
     planteo, incisos = entradas(ej)
     an = analizar(planteo, incisos, tablas=ej.get("tablas") or None)
     resultados = resolver(an)
-    tot = ok = dtot = dok = 0
+    tot = ok = exactos = dtot = dok = 0
     lineas = []
     for inc, res, guia, nums in emparejar(ej, an, resultados):
         esperado = guia.get("valores", []) or []
         hits = [v for v in esperado if coincide(v, nums)]
+        aprox = [v for v in hits if not coincide_exacto(v, nums)]
         tot += len(esperado)
         ok += len(hits)
+        exactos += len(hits) - len(aprox)
         marca = "OK " if esperado and len(hits) == len(esperado) else ("-- " if not esperado else "XX ")
         dec = guia.get("decision") or (decision_de_texto(guia.get("respuesta", "")) if decision_de(res) else "")
         if not esperado and dec:
@@ -129,17 +155,19 @@ def evaluar(ej, verbose=False, solo_fallas=False):
                 marca = "OKd"
             else:
                 marca = "XXd"
-        falla = marca.startswith("XX") or bool(res.errores)
+        if marca == "OK " and aprox:
+            marca = "OK~"
+        falla = marca.startswith("XX") or marca == "OK~" or bool(res.errores)
         if verbose and (not solo_fallas or falla):
             err = f" ERR: {res.errores[0]}" if res.errores else ""
             faltan = [v for v in esperado if v not in hits]
             lineas.append(f"  {marca} {inc.letra}) {inc.tipo:10s} {res.resumen[:90]}"
-                          f"{'  | faltan ' + str(faltan) if faltan else ''}{'  | guía: ' + dec if marca == 'XXd' else ''}{err}")
+                          f"{'  | faltan ' + str(faltan) if faltan else ''}{'  | aprox. ' + str(aprox) if aprox else ''}{'  | guía: ' + dec if marca == 'XXd' else ''}{err}")
     tema_ok = an.tema in TEMA_ESPERADO[ej["tema"]]
     if verbose and (lineas or not tema_ok):
         print(f"=== {ej['id']} tema={an.tema}{'' if tema_ok else ' (!! guía ' + ej['tema'] + ')'}")
         print("\n".join(lineas))
-    return tema_ok, tot, ok, dtot, dok
+    return tema_ok, tot, ok, exactos, dtot, dok
 
 
 def main():
@@ -151,16 +179,16 @@ def main():
     por_tema = {}
     for ej in sel:
         r = evaluar(ej, verbose, solo_fallas)
-        t = por_tema.setdefault(ej["tema"], [0] * 6)
+        t = por_tema.setdefault(ej["tema"], [0] * 7)
         for i, v in enumerate((1,) + r):
             t[i] += v
-    print("\nTEMA   ejerc  tema_ok   valores      decisiones")
-    g = [0] * 6
-    for tema, (n, tok, tot, ok, dtot, dok) in por_tema.items():
-        print(f"{tema:5s} {n:5d}  {tok:5d}     {ok:4d}/{tot:<4d}    {dok:3d}/{dtot}")
-        g = [a + b for a, b in zip(g, (n, tok, tot, ok, dtot, dok))]
-    print(f"TOTAL {g[0]:5d}  {g[1]:5d}     {g[3]:4d}/{g[2]:<4d} ({100 * g[3] / max(1, g[2]):.0f}%)   "
-          f"{g[5]:3d}/{g[4]}")
+    print("\nTEMA   ejerc  tema_ok   valores    exactos     decisiones")
+    g = [0] * 7
+    for tema, (n, tok, tot, ok, ex, dtot, dok) in por_tema.items():
+        print(f"{tema:5s} {n:5d}  {tok:5d}     {ok:4d}/{tot:<4d}  {ex:4d}/{tot:<4d}   {dok:3d}/{dtot}")
+        g = [a + b for a, b in zip(g, (n, tok, tot, ok, ex, dtot, dok))]
+    print(f"TOTAL {g[0]:5d}  {g[1]:5d}     {g[3]:4d}/{g[2]:<4d}  {g[4]:4d}/{g[2]:<4d}   {g[6]:3d}/{g[5]}   "
+          f"({100 * g[3] / max(1, g[2]):.0f}% · exactos {100 * g[4] / max(1, g[2]):.0f}%)")
 
 
 if __name__ == "__main__":

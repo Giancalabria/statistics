@@ -1352,6 +1352,15 @@ def clasificar_inciso(norm: str, tema: str, contexto: str) -> Tuple[str, str]:
 
 def detectar_cola(norm: str, planteo_norm: str, tema: str, datos: dict) -> Tuple[str, str]:
     """Dirección de H1 según las palabras del inciso (y, si no alcanza, del planteo)."""
+    ref = {"media": ("xbar", "mu0"), "varianza": ("desvio", "sigma0"), "proporcion": ("p_hat", "p0")}.get(tema)
+    # hipótesis planteada DESPUÉS de ver la muestra (I-32, I-36): unilateral hacia donde apunta la muestra, aunque el
+    # problema sea de control (el bilateral no se usa a posteriori)
+    if ref and ref[0] in datos and ref[1] in datos and datos[ref[0]] != datos[ref[1]] and \
+            _hay(r"(a la luz de (los )?(datos|resultados)|luego de (evaluar|ver|analizar) (los )?(resultados|datos)|"
+                 r"despues de (evaluar|ver|analizar) (los )?(resultados|datos))", norm + " " + planteo_norm):
+        lado = "derecha" if datos[ref[0]] > datos[ref[1]] else "izquierda"
+        return lado, ("La hipótesis se plantea «a la luz de los datos» (después de ver la muestra): unilateral hacia "
+                      "donde apunta la muestra; el bilateral no se usa a posteriori.")
     for texto, donde in ((norm, "inciso"), (planteo_norm, "planteo")):
         # especificaciones de control (criterio optimista)
         if _hay(r"(mayor o igual|por lo menos|como minimo|minimo admisible|minima es de|resistencia media minima|"

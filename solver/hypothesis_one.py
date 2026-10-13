@@ -35,6 +35,29 @@ class HypothesisTestResult:
 # 2.2 Media poblacional (mu), sigma CONOCIDO
 # ---------------------------------------------------------------------------
 
+def critico_catedra(xc, tail: str, decimales: int = 4):
+    """Valor crítico redondeado hacia afuera (achicando la región de rechazo), como lo usa la cátedra para
+    calcular β: cola derecha hacia arriba, izquierda hacia abajo; bilateral (abajo, arriba).
+    Con el crítico exacto no se reproducen I-9b, I-11b, I-27b (convención C-3 / modo cátedra)."""
+    from math import floor
+    k = 10 ** decimales
+    arriba = lambda v: ceil(v * k - 1e-9) / k
+    abajo = lambda v: floor(v * k + 1e-9) / k
+    if tail == "bilateral":
+        return abajo(xc[0]), arriba(xc[1])
+    return arriba(xc) if tail == "derecha" else abajo(xc)
+
+
+def _beta_media(xc, mu1: float, se: float, tail: str) -> float:
+    """β en μ₁ (con la normal) usando el crítico de la cátedra (redondeado hacia afuera a 4 decimales)."""
+    xc = critico_catedra(xc, tail)
+    if tail == "derecha":
+        return dist.norm_cdf((xc - mu1) / se)
+    if tail == "izquierda":
+        return 1 - dist.norm_cdf((xc - mu1) / se)
+    return dist.norm_cdf((xc[1] - mu1) / se) - dist.norm_cdf((xc[0] - mu1) / se)
+
+
 def ensayo_media_sigma_conocido(
     xbar: float,
     sigma: float,
@@ -87,16 +110,7 @@ def ensayo_media_sigma_conocido(
 
     if mu1 is not None:
         se = sigma / sqrt(n)
-        if tail == "derecha":
-            z_beta = (xbar_c - mu1) / se
-            result.beta = dist.norm_cdf(z_beta)
-        elif tail == "izquierda":
-            z_beta = (xbar_c - mu1) / se
-            result.beta = 1 - dist.norm_cdf(z_beta)
-        else:  # bilateral
-            z_beta_sup = (xbar_c2 - mu1) / se
-            z_beta_inf = (xbar_c1 - mu1) / se
-            result.beta = dist.norm_cdf(z_beta_sup) - dist.norm_cdf(z_beta_inf)
+        result.beta = _beta_media(critical_value, mu1, se, tail)
         result.power = 1 - result.beta
 
     return result
@@ -438,16 +452,7 @@ def ensayo_media_sigma_desconocido(
 
     if mu1 is not None:
         se = s / sqrt(n)
-        if tail == "derecha":
-            z_beta = (xbar_c - mu1) / se
-            result.beta = dist.norm_cdf(z_beta)
-        elif tail == "izquierda":
-            z_beta = (xbar_c - mu1) / se
-            result.beta = 1 - dist.norm_cdf(z_beta)
-        else:  # bilateral
-            z_beta_sup = (xbar_c2 - mu1) / se
-            z_beta_inf = (xbar_c1 - mu1) / se
-            result.beta = dist.norm_cdf(z_beta_sup) - dist.norm_cdf(z_beta_inf)
+        result.beta = _beta_media(critical_value, mu1, se, tail)
         result.power = 1 - result.beta
 
     return result
@@ -803,6 +808,30 @@ def planes_factibles(p0: float, p1: float, alpha: float, beta: float, tail: Opti
     return salida
 
 
+def plan_mas_proximo(p0: float, p1: float, alpha: float, beta: float, tail: Optional[str] = None
+                     ) -> Tuple[int, int, float, float]:
+    """Plan «más próximo a las premisas» (regla inferida de la guía, reproduce 10 de 11 planes: III-16c, III-17,
+    III-22b además de los que ya da el n mínimo): entre los planes factibles con r_c igual al del plan de n mínimo
+    o el siguiente, el que minimiza |α_real - α| + |β_real - β|. Devuelve (n, r_c, α_real, β_real)."""
+    import numpy as np
+    from scipy import stats
+    tail = tail or ("derecha" if p1 > p0 else "izquierda")
+    base = disenar_plan_proporcion(p0, p1, alpha, beta, tail)
+    mejor = (base.n, base.rc, base.alpha_real, base.beta_real)
+    puntaje = abs(base.alpha_real - alpha) + abs(base.beta_real - beta)
+    for rc in (base.rc, base.rc + 1):
+        ns = np.arange(max(rc, 1), int(base.n * 1.6) + 2)
+        if tail == "derecha":
+            a_, b_ = stats.binom.sf(rc - 1, ns, p0), stats.binom.cdf(rc - 1, ns, p1)
+        else:
+            a_, b_ = stats.binom.cdf(rc, ns, p0), stats.binom.sf(rc, ns, p1)
+        for i in np.nonzero((a_ <= alpha) & (b_ <= beta))[0]:
+            sc = abs(a_[i] - alpha) + abs(b_[i] - beta)
+            if sc < puntaje - 1e-15:
+                puntaje, mejor = sc, (int(ns[i]), rc, float(a_[i]), float(b_[i]))
+    return mejor
+
+
 def _m_tabla(m: float, hacia: str) -> float:
     """m redondeado a la resolución de una tabla de Poisson (0,1), del lado conservador."""
     from math import ceil, floor
@@ -829,6 +858,50 @@ def plan_poisson_tabla(p0: float, rc: int, alpha: float, tail: str) -> Optional[
     if mt > 20 or n < 1:
         return None
     return n, mt
+
+
+@dataclass
+class PlanPoissonGarcia:
+    n: int
+    rc: int
+    a: float
+    nu: float          # ν de la ecuación de García (sin redondear)
+    gl: int            # grados de libertad de la χ² que se usan para n
+    n_alpha: float     # n que cumple α en p₀ (sin redondear)
+    n_beta: float      # n que cumple β en p₁ (sin redondear)
+
+
+def plan_poisson_garcia(p0: float, p1: float, alpha: float, beta: float, tail: str) -> PlanPoissonGarcia:
+    """Diseño del plan por aproximación de Poisson con la Ecuación de García (teoría cap. 2 p. 26-27).
+
+    CASO I (cola derecha, rechazo si r ≥ r_c): R = p₁/p₀, a = [Z(1-β) + Z(1-α)·∛R] / [2(∛R - 1)],
+    ν = 2/9·(a + √(a² + 1))²; c = ⌊ν/2⌋, g.l. = 2c, n = máx[χ²(α; 2c)/(2p₀) ; χ²(1-β; 2c)/(2p₁)] y r_c = c + 1.
+    CASO II (cola izquierda, rechazo si r ≤ r_c): R = p₀/p₁, a = [Z(1-α) + Z(1-β)·∛R] / [2(∛R - 1)],
+    r_c = ⌈(ν - 2)/2⌉, g.l. = 2r_c + 2, n = máx[χ²(1-α; g.l.)/(2p₀) ; χ²(β; g.l.)/(2p₁)].
+    El redondeo de ν/2 no lo da la teoría: esta regla reproduce III-11c (855), III-17 (227), III-22a (325) y
+    III-22b (186). Ojo: esos planes no siempre cumplen α y β exactos (la aproximación es gruesa)."""
+    from math import floor
+    za, zb = dist.z_value(1 - alpha), dist.z_value(1 - beta)
+    if tail == "derecha":
+        R = p1 / p0
+        c3 = R ** (1 / 3)
+        a = (zb + za * c3) / (2 * (c3 - 1))
+    else:
+        R = p0 / p1
+        c3 = R ** (1 / 3)
+        a = (za + zb * c3) / (2 * (c3 - 1))
+    if R <= 1:
+        raise ValueError("Para el plan hace falta p₁ del lado de H1 respecto de p₀")
+    nu = 2 / 9 * (a + sqrt(a * a + 1)) ** 2
+    if tail == "derecha":
+        c = max(1, floor(nu / 2 + 1e-9))
+        gl, rc = 2 * c, c + 1
+        n_a, n_b = dist.chi2_value(alpha, gl) / (2 * p0), dist.chi2_value(1 - beta, gl) / (2 * p1)
+    else:
+        rc = max(0, ceil((nu - 2) / 2 - 1e-9))
+        gl = 2 * rc + 2
+        n_a, n_b = dist.chi2_value(1 - alpha, gl) / (2 * p0), dist.chi2_value(beta, gl) / (2 * p1)
+    return PlanPoissonGarcia(n=ceil(max(n_a, n_b) - 1e-9), rc=rc, a=a, nu=nu, gl=gl, n_alpha=n_a, n_beta=n_b)
 
 
 def n_plan_dado_poisson(p0: float, rc: int, prob_aceptar: float) -> Optional[Tuple[int, float]]:

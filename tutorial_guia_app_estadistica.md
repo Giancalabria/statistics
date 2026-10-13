@@ -50,7 +50,7 @@ Traducí el enunciado a un modelo matemático **único** antes de tocar la calcu
 | **Variable aleatoria X** | El fenómeno que se mide (resistencia, tiempo de falla, peso...) | Define el parámetro (μ, σ², p) |
 | **Unidad de medida** | kg, horas, miles de $... | μ, σ y el total τ tienen que quedar en la misma unidad |
 | **Tipo de muestreo** | Aleatorio simple, estratificado, sistemático, por conglomerados | Condiciona la representatividad y el modelo de error |
-| **Población** | Infinita o finita (N) | Con N conocido va el factor √((N-n)/(N-1)) |
+| **Población** | Infinita o finita (N) | Con N conocido va el factor √((N-n)/N) |
 | **Parámetro vs. estimador** | ¿Te dan σ (poblacional/histórico) o solo S (de la muestra)? | Decide Z o t de Student |
 
 **Por qué importa:** el **parámetro** (μ, σ², p) es una constante fija y desconocida; el **estimador**
@@ -107,7 +107,7 @@ Si X no es Normal, x̄ se considera aproximadamente Normal solo con **n ≥ 30**
 | :--- | :--- | :--- |
 | σ **conocido** | Normal **Z** | Z = (x̄ - μ)/(σ/√n) |
 | σ **desconocido** (solo S) | **t de Student**, ν = n - 1 | t = (x̄ - μ)/(S/√n). Cuando ν → ∞ la t tiende a la Normal |
-| Población **finita** (N) | Z o t con factor de corrección | Error estándar × √((N-n)/(N-1)). **No es opcional**: sin él el error e queda inflado y el intervalo sale más ancho de lo que es |
+| Población **finita** (N) | Z o t con factor de corrección | Error estándar × √((N-n)/N). **No es opcional**: sin él el error e queda inflado y el intervalo sale más ancho de lo que es |
 | **Total poblacional** | τ = N · μ | Límites del IC de μ multiplicados por N |
 | **Varianza / desvío** | **χ²**, ν = n - 1 | (n-1)·S²/σ² ~ χ². También para bondad de ajuste |
 | **n para la varianza** | **Ecuación de García** | Ver Módulo II §2.1: a = Z(1-α/2)·(∛R + 1) / (2·(∛R - 1)), ν = (2/9)·(a + √(a² + 1))², n = ⌈ν + 1⌉, con R = (B'/A')² |

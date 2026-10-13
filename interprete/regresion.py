@@ -19,6 +19,7 @@ from typing import Dict, List, Optional, Tuple
 
 from solver import regresion as rg
 
+from . import redondeo
 from .analizador import _hay
 from .modelo import DESPACHO_EXTRA, EXTENSIONES, TIPOS, TIPOS_POR_TEMA, Analisis, Evidencia, Inciso
 from .tablas import columnas_numericas
@@ -502,13 +503,16 @@ def pronostico(d, alpha, res, estado):
     res.resumen = f"ŷ₀ = {fmt(y0, 4)}; {texto_lim}"
     conf = fmt(100 * (1 - alpha), 2)
     if cola == "bilateral":
+        ar, br, nota = redondeo.intervalo(A, B, 4)
         res.conclusion = (f"Con un {conf}% de confianza, {'el valor de y' if individual else 'el promedio de y'} para x₀ = "
-                          f"{fmt(x0, 4)} estará entre {fmt(A, 4)} y {fmt(B, 4)}: P({fmt(A, 4)} ≤ "
-                          f"{'y' if individual else 'μy'}(x₀) ≤ {fmt(B, 4)}) = {fmt(1 - alpha, 4)}.")
+                          f"{fmt(x0, 4)} estará entre {ar} y {br}: P({ar} ≤ "
+                          f"{'y' if individual else 'μy'}(x₀) ≤ {br}) = {fmt(1 - alpha, 4)}{nota}.")
     else:
         v = A if cola == "inferior" else B
         res.conclusion = (f"Con un {conf}% de confianza el valor {'mínimo' if cola == 'inferior' else 'máximo'} de y para "
-                          f"x₀ = {fmt(x0, 4)} es {fmt(v, 4)}" + (f" ({fmt(v * ey, 2)} en unidades)" if ey != 1 else "") + ".")
+                          f"x₀ = {fmt(x0, 4)} es {redondeo.cota(v, cola != 'inferior', 4)}" +
+                          (f" ({redondeo.cota(v * ey, cola != 'inferior', 2)} en unidades)" if ey != 1 else "") +
+                          f" (redondeado hacia {'abajo' if cola == 'inferior' else 'arriba'}; sin redondear {fmt(v, 6)}).")
 
 
 def ic_coef(d, alpha, res, estado):

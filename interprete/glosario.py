@@ -24,7 +24,7 @@ FRASES: List[Tuple[str, str, str]] = [
      "Rehacer con S (calculado de la muestra) y t de Student en lugar de σ y Z."),
     (r"varianza (dio|de|fue)", "'la varianza dio 456'", "Es S²: el desvío es S = √S²."),
     (r"poblacion (total )?de|sobre un lote de|partida de \d", "'población de 1.200' / 'lote de 1.400'",
-     "Población FINITA: si n/N > 5% aplicá el factor √((N-n)/(N-1)) al error estándar (y n = N·n∞/(N+n∞))."),
+     "Población FINITA: si el enunciado da N, aplicá (siempre, sin umbral) el factor √((N-n)/N) al error estándar (y n = N·n∞/(N+n∞))."),
     (r"en miles", "'en miles'", "Cuidado con las unidades: los datos pueden estar en miles y μ₀ en unidades."),
     # --- estimación
     (r"estimar|intervalo de confianza|limites de confianza|entre que valores",

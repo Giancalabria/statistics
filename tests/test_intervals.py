@@ -221,7 +221,7 @@ def test_ic_proporcion_normal_advierte_cuando_np_menor_a_5():
         (150, 600, 0.10, 0.2210, 0.2808),  # problema 1
         (3, 25, 0.05, 0.0254, 0.3122),      # problema 2a
         (1, 10, 0.10, 0.0051, 0.3942),      # problema 3a
-        (0, 10, 0.10, 0.0, 0.2057),         # problema 3b (unilateral: alpha entero arriba)
+        (0, 10, 0.10, 0.0, 0.2589),         # problema 3b (la guía usa alpha/2 también con r = 0)
         (60, 600, 0.05, 0.0771, 0.1269),    # problema 4
         (198, 1000, 0.05, 0.1737, 0.2241),  # problema 5
         (9, 30, 0.05, 0.1473, 0.4940),      # problema 6
@@ -237,20 +237,21 @@ def test_ic_proporcion_exacto_casos_reales_de_la_guia(r, n, alpha, a_esperado, b
 def test_ic_proporcion_exacto_r_igual_a_n():
     result = intervals.ic_proporcion_exacto(10, 10, 0.05)
     assert result.b == 1.0
-    # Unilateral: la cota inferior se calcula con alpha entero, no alpha/2.
-    assert result.a == pytest.approx(0.05 ** (1 / 10))
+    # Como la guía: alpha/2 también en el extremo que no es trivial.
+    assert result.a == pytest.approx(0.025 ** (1 / 10))
     assert len(result.warnings) == 1
 
 
-def test_ic_proporcion_exacto_r_cero_es_unilateral():
-    """Con r = 0 solo hay cota superior, asi que se usa alpha entero (no alpha/2).
+def test_ic_proporcion_exacto_r_cero_usa_alpha_medio_como_la_guia():
+    """Con r = 0 el inferior es 0 y la guía calcula el superior con alpha/2 (no con alpha entero).
 
-    Problema 3b del TEMA III: n=10, 90% -> [0 ; 0.2057] = 1 - alpha^(1/n).
+    Problema 3b del TEMA III: n=10, 90% -> [0 ; 0,2589] = 1 - (alpha/2)^(1/n). Con alpha entero sería 0,2057.
     """
     result = intervals.ic_proporcion_exacto(0, 10, 0.10)
     assert result.a == 0.0
-    assert result.b == pytest.approx(1 - 0.10 ** (1 / 10))
-    assert result.b == pytest.approx(0.2057, abs=1e-4)
+    assert result.b == pytest.approx(1 - 0.05 ** (1 / 10))
+    assert result.b == pytest.approx(0.2589, abs=1e-4)
+    assert "0.2057" in result.warnings[0]
     assert len(result.warnings) == 1
 
 

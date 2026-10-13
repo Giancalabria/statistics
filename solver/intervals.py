@@ -250,22 +250,21 @@ def ic_proporcion_exacto(r: int, n: int, alpha: float) -> IntervalResult:
     warnings = []
 
     if r == 0:
-        # Con r = 0 el limite inferior es exactamente 0 y no consume riesgo: el
-        # intervalo tiene una sola cota, asi que el alpha entero va al extremo
-        # superior (no alpha/2). Ej.: n=10, alpha=0.10 -> [0 ; 0.2057].
+        # Con r = 0 el límite inferior es exactamente 0. La guía igual usa α/2 en el superior (III-3b: n=10, 90%
+        # -> [0 ; 0,2589]); la teoría pondría α entero arriba (0,2057). Se sigue a la guía y se avisa.
         a = 0.0
-        b = dist.beta_value(1 - alpha, r + 1, n - r)
+        b = dist.beta_value(1 - alpha / 2, r + 1, n - r)
         warnings.append(
-            "Con r = 0 el intervalo es unilateral (solo cota superior): se usa \u03b1 "
-            "completo en el extremo superior, no \u03b1/2."
+            "Con r = 0 el límite inferior es 0. Como la guía (III-3b), el superior se calcula con α/2; "
+            f"con α entero en el extremo superior (cota unilateral) daría {dist.beta_value(1 - alpha, r + 1, n - r):.4f}."
         )
     elif r == n:
-        # Simetrico al caso anterior: el limite superior es exactamente 1.
-        a = dist.beta_value(alpha, r, n - r + 1)
+        # Simétrico al caso anterior: el límite superior es exactamente 1.
+        a = dist.beta_value(alpha / 2, r, n - r + 1)
         b = 1.0
         warnings.append(
-            "Con r = n el intervalo es unilateral (solo cota inferior): se usa \u03b1 "
-            "completo en el extremo inferior, no \u03b1/2."
+            "Con r = n el límite superior es 1. Como la guía, el inferior se calcula con α/2; "
+            f"con α entero (cota unilateral) daría {dist.beta_value(alpha, r, n - r + 1):.4f}."
         )
     else:
         a = dist.beta_value(alpha / 2, r, n - r + 1)

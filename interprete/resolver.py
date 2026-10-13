@@ -19,6 +19,7 @@ from solver.muestra import resumen_muestra
 
 from .modelo import DESPACHO_EXTRA, TIPOS, Analisis, Inciso
 from .presentacion import agregar_presentacion, siete_pasos
+from . import redondeo
 from .texto import fmt
 
 
@@ -50,9 +51,18 @@ def _pct(alpha: float) -> str:
     return fmt((1 - alpha) * 100, 2) + "%"
 
 
-def _p(param: str, a: float, b: float, alpha: float) -> str:
-    """Notación de la cátedra: P(A ≤ θ ≤ B) = 1-α."""
+def _p(param: str, a: float, b: float, alpha: float, base: Optional[int] = None) -> str:
+    """Notación de la cátedra: P(A ≤ θ ≤ B) = 1-α. Con `base`, límites redondeados hacia afuera (ver redondeo.py)."""
+    if base is not None:
+        ar, br, _ = redondeo.intervalo(a, b, base)
+        return f"P({ar} ≤ {param} ≤ {br}) = {fmt(1 - alpha, 4)}"
     return f"P({fmt(a, 4)} ≤ {param} ≤ {fmt(b, 4)}) = {fmt(1 - alpha, 4)}"
+
+
+def _entre(a: float, b: float, base: int) -> str:
+    """'A y B' redondeados hacia afuera + nota con los valores exactos."""
+    ar, br, nota = redondeo.intervalo(a, b, base)
+    return f"{ar} y {br}{nota}"
 
 
 def _acciones(d: Dict, h1: str):
@@ -154,13 +164,17 @@ def _cota(d, alpha, res: Resultado):
     return alpha
 
 
-def _cierre_cota(d, a, b, alpha_orig, param, res: Resultado):
+def _cierre_cota(d, a, b, alpha_orig, param, res: Resultado, base: int = 2):
     if d.get("cota") == "sup":
-        res.conclusion = f"Con un {_pct(alpha_orig)} de confianza, {param} ≤ {fmt(b, 4)}: P({param} ≤ {fmt(b, 4)}) = {fmt(1 - alpha_orig, 4)}."
+        c = redondeo.cota(b, True, base)
+        res.conclusion = (f"Con un {_pct(alpha_orig)} de confianza, {param} ≤ {c}: P({param} ≤ {c}) = {fmt(1 - alpha_orig, 4)} "
+                          f"(cota máxima redondeada hacia arriba; sin redondear {fmt(b, 6)}).")
         res.numeros = [b]
         res.resumen = f"cota superior: {fmt(b, 4)}"
     else:
-        res.conclusion = f"Con un {_pct(alpha_orig)} de confianza, {param} ≥ {fmt(a, 4)}: P({param} ≥ {fmt(a, 4)}) = {fmt(1 - alpha_orig, 4)}."
+        c = redondeo.cota(a, False, base)
+        res.conclusion = (f"Con un {_pct(alpha_orig)} de confianza, {param} ≥ {c}: P({param} ≥ {c}) = {fmt(1 - alpha_orig, 4)} "
+                          f"(cota mínima redondeada hacia abajo; sin redondear {fmt(a, 6)}).")
         res.numeros = [a]
         res.resumen = f"cota inferior: {fmt(a, 4)}"
 
@@ -170,7 +184,7 @@ def media_ic(d, alpha, res: Resultado, estado):
     r = _ic_media(d, alpha)
     conocido = d.get("sigma_conocido")
     n = int(d["n"])
-    fpc = " · √((N-n)/(N-1))" if d.get("N") else ""
+    fpc = " · √((N-n)/N)" if d.get("N") else ""
     if conocido:
         res.pasos.append(f"**Distribución**: σ conocido → Z. Z(1-α/2) = Z({fmt(1 - alpha / 2, 4)}) = {fmt(r.critical_value, 4)}.")
         res.pasos.append(f"**Límites**: A;B = x̄ ∓ Z·σ/√n{fpc} = {fmt(d['xbar'], 4)} ∓ {fmt(r.critical_value, 4)}·"
@@ -184,15 +198,16 @@ def media_ic(d, alpha, res: Resultado, estado):
     if d.get("total") and d.get("N"):
         rt = ic.ic_total_poblacional(r, d["N"])
         res.pasos.append(f"**Total poblacional** T = N·μ: se multiplican los límites por N = {fmt(d['N'])}.")
-        res.conclusion = f"El total poblacional estará entre {fmt(rt.a, 2)} y {fmt(rt.b, 2)}: " + _p("T", rt.a, rt.b, alpha)
+        res.conclusion = f"El total poblacional estará entre {_entre(rt.a, rt.b, 2)}: " + _p("T", rt.a, rt.b, alpha, 2)
         res.numeros = [rt.a, rt.b]
         res.resumen = f"IC total: [{fmt(rt.a, 2)} ; {fmt(rt.b, 2)}]"
         return
     if d.get("cota"):
         _cierre_cota(d, r.a, r.b, alpha_orig, "μ", res)
         return
-    res.conclusion = (f"Se concluye que la media poblacional estará comprendida entre {fmt(r.a, 4)} y {fmt(r.b, 4)}, "
-                      f"afirmándolo con un {_pct(alpha)} de confianza, o sea: " + _p("μ", r.a, r.b, alpha) + ".")
+    ar, br, nota = redondeo.intervalo(r.a, r.b, 2, por_error=True)
+    res.conclusion = (f"Se concluye que la media poblacional estará comprendida entre {ar} y {br}, "
+                      f"afirmándolo con un {_pct(alpha)} de confianza, o sea: P({ar} ≤ μ ≤ {br}) = {fmt(1 - alpha, 4)}{nota}.")
     res.numeros = [r.a, r.b, r.error]
     res.resumen = f"IC μ: [{fmt(r.a, 4)} ; {fmt(r.b, 4)}]  (e = {fmt(r.error, 4)})"
     k = d.get("escala")
@@ -257,11 +272,11 @@ def _signo(tail):
 
 
 def _desvio_efectivo(d, res: Resultado):
-    """Con población finita el error estándar lleva √((N-n)/(N-1)): se aplica al desvío."""
+    """Con población finita el error estándar lleva √((N-n)/N): se aplica al desvío."""
     s, n, N = d["desvio"], int(d["n"]), d.get("N")
     if N and N > n:
         f = dist.fpc(N, n)
-        res.pasos.append(f"**Población finita** (N = {fmt(N)}): factor √((N-n)/(N-1)) = {fmt(f, 4)} → "
+        res.pasos.append(f"**Población finita** (N = {fmt(N)}): factor √((N-n)/N) = {fmt(f, 4)} → "
                          f"σ·factor = {fmt(s * f, 4)}.")
         return s * f
     return s
@@ -344,11 +359,14 @@ def _pasos_ensayo_media(d, r, alpha, res: Resultado, decidir=True):
     if tail == "bilateral":
         c1, c2 = r.critical_value
         res.pasos.append(f"**Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ {fmt(crit, 4)}·{base} = {fmt(d['mu0'], 4)} ∓ {fmt(crit, 4)}·{fmt(d['desvio'], 4)}/√{n} = {fmt(c1, 4)} ; {fmt(c2, 4)}. "
-                         f"Si x̄ < {fmt(c1, 4)} o x̄ > {fmt(c2, 4)} ⇒ se rechaza H0.")
+                         f"Si x̄ < {fmt(c1, 4)} o x̄ > {fmt(c2, 4)} ⇒ se rechaza H0. "
+                         f"Informados como la cátedra (hacia afuera): {redondeo.critico(r.critical_value, tail)}.")
     else:
         op = "+" if tail == "derecha" else "-"
         res.pasos.append(f"**Condición de rechazo**: x̄c = μ₀ {op} {fmt(crit, 4)}·{base} = {fmt(d['mu0'], 4)} {op} {fmt(crit, 4)}·{fmt(d['desvio'], 4)}/√{n} = {fmt(r.critical_value, 4)}. "
-                         f"Si x̄ {_signo(tail)} {fmt(r.critical_value, 4)} ⇒ se rechaza H0.")
+                         f"Si x̄ {_signo(tail)} {fmt(r.critical_value, 4)} ⇒ se rechaza H0. "
+                         f"Informado como la cátedra (hacia afuera de μ₀): x̄c = {redondeo.critico(r.critical_value, tail)}; "
+                         f"la decisión se toma con el valor exacto.")
     if decidir and d.get("xbar") is not None:
         res.pasos.append(f"**Decisión**: x̄ = {fmt(d['xbar'], 4)} → " + ("cae en la zona de rechazo." if r.rejects_h0
                                                                          else "no cae en la zona de rechazo."))
@@ -390,8 +408,9 @@ def media_beta(d, alpha, res: Resultado, estado):
     kw = {"sigma": s} if d.get("sigma_conocido") else {"s": s}
     r = f(xbar=mu0, n=int(n), mu0=mu0, alpha=alpha, tail=tail, mu1=mu1, **kw)
     se = s / sqrt(int(n))
-    xc = r.critical_value
-    res.pasos.append(f"**Región crítica** (del ensayo): H0: {r.h0_text}, x̄c = {_cv(xc)}.")
+    xc = hyp.critico_catedra(r.critical_value, tail)
+    res.pasos.append(f"**Región crítica** (del ensayo): H0: {r.h0_text}, x̄c = {_cv(r.critical_value)}; para β se usa "
+                     f"redondeado hacia afuera a 4 decimales (x̄c = {_cv(xc)}), como la cátedra.")
     if tail == "bilateral":
         res.pasos.append(f"**β** = P(x̄c₁ ≤ x̄ ≤ x̄c₂ | μ = {fmt(mu1, 4)}) = Φ(({fmt(xc[1], 4)} - {fmt(mu1, 4)})/{fmt(se, 4)}) - "
                          f"Φ(({fmt(xc[0], 4)} - {fmt(mu1, 4)})/{fmt(se, 4)}) = {fmt(r.beta, 4)}.")
@@ -578,11 +597,12 @@ def varianza_ic(d, alpha, res: Resultado, estado):
                      f"{fmt(rs.b / rs.a, 4)}.")
     estado["r_sigma"] = rs.b / rs.a
     if d.get("cota"):
-        _cierre_cota(d, rs.a, rs.b, alpha_orig, "σ", res)
+        _cierre_cota(d, rs.a, rs.b, alpha_orig, "σ", res, 2)
         res.numeros += [rv.b if d["cota"] == "sup" else rv.a]
         return
-    res.conclusion = (f"Con un {_pct(alpha)} de confianza: " + _p("σ²", rv.a, rv.b, alpha) + " y " +
-                      _p("σ", rs.a, rs.b, alpha) + ".")
+    res.conclusion = (f"Con un {_pct(alpha)} de confianza: " + _p("σ²", rv.a, rv.b, alpha, 4) + " y " +
+                      _p("σ", rs.a, rs.b, alpha, 2) + " (límites redondeados hacia afuera; sin redondear: σ² entre "
+                      f"{fmt(rv.a, 6)} y {fmt(rv.b, 6)}, σ entre {fmt(rs.a, 6)} y {fmt(rs.b, 6)}).")
     res.numeros = [rv.a, rv.b, rs.a, rs.b, rs.b / rs.a]
     res.resumen = f"IC σ²: [{fmt(rv.a, 5)} ; {fmt(rv.b, 5)}]  IC σ: [{fmt(rs.a, 4)} ; {fmt(rs.b, 4)}]"
 
@@ -623,10 +643,12 @@ def varianza_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
     if isinstance(r.critical_value, tuple):
         c1, c2 = r.critical_value
         res.pasos.append(f"**Condición de rechazo**: S²c₁ = {fmt(c1, 5)}, S²c₂ = {fmt(c2, 5)} (Sc = {fmt(sqrt(c1), 4)} ; "
-                         f"{fmt(sqrt(c2), 4)}). Si S² cae fuera ⇒ se rechaza H0.")
+                         f"{fmt(sqrt(c2), 4)}). Si S² cae fuera ⇒ se rechaza H0. Informados (hacia afuera): Sc = "
+                         f"{redondeo.critico((sqrt(c1), sqrt(c2)), tail)}.")
     else:
         res.pasos.append(f"**Condición de rechazo**: S²c = σ₀²·χ²/ν = {fmt(s0 ** 2, 5)}·χ²/{n - 1} = {fmt(r.critical_value, 5)} "
-                         f"(Sc = {fmt(sqrt(r.critical_value), 4)}). Si S² {_signo(tail)} S²c ⇒ se rechaza H0.")
+                         f"(Sc = {fmt(sqrt(r.critical_value), 4)}). Si S² {_signo(tail)} S²c ⇒ se rechaza H0. Informado (hacia afuera): "
+                         f"Sc = {redondeo.critico(sqrt(r.critical_value), tail)}.")
     estado["tail"] = tail
     crit = r.critical_value
     res.numeros = [sqrt(c) for c in crit] + list(crit) if isinstance(crit, tuple) else [sqrt(crit), crit]
@@ -701,11 +723,13 @@ def prop_ic(d, alpha, res: Resultado, estado):
     if r.a > 0:
         estado["r_prop"] = r.b / r.a
     if d.get("cota"):
-        _cierre_cota(d, r.a, r.b, alpha_orig, "p", res)
+        _cierre_cota(d, r.a, r.b, alpha_orig, "p", res, 4)
         res.numeros += [x * 100 for x in res.numeros]
         return
-    res.conclusion = (f"El porcentaje poblacional estará entre {fmt(r.a * 100, 2)}% y {fmt(r.b * 100, 2)}%, con un "
-                      f"{_pct(alpha)} de confianza: " + _p("p", r.a, r.b, alpha) + ".")
+    pa, pb = redondeo.afuera(r.a * 100, r.b * 100, 2)
+    res.conclusion = (f"El porcentaje poblacional estará entre {fmt(pa, 2)}% y {fmt(pb, 2)}%, con un "
+                      f"{_pct(alpha)} de confianza: " + _p("p", r.a, r.b, alpha, 4) +
+                      f" (límites redondeados hacia afuera; sin redondear: {fmt(r.a, 6)} y {fmt(r.b, 6)}).")
     res.numeros = [r.a, r.b, r.a * 100, r.b * 100]
     if d.get("r") is not None and d.get("n"):
         res.numeros += [d["r"] / d["n"], 100 * d["r"] / d["n"]]  # p̂
@@ -936,6 +960,18 @@ def prop_diseno(d, alpha, res: Resultado, estado):
         res.numeros = [r.n, r.rc]
         res.resumen = f"n = {r.n}; rc = {r.rc}"
         try:
+            n_px, rc_px, a_px, b_px = hyp.plan_mas_proximo(p0, p1, alpha, beta, r.tail)
+        except (ValueError, RuntimeError):
+            n_px = None
+        if n_px is not None and (n_px, rc_px) != (r.n, r.rc):
+            res.pasos.append(f"**Plan «más próximo a las premisas»** (el que suele informar la guía): entre los planes que "
+                             f"cumplen α y β con r_c = {r.rc} o {r.rc + 1}, el de menor |α_real - α| + |β_real - β| es "
+                             f"n = {n_px}, r_c = {rc_px} (α real = {fmt(a_px, 5)}, β real = {fmt(b_px, 5)}). Los dos planes "
+                             "son válidos: el de n mínimo es el más barato.")
+            res.conclusion += f" (Plan más próximo a las premisas: n = {n_px} y r_c = {rc_px}.)"
+            res.numeros += [n_px, rc_px]
+            res.resumen += f" | próximo: n = {n_px}; rc = {rc_px}"
+        try:
             rn = hyp.plan_proporcion_normal(p0, p1, alpha, beta, tail=r.tail)
         except (ValueError, RuntimeError):
             rn = None
@@ -959,7 +995,28 @@ def prop_diseno(d, alpha, res: Resultado, estado):
                              "rango o usa el r_c siguiente.\n\n" + "\n".join(filas))
             for rc_, a, b in planes:
                 res.numeros += [rc_, a, b]
-        poi = hyp.plan_poisson_tabla(p0, r.rc, alpha, r.tail)
+        try:
+            pg = hyp.plan_poisson_garcia(p0, p1, alpha, beta, r.tail)
+        except (ValueError, ZeroDivisionError):
+            pg = None
+        if pg is not None:
+            if r.tail == "derecha":
+                R_txt = f"R = p₁/p₀ = {fmt(p1 / p0, 4)}; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)]"
+                n_txt = (f"c = ⌊ν/2⌋ = {pg.rc - 1} → g.l. = 2c = {pg.gl}; n = máx[χ²(α; {pg.gl})/(2p₀) ; "
+                         f"χ²(1-β; {pg.gl})/(2p₁)] = máx[{fmt(pg.n_alpha, 2)} ; {fmt(pg.n_beta, 2)}] → n = {pg.n}; r_c = c + 1 = {pg.rc}")
+            else:
+                R_txt = f"R = p₀/p₁ = {fmt(p0 / p1, 4)}; a = [Z(1-α) + Z(1-β)·∛R]/[2(∛R - 1)]"
+                n_txt = (f"r_c = ⌈(ν-2)/2⌉ = {pg.rc} → g.l. = 2r_c + 2 = {pg.gl}; n = máx[χ²(1-α; {pg.gl})/(2p₀) ; "
+                         f"χ²(β; {pg.gl})/(2p₁)] = máx[{fmt(pg.n_alpha, 2)} ; {fmt(pg.n_beta, 2)}] → n = {pg.n}")
+            res.pasos.append(f"**Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): {R_txt} = "
+                             f"{fmt(pg.a, 4)}; ν = 2/9·(a + √(a² + 1))² = {fmt(pg.nu, 2)}; {n_txt}. "
+                             "Es una aproximación gruesa: el plan puede no cumplir α y β exactos." +
+                             (" Con p de este tamaño la aproximación de Poisson no es adecuada (sirve para p chico); se "
+                              "informa como referencia, como hace la guía en III-11c." if max(p0, p1) > 0.1 else ""))
+            res.conclusion += f" (Por aproximación de Poisson: n = {pg.n} y r_c = {pg.rc}.)"
+            res.numeros += [pg.n, pg.rc]
+            res.resumen += f" | Poisson: n = {pg.n}; rc = {pg.rc}"
+        poi = hyp.plan_poisson_tabla(p0, r.rc, alpha, r.tail) if pg is None else None
         if poi:
             n_p, m = poi
             op = "≥" if r.tail == "derecha" else "≤"
@@ -1124,8 +1181,8 @@ def dos_var_diseno(d, alpha, res: Resultado, estado):
              f"En caso contrario no se rechaza H0 → {no}.")
     res.pasos.append(f"**Regla de decisión**: {_coma(regla)}")
     res.pasos.append(f"Con n = {r.n}: β real = {fmt(r.beta_real, 4)}, potencia real = {fmt(r.potencia_real, 4)}.")
-    res.conclusion = f"n = {r.n} en cada muestra ({a} y {b}). " + _coma(regla)
-    res.numeros = [r.n, sqrt(r.j2_c), r.j2_c]
+    res.conclusion = f"ν = {nu}: n = {r.n} en cada muestra ({a} y {b}). " + _coma(regla)
+    res.numeros = [r.n, sqrt(r.j2_c), r.j2_c, nu]
     previo = estado.get("n_relacion")
     if previo and r.n > int(previo):
         res.conclusion += f" Respecto de las {int(previo)} anteriores: Δn = {r.n - int(previo)} más en cada una."
@@ -1156,7 +1213,8 @@ def dos_var_ic(d, alpha, res: Resultado, estado):
     estado.update(rel_varianzas=r_var, rel_desvios=r_sig, sobre=sobre)
     lo, hi = (sqrt(rd.a), sqrt(rd.b)) if sobre == "desvios" else (rd.a, rd.b)
     par = f"σ({a})/σ({b})" if sobre == "desvios" else f"σ²({a})/σ²({b})"
-    res.conclusion = f"Con un {_pct(alpha)} de confianza: " + _p(par, lo, hi, alpha) + "."
+    res.conclusion = (f"Con un {_pct(alpha)} de confianza: " + _p(par, lo, hi, alpha, 4) +
+                      f" (límites redondeados hacia afuera; sin redondear: {fmt(lo, 6)} y {fmt(hi, 6)}).")
     if sobre == "desvios" and lo > 1:
         res.conclusion += (f" El desvío de {a} es mayor que el de {b} entre un {fmt((lo - 1) * 100, 2)}% y un "
                            f"{fmt((hi - 1) * 100, 2)}%.")

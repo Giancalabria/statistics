@@ -92,5 +92,5 @@ def f_one_tailed(alpha: float, dfn: float, dfd: float) -> float:
 
 
 def fpc(N: float, n: float) -> float:
-    """Factor de corrección por finitud: sqrt((N-n)/(N-1))."""
-    return ((N - n) / (N - 1)) ** 0.5
+    """Factor de corrección por finitud de la cátedra: sqrt((N-n)/N) (I-34 sólo se reproduce así)."""
+    return ((N - n) / N) ** 0.5

@@ -386,7 +386,7 @@ def test_diseno_con_certeza_y_proporcion_en_un_inciso():
     assert an.datos["alpha"] == pytest.approx(0.01) and an.datos["beta"] == pytest.approx(0.05)
     a, b, c = resolver(an)
     assert a.numeros[:2] == [40, pytest.approx(5.1306, abs=1e-4)]
-    assert b.numeros[0] == pytest.approx(0.6467, abs=1e-4)          # β: no modificar si μ = 4,98
+    assert b.numeros[0] == pytest.approx(0.6468, abs=1e-4)          # β: no modificar si μ = 4,98 (crítico de cátedra)
     assert an.incisos[2].params["tema"] == "proporcion"
     assert "r = n - 10 = 40 - 10 = 30" in " ".join(c.pasos)         # 10 buenas → 30 malas
     assert c.numeros[:2] == [pytest.approx(0.5388, abs=1e-4), pytest.approx(0.9002, abs=1e-4)]
