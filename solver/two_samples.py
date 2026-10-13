@@ -8,6 +8,7 @@ Implementa §3 del esquema_teorico_examen_estadistica.md:
 """
 
 import math
+from math import sqrt
 from dataclasses import dataclass, field
 from typing import List, Optional, Tuple
 
@@ -120,6 +121,182 @@ def ic_ratio_varianzas(
     )
 
     return result_direct, result_inverse
+
+
+# ---------------------------------------------------------------------------
+# 3.1 bis — TEMA IV completo: φ = σ₁/σ₂ contra un valor φ₀ (no solo 1)
+# ---------------------------------------------------------------------------
+#
+# Convención: la muestra 1 va en el NUMERADOR (j² = S₁²/S₂², ν₁ = n₁-1) y φ₀ es
+# la relación de DESVÍOS ("reducir el desvío un 12%" → φ₀ = 0,88). Bajo φ = φ₀:
+#     j²/φ₀² ~ F(ν₁; ν₂)
+# Verificado contra la guía (TEMA IV, problemas 2 a 5).
+
+_SIGNO_H0 = {"derecha": "≤", "izquierda": "≥", "bilateral": "="}
+_SIGNO_H1 = {"derecha": ">", "izquierda": "<", "bilateral": "≠"}
+
+
+def _criticos_relacion(phi0: float, alpha: float, df1: int, df2: int, tail: str):
+    """Valores críticos de j² = S₁²/S₂² para H0 sobre φ = σ₁/σ₂."""
+    phi0_2 = phi0 ** 2
+    if tail == "derecha":
+        return phi0_2 * dist.f_one_tailed(alpha, df1, df2)
+    if tail == "izquierda":
+        return phi0_2 * dist.f_value(alpha, df1, df2)
+    if tail == "bilateral":
+        return (phi0_2 * dist.f_value(alpha / 2, df1, df2), phi0_2 * dist.f_two_tailed(alpha, df1, df2))
+    raise ValueError(f"tail debe ser 'derecha', 'izquierda' o 'bilateral', no {tail}")
+
+
+def _potencia_relacion(j2_c, phi1: float, df1: int, df2: int, tail: str) -> float:
+    """P(rechazar H0 | φ = φ₁): si φ = φ₁, j²/φ₁² ~ F(ν₁; ν₂)."""
+    phi1_2 = phi1 ** 2
+    if tail == "derecha":
+        return 1 - dist.f_cdf(j2_c / phi1_2, df1, df2)
+    if tail == "izquierda":
+        return dist.f_cdf(j2_c / phi1_2, df1, df2)
+    c1, c2 = j2_c
+    return dist.f_cdf(c1 / phi1_2, df1, df2) + 1 - dist.f_cdf(c2 / phi1_2, df1, df2)
+
+
+def ensayo_relacion_desvios(
+    s1: float, n1: int, s2: float, n2: int, alpha: float,
+    phi0: float = 1.0, tail: str = "bilateral", phi1: Optional[float] = None,
+) -> HypothesisTestResult:
+    """Ensayo F sobre φ = σ₁/σ₂ con H0 en φ₀ (TEMA IV).
+
+    - izquierda (H1: φ < φ₀, p. ej. 'reducir el desvío un 12%'): j²c = φ₀²·F(α; ν₁; ν₂)
+    - derecha   (H1: φ > φ₀): j²c = φ₀²·F(1-α; ν₁; ν₂)
+    - bilateral: j²c₁ = φ₀²·F(α/2), j²c₂ = φ₀²·F(1-α/2)
+
+    Si se da φ₁ calcula β = P(no rechazar H0 | φ = φ₁) y la potencia.
+    """
+    if not (0 < alpha < 1):
+        raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
+    if phi0 <= 0 or s1 <= 0 or s2 <= 0:
+        raise ValueError("φ₀ y los desvíos deben ser positivos")
+    df1, df2 = n1 - 1, n2 - 1
+    j2 = s1 ** 2 / s2 ** 2
+    crit = _criticos_relacion(phi0, alpha, df1, df2, tail)
+    if tail == "derecha":
+        rejects = j2 > crit
+    elif tail == "izquierda":
+        rejects = j2 < crit
+    else:
+        rejects = j2 < crit[0] or j2 > crit[1]
+    result = HypothesisTestResult(
+        h0_text=f"φ = σ₁/σ₂ {_SIGNO_H0[tail]} {phi0:g}",
+        h1_text=f"φ = σ₁/σ₂ {_SIGNO_H1[tail]} {phi0:g}",
+        tail=tail,
+        critical_value=crit,
+        observed_value=j2,
+        rejects_h0=rejects,
+        distribution="F",
+        df=df1,
+    )
+    if phi1 is not None:
+        result.power = _potencia_relacion(crit, phi1, df1, df2, tail)
+        result.beta = 1 - result.power
+    return result
+
+
+@dataclass
+class DisenoRelacionResult:
+    """n (igual en ambas muestras) para que el ensayo F tenga β ≤ β objetivo en φ₁."""
+    n: int
+    tail: str
+    j2_c: float
+    beta_real: float
+    potencia_real: float
+    h0_text: str
+    h1_text: str
+
+
+def _menor_n(cumple, n_min: int = 2, n_max: int = 1_000_000) -> int:
+    """Menor n entero en [n_min, n_max] con cumple(n) True (cumple es monótona en n)."""
+    hi = n_min
+    while not cumple(hi):
+        if hi >= n_max:
+            raise RuntimeError(f"No se encontró n ≤ {n_max} que cumpla las condiciones")
+        hi = min(hi * 2, n_max)
+    lo = max(n_min, hi // 2)
+    if cumple(lo):
+        return lo
+    while hi - lo > 1:
+        mid = (lo + hi) // 2
+        if cumple(mid):
+            hi = mid
+        else:
+            lo = mid
+    return hi
+
+
+def n_relacion_desvios_para_potencia(
+    phi0: float, phi1: float, alpha: float, beta: float, tail: Optional[str] = None,
+) -> DisenoRelacionResult:
+    """Menor n (n₁ = n₂ = n) tal que el ensayo F con riesgo α tenga β ≤ `beta` en φ = φ₁.
+
+    Búsqueda exacta sobre F con ν₁ = ν₂ = n-1 (equivale a pedir R = φ₀²/φ₁² ≥ F(1-α)·F(1-β)).
+    Verificado contra la guía: IV-2 n = 483, IV-3 n = 260, IV-4 n = 128, IV-5 n = 127 y 174.
+    """
+    if not (0 < alpha < 1) or not (0 < beta < 1):
+        raise ValueError("α y β deben estar entre 0 y 1")
+    if phi0 <= 0 or phi1 <= 0 or phi0 == phi1:
+        raise ValueError("φ₀ y φ₁ deben ser positivos y distintos")
+    if tail is None:
+        tail = "derecha" if phi1 > phi0 else "izquierda"
+    if tail not in ("derecha", "izquierda"):
+        raise ValueError("Para dimensionar por potencia se usa un ensayo unilateral")
+
+    def beta_de(n):
+        df = n - 1
+        return 1 - _potencia_relacion(_criticos_relacion(phi0, alpha, df, df, tail), phi1, df, df, tail)
+
+    n = _menor_n(lambda k: beta_de(k) <= beta)
+    b = beta_de(n)
+    return DisenoRelacionResult(
+        n=n, tail=tail, j2_c=_criticos_relacion(phi0, alpha, n - 1, n - 1, tail),
+        beta_real=b, potencia_real=1 - b,
+        h0_text=f"φ = σ₁/σ₂ {_SIGNO_H0[tail]} {phi0:g}", h1_text=f"φ = σ₁/σ₂ {_SIGNO_H1[tail]} {phi0:g}",
+    )
+
+
+@dataclass
+class RelacionLimitesResult:
+    """n (igual en ambas muestras) para que el IC de la relación tenga B/A ≤ R objetivo."""
+    n: int
+    sobre: str                    # "varianzas" (σ₁²/σ₂²) o "desvios" (σ₁/σ₂)
+    r_objetivo: float             # B/A buscado, en la escala de `sobre`
+    r_logrado: float              # B/A real con ese n
+    r_actual: Optional[float] = None
+    reduccion: Optional[float] = None
+
+
+def relacion_limites_f(alpha: float, df1: int, df2: int, sobre: str = "varianzas") -> float:
+    """B/A del IC de σ₁²/σ₂² (= F(1-α/2; ν₁; ν₂)/F(α/2; ν₁; ν₂)); su raíz si es para los desvíos."""
+    r = dist.f_two_tailed(alpha, df1, df2) / dist.f_value(alpha / 2, df1, df2)
+    return sqrt(r) if sobre == "desvios" else r
+
+
+def n_relacion_por_limites(
+    r_objetivo: float, alpha: float, sobre: str = "varianzas",
+    r_actual: Optional[float] = None, reduccion: Optional[float] = None,
+) -> RelacionLimitesResult:
+    """Menor n (n₁ = n₂ = n) tal que el IC de la relación tenga B/A ≤ r_objetivo.
+
+    No depende de los desvíos muestrales: B/A = F(1-α/2; ν; ν)/F(α/2; ν; ν).
+    Verificado contra la guía: IV-1 b) n = 45 (varianzas), d) n = 444 (desvíos); IV-3 e) n = 68.
+    """
+    if not (0 < alpha < 1):
+        raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
+    if sobre not in ("varianzas", "desvios"):
+        raise ValueError("sobre debe ser 'varianzas' o 'desvios'")
+    if r_objetivo <= 1:
+        raise ValueError(f"La relación objetivo entre límites debe ser mayor que 1, no {r_objetivo}")
+    n = _menor_n(lambda k: relacion_limites_f(alpha, k - 1, k - 1, sobre) <= r_objetivo)
+    return RelacionLimitesResult(n=n, sobre=sobre, r_objetivo=r_objetivo,
+                                 r_logrado=relacion_limites_f(alpha, n - 1, n - 1, sobre),
+                                 r_actual=r_actual, reduccion=reduccion)
 
 
 # ---------------------------------------------------------------------------

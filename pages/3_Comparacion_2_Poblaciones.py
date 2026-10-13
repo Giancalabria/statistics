@@ -74,35 +74,77 @@ def mostrar_intervalo(parametro: str, result) -> None:
 # ---------------------------------------------------------------------------
 
 if opcion == "Varianzas (Test F)":
-    st.subheader("Test F - Comparación de Varianzas")
-    st.info("Se ensaya la hipótesis de igualdad de varianzas: H0: σ₁² = σ₂² (bilateral)")
+    st.subheader("Comparación de varianzas / desvíos (TEMA IV)")
+    st.info("Parámetro φ = σ₁/σ₂ con la muestra 1 en el NUMERADOR (j² = S₁²/S₂²). Si hay un grupo con el cambio "
+            "(reacondicionado, propuesto, con aditivo) va como muestra 1: 'reducir el desvío un 12%' es φ < 0,88.")
 
-    col1, col2 = st.columns(2)
-    with col1:
-        s1 = st.number_input("Desvío muestra 1 (S₁)", min_value=1e-9, value=1.0, format="%.5f")
-        n1 = st.number_input("Tamaño muestra 1 (n₁)", min_value=2, step=1, value=30)
-    with col2:
-        s2 = st.number_input("Desvío muestra 2 (S₂)", min_value=1e-9, value=1.0, format="%.5f")
-        n2 = st.number_input("Tamaño muestra 2 (n₂)", min_value=2, step=1, value=30)
+    objetivo_f = st.radio("¿Qué querés calcular?", [
+        "Ensayo de hipótesis (φ₀ y cola a elección, con β opcional)",
+        "Intervalo de confianza para la relación de varianzas / desvíos",
+        "Tamaño de muestra para una potencia fijada (n₁ = n₂)",
+        "Tamaño de muestra por relación entre límites del IC (n₁ = n₂)",
+    ])
+    necesita_muestras = objetivo_f.startswith(("Ensayo", "Intervalo"))
 
-    objetivo_f = st.radio("¿Qué querés calcular?", ["Ensayo de hipótesis", "Intervalo de confianza para razón de varianzas"])
+    if necesita_muestras:
+        col1, col2 = st.columns(2)
+        with col1:
+            s1 = st.number_input("Desvío muestra 1 (S₁, numerador)", min_value=1e-9, value=1.0, format="%.5f")
+            n1 = st.number_input("Tamaño muestra 1 (n₁)", min_value=2, step=1, value=30)
+        with col2:
+            s2 = st.number_input("Desvío muestra 2 (S₂, denominador)", min_value=1e-9, value=1.0, format="%.5f")
+            n2 = st.number_input("Tamaño muestra 2 (n₂)", min_value=2, step=1, value=30)
+
+    colas = {"Unilateral izquierda (H1: φ < φ₀, p. ej. reducción)": "izquierda",
+             "Unilateral derecha (H1: φ > φ₀, p. ej. aumento)": "derecha",
+             "Bilateral (H1: φ ≠ φ₀)": "bilateral"}
+
+    if objetivo_f.startswith("Ensayo"):
+        phi0 = st.number_input("φ₀ = σ₁/σ₂ de H0 (1 = desvíos iguales; 0,88 = reducción del 12%)",
+                               min_value=1e-6, value=1.0, format="%.4f")
+        tail = colas[st.selectbox("Tipo de ensayo", list(colas))]
+        con_beta = st.checkbox("Calcular β / potencia para una relación alternativa φ₁")
+        phi1 = st.number_input("φ₁ alternativo (0,70 = reducción del 30%)", min_value=1e-6, value=0.7,
+                               format="%.4f") if con_beta else None
+    elif objetivo_f.startswith("Tamaño de muestra para una potencia"):
+        phi0 = st.number_input("φ₀ de H0", min_value=1e-6, value=1.0, format="%.4f")
+        phi1 = st.number_input("φ₁ alternativo", min_value=1e-6, value=0.7, format="%.4f")
+        beta = st.number_input("β (1 - potencia)", min_value=0.001, max_value=0.5, value=0.10, format="%.4f")
+    elif objetivo_f.startswith("Tamaño de muestra por relación"):
+        sobre = st.radio("La relación entre límites es de…", ["desvíos (σ₁/σ₂)", "varianzas (σ₁²/σ₂²)"])
+        r_obj = st.number_input("Relación buscada B/A (p. ej. 1,5 = límite superior 50% mayor)", min_value=1.0001,
+                                value=1.5, format="%.4f")
 
     if st.button("Calcular", key="btn_f_test"):
         try:
-            if objetivo_f == "Ensayo de hipótesis":
-                result = ts.f_test_equal_variances(s1, n1, s2, n2, alpha)
+            if objetivo_f.startswith("Ensayo"):
+                result = ts.ensayo_relacion_desvios(s1, int(n1), s2, int(n2), alpha, phi0=phi0, tail=tail, phi1=phi1)
+                st.write(f"**Hipótesis**: H0: {result.h0_text}  vs  H1: {result.h1_text}")
+                st.write(f"**Estadístico**: j² = S₁²/S₂² = {result.observed_value:.5f} (j = {result.observed_value ** 0.5:.4f}); "
+                         f"bajo H0, j²/φ₀² ~ F({int(n1) - 1}; {int(n2) - 1}).")
                 mostrar_ensayo(result)
-            else:
-                # IC de razón de varianzas
-                result_dir, result_inv = ts.ic_ratio_varianzas(s1, n1, s2, n2, alpha)
-                confianza = 1 - alpha
-
-                st.subheader("IC para σ₁²/σ₂²")
+                if result.power is not None:
+                    st.write(f"**Con φ = {phi1:g}**: β = {result.beta:.4f} ; potencia 1-β = {result.power:.4f}")
+            elif objetivo_f.startswith("Intervalo"):
+                result_dir, result_inv = ts.ic_ratio_varianzas(s1, int(n1), s2, int(n2), alpha)
+                st.subheader("IC para σ₁²/σ₂² y para σ₁/σ₂")
                 mostrar_intervalo("\\phi^2", result_dir)
-
-                st.subheader("IC para σ₂²/σ₁² (razón inversa)")
+                st.latex(f"{result_dir.a ** 0.5:.5f} \\le \\phi \\le {result_dir.b ** 0.5:.5f}")
+                st.subheader("Razón inversa σ₂²/σ₁²")
                 mostrar_intervalo("1/\\phi^2", result_inv)
-        except ValueError as e:
+                st.write(f"Relación entre límites B/A: {result_dir.b / result_dir.a:.4f} (varianzas) ; "
+                         f"{(result_dir.b / result_dir.a) ** 0.5:.4f} (desvíos).")
+            elif objetivo_f.startswith("Tamaño de muestra para una potencia"):
+                r = ts.n_relacion_desvios_para_potencia(phi0, phi1, alpha, beta)
+                st.success(f"n = {r.n} en cada muestra")
+                st.write(f"H0: {r.h0_text}  vs  H1: {r.h1_text}")
+                st.write(f"Condición de rechazo: j²c = {r.j2_c:.5f} (jc = {r.j2_c ** 0.5:.4f}). "
+                         f"β real = {r.beta_real:.4f}, potencia real = {r.potencia_real:.4f}.")
+            else:
+                r = ts.n_relacion_por_limites(r_obj, alpha, sobre="desvios" if sobre.startswith("desv") else "varianzas")
+                st.success(f"n = {r.n} en cada muestra")
+                st.write(f"Relación lograda B/A = {r.r_logrado:.4f} ≤ {r_obj:.4f}.")
+        except (ValueError, RuntimeError) as e:
             st.error(f"Error: {e}")
 
 

@@ -336,3 +336,129 @@ def test_conclusion_formal_usa_la_accion_del_sistema_de_control():
     a = resolver(an)[0]
     assert a.conclusion.count("A un nivel de significación") == 2
     assert sum(p.startswith("**5 · Regla de decisión") for p in a.pasos) == 2
+
+
+# ---------------------------------------------------------------------------
+# Enunciados de examen con punto decimal, unidades pegadas y temas mezclados
+# ---------------------------------------------------------------------------
+
+SISTEMA_P = ("El departamento de I+D de una empresa ha desarrollado un nuevo sistema de producción que quiere implementar "
+             "para modificar su proceso de fabricación. Luego de pruebas experimentales, se piensa que el nuevo sistema "
+             "aumentaría la productividad a un valor promedio de 5.8 piezas por minuto. El sistema actual del proceso de "
+             "fabricación tiene una productividad promedio de 4.2 piezas por minuto con un desvío estandar de 2.53 piezas "
+             "por minuto. A fin de tomar una decisión sobre la modificación del sistema productivo, se estipulan las "
+             "siguientes condiciones: el departamento de ingeniería propone que es conveniente establecer una probabilidad "
+             "de 0.95 de modificar el sistema productivo cuando con la modificación se obtiene un valor promedio de 5.8 "
+             "piezas por minuto; en cambio el gerente general desea asumir la certeza del 99% de no realizar la "
+             "modificación en el sistema productivo, cuando con la modificación no se consigue el efecto deseado. Se "
+             "asume que el desvío estándar no se modificará.")
+SISTEMA_I = ["Indicar el tamaño de la muestra y la hipótesis adecuada, también establecer condición de rechazo y la regla "
+             "de decisión",
+             "Cuál es la probabilidad de no realizar la modificación en el sistema productivo si la productividad "
+             "promedio, con la modificación, es de 4.98 piezas por minuto?",
+             "Suponga que se realizó la modificación y se sacó la muestra calculada en el inciso a), y se encontraron 10 "
+             "piezas sin defectos. Estimar con un 99% de confianza el porcentaje de piezas malas fabricadas por la empresa."]
+
+CONEJOS_P = ("Un criador de conejos para faena desea estudiar las características de la población de estos en el "
+             "establecimiento. Con el motivo de efectuar la próxima faena decide efectuar un control del lote de conejos, "
+             "de manera que si el lote pesa en promedio mas de 4.6kg y un desvio estándar menor a 0.55kg, efectuara la "
+             "faena. Caso contrario se esperará mas tiempo para la misma. Se desea asumir el riesgo de 1% de efectuar "
+             "equivocadamente la faena de conejos. A tal efecto se tomo una muestra de 20 conejos elegidos al azar "
+             "obteniéndose los siguientes resultados de pesos medidos en kg:\n5.01 - 5.11 - 5.08 - 4.41 - 4.37 - 4.31 - "
+             "5.05 - 4.35 - 4.25 - 5.15 - 5.02 - 5.09 - 5.08 - 5.15 - 4.23 - 5.18 - 5.14 - 5.17 - 4.21 - 5.06")
+CONEJOS_I = ["Considera que los datos son concluyentes para realizar la correspondiente faena?",
+             "Cual es la probabilidad de no detectar que el desvio estándar es de 0.3kg",
+             "Estimar el peso promedio y el desvio estandarizado de todo el lote de conejos del establecimiento. Tomar un "
+             "nivel de confianza de 99%",
+             "Cuantos conejos mas se deben pesar para reducir en un 15% el error de estimación del valor promedio "
+             "calculado anteriormente?"]
+
+
+def test_numero_con_unidad_pegada():
+    assert [n.valor for n in buscar_numeros("mas de 4.6kg y menor a 0.55kg en 30min")] == [4.6, 0.55, 30]
+    assert [n.valor for n in buscar_numeros("n1 = 5 y x2")] == [5]
+
+
+def test_diseno_con_certeza_y_proporcion_en_un_inciso():
+    an = analizar(SISTEMA_P, SISTEMA_I)
+    assert an.tema == "media" and an.criterio == "pesimista"
+    assert (an.datos["mu0"], an.datos["mu1"]) == (4.2, 5.8) and an.datos["sigma_conocido"]
+    assert an.datos["alpha"] == pytest.approx(0.01) and an.datos["beta"] == pytest.approx(0.05)
+    a, b, c = resolver(an)
+    assert a.numeros[:2] == [40, pytest.approx(5.1306, abs=1e-4)]
+    assert b.numeros[0] == pytest.approx(0.6467, abs=1e-4)          # β: no modificar si μ = 4,98
+    assert an.incisos[2].params["tema"] == "proporcion"
+    assert "r = n - 10 = 40 - 10 = 30" in " ".join(c.pasos)         # 10 buenas → 30 malas
+    assert c.numeros[:2] == [pytest.approx(0.5388, abs=1e-4), pytest.approx(0.9002, abs=1e-4)]
+
+
+def test_doble_condicion_con_direcciones_opuestas():
+    an = analizar(CONEJOS_P, CONEJOS_I)
+    assert an.datos["doble"] and (an.datos["mu0"], an.datos["sigma0"]) == (4.6, 0.55)
+    assert (an.datos["tail_mu"], an.datos["tail_sigma"]) == ("derecha", "izquierda")
+    assert an.criterio == "pesimista"
+    a, b, c, d = resolver(an)
+    assert "μ ≤ 4.6" in a.resumen and "σ² ≥ 0.3025" in a.resumen and a.resumen.count("NO rechaza") == 2
+    assert b.numeros[0] == pytest.approx(0.1401, abs=1e-4)          # β con σ = 0,3
+    assert pytest.approx(4.569, abs=1e-3) in c.numeros and pytest.approx(0.6563, abs=1e-4) in c.numeros
+    assert an.incisos[3].params["tema"] == "media" and d.numeros == [27, 7]
+
+
+def test_separar_incisos_por_parrafos_sin_letras():
+    plant, incs = separar_incisos(CONEJOS_P + "\n\n" + "\n\n".join(CONEJOS_I), parrafos=True)
+    assert len(incs) == 4 and plant.endswith("5.06")
+    assert separar_incisos(CONEJOS_P + "\n\n" + CONEJOS_I[0]) == ((CONEJOS_P + "\n\n" + CONEJOS_I[0]).strip(), [])
+    an = analizar(SISTEMA_P + "\n" + "\n".join(SISTEMA_I))
+    assert [i.tipo for i in an.incisos] == ["diseno", "beta", "ic"]
+
+
+# ---------------------------------------------------------------------------
+# TEMA IV: relación de desvíos con φ₀ ≠ 1, β, diseño y n por relación entre límites
+# ---------------------------------------------------------------------------
+
+def _guia(id_):
+    import json
+    from pathlib import Path
+    datos = json.loads((Path(__file__).resolve().parent.parent / "datos" / "guia_ejercicios.json").read_text("utf-8"))
+    e = next(x for x in datos if x["id"] == id_)
+    return analizar(e["planteo"], [i["texto"] for i in e["incisos"]])
+
+
+def test_tema_iv_hilanderia_reduccion_12():
+    """IV-4: arriba las reacondicionadas (el cambio), φ₀ = 0,88; a) rechaza, b) 1-β = 0,1779, c) n = 128."""
+    an = _guia("IV-4")
+    assert (an.datos["n1"], an.datos["s1"], an.datos["n2"], an.datos["s2"]) == (4, 132.0, 16, 354.0)
+    assert an.datos["phi0"] == pytest.approx(0.88)
+    a, b, c = resolver(an)
+    assert "RECHAZA H0" in a.resumen and "NO" not in a.resumen
+    assert any(p.startswith("**5 · Regla de decisión") for p in a.pasos)
+    assert any(p.startswith("**Justificación de H0**") for p in a.pasos)
+    assert b.numeros[0] == pytest.approx(0.1779, abs=1e-4)
+    assert c.numeros[0] == 128
+
+
+def test_tema_iv_aleacion_propuesta_va_arriba():
+    """IV-2: la aleación propuesta (P) aparece segunda pero va al numerador; α = 0,1 sale de 'probabilidad de cambio'."""
+    an = _guia("IV-2")
+    assert an.datos["nombre1"] == "P" and an.datos["s1"] == pytest.approx(0.06)
+    assert an.datos["alpha"] == pytest.approx(0.1) and an.datos["phi0"] == pytest.approx(0.8)
+    res = resolver(an)
+    assert "NO rechaza" in res[0].resumen
+    assert res[2].numeros[0] == 483
+
+
+def test_tema_iv_diseno_aditivo_y_delta_n():
+    """IV-5: diseño sin datos (α = 0,05, potencia 0,99 en φ = 0,7) → n = 127, jc = 0,8632; c) n = 174, 47 más."""
+    an = _guia("IV-5")
+    assert an.datos["beta"] == pytest.approx(0.01) and an.datos["phi1"] == pytest.approx(0.7)
+    a, b, c = resolver(an)
+    assert a.numeros[:2] == [127, pytest.approx(0.8632, abs=1e-4)]
+    assert b.numeros[0] == pytest.approx(0.8028, abs=1e-4)
+    assert c.numeros[0] == 174 and 47 in c.numeros
+
+
+def test_tema_iv_relacion_entre_limites():
+    """IV-1: n para reducir a la mitad la relación entre límites (b: varianzas → 45; d: desvíos → 444)."""
+    res = resolver(_guia("IV-1"))
+    assert res[1].numeros[0] == 45
+    assert res[3].numeros[0] == 444

@@ -20,8 +20,40 @@ from .texto import ListaDatos, Numero, buscar_listas, buscar_numeros, fmt, norma
 RE_INCISO = re.compile(r"(?:(?<=[\s.?:;])|^)([a-h])\)\s")
 
 
-def separar_incisos(texto: str) -> Tuple[str, List[Tuple[str, str]]]:
-    """Parte un enunciado completo en planteo + [(letra, texto)] (a, b, c... consecutivas)."""
+RE_PARRAFO_PREGUNTA = re.compile(
+    r"^\W*(cual|cuales|cuanto|cuantos|cuantas|que|como|donde|considera|suponga|supongamos|suponiendo|si se|"
+    r"estimar|estime|indicar|indique|calcular|calcule|determinar|determine|establecer|establezca|hallar|halle|"
+    r"verificar|verifique|ensayar|obtener|plantear|plantee|disenar|probar|analizar|decidir|puede|se puede|"
+    r"es posible|existe|hay)\b")
+
+
+def _separar_parrafos(texto: str) -> Tuple[str, List[Tuple[str, str]]]:
+    """Sin letras a), b)...: cada párrafo que pregunta (después del planteo) es un inciso."""
+    parrafos = [p.strip() for p in re.split(r"\s*\n\s*", texto) if p.strip()]
+    if len(parrafos) < 2:
+        return texto.strip(), []
+
+    def pregunta(p):
+        return "¿" in p or p.rstrip().endswith("?") or RE_PARRAFO_PREGUNTA.match(normalizar(p)) is not None
+
+    k = next((i for i in range(1, len(parrafos)) if pregunta(parrafos[i])), None)
+    if k is None:
+        return texto.strip(), []
+    planteo = "\n".join(parrafos[:k])
+    incisos = []
+    for p in parrafos[k:]:
+        if pregunta(p) or not incisos:
+            incisos.append((chr(ord("a") + len(incisos)), p))
+        else:  # un párrafo que no pregunta completa el inciso anterior (p. ej. una tabla)
+            letra, previo = incisos[-1]
+            incisos[-1] = (letra, previo + " " + p)
+    return planteo, incisos
+
+
+def separar_incisos(texto: str, parrafos: bool = False) -> Tuple[str, List[Tuple[str, str]]]:
+    """Parte un enunciado completo en planteo + [(letra, texto)] (a, b, c... consecutivas).
+
+    Con `parrafos`, si no hay letras prueba con párrafos: cada párrafo que pregunta es un inciso."""
     esperado = "a"
     cortes = []
     for m in RE_INCISO.finditer(texto):
@@ -29,7 +61,7 @@ def separar_incisos(texto: str) -> Tuple[str, List[Tuple[str, str]]]:
             cortes.append((m.start(1), m.end(), esperado))
             esperado = chr(ord(esperado) + 1)
     if not cortes:
-        return texto.strip(), []
+        return _separar_parrafos(texto) if parrafos else (texto.strip(), [])
     planteo = texto[: cortes[0][0]].strip()
     incisos = []
     for i, (ini, fin_marca, letra) in enumerate(cortes):
@@ -266,7 +298,7 @@ def _es_prob(n: Numero) -> bool:
     return (n.pct and n.valor <= 100) or (not n.pct and 0 < n.valor < 1)
 
 
-RE_CONF = r"(confianza|seguridad)"
+RE_CONF = r"(confianza|seguridad|certeza)"
 # 'error muestral / de muestreo / de estimación' es el e del IC, no el riesgo α
 RE_ALPHA = (r"(riesgo|significacion|\berror\b(?! (muestral|de muestreo|de (la )?estimacion|admitido|maximo))|"
             r"equivocad|erronea|errone|indebidamente|incorrect|tipo i\b)")
@@ -468,12 +500,19 @@ def _es_umbral(t: Texto, n: Numero) -> bool:
     return False
 
 
+# Frases que presentan el valor que se lograría con el cambio (μ₁ de un diseño), no un dato ni μ₀.
+RE_ALTERNATIVO = (r"(se piensa|se cree|se supone que (el|la) nuev|aumentaria|disminuiria|mejoraria|reduciria|lograria|"
+                  r"con la modificacion|con el nuevo|con la nueva)")
+
+
 def extraer_media(an: Analisis, t: Texto, solo_mu0: bool = False):
     """x̄ (dato muestral) y μ₀ (valor de referencia / umbral). En un diseño solo hay μ₀ (y μ₁)."""
     for i, n in t.libres():
         if solo_mu0 and "mu0" in an.datos:
             return
         ora = t.oracion(n.ini)
+        if solo_mu0 and _hay(RE_ALTERNATIVO, ora):
+            continue   # 'el nuevo sistema aumentaría la productividad a 5,8' es μ₁, no μ₀
         if n.pct and not _hay(r"rendimiento", ora):
             continue
         a = t.antes(n, 70)
@@ -603,7 +642,7 @@ def extraer_mu1(t: Texto, base: Optional[float], pct_valor: bool = False) -> Opt
             t.usar(i)
             return base + signo * n.valor, n, f"{'+' if signo > 0 else '−'}{fmt(n.valor)} respecto de μ₀"
         if _hay(r"(vale|es de|es del|baja al|baja a|sube al|sube a|sea de|inferior a|superior a|es inferior a|"
-                r"es superior a|de)\s*$", a) and _hay(r"(\bsi\b|cuando|malas|aquellas|dicho parametro)", ora):
+                r"es superior a|de)\s*$", a) and _hay(r"(\bsi\b|cuando|malas|aquellas|dicho parametro)|" + RE_ALTERNATIVO, ora):
             if n.pct and not pct_valor:
                 continue
             if _es_prob(n) and not n.pct and base is not None and base >= 1:
@@ -663,7 +702,7 @@ def extraer_dos_muestras(an: Analisis, t: Texto):
         _set(an, "apareadas", apareadas, t, None,
              "mismos individuos / pares medidos con ambos tratamientos → muestras apareadas" if apareadas
              else "grupos distintos → muestras independientes")
-        return
+        return {}
 
     # Resumenes: n, x̄, S de cada muestra en orden de aparición (o con subíndice 1 / 2)
     ns, medias, desvios = [], [], []
@@ -674,12 +713,17 @@ def extraer_dos_muestras(an: Analisis, t: Texto):
         if _hay(r"\bn\s*[12]?\s*=\s*$|\bn\s*=\s*\d+\s*$|muestras? (de|con) $|(sobre|con|en|de) (otras )?$", a) and n.es_entero \
                 and (_hay(r"\bn\s*[12]?\s*=|\bn\s*=\s*\d+\s*$|muestra", a) or _hay(
                     r"^\s*(corridas|parcelas|piezas|ensayos|maquinas|animales|operarios|observaciones|meses|"
-                    r"automoviles|potrillos|botellas|dias|muestras|conos)", t.despues(n))):
+                    r"automoviles|potrillos|botellas|dias|muestras|conos|de ell[oa]s)", t.despues(n))):
             ns.append((i, n))
+        elif n.es_entero and _hay(r"(eligieron|eligio|seleccionaron|selecciono|tomaron|tomo)( entonces| al azar)?\s*$", a) \
+                and _hay(r"^\s*[a-z]+s\b", t.despues(n)):
+            ns.append((i, n))   # 'se eligieron entonces 4 máquinas al azar'
+
         elif _hay(r"(media|promedio|medio)[^0-9]{0,40}$|\bx\s*[12]?\s*=\s*$|x\s*=\s*\d+(,\d+)?( [a-z]+)?\s*$|"
                   r"\)\s*:\s*$|\bx\s*\)?\s*:?\s*$", a) and not _hay(r"(desvio|desviacion)[^0-9]{0,15}$", a):
             medias.append((i, n))
-        elif _hay(r"(desvio|desviacion)[^0-9]{0,40}$|\bs\s*[12]?\s*=\s*$|s\s*=\s*\d+(,\d+)?( [a-z]+)?\s*$", a):
+        elif _hay(r"(desvio|desviacion)[^0-9]{0,40}$|\bs\s*[12]?\s*=\s*$|s\s*=\s*\d+(,\d+)?( [a-z]+)?\s*$", a) \
+                and not _hay(r"(probabilidad|riesgo|confianza)[^0-9]{0,15}$", a):
             desvios.append((i, n))
     # tablas tipo 'Variedad “A”: 25 kg 3,4 kg' -> media y desvío en la misma fila
     if "cada uno" in t.norm or "cada una" in t.norm:
@@ -687,18 +731,167 @@ def extraer_dos_muestras(an: Analisis, t: Texto):
         if m and len(ns) < 2:
             v = int(m.group(1))
             ns = [(None, Numero(v, m.start(1), m.end(1), False, m.group(1)))] * 2
+    posiciones: Dict[str, Numero] = {}
     for k, (lista, clave) in enumerate(((ns, "n"), (medias, "xbar"), (desvios, "s"))):
         for j, (i, n) in enumerate(lista[:2]):
             if i is not None:
                 t.usar(i)
             valor = int(n.valor) if clave == "n" else n.valor
             _set(an, f"{clave}{j + 1}", valor, t, n, f"{clave} de la muestra {j + 1}")
+            posiciones[f"{clave}{j + 1}"] = n
     if "n1" in an.datos and "n2" not in an.datos and _hay(r"\bn\s*=\s*\d+\s+\d+", t.norm):
         m = re.search(r"\bn\s*=\s*(\d+)\s+(\d+)", t.norm)
         an.datos["n1"], an.datos["n2"] = int(m.group(1)), int(m.group(2))
     an.datos.setdefault("nombre1", "Muestra 1")
     an.datos.setdefault("nombre2", "Muestra 2")
     an.datos.setdefault("apareadas", False)
+    return posiciones
+
+
+# ---------------------------------------------------------------------------
+# TEMA IV: relación de desvíos φ = σ₁/σ₂ (quién va arriba, φ₀, α y β del diseño)
+# ---------------------------------------------------------------------------
+
+# raíz de la palabra que marca el grupo con el cambio -> (nombre del grupo nuevo, nombre del de referencia)
+GRUPOS_CAMBIO = [
+    (r"reacondicion", "reacondicionadas", "sin reacondicionar"),
+    (r"aditivo", "con aditivo", "sin aditivo"),
+    (r"acelerante", "con acelerante", "sin acelerante"),
+    (r"albumina", "con albúmina", "sin albúmina"),
+    (r"tratad|tratamiento", "tratadas", "sin tratar"),
+    (r"propuest", "propuesta", "actual"),
+    (r"\bnuev[oa]", "nueva", "actual"),
+    (r"modificad|modificacion", "modificada", "actual"),
+]
+RE_REFERENCIA = r"(\bsin [a-z]+|\bactual|tradicional|\bviej[oa]|clasic|anterior|original)"
+RE_NUEVO = "(" + "|".join(p for p, _, _ in GRUPOS_CAMBIO) + ")"
+
+
+def _rol_muestra(t: Texto, n: Numero) -> Tuple[Optional[str], str]:
+    """¿La muestra que empieza en n es la del cambio ('nuevo') o la de referencia ('ref')?
+
+    Mira primero lo que sigue al tamaño ('21 piezas del material actual (A)') y si no alcanza lo anterior
+    ('las máquinas sin reacondicionar, se registró ... 16 de ellas')."""
+    for ventana in (t.despues(n, 45), t.antes(n, 70)):
+        if _hay(RE_REFERENCIA, ventana):
+            return "ref", ventana
+        if _hay(RE_NUEVO, ventana):
+            return "nuevo", ventana
+    return None, ""
+
+
+def _nombres_grupos(t: Texto, posiciones: Dict[str, Numero], ventanas: Dict[int, str]) -> Optional[Tuple[str, str]]:
+    """Nombres de las dos muestras en el orden en que aparecen: “entre comillas”, (letra) o por el cambio."""
+    citas = []
+    for m in re.finditer(r"[“\"]([^”\"]{1,30})[”\"]", t.texto):
+        if m.group(1) not in citas:
+            citas.append(m.group(1))
+    if len(citas) == 2:
+        return citas[0], citas[1]
+    letras = []
+    for j in (1, 2):
+        n = posiciones.get(f"n{j}") or posiciones.get(f"s{j}")
+        m = re.search(r"\(([a-z]{1,3})\)", t.despues(n, 50)) if n else None
+        letras.append(m.group(1).upper() if m else None)
+    if all(letras) and letras[0] != letras[1]:
+        return letras[0], letras[1]
+    return None
+
+
+def _intercambiar_muestras(an: Analisis):
+    for a, b in (("n1", "n2"), ("xbar1", "xbar2"), ("s1", "s2"), ("nombre1", "nombre2"), ("datos1", "datos2")):
+        v1, v2 = an.datos.get(a), an.datos.get(b)
+        for k, v in ((a, v2), (b, v1)):
+            if v is None:
+                an.datos.pop(k, None)
+            else:
+                an.datos[k] = v
+    cambio = {"1": "2", "2": "1"}
+    for e in an.evidencias:
+        if re.fullmatch(r"(n|xbar|s|datos)[12]", e.clave):
+            e.clave = e.clave[:-1] + cambio[e.clave[-1]]
+            e.motivo = re.sub(r"muestra [12]", lambda m: "muestra " + cambio[m.group(0)[-1]], e.motivo)
+
+
+def extraer_relacion_desvios(an: Analisis, t: Texto, posiciones: Dict[str, Numero]):
+    """Orden de las muestras y φ₀ para el TEMA IV.
+
+    - Si una muestra es la del cambio (reacondicionadas, aleación propuesta, con aditivo) va en el NUMERADOR:
+      φ = σ_nuevo/σ_referencia, así 'reducir el desvío un 12%' es φ < 0,88.
+    - Si no hay cambio (dos establecimientos, dos tornos) va arriba la de MAYOR desvío muestral.
+    - φ₀: 'reducción del 12% en el desvío' → 0,88; 'si no hay reducción' → 1 (y el % es el φ₁ del diseño).
+    """
+    roles, ventanas = {}, {}
+    for j in (1, 2):
+        n = posiciones.get(f"n{j}") or posiciones.get(f"s{j}")
+        if n is not None:
+            roles[j], ventanas[j] = _rol_muestra(t, n)
+    nombres = _nombres_grupos(t, posiciones, ventanas)
+    if nombres:
+        an.datos["nombre1"], an.datos["nombre2"] = nombres
+    m = re.search(RE_NUEVO, t.norm)
+    etiquetas = next(((nv, rf) for p, nv, rf in GRUPOS_CAMBIO if m and re.match(p, m.group(0))), None)
+    con_roles = roles.get(1) is not None or roles.get(2) is not None
+    if con_roles:
+        nuevo = 1 if roles.get(1) == "nuevo" or roles.get(2) == "ref" else 2
+        if etiquetas and not nombres:
+            an.datos["nombre1" if nuevo == 1 else "nombre2"] = etiquetas[0]
+            an.datos["nombre2" if nuevo == 1 else "nombre1"] = etiquetas[1]
+        if nuevo == 2:
+            _intercambiar_muestras(an)
+        an.datos["orden"] = "cambio"
+        an.razones_tema.append(f"φ = σ({an.datos['nombre1']})/σ({an.datos['nombre2']}): arriba la muestra con el cambio, "
+                               "abajo la de referencia (así una reducción del desvío es φ < φ₀).")
+    elif an.datos.get("s1") and an.datos.get("s2"):
+        if an.datos["s2"] > an.datos["s1"]:
+            _intercambiar_muestras(an)
+        an.datos["orden"] = "mayor"
+        an.razones_tema.append(f"φ = σ({an.datos['nombre1']})/σ({an.datos['nombre2']}): sin un grupo 'nuevo', va arriba el "
+                               "de mayor desvío muestral (j² ≥ 1).")
+    elif etiquetas:   # diseño sin datos (IV-5): φ = σ_con/σ_sin
+        an.datos["nombre1"], an.datos["nombre2"] = etiquetas
+        an.datos["orden"] = "cambio"
+
+    # φ₀ (y φ₁ si es un diseño 'si no hay reducción ... si la reducción es de un 30%')
+    an.datos["phi0"] = 1.0
+    hallado = False
+    sin_cambio = _hay(r"(si|cuando) no (hay|existe|se (obtiene|logra|produce)) (una )?(reduccion|disminucion|aumento|"
+                      r"incremento|mejora)", t.norm)
+    for i, n in t.libres():
+        if not n.pct:
+            continue
+        ctx = t.antes(n, 80) + " " + t.despues(n, 50)
+        if not _hay(r"(desvio|desviacion|variab|dispersion)", t.oracion(n.ini)):
+            continue
+        signo = -1 if _hay(r"(reduc|disminu|menor|baj)", ctx) else 1 if _hay(r"(aument|increment|mayor|super)", ctx) else 0
+        if not signo:
+            continue
+        valor = round(1 + signo * n.fraccion, 10)
+        t.usar(i)   # 'en más de un 20% ... si disminuyera sólo en un 20%': los dos son el mismo φ₀, no probabilidades
+        if hallado:
+            continue
+        hallado = True
+        if sin_cambio:
+            _set(an, "phi1", valor, t, n, f"desvío un {fmt(n.valor)}% {'menor' if signo < 0 else 'mayor'} → φ₁ = {fmt(valor)}")
+        else:
+            _set(an, "phi0", valor, t, n, f"desvío un {fmt(n.valor)}% {'menor' if signo < 0 else 'mayor'} que el de "
+                                          f"referencia → φ₀ = {fmt(valor)}", pisar=True)
+
+    # probabilidades del planteo: dos (α y β, diseño) o una sola ('0,1 la probabilidad de cambio si ...' → α)
+    # (el riesgo α puede haber salido antes con extraer_alpha: 'riesgo máximo del 5% de adoptar...')
+    probs = _probs_diseno(t)
+    if len(probs) >= 2:
+        completar_diseno(an, t)
+    elif len(probs) == 1:
+        i, n = probs[0]
+        if n.fraccion > 0.5 and "alpha" in an.datos:
+            t.usar(i)
+            _set(an, "beta", round(1 - n.fraccion, 10), t, n,
+                 f"probabilidad {fmt(n.fraccion)} de tomar la decisión cuando el cambio sí se logra (potencia) → β = 1 - "
+                 f"{fmt(n.fraccion)}")
+        elif n.fraccion <= 0.5 and "alpha" not in an.datos:
+            t.usar(i)
+            _set(an, "alpha", n.fraccion, t, n, "probabilidad de tomar la decisión (el cambio) cuando no se justifica → α")
 
 
 # ---------------------------------------------------------------------------
@@ -871,6 +1064,11 @@ def detectar_cola(norm: str, planteo_norm: str, tema: str, datos: dict) -> Tuple
 
 
 def detectar_criterio(norm: str) -> Tuple[Optional[str], str]:
+    m = re.search(r"\b(efectuar|realizar|hacer|comprar|adoptar|implementar|lanzar|invertir|cambiar)[a-z]* "
+                  r"equivocadamente( (el|la|los|las) [a-z]+)?", norm)
+    if m:
+        return "pesimista", (f"El riesgo que se fija es el de '{m.group(0)}': esa acción es la que se toma al rechazar "
+                             "H0, así que H0 supone que NO conviene hacerlo y se exige evidencia (criterio PESIMISTA).")
     pes, opt = _cuenta(P_PESIMISTA, norm), _cuenta(P_OPTIMISTA, norm)
     if pes == 0 and opt == 0:
         return None, ""
@@ -916,7 +1114,8 @@ def _valor_alternativo(t: Texto, base: Optional[float], tema: str) -> Optional[T
 
 def _prob_pedida(norm: str) -> str:
     if _hay(r"(no detectar|no efectuar|no concretar|no iniciar|no detener|no implementar|no cambiar|no revisarlo|"
-            r"no efectuar el ajuste|aceptar|de que el lote sea aceptado|error de tipo ii|no adoptar|no comprar)", norm):
+            r"no efectuar el ajuste|aceptar|de que el lote sea aceptado|error de tipo ii|no adoptar|no comprar|"
+            r"no realizar|no modificar|no hacer)", norm):
         return "beta"
     return "potencia"
 
@@ -925,7 +1124,7 @@ def extraer_params_inciso(inc: Inciso, an: Analisis, previo: Dict):
     t = Texto(inc.texto)
     norm = t.norm
     p = inc.params
-    tema = an.tema
+    tema = p.get("tema", an.tema)
 
     if inc.tipo in ("n", "diseno") and tema in ("media", "varianza", "proporcion"):
         probs = _probs_diseno(t)
@@ -963,6 +1162,12 @@ def extraer_params_inciso(inc: Inciso, an: Analisis, previo: Dict):
             if k in sub.datos:
                 p[k] = sub.datos[k]
                 inc.razones.append(f"Dato del inciso: {k} = {fmt(sub.datos[k])}.")
+        # 'se encontraron 10 piezas SIN defectos' y se pregunta por las malas: r = n - 10
+        ev_r = next((e for e in sub.evidencias if e.clave == "r"), None)
+        if ev_r and _hay(r"\b" + str(p["r"]) + r" [a-z]* ?(sin defectos?|buen[oa]s|no defectuos|en buen estado|aprobad)", norm) \
+                and _hay(r"(mal[oa]s|defectuos|con defectos?|fallad)", norm):
+            p["r_buenas"] = True
+            inc.razones.append(f"Los {p['r']} casos contados son los BUENOS y se pregunta por los malos: r = n - {p['r']}.")
     if tema == "varianza":
         for i, n in t.libres():
             if _hay(r"(mayor|menor|superior|inferior|mayor de|varianza de|desvio de)[a-z ]{0,10}\s*$", t.antes(n, 30)) \
@@ -982,6 +1187,15 @@ def extraer_params_inciso(inc: Inciso, an: Analisis, previo: Dict):
         p["tail"] = cola
         inc.razones.append(razon)
 
+    if tema == "dos_varianzas" and inc.tipo in ("ic", "n"):
+        if _hay(r"(desvios|desviaciones|desvio)", norm):
+            p["sobre"] = "desvios"
+        elif _hay(r"varianzas?", norm):
+            p["sobre"] = "varianzas"
+        if "sobre" in p:
+            inc.razones.append("La relación es entre los " + ("DESVÍOS σ₁/σ₂ (raíz de la de varianzas)."
+                                                              if p["sobre"] == "desvios" else "VARIANZAS σ₁²/σ₂²."))
+
     if inc.tipo == "ic":
         if _hay(r"(total|peso total|produccion total)", norm) and "N" in an.datos:
             p["total"] = True
@@ -999,7 +1213,7 @@ def extraer_params_inciso(inc: Inciso, an: Analisis, previo: Dict):
             clave, valor, n = r
             p[clave] = valor
             inc.razones.append(f"{'Error admitido e' if clave == 'e' else 'Reducción pedida'} = {fmt(valor)}.")
-        if tema == "varianza":
+        if tema in ("varianza", "dos_varianzas"):
             m = re.search(r"(doble|triple)", norm)
             if m:
                 p["relacion"] = 2.0 if m.group(1) == "doble" else 3.0
@@ -1022,10 +1236,11 @@ def extraer_params_inciso(inc: Inciso, an: Analisis, previo: Dict):
                     break
 
     if inc.tipo in ("beta", "diseno", "curva"):
+        # en el tema IV el % es respecto del desvío de referencia: 'reducción del 30%' → φ₁ = 0,70
         base = {"media": an.datos.get("mu0"), "varianza": an.datos.get("sigma0"),
-                "proporcion": an.datos.get("p0")}.get(tema)
+                "proporcion": an.datos.get("p0"), "dos_varianzas": 1.0}.get(tema)
         r = _valor_alternativo(t, base, tema)
-        clave = {"media": "mu1", "varianza": "sigma1", "proporcion": "p1"}.get(tema, "mu1")
+        clave = {"media": "mu1", "varianza": "sigma1", "proporcion": "p1", "dos_varianzas": "phi1"}.get(tema, "mu1")
         if r:
             valor, n, motivo = r
             if tema == "varianza" and _hay(r"varianza", norm):
@@ -1047,6 +1262,13 @@ def extraer_params_inciso(inc: Inciso, an: Analisis, previo: Dict):
             inc.razones.append("Se piden los dos parámetros (doble condición): se calcula para la media y para el desvío."
                                if inc.tipo == "ic" else
                                "Doble condición: se hacen los dos ensayos (μ y σ); la recomendación exige rechazar ambas H0.")
+
+    if an.datos.get("doble") and "tail" in p and not p.get("ambos"):
+        propia = an.datos.get("tail_mu" if tema == "media" else "tail_sigma")
+        if propia:
+            p["tail"] = propia
+            inc.razones.append(f"Doble condición: el ensayo sobre {'la media' if tema == 'media' else 'el desvío'} "
+                               f"tiene su propia dirección → cola {propia}.")
 
     if tema == "dos_medias" and inc.tipo in ("ensayo",):
         for i, n in t.libres():
@@ -1083,8 +1305,8 @@ def extraer_diseno(an: Analisis, t: Texto):
             continue
         if _hay(r"(incrementa|aumenta|disminuye|reduce|baja|sube)[a-z]* (en|al|a)\s*$|(baja|sube) (al|a)\s*$|\bes del\s*$", a):
             continue
-        if _hay(r"(probabilidad|riesgo|rechac|rechaz|deten|seguridad|detect|implement|adopt|concret|equivocad|"
-                r"erronea|indebid)", ctx) and \
+        if _hay(r"(probabilidad|riesgo|rechac|rechaz|deten|seguridad|certeza|detect|implement|adopt|concret|equivocad|"
+                r"erronea|indebid|modific)", ctx) and \
                 not _hay(r"(defectuos|de unidades|confianza)", d[:25]):
             probs.append((i, n))
     return probs
@@ -1112,12 +1334,19 @@ RE_COND_CONTROL = re.compile(
     r"[^0-9;]{0,50}?probabilidad (?:de |del )?(\d+(?:[.,]\d+)?\s*%?)")
 
 
+_DIR = r"(inferior|superior|menor|mayor|supera|exced|no mas|como maximo|como minimo|mas de|menos de)"
+# relleno sin cortar oración ("4.6kg" no es un punto final)
+_NP = r"(?:[^.;]|\.(?=\d))"
 RE_DOBLE = re.compile(
-    r"(promedio|media)[^.;]{0,60}?(inferior|superior|menor|mayor|supera|exced|no mas|como maximo|como minimo)"
-    r"[^.;]{0,50}?\by\b[^.;]{0,30}?(desvio|desviacion|varianza|variabilidad)[^.;]{0,40}?"
-    r"(inferior|superior|menor|mayor|supera|exced|no mas|como maximo|como minimo)"
-    r"|(desvio|desviacion|varianza|variabilidad)[^.;]{0,60}?(inferior|superior|menor|mayor|supera|exced|no mas|como maximo)"
-    r"[^.;]{0,50}?\by\b[^.;]{0,30}?(promedio|media)[^.;]{0,40}?(inferior|superior|menor|mayor|supera|exced|no mas|como maximo)")
+    r"(promedio|media)" + _NP + r"{0,60}?" + _DIR +
+    _NP + r"{0,50}?\by\b" + _NP + r"{0,30}?(desvio|desviacion|varianza|variabilidad)" + _NP + r"{0,40}?" + _DIR +
+    r"|(desvio|desviacion|varianza|variabilidad)" + _NP + r"{0,60}?" + _DIR +
+    _NP + r"{0,50}?\by\b" + _NP + r"{0,30}?(promedio|media)" + _NP + r"{0,40}?" + _DIR)
+
+
+def _cola_de(palabra: str) -> str:
+    """Hacia dónde apunta H1 según cómo se expresa la condición buscada ('inferior a' → izquierda)."""
+    return "izquierda" if re.match(r"(inferior|menor|no mas|como maximo|menos)", palabra) else "derecha"
 
 
 def doble_condicion(an: Analisis, t: Texto) -> bool:
@@ -1139,6 +1368,10 @@ def doble_condicion(an: Analisis, t: Texto) -> bool:
     if "mu0" not in an.datos:
         return False
     an.datos["doble"] = True
+    # cada condición tiene su propia dirección ('media MAYOR a 4,6 y desvío MENOR a 0,55')
+    g = m.groups()
+    dir_mu, dir_sigma = (g[1], g[3]) if g[0] else (g[7], g[5])
+    an.datos["tail_mu"], an.datos["tail_sigma"] = _cola_de(dir_mu), _cola_de(dir_sigma)
     an.evidencias.append(Evidencia("doble", True, t.norm[m.start():m.end()],
                                    "la decisión depende de la media Y del desvío: hay que hacer los dos ensayos"))
     an.razones_tema.append("Doble condición (media y desvío): se ensayan μ y σ por separado y la decisión exige "
@@ -1233,6 +1466,9 @@ def cambiar_criterio(an: Analisis, nuevo: str) -> List[str]:
         d["accion_rechazo"], d["accion_no_rechazo"] = acciones[1], acciones[0]
         cambios.append(f"Ahora rechazar H0 significa: {d['accion_rechazo']}.")
     giro = {"derecha": "izquierda", "izquierda": "derecha"}
+    for k in ("tail_mu", "tail_sigma"):
+        if d.get(k) in giro:
+            d[k] = giro[d[k]]
     for inc in an.incisos:
         p = inc.params
         if p.get("tail") in giro:
@@ -1275,7 +1511,7 @@ PARAM = {"media": "la media poblacional μ", "varianza": "la varianza σ² / el 
 
 
 def explicar(inc: Inciso, an: Analisis) -> str:
-    tema, p, d = an.tema, inc.params, an.datos
+    tema, p, d = inc.params.get("tema", an.tema), inc.params, an.datos
     alpha = p.get("alpha", d.get("alpha"))
     par = PARAM.get(tema, "el parámetro")
     if p.get("ambos") and inc.tipo == "ic":
@@ -1283,9 +1519,12 @@ def explicar(inc: Inciso, an: Analisis) -> str:
         return (f"Estimar LOS DOS parámetros{conf}: la media μ (σ desconocido → t de Student, ν = n-1) y el desvío σ "
                 f"(χ² con ν = n-1, intervalo no simétrico).")
     if p.get("ambos") and inc.tipo == "ensayo":
-        cola = {"derecha": ">", "izquierda": "<", "bilateral": "≠"}.get(p.get("tail"), "?")
+        signo = {"derecha": ">", "izquierda": "<", "bilateral": "≠"}
+        c_mu = signo.get(d.get("tail_mu") or p.get("tail"), "?")
+        c_sigma = signo.get(d.get("tail_sigma") or p.get("tail"), "?")
+        cola = (f"con H1: μ {c_mu} μ₀ y H1: σ {c_sigma} σ₀" if c_mu != c_sigma else f"ambos con H1 '{c_mu}'")
         return (f"Doble condición: hacer DOS ensayos, uno sobre la media μ (t de Student) y otro sobre el desvío σ (χ²), "
-                f"ambos con H1 '{cola}'. Solo se recomienda si se rechazan las DOS hipótesis nulas.")
+                f"{cola}. Solo se recomienda si se rechazan las DOS hipótesis nulas.")
     if inc.tipo == "ic":
         conf = f" con un {fmt((1 - alpha) * 100)}% de confianza" if alpha else ""
         extra = ""
@@ -1352,6 +1591,22 @@ def _expandir_idem(lista: List[Tuple[str, str]]) -> List[Tuple[str, str]]:
     return salida
 
 
+RE_PROP_INCISO = (r"(porcentaje|proporcion|fraccion) de [a-z ]{0,30}(mal[oa]s|defectuos|fallad|con defectos?|"
+                  r"buen[oa]s|sin defectos?|rechazad)")
+
+
+def tema_de_inciso(norm: str, an: Analisis) -> str:
+    """Un inciso puede preguntar por otro parámetro que el del planteo:
+    - en un problema de media, 'estimar el porcentaje de piezas malas' es una proporción;
+    - en una doble condición (media y desvío), un inciso que solo habla del promedio es de la media."""
+    if an.tema in ("media", "varianza") and _hay(RE_PROP_INCISO, norm):
+        return "proporcion"
+    if an.tema == "varianza" and an.datos.get("doble") and _hay(r"(promedio|\bmedia\b)", norm) \
+            and not _hay(r"(desvio|desviacion|varianza|variabilidad)", norm):
+        return "media"
+    return an.tema
+
+
 def analizar(planteo: str, incisos: Optional[IncisosIn] = None) -> Analisis:
     planteo = (planteo or "").strip()
     lista: List[Tuple[str, str]] = []
@@ -1362,7 +1617,7 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None) -> Analisis:
             elif str(it).strip():
                 lista.append((chr(ord("a") + k), str(it).strip()))
     if not lista:
-        planteo, lista = separar_incisos(planteo)
+        planteo, lista = separar_incisos(planteo, parrafos=True)
     if not lista:
         # sin incisos: la pregunta está en el mismo planteo
         lista = [("única", pregunta_de(planteo))]
@@ -1372,6 +1627,13 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None) -> Analisis:
     t_total = Texto(total)
     pregunta = " ".join(tx for _, tx in lista) if lista[0][0] != "única" else pregunta_de(planteo)
     an.tema, an.razones_tema = detectar_tema(t_total.norm, t_total.listas, normalizar(pregunta))
+    if an.tema == "proporcion" and lista[0][0] != "única" and _cuenta(P_PROPORCION, normalizar(planteo)) == 0:
+        # el porcentaje aparece recién en un inciso: el problema es de media / desvío y ese inciso es aparte
+        t_pl = Texto(planteo)
+        tema_pl, razones_pl = detectar_tema(t_pl.norm, t_pl.listas, t_pl.norm)
+        if tema_pl in ("media", "varianza"):
+            an.tema, an.razones_tema = tema_pl, razones_pl + [
+                "El porcentaje / proporción aparece recién en un inciso: ese inciso se resuelve aparte como proporción."]
     an.criterio, an.criterio_razon = detectar_criterio(t_total.norm)
 
     t = Texto(planteo)
@@ -1396,6 +1658,13 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None) -> Analisis:
             extraer_proporcion(an, t)
         else:
             extraer_desvio(an, t)
+            if an.tema == "media" and an.datos.get("sigma_conocido") is False and _hay(
+                    r"(desvio|desviacion)[a-z ]{0,20}(no se modificara|no se modifica|no cambia|no cambiara|se mantendra|"
+                    r"se mantiene|no variara)", t.norm):
+                an.datos["sigma_conocido"] = True
+                for e in an.evidencias:
+                    if e.clave == "desvio":
+                        e.motivo = "desvío del proceso, que el enunciado dice que no cambia → σ conocido (Z)"
             if an.tema == "media":
                 extraer_media(an, t, solo_mu0=diseno)
                 extraer_totales(an, t)
@@ -1419,16 +1688,23 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None) -> Analisis:
             an.datos.setdefault("sigma_conocido", False)
         doble_condicion(an, t)
     elif an.tema in ("dos_medias", "dos_varianzas"):
-        extraer_dos_muestras(an, t)
+        posiciones = extraer_dos_muestras(an, t)
+        if an.tema == "dos_varianzas":
+            extraer_relacion_desvios(an, t, posiciones)
     elif an.tema.startswith("chi"):
         extraer_chi(an, t)
 
     lista = _expandir_idem(lista)
     previo: Dict = {}
+    tema_previo = an.tema
     for letra, texto_inc in lista:
         inc = Inciso(letra=letra, texto=texto_inc)
         norm = normalizar(texto_inc)
-        inc.tipo, razon = clasificar_inciso(norm, an.tema, normalizar(planteo))
+        tema_inc = tema_de_inciso(norm, an)
+        if tema_inc != an.tema:
+            inc.params["tema"] = tema_inc
+            inc.razones.append(f"Este inciso cambia de parámetro: se resuelve como {TEMAS[tema_inc]}.")
+        inc.tipo, razon = clasificar_inciso(norm, tema_inc, normalizar(planteo))
         if inc.tipo == "no_soportado" and len(norm) < 60 and lista[0][0] != "única":
             inc.tipo, razon = clasificar_inciso(normalizar(pregunta_de(planteo)), an.tema, "")
             razon = "El inciso solo agrega un dato; la pregunta está en el planteo. " + razon
@@ -1436,10 +1712,15 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None) -> Analisis:
             inc.tipo, razon = "diseno", "Hay dos condiciones (α y β): se diseña el ensayo."
         inc.razones.append(razon)
         extraer_params_inciso(inc, an, previo)
-        # herencia: lo que no se dice en el inciso vale lo del inciso anterior (α, cola, μ₁...)
-        for k in ("alpha", "tail", "mu1", "sigma1", "p1", "prob", "mu0", "sigma0", "p0"):
+        # herencia: lo que no se dice en el inciso vale lo del inciso anterior (α, cola, μ₁...);
+        # si el inciso es de otro parámetro, solo se hereda α
+        tema_inc = inc.params.get("tema", an.tema)
+        heredables = ("alpha", "tail", "mu1", "sigma1", "p1", "prob", "mu0", "sigma0", "p0", "phi1", "sobre") \
+            if tema_inc == tema_previo else ("alpha",)
+        for k in heredables:
             if k not in inc.params and k in previo and not (k == "tail" and inc.tipo in ("ensayo", "diseno")):
                 inc.params[k] = previo[k]
+        tema_previo = tema_inc
         if inc.tipo == "diseno" and "beta" not in inc.params and "beta" in an.datos:
             inc.params["beta"] = an.datos["beta"]
         inc.que_pide = explicar(inc, an)

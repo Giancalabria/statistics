@@ -196,6 +196,15 @@ Antes de comparar medias de dos poblaciones, **es obligatorio ensayar la igualda
 - **Valor Crítico**: $F_c = F_{(1 - \alpha/2; \nu_{num}, \nu_{den})}$.
 - **Condición de Rechazo**: Si $j^2_{calc} > F_c \implies \text{Se prueban Varianzas Distintas } (\sigma_1^2 \ne \sigma_2^2)$. Caso contrario, **se suponen Varianzas Iguales** ($\sigma_1^2 = \sigma_2^2$).
 
+#### Ensayo contra un valor $\varphi_0 \ne 1$ (TEMA IV: "reducir el desvío un 12%")
+- **Parámetro**: $\varphi = \sigma_1/\sigma_2$, con el grupo **con el cambio en el numerador** (reacondicionadas, aleación propuesta, con aditivo). Reducir un 12% $\Rightarrow \varphi_0 = 0{,}88$, $\varphi_0^2 = 0{,}7744$.
+- **Criterio pesimista**: $H_0: \varphi \ge \varphi_0$ vs $H_1: \varphi < \varphi_0$ (cola izquierda).
+- **Bajo $H_0$**: $j^2/\varphi_0^2 \sim F(\nu_1 = n_1-1;\ \nu_2 = n_2-1)$.
+- **Valor crítico**: cola izquierda $j_c^2 = \varphi_0^2 \cdot F_{(\alpha;\nu_1;\nu_2)}$; cola derecha $j_c^2 = \varphi_0^2 \cdot F_{(1-\alpha;\nu_1;\nu_2)}$.
+- **Potencia** para $\varphi_1$ (cola izquierda): $1-\beta = P\left(F_{(\nu_1;\nu_2)} < j_c^2/\varphi_1^2\right)$.
+- **Tamaño de muestra** ($n_1 = n_2 = n$, $\nu = n-1$): menor $n$ con $\dfrac{\varphi_0^2}{\varphi_1^2} \ge F_{(1-\alpha;\nu;\nu)} \cdot F_{(1-\beta;\nu;\nu)}$ (se itera sobre F; es lo que reproduce las respuestas de la guía).
+- **IC y relación entre límites**: $\left[\dfrac{j^2}{F_{(1-\alpha/2)}};\ \dfrac{j^2}{F_{(\alpha/2)}}\right]$; con $n_1 = n_2$, $B/A = F_{(1-\alpha/2;\nu;\nu)}/F_{(\alpha/2;\nu;\nu)}$ (varianzas) o su raíz (desvíos), y se itera $n$ hasta lograr la relación buscada.
+
 ---
 
 ### 3.2 Comparación de Medias Poblacionales ($\mu_1 - \mu_2 = \delta$)

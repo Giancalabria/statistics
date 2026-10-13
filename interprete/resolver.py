@@ -115,6 +115,10 @@ def _datos(an: Analisis, inc: Inciso, estado: Dict) -> Dict:
             d.setdefault("s" + lado, r.s)
     if "n" not in d and estado.get("n"):
         d["n"] = estado["n"]
+    if d.get("r_buenas") and d.get("r") is not None and d.get("n"):
+        d["_r_contado"] = d["r"]
+        d["r"] = int(d["n"]) - int(d["r"])
+        d.pop("p_hat", None)
     if d.get("p_hat") is None and d.get("r") is not None and d.get("n"):
         d["p_hat"] = d["r"] / d["n"]
     if d.get("r") is None and d.get("p_hat") is not None and d.get("n"):
@@ -345,7 +349,7 @@ def media_beta(d, alpha, res: Resultado, estado):
 def _lado_h0(d) -> bool:
     """¿El valor alternativo cae del lado de H0? Entonces 'rechazar' es un error de tipo I, no una potencia."""
     tail = d.get("tail")
-    for v0, v1 in (("mu0", "mu1"), ("sigma0", "sigma1"), ("p0", "p1")):
+    for v0, v1 in (("mu0", "mu1"), ("sigma0", "sigma1"), ("p0", "p1"), ("phi0", "phi1")):
         if d.get(v0) is not None and d.get(v1) is not None:
             return (tail == "derecha" and d[v1] < d[v0]) or (tail == "izquierda" and d[v1] > d[v0])
     return False
@@ -400,7 +404,7 @@ def media_diseno(d, alpha, res: Resultado, estado):
         if d.get("control"):
             res.conclusion += f" Rechazar H0 ⇒ {d.get('accion_rechazo', 'se detiene el proceso')}."
         n_act = d.get("n") if "n" in d and d.get("n") and not estado.get("n_es_diseno") else None
-        res.numeros = [r.n] + (list(r.critical_value) if isinstance(r.critical_value, tuple) else [r.critical_value])
+        res.numeros = [r.n] + (list(r.critical_value) if isinstance(r.critical_value, tuple) else [r.critical_value]) + [mu0]
         if n_act and r.n > int(n_act):
             res.conclusion += f" (Respecto de la muestra actual de {int(n_act)}: Δn = {r.n - int(n_act)}.)"
             res.numeros.append(r.n - int(n_act))
@@ -505,7 +509,7 @@ def varianza_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
     n = int(n)
     tail = d.get("tail") or estado.get("tail") or ("derecha" if s > s0 else "izquierda")
     s1 = d.get("sigma1")
-    r = hyp.ensayo_varianza(s ** 2, n, s0 ** 2, alpha, tail=tail, sigma1_2=s1 ** 2 if s1 else None)
+    r = hyp.ensayo_varianza(s ** 2, n, round(s0 ** 2, 10), alpha, tail=tail, sigma1_2=s1 ** 2 if s1 else None)
     res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}  (α = {fmt(alpha, 4)}).")
     res.pasos.append(f"**Distribución**: χ² con ν = {n - 1}.")
     if isinstance(r.critical_value, tuple):
@@ -569,6 +573,9 @@ def prop_ic(d, alpha, res: Resultado, estado):
     r_, n = _req(d, "r", "n")
     r = ic.ic_proporcion_exacto(int(r_), int(n), alpha)
     rn = ic.ic_proporcion_normal(int(r_) / int(n), int(n), alpha)
+    if d.get("_r_contado") is not None:
+        res.pasos.append(f"**Casos**: se contaron {int(d['_r_contado'])} buenas y se pregunta por las malas → "
+                         f"r = n - {int(d['_r_contado'])} = {int(n)} - {int(d['_r_contado'])} = {int(r_)}.")
     res.pasos.append(f"**Datos**: n = {int(n)}, r = {int(r_)}, p̂ = r/n = {fmt(int(r_) / int(n), 4)}.")
     res.pasos.append(f"**Modelo exacto** (Beta / F, el que usa la cátedra): A = {fmt(r.a, 4)} ; B = {fmt(r.b, 4)}.")
     res.pasos.append(f"Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [{fmt(rn.a, 4)} ; {fmt(rn.b, 4)}] "
@@ -705,35 +712,190 @@ def _nombres(d):
     return d.get("nombre1") or "1", d.get("nombre2") or "2"
 
 
-def dos_var_ensayo(d, alpha, res: Resultado, estado):
-    s1, n1, s2, n2 = _req(d, "s1", "n1", "s2", "n2")
+def _phi_txt(d) -> str:
     a, b = _nombres(d)
-    r = two.f_test_equal_variances(s1, int(n1), s2, int(n2), alpha)
-    mayor = a if s1 >= s2 else b
-    res.pasos.append(f"**Hipótesis**: H0: σ₁² = σ₂² (φ² = 1)  vs  H1: σ₁² ≠ σ₂².")
-    res.pasos.append(f"**Estadístico**: j² = S²mayor/S²menor = {fmt(max(s1, s2) ** 2, 4)}/{fmt(min(s1, s2) ** 2, 4)} = "
-                     f"{fmt(r.observed_value, 4)} (mayor: {mayor}).")
-    res.pasos.append(f"**Valor crítico**: F(1-α; ν_num; ν_den) = {fmt(r.critical_value, 4)}. Si j² > Fc ⇒ se rechaza H0.")
-    res.conclusion = _ensayo_txt(r, alpha, f"j² = {fmt(r.observed_value, 4)}", d)
-    res.regla = _regla(d, "calcula j² = S²mayor/S²menor con las dos muestras",
-                       f"j² > {fmt(r.critical_value, 4)}", "σ₁² ≠ σ₂²")
-    res.numeros = [r.observed_value, r.critical_value]
-    res.resumen = f"j² = {fmt(r.observed_value, 4)} vs Fc = {fmt(r.critical_value, 4)}: " + ("RECHAZA" if r.rejects_h0 else "NO rechaza")
-    if d.get("tail") in ("derecha", "izquierda") or d.get("delta0"):
-        res.avisos.append("Si el enunciado pide probar una reducción de un X% del desvío (φ₀ ≠ 1), ajustá el valor "
-                          "crítico: j² se compara contra φ₀²·F.")
+    return f"φ = σ({a})/σ({b})"
+
+
+def _cola_relacion(d, estado) -> str:
+    tail = d.get("tail") or estado.get("tail") or "bilateral"
+    phi1 = d.get("phi1")
+    phi0 = d.get("phi0") or 1.0
+    if d.get("orden") == "mayor" and tail != "bilateral":
+        tail = "derecha"   # arriba va el de mayor desvío: lo que se quiere probar es que es MAYOR
+    if phi1 is not None and tail != "bilateral" and phi1 != phi0:
+        tail = "izquierda" if phi1 < phi0 else "derecha"
+    return tail
+
+
+def _criticos_txt(phi0, alpha, df1, df2, tail, crit) -> str:
+    if tail == "bilateral":
+        c1, c2 = crit
+        return (f"j²c₁ = φ₀²·F({fmt(alpha / 2, 4)}; {df1}; {df2}) = {fmt(c1, 4)} y j²c₂ = φ₀²·F({fmt(1 - alpha / 2, 4)}; "
+                f"{df1}; {df2}) = {fmt(c2, 4)} (jc = {fmt(sqrt(c1), 4)} ; {fmt(sqrt(c2), 4)})")
+    p = alpha if tail == "izquierda" else 1 - alpha
+    f = dist.f_value(p, df1, df2)
+    return (f"j²c = φ₀²·F({fmt(p, 4)}; {df1}; {df2}) = {fmt(phi0 ** 2, 4)}·{fmt(f, 4)} = {fmt(crit, 4)} "
+            f"(jc = {fmt(sqrt(crit), 4)})")
+
+
+def _cond_relacion(tail, crit) -> str:
+    if tail == "bilateral":
+        return f"j² < {fmt(crit[0], 4)} o j² > {fmt(crit[1], 4)}"
+    return f"j² {_signo(tail)} {fmt(crit, 4)}"
+
+
+def dos_var_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
+    """TEMA IV: ensayo F sobre φ = σ₁/σ₂ (muestra 1 arriba) contra φ₀ (1 o, p. ej., 0,88 si se pide reducir un 12%)."""
+    a, b = _nombres(d)
+    phi0 = d.get("phi0") or 1.0
+    tail = _cola_relacion(d, estado)
+    phi1 = d.get("phi1")
+    con_muestras = all(d.get(k) for k in ("s1", "n1", "s2", "n2"))
+    if con_muestras:
+        s1, n1, s2, n2 = float(d["s1"]), int(d["n1"]), float(d["s2"]), int(d["n2"])
+    elif beta_modo and estado.get("n_relacion"):
+        s1 = s2 = 1.0   # diseño sin datos: solo hacen falta los valores críticos con el n del diseño
+        n1 = n2 = int(estado["n_relacion"])
+    else:
+        s1, n1, s2, n2 = _req(d, "s1", "n1", "s2", "n2")
+    r = two.ensayo_relacion_desvios(s1, int(n1), s2, int(n2), alpha, phi0=phi0, tail=tail, phi1=phi1)
+    df1, df2 = int(n1) - 1, int(n2) - 1
+    h0, h1 = r.h0_text.replace("φ = σ₁/σ₂", _phi_txt(d)), r.h1_text.replace("φ = σ₁/σ₂", _phi_txt(d))
+    res.pasos.append(f"**Hipótesis**: H0: {h0}  vs  H1: {h1}  (α = {fmt(alpha, 4)}).  En varianzas: φ₀² = "
+                     f"{fmt(phi0 ** 2, 4)}.")
+    res.pasos.append(f"**Estadístico**: j² = S²({a})/S²({b}); bajo H0, j²/φ₀² ~ F(ν₁ = n({a}) - 1 = {df1}; "
+                     f"ν₂ = n({b}) - 1 = {df2}).")
+    crit = r.critical_value
+    res.pasos.append(f"**Condición de rechazo**: {_criticos_txt(phi0, alpha, df1, df2, tail, crit)}. "
+                     f"Si {_cond_relacion(tail, crit)} ⇒ se rechaza H0.")
+    estado.update(tail=tail, n_relacion=n1 if n1 == n2 else estado.get("n_relacion"))
+    res.numeros = (list(crit) + [sqrt(c) for c in crit]) if isinstance(crit, tuple) else [crit, sqrt(crit)]
+    if beta_modo:
+        if phi1 is None:
+            raise FaltaDato("Falta la relación alternativa φ₁ (p. ej. 'reducción del 30%' → φ₁ = 0,70)")
+        if tail == "bilateral":
+            res.pasos.append(f"**β** = P(no rechazar H0 | φ = {fmt(phi1, 4)}) = {fmt(r.beta, 4)}.")
+        else:
+            corte = crit / phi1 ** 2
+            p_txt = f"P(F({df1}; {df2}) {'<' if tail == 'izquierda' else '>'} j²c/φ₁²)"
+            res.pasos.append(f"**Si φ = φ₁ = {fmt(phi1, 4)}** (φ₁² = {fmt(phi1 ** 2, 4)}), j²/φ₁² ~ F({df1}; {df2}). "
+                             f"P(rechazar H0) = {p_txt} = P(F {'<' if tail == 'izquierda' else '>'} "
+                             f"{fmt(crit, 4)}/{fmt(phi1 ** 2, 4)} = {fmt(corte, 4)}) = {fmt(r.power, 4)}.")
+        _cierre_beta(dict(d, phi0=phi0, tail=tail), r.beta, r.power, res)
+        return
+    j = sqrt(r.observed_value)
+    res.pasos.append(f"**Decisión**: j² = {fmt(s1 ** 2, 6)}/{fmt(s2 ** 2, 6)} = {fmt(r.observed_value, 4)} (j = {fmt(j, 4)}) → " +
+                     ("cae en la zona de rechazo." if r.rejects_h0 else "no cae en la zona de rechazo."))
+    res.conclusion = _ensayo_txt(r, alpha, f"j² = {fmt(r.observed_value, 4)}", d).replace("φ = σ₁/σ₂", _phi_txt(d))
+    res.regla = _regla(d, f"calcula la relación j² = S²({a})/S²({b}) con las muestras de {int(n1)} y {int(n2)}",
+                       _cond_relacion(tail, crit), h1)
+    res.numeros += [r.observed_value, j]
+    res.resumen = f"H0: {h0}; j² = {fmt(r.observed_value, 4)} vs j²c = {_cv(crit)}: " + \
+                  ("RECHAZA H0" if r.rejects_h0 else "NO rechaza H0")
+
+
+def dos_var_beta(d, alpha, res: Resultado, estado):
+    dos_var_ensayo(d, alpha, res, estado, beta_modo=True)
+
+
+def dos_var_diseno(d, alpha, res: Resultado, estado):
+    """n igual en ambas muestras para una potencia fijada (o, con n dado, solo H0 + CR + RD)."""
+    a, b = _nombres(d)
+    phi0 = d.get("phi0") or 1.0
+    phi1, beta = d.get("phi1"), d.get("beta")
+    if phi1 is None or beta is None:
+        raise FaltaDato("Para el diseño faltan la relación alternativa φ₁ y/o β")
+    tail = _cola_relacion(d, estado)
+    r = two.n_relacion_desvios_para_potencia(phi0, phi1, alpha, beta, tail=tail if tail != "bilateral" else None)
+    h0, h1 = r.h0_text.replace("φ = σ₁/σ₂", _phi_txt(d)), r.h1_text.replace("φ = σ₁/σ₂", _phi_txt(d))
+    nu = r.n - 1
+    res.pasos.append(f"**Hipótesis**: H0: {h0}  vs  H1: {h1}.")
+    res.pasos.append(f"**Condiciones**: P(rechazar H0 | φ = {fmt(phi0, 4)}) = α = {fmt(alpha, 4)} y "
+                     f"P(no rechazar H0 | φ = {fmt(phi1, 4)}) = β = {fmt(beta, 4)}.")
+    res.pasos.append(f"**Tamaño de muestra** (n₁ = n₂ = n, ν₁ = ν₂ = n - 1): hay que cumplir R = φ₀²/φ₁² = "
+                     f"{fmt(phi0 ** 2, 4)}/{fmt(phi1 ** 2, 4)} = {fmt(max(phi0, phi1) ** 2 / min(phi0, phi1) ** 2, 4)} ≥ "
+                     f"F(1-α; ν; ν)·F(1-β; ν; ν). Iterando sobre F: n = {r.n} (ν = {nu}).")
+    p = alpha if r.tail == "izquierda" else 1 - alpha
+    res.pasos.append(f"**Condición de rechazo**: j²c = φ₀²·F({fmt(p, 4)}; {nu}; {nu}) = {fmt(r.j2_c, 4)} "
+                     f"(jc = {fmt(sqrt(r.j2_c), 4)}). Si j² {_signo(r.tail)} {fmt(r.j2_c, 4)} ⇒ se rechaza H0.")
+    si, no = _acciones(d, _coma(h1))
+    regla = (f"Si en {r.n} muestras de cada grupo la relación j = S({a})/S({b}) es "
+             f"{'menor' if r.tail == 'izquierda' else 'mayor'} que {fmt(sqrt(r.j2_c), 4)}, se rechaza H0 → {si}. "
+             f"En caso contrario no se rechaza H0 → {no}.")
+    res.pasos.append(f"**Regla de decisión**: {_coma(regla)}")
+    res.pasos.append(f"Con n = {r.n}: β real = {fmt(r.beta_real, 4)}, potencia real = {fmt(r.potencia_real, 4)}.")
+    res.conclusion = f"n = {r.n} en cada muestra ({a} y {b}). " + _coma(regla)
+    res.numeros = [r.n, sqrt(r.j2_c), r.j2_c]
+    previo = estado.get("n_relacion")
+    if previo and r.n > int(previo):
+        res.conclusion += f" Respecto de las {int(previo)} anteriores: Δn = {r.n - int(previo)} más en cada una."
+        res.numeros.append(r.n - int(previo))
+    elif d.get("n1") and d.get("n2"):
+        res.conclusion += (f" (Hoy hay {int(d['n1'])} de {a} y {int(d['n2'])} de {b}: Δn = {max(0, r.n - int(d['n1']))} y "
+                           f"{max(0, r.n - int(d['n2']))}.)")
+    res.resumen = f"n = {r.n}; jc = {fmt(sqrt(r.j2_c), 4)}"
+    estado.update(n_relacion=r.n, tail=r.tail)
 
 
 def dos_var_ic(d, alpha, res: Resultado, estado):
     s1, n1, s2, n2 = _req(d, "s1", "n1", "s2", "n2")
+    a, b = _nombres(d)
+    df1, df2 = int(n1) - 1, int(n2) - 1
     rd, ri = two.ic_ratio_varianzas(s1, int(n1), s2, int(n2), alpha)
-    res.pasos.append(f"**IC para φ² = σ₁²/σ₂²**: [S₁²/S₂²]/F(1-α/2) ; [S₁²/S₂²]/F(α/2) = [{fmt(rd.a, 4)} ; {fmt(rd.b, 4)}].")
-    res.pasos.append(f"**IC para σ₂²/σ₁²**: [{fmt(ri.a, 4)} ; {fmt(ri.b, 4)}].")
-    res.pasos.append(f"**IC para los desvíos (raíz)**: σ₁/σ₂ ∈ [{fmt(sqrt(rd.a), 4)} ; {fmt(sqrt(rd.b), 4)}], "
-                     f"σ₂/σ₁ ∈ [{fmt(sqrt(ri.a), 4)} ; {fmt(sqrt(ri.b), 4)}].")
-    res.conclusion = _p("σ₁²/σ₂²", rd.a, rd.b, alpha) + "."
-    res.numeros = [rd.a, rd.b, ri.a, ri.b, sqrt(rd.a), sqrt(rd.b), sqrt(ri.a), sqrt(ri.b)]
-    res.resumen = f"IC σ₁²/σ₂²: [{fmt(rd.a, 4)} ; {fmt(rd.b, 4)}]"
+    f_hi, f_lo = dist.f_two_tailed(alpha, df1, df2), dist.f_value(alpha / 2, df1, df2)
+    sobre = d.get("sobre") or "varianzas"
+    res.pasos.append(f"**Modelo**: (S²₁/σ²₁)/(S²₂/σ²₂) ~ F(ν₁ = {df1}; ν₂ = {df2}); F({fmt(alpha / 2, 4)}) = {fmt(f_lo, 4)}, "
+                     f"F({fmt(1 - alpha / 2, 4)}) = {fmt(f_hi, 4)}.")
+    res.pasos.append(f"**IC para φ² = σ²({a})/σ²({b})**: j²/F(1-α/2) ; j²/F(α/2) = {fmt(rd.point_estimate, 4)}/{fmt(f_hi, 4)} ; "
+                     f"{fmt(rd.point_estimate, 4)}/{fmt(f_lo, 4)} = [{fmt(rd.a, 4)} ; {fmt(rd.b, 4)}]. "
+                     f"Inversa σ²({b})/σ²({a}): [{fmt(ri.a, 4)} ; {fmt(ri.b, 4)}].")
+    res.pasos.append(f"**IC para φ = σ({a})/σ({b})** (raíz de los límites): [{fmt(sqrt(rd.a), 4)} ; {fmt(sqrt(rd.b), 4)}]. "
+                     f"Inversa σ({b})/σ({a}): [{fmt(sqrt(ri.a), 4)} ; {fmt(sqrt(ri.b), 4)}].")
+    r_var, r_sig = rd.b / rd.a, sqrt(rd.b / rd.a)
+    res.pasos.append(f"**Relación entre límites** B/A: {fmt(r_var, 4)} para las varianzas y {fmt(r_sig, 4)} para los desvíos.")
+    estado.update(rel_varianzas=r_var, rel_desvios=r_sig, sobre=sobre)
+    lo, hi = (sqrt(rd.a), sqrt(rd.b)) if sobre == "desvios" else (rd.a, rd.b)
+    par = f"σ({a})/σ({b})" if sobre == "desvios" else f"σ²({a})/σ²({b})"
+    res.conclusion = f"Con un {_pct(alpha)} de confianza: " + _p(par, lo, hi, alpha) + "."
+    if sobre == "desvios" and lo > 1:
+        res.conclusion += (f" El desvío de {a} es mayor que el de {b} entre un {fmt((lo - 1) * 100, 2)}% y un "
+                           f"{fmt((hi - 1) * 100, 2)}%.")
+    elif sobre == "desvios" and hi < 1:
+        res.conclusion += (f" El desvío de {a} es menor que el de {b} entre un {fmt((1 - hi) * 100, 2)}% y un "
+                           f"{fmt((1 - lo) * 100, 2)}%.")
+    res.numeros = [rd.a, rd.b, ri.a, ri.b, sqrt(rd.a), sqrt(rd.b), sqrt(ri.a), sqrt(ri.b), lo - 1, hi - 1, 1 - lo, 1 - hi]
+    res.resumen = f"IC {par}: [{fmt(lo, 4)} ; {fmt(hi, 4)}]"
+
+
+def dos_var_n(d, alpha, res: Resultado, estado):
+    """n igual en ambas muestras para que el IC de la relación tenga una relación entre límites dada."""
+    sobre = d.get("sobre") or estado.get("sobre") or "varianzas"
+    clave = "rel_desvios" if sobre == "desvios" else "rel_varianzas"
+    rel = d.get("relacion")
+    r_act = None
+    if rel is None and d.get("reduccion") is not None:
+        r_act = estado.get(clave)
+        if r_act is None:
+            s1, n1, s2, n2 = _req(d, "s1", "n1", "s2", "n2")
+            r_act = two.relacion_limites_f(alpha, int(n1) - 1, int(n2) - 1, sobre)
+        rel = r_act * (1 - d["reduccion"])
+        res.pasos.append(f"**Relación buscada** B/A = {fmt(r_act, 4)}·(1 - {fmt(d['reduccion'], 4)}) = {fmt(rel, 4)} "
+                         f"({'desvíos' if sobre == 'desvios' else 'varianzas'}).")
+    elif rel is not None:
+        res.pasos.append(f"**Relación buscada** B/A = {fmt(rel, 4)} ({'desvíos' if sobre == 'desvios' else 'varianzas'}).")
+    else:
+        raise FaltaDato("Falta la relación entre límites buscada o la reducción pedida")
+    r = two.n_relacion_por_limites(rel, alpha, sobre=sobre, r_actual=r_act, reduccion=d.get("reduccion"))
+    nu = r.n - 1
+    formula = "F(1-α/2; ν; ν)/F(α/2; ν; ν)" if sobre == "varianzas" else "√[F(1-α/2; ν; ν)/F(α/2; ν; ν)]"
+    res.pasos.append(f"Con n₁ = n₂ = n la relación entre límites ya no depende de los desvíos: B/A = {formula}. "
+                     f"Iterando sobre F: n = {r.n} (ν = {nu}) da B/A = {fmt(r.r_logrado, 4)} ≤ {fmt(rel, 4)}.")
+    res.conclusion = f"Se necesitan n = {r.n} unidades en cada muestra."
+    res.numeros = [r.n]
+    if d.get("n1") and d.get("n2"):
+        res.conclusion += f" (Hoy hay {int(d['n1'])} y {int(d['n2'])}: Δn = {max(0, r.n - int(d['n1']))} y {max(0, r.n - int(d['n2']))}.)"
+    res.resumen = f"n = {r.n}"
 
 
 def _dos_medias_base(d, alpha, res: Resultado):
@@ -899,6 +1061,7 @@ DESPACHO = {
     ("proporcion", "beta"): lambda d, a, r, e: prop_ensayo(d, a, r, e, beta_modo=True),
     ("proporcion", "diseno"): prop_diseno, ("proporcion", "curva"): prop_curva,
     ("dos_varianzas", "ensayo"): dos_var_ensayo, ("dos_varianzas", "ic"): dos_var_ic,
+    ("dos_varianzas", "beta"): dos_var_beta, ("dos_varianzas", "diseno"): dos_var_diseno, ("dos_varianzas", "n"): dos_var_n,
     ("dos_medias", "ensayo"): dos_medias_ensayo, ("dos_medias", "ic"): dos_medias_ic, ("dos_medias", "n"): dos_medias_n,
     ("chi_contingencia", "ensayo"): chi_cont, ("chi_ajuste", "ensayo"): chi_ajuste,
 }
@@ -913,6 +1076,9 @@ def _ambos(d, alpha, tipo, res: Resultado, estado):
     for tema, nombre in (("media", "la media μ"), ("varianza", "el desvío σ")):
         sub = Resultado()
         dd = dict(d)
+        propia = d.get("tail_mu" if tema == "media" else "tail_sigma")
+        if propia:
+            dd["tail"] = propia   # cada condición tiene su dirección (μ > 4,6 pero σ < 0,55)
         if tema == "media":
             dd["sigma_conocido"] = False
             dd.pop("mu1", None)
@@ -937,7 +1103,8 @@ def _ambos(d, alpha, tipo, res: Resultado, estado):
 
 def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
     res = Resultado(titulo=f"{inc.letra}) {TITULOS.get(inc.tipo, 'Sin cálculo')}")
-    f = DESPACHO.get((an.tema, inc.tipo))
+    tema = inc.params.get("tema") or an.tema   # un inciso puede ser de otro parámetro que el planteo
+    f = DESPACHO.get((tema, inc.tipo))
     if f is None:
         res.errores.append("La app no calcula este tipo de pregunta para este tema. "
                            "Mirá la teoría y los ejercicios parecidos de la guía.")
@@ -952,15 +1119,15 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
                               "se rechaza H0 para cualquier α ≥ α* (así lo responde la guía en estos casos).")
         if alpha is None:
             raise FaltaDato("Falta el riesgo α")
-        _paso_resumen(d, res) if an.tema in ("media", "varianza") else None
+        _paso_resumen(d, res) if tema in ("media", "varianza") else None
         cola_previa = estado.get("tail")
-        if d.get("ambos") and an.tema in ("media", "varianza") and inc.tipo in ("ensayo", "ic"):
+        if d.get("ambos") and tema in ("media", "varianza") and inc.tipo in ("ensayo", "ic"):
             _ambos(d, float(alpha), inc.tipo, res, estado)
         else:
             f(d, float(alpha), res, estado)
         # la cola efectiva: la que fijó este inciso (un diseño la corrige según μ₁) o la del inciso
         cola = estado.get("tail") if estado.get("tail") != cola_previa else (d.get("tail") or estado.get("tail"))
-        res.pasos = agregar_presentacion(res.pasos, an.tema, inc.tipo, dict(d, alpha=alpha), an.criterio, cola)
+        res.pasos = agregar_presentacion(res.pasos, tema, inc.tipo, dict(d, alpha=alpha), an.criterio, cola)
         res.pasos = [_coma(x) if x.startswith(("**Hipótesis**", "**Región crítica**", "**1 · Planteo")) else x
                      for x in res.pasos]
         if inc.tipo == "ensayo" and not d.get("ambos"):

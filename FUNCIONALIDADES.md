@@ -73,8 +73,13 @@ potencia y valor p (α*).
 
 ## 3. Comparación de 2 Poblaciones
 
-- **Varianzas (Test F)**: ensaya H0: σ₁² = σ₂² (bilateral), o calcula el IC para la razón de
-  varianzas σ₁²/σ₂² (y su inversa σ₂²/σ₁²).
+- **Varianzas / desvíos (TEMA IV, distribución F)**: parámetro φ = σ₁/σ₂ con la muestra 1 en el numerador
+  (si hay un grupo con el cambio —reacondicionado, propuesto, con aditivo— va arriba).
+  - Ensayo contra cualquier φ₀ ("reducir el desvío un 12%" → H0: φ ≥ 0,88; j²c = φ₀²·F), con cola a elección
+    y β / potencia para un φ₁ alternativo.
+  - IC para σ₁²/σ₂² y σ₁/σ₂ (y sus inversas) con la relación entre límites B/A.
+  - Tamaño de muestra (n₁ = n₂) para una potencia fijada y para una relación entre límites del IC
+    (búsqueda exacta sobre F; coincide con la guía: IV-1 45 y 444, IV-2 483, IV-3 260 y 68, IV-4 128, IV-5 127 y 174).
 - **Medias — Muestras independientes**: ejecuta automáticamente el **Test F** para decidir el
   método:
   - Si no se rechaza H0 (varianzas iguales) → método **pooled** (varianza combinada).
@@ -145,7 +150,8 @@ se hacen los dos ensayos y se estiman los dos parámetros).
 
 **Precisión medida contra la guía** (`python herramientas/evaluar_guia.py`, alcance del primer
 parcial: Tema I 1–34, Tema II 1–12, Tema III 1–8): el tema se detecta bien en 54/54 ejercicios y
-coinciden ~83% de los números de las respuestas (los que no coinciden son en gran parte números que
+coinciden ~84% de los números de las respuestas. En el Tema IV (`--todo`) coinciden 27/32; los que faltan son
+números del texto de la respuesta, no resultados (los que no coinciden son en gran parte números que
 aparecen en el texto de la respuesta, o ejercicios con dos alternativas / doble ensayo).
 
 ---

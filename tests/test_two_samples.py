@@ -295,3 +295,72 @@ def test_n_media_apareada_para_error_error_alpha_fuera_de_rango():
     """Validar que alpha debe estar entre 0 y 1."""
     with pytest.raises(ValueError, match="alpha debe estar entre 0 y 1"):
         ts.n_media_apareada_para_error(3.6936, 0.8247, 0.0)
+
+
+# ---------------------------------------------------------------------------
+# TEMA IV completo: ensayo sobre φ = σ₁/σ₂ con φ₀ ≠ 1, β, n por potencia y por límites
+# ---------------------------------------------------------------------------
+
+def test_relacion_desvios_hilanderia_iv4():
+    """IV-4: reducción del 12% del desvío (φ₀ = 0,88), α = 0,10; muestra 1 = reacondicionadas.
+
+    Guía: a) se rechaza H0 (hay reducción de más del 12%); b) 1-β = 0,1779 para φ₁ = 0,70.
+    """
+    r = ts.ensayo_relacion_desvios(132, 4, 354, 16, alpha=0.10, phi0=0.88, tail="izquierda", phi1=0.70)
+    assert r.critical_value == pytest.approx(0.1489, abs=1e-4)
+    assert r.observed_value == pytest.approx(0.1390, abs=1e-4)
+    assert r.rejects_h0
+    assert r.power == pytest.approx(0.1779, abs=1e-4)
+
+
+def test_relacion_desvios_dural_iv2():
+    """IV-2: aleación propuesta (P, n=13, S=0,06) vs actual (A, n=21, S=0,084); φ₀ = 0,8, α = 0,10.
+
+    Guía: j = 0,7143, j² = 0,5102 → no se rechaza (no se aconseja el cambio).
+    """
+    r = ts.ensayo_relacion_desvios(0.06, 13, 0.084, 21, alpha=0.10, phi0=0.8, tail="izquierda", phi1=0.7)
+    assert r.observed_value == pytest.approx(0.5102, abs=1e-4)
+    assert not r.rejects_h0
+    assert 0 < r.beta < 1
+
+
+def test_relacion_desvios_novillos_iv3():
+    """IV-3: Casablanca (S=18) vs La Providencia (S=12), n=50 c/u, α = 0,05, H1: φ > 1.
+
+    Guía: a) se rechaza H0; b) β = 0,649 para φ₁ = 1,2.
+    """
+    r = ts.ensayo_relacion_desvios(18, 50, 12, 50, alpha=0.05, phi0=1, tail="derecha", phi1=1.2)
+    assert r.rejects_h0
+    assert r.beta == pytest.approx(0.649, abs=1e-3)
+
+
+@pytest.mark.parametrize("phi0, phi1, alpha, beta, esperado", [
+    (0.88, 0.70, 0.10, 0.10, 128),   # IV-4 c)
+    (0.8, 0.7, 0.10, 0.05, 483),     # IV-2 c)
+    (1.0, 1.2, 0.05, 0.10, 260),     # IV-3 c)
+    (1.0, 0.7, 0.05, 0.01, 127),     # IV-5 a)
+    (1.0, 0.8, 0.05, 0.10, 174),     # IV-5 c)
+])
+def test_n_relacion_para_potencia_guia(phi0, phi1, alpha, beta, esperado):
+    r = ts.n_relacion_desvios_para_potencia(phi0, phi1, alpha, beta)
+    assert r.n == esperado
+    assert r.beta_real <= beta
+
+
+def test_diseno_aditivo_latex_iv5():
+    """IV-5 a) n = 127 y j_c = 0,8632; b) con φ = 0,8 la probabilidad pedida da 0,1972 (β)."""
+    r = ts.n_relacion_desvios_para_potencia(1.0, 0.7, 0.05, 0.01)
+    assert math.sqrt(r.j2_c) == pytest.approx(0.8632, abs=1e-4)
+    e = ts.ensayo_relacion_desvios(1, r.n, 1, r.n, alpha=0.05, phi0=1, tail="izquierda", phi1=0.8)
+    assert e.beta == pytest.approx(0.1972, abs=1e-4)
+
+
+@pytest.mark.parametrize("r_obj, sobre, esperado", [
+    (5.4704 / 2, "varianzas", 45),        # IV-1 b): mitad de la relación del IC de σ₁²/σ₂²
+    (2.3389 / 2, "desvios", 444),         # IV-1 d): mitad de la relación del IC de σ₁/σ₂
+    (1.5, "desvios", 68),                 # IV-3 e): límite superior 50% mayor que el inferior
+])
+def test_n_relacion_por_limites_guia(r_obj, sobre, esperado):
+    r = ts.n_relacion_por_limites(r_obj, alpha=0.10, sobre=sobre)
+    assert r.n == esperado
+    assert r.r_logrado <= r_obj

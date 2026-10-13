@@ -41,7 +41,7 @@ planteo = st.text_area("Planteo (el texto inicial del problema)", key="planteo",
 
 if st.button("✂️ Separar incisos del texto pegado", help="Si pegaste el enunciado completo con a), b), c)... "
                                                         "los pasa a los campos de incisos."):
-    plant, incs = separar_incisos(ss.get("planteo", ""))
+    plant, incs = separar_incisos(ss.get("planteo", ""), parrafos=True)
     if incs:
         ss["planteo_nuevo"] = plant
         ss["incisos"] = [tx for _, tx in incs]
@@ -50,7 +50,7 @@ if st.button("✂️ Separar incisos del texto pegado", help="Si pegaste el enun
                 del ss[k]
         st.rerun()
     else:
-        st.info("No encontré incisos a), b), c)... en el texto.")
+        st.info("No encontré incisos en el texto (ni letras a), b), c)... ni párrafos con preguntas).")
 
 st.markdown("**Incisos**")
 for i in range(len(ss["incisos"])):
@@ -163,7 +163,9 @@ for k, inc in enumerate(an.incisos):
         st.markdown(f"🎯 **Qué te pide:** {inc.que_pide}")
         for r in inc.razones:
             st.caption("↳ " + r)
-        opciones = TIPOS_POR_TEMA.get(tema, list(TIPOS))
+        if inc.params.get("tema") and inc.params["tema"] != tema:
+            st.info(f"Este inciso se resuelve como **{TEMAS[inc.params['tema']]}** (distinto del tema del planteo).")
+        opciones = TIPOS_POR_TEMA.get(inc.params.get("tema") or tema, list(TIPOS))
         if inc.tipo not in opciones:
             opciones = opciones + [inc.tipo]
         tipo = st.selectbox("Tipo de pregunta", opciones, index=opciones.index(inc.tipo),

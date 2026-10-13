@@ -14,9 +14,9 @@ from typing import Dict, List, Optional
 from .texto import fmt
 
 PARAM = {"media": ("μ", "la media poblacional"), "varianza": ("σ", "el desvío poblacional"),
-         "proporcion": ("p", "la proporción poblacional")}
-REF = {"media": "mu0", "varianza": "sigma0", "proporcion": "p0"}
-ALT = {"media": "mu1", "varianza": "sigma1", "proporcion": "p1"}
+         "proporcion": ("p", "la proporción poblacional"), "dos_varianzas": ("φ", "la relación de desvíos σ₁/σ₂")}
+REF = {"media": "mu0", "varianza": "sigma0", "proporcion": "p0", "dos_varianzas": "phi0"}
+ALT = {"media": "mu1", "varianza": "sigma1", "proporcion": "p1", "dos_varianzas": "phi1"}
 SIGNO = {"derecha": ">", "izquierda": "<", "bilateral": "≠"}
 OPUESTO = {"derecha": "≤", "izquierda": "≥", "bilateral": "="}
 
@@ -36,6 +36,10 @@ def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: 
     ref = d.get(REF[tema])
     if tema == "varianza" and ref is None:
         ref = d.get("sigma0")
+    if tema == "dos_varianzas":
+        ref = ref or 1.0
+        a, b = d.get("nombre1") or "1", d.get("nombre2") or "2"
+        sim = f"φ = σ({a})/σ({b})"
     v0 = _v(ref) if ref is not None else f"{sim}₀"
     h0 = f"H0: {sim} {OPUESTO[tail]} {v0}"
     h1 = f"H1: {sim} {SIGNO[tail]} {v0}"
@@ -141,8 +145,19 @@ def explicar_distribuciones(tema: str, tipo: str, d: Dict) -> Optional[str]:
     elif tema == "proporcion":
         lineas = _modelo_proporcion(d, tipo)
     elif tema == "dos_varianzas":
-        lineas = ["Las dos poblaciones se suponen Normales e independientes.",
-                  "El cociente (S₁²/σ₁²)/(S₂²/σ₂²) sigue una F de Snedecor con (n₁-1; n₂-1) grados de libertad."]
+        lineas = ["Las dos variables se suponen Normales y las muestras independientes (supuesto necesario: la F no es "
+                  "robusta si X no es Normal).",
+                  "Entonces (S₁²/σ₁²)/(S₂²/σ₂²) ~ F de Snedecor con ν₁ = n₁-1 (numerador) y ν₂ = n₂-1 (denominador). "
+                  "Con φ = σ₁/σ₂ y j² = S₁²/S₂²: j²/φ² ~ F(ν₁; ν₂). La F es asimétrica: el IC no es simétrico y "
+                  "F(α; ν₁; ν₂) = 1/F(1-α; ν₂; ν₁)."]
+        if tipo in ("ensayo", "beta", "diseno"):
+            lineas.append("En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el "
+                          "desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².")
+        if tipo in ("beta", "diseno"):
+            lineas.append("Para β / potencia se usa que j²/φ₁² ~ F(ν₁; ν₂) cuando la relación verdadera es φ₁.")
+        if tipo == "n":
+            lineas.append("Con n₁ = n₂ = n la relación entre límites B/A = F(1-α/2; ν; ν)/F(α/2; ν; ν) depende solo de "
+                          "n: se itera sobre F hasta cumplirla.")
     elif tema == "dos_medias":
         lineas = ["Las poblaciones se suponen Normales. Si las muestras son apareadas se trabaja con las diferencias "
                   "dᵢ (una sola muestra, t con ν = n-1).",

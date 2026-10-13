@@ -43,6 +43,11 @@ def norm_cdf(z: float) -> float:
     return stats.norm.cdf(z)
 
 
+def f_cdf(x: float, dfn: float, dfd: float) -> float:
+    """P(X <= x) para X ~ F(dfn, dfd)."""
+    return stats.f.cdf(x, dfn, dfd)
+
+
 def chi2_cdf(x: float, df: float) -> float:
     """P(X <= x) para X ~ Chi2(df)."""
     return stats.chi2.cdf(x, df)
