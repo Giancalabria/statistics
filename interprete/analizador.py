@@ -2283,8 +2283,11 @@ def separar_alternativas(an: Analisis):
 
 
 def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional[List[dict]] = None,
-             _en_alternativa: bool = False) -> Analisis:
-    """`tablas`: tablas de datos ya estructuradas (si no, se buscan en el texto)."""
+             _en_alternativa: bool = False, tema: Optional[str] = None) -> Analisis:
+    """`tablas`: tablas de datos ya estructuradas (si no, se buscan en el texto).
+
+    `tema`: si se indica (lo eligió el usuario o el asistente de IA), no se detecta: las reglas extraen los
+    datos como si el problema fuera de ese tema."""
     planteo = (planteo or "").strip()
     lista: List[Tuple[str, str]] = []
     if incisos:
@@ -2304,13 +2307,18 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
     total = planteo if lista[0][0] == "única" else planteo + " " + " ".join(tx for _, tx in lista)
     t_total = Texto(total)
     pregunta = " ".join(tx for _, tx in lista) if lista[0][0] != "única" else pregunta_de(planteo)
-    an.tema, an.razones_tema = detectar_tema(t_total.norm, t_total.listas, normalizar(pregunta))
-    if an.tema == "media" and (_cuenta(P_REGRESION, t_total.norm) >= 1 or _tabla_de_variables(an.tablas, xy=True)) \
+    if tema not in TEMAS or tema == "desconocido":
+        tema = None
+    if tema:
+        an.tema, an.razones_tema = tema, [f"Tema indicado de antemano: {TEMAS[tema]}."]
+    else:
+        an.tema, an.razones_tema = detectar_tema(t_total.norm, t_total.listas, normalizar(pregunta))
+    if not tema and an.tema == "media" and (_cuenta(P_REGRESION, t_total.norm) >= 1 or _tabla_de_variables(an.tablas, xy=True)) \
             and _tabla_de_variables(an.tablas):
         an.tema = "regresion"
         an.razones_tema = ["Hay una tabla con dos o más variables medidas sobre los mismos casos y el enunciado habla de "
                            "su relación: regresión / correlación."]
-    if an.tema == "proporcion" and lista[0][0] != "única" and _cuenta(P_PROPORCION, normalizar(planteo)) == 0 \
+    if not tema and an.tema == "proporcion" and lista[0][0] != "única" and _cuenta(P_PROPORCION, normalizar(planteo)) == 0 \
             and _cuenta(P_MEDIA + P_VARIANZA + [r"desvio", r"desviacion"], normalizar(planteo)) > 0:
         # el porcentaje aparece recién en un inciso: el problema es de media / desvío y ese inciso es aparte
         t_pl = Texto(planteo)

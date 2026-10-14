@@ -75,6 +75,9 @@ st.markdown(
 - **Guía resuelta**: los 142 ejercicios de la guía resueltos paso a paso, con la respuesta de la guía al lado.
 - **Interpretar un enunciado**: pegás el problema tal cual y te dice qué pide cada inciso, qué datos hay, cómo
   presentarlo y ejercicios parecidos de la guía; después corregís lo que haga falta y calcula todo.
+- **Asistente IA (opcional, sin internet)**: con Ollama abierto, la IA completa lo que las reglas no entienden,
+  explica la resolución y responde dudas de teoría con los apuntes. Los números los calcula siempre el solver
+  (ver `ASISTENTE_IA.md`).
 """
 )
 

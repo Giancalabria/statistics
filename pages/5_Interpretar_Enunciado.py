@@ -5,6 +5,10 @@ import copy
 import pandas as pd
 import streamlit as st
 
+from asistente import cliente as ia_cliente
+from asistente.explicar import explicar, numeros_sin_respaldo
+from asistente.interpretar import interpretar
+from asistente.ui import configuracion as config_ia
 from interprete import buscador, glosario
 from interprete.analizador import analizar, cambiar_criterio, separar_incisos
 from interprete.editor import a_texto, de_texto
@@ -19,13 +23,17 @@ st.write(
     "y cómo presentarlo. Revisá y corregí lo que haga falta, y después **Calcular** resuelve todo con el solver."
 )
 st.caption("Funciona sin internet: son reglas armadas con el estilo de la Guía de Problemas, así que revisá "
-           "siempre los datos detectados antes de calcular.")
+           "siempre los datos detectados antes de calcular. Si tenés la IA local (Ollama) abierta, interviene "
+           "donde las reglas no entienden; los números los calcula siempre el solver.")
+ia_ok, ia_modelo, ia_pensar = config_ia()
 
 ss = st.session_state
 ss.setdefault("incisos", [""])
 ss.setdefault("ver", 0)          # versión del análisis (renueva las claves de los widgets)
 ss.setdefault("analisis", None)
 ss.setdefault("resultados", None)
+ss.setdefault("ia_info", None)
+ss.setdefault("ia_explicacion", None)
 if "tabla_txt_nueva" in ss:
     ss["tabla_txt"] = ss.pop("tabla_txt_nueva")
 
@@ -81,14 +89,31 @@ with st.expander("📋 Tabla de datos (regresión, frecuencias por clase, contin
         else:
             st.info("No encontré una tabla en el planteo.")
 
-if st.button("🔍 Interpretar", type="primary"):
+c_int, c_ia, c_auto = st.columns([2, 2, 5])
+pedir_reglas = c_int.button("🔍 Interpretar", type="primary")
+pedir_ia = c_ia.button("🤖 Interpretar con IA", disabled=not ia_ok,
+                       help="Reglas + IA: la IA corrige / completa lo que las reglas no resuelven y te muestra en qué "
+                            "difiere del resto." if ia_ok else "Necesita Ollama abierto con un modelo descargado.")
+auto_ia = c_auto.checkbox("Si las reglas no entienden algo, consultar a la IA", value=True, disabled=not ia_ok,
+                          key="ia_auto")
+if pedir_reglas or pedir_ia:
     if not ss.get("planteo", "").strip():
         st.error("Escribí el planteo.")
     else:
         tabla = desde_texto_editado(ss.get("tabla_txt", "")) if ss.get("tabla_txt", "").strip() else None
-        ss["analisis"] = analizar(ss["planteo"], [tx for tx in ss["incisos"] if tx.strip()],
-                                  tablas=[tabla] if tabla else None)
+        incisos_txt = [tx for tx in ss["incisos"] if tx.strip()]
+        tablas_in = [tabla] if tabla else None
+        ss["ia_info"] = None
+        if ia_ok and (pedir_ia or auto_ia):
+            with st.spinner("Interpretando (si las reglas no alcanzan, la IA lee el enunciado; puede tardar)…"):
+                r = interpretar(ss["planteo"], incisos_txt, tablas=tablas_in, modelo=ia_modelo, pensar=ia_pensar,
+                                siempre=pedir_ia)
+            ss["analisis"] = r.analisis
+            ss["ia_info"] = r if (r.usado_ia or r.error) else None
+        else:
+            ss["analisis"] = analizar(ss["planteo"], incisos_txt, tablas=tablas_in)
         ss["resultados"] = None
+        ss["ia_explicacion"] = None
         ss["cambios_criterio"] = None
         ss["ver"] += 1
 
@@ -126,7 +151,20 @@ if an.criterio:
     if ss.get("cambios_criterio"):
         st.info("**Al cambiar el criterio:**\n" + "\n".join(f"- {c}" for c in ss["cambios_criterio"]))
 for a in an.avisos:
-    st.warning(a)
+    (st.info if a.startswith("🤖") else st.warning)(a)
+info = ss.get("ia_info")
+if info:
+    if info.error:
+        st.error(f"🤖 No se pudo consultar a la IA: {info.error}")
+    elif not info.informe:
+        st.caption(f"🤖 La IA revisó el enunciado ({info.segundos:.0f} s) y no hizo falta cambiar nada.")
+    if info.sugerencias or info.avisos_ia:
+        with st.expander(f"🤖 La IA leyó distinto ({len(info.sugerencias)} diferencias, no aplicadas: revisalas)",
+                         expanded=bool(info.sugerencias)):
+            for x in info.sugerencias:
+                st.markdown(f"- {x}")
+            for x in info.avisos_ia:
+                st.caption("↳ " + x)
 
 frases = glosario.buscar_frases(an.planteo + " " + " ".join(i.texto for i in an.incisos))
 if frases:
@@ -300,6 +338,7 @@ if st.button("🧮 Calcular", type="primary"):
     for e in errores:
         st.error(e)
     ss["resultados"] = (nuevo, resolver(nuevo))
+    ss["ia_explicacion"] = None
 
 if ss.get("resultados"):
     nuevo, resultados = ss["resultados"]
@@ -325,3 +364,33 @@ if ss.get("resultados"):
             x = df.columns[0]
             if any("β" in c for c in df.columns):
                 st.line_chart(df.set_index(x))
+
+# ---------------------------------------------------------------------------
+# 7) Explicación con la IA local
+# ---------------------------------------------------------------------------
+
+if ss.get("resultados") and ia_ok:
+    st.divider()
+    st.subheader("🤖 Explicación de la IA")
+    st.caption("La IA explica y redacta la resolución de arriba; no calcula. Los números que no salgan del "
+               "enunciado ni de la resolución se marcan para que los revises.")
+    pedido = st.text_input("Pedido (opcional)", key="ia_pedido",
+                           placeholder="Ej.: explicame por qué es cola izquierda / redactá solo la conclusión del b)")
+    if st.button("💬 Explicar con IA"):
+        nuevo, resultados = ss["resultados"]
+        try:
+            trozos, fuentes = explicar(nuevo, resultados, pedido, modelo=ia_modelo, pensar=ia_pensar)
+            texto = st.write_stream(trozos)
+            ss["ia_explicacion"] = (texto, numeros_sin_respaldo(texto, fuentes), True)
+        except ia_cliente.ErrorIA as e:
+            st.error(str(e))
+    if ss.get("ia_explicacion"):
+        texto, dudosos, recien = ss["ia_explicacion"]
+        if not recien:
+            st.markdown(texto)
+        ss["ia_explicacion"] = (texto, dudosos, False)
+        if dudosos:
+            st.warning("⚠️ Estos números de la explicación no aparecen en el enunciado ni en la resolución del "
+                       "solver (pueden ser cuentas inventadas): " + ", ".join(dudosos))
+        else:
+            st.caption("✔ Todos los números de la explicación salen del enunciado o de la resolución.")

@@ -18,6 +18,8 @@ de la interfaz (probada con `pytest` en `tests/`).
 | `pages/5_Interpretar_Enunciado.py` | Intérprete de enunciados: se pega el problema (y opcionalmente la tabla de datos) y dice qué pide, qué datos hay y lo resuelve. |
 | `pages/6_Regresion.py` | Regresión y correlación simple (TEMA VII) y modelo lineal general (TEMA VIII). |
 | `pages/7_Guia_Resuelta.py` | La Guía de Problemas resuelta paso a paso (`Guia_resuelta.md`), con buscador y lista de discrepancias. |
+| `pages/8_Asistente_IA.py` | Chat libre con la IA local (Ollama, sin internet): instrucciones editables, apuntes del repo opcionales, material propio (archivos o texto) y «Resolver mi mensaje con la app» (interpreta + solver + explicación). |
+| `asistente/` | IA local opcional (ver `ASISTENTE_IA.md`): completa lo que las reglas del intérprete no entienden (solo si mejora la resolución), explica y redacta resoluciones del solver marcando números sin respaldo. Nunca calcula: los números son del solver. |
 | `interprete/` | Lógica del intérprete (reglas offline, sin IA): `analizador.py`, `resolver.py`, `buscador.py`, `glosario.py`, `tablas.py` (tablas de datos en el texto), `chi_modelos.py` (TEMA VI), `regresion.py` (TEMAS VII y VIII). |
 | `datos/verdad/tema_*.json` | Transcripción de la Guía de Problemas 2026 verificada página por página contra el PDF: enunciado, incisos, tablas estructuradas, respuesta de cada inciso y sus valores numéricos, notas sobre erratas de la guía. |
 | `datos/guia_ejercicios.json` | Los 142 ejercicios unidos (`herramientas/armar_guia.py`). Es lo que usan el buscador, el evaluador y el generador de resueltos. |

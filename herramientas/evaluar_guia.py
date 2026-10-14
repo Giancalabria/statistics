@@ -10,6 +10,17 @@ respuesta es solo verbal se compara la decisión (rechaza / no rechaza).
     python herramientas/evaluar_guia.py -v I-5 VII   # solo algunos ejercicios / temas
     python herramientas/evaluar_guia.py --fallas     # solo los incisos que no coinciden
 
+Con la IA local (Ollama abierto, ver ASISTENTE_IA.md):
+
+    python herramientas/evaluar_guia.py --ia I II       # la IA SOLA arma el planteo (sin reglas)
+    python herramientas/evaluar_guia.py --ia-hibrido    # reglas + IA, como en la app
+    opciones: --modelo qwen3:14b  --pensar  --limite 20
+
+En los dos modos el ejercicio evaluado se excluye de los ejemplos que se le muestran al modelo (si no, copiaría
+la respuesta). `--ia` mide cuánto entiende el modelo por sí mismo; `--ia-hibrido` cuenta además las
+"sugerencias": diferencias de la IA con las reglas, que en la guía están verificadas, así que son falsas
+alarmas (cuantas menos, mejor).
+
 Métricas:
 - tema: el tema detectado coincide con el TEMA de la guía.
 - valores: cuántos de los valores de la respuesta aparecen (con tolerancia de redondeo) en lo calculado.
@@ -133,9 +144,13 @@ def decision_de(res) -> str:
     return ""
 
 
-def evaluar(ej, verbose=False, solo_fallas=False):
+def analizar_reglas(ej, planteo, incisos):
+    return analizar(planteo, incisos, tablas=ej.get("tablas") or None)
+
+
+def evaluar(ej, verbose=False, solo_fallas=False, obtener=analizar_reglas):
     planteo, incisos = entradas(ej)
-    an = analizar(planteo, incisos, tablas=ej.get("tablas") or None)
+    an = obtener(ej, planteo, incisos)
     resultados = resolver(an)
     tot = ok = exactos = dtot = dok = 0
     lineas = []
@@ -170,15 +185,65 @@ def evaluar(ej, verbose=False, solo_fallas=False):
     return tema_ok, tot, ok, exactos, dtot, dok
 
 
+def _opcion(args, nombre):
+    if nombre in args:
+        i = args.index(nombre)
+        valor = args[i + 1]
+        del args[i:i + 2]
+        return valor
+    return None
+
+
+def con_ia(modo, modelo, pensar, stats):
+    """Función de análisis que usa la IA (sola o híbrida) y va sumando tiempos, errores y sugerencias."""
+    import time
+    from asistente import cliente
+    from asistente.interpretar import interpretar, pedir_ia
+
+    if not cliente.disponible():
+        sys.exit(f"Ollama no responde en {cliente.HOST}: abrilo (`ollama serve`) y descargá el modelo.")
+
+    def obtener(ej, planteo, incisos):
+        t0 = time.time()
+        tablas = ej.get("tablas") or None
+        try:
+            if modo == "sola":
+                an, _ = pedir_ia(planteo, incisos, tablas, modelo, pensar, excluir=[ej["id"]])
+            else:
+                r = interpretar(planteo, incisos, tablas, modelo, pensar, siempre=True, excluir=[ej["id"]])
+                stats["sugerencias"] += len(r.sugerencias)
+                stats["cambios"] += len(r.informe)
+                if r.error:
+                    raise cliente.ErrorIA(r.error)
+                an = r.analisis
+        except cliente.ErrorIA as e:
+            stats["errores"] += 1
+            print(f"  !! {ej['id']}: {e}")
+            an = analizar_reglas(ej, planteo, incisos) if modo != "sola" else analizar("", [("a", "")])
+        stats["segundos"] += time.time() - t0
+        stats["n"] += 1
+        return an
+
+    return obtener
+
+
 def main():
     args = sys.argv[1:]
+    modelo = _opcion(args, "--modelo")
+    limite = _opcion(args, "--limite")
+    pensar = "--pensar" in args
+    modo = "sola" if "--ia" in args else ("hibrido" if "--ia-hibrido" in args else None)
     verbose = "-v" in args or "--fallas" in args
     solo_fallas = "--fallas" in args
     filtros = [a for a in args if not a.startswith("-")]
     sel = [e for e in GUIA if not filtros or e["id"] in filtros or e["tema"] in filtros]
+    if limite:
+        sel = sel[:int(limite)]
+    stats = {"n": 0, "segundos": 0.0, "errores": 0, "sugerencias": 0, "cambios": 0}
+    obtener = con_ia(modo, modelo, pensar, stats) if modo else analizar_reglas
     por_tema = {}
     for ej in sel:
-        r = evaluar(ej, verbose, solo_fallas)
+        r = evaluar(ej, verbose, solo_fallas, obtener)
         t = por_tema.setdefault(ej["tema"], [0] * 7)
         for i, v in enumerate((1,) + r):
             t[i] += v
@@ -189,6 +254,11 @@ def main():
         g = [a + b for a, b in zip(g, (n, tok, tot, ok, ex, dtot, dok))]
     print(f"TOTAL {g[0]:5d}  {g[1]:5d}     {g[3]:4d}/{g[2]:<4d}  {g[4]:4d}/{g[2]:<4d}   {g[6]:3d}/{g[5]}   "
           f"({100 * g[3] / max(1, g[2]):.0f}% · exactos {100 * g[4] / max(1, g[2]):.0f}%)")
+    if modo:
+        print(f"\nIA ({'sola' if modo == 'sola' else 'híbrido'}): {stats['n']} ejercicios, "
+              f"{stats['segundos'] / max(1, stats['n']):.1f} s por ejercicio, {stats['errores']} errores de la IA"
+              + (f", {stats['cambios']} cambios aplicados, {stats['sugerencias']} sugerencias (falsas alarmas)"
+                 if modo == "hibrido" else ""))
 
 
 if __name__ == "__main__":
