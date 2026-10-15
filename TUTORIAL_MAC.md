@@ -17,10 +17,21 @@ Opcional, más preciso pero más lento: `ollama pull qwen3:14b`.
 
 ## 3. Usar la app
 
+Todo junto, con un solo comando (desde la carpeta del proyecto):
+
+```bash
+./levantar.sh
+```
+
+Si la IA no está andando, la levanta; si falta el modelo, lo descarga; lo deja cargado en memoria y abre la app en
+el navegador. Mientras corre, la Mac no se suspende. `Ctrl+C` para cerrar. Sin IA: `./levantar.sh --sin-ia`.
+
+A mano (lo mismo, paso por paso):
+
 ```bash
 git pull
-pip install -r requirements.txt
-streamlit run app.py
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m streamlit run app.py
 ```
 
 - **Interpretar un enunciado**: *🤖 Interpretar con IA* y, después de calcular, *💬 Explicar con IA*.
