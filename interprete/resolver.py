@@ -713,7 +713,9 @@ def prop_ic(d, alpha, res: Resultado, estado):
         res.pasos.append(f"**Casos**: se contaron {int(d['_r_contado'])} buenas y se pregunta por las malas → "
                          f"r = n - {int(d['_r_contado'])} = {int(n)} - {int(d['_r_contado'])} = {int(r_)}.")
     res.pasos.append(f"**Datos**: n = {int(n)}, r = {int(r_)}, p̂ = r/n = {fmt(int(r_) / int(n), 4)}.")
-    res.pasos.append(f"**Modelo exacto** (Beta / F, el que usa la cátedra): A = {fmt(r.a, 4)} ; B = {fmt(r.b, 4)}.")
+    ra, rb = redondeo.afuera(r.a, r.b, 4)
+    res.pasos.append(f"**Modelo exacto** (Beta / F, el que usa la cátedra): A = {fmt(ra, 4)} ; B = {fmt(rb, 4)}.")
+    res.pasos += _pasos_f_proporcion(int(r_), int(n), alpha, r.a, r.b)
     res.pasos.append(f"Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [{fmt(rn.a, 4)} ; {fmt(rn.b, 4)}] "
                      f"(e = {fmt(rn.error, 4)}).")
     for w in r.warnings:
@@ -733,7 +735,30 @@ def prop_ic(d, alpha, res: Resultado, estado):
     res.numeros = [r.a, r.b, r.a * 100, r.b * 100]
     if d.get("r") is not None and d.get("n"):
         res.numeros += [d["r"] / d["n"], 100 * d["r"] / d["n"]]  # p̂
-    res.resumen = f"IC p: [{fmt(r.a, 4)} ; {fmt(r.b, 4)}]"
+    res.resumen = f"IC p: [{fmt(ra, 4)} ; {fmt(rb, 4)}]"
+
+
+def _pasos_f_proporcion(r: int, n: int, alpha: float, a: float, b: float) -> List[str]:
+    """Los límites exactos escritos con la distribución F, como en la guía (III-3a): ν, fractiles y la fórmula.
+    Solo se muestran si reproducen los límites calculados (si no, no se muestra nada)."""
+    from scipy import stats
+    q = 1 - alpha / 2
+    pasos = []
+    if r > 0:
+        v1, v2 = 2 * (n - r + 1), 2 * r
+        f = stats.f.ppf(q, v1, v2)
+        a_f = 1 / (1 + (n - r + 1) / r * f)
+        if abs(a_f - a) < 1e-9:
+            pasos.append(f"**Límite inferior (A)**: ν₁ = 2(n − r + 1) = {v1}, ν₂ = 2r = {v2}; F({fmt(q, 4)}; {v1}; {v2}) = "
+                         f"{fmt(f, 4)}; A = 1/[1 + ({n - r + 1}/{r})·{fmt(f, 4)}] = {fmt(a, 6)}.")
+    if r < n:
+        v1, v2 = 2 * (r + 1), 2 * (n - r)
+        f = stats.f.ppf(q, v1, v2)
+        b_f = 1 / (1 + (n - r) / ((r + 1) * f))
+        if abs(b_f - b) < 1e-9:
+            pasos.append(f"**Límite superior (B)**: ν₁ = 2(r + 1) = {v1}, ν₂ = 2(n − r) = {v2}; F({fmt(q, 4)}; {v1}; {v2}) = "
+                         f"{fmt(f, 4)}; B = 1/[1 + {n - r}/({r + 1}·{fmt(f, 4)})] = {fmt(b, 6)}.")
+    return pasos
 
 
 def _n_plan_dado(d, res: Resultado, estado):

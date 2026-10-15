@@ -10,7 +10,8 @@ import pytest
 
 from asistente import cliente, contexto, explicar
 from asistente import interpretar as interp
-from asistente.esquema import a_dict, desde_dict, json_schema
+from asistente.esquema import CLAVES_TEMA, a_dict, desde_dict, json_schema
+from interprete.modelo import TEMAS
 from interprete.analizador import analizar
 from interprete.resolver import resolver
 
@@ -45,6 +46,45 @@ def test_esquema_cubre_el_catalogo():
     assert "regresion" in js["properties"]["tema"]["enum"]
     assert "pronostico" in js["properties"]["incisos"]["items"]["properties"]["tipo"]["enum"]
     assert js["properties"]["datos"]["properties"]["alpha"] == {"type": "number"}
+
+
+def test_las_claves_por_tema_estan_en_el_catalogo():
+    assert set(CLAVES_TEMA) == set(TEMAS) - {"desconocido"}
+    assert "xbar" in CLAVES_TEMA["media"][0] and "xbar1" not in CLAVES_TEMA["media"][0]
+
+
+def test_las_reglas_de_la_guia_entran_en_el_esquema_de_su_tema():
+    """Todo lo que arman las reglas en la guía (verificado) tiene que caber en la rama de su tema."""
+    from herramientas.evaluar_guia import GUIA, entradas
+    for ej in GUIA:
+        planteo, incisos = entradas(ej)
+        d = a_dict(analizar(planteo, incisos, tablas=ej.get("tablas") or None))
+        datos, params = CLAVES_TEMA[d["tema"]]
+        assert set(d["datos"]) <= set(datos), (ej["id"], set(d["datos"]) - set(datos))
+        for inc in d["incisos"]:
+            assert set(inc["params"]) <= set(params), (ej["id"], set(inc["params"]) - set(params))
+
+
+def test_claves_de_otro_tema_se_traducen_o_descartan():
+    an, avisos = desde_dict({
+        "tema": "media",
+        "datos": {"n": 20, "xbar1": 38, "sigma_pob1": 4.2, "nombre_x": "peso"},
+        "incisos": [{"letra": "a", "tipo": "ic", "params": {"alpha": 0.05}},
+                    {"letra": "b", "tipo": "n", "params": {"e": 1}}]})
+    assert an.datos == {"n": 20, "xbar": 38, "desvio": 4.2, "sigma_conocido": True}
+    assert any("nombre_x" in a for a in avisos)
+    assert an.incisos[1].params == {"e": 1, "alpha": 0.05}      # α heredado del inciso a)
+    assert [r.numeros for r in resolver(an)][1]                 # ahora b) se resuelve
+
+
+def test_la_herencia_no_pisa_ni_arrastra_la_cola_a_un_ensayo():
+    an, _ = desde_dict({
+        "tema": "media", "datos": {"n": 36, "xbar": 10, "desvio": 2, "sigma_conocido": True, "mu0": 9},
+        "incisos": [{"letra": "a", "tipo": "ensayo", "params": {"alpha": 0.01, "tail": "derecha"}},
+                    {"letra": "b", "tipo": "ensayo", "params": {"alpha": 0.05}},
+                    {"letra": "c", "tipo": "ic", "params": {"tema": "proporcion", "r": 3, "n": 40}}]})
+    assert an.incisos[1].params == {"alpha": 0.05}
+    assert an.incisos[2].params["alpha"] == 0.05 and "tail" not in an.incisos[2].params
 
 
 def test_ida_y_vuelta_de_un_analisis():
@@ -215,3 +255,9 @@ def test_chat_resuelve_un_enunciado_pegado(modelo_falso):
 
 def test_leer_adjunto_de_texto():
     assert explicar.leer_adjunto("notas.md", "α = 0,05 ✓".encode("utf-8")) == "α = 0,05 ✓"
+
+
+def test_los_pasos_intermedios_y_los_fractiles_de_tabla_tienen_respaldo():
+    fuentes = "S₁ = 0,06, S₂ = 0,084, α = 0,05, n = 7"
+    texto = "S₁² = 0,0036 y S₂² = 0,007056; 1 − α/2 = 0,975; t(0,975; 6) = 2,4469; z = 2,5758; además 2,4471."
+    assert explicar.numeros_sin_respaldo(texto, fuentes) == ["2,4471"]

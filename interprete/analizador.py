@@ -199,7 +199,7 @@ P_REGRESION = [r"regresion|modelo lineal general|doble logaritmic|modelo logarit
 
 # Dirección del ensayo
 P_MAS = [r"\bmayor(es)?\b", r"superior", r"\bsupera", r"\bexced", r"aument", r"increment", r"\bmas de\b",
-         r"\bmejor", r"efectiv", r"excesiv"]
+         r"\bmejor", r"efectiv(?!amente)", r"excesiv"]
 P_MENOS = [r"\bmenor(es)?\b", r"inferior", r"disminu", r"\breduc", r"\bmenos de\b", r"\bbaj[aoe]\b(?! (control|medida))"]
 P_DISTINTO = [r"diferente", r"distint", r"difier", r"modificad", r"\bcambi", r"desajust", r"fuera de control",
               r"bajo control", r"\balter", r"variado", r"significativ"]
@@ -251,6 +251,13 @@ def _dos_estructural(norm: str, listas: List[ListaDatos]) -> bool:
     desvios = len(re.findall(r"(desvio|desviacion)[^0-9.;]{0,30}(?!\d+(?:,\d+)?\s*%)\d", norm))
     if medias >= 2 and desvios >= 2:
         return True
+    # dos dispersiones (varianza y/o desvío) de dos muestras medidas por separado: 'se midieron 16 chapas y la varianza
+    # resultó 0,0441 ... se midieron 13 chapas y el desvío fue de 0,15'
+    dispersiones = len(re.findall(r"(desvio|desviacion|varianza)[^0-9.;]{0,30}(?!\d+(?:,\d+)?\s*%)\d", norm))
+    tamanos = len(re.findall(r"(se (midieron|tomaron|pesaron|eligieron|seleccionaron|ensayaron|probaron|analizaron|"
+                             r"controlaron|inspeccionaron|revisaron)|muestras? (aleatoria )?de) \d", norm))
+    if dispersiones >= 2 and tamanos >= 2 and medias == 0:
+        return True
     etiquetadas = [l for l in listas if len(l.valores) >= 3 and re.search(r"[a-zA-Z]{3,}", l.etiqueta or "")
                    and not re.search(r"(cantidad|frecuencia|ocurrencia|^\(|local|semana|muestra n)", normalizar(l.etiqueta))]
     return len(etiquetadas) >= 2 and len({l.etiqueta for l in etiquetadas}) >= 2
@@ -295,7 +302,7 @@ def detectar_tema(norm: str, listas: List[ListaDatos], pregunta: str = "") -> Tu
                         r"(difieren|diferentes|reduc|disminu|mayor|menor|relacion|igual)|"
                         r"(reduccion|disminuir|disminucion)[^.?]{0,40}(desvio|desviacion|varianza)|"
                         r"relacion entre (las varianzas|los desvios)", q) or \
-            _hay(r"(reduccion|disminuir|disminucion)[^.?]{0,40}(desvio|desviacion|varianza)", norm) or (var_q > med_q and var_q > 0)
+            _hay(r"(reduc|disminu)[a-z]*[^.?]{0,40}(desvio|desviacion|varianza)", norm) or (var_q > med_q and var_q > 0)
         if foco_var:
             razones.append("Compara la variabilidad (desvíos / varianzas) de 2 poblaciones: test F.")
             return "dos_varianzas", razones
@@ -326,7 +333,8 @@ def _es_prob(n: Numero) -> bool:
 RE_CONF = r"(confianza|seguridad|certeza)"
 # 'error muestral / de muestreo / de estimación' es el e del IC, no el riesgo α
 RE_ALPHA = (r"(riesgo|significacion|\berror\b(?! (muestral|de muestreo|de (la )?estimacion|admitido|maximo|de ±|de \+-))|"
-            r"equivocad|erronea|errone|indebidamente|incorrect|tipo i\b)")
+            r"equivocad|erronea|errone|indebidamente|incorrect|tipo i\b|sin (necesidad|motivo|razon|causa|justificacion)|"
+            r"innecesariamente|falsa alarma|en vano)")
 
 # relleno sin números ni cortes de oración entre la palabra clave y el número
 _R = r"[^0-9.;?]"
@@ -519,7 +527,8 @@ VERBOS_MUESTRA = (r"(muestra|se tomaron|se eligieron|se seleccionaron|se midiero
                   r"se enviaron|se atendieron|sobre|durante|panel|se trabajo|arroj|obtuv|obteni|prueba|experiment|"
                   r"comprueba|se realizo|se examin|examinar|se inspeccion|se controla|obtiene|en los primeros|se envian|"
                   r"revisando|inspeccionando|controlando|midiendo|requiere|registr|encuesta|revisad|inspeccionad|"
-                  r"controlad|encuestad|analizad|medid)")
+                  r"controlad|encuestad|analizad|medid|encuest|al azar|aleatoriamente|tomad[oa]s|elegid[oa]s|"
+                  r"seleccionad[oa]s|pesad[oa]s|pes[oa] (junt|en conjunto)|cronometr)")
 
 
 def extraer_n(an: Analisis, t: Texto, clave="n"):
@@ -536,6 +545,13 @@ def extraer_n(an: Analisis, t: Texto, clave="n"):
             score = 4
         elif _hay(r"^\s*[\"“]?([a-z]+ )?" + UNIDADES_MUESTRA, d) and _hay(VERBOS_MUESTRA, ora):
             score = 3
+        elif _hay(r"\bse (midieron|pesaron|tomaron|eligieron|seleccionaron|inspeccionaron|controlaron|revisaron|analizaron|"
+                  r"ensayaron|probaron|examinaron|encuestaron|entrevistaron|encuesto a|entrevisto a|cronometraron)"
+                  r"( al azar)?\s*$", a) and \
+                _hay(r"^\s*[a-z]+", d):
+            score = 3   # 'se midieron 25 ejes': el verbo de muestreo pegado al número, aunque la unidad no esté en la lista
+        elif _hay(r"^\s*de (los |las )?$", a) and _hay(r"^\s*[a-z]{3,}[^.;\d]{0,60},\s*\d", t.norm[n.fin:n.fin + 80]):
+            score = 3   # 'De 1.500 envíos con el nuevo embalaje, 9 tuvieron reclamos': el total del que se cuentan casos
         if _hay(r"(poblacion total|poblacion|lote|partida|total) de $|(media|promedio|desvio|error)" + _R + r"{0,40}$", a) \
                 and score < 4:
             score = 0
@@ -561,11 +577,32 @@ def extraer_N(an: Analisis, t: Texto):
             return
 
 
+RE_TOTAL_DESPUES = r"^\s*[a-z$³²]{0,12}\.?\s*(en total|en conjunto|entre (todas|todos|ambas|ambos)|sumad[oa]s|juntas?|juntos)\b"
+RE_TOTAL_ANTES = (r"(un total de|en total|en conjunto|\btotal(es)?\b" + _R + r"{0,40}(fue|es|de|resulto|marco|dio|arrojo|=|sumo)|"
+                  r"sumaron|suman|sumo|acumul[a-z]*( un total de| en total)?)\s*(de )?$")
+
+
+def _es_total(t: Texto, n: Numero) -> bool:
+    """'la balanza marcó 8.160 g en total', 'pesaron en conjunto 8.160 g', 'el peso total fue 8.160 g'."""
+    return not n.pct and (_hay(RE_TOTAL_DESPUES, t.despues(n, 40)) or _hay(RE_TOTAL_ANTES, t.antes(n, 60)))
+
+
 def extraer_totales(an: Analisis, t: Texto):
-    """'40 personas en 68 minutos' / '25 horas ... un total de 4 horas y 30 minutos' -> x̄ = total / n."""
+    """'40 personas en 68 minutos' / '25 horas ... un total de 4 horas y 30 minutos' / '16 bolsas ... 8.160 g en total'
+    -> x̄ = total / n."""
     if "xbar" in an.datos or "n" not in an.datos:
         return
     n = an.datos["n"]
+    for i, num in t.libres():
+        if _es_total(t, num) and num.valor > n and not _hay(r"(poblacion|lote|partida|produccion)" + _R + r"{0,20}$",
+                                                             t.antes(num, 40)):
+            t.usar(i)
+            an.datos["xbar"] = num.valor / n
+            an.evidencias.append(Evidencia("xbar", num.valor / n, t.fragmento(num),
+                                           f"es el TOTAL de la muestra: x̄ = {fmt(num.valor)} / n = {n} = {fmt(num.valor / n)}"))
+            an.avisos.append(f"El enunciado da el total de la muestra ({fmt(num.valor)}), no la media: se usó "
+                             f"x̄ = {fmt(num.valor)} / {n} = {fmt(num.valor / n)}.")
+            return
     m = re.search(r"un total de (\d+) horas? y (\d+) minutos", t.norm)
     if m:
         total = int(m.group(1)) * 60 + int(m.group(2))
@@ -614,7 +651,7 @@ RE_MEDIA_ANTES = r"(media|medio|promedio|valor estandar)" + _R + r"{0,50}?(\bde|
 RE_UMBRAL_ANTES = (r"(mayor|menor|superior|inferior|supera|excede|\bmas|\bmenos|minima|maxima|minimo|maximo|"
                    r"igual|debe ser|deberia ser|no debe superar|no supera|no supere|no exceda|a lo sumo|por lo menos|al menos|"
                    r"admisible|especificacion|estandar|nominal|actualmente|actual|habitual|historic|diferente|distint|"
-                   r"aproximadamente)"
+                   r"aproximadamente|(calibrad|regulad|ajustad|programad|seteada|graduad)[oa]s? (para|en|a)\b)"
                    + _R + r"{0,30}(que|a|de|del|es|las|los|el|la)?\s*$")
 POBLACION_FUERTE = (r"(parametros poblacionales|pueden considerarse|en condiciones normales|actualmente|son variables con|"
                     r"en la actualidad|historicamente|por investigaciones|registros historicos|valor estandar|"
@@ -654,6 +691,8 @@ def extraer_media(an: Analisis, t: Texto, solo_mu0: bool = False):
             continue   # 'el nuevo sistema aumentaría la productividad a 5,8' es μ₁, no μ₀
         if n.pct and not _hay(r"rendimiento", ora):
             continue
+        if _es_total(t, n) and "n" in an.datos and n.valor > an.datos["n"]:
+            continue   # el total de la muestra: x̄ = total / n (extraer_totales)
         a = t.antes(n, 70)
         if _hay(r"(desvio|desviacion|varianza)" + _R + r"{0,30}$", a) or _hay(RE_CONF + r"|riesgo|probabilidad", a[-25:]):
             continue
@@ -699,6 +738,7 @@ def extraer_media(an: Analisis, t: Texto, solo_mu0: bool = False):
 
 
 RE_DESVIO_ANTES = (r"((desvio|desviacion)" + _R + r"{0,75}?(\bde|\bes|\bfue|=|\bvale|\bdio|\bresulto|\bsido|superar( los| las)?|"
+                   r"(no )?(debe |puede |deberia )?(supere|exceda|sobrepase|exceder|sobrepasar)( los| las)?|"
                    r"\bdel)\s*(los |las |un |una )?$|σ\s*=?\s*$|\bun\s*=\s*$|\bs\s*=\s*$|(desvio|desviacion) (estandar )?$)")
 CONOCIDO = (r"(poblacional|historic|se sabe|se conoce|conocid|registros|experiencia|parametros poblacionales|"
             r"distribucion normal (con un |de )?(desvio|desviacion)|se distribuye|se mantiene|no se modifica|no ha de modificarse|"
@@ -712,7 +752,9 @@ def extraer_desvio(an: Analisis, t: Texto, clave="desvio"):
         a = t.antes(n, 95)
         if n.pct and not _hay(r"(desvio|desviacion)", a[-30:]):
             continue
-        es_var = _hay(r"varianza( muestral| poblacional)?" + _R + r"{0,20}(dio|de|es|fue|=)\s*$", a)
+        es_var = _hay(r"varianza( muestral| poblacional)?" + _R + r"{0,20}(dio|de|es|fue|=)\s*$", a) or \
+            _hay(r"varianza" + _R + r"{0,60}?(\bdio|\bfue|\bresulto|\barrojo|\bvale|\bes)( de| igual a)?\s*(un valor de )?$", a) or \
+            (_hay(r"^\s*[a-z]{1,3}\s*(²|2\b|\^\s*2|cuadrad)", t.despues(n, 12)) and _hay(r"varianza", a))
         largo = _hay(r"(desvio|desviacion)[^.;?]{0,100}(fue de|resulto de|resulto|dio|ha sido de)\s*$", t.antes(n, 130))
         umbral_sig = _hay(r"(desvio|desviacion)" + _R + r"{0,70}(menor|mayor|superior|inferior)( que| a)( los| las)?\s*$", a)
         if not (_hay(RE_DESVIO_ANTES, a) or es_var or largo or umbral_sig):
@@ -720,7 +762,8 @@ def extraer_desvio(an: Analisis, t: Texto, clave="desvio"):
         ora = t.oracion(n.ini)
         valor = sqrt(n.valor) if es_var else n.valor
         umbral = umbral_sig or _hay(r"(no debe superar|maxim[oa]|minim[oa]|mayor|menor|superior|inferior|como maximo|especificacion|"
-                      r"estipulado|nominal|no supere)" + _R + r"{0,25}$", a) or \
+                      r"estipulado|nominal|no supere|no exceda|no sobrepase|supere|exceda|sobrepase|exceder|sobrepasar)"
+                      + _R + r"{0,25}$", a) or \
             _hay(r"^" + _R + r"{0,15}(como maximo|como minimo)", t.despues(n))
         if clave == "desvio" and an.tema == "varianza" and umbral:
             if "sigma0" not in an.datos:
@@ -824,6 +867,11 @@ def extraer_proporcion(an: Analisis, t: Texto):
             continue
         if n.es_entero and not _es_prob(n) and "r" not in an.datos:
             if _hay(r"(encontr[a-z]*|hallaron|registr[a-z]*|reciben|comprobando que|detectaron|obtuvieron|se obtuvo)\s*$", a) or \
+                    (an.datos.get("n") and n.valor < an.datos["n"] and _hay(
+                        r"^\s*(de (ellos|ellas|los|las) [a-z ]{0,20}?)?(dijeron|manifestaron|respondieron|declararon|afirmaron|"
+                        r"contestaron|indicaron|opinaron|eligieron|prefirieron|prefieren|votaron|compraron|aprobaron|"
+                        r"reprobaron|admitieron|reconocieron|aseguraron|expresaron|tuvieron|presentaron|resultaron|"
+                        r"salieron|fallaron|no\b)", d)) or \
                     _hay(r"^\s*(unidad(es)? |piezas )?(defectuos|de ellos|mayores|pedidos|veces|inscript|exitos)", d) or \
                     _hay(r"se presento $", a):
                 t.usar(i)
@@ -990,6 +1038,52 @@ def _es_n_de_muestra(t: Texto, n: Numero, a: str) -> bool:
     return _hay(VERBOS_N + r"\s*$", a) and _hay(r"^\s*[a-z]+s\b", d)
 
 
+RE_RAZON_GRUPO = (r"(marca|maquina|variedad|metodo|proceso|tipo|grupo|linea|proveedor|turno|planta|sucursal|"
+                  r"aleacion|formula|racion|torno|horno|modelo|operario|equipo|laboratorio|zona|region)")
+
+
+def _paralelo_dos_muestras(an: Analisis, t: Texto, posiciones: Dict[str, Numero], vistos: set):
+    """Redacción paralela con elipsis: 'con 50 latas de la marca B se cubrió en promedio 56 m² por lata con un desvío
+    de 6 m²; con 50 latas de la marca A, 49 m² por lata con un desvío de 5 m²'. El segundo grupo no repite 'promedio':
+    su n y su x̄ son los números con la MISMA unidad que los del primero."""
+    def unidad(n: Numero) -> str:
+        m = re.match(r"\s*([a-z²³]+\d?(?:\s+por\s+[a-z]+)?)", t.norm[n.fin:n.fin + 30])
+        return m.group(1) if m else ""
+    for clave in ("n", "xbar"):
+        uno = posiciones.get(f"{clave}1")
+        if uno is None or f"{clave}2" in an.datos or not unidad(uno):
+            continue
+        for i, n in t.libres():
+            if i in vistos or n.pct or n.ini <= uno.ini or unidad(n) != unidad(uno) or _alpha_de(t, i, n):
+                continue
+            if clave == "n" and not (n.es_entero and n.valor >= 2):
+                continue
+            if clave == "xbar" and _hay(r"(desvio|desviacion|varianza)[^0-9]{0,40}$", t.antes(n, 45)):
+                continue
+            t.usar(i)
+            vistos.add(i)
+            _set(an, f"{clave}2", int(n.valor) if clave == "n" else n.valor, t, n,
+                 f"{clave} de la muestra 2 (misma unidad que el de la muestra 1: redacción paralela)")
+            posiciones[f"{clave}2"] = n
+            break
+    if all(re.fullmatch(r"Muestra \d", an.datos.get(f"nombre{j}") or "Muestra 1") for j in (1, 2)):
+        # 'de la marca B' ... 'de la marca A': los nombres de los grupos
+        noms = []
+        for j in (1, 2):
+            n = posiciones.get(f"n{j}") or posiciones.get(f"xbar{j}")
+            if n is None:
+                return
+            base = n.ini
+            ventana = re.split(r"[.;]\s|,\s*\d", t.norm[base:n.fin + 45])[0]
+            m = re.search(r"\b" + RE_RAZON_GRUPO + r"\s+[“\"]?([a-z0-9]{1,3})\b", ventana)
+            if not m:
+                return
+            noms.append(t.texto[base + m.start():base + m.end()].replace("“", "").replace('"', ""))
+        if normalizar(noms[0]) != normalizar(noms[1]):
+            an.datos["nombre1"], an.datos["nombre2"] = noms
+            an.evidencias.append(Evidencia("nombre1", noms[0], "", "grupo de la muestra 1 nombrado en el texto"))
+
+
 def extraer_dos_muestras(an: Analisis, t: Texto):
     g = _grupos_de_tablas(an, t)
     if g and g.listas:
@@ -1025,6 +1119,11 @@ def extraer_dos_muestras(an: Analisis, t: Texto):
         elif _hay(r"(desvio|desviacion)[^0-9]{0,40}$|\bs\s*[12]?\s*=\s*$|s\s*=\s*\d+(,\d+)?( [a-z]+)?\s*$|"
                   r"\(s\)\s*=\s*$", a) and not _hay(r"(probabilidad|riesgo|confianza)[^0-9]{0,15}$", a):
             desvios.append((i, n))
+        elif _hay(r"varianza[^0-9]{0,40}$", a) and not _hay(r"(probabilidad|riesgo|confianza)[^0-9]{0,15}$", a):
+            # 'la varianza resultó 0,0441 mm²': S = √S² (se informa en la evidencia)
+            desvios.append((i, Numero(sqrt(n.valor), n.ini, n.fin, False, n.crudo)))
+            an.avisos.append(f"Una muestra da la VARIANZA ({n.crudo.strip()}): se usó el desvío S = √{n.crudo.strip()} = "
+                             f"{fmt(sqrt(n.valor))}.")
     # tamaños en palabras: 'durante los cuatro meses que duró la campaña'
     for m in re.finditer(r"\b(" + "|".join(NUMEROS_PALABRA) + r")\s+(" + UNIDADES_N + "|" + TIEMPOS_N + r")\b", t.norm):
         a = t.norm[max(0, m.start() - 45):m.start()]
@@ -1049,6 +1148,7 @@ def extraer_dos_muestras(an: Analisis, t: Texto):
             valor = int(n.valor) if clave == "n" else n.valor
             _set(an, f"{clave}{j + 1}", valor, t, n, f"{clave} de la muestra {j + 1}")
             posiciones[f"{clave}{j + 1}"] = n
+    _paralelo_dos_muestras(an, t, posiciones, {i for lst in (ns, medias, desvios) for i, _ in lst if i is not None})
     if "n1" in an.datos and "n2" not in an.datos and _hay(r"\bn\s*=\s*\d+\s+\d+", t.norm):
         m = re.search(r"\bn\s*=\s*(\d+)\s+(\d+)", t.norm)
         an.datos["n1"], an.datos["n2"] = int(m.group(1)), int(m.group(2))
@@ -1228,6 +1328,63 @@ def _filas_etiquetadas(texto: str) -> List[Tuple[str, List[float]]]:
     return filas
 
 
+RE_RESTO = r"\b(el resto|los restantes|las restantes|los demas|las demas|el restante|la restante)\b"
+
+
+def tabla_porcentajes(t: Texto) -> Optional[Tuple[List[List[float]], List[str], List[str]]]:
+    """Tabla de contingencia dada en PORCENTAJES por fila: 'Se encuestó a 120 hombres y 80 mujeres... De los hombres,
+    el 30% eligió A, el 45% B y el resto C. De las mujeres, el 40%...' → frecuencias = total del grupo × %.
+    Devuelve (tabla, nombres de las filas, avisos) o None."""
+    totales = []   # (raíces que nombran al grupo, N, posición, nombre)
+    for n in t.nums:
+        if n.es_entero and not n.pct and n.valor >= 5:
+            cola = re.split(r"[\d.,;:?!]|\b(y|e|o|sobre|que|para|con|acerca|respecto|elegid|tomad|al azar)\b",
+                            t.norm[n.fin:n.fin + 40])[0]
+            palabras = [w for w in re.findall(r"[a-z]{4,}", cola)][:3]
+            if palabras and re.match(r"\s+[a-z]", t.norm[n.fin:n.fin + 3]):
+                totales.append(([w[:5] for w in palabras], n.valor, n.ini, " ".join(palabras)))
+    # lo que distingue a cada grupo ('200 piezas del turno mañana' / '150 piezas del turno noche' → mañana / noche)
+    totales = [([r for r in x[0] if not any(r in y[0] for y in totales if y is not x)], *x[1:]) for x in totales]
+    totales = [x for x in totales if x[0]]
+    filas, nombres, usados = [], [], set()
+    for ini, fin in t._oraciones:
+        ora = t.norm[ini:fin]
+        pcts = [n for n in t.nums if ini <= n.ini < fin and n.pct]
+        if len(pcts) < 1 or (len(pcts) < 2 and not _hay(RE_RESTO, ora)):
+            continue
+        if _hay(RE_CONF + r"|riesgo|significacion|probabilidad", ora):
+            continue
+        valores = [n.valor for n in pcts]
+        if _hay(RE_RESTO, ora):
+            valores.append(100 - sum(valores))
+        if abs(sum(valores) - 100) > 0.5 or min(valores) < 0:
+            continue
+        # el grupo: un total dentro de la misma oración o un grupo contado antes y nombrado acá
+        propio = [x for x in totales if ini <= x[2] < fin and x[2] < pcts[0].ini]
+        grupo = propio[-1] if propio else None
+        if grupo is None:
+            cands = []
+            for x in totales:
+                pos = [m.start() for r in x[0] for m in [re.search(r"\b" + r, ora)] if m]
+                if x[2] < ini and pos:
+                    cands.append((min(pos), x[2], x))
+            grupo = min(cands)[2] if cands else None
+        if grupo is None or grupo[2] in usados:
+            continue
+        usados.add(grupo[2])
+        filas.append([grupo[1] * v / 100 for v in valores])
+        nombres.append(grupo[3])
+    if len(filas) < 2 or len({len(f) for f in filas}) != 1 or len(filas[0]) < 2:
+        return None
+    avisos = ["La tabla venía en PORCENTAJES por fila: se pasó a frecuencias (total del grupo × %): " +
+              "; ".join(f"{nm}: " + " / ".join(fmt(x) for x in f) for nm, f in zip(nombres, filas)) + "."]
+    if any(abs(x - round(x)) > 0.01 for f in filas for x in f):
+        avisos.append("Algunas frecuencias no dan enteras (los % estarán redondeados): revisalas.")
+    else:
+        filas = [[float(round(x)) for x in f] for f in filas]
+    return filas, nombres, avisos
+
+
 def extraer_chi(an: Analisis, t: Texto):
     filas = _filas_etiquetadas(t.texto)
     # descartar filas índice (1 2 3 4 5 6)
@@ -1244,6 +1401,13 @@ def extraer_chi(an: Analisis, t: Texto):
             an.datos["tabla"] = [f[1] for f in mejor]
             an.evidencias.append(Evidencia("tabla", an.datos["tabla"], t.texto[mejor[0][2]:mejor[-1][3]],
                                            "filas de la tabla: " + ", ".join(f[0] for f in mejor)))
+            return
+        tp = tabla_porcentajes(t)
+        if tp:
+            an.datos["tabla"] = tp[0]
+            an.evidencias.append(Evidencia("tabla", tp[0], "", "filas (" + ", ".join(tp[1]) + "): total del grupo × "
+                                                               "porcentaje de cada categoría"))
+            an.avisos += tp[2]
             return
         # dos proporciones narradas: 'muestra de 250 ... 20 defectuosos', '32 postes de cada uno ... 10 y 20'
         tot = [n for n in t.nums if n.es_entero and not n.pct and _hay(r"(muestra|muestras|total)[^0-9]{0,15}$|cada un", t.antes(n, 30) + t.despues(n, 20))]
@@ -1329,7 +1493,8 @@ def clasificar_inciso(norm: str, tema: str, contexto: str) -> Tuple[str, str]:
             and not _hay(r"(tamano|cuant)", norm):
         return "ic", "Pide un valor máximo / mínimo del parámetro con cierta confianza: límite de confianza UNILATERAL."
     if _hay(r"^\W*(se considera|se puede|puede|se aconseja|aconseja|es correct|existe|se recomienda|asumiendo|"
-            r"si se establece|con un|se justifica)", norm) and not _hay(r"(cual|calcular|hallar)[^.?]{0,30}probabilidad", norm):
+            r"si se establece|con un|se justifica)", norm) and not _hay(r"(cual|calcular|hallar)[^.?]{0,30}probabilidad", norm) \
+            and not _hay(r"(entre que (valores|limites)|dentro de que limites|intervalo de confianza)", norm):
         return "ensayo", "Pide tomar una decisión sobre una afirmación: ensayo de hipótesis."
     if _hay(r"(cual|que) (seria|sera|es) la (conclusion|decision)", norm):
         return "ensayo", "Pide la conclusión / decisión: ensayo de hipótesis."
@@ -1347,6 +1512,11 @@ def clasificar_inciso(norm: str, tema: str, contexto: str) -> Tuple[str, str]:
             r"es posible|se justifica|se rechaza|ensayar|verificar|determinar si|comprobar|cumple|se arriba|"
             r"indique las conclusiones|que se puede decir|cual sera la conclusion|que decision)", norm + " " + contexto):
         return "ensayo", "Pide tomar una decisión sobre una afirmación: ensayo de hipótesis."
+    # '¿Debe detenerse la máquina?', '¿Se debe mantener al proveedor?', '¿Se recalibra?': decidir una acción
+    if _hay(r"\bdeb(e|en|eria|erian|era|eran) (se |la |lo |el |los |las )?(deten|par[ae]r|recalibr|ajust|rechaz|acept|"
+            r"manten|cambi|revis|compr|adopt|lanz|continu|interven|correg|reemplaz|aprob|segui|implement)|"
+            r"^\W*(se )?(detiene|detendra|rechaza|rechazara|acepta|aceptara|recalibra|ajusta|interviene)\b", norm):
+        return "ensayo", "Pide decidir una acción (detener, aceptar, mantener...): ensayo de hipótesis."
     return "no_soportado", "No se reconoció qué pide: elegí el tipo a mano."
 
 
@@ -1361,12 +1531,18 @@ def detectar_cola(norm: str, planteo_norm: str, tema: str, datos: dict) -> Tuple
         lado = "derecha" if datos[ref[0]] > datos[ref[1]] else "izquierda"
         return lado, ("La hipótesis se plantea «a la luz de los datos» (después de ver la muestra): unilateral hacia "
                       "donde apunta la muestra; el bilateral no se usa a posteriori.")
+    # 'conviene cambiar de aleación', 'se debe cambiar el proveedor': 'cambiar' es la ACCIÓN que se decide, no la
+    # dirección del parámetro (la dirección la da lo que se quiere lograr con el cambio)
+    norm = re.sub(r"\bcambi(ar|arse|aria|ara)\s+(de|el|la|los|las|a|al|por)\b", " ", norm)
     for texto, donde in ((norm, "inciso"), (planteo_norm, "planteo")):
+        # 'reduce el desvío en más de un 15%': 'en más de' mide CUÁNTO, la dirección la da el verbo
+        texto = re.sub(r"\b(en|por) (mas|menos) de\b", " ", texto)
         # especificaciones de control (criterio optimista)
         if _hay(r"(mayor o igual|por lo menos|como minimo|minimo admisible|minima es de|resistencia media minima|"
                 r"no menos de)", texto) and donde == "planteo" and not _hay(r"(aument|increment)", texto):
             return "izquierda", "La especificación es un mínimo (≥ μ₀): se rechaza si la muestra da BAJO → cola izquierda."
-        if _hay(r"(menor o igual|como maximo|a lo sumo|no debe superar|no mas de)", texto) and donde == "planteo" \
+        if _hay(r"(menor o igual|como maximo|a lo sumo|no debe superar|no mas de|no supere|no exceda|no sobrepase|"
+                r"no debe exceder|no puede (superar|exceder))", texto) and donde == "planteo" \
                 and not _hay(r"(disminu|reduc)", texto):
             return "derecha", "La especificación es un máximo (≤ valor): se rechaza si la muestra da ALTO → cola derecha."
         mas, menos, dist = _cuenta(P_MAS, texto), _cuenta(P_MENOS, texto), _cuenta(P_DISTINTO, texto)
@@ -1392,6 +1568,12 @@ def detectar_cola(norm: str, planteo_norm: str, tema: str, datos: dict) -> Tuple
             if datos["mu1"] < datos["mu0"]:
                 return "izquierda", "La alternativa (μ₁) está por debajo de μ₀ → cola izquierda."
             return "derecha", "La alternativa (μ₁) está por encima de μ₀ → cola derecha."
+    # control de rutina de un proceso (calibrar / detener / recalibrar) sin dirección: criterio optimista, bilateral
+    if tema == "media" and _hay(r"(recalibr|\bcalibrad|reajust|regulad[oa] (para|en)|deten(er|erla|erlo|erse|ga)|"
+                                r"parar la (maquina|linea|produccion)|periodicamente|control (periodico|de rutina|del proceso))",
+                                planteo_norm + " " + norm):
+        return "bilateral", ("Control de rutina de un proceso (se detiene / recalibra si se desajusta) sin decir hacia dónde: "
+                             "criterio OPTIMISTA, H0: μ = μ₀ y se detiene tanto si la media sube como si baja → bilateral.")
     # sin pistas: hacia donde apunta la muestra
     ref = {"media": ("xbar", "mu0"), "varianza": ("desvio", "sigma0"), "proporcion": ("p_hat", "p0")}.get(tema)
     if ref and ref[0] in datos and ref[1] in datos:
@@ -1468,6 +1650,28 @@ def _prob_pedida(norm: str) -> str:
             r"no realizar|no modificar|no hacer)", norm):
         return "beta"
     return "potencia"
+
+
+_NEG = r"\b(no|nunca|jamas)\b"
+_QUE_PIDE_PROP = re.compile(r"(proporcion|porcentaje|fraccion|cuantos|cuantas|parte)\b[a-z ,]{0,50}?\b(que|quienes)\s+"
+                            r"((?:si|no|nunca|jamas)\s+)?(?:(?:lo|la|los|las|se|le|les)\s+)?([a-z]{4,})")
+
+
+def complemento_r(planteo_norm: str, r: int, inc_norm: str) -> Optional[str]:
+    """'38 de ellos manifestaron que NO volverían' y se pide la proporción de los que SÍ volverían (o al revés):
+    lo contado es el complemento de lo pedido → r = n - 38. Devuelve el verbo en común si hay que complementar."""
+    m = re.search(r"(?<![\d.,])" + str(r) + r"(?![\d,])([^.;?]{0,90})", planteo_norm)
+    q = _QUE_PIDE_PROP.search(inc_norm)
+    if not m or not q:
+        return None
+    clausula, verbo = m.group(1), q.group(4)
+    raiz = verbo[:5]
+    w = re.search(r"((?:\b(?:no|nunca|jamas)\s+)?(?:(?:lo|la|los|las|se|le|les)\s+)?)\b(" + re.escape(raiz) + r"[a-z]*)", clausula)
+    if not w:
+        return None
+    neg_r = _hay(_NEG, w.group(1))
+    neg_q = bool(q.group(3)) and _hay(_NEG, q.group(3))
+    return w.group(2) if neg_r != neg_q else None
 
 
 def extraer_params_inciso(inc: Inciso, an: Analisis, previo: Dict):
@@ -1550,6 +1754,13 @@ def extraer_params_inciso(inc: Inciso, an: Analisis, previo: Dict):
                 and _hay(r"(mal[oa]s|defectuos|con defectos?|fallad)", norm):
             p["r_buenas"] = True
             inc.razones.append(f"Los {p['r']} casos contados son los BUENOS y se pregunta por los malos: r = n - {p['r']}.")
+    if tema == "proporcion" and inc.tipo in ("ic", "n", "ensayo", "beta", "diseno") and "r" not in p \
+            and an.datos.get("r") is not None and not p.get("r_buenas"):
+        verbo = complemento_r(normalizar(an.planteo), int(an.datos["r"]), norm)
+        if verbo:
+            p["r_buenas"] = True
+            inc.razones.append(f"Los {an.datos['r']} casos contados son los del caso CONTRARIO al que se pregunta "
+                               f"(uno con 'no {verbo}' y el otro sin la negación): r = n - {an.datos['r']}.")
     if tema == "proporcion" and inc.tipo in ("diseno", "beta", "curva", "n"):
         # 'AQL = p0 = 1,5% y LTPD = p1 = 4%'
         for clave, patron in (("p0", r"(aql|\bp\s*[0₀])\s*=\s*(p\s*[0₀]\s*=\s*)?$"), ("p1", r"(ltpd|\bp\s*[1₁])\s*=\s*(p\s*[1₁]\s*=\s*)?$")):
@@ -1603,7 +1814,7 @@ def extraer_params_inciso(inc: Inciso, an: Analisis, previo: Dict):
                 break
 
     if inc.tipo in ("ensayo", "beta", "diseno", "curva"):
-        cola, razon = detectar_cola(norm, normalizar(an.planteo), tema, an.datos)
+        cola, razon = detectar_cola(norm, getattr(an, "_norm_cola", None) or normalizar(an.planteo), tema, an.datos)
         sin_pistas = _cuenta(P_MAS + P_MENOS + P_DISTINTO, norm) == 0
         if inc.tipo in ("beta", "curva") and "tail" in previo or (sin_pistas and "tail" in previo and
                                                                    _hay(r"misma conclusion|idem|anterior", norm)):
@@ -2282,6 +2493,68 @@ def separar_alternativas(an: Analisis):
         inc.razones.append(f"El planteo da {len(alternativas)} alternativas con condiciones propias: se resuelve cada una.")
 
 
+# ---------------------------------------------------------------------------
+# Reescritura previa de frecuencias ('25 por cada mil', '1 de cada 50 veces', '3‰', '5 por ciento')
+# ---------------------------------------------------------------------------
+
+_DENOM_PALABRA = {"diez": 10, "cien": 100, "mil": 1000, "diez mil": 10000, "cien mil": 100000}
+_NUMERADOR_PALABRA = {"un": 1, "una": 1, "uno": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5, "seis": 6,
+                      "siete": 7, "ocho": 8, "nueve": 9, "diez": 10}
+# lo que sigue al denominador y lo convierte en una tasa por unidad de medida, no en una proporción
+_UNIDAD_TASA = (r"(g|gr|grs|gramos?|kg|kilos?|kilogramos?|mg|l|lts?|litros?|ml|cc|cm3|m|metros?|km|kilometros?|cm|mm|"
+                r"pesos|dolares|\$|u\$s|usd|horas?|hs|minutos?|min|segundos?|seg|dias?|anos?|meses|semanas?|"
+                r"kwh|toneladas?|tn|m2|m3|hectareas?|ha)\b")
+_RE_CADA = re.compile(
+    r"(?<![\w.,])(\d+(?:,\d+)?|una?|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\s+"
+    r"((?:[a-zñ]+\s+){0,3}?)"
+    r"(de\s+cada|por\s+cada|cada|por)\s+"
+    r"(\d{1,3}(?:\.\d{3})+|\d+|diez mil|cien mil|diez|cien|mil)(?!\w|[.,]\d|\s*%)")
+
+
+def reescribir_frecuencias(planteo: str) -> Tuple[str, List[str]]:
+    """Pasa a porcentaje las frecuencias dichas 'N de cada M' / 'N por mil' / 'N ‰' / 'N por ciento', así el resto
+    de las reglas las lee como cualquier '2,5%' (p₀, α, p̂...). Devuelve (texto, notas para el usuario)."""
+    notas: List[str] = []
+    norm = normalizar(planteo)
+    if _cuenta(P_REGRESION, norm):
+        return planteo, notas   # 'por cada 1.000 pesos que se invierten' es una pendiente, no una proporción
+    partes, ult = [], 0
+    for m in _RE_CADA.finditer(norm):
+        num_txt, palabras, nexo, den_txt = m.group(1), m.group(2), m.group(3), m.group(4)
+        cola = norm[m.end():m.end() + 25]
+        if re.match(r"\s*(de\s+)?" + _UNIDAD_TASA, cola) or re.search(r"\b" + _UNIDAD_TASA, palabras):
+            continue   # '5 g por cada 100 g', '3 fallas cada 100 horas': tasa, no proporción
+        num = _NUMERADOR_PALABRA.get(num_txt)
+        if num is None:
+            if not num_txt[0].isdigit():
+                continue
+            num = parse_num(num_txt)
+        den = _DENOM_PALABRA.get(den_txt) or parse_num(den_txt)
+        if nexo.strip() == "por" and den not in (100, 1000, 10000, 100000):
+            continue   # 'por' a secas solo con 'por cien / por mil' ('2 por 3' no es una frecuencia)
+        if not num_txt[0].isdigit() and palabras.strip() not in ("", "vez", "veces"):
+            continue   # 'una muestra de cada 100': con número en palabras, solo 'una de cada 50 (veces)'
+        if _hay(r"(tom|extra|inspeccion|revis|elig|selecciona|control|muestre)[a-z]*\s*$", norm[max(0, m.start() - 25):m.start()]):
+            continue   # 'se inspecciona 1 de cada 100 producidas': frecuencia de muestreo, no un parámetro
+        if not den or num > den or den < 2:
+            continue
+        pct = num / den * 100
+        reemplazo = f"un {fmt(pct, 6)}% de" + (f" {palabras.strip()}" if palabras.strip() else "")
+        partes.append(planteo[ult:m.start()] + reemplazo)
+        ult = m.end()
+        notas.append(f"«{planteo[m.start():m.end()].strip()}» se leyó como {fmt(pct, 6)}% "
+                     f"({fmt(num)}/{fmt(den)} = {fmt(num / den, 6)}).")
+    texto = "".join(partes) + planteo[ult:]
+    # '3‰' (por mil) y '5 por ciento'
+    def _permil(m):
+        v = parse_num(m.group(1)) / 10
+        notas.append(f"«{m.group(0).strip()}» (por mil) se leyó como {fmt(v, 6)}%.")
+        return f"{fmt(v, 6)}%"
+    texto = re.sub(r"(\d+(?:,\d+)?)\s*‰", _permil, texto)
+    texto = re.sub(r"(\d+(?:,\d+)?)\s+por\s+ciento\b", r"\1%", texto, flags=re.IGNORECASE)
+    return texto, notas
+
+
 def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional[List[dict]] = None,
              _en_alternativa: bool = False, tema: Optional[str] = None) -> Analisis:
     """`tablas`: tablas de datos ya estructuradas (si no, se buscan en el texto).
@@ -2302,7 +2575,17 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
         # sin incisos: la pregunta está en el mismo planteo
         lista = [("única", pregunta_de(planteo))]
 
-    an = Analisis(planteo=planteo)
+    original = planteo
+    planteo, notas = reescribir_frecuencias(planteo)
+    lista_r = []
+    for letra_r, tx_r in lista:
+        tx2, notas2 = reescribir_frecuencias(tx_r)
+        notas += [x for x in notas2 if x not in notas]
+        lista_r.append((letra_r, tx2))
+    lista = lista_r
+
+    an = Analisis(planteo=original)
+    an.avisos += notas
     an.tablas = list(tablas) if tablas else buscar_tablas(planteo)
     total = planteo if lista[0][0] == "única" else planteo + " " + " ".join(tx for _, tx in lista)
     t_total = Texto(total)
@@ -2326,16 +2609,28 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
         if tema_pl in ("media", "varianza"):
             an.tema, an.razones_tema = tema_pl, razones_pl + [
                 "El porcentaje / proporción aparece recién en un inciso: ese inciso se resuelve aparte como proporción."]
+    if not tema and an.tema in ("media", "proporcion", "dos_medias", "varianza") and \
+            _hay(r"(depend|asocia|independ|relacion|difier|influ|distint|homogene|varia (segun|con))", normalizar(pregunta)) \
+            and tabla_porcentajes(Texto(planteo)):
+        an.tema = "chi_contingencia"
+        an.razones_tema = ["Da, para cada grupo, los PORCENTAJES de cada categoría y pregunta si la distribución depende "
+                           "del grupo: tabla de contingencia χ² (los % se pasan a frecuencias)."]
     an.criterio, an.criterio_razon = detectar_criterio(t_total.norm)
 
     t = Texto(planteo)
     diseno = False
     if an.tema in ("media", "varianza", "proporcion"):
         diseno = completar_diseno(an, t)
+    an._norm_cola = t.norm
     if not diseno:
         r = extraer_alpha(t)
         if r:
             _set(an, "alpha", r[0], t, r[1], r[2])
+            # 'se acepta detenerla sin necesidad a lo sumo un 2% de las veces': ese 'a lo sumo' acota el RIESGO,
+            # no es una especificación del parámetro (no define la cola)
+            m = re.search(r"(a lo sumo|como maximo|como mucho|no mas (de|del)|hasta)\s*(un |el |del |de )?$", t.norm[:r[1].ini])
+            if m:
+                an._norm_cola = t.norm[:m.start()] + " " * (m.end() - m.start()) + t.norm[m.end():]
 
     if an.tema in ("media", "varianza", "proporcion"):
         extraer_datos_lista(an, t)

@@ -1,13 +1,17 @@
 """Interpretar un enunciado: pegás el problema, la app dice qué pide, lo corregís y calcula todo."""
 
 import copy
+from dataclasses import replace
 
 import pandas as pd
 import streamlit as st
 
 from asistente import cliente as ia_cliente
 from asistente.explicar import explicar, numeros_sin_respaldo
-from asistente.interpretar import interpretar
+from asistente.redactar import Control, controlar, corregir, problemas, redactar
+from asistente.interpretar import interpretar, pedir_ia
+from asistente.comparar import comparar, corregir as corregir_comparacion
+from asistente.revisar import aplicar_sugerencias, revisar
 from asistente.ui import configuracion as config_ia
 from interprete import buscador, glosario
 from interprete.analizador import analizar, cambiar_criterio, separar_incisos
@@ -33,6 +37,7 @@ ss.setdefault("ver", 0)          # versión del análisis (renueva las claves de
 ss.setdefault("analisis", None)
 ss.setdefault("resultados", None)
 ss.setdefault("ia_info", None)
+ss.setdefault("revision", None)
 ss.setdefault("ia_explicacion", None)
 if "tabla_txt_nueva" in ss:
     ss["tabla_txt"] = ss.pop("tabla_txt_nueva")
@@ -89,27 +94,63 @@ with st.expander("📋 Tabla de datos (regresión, frecuencias por clase, contin
         else:
             st.info("No encontré una tabla en el planteo.")
 
-c_int, c_ia, c_auto = st.columns([2, 2, 5])
-pedir_reglas = c_int.button("🔍 Interpretar", type="primary")
-pedir_ia = c_ia.button("🤖 Interpretar con IA", disabled=not ia_ok,
-                       help="Reglas + IA: la IA corrige / completa lo que las reglas no resuelven y te muestra en qué "
-                            "difiere del resto." if ia_ok else "Necesita Ollama abierto con un modelo descargado.")
-auto_ia = c_auto.checkbox("Si las reglas no entienden algo, consultar a la IA", value=True, disabled=not ia_ok,
-                          key="ia_auto")
-if pedir_reglas or pedir_ia:
+MODOS = {
+    "comparar": "⚖️ Reglas y IA por separado, y se comparan (recomendado)",
+    "revision": "🛡️ Solver + revisión IA",
+    "solver": "🔍 Solo solver (reglas)",
+    "hibrido": "🧩 Solver, y la IA completa lo que no entiende",
+    "ia": "🤖 La IA arma el planteo, el solver calcula",
+}
+AYUDA_MODOS = {
+    "comparar": "Las reglas resuelven al instante y, por separado, la IA lee el enunciado y razona el planteo en "
+                "palabras (como un alumno). Se comparan los RESULTADOS de los dos: si coinciden, ✅; si no, ves los dos "
+                "planteos lado a lado y elegís, o le explicás a la IA qué leyó mal. Las reglas aciertan más en los "
+                "ejercicios de estructura conocida y la IA en las redacciones retorcidas. Tarda ~1-2 min.",
+    "revision": "Las reglas arman el planteo y el solver calcula. Después la IA lo audita: busca números del enunciado "
+                "que no se usaron, lo lee por su cuenta sin ver el de las reglas y, donde no coinciden, decide con una "
+                "cita textual del enunciado. Si al planteo le falta algo para resolverse, lo completa (🛠️); si el planteo ya se "
+                "resuelve, NO lo pisa: te sugiere el cambio (💡) y lo aplicás vos con un clic. Lo dudoso queda ⚠️. "
+                "Tarda ~30 s.",
+    "solver": "Solo las reglas (verificadas contra la guía). Instantáneo y sin IA.",
+    "hibrido": "Las reglas primero; la IA solo interviene si algún inciso no se puede resolver.",
+    "ia": "La IA lee el enunciado y arma el planteo sin las reglas; los números los calcula el solver. Sirve para "
+          "comparar: en la guía rinde menos que las reglas.",
+}
+opciones_modo = list(MODOS) if ia_ok else ["solver"]
+if ss.get("modo_interpretar") not in opciones_modo:
+    ss["modo_interpretar"] = opciones_modo[0]
+modo = st.radio("Cómo interpretar", opciones_modo, format_func=MODOS.get, key="modo_interpretar", horizontal=True,
+                help="\n\n".join(f"**{MODOS[m]}**: {AYUDA_MODOS[m]}" for m in opciones_modo))
+st.caption(AYUDA_MODOS[modo] + ("" if ia_ok else " (Para usar la IA abrí Ollama con un modelo descargado.)"))
+if st.button("🔍 Interpretar", type="primary"):
     if not ss.get("planteo", "").strip():
         st.error("Escribí el planteo.")
     else:
         tabla = desde_texto_editado(ss.get("tabla_txt", "")) if ss.get("tabla_txt", "").strip() else None
         incisos_txt = [tx for tx in ss["incisos"] if tx.strip()]
         tablas_in = [tabla] if tabla else None
-        ss["ia_info"] = None
-        if ia_ok and (pedir_ia or auto_ia):
-            with st.spinner("Interpretando (si las reglas no alcanzan, la IA lee el enunciado; puede tardar)…"):
-                r = interpretar(ss["planteo"], incisos_txt, tablas=tablas_in, modelo=ia_modelo, pensar=ia_pensar,
-                                siempre=pedir_ia)
-            ss["analisis"] = r.analisis
-            ss["ia_info"] = r if (r.usado_ia or r.error) else None
+        ss["ia_info"] = ss["revision"] = ss["comparacion"] = None
+        if modo == "comparar":
+            with st.spinner("Resolviendo con las reglas y leyendo el enunciado con la IA (~1-2 min)…"):
+                ss["comparacion"] = comparar(ss["planteo"], incisos_txt, tablas=tablas_in, modelo=ia_modelo)
+            ss["analisis"] = ss["comparacion"].reglas
+        elif modo == "revision":
+            with st.spinner("Resolviendo con las reglas y revisando con la IA (~30 s)…"):
+                rv = revisar(ss["planteo"], incisos_txt, tablas=tablas_in, modelo=ia_modelo, pensar=ia_pensar)
+            ss["analisis"], ss["revision"] = rv.analisis, rv
+        elif modo in ("hibrido", "ia"):
+            with st.spinner("Interpretando con la IA (puede tardar)…"):
+                if modo == "hibrido":
+                    r = interpretar(ss["planteo"], incisos_txt, tablas=tablas_in, modelo=ia_modelo, pensar=ia_pensar)
+                    ss["analisis"] = r.analisis
+                    ss["ia_info"] = r if (r.usado_ia or r.error) else None
+                else:
+                    try:
+                        ss["analisis"], avisos = pedir_ia(ss["planteo"], incisos_txt, tablas_in, ia_modelo, ia_pensar)
+                        ss["analisis"].avisos += [f"🤖 IA: {a}" for a in avisos]
+                    except ia_cliente.ErrorIA as e:
+                        st.error(f"🤖 No se pudo consultar a la IA: {e}. Se usan las reglas.")
+                        ss["analisis"] = analizar(ss["planteo"], incisos_txt, tablas=tablas_in)
         else:
             ss["analisis"] = analizar(ss["planteo"], incisos_txt, tablas=tablas_in)
         ss["resultados"] = None
@@ -151,7 +192,101 @@ if an.criterio:
     if ss.get("cambios_criterio"):
         st.info("**Al cambiar el criterio:**\n" + "\n".join(f"- {c}" for c in ss["cambios_criterio"]))
 for a in an.avisos:
+    if a.startswith("🛠️"):
+        continue                                    # las correcciones de la revisión se muestran abajo, juntas
     (st.info if a.startswith("🤖") else st.warning)(a)
+comp = ss.get("comparacion")
+if comp:
+    if comp.error:
+        st.error(f"⚖️ No se pudo consultar a la IA: {comp.error}. Quedan las reglas.")
+    elif comp.coinciden:
+        st.success(f"⚖️ ✅ La IA leyó el enunciado por su cuenta y llega a los mismos resultados que las reglas "
+                   f"({comp.segundos:.0f} s).")
+    else:
+        estados = [i.estado for i in comp.incisos]
+        if "distinto" in estados:
+            st.warning(f"⚖️ Las reglas y la IA **llegan a resultados distintos** en {estados.count('distinto')} de "
+                       f"{len(estados)} inciso(s) ({comp.segundos:.0f} s). Mirá los dos planteos y decidí cuál es el "
+                       "correcto.")
+        if "solo_ia" in estados:
+            st.warning(f"⚖️ En {estados.count('solo_ia')} inciso(s) las reglas no pudieron y **la IA sí**: revisá su "
+                       "planteo y, si está bien, usalo.")
+        if "solo_reglas" in estados and "distinto" not in estados and "solo_ia" not in estados:
+            st.info(f"⚖️ La IA no pudo armar un planteo completo ({comp.segundos:.0f} s); quedan las reglas. Igual "
+                    "controlá el planteo, o explicale a la IA qué no entendió.")
+    if comp.incisos:
+        marca = {"coincide": "✅ iguales", "distinto": "❌ distintos", "solo_ia": "🤖 solo la IA",
+                 "solo_reglas": "📐 solo las reglas", "ninguno": "— ninguno"}
+        st.dataframe(pd.DataFrame([{"Inciso": i.letra, "": marca[i.estado], "📐 Reglas": i.reglas, "🤖 IA": i.ia}
+                                   for i in comp.incisos]), hide_index=True, width="stretch")
+    if comp.ia is not None:
+        with st.expander("🤖 Cómo lo planteó la IA (en palabras)", expanded=not comp.coinciden):
+            st.markdown(comp.ia.razonamiento)
+        usa_ia = an is comp.ia.analisis
+        c1, c2 = st.columns(2)
+        if c1.button("📐 Usar el planteo de las reglas", disabled=not usa_ia, key=f"v{V}_usar_reglas"):
+            ss["analisis"], ss["resultados"] = comp.reglas, None
+            ss["ver"] += 1
+            st.rerun()
+        if c2.button("🤖 Usar el planteo de la IA", disabled=usa_ia, key=f"v{V}_usar_ia"):
+            ss["analisis"], ss["resultados"] = comp.ia.analisis, None
+            ss["ver"] += 1
+            st.rerun()
+        st.caption("Ahora se usa el planteo de " + ("**la IA**." if usa_ia else "**las reglas**.")
+                   + " Igual podés corregir cualquier dato abajo, a mano.")
+        nota = st.text_area("💬 Corregile a la IA (qué leyó mal)", key=f"v{V}_nota_ia",
+                            placeholder="Ej.: el 1.237,5 es el peso TOTAL de los 25 paquetes, no la media.")
+        if st.button("Rehacer el planteo de la IA con mi corrección", disabled=not nota.strip(), key=f"v{V}_corregir"):
+            tabla = desde_texto_editado(ss.get("tabla_txt", "")) if ss.get("tabla_txt", "").strip() else None
+            with st.spinner("La IA está rehaciendo el planteo…"):
+                ss["comparacion"] = corregir_comparacion(comp, nota, ss["planteo"],
+                                                         [tx for tx in ss["incisos"] if tx.strip()],
+                                                         [tabla] if tabla else None, ia_modelo)
+            if ss["comparacion"].ia is not None and not ss["comparacion"].error:
+                ss["analisis"] = ss["comparacion"].ia.analisis       # la corregiste: se pasa a su planteo
+            ss["resultados"] = None
+            ss["ver"] += 1
+            st.rerun()
+rv = ss.get("revision")
+if rv:
+    if rv.error:
+        st.error(f"🛡️ {rv.veredicto}")
+    elif rv.corregidos or rv.sugeridos or rv.a_revisar:
+        st.warning(f"🛡️ {rv.veredicto} ({rv.segundos:.0f} s)")
+    else:
+        st.success(f"🛡️ {rv.veredicto} ({rv.segundos:.0f} s)")
+    for i in rv.corregidos:
+        lugar = "Planteo" if i.donde == "planteo" else f"Inciso {i.donde})"
+        st.info(f"🛠️ **{lugar} · {i.que}**: {i.detalle}" + (f"\n\n> «{i.cita}»" if i.cita else ""))
+    if rv.sugeridos:
+        st.markdown("**💡 La IA leyó distinto y sugiere estos cambios** (el planteo de las reglas ya se resolvía, así "
+                    "que no se aplicaron solos). Leé la cita y marcá los que correspondan:")
+        marcados = []
+        for k, i in enumerate(rv.sugeridos):
+            lugar = "Planteo" if i.donde == "planteo" else f"Inciso {i.donde})"
+            if st.checkbox(f"{lugar} · {i.que}: {i.detalle}", key=f"v{V}_sug{k}",
+                           help=f"«{i.cita}»" if i.cita else None):
+                marcados.append(i)
+            if i.cita:
+                st.caption(f"> «{i.cita}»")
+        if st.button("Aplicar los marcados", disabled=not marcados, key=f"v{V}_aplicar_sug"):
+            tabla = desde_texto_editado(ss.get("tabla_txt", "")) if ss.get("tabla_txt", "").strip() else None
+            ss["analisis"] = aplicar_sugerencias(rv, marcados, ss["planteo"], [tx for tx in ss["incisos"] if tx.strip()],
+                                                 [tabla] if tabla else None)
+            rv.analisis = ss["analisis"]
+            rv.items = [i for i in rv.items if i not in marcados] + [replace(i, estado="corregido") for i in marcados]
+            ss["resultados"] = None
+            ss["ver"] += 1
+            st.rerun()
+    for i in rv.a_revisar:
+        lugar = "Planteo" if i.donde == "planteo" else f"Inciso {i.donde})"
+        st.warning(f"⚠️ **{lugar} · {i.que}**: {i.detalle}" + (f"\n\n> «{i.cita}»" if i.cita else ""))
+    confirmados = [i for i in rv.items if i.estado == "confirmado"]
+    if confirmados:
+        with st.expander(f"✅ Lo que la revisión confirmó ({len(confirmados)})"):
+            for i in confirmados:
+                st.markdown(f"- {'Planteo' if i.donde == 'planteo' else 'Inciso ' + i.donde + ')'} · {i.que}: "
+                            f"{i.detalle}")
 info = ss.get("ia_info")
 if info:
     if info.error:
@@ -371,12 +506,36 @@ if ss.get("resultados"):
 
 if ss.get("resultados") and ia_ok:
     st.divider()
-    st.subheader("🤖 Explicación de la IA")
+    st.subheader("🤖 Redacción y explicación de la IA")
     st.caption("La IA explica y redacta la resolución de arriba; no calcula. Los números que no salgan del "
                "enunciado ni de la resolución se marcan para que los revises.")
     pedido = st.text_input("Pedido (opcional)", key="ia_pedido",
                            placeholder="Ej.: explicame por qué es cola izquierda / redactá solo la conclusión del b)")
-    if st.button("💬 Explicar con IA"):
+    c_red, c_exp = st.columns(2)
+    if c_red.button("📝 Redactar como en el examen", type="primary",
+                    help="La resolución completa con el estilo de la cátedra (ESTILO_CATEDRA.md): variable con su "
+                         "unidad, 7 pasos, CR y RD, expresión formal de los intervalos. Los números son los del "
+                         "solver; al final se pasa el checklist."):
+        nuevo, resultados = ss["resultados"]
+        try:
+            trozos, fuentes = redactar(nuevo, resultados, pedido, modelo=ia_modelo, pensar=ia_pensar)
+            caja = st.empty()
+            texto = caja.write_stream(trozos)
+            controles = controlar(texto, nuevo, fuentes, resultados)
+            fallan = problemas(controles)
+            if fallan:
+                caja.empty()
+                st.info("🔁 La redacción no cumple el checklist (" + "; ".join(fallan) + "): corrigiendo…")
+                texto2 = st.write_stream(corregir(nuevo, resultados, texto, fallan, pedido, ia_modelo, ia_pensar))
+                controles2 = controlar(texto2, nuevo, fuentes, resultados)
+                if len(problemas(controles2)) < len(fallan):
+                    texto, controles = texto2, controles2
+            ss["ia_explicacion"] = (texto, controles, False)
+            st.rerun()
+        except ia_cliente.ErrorIA as e:
+            st.error(str(e))
+    if c_exp.button("💬 Explicar con IA", help="Explica por qué se eligió cada camino (distribución, hipótesis, "
+                                               "cola)."):
         nuevo, resultados = ss["resultados"]
         try:
             trozos, fuentes = explicar(nuevo, resultados, pedido, modelo=ia_modelo, pensar=ia_pensar)
@@ -389,7 +548,15 @@ if ss.get("resultados") and ia_ok:
         if not recien:
             st.markdown(texto)
         ss["ia_explicacion"] = (texto, dudosos, False)
-        if dudosos:
+        if dudosos and isinstance(dudosos[0], Control):
+            fallas = [c for c in dudosos if not c.ok]
+            with st.expander(f"📋 Checklist de la cátedra: {len(dudosos) - len(fallas)}/{len(dudosos)} ✔",
+                             expanded=bool(fallas)):
+                for c in dudosos:
+                    st.markdown(f"{'✅' if c.ok else '⚠️'} {c.texto}")
+            st.caption("El estilo sale de ESTILO_CATEDRA.md: agregale ejemplos o frases del profesor y la próxima "
+                       "redacción ya los usa.")
+        elif dudosos:
             st.warning("⚠️ Estos números de la explicación no aparecen en el enunciado ni en la resolución del "
                        "solver (pueden ser cuentas inventadas): " + ", ".join(dudosos))
         else:

@@ -65,7 +65,7 @@ def modelo_instalado(nombre: str, instalados: List[str]) -> bool:
 
 def chat(mensajes: List[Dict[str, str]], modelo: Optional[str] = None, formato: Union[None, str, Dict] = None,
          stream: bool = False, temperatura: float = 0.2, pensar: Optional[bool] = False,
-         num_ctx: Optional[int] = None) -> Union[str, Iterator[str]]:
+         num_ctx: Optional[int] = None, max_tokens: Optional[int] = None) -> Union[str, Iterator[str]]:
     """Manda la conversación al modelo.
 
     - `formato`: un JSON Schema (o "json") para forzar la salida estructurada.
@@ -80,6 +80,8 @@ def chat(mensajes: List[Dict[str, str]], modelo: Optional[str] = None, formato: 
         "keep_alive": "30m",
         "options": {"temperature": temperatura, "num_ctx": num_ctx or NUM_CTX},
     }
+    if max_tokens:
+        cuerpo["options"]["num_predict"] = max_tokens      # corta respuestas que se van de largo (o en loop)
     if formato is not None:
         cuerpo["format"] = formato
     if pensar is not None:

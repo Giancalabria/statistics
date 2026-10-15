@@ -14,6 +14,7 @@ Con la IA local (Ollama abierto, ver ASISTENTE_IA.md):
 
     python herramientas/evaluar_guia.py --ia I II       # la IA SOLA arma el planteo (sin reglas)
     python herramientas/evaluar_guia.py --ia-hibrido    # reglas + IA, como en la app
+    python herramientas/evaluar_guia.py --revision      # reglas + solver, y la IA revisa el planteo
     opciones: --modelo qwen3:14b  --pensar  --limite 20
 
 En los dos modos el ejercicio evaluado se excluye de los ejemplos que se le muestran al modelo (si no, copiaría
@@ -209,6 +210,19 @@ def con_ia(modo, modelo, pensar, stats):
         try:
             if modo == "sola":
                 an, _ = pedir_ia(planteo, incisos, tablas, modelo, pensar, excluir=[ej["id"]])
+            elif modo == "revision":
+                from asistente.revisar import revisar
+                rv = revisar(planteo, incisos, tablas, modelo, pensar, excluir=[ej["id"]])
+                if rv.error:
+                    raise cliente.ErrorIA(rv.error)
+                stats["cambios"] += len(rv.corregidos)
+                stats["sugeridos"] += len(rv.sugeridos)
+                stats["sugerencias"] += len(rv.a_revisar)
+                stats["con_alarma"] += bool(rv.corregidos or rv.sugeridos or rv.a_revisar)
+                stats["ultima"] = rv
+                for i in rv.corregidos + rv.sugeridos + rv.a_revisar:
+                    print(f"  ·· {ej['id']} {i.estado} {i.donde}) {i.que}: {i.detalle[:150]}")
+                an = rv.analisis
             else:
                 r = interpretar(planteo, incisos, tablas, modelo, pensar, siempre=True, excluir=[ej["id"]])
                 stats["sugerencias"] += len(r.sugerencias)
@@ -232,18 +246,29 @@ def main():
     modelo = _opcion(args, "--modelo")
     limite = _opcion(args, "--limite")
     pensar = "--pensar" in args
-    modo = "sola" if "--ia" in args else ("hibrido" if "--ia-hibrido" in args else None)
+    modo = "sola" if "--ia" in args else ("hibrido" if "--ia-hibrido" in args else
+                                          ("revision" if "--revision" in args else None))
     verbose = "-v" in args or "--fallas" in args
     solo_fallas = "--fallas" in args
     filtros = [a for a in args if not a.startswith("-")]
     sel = [e for e in GUIA if not filtros or e["id"] in filtros or e["tema"] in filtros]
     if limite:
         sel = sel[:int(limite)]
-    stats = {"n": 0, "segundos": 0.0, "errores": 0, "sugerencias": 0, "cambios": 0}
+    stats = {"n": 0, "segundos": 0.0, "errores": 0, "sugerencias": 0, "cambios": 0, "con_alarma": 0,
+             "sugeridos": 0}
+    aceptando = [0] * 7          # revisión: cómo quedaría si se aceptaran todas las sugerencias
     obtener = con_ia(modo, modelo, pensar, stats) if modo else analizar_reglas
     por_tema = {}
     for ej in sel:
+        stats["ultima"] = None
         r = evaluar(ej, verbose, solo_fallas, obtener)
+        rv = stats.get("ultima")
+        if rv is not None:
+            from asistente.revisar import aplicar_sugerencias
+            planteo, incisos = entradas(ej)
+            todo = aplicar_sugerencias(rv, rv.sugeridos, planteo, incisos, ej.get("tablas") or None)
+            r2 = evaluar(ej, False, False, lambda *a: todo)
+            aceptando = [a + b for a, b in zip(aceptando, (1,) + r2)]
         t = por_tema.setdefault(ej["tema"], [0] * 7)
         for i, v in enumerate((1,) + r):
             t[i] += v
@@ -255,6 +280,14 @@ def main():
     print(f"TOTAL {g[0]:5d}  {g[1]:5d}     {g[3]:4d}/{g[2]:<4d}  {g[4]:4d}/{g[2]:<4d}   {g[6]:3d}/{g[5]}   "
           f"({100 * g[3] / max(1, g[2]):.0f}% · exactos {100 * g[4] / max(1, g[2]):.0f}%)")
     if modo:
+        if modo == "revision":
+            print(f"\nRevisión IA: {stats['n']} ejercicios, {stats['segundos'] / max(1, stats['n']):.1f} s por ejercicio, "
+                  f"{stats['errores']} errores de la IA, {stats['con_alarma']} ejercicios con alarma (en la guía son "
+                  f"falsas), {stats['cambios']} completados (aplicados), {stats['sugeridos']} sugerencias 💡 (no "
+                  f"aplicadas), {stats['sugerencias']} puntos a revisar ⚠️")
+            print(f"Si se aceptaran TODAS las sugerencias: valores {aceptando[3]}/{aceptando[2]}, decisiones "
+                  f"{aceptando[6]}/{aceptando[5]}")
+            return
         print(f"\nIA ({'sola' if modo == 'sola' else 'híbrido'}): {stats['n']} ejercicios, "
               f"{stats['segundos'] / max(1, stats['n']):.1f} s por ejercicio, {stats['errores']} errores de la IA"
               + (f", {stats['cambios']} cambios aplicados, {stats['sugerencias']} sugerencias (falsas alarmas)"

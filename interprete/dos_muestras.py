@@ -42,7 +42,7 @@ RE_REF = (r"(\bsin (el |la |los |las )?[a-z]+|\bactual(es)?\b|tradicional|\bviej
 RE_NUEVO_V = (r"(reacondicion|aditivo|acelerante|albumina|tratad[oa]s?\b|tratamiento|propuest|\bnuev[oa]s?\b|"
               r"modificad|modificacion|campana|inoculad|fertilizad|vacunad|capacitad|mejorad)")
 
-P_MAS_V = (r"(\bmayor(es)?\b|superior|\bsuper[ae]|\bexced|aument|increment|\bmejor|\bmas (de|que)\b|maximiz|efectiv|"
+P_MAS_V = (r"(\bmayor(es)?\b|superior|\bsuper[ae]|\bexced|aument|increment|\bmejor|\bmas (de|que)\b|maximiz|efectiv(?!amente)|"
            r"diferencia minima|\b(rinden?|producen?|duran?|venden?|pesan?|es|son) mas\b|\bmas\s*\??\s*$)")
 P_MENOS_V = r"(\bmenor(es)?\b|inferior|disminu|\breduc|\bmenos (de|que)\b|minimiz|\bbaj[ae]n?\b|ahorr|acort)"
 P_BILATERAL_V = (r"(difier|diferente|distint|diferencias? (significativ|en (la|el|los|las))|sin diferencias|influ|"
@@ -132,6 +132,10 @@ def completar_dos_medias(an: Analisis, t, posiciones: Dict[str, Numero]):
                                                                 "producto tradicional")] + \
             [g for g in A.GRUPOS_CAMBIO if g[0].startswith(r"\bnuev")]
         etq = next(((nv, rf) for p, nv, rf in grupos if re.search(p, t.norm)), None)
+        if etq and etq[1] == "actual":
+            m_ref = re.search(r"\b(viej[oa]|anterior|tradicional|habitual|original)\b", t.norm)
+            if m_ref:   # 'la máquina vieja': se la nombra como el texto
+                etq = (etq[0], m_ref.group(1))
         if etq:
             an.datos[f"nombre{nuevo}"], an.datos[f"nombre{3 - nuevo}"] = etq
     if nuevo:
@@ -237,6 +241,9 @@ def _claves_grupo(nombre: str, otro: str) -> List[Tuple[str, bool]]:
                          r"formula|torno|producto|tratamiento)s?\s+[“\"]?" + x + r"\b", False))
         else:
             pats.append((re.escape(m.group(1).strip()), False))
+    m = re.fullmatch(r"\s*([a-z]{4,})\s+([a-z0-9]{1,3})\s*", nom)
+    if m:   # 'marca B', 'máquina 2': la palabra genérica seguida de la letra
+        pats.append((r"\b" + m.group(1) + r"s?\s+[“\"]?" + re.escape(m.group(2)) + r"\b", False))
     mias, otras = _palabras(nom), _palabras(ot)
     raices_otras = {_raiz(w) for w in otras}
     con_sin, otro_sin = _hay(r"\bsin\b", nom), _hay(r"\bsin\b", ot)
@@ -264,16 +271,21 @@ def _menciones(texto: str, an: Analisis, d: Optional[Dict] = None) -> Dict[int, 
                 if j not in pos or m.start() < pos[j]:
                     pos[j] = m.start()
                 break
-    if not pos and d.get("sujeto"):   # menciones por el rol ('el aditivo', 'sin el aditivo', 'tradicional')
+    if len(pos) < 2 and d.get("sujeto"):   # menciones por el rol ('el aditivo', 'sin el aditivo', 'tradicional')
         nuevo = int(d["sujeto"])
-        for m in re.finditer(RE_REF, texto):
-            if not _hay(r"^sin (presencia|diferencia)", texto[m.start():m.start() + 20]):
-                pos.setdefault(3 - nuevo, m.start())
-                break
-        for m in re.finditer(RE_NUEVO_V, texto):
-            if not _hay(_SIN + r"$", texto[max(0, m.start() - 8):m.start()]):
-                pos.setdefault(nuevo, m.start())
-                break
+        solo_falta = bool(pos)   # uno ya se nombró: el otro por su rol ('la vieja' cuando se llama 'actual')
+        if 3 - nuevo not in pos:
+            for m in re.finditer(RE_REF, texto):
+                if not _hay(r"^sin (presencia|diferencia)", texto[m.start():m.start() + 20]):
+                    if not (solo_falta and m.start() == pos.get(nuevo)):
+                        pos.setdefault(3 - nuevo, m.start())
+                    break
+        if nuevo not in pos:
+            for m in re.finditer(RE_NUEVO_V, texto):
+                if not _hay(_SIN + r"$", texto[max(0, m.start() - 8):m.start()]):
+                    if not (solo_falta and m.start() == pos.get(3 - nuevo)):
+                        pos.setdefault(nuevo, m.start())
+                    break
     return pos
 
 
@@ -321,7 +333,8 @@ def _magnitud(t, an: Analisis, solo_libres=True) -> Optional[Tuple[str, float, N
         if _hay(r"(\ben|\bde|superior en|mayor en|minima de|por mas de|mas de|en mas de)\s*$", a) and \
                 _hay(P_MAS_V + "|" + P_MENOS_V + r"|al menos|como minimo|por lo menos|diferencia", a[-60:] + " " + d[:35]) or \
                 _hay(r"^\s*[a-z.]*\s*(al menos|como minimo|por lo menos)", d) or \
-                (_hay(r"(como minimo|al menos|por lo menos|como maximo)\s*$", a) and _hay(r"^\s*[a-z.]*\s*(mas|menos)\b", d)):
+                (_hay(r"(como minimo|al menos|por lo menos|como maximo)\s*$", a) and
+                 _hay(r"^\s*([a-z.]+\s+){0,4}(mas|menos)\b", d)):
             valor = n.valor
             if escala and _hay(r"^\s*" + escala.group(1) + r"\b", d) and not _hay(r"^\s*miles", d):
                 valor = valor / 1000
@@ -425,6 +438,16 @@ def params_dos_medias(inc: Inciso, an: Analisis, t, previo: Dict):
             inc.razones.append("Pregunta si las medias difieren (sin dirección) → H1: δ ≠ δ₀, bilateral." if direccion
                                else "Sin palabras de dirección → bilateral (revisalo).")
         else:
+            nuevo = int(an.datos.get("sujeto") or 0)
+            if direccion == "menos" and sujeto is not None and nuevo and sujeto == 3 - nuevo:
+                # 'la máquina vieja produce al menos 2 menos que la nueva' ≡ 'la nueva produce al menos 2 MÁS que la
+                # vieja': se plantea δ = μ(nuevo) - μ(referencia) > δ₀ (lo que se quiere probar en H1, en positivo)
+                sujeto, direccion = nuevo, "mas"
+                p["sujeto"] = nuevo
+                inc.razones.append(f"La afirmación dice que {an.datos.get(f'nombre{3 - nuevo}')} da MENOS que "
+                                   f"{an.datos.get(f'nombre{nuevo}')}: es lo mismo que {an.datos.get(f'nombre{nuevo}')} "
+                                   f"da MÁS → δ = μ({an.datos.get(f'nombre{nuevo}')}) - "
+                                   f"μ({an.datos.get(f'nombre{3 - nuevo}')}) y H1: δ > δ₀.")
             p["tail"] = "derecha" if direccion == "mas" else "izquierda"
             p["direccion"] = direccion
             if sujeto is None:

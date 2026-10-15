@@ -5,6 +5,7 @@ El modelo no hace cuentas: recibe los pasos y resultados del solver y los explic
 (con el redondeo que tenga); los que no, se muestran como advertencia.
 """
 
+from functools import lru_cache
 from typing import Dict, Iterator, List, Optional, Sequence, Tuple
 
 from interprete.modelo import TEMAS, Analisis
@@ -83,12 +84,32 @@ def _decimales(crudo: str) -> int:
     return len(crudo.rsplit(sep, 1)[1]) if sep else 0
 
 
+@lru_cache(maxsize=1)
+def _fractiles() -> Tuple[float, ...]:
+    """Fractiles de tabla que una redacción puede citar aunque el solver no los muestre: z y t (gl ≤ 200) para las
+    probabilidades usuales, y χ² (gl ≤ 100) en las dos colas. F no: hay demasiadas combinaciones y cualquier número
+    terminaría 'respaldado'."""
+    from scipy import stats
+    probs = (0.8, 0.9, 0.95, 0.975, 0.99, 0.995)
+    salida = [float(stats.norm.ppf(q)) for q in probs]
+    salida += [float(stats.t.ppf(q, gl)) for q in probs for gl in range(1, 201)]
+    salida += [float(stats.chi2.ppf(q, gl)) for q in probs + (0.005, 0.01, 0.025, 0.05, 0.1)
+               for gl in range(1, 101)]
+    return tuple(salida + [-x for x in salida])
+
+
 def numeros_sin_respaldo(respuesta: str, fuentes: str) -> List[str]:
     """Números de la respuesta que no aparecen en las fuentes (ni redondeados ni como porcentaje).
 
     Se ignoran los enteros chicos (pasos, letras, 'dos colas')."""
     conocidos = [v for v, _ in _valores(fuentes)]
     conocidos += [v * 100 for v in conocidos] + [1 - v for v in conocidos if 0 < v < 1]
+    # pasos intermedios legítimos de una sola cuenta: cuadrados y raíces (S² ↔ S), α/2 y 1 − α/2, y fractiles de
+    # tabla. Son muchos valores, así que solo respaldan números escritos con 3 decimales o más (un "7,9" casaría
+    # con cualquiera)
+    derivados = [v * v for v in conocidos if abs(v) < 1e4] + [v ** 0.5 for v in conocidos if v > 0]
+    derivados += [v / 2 for v in conocidos if 0 < v < 0.5] + [1 - v / 2 for v in conocidos if 0 < v < 0.5]
+    derivados += _fractiles()
     dudosos = []
     for n in buscar_numeros(respuesta):
         if n.es_entero and abs(n.valor) <= 10 and not n.pct:
@@ -101,7 +122,8 @@ def numeros_sin_respaldo(respuesta: str, fuentes: str) -> List[str]:
             except ValueError:
                 pass
         tol = 0.5 * 10 ** -_decimales(n.crudo) + 1e-9
-        if not any(abs(c - k) <= max(tol, abs(k) * 1e-9) for c in candidatos for k in conocidos):
+        base = conocidos + (derivados if _decimales(n.crudo) >= 3 else [])
+        if not any(abs(c - k) <= max(tol, abs(k) * 1e-9) for c in candidatos for k in base):
             dudosos.append(n.crudo.strip())
     return list(dict.fromkeys(dudosos))
 

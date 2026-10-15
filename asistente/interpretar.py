@@ -24,7 +24,7 @@ from interprete.modelo import CAMPOS_PLANTEO, TEMAS, TIPOS, Analisis, Inciso
 from interprete.resolver import Resultado, resolver
 
 from . import cliente
-from .esquema import CAMPOS_INC, a_dict, catalogo_texto, desde_dict, json_schema
+from .esquema import CAMPOS_INC, a_dict, catalogo_texto, desde_dict
 
 SISTEMA = """Sos un asistente que INTERPRETA enunciados de Estadística Aplicada (UADE, cátedra Dopazo - García) y \
 los traduce a un JSON que después resuelve un programa. Vos NO calculás nada: solo leés el enunciado y anotás \
@@ -47,7 +47,8 @@ inciso agrega o cambia respecto del planteo.
 
 """ + catalogo_texto()
 
-ESQUEMA = json_schema()
+# JSON libre: con un JSON Schema, Ollama obliga a escribir las claves en el orden del esquema (ver esquema.json_schema)
+FORMATO = "json"
 MAX_EJEMPLO = 3000
 
 
@@ -133,7 +134,7 @@ def pedir_ia(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = No
              borrador: Optional[Analisis] = None, excluir: Sequence[str] = ()) -> Tuple[Analisis, List[str]]:
     """Le pide al modelo el planteo completo (sin mezclar con las reglas). Devuelve el análisis validado + avisos."""
     planteo, lista = lista_incisos(planteo, incisos)
-    salida = cliente.chat(mensajes(planteo, lista, borrador, excluir), modelo=modelo, formato=ESQUEMA,
+    salida = cliente.chat(mensajes(planteo, lista, borrador, excluir), modelo=modelo, formato=FORMATO,
                           pensar=pensar, temperatura=0)
     an, avisos = desde_dict(_parsear(salida), planteo, dict(lista))
     an.tablas = list(tablas) if tablas else (borrador.tablas if borrador else [])

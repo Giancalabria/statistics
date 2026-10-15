@@ -3,7 +3,8 @@
 El modelo devuelve lo mismo que arma `interprete.analizador` (tema, datos del planteo, incisos con su tipo y
 parámetros), con las MISMAS claves de `interprete/modelo.py`. Así lo que propone la IA se edita en la misma
 pantalla y lo resuelve el mismo `resolver`. Nada de lo que devuelve se usa sin pasar por `desde_dict`, que
-descarta claves desconocidas, convierte los tipos y corrige los errores típicos (α = 5 en vez de 0,05).
+descarta claves desconocidas o de otro tema, convierte los tipos y corrige los errores típicos (α = 5 en vez de
+0,05, 'xbar1' en un problema de una media, α anotado solo en el primer inciso).
 """
 
 from typing import Any, Dict, List, Optional, Tuple
@@ -33,6 +34,50 @@ ENUMS = {
 FRACCIONES = {"alpha", "beta", "p0", "p1", "p_hat", "reduccion", "alpha_var", "delta0_pct", "comision",
               "prob_aceptar"}
 
+# Claves que usa cada tema (las que arman las reglas en la guía, más las que lee el solver). El prompt las lista
+# por tema y `desde_dict` traduce o descarta las de otro tema ('xbar1' en un problema de UNA media).
+_UNA_POB_INC = ["tail", "alpha", "e", "reduccion", "beta", "prob", "n", "cota", "tema", "usar_S", "repeticiones",
+                "mu0", "mu1", "total", "costo_fijo", "comision",               # media
+                "sigma0", "sigma1", "relacion", "ambos",                       # varianza
+                "p0", "p1", "r", "p_hat", "costo_unitario", "prob_aceptar"]    # proporción (r, p̂: incisos de p)
+CLAVES_TEMA: Dict[str, Tuple[List[str], List[str]]] = {
+    "media": (["n", "xbar", "desvio", "sigma_conocido", "N", "mu0", "datos", "alpha", "e", "reduccion", "beta",
+               "mu1", "control", "doble", "escala", "costo_fijo"], _UNA_POB_INC),
+    "varianza": (["n", "desvio", "sigma_conocido", "sigma0", "xbar", "mu0", "datos", "alpha", "beta", "e",
+                  "reduccion", "doble", "control"], _UNA_POB_INC),
+    "proporcion": (["n", "r", "p_hat", "p0", "N", "alpha", "beta", "e", "reduccion", "rc", "control"], _UNA_POB_INC),
+    "dos_varianzas": (["n1", "n2", "s1", "s2", "xbar1", "xbar2", "datos1", "datos2", "nombre1", "nombre2",
+                       "apareadas", "phi0", "phi1", "sujeto", "alpha", "beta"],
+                      ["tail", "alpha", "beta", "prob", "phi0", "phi1", "sobre", "relacion", "reduccion", "n", "cota",
+                       "tema"]),
+    "dos_medias": (["n1", "n2", "xbar1", "xbar2", "s1", "s2", "datos1", "datos2", "nombre1", "nombre2", "apareadas",
+                    "sujeto", "sigma_pob1", "sigma_pob2", "sigma_afirmado", "alpha_var", "alpha", "beta"],
+                   ["tail", "alpha", "delta0", "delta1", "delta0_pct", "sujeto", "porcentual", "beta", "prob", "n",
+                    "e", "reduccion", "cota", "tema"]),
+    "chi_contingencia": (["tabla", "alpha"], ["alpha", "tail"]),
+    "chi_ajuste": (["observados", "esperados", "proporciones", "p_estimados", "clases", "valores_var", "modelos",
+                    "alpha"], ["alpha", "modelos", "tail"]),
+    "regresion": (["x", "y", "nombre_x", "nombre_y", "escala_x", "escala_y", "alpha"],
+                  ["alpha", "x0", "individual", "cola", "beta10", "modelo", "origen", "tail"]),
+    "regresion_multiple": (["xs", "y", "nombre_y", "escala_y", "alpha"], ["alpha", "variables", "modelos"]),
+}
+
+# Un inciso puede ser de otro parámetro (params.tema: uno de una media en un problema de dos, uno de proporción en
+# un χ²...) y trae sus propios parámetros: en los incisos se permiten además los de 1 y 2 poblaciones. Los 'datos'
+# del planteo sí quedan restringidos al tema.
+_OTRO_TEMA_INC = list(dict.fromkeys(_UNA_POB_INC + CLAVES_TEMA["dos_medias"][1] + CLAVES_TEMA["dos_varianzas"][1]))
+for _tema, (_datos, _params) in CLAVES_TEMA.items():
+    CLAVES_TEMA[_tema] = (_datos, list(dict.fromkeys(_params + _OTRO_TEMA_INC)))
+
+# Claves de otro tema que el modelo usa por error y equivalen a una del tema elegido.
+_ALIAS_UNA_POB = {"xbar1": "xbar", "s1": "desvio", "n1": "n", "datos1": "datos", "sigma_pob1": "desvio"}
+ALIAS: Dict[str, Dict[str, str]] = {"media": _ALIAS_UNA_POB, "varianza": _ALIAS_UNA_POB,
+                                    "proporcion": {"n1": "n"},
+                                    "regresion": {"datos1": "x", "datos2": "y"}}
+
+# Lo que un inciso no dice vale lo del anterior (la misma herencia que aplica interprete.analizador).
+HEREDABLES = ("alpha", "tail", "mu1", "sigma1", "p1", "prob", "mu0", "sigma0", "p0", "phi1", "sobre")
+
 
 def tipos_validos(tema: str) -> List[str]:
     return TIPOS_POR_TEMA.get(tema) or list(TIPOS)
@@ -55,7 +100,12 @@ def _json_tipo(tipo: str) -> Dict[str, Any]:
 
 
 def json_schema() -> Dict[str, Any]:
-    """JSON Schema de la respuesta (Ollama lo usa para restringir la salida: siempre es JSON válido)."""
+    """JSON Schema del planteo (documenta el formato y lo usan los tests).
+
+    No se le pasa a Ollama: la gramática que arma con un esquema obliga a escribir las claves EN EL ORDEN del
+    esquema, y el modelo, que las escribe en el orden en que aparecen en el enunciado, termina salteando 'xbar' o
+    'mu0' y usando la siguiente clave parecida que le queda ('xbar1', 'sigma_pob1'). Se pide JSON libre y lo
+    valida `desde_dict`."""
     datos = {k: _json_tipo(t) for k, (_, t) in CAMPOS_PLANTEO.items()}
     params = {k: _json_tipo(t) for k, (_, t) in CAMPOS_INC.items()}
     todos_tipos = sorted({t for ts in TIPOS_POR_TEMA.values() for t in ts} | set(TIPOS))
@@ -97,6 +147,10 @@ def catalogo_texto() -> str:
     partes += [linea(k, e, t) for k, (e, t) in CAMPOS_PLANTEO.items()]
     partes.append("\nPARÁMETROS DE CADA INCISO (objeto 'params'; solo lo que el inciso agrega o cambia):")
     partes += [linea(k, e, t) for k, (e, t) in CAMPOS_INC.items()]
+    partes.append("\nCLAVES PERMITIDAS SEGÚN EL TEMA (usá SOLO las del tema elegido; p. ej. en 'media' la media muestral "
+                  "es 'xbar' y el desvío 'desvio', NUNCA 'xbar1', 's1' ni 'sigma_pob1', que son de dos poblaciones):")
+    for tema, (datos, params) in CLAVES_TEMA.items():
+        partes.append(f"- {tema}: datos = {', '.join(datos)} | params = {', '.join(params)}")
     return "\n".join(partes)
 
 
@@ -175,9 +229,22 @@ def desde_dict(d: Dict[str, Any], planteo: str = "", textos: Optional[Dict[str, 
         avisos.append(f"Tema desconocido '{d.get('tema')}'.")
     criterio = d.get("criterio") if d.get("criterio") in ("optimista", "pesimista") else None
     an = Analisis(planteo=planteo, tema=tema, criterio=criterio)
-    for k, v in (d.get("datos") or {}).items():
+    permitidas = CLAVES_TEMA.get(tema, (list(CAMPOS_PLANTEO), []))[0]
+    alias = ALIAS.get(tema, {})
+    datos = d.get("datos") or {}
+    for k, v in datos.items():
         if k not in CAMPOS_PLANTEO:
             continue
+        if k not in permitidas:
+            destino = alias.get(k)
+            if destino and destino not in datos and destino not in an.datos:
+                avisos.append(f"{k} no es una clave de {tema}: se tomó como {destino}.")
+                if k == "sigma_pob1":
+                    an.datos.setdefault("sigma_conocido", True)
+                k = destino
+            else:
+                avisos.append(f"Se descartó {k} = {v!r}: no corresponde al tema {tema}.")
+                continue
         v = _valor(k, v, CAMPOS_PLANTEO[k][1], avisos, "")
         if v is not None:
             an.datos[k] = v
@@ -202,4 +269,21 @@ def desde_dict(d: Dict[str, Any], planteo: str = "", textos: Optional[Dict[str, 
             tipo = "no_soportado"
         an.incisos.append(Inciso(letra=letra, texto=textos.get(letra, ""), tipo=tipo, params=params,
                                  que_pide=f"Según la IA: {TIPOS.get(tipo, tipo)}."))
+    heredar(an)
     return an, avisos
+
+
+def heredar(an: Analisis) -> None:
+    """Lo que un inciso no repite vale lo del anterior (α, cola, μ₁...), como en interprete.analizador; si el inciso
+    es de otro parámetro solo se hereda α. El modelo suele anotar α una sola vez, en el primer inciso."""
+    previo: Dict[str, Any] = {}
+    tema_previo = an.tema
+    for inc in an.incisos:
+        tema_inc = inc.params.get("tema", an.tema)
+        for k in HEREDABLES if tema_inc == tema_previo else ("alpha",):
+            if k not in inc.params and k in previo and not (k == "tail" and inc.tipo in ("ensayo", "diseno")):
+                inc.params[k] = previo[k]
+        if inc.tipo == "diseno" and "beta" not in inc.params and "beta" in an.datos:
+            inc.params["beta"] = an.datos["beta"]
+        tema_previo = tema_inc
+        previo.update(inc.params)
