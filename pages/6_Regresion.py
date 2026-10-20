@@ -1,5 +1,7 @@
 """Regresión y correlación simple (TEMA VII) y modelo lineal general (TEMA VIII)."""
 
+import zlib
+
 import pandas as pd
 import streamlit as st
 
@@ -13,7 +15,7 @@ st.write("Pegá la tabla de datos (primer renglón con los encabezados, una obse
 
 tabla_txt = st.text_area("Tabla de datos", height=200,
                          value="Área sembrada (10^6 ha) | PBI (millones U$s)\n3,0402 | 8,014\n2,9819 | 7,891\n"
-                               "3,0934 | 8,207\n3,805 | 8,31\n5,423 | 8,45")
+                               "3,0934 | 8,207\n3,805 | 8,31\n5,423 | 8,45", key="reg_tabla_datos")
 tabla = desde_texto_editado(tabla_txt)
 if not tabla:
     st.info("Cargá al menos dos renglones de datos.")
@@ -23,11 +25,15 @@ if len(cols) < 2:
     st.error("Se necesitan al menos dos columnas numéricas (revisá los separadores).")
     st.stop()
 
+# Las opciones y valores por defecto salen de la tabla: con otra tabla esos widgets arrancan de cero.
+firma = zlib.crc32(tabla_txt.encode())
 c1, c2 = st.columns(2)
-ny = c1.selectbox("Variable a explicar (y)", nombres, index=len(nombres) - 1)
+ny = c1.selectbox("Variable a explicar (y)", nombres, index=len(nombres) - 1, key=f"reg_y_{firma}")
 xs_nom = c2.multiselect("Variables explicativas (x)", [n for n in nombres if n != ny],
-                        default=[n for n in nombres if n != ny][:1 if len(nombres) == 2 else None])
-alpha = st.number_input("Riesgo α", min_value=0.001, max_value=0.5, value=0.05, step=0.01, format="%.4f")
+                        default=[n for n in nombres if n != ny][:1 if len(nombres) == 2 else None],
+                        key=f"reg_xs_{firma}_{nombres.index(ny)}")
+alpha = st.number_input("Riesgo α", min_value=0.001, max_value=0.5, value=0.05, step=0.01, format="%.4f",
+                        key="reg_riesgo")
 y = cols[nombres.index(ny)]
 xs = [cols[nombres.index(n)] for n in xs_nom]
 if not xs:
@@ -42,8 +48,8 @@ def fmt(v, d=4):
 if len(xs) == 1:
     x = xs[0]
     modelo = st.radio("Modelo", list(rg.TRANSFORMACIONES), horizontal=True,
-                      format_func=lambda m: rg.TRANSFORMACIONES[m][2])
-    origen = st.checkbox("Recta por el origen (b0 = 0)")
+                      format_func=lambda m: rg.TRANSFORMACIONES[m][2], key="reg_modelo")
+    origen = st.checkbox("Recta por el origen (b0 = 0)", key="reg_recta_origen_b0")
     try:
         reg = rg.ajustar_simple(x, y, modelo=modelo, origen=origen)
     except ValueError as e:
@@ -74,10 +80,13 @@ if len(xs) == 1:
 
     st.subheader("Pronóstico")
     c1, c2, c3 = st.columns(3)
-    x0 = c1.number_input("x₀ (en las unidades de la tabla)", value=float(sum(x) / len(x)), format="%.6f")
-    que = c2.radio("Para", ["un valor individual (predicción)", "el promedio (ley promedio)"])
+    x0 = c1.number_input("x₀ (en las unidades de la tabla)", value=float(sum(x) / len(x)), format="%.6f",
+                         key=f"reg_x0_{firma}_{xs_nom[0]}")
+    que = c2.radio("Para", ["un valor individual (predicción)", "el promedio (ley promedio)"],
+                   key="reg_pronostico_para")
     cola = c3.radio("Límites", ["bilateral", "inferior", "superior"],
-                    format_func=lambda c: {"bilateral": "A y B", "inferior": "mínimo", "superior": "máximo"}[c])
+                    format_func=lambda c: {"bilateral": "A y B", "inferior": "mínimo", "superior": "máximo"}[c],
+                    key="reg_limites")
     f = rg.ic_prediccion if que.startswith("un valor") else rg.ic_media_y
     ic = f(reg, x0, alpha, cola)
     st.write(f"ŷ₀ = {fmt(reg.predecir(x0))}; error = {fmt(ic.error)}; límites: "
@@ -87,9 +96,10 @@ if len(xs) == 1:
 
     st.subheader("Ensayo sobre β1 contra un valor")
     c1, c2 = st.columns(2)
-    b10 = c1.number_input("β1₀", value=0.0, format="%.6f")
+    b10 = c1.number_input("β1₀", value=0.0, format="%.6f", key="reg_b10")
     tail = c2.radio("H1", ["derecha", "izquierda", "bilateral"],
-                    format_func=lambda t: {"derecha": "β1 > β1₀", "izquierda": "β1 < β1₀", "bilateral": "β1 ≠ β1₀"}[t])
+                    format_func=lambda t: {"derecha": "β1 > β1₀", "izquierda": "β1 < β1₀", "bilateral": "β1 ≠ β1₀"}[t],
+                    key="reg_h1")
     en = rg.ensayo_beta1(reg, alpha, b10, tail)
     st.write(f"H0: {en.h0} vs H1: {en.h1}; tc = {fmt(en.t_c)}; t crítico = {fmt(en.t_critico)}; b1 crítico = "
              + " ; ".join(fmt(v) for v in en.b_critico) + " ⇒ " + ("**se rechaza H0**" if en.rechaza else "**no se rechaza H0**"))

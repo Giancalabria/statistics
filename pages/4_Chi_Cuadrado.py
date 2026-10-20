@@ -10,12 +10,14 @@ st.title("Contrastes Chi-Cuadrado")
 
 tipo_contraste = st.selectbox(
     "¿Qué tipo de contraste querés realizar?",
-    ["Ajuste a un modelo (calcula las Fe)", "Bondad de ajuste (Fe ya calculadas)", "Tabla de contingencia"]
+    ["Ajuste a un modelo (calcula las Fe)", "Bondad de ajuste (Fe ya calculadas)", "Tabla de contingencia"],
+    key="chi_tipo_contraste_realizar"
 )
 
 # Nivel de significación (igual para ambos)
 alpha = st.number_input(
-    "Nivel de significación (alpha)", min_value=0.001, max_value=0.5, value=0.05, step=0.01, format="%.5f"
+    "Nivel de significación (alpha)", min_value=0.001, max_value=0.5, value=0.05, step=0.01, format="%.5f",
+    key="chi_nivel_significacion_alpha"
 )
 
 
@@ -56,9 +58,11 @@ if tipo_contraste.startswith("Ajuste a un modelo"):
             "la frecuencia (`20-30 ; 6`); para uno discreto, el valor y la frecuencia (`0 ; 26`). Los parámetros que "
             "no cargues se estiman con la muestra (marcas de clase, desvío corregido) y restan grados de libertad. "
             "La primera y la última clase se extienden al borde del dominio; las clases con Fe < 5 se amalgaman.")
-    modelo = st.selectbox("Modelo", list(aj.NOMBRES), format_func=lambda m: aj.NOMBRES[m], index=list(aj.NOMBRES).index("normal"))
+    modelo = st.selectbox("Modelo", list(aj.NOMBRES), format_func=lambda m: aj.NOMBRES[m], index=list(aj.NOMBRES).index("normal"),
+                          key="chi_modelo")
     tabla_txt = st.text_area("Tabla (clase ; frecuencia observada)", height=200,
-                             value="20-30 ; 6\n30-40 ; 90\n40-50 ; 232\n50-60 ; 192\n60-70 ; 66\n70-80 ; 12\n80-90 ; 2")
+                             value="20-30 ; 6\n30-40 ; 90\n40-50 ; 232\n50-60 ; 192\n60-70 ; 66\n70-80 ; 12\n80-90 ; 2",
+                             key="chi_tabla_clase_frecuencia")
     PARAMS = {"normal": ["mu", "sigma"], "lognormal": ["m", "D"], "exponencial": ["lambda"], "gamma": ["r", "lambda"],
               "weibull": ["w", "beta"], "gumbel_max": ["u", "beta"], "gumbel_min": ["u", "beta"],
               "pareto": ["alpha", "b"], "uniforme_continua": ["a", "b"], "poisson": ["m"], "binomial": ["n", "p"],
@@ -119,14 +123,14 @@ elif tipo_contraste.startswith("Bondad de ajuste"):
     obs_input = st.text_area(
         "Frecuencias observadas (F_o_i):",
         value="14, 6, 6, 13, 16, 5",
-        help="Ejemplo: 14, 6, 6, 13, 16, 5"
+        help="Ejemplo: 14, 6, 6, 13, 16, 5", key="chi_frecuencias_observadas_f"
     )
 
     # Input de frecuencias esperadas
     exp_input = st.text_area(
         "Frecuencias esperadas (F_e_i):",
         value="10, 10, 10, 10, 10, 10",
-        help="Ejemplo: 10, 10, 10, 10, 10, 10"
+        help="Ejemplo: 10, 10, 10, 10, 10, 10", key="chi_frecuencias_esperadas_f"
     )
 
     # Cantidad de parámetros estimados
@@ -135,7 +139,8 @@ elif tipo_contraste.startswith("Bondad de ajuste"):
         min_value=0,
         step=1,
         value=0,
-        help="p = 0 si los parámetros estaban fijos; p = 2 si se estimaron media y desvío (Normal), etc."
+        help="p = 0 si los parámetros estaban fijos; p = 2 si se estimaron media y desvío (Normal), etc.",
+        key="chi_cantidad_parametros_estimados"
     )
 
     if st.button("Calcular"):
@@ -176,7 +181,7 @@ else:  # Tabla de contingencia
     tabla_input = st.text_area(
         "Tabla de frecuencias observadas (filas x columnas):",
         value="35, 37\n165, 263\n300, 500",
-        help="Ejemplo para tabla 3x2:\n35, 37\n165, 263\n300, 500"
+        help="Ejemplo para tabla 3x2:\n35, 37\n165, 263\n300, 500", key="chi_tabla_frecuencias_observadas"
     )
 
     if st.button("Calcular"):

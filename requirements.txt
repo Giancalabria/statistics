@@ -1,4 +1,4 @@
-streamlit>=1.38
+streamlit>=1.64  # persist_state: los widgets conservan su valor al cambiar de página
 scipy>=1.13
 numpy>=1.26
 pytest>=8.0

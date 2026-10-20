@@ -44,19 +44,20 @@ def input_resumen_muestra(key_prefix: str, pedir_s: bool = True):
 st.title("Intervalos de Confianza")
 
 parametro = st.selectbox(
-    "¿Qué parámetro querés estimar?", ["Media", "Varianza / Desvío", "Proporción"]
+    "¿Qué parámetro querés estimar?", ["Media", "Varianza / Desvío", "Proporción"], key="ic_parametro_estimar"
 )
-objetivo = st.radio("¿Qué querés calcular?", ["Intervalo de Confianza", "Tamaño de muestra (n)"])
+objetivo = st.radio("¿Qué querés calcular?", ["Intervalo de Confianza", "Tamaño de muestra (n)"], key="ic_objetivo")
 
 confianza = st.number_input(
-    "Nivel de confianza (1 - α)", min_value=0.5, max_value=0.999, value=0.95, step=0.01, format="%.5f"
+    "Nivel de confianza (1 - α)", min_value=0.5, max_value=0.999, value=0.95, step=0.01, format="%.5f",
+    key="ic_nivel_confianza_1"
 )
 alpha = 1 - confianza
 
-poblacion_finita = st.checkbox("¿Población finita (N conocido)?")
+poblacion_finita = st.checkbox("¿Población finita (N conocido)?", key="ic_poblacion_finita_n")
 N = None
 if poblacion_finita:
-    N = st.number_input("Tamaño de la población (N)", min_value=2, step=1, value=1000)
+    N = st.number_input("Tamaño de la población (N)", min_value=2, step=1, value=1000, key="ic_tamano_poblacion_n")
 
 
 def mostrar_intervalo(nombre_parametro: str, result: intervals.IntervalResult) -> None:
@@ -118,16 +119,19 @@ def mostrar_n_varianza(result: intervals.VarianceSampleSizeResult, n_preliminar:
 
 
 if parametro == "Media":
-    sigma_conocido = st.radio("¿Se conoce el desvío poblacional σ?", ["Sí", "No"]) == "Sí"
+    sigma_conocido = st.radio("¿Se conoce el desvío poblacional σ?", ["Sí", "No"],
+                              key="ic_conoce_desvio_poblacional") == "Sí"
 
     if objetivo == "Intervalo de Confianza":
         n, xbar, s = input_resumen_muestra("media_ic", pedir_s=not sigma_conocido)
         if sigma_conocido:
-            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0, format="%.5f")
+            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0, format="%.5f",
+                                    key="ic_desvio_poblacional")
 
         calcular_total = False
         if poblacion_finita and N is not None:
-            calcular_total = st.checkbox("¿Calcular también el Total Poblacional (T = N·μ)?")
+            calcular_total = st.checkbox("¿Calcular también el Total Poblacional (T = N·μ)?",
+                                         key="ic_calcular_tambien_total")
 
         if st.button("Calcular") and n is not None:
             try:
@@ -155,25 +159,30 @@ if parametro == "Media":
         e_actual = None
         reduccion = None
         if modo_precision.startswith("Error muestral directo"):
-            e = st.number_input("Error muestral admitido (e)", min_value=1e-9, value=1.0, format="%.5f")
+            e = st.number_input("Error muestral admitido (e)", min_value=1e-9, value=1.0, format="%.5f",
+                                key="ic_error_muestral_admitido")
         else:
             e_actual = st.number_input(
-                "Error actual (e) del IC ya calculado", min_value=1e-9, value=1.0, format="%.5f"
+                "Error actual (e) del IC ya calculado", min_value=1e-9, value=1.0, format="%.5f",
+                key="ic_error_actual_e"
             )
             reduccion_pct = st.number_input(
                 "Reducción deseada del error (%)",
-                min_value=0.1, max_value=99.9, value=30.0, step=1.0, format="%.2f",
+                min_value=0.1, max_value=99.9, value=30.0, step=1.0, format="%.2f", key="ic_reduccion_deseada_error"
             )
             reduccion = reduccion_pct / 100
 
         if sigma_conocido:
-            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0, format="%.5f")
+            sigma = st.number_input("Desvío poblacional (σ)", min_value=1e-9, value=1.0, format="%.5f",
+                                    key="ic_desvio_poblacional_2")
         else:
-            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f")
+            s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f",
+                                key="ic_desvio_muestral_s")
         n_preliminar = st.number_input(
             "Tamaño de muestra ya relevado (n preliminar, opcional)",
             min_value=0, step=1, value=0,
             help="Si ya mediste algunas unidades y querés saber cuántas más faltan (Δn).",
+            key="ic_tamano_muestra_ya"
         )
 
         if st.button("Calcular"):
@@ -229,11 +238,13 @@ elif parametro == "Varianza / Desvío":
                 col_a, col_b = st.columns(2)
                 with col_a:
                     a_prev = st.number_input(
-                        "Límite inferior del desvío (A')", min_value=1e-9, value=159.70, format="%.5f"
+                        "Límite inferior del desvío (A')", min_value=1e-9, value=159.70, format="%.5f",
+                        key="ic_limite_inferior_desvio"
                     )
                 with col_b:
                     b_prev = st.number_input(
-                        "Límite superior del desvío (B')", min_value=1e-9, value=306.73, format="%.5f"
+                        "Límite superior del desvío (B')", min_value=1e-9, value=306.73, format="%.5f",
+                        key="ic_limite_superior_desvio"
                     )
                 try:
                     r_actual = intervals.relacion_limites(a_prev, b_prev)
@@ -243,17 +254,17 @@ elif parametro == "Varianza / Desvío":
             else:
                 r_actual = st.number_input(
                     "Relación actual entre límites (R' = B'/A')",
-                    min_value=1.000001, value=1.92066, format="%.5f",
+                    min_value=1.000001, value=1.92066, format="%.5f", key="ic_relacion_actual_entre"
                 )
             reduccion_pct = st.number_input(
                 "Reducción deseada de la relación (%)",
-                min_value=0.1, max_value=99.9, value=30.0, step=1.0, format="%.2f",
+                min_value=0.1, max_value=99.9, value=30.0, step=1.0, format="%.2f", key="ic_reduccion_deseada_relacion"
             )
             reduccion = reduccion_pct / 100
         else:
             r_objetivo = st.number_input(
                 "Relación objetivo entre límites (R' = B'/A')",
-                min_value=1.000001, value=1.34446, format="%.5f",
+                min_value=1.000001, value=1.34446, format="%.5f", key="ic_relacion_objetivo_entre"
             )
 
         n_preliminar = st.number_input(
@@ -290,8 +301,8 @@ elif parametro == "Varianza / Desvío":
 
 else:  # Proporción
     if objetivo == "Intervalo de Confianza":
-        r = st.number_input("Cantidad de éxitos (r)", min_value=0, step=1, value=1)
-        n = st.number_input("Tamaño de muestra (n)", min_value=1, step=1, value=30)
+        r = st.number_input("Cantidad de éxitos (r)", min_value=0, step=1, value=1, key="ic_cantidad_exitos_r")
+        n = st.number_input("Tamaño de muestra (n)", min_value=1, step=1, value=30, key="ic_tamano_muestra_n")
 
         if st.button("Calcular"):
             try:
@@ -311,13 +322,14 @@ else:  # Proporción
     else:
         p_hat = st.number_input(
             "Proporción estimada (p̂) — usar 0.5 si no hay estimación previa",
-            min_value=0.0, max_value=1.0, value=0.5, format="%.5f",
+            min_value=0.0, max_value=1.0, value=0.5, format="%.5f", key="ic_proporcion_estimada_p"
         )
-        e = st.number_input("Error admitido (e)", min_value=1e-9, value=0.05, format="%.5f")
+        e = st.number_input("Error admitido (e)", min_value=1e-9, value=0.05, format="%.5f", key="ic_error_admitido_e")
         n_preliminar = st.number_input(
             "Tamaño de muestra ya relevado (n preliminar, opcional)",
             min_value=0, step=1, value=0,
             help="Si ya encuestaste algunos casos y querés saber cuántos más faltan (Δn).",
+            key="ic_tamano_muestra_ya_2"
         )
 
         if st.button("Calcular"):

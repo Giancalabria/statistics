@@ -8,12 +8,13 @@ st.title("Comparación de 2 Poblaciones")
 # Seleccionar qué comparar
 opcion = st.selectbox(
     "¿Qué querés comparar?",
-    ["Varianzas (Test F)", "Medias - Muestras Independientes", "Medias - Muestras Apareadas"]
+    ["Varianzas (Test F)", "Medias - Muestras Independientes", "Medias - Muestras Apareadas"], key="c2_comparar"
 )
 
 # Nivel de significación (aplica a todos)
 alpha = st.number_input(
-    "Nivel de significación (α)", min_value=0.001, max_value=0.5, value=0.05, step=0.01, format="%.5f"
+    "Nivel de significación (α)", min_value=0.001, max_value=0.5, value=0.05, step=0.01, format="%.5f",
+    key="c2_nivel_significacion"
 )
 
 
@@ -83,17 +84,19 @@ if opcion == "Varianzas (Test F)":
         "Intervalo de confianza para la relación de varianzas / desvíos",
         "Tamaño de muestra para una potencia fijada (n₁ = n₂)",
         "Tamaño de muestra por relación entre límites del IC (n₁ = n₂)",
-    ])
+    ], key="c2_objetivo_f")
     necesita_muestras = objetivo_f.startswith(("Ensayo", "Intervalo"))
 
     if necesita_muestras:
         col1, col2 = st.columns(2)
         with col1:
-            s1 = st.number_input("Desvío muestra 1 (S₁, numerador)", min_value=1e-9, value=1.0, format="%.5f")
-            n1 = st.number_input("Tamaño muestra 1 (n₁)", min_value=2, step=1, value=30)
+            s1 = st.number_input("Desvío muestra 1 (S₁, numerador)", min_value=1e-9, value=1.0, format="%.5f",
+                                 key="c2_desvio_muestra_1")
+            n1 = st.number_input("Tamaño muestra 1 (n₁)", min_value=2, step=1, value=30, key="c2_tamano_muestra_1")
         with col2:
-            s2 = st.number_input("Desvío muestra 2 (S₂, denominador)", min_value=1e-9, value=1.0, format="%.5f")
-            n2 = st.number_input("Tamaño muestra 2 (n₂)", min_value=2, step=1, value=30)
+            s2 = st.number_input("Desvío muestra 2 (S₂, denominador)", min_value=1e-9, value=1.0, format="%.5f",
+                                 key="c2_desvio_muestra_2")
+            n2 = st.number_input("Tamaño muestra 2 (n₂)", min_value=2, step=1, value=30, key="c2_tamano_muestra_2")
 
     colas = {"Unilateral izquierda (H1: φ < φ₀, p. ej. reducción)": "izquierda",
              "Unilateral derecha (H1: φ > φ₀, p. ej. aumento)": "derecha",
@@ -101,19 +104,22 @@ if opcion == "Varianzas (Test F)":
 
     if objetivo_f.startswith("Ensayo"):
         phi0 = st.number_input("φ₀ = σ₁/σ₂ de H0 (1 = desvíos iguales; 0,88 = reducción del 12%)",
-                               min_value=1e-6, value=1.0, format="%.4f")
-        tail = colas[st.selectbox("Tipo de ensayo", list(colas))]
-        con_beta = st.checkbox("Calcular β / potencia para una relación alternativa φ₁")
+                               min_value=1e-6, value=1.0, format="%.4f", key="c2_phi0")
+        tail = colas[st.selectbox("Tipo de ensayo", list(colas), key="c2_tipo_ensayo")]
+        con_beta = st.checkbox("Calcular β / potencia para una relación alternativa φ₁",
+                               key="c2_calcular_potencia_relacion")
         phi1 = st.number_input("φ₁ alternativo (0,70 = reducción del 30%)", min_value=1e-6, value=0.7,
-                               format="%.4f") if con_beta else None
+                               format="%.4f", key="c2_phi1") if con_beta else None
     elif objetivo_f.startswith("Tamaño de muestra para una potencia"):
-        phi0 = st.number_input("φ₀ de H0", min_value=1e-6, value=1.0, format="%.4f")
-        phi1 = st.number_input("φ₁ alternativo", min_value=1e-6, value=0.7, format="%.4f")
-        beta = st.number_input("β (1 - potencia)", min_value=0.001, max_value=0.5, value=0.10, format="%.4f")
+        phi0 = st.number_input("φ₀ de H0", min_value=1e-6, value=1.0, format="%.4f", key="c2_n_phi0")
+        phi1 = st.number_input("φ₁ alternativo", min_value=1e-6, value=0.7, format="%.4f", key="c2_n_phi1")
+        beta = st.number_input("β (1 - potencia)", min_value=0.001, max_value=0.5, value=0.10, format="%.4f",
+                               key="c2_n_beta")
     elif objetivo_f.startswith("Tamaño de muestra por relación"):
-        sobre = st.radio("La relación entre límites es de…", ["desvíos (σ₁/σ₂)", "varianzas (σ₁²/σ₂²)"])
+        sobre = st.radio("La relación entre límites es de…", ["desvíos (σ₁/σ₂)", "varianzas (σ₁²/σ₂²)"],
+                         key="c2_relacion_entre_limites")
         r_obj = st.number_input("Relación buscada B/A (p. ej. 1,5 = límite superior 50% mayor)", min_value=1.0001,
-                                value=1.5, format="%.4f")
+                                value=1.5, format="%.4f", key="c2_relacion_buscada_b")
 
     if st.button("Calcular", key="btn_f_test"):
         try:
@@ -182,14 +188,15 @@ elif opcion == "Medias - Muestras Independientes":
 
     # Paso 2: Recolectar parámetros del ensayo/IC
     st.divider()
-    delta0 = st.number_input("Diferencia bajo H0 (δ₀)", value=0.0, format="%.5f")
+    delta0 = st.number_input("Diferencia bajo H0 (δ₀)", value=0.0, format="%.5f", key="c2_diferencia_bajo_h0")
     objetivo_ind = st.radio(
         "¿Qué querés calcular?",
-        ["Intervalo de Confianza", "Ensayo de Hipótesis", "Tamaño de muestra (n)"]
+        ["Intervalo de Confianza", "Ensayo de Hipótesis", "Tamaño de muestra (n)"], key="c2_objetivo_ind"
     )
 
     if objetivo_ind == "Ensayo de Hipótesis":
-        cola = st.radio("¿Tipo de ensayo?", ["Unilateral cola derecha", "Unilateral cola izquierda", "Bilateral"])
+        cola = st.radio("¿Tipo de ensayo?", ["Unilateral cola derecha", "Unilateral cola izquierda", "Bilateral"],
+                        key="c2_tipo_ensayo_2")
         tail = "derecha" if cola == "Unilateral cola derecha" else ("izquierda" if cola == "Unilateral cola izquierda" else "bilateral")
 
         if st.button("Calcular", key="btn_ensayo_ind"):
@@ -222,11 +229,13 @@ elif opcion == "Medias - Muestras Independientes":
                 st.error(f"Error: {e}")
 
     else:  # Tamaño de muestra
-        e = st.number_input("Error muestral deseado (e)", min_value=1e-9, value=1.0, format="%.5f")
+        e = st.number_input("Error muestral deseado (e)", min_value=1e-9, value=1.0, format="%.5f",
+                            key="c2_error_muestral_deseado")
         n_preliminar_ind = st.number_input(
             "Tamaño de muestra ya relevado por grupo (n preliminar, opcional)",
             min_value=0, step=1, value=0,
             help="Si ya mediste algunas unidades por grupo y querés saber cuántas más faltan (Δn).",
+            key="c2_tamano_muestra_ya"
         )
         if st.button("Calcular", key="btn_n_ind"):
             try:
@@ -251,7 +260,7 @@ elif opcion == "Medias - Muestras Apareadas":
     st.info("Se trabaja sobre las diferencias d_i = X₁ᵢ - X₂ᵢ. Se aplica el ensayo t de una muestra a las diferencias.")
 
     st.write("Ingresa las diferencias (d₁, d₂, ..., dₙ) separadas por comas o espacios:")
-    diff_input = st.text_area("Diferencias", value="0, 0", height=100)
+    diff_input = st.text_area("Diferencias", value="0, 0", height=100, key="c2_diferencias")
 
     # Parsear las diferencias
     try:
@@ -270,7 +279,7 @@ elif opcion == "Medias - Muestras Apareadas":
         delta0 = st.number_input("Diferencia bajo H0 (δ₀)", value=0.0, key="delta0_paired", format="%.5f")
         objetivo_paired = st.radio(
             "¿Qué querés calcular?",
-            ["Intervalo de Confianza", "Ensayo de Hipótesis", "Tamaño de muestra (n)"]
+            ["Intervalo de Confianza", "Ensayo de Hipótesis", "Tamaño de muestra (n)"], key="c2_objetivo_apareadas"
         )
 
         if objetivo_paired == "Ensayo de Hipótesis":

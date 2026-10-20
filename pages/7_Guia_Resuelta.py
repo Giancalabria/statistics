@@ -19,14 +19,15 @@ temas = re.split(r"\n(?=## TEMA )", cuerpo)
 st.markdown(cabecera.split("Índice:")[0])
 
 opciones = [t.splitlines()[0][3:] for t in temas if t.strip()] + ["Discrepancias con la guía"]
-elegido = st.selectbox("Tema", opciones)
+elegido = st.selectbox("Tema", opciones, key="guia_tema")
 if elegido == "Discrepancias con la guía":
     st.markdown("## Discrepancias con la guía" + discrepancias)
     st.stop()
 bloque = temas[opciones.index(elegido)]
 ejercicios = re.split(r"\n(?=### )", bloque)[1:]
-buscar = st.text_input("Buscar (palabra del enunciado o número, p. ej. 'VII-8')", "")
-solo = st.checkbox("Solo los que no coinciden con la guía (⚠️)")
+buscar = st.text_input("Buscar (palabra del enunciado o número, p. ej. 'VII-8')", "",
+                       key="guia_buscar_palabra_enunciado")
+solo = st.checkbox("Solo los que no coinciden con la guía (⚠️)", key="guia_solo_no_coinciden")
 for ej in ejercicios:
     titulo = ej.splitlines()[0][4:]
     if buscar and buscar.lower() not in ej.lower():

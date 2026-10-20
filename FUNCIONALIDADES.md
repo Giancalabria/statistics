@@ -10,7 +10,8 @@ de la interfaz (probada con `pytest` en `tests/`).
 
 | Carpeta/archivo | Contenido |
 |---|---|
-| `app.py` | Página de inicio, describe los módulos disponibles. |
+| `app.py` | Punto de entrada: la navegación entre páginas, la persistencia de los widgets (`persistencia.py`) y el aviso de las consultas a la IA que siguen corriendo en otra página. |
+| `pages/0_Inicio.py` | Página de inicio, describe los módulos disponibles. |
 | `pages/1_Intervalos_de_Confianza.py` | Módulo de Intervalos de Confianza. |
 | `pages/2_Ensayo_de_Hipotesis.py` | Módulo de Ensayo de Hipótesis (1 población). |
 | `pages/3_Comparacion_2_Poblaciones.py` | Módulo de Comparación de 2 Poblaciones. |

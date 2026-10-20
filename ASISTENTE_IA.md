@@ -85,8 +85,14 @@ asistente/
   numeros.py      números del enunciado que el planteo no usa (sin IA)
   contexto.py     búsqueda TF-IDF en los apuntes .md
   explicar.py     explicaciones / chat y control de números sin respaldo
-  ui.py           barra lateral de Streamlit (estado de Ollama, modelo, razonamiento)
+  tareas.py       consultas en segundo plano (un hilo por consulta): siguen aunque cambies de página
+  ui.py           barra lateral de Streamlit (estado de Ollama, modelo, razonamiento) y seguimiento de tareas
 ```
+
+- **Seguir trabajando en otra página**: interpretar con IA, rehacer el planteo, redactar, explicar y el chat corren
+  en un hilo aparte que deja lo que va generando en la sesión. Si te vas a otra página la consulta sigue; la barra
+  lateral avisa cuándo termina y al volver ves lo que lleva o el resultado. Recargar el navegador (F5) sí empieza
+  una sesión nueva y se pierde todo, como antes.
 
 - **JSON libre, validado después**: se le pide a Ollama JSON (`format: "json"`), pero **no** el JSON Schema:
   con un esquema, Ollama obliga a escribir las claves en el orden del esquema, y el modelo, que las escribe en
