@@ -71,4 +71,29 @@ def test_la_segunda_vuelta_recibe_los_problemas(monkeypatch):
     ultimo = recibidos[0]
     assert ultimo[-2] == {"role": "assistant", "content": "texto viejo"}
     assert "falta la expresión formal" in ultimo[-1]["content"]
-    assert "ESTILO DE LA CÁTEDRA" in ultimo[0]["content"] and "Ejemplo 1" in ultimo[0]["content"]
+    assert "FORMATO DE LA RESOLUCIÓN" in ultimo[0]["content"] and "Ejemplo 3" in ultimo[0]["content"]
+
+
+def test_el_formato_trae_solo_lo_del_tema():
+    an, res, _ = _resuelto(PROP)                                  # Tema III: intervalo de una proporción
+    sistema = red.mensajes(an, res)[0]["content"]
+    assert "Ejemplo 3" in sistema and "Ejemplo 1" not in sistema and "χ²" not in sistema
+    assert "Este archivo es lo que lee la IA" not in sistema      # el encabezado del archivo no va
+    assert "<!--" not in sistema
+    an, res, _ = _resuelto("Se arrojó un dado 60 veces: 1 salió 14 veces, 2 salió 6, 3 salió 6, 4 salió 13, 5 salió "
+                           "16 y 6 salió 5. ¿Se puede asegurar, con un riesgo del 5%, que el dado está cargado?")
+    m = red.mensajes(an, res)
+    assert an.tema == "chi_ajuste"
+    assert "### Contrastes χ²" in m[0]["content"] and "Checklist" not in m[0]["content"] and "pesimista / defensivo" not in m[0]["content"]
+    assert "no corresponde en este tema" in m[1]["content"] and "una sola consigna" in m[1]["content"].lower()
+    assert "**4 · " not in m[1]["content"]                       # sin la numeración interna del solver
+
+
+def test_el_checklist_marca_incisos_inventados_y_criterio_en_chi():
+    an, res, fuentes = _resuelto("Se arrojó un dado 60 veces: 1 salió 14 veces, 2 salió 6, 3 salió 6, 4 salió 13, 5 "
+                                 "salió 16 y 6 salió 5. ¿Se puede asegurar, con un riesgo del 5%, que el dado está "
+                                 "cargado?")
+    texto = ("### a) Variable\nX: cara del dado.\n### b) Ensayo\nCriterio optimista. H0: equilibrado vs H1: cargado. "
+             "CR y RD. Se rechaza H0.")
+    fallas = " | ".join(_fallas(texto, an, res, fuentes))
+    assert "Agrega incisos" in fallas and "criterio optimista" in fallas.lower()

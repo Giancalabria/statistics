@@ -5,9 +5,10 @@ Cada inciso devuelve un `Resultado` con los pasos en el formato de la cátedra
 para que se pueda copiar la presentación. Toda la matemática la hace `solver/`.
 """
 
+import re
 from dataclasses import dataclass, field
 from math import sqrt
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from solver import chi_square as chi
 from solver import distributions as dist
@@ -1287,47 +1288,154 @@ def dos_var_n(d, alpha, res: Resultado, estado):
 # CHI-CUADRADO
 # ---------------------------------------------------------------------------
 
+_SUB = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
+
+
+def _etiquetas(d, clave: str, k: int, prefijo: str) -> List[str]:
+    """Los nombres que trae la tabla del enunciado; si no están (o la tabla se editó) 'Fila 1', 'Fila 2'..."""
+    v = d.get(clave)
+    if v and len(v) == k:
+        return [re.sub(r"\s*\((r\d+|fracasos?|éxitos?|exitos?)\)", "", str(x)).strip() for x in v]
+    return [f"{prefijo} {i + 1}" for i in range(k)]
+
+
+def _y(nombres: Sequence[str]) -> str:
+    return nombres[0] if len(nombres) == 1 else ", ".join(nombres[:-1]) + " y " + nombres[-1]
+
+
+def _md_tabla(cabeceras: Sequence[str], filas: Sequence[Sequence[str]]) -> str:
+    lineas = ["| " + " | ".join(cabeceras) + " |", "|" + "---|" * len(cabeceras)]
+    lineas += ["| " + " | ".join(f) + " |" for f in filas]
+    return "\n".join(lineas)
+
+
+def _md_contingencia(titulo: str, esquina: str, filas: Sequence[str], cols: Sequence[str], m, dec: int,
+                     total_general: Optional[str] = None) -> str:
+    """Tabla f × c con totales de fila y de columna (en negrita)."""
+    cab = [esquina] + list(cols) + ["**Total**"]
+    cuerpo = [[filas[i]] + [fmt(v, dec) for v in fila] + [f"**{fmt(sum(fila), dec)}**"] for i, fila in enumerate(m)]
+    tot_col = [sum(fila[j] for fila in m) for j in range(len(cols))]
+    cuerpo.append(["**Total**"] + [f"**{fmt(v, dec)}**" for v in tot_col] +
+                  [f"**{total_general or fmt(sum(tot_col), dec)}**"])
+    return f"*{titulo}*\n\n" + _md_tabla(cab, cuerpo)
+
+
+def _hipotesis_contingencia(d, filas: List[str], cols: List[str]) -> Tuple[str, str, str]:
+    """(hipótesis, H0 en palabras, H1 en palabras), en proporciones como la guía: «la proporción de … es la misma
+    en …». Independencia y homogeneidad se ensayan igual; cambia cómo se obtuvo la muestra y cómo se lee H0."""
+    indep = d.get("chi_diseno") != "homogeneidad"
+    nombre = d.get("tabla_nombre_filas")
+    # grupos: la dimensión en la que se compara la proporción; categorías: la otra
+    if d.get("chi_grupos") == "columnas" or (indep and len(filas) == 2 and len(cols) > 2):
+        grupos, cats, en_cada = cols, filas, "en cada grupo"
+    else:
+        grupos, cats, en_cada = filas, cols, f"en cada {nombre.lower()}" if nombre else "en cada grupo"
+    k = len(grupos)
+    ps = " = ".join(f"p{str(i + 1).translate(_SUB)}" for i in range(k)) if k <= 4 else \
+        f"p₁ = p₂ = … = p{str(k).translate(_SUB)}"
+    indices = ", ".join(f"{i + 1} = {g}" for i, g in enumerate(grupos))
+    if len(cats) == 2:
+        prop = f"la proporción con {cats[0][4:]}" if cats[0].startswith("Con ") else f"la proporción de «{cats[0]}»"
+        h0 = f"{ps}, siendo pᵢ {prop} {en_cada} ({indices})"
+        h1 = "p₁ ≠ p₂" if k == 2 else "al menos una pᵢ es distinta"
+        h0_txt = f"{prop} es la misma en {_y(grupos)}"
+        h1_txt = f"{prop} difiere entre {_y(grupos)}"
+    else:
+        h0 = f"{ps} para cada categoría ({_y(cats)}), siendo pᵢ su proporción {en_cada} ({indices})"
+        h1 = "en al menos una categoría las pᵢ son distintas"
+        h0_txt = f"la distribución de {_y(cats)} es la misma en {_y(grupos)}"
+        h1_txt = f"la distribución de {_y(cats)} no es la misma en {_y(grupos)}"
+    if indep:
+        return (f"**Hipótesis** (prueba de independencia): H0: no hay relación entre las variables, es decir, {h0}  vs  "
+                f"H1: {h1}.",
+                f"no hay relación entre las variables ({h0_txt})", f"hay relación entre las variables ({h1_txt})")
+    return (f"**Hipótesis** (prueba de homogeneidad, una muestra por grupo): H0: {h0}  vs  H1: {h1}.", h0_txt, h1_txt)
+
+
+def _conclusion_chi(r, alpha: float, h0_txt: str, h1_txt: str) -> str:
+    obs = f"χ² = {fmt(r.chi2_calc, 4)} [χ²c = {fmt(r.chi2_critico, 4)}; ν = {r.df}]"
+    return wording.conclusion_formal(alpha, r.rejects_h0, f"de que {h0_txt}", h1_txt, obs)
+
+
+def _grados(nu: int) -> str:
+    return f"{nu} grado{'' if nu == 1 else 's'} de libertad"
+
+
 def chi_cont(d, alpha, res: Resultado, estado):
-    tabla = _req(d, "tabla")[0]
-    r = chi.tabla_contingencia([list(map(float, f)) for f in tabla], alpha)
-    res.pasos.append("**Hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.")
-    res.pasos.append("**Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.")
-    res.pasos.append(f"**Estadístico**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = {fmt(r.chi2_calc, 4)}; ν = (f-1)(c-1) = {r.df}; "
-                     f"χ²crítico(1-α; {r.df}) = {fmt(r.chi2_critico, 4)}.")
-    res.pasos.append(f"**Decisión**: " + ("χ² > χ²c ⇒ se rechaza H0." if r.rejects_h0 else "χ² ≤ χ²c ⇒ no se rechaza H0."))
+    tabla = [list(map(float, f)) for f in _req(d, "tabla")[0]]
+    r = chi.tabla_contingencia(tabla, alpha)
+    nf, nc = len(tabla), len(tabla[0])
+    filas = _etiquetas(d, "tabla_filas", nf, "Fila")
+    cols = _etiquetas(d, "tabla_columnas", nc, "Columna")
+    hip, h0_txt, h1_txt = _hipotesis_contingencia(d, filas, cols)
+    esquina = d.get("tabla_nombre_filas") or ""
+    res.pasos.append(hip)
+    res.pasos.append(f"**Estadístico**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = ({nf}-1)({nc}-1) = "
+                     f"{_grados(r.df)}; χ²crítico(1-α; {r.df}) = {fmt(r.chi2_critico, 4)}.")
+    res.pasos.append(f"**Condición de rechazo**: si χ² > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0.")
+    aportes = [[(o - e) ** 2 / e for o, e in zip(fo, fe)] for fo, fe in zip(tabla, r.expected_table)]
+    total = sum(map(sum, tabla))
+    res.pasos.append(
+        "**Decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².\n\n"
+        + _md_contingencia("Frecuencias observadas Oᵢⱼ", esquina, filas, cols, tabla, 4) + "\n\n"
+        + _md_contingencia(f"Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / {fmt(total)}", esquina,
+                           filas, cols, r.expected_table, 4) + "\n\n"
+        + _md_contingencia("Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ", esquina, filas, cols, aportes, 4,
+                           total_general=f"χ² = {fmt(r.chi2_calc, 4)}") + "\n\n"
+        + (f"χ² = {fmt(r.chi2_calc, 4)} > χ²c = {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0." if r.rejects_h0 else
+           f"χ² = {fmt(r.chi2_calc, 4)} ≤ χ²c = {fmt(r.chi2_critico, 4)} ⇒ no se rechaza H0."))
     res.avisos += r.warnings
-    res.tabla = [{f"col {j + 1}": round(v, 3) for j, v in enumerate(fila)} for fila in r.expected_table]
-    res.conclusion = _coma(wording.texto_chi_cuadrado(r, "las variables son independientes (no hay asociación / los grupos son homogéneos)", alpha))
+    res.conclusion = _coma(_conclusion_chi(r, alpha, h0_txt, h1_txt))
     res.regla = _regla(d, "calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada", f"χ² > {fmt(r.chi2_critico, 4)}",
-                       "las variables están asociadas")
-    res.numeros = [r.chi2_calc, r.chi2_critico, float(r.df)]
+                       h1_txt)
+    res.numeros = [r.chi2_calc, r.chi2_critico, float(r.df)] + [e for fila in r.expected_table for e in fila]
     res.resumen = f"χ² = {fmt(r.chi2_calc, 4)} vs {fmt(r.chi2_critico, 4)}: " + ("RECHAZA" if r.rejects_h0 else "NO rechaza")
 
 
 def chi_ajuste(d, alpha, res: Resultado, estado):
-    obs = _req(d, "observados")[0]
+    obs = [float(x) for x in _req(d, "observados")[0]]
     esp = d.get("esperados")
-    if not esp and d.get("proporciones"):
-        props = d["proporciones"]
+    props = d.get("proporciones")
+    if not esp and props:
         if len(props) != len(obs):
             raise FaltaDato("La cantidad de proporciones no coincide con la de categorías observadas")
         total = sum(obs)
         esp = [total * p for p in props]
-        res.pasos.append(f"**Frecuencias esperadas**: Feᵢ = N·pᵢ con N = {fmt(total)} → " +
-                         ", ".join(fmt(e, 3) for e in esp) + ".")
+        res.pasos.append(f"**Frecuencias esperadas**: bajo H0, Feᵢ = N·pᵢ con N = {fmt(total)}.")
     if not esp:
         raise FaltaDato("Faltan las frecuencias esperadas Fe (o las proporciones del modelo)")
+    esp = [float(x) for x in esp]
     p = int(d.get("p_estimados") or 0)
-    r = chi.bondad_de_ajuste(list(map(float, obs)), list(map(float, esp)), p, alpha)
-    res.pasos.append("**Hipótesis**: H0: los datos siguen el modelo propuesto  vs  H1: no lo siguen.")
-    res.pasos.append(f"**Estadístico**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = {fmt(r.chi2_calc, 4)}; ν = k - 1 - p = {len(obs)} - 1 - {p} = {r.df}; "
+    r = chi.bondad_de_ajuste(obs, esp, p, alpha)
+    etq = _etiquetas(d, "valores_var", len(obs), "Categoría")
+    if props and len(props) == len(obs):
+        modelo = "; ".join(f"{e}: {fmt(q, 4)}" for e, q in zip(etq, props))
+        res.pasos.append(f"**Hipótesis**: H0: las proporciones de cada categoría son las del modelo propuesto "
+                         f"({modelo})  vs  H1: al menos una difiere.")
+    else:
+        res.pasos.append("**Hipótesis**: H0: los datos siguen el modelo propuesto  vs  H1: no lo siguen.")
+    res.pasos.append(f"**Estadístico**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ, con ν = k - 1 - p = {len(obs)} - 1 - {p} = {_grados(r.df)}; "
                      f"χ²crítico = {fmt(r.chi2_critico, 4)}.")
-    res.pasos.append("**Decisión**: " + ("χ² > χ²c ⇒ se rechaza H0." if r.rejects_h0 else "χ² ≤ χ²c ⇒ no se rechaza H0."))
+    res.pasos.append(f"**Condición de rechazo**: si χ² > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0.")
+    cab = ["Categoría", "Foᵢ"] + (["pᵢ"] if props and len(props) == len(obs) else []) + ["Feᵢ", "(Foᵢ - Feᵢ)²/Feᵢ"]
+    cuerpo = []
+    for i, (fo, fe) in enumerate(zip(obs, esp)):
+        cuerpo.append([etq[i], fmt(fo, 4)] + ([fmt(props[i], 4)] if "pᵢ" in cab else []) +
+                      [fmt(fe, 4), fmt((fo - fe) ** 2 / fe, 4)])
+    cuerpo.append(["**Total**", f"**{fmt(sum(obs), 4)}**"] + (["**1**"] if "pᵢ" in cab else []) +
+                  [f"**{fmt(sum(esp), 4)}**", f"**χ² = {fmt(r.chi2_calc, 4)}**"])
+    res.pasos.append("**Decisión**: frecuencias observadas, esperadas y aporte de cada categoría al χ².\n\n" +
+                     _md_tabla(cab, cuerpo) + "\n\n" +
+                     (f"χ² = {fmt(r.chi2_calc, 4)} > χ²c = {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0." if r.rejects_h0
+                      else f"χ² = {fmt(r.chi2_calc, 4)} ≤ χ²c = {fmt(r.chi2_critico, 4)} ⇒ no se rechaza H0."))
     res.avisos += r.warnings
-    res.conclusion = _coma(wording.texto_chi_cuadrado(r, "los datos siguen el modelo propuesto", alpha))
+    con_props = props and len(props) == len(obs)
+    h0_txt = "las proporciones son las del modelo propuesto" if con_props else "los datos siguen el modelo propuesto"
+    h1_txt = "las proporciones no son las del modelo propuesto" if con_props else "los datos no siguen el modelo propuesto"
+    res.conclusion = _coma(_conclusion_chi(r, alpha, h0_txt, h1_txt))
     res.regla = _regla(d, "calcula χ² = Σ(Foᵢ - Feᵢ)²/Feᵢ con las frecuencias observadas",
-                       f"χ² > {fmt(r.chi2_critico, 4)}", "los datos no siguen el modelo propuesto")
-    res.numeros = [r.chi2_calc, r.chi2_critico, float(r.df)]
+                       f"χ² > {fmt(r.chi2_critico, 4)}", h1_txt)
+    res.numeros = [r.chi2_calc, r.chi2_critico, float(r.df)] + esp
     res.resumen = f"χ² = {fmt(r.chi2_calc, 4)} vs {fmt(r.chi2_critico, 4)}: " + ("RECHAZA" if r.rejects_h0 else "NO rechaza")
 
 

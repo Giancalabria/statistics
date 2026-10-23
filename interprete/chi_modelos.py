@@ -30,9 +30,43 @@ def _num(v) -> bool:
     return isinstance(v, (int, float)) and not isinstance(v, bool)
 
 
-def tabla_contingencia_de(tabla: dict) -> Optional[Tuple[List[List[float]], str]]:
+def _etiquetas_filas(tabla: dict, filas: list) -> Tuple[Optional[str], Optional[List[str]]]:
+    """(encabezado, nombre de cada fila): la primera columna de texto o la columna índice (Planta 1, 2, 3)."""
+    for j, cab in enumerate(tabla["columnas"]):
+        col = [f[j] if j < len(f) else None for f in filas]
+        if all(isinstance(v, str) and v.strip() for v in col):
+            return cab, [v.strip() for v in col]
+        if _hay(RE_COL_INDICE, normalizar(cab or "")) and col == [float(i) for i in range(1, len(col) + 1)]:
+            return cab, [f"{cab} {i}" for i in range(1, len(col) + 1)]
+    return None, None
+
+
+def _nombre_resto(cabeceras: List[str]) -> str:
+    """Columna de los que NO tienen el atributo (muestra - resto)."""
+    if len(cabeceras) == 1 and cabeceras[0]:
+        c = cabeceras[0].strip()
+        if c.startswith("Con "):
+            return "Sin " + c[4:]
+        return "No " + c[0].lower() + c[1:]
+    return "Resto de la muestra"
+
+
+def _nombre_atributo(cabecera: str) -> str:
+    """'% de los 300 reclamos' → 'Con reclamo' (la columna de % pasada a cantidades); las demás quedan igual."""
+    limpio = re.sub(r"^%\s*(de\s+)?(los|las)?\s*[\d.]*\s*", "", cabecera or "").strip()
+    if limpio == (cabecera or "").strip() or not limpio:
+        return cabecera
+    return "Con " + re.sub(r"(?<=[aeiou])s$", "", limpio.lower())
+
+
+def tabla_contingencia_de(tabla: dict) -> Optional[dict]:
+    """{"tabla", "nota", "filas", "columnas", "nombre_filas", "grupos"} o None.
+
+    "grupos" dice qué dimensión son muestras separadas de tamaño fijado (prueba de homogeneidad): "filas" si hay
+    una columna con el tamaño de cada muestra, "columnas" si hay una fila de totales de muestra."""
     cols = [normalizar(c or "") for c in tabla["columnas"]]
-    filas = [f for f in tabla["filas"] if not (isinstance(f[0], str) and _hay(RE_TOTAL, normalizar(f[0])))]
+    totales = [f for f in tabla["filas"] if isinstance(f[0], str) and _hay(RE_TOTAL, normalizar(f[0]))]
+    filas = [f for f in tabla["filas"] if f not in totales]
     if len(filas) < 2:
         return None
     k = len(cols)
@@ -48,6 +82,12 @@ def tabla_contingencia_de(tabla: dict) -> Optional[Tuple[List[List[float]], str]
         usar.append(j)
     if len(usar) < 1:
         return None
+    nombre_filas, etq_filas = _etiquetas_filas(tabla, filas)
+    grupos = None
+    if any(_hay(r"muestra", normalizar(f[0])) for f in totales):
+        grupos = "columnas"   # 'Totales de Muestra': cada columna es una muestra
+    elif any(_hay(RE_TOTAL, c) and _hay(r"muestra", c) for c in cols):
+        grupos = "filas"
     nota = []
     # columna de tamaños de muestra: la que en cada fila es >= la suma de las otras
     muestra = [j for j in usar if _hay(RE_COL_MUESTRA, cols[j])]
@@ -64,23 +104,55 @@ def tabla_contingencia_de(tabla: dict) -> Optional[Tuple[List[List[float]], str]
                 nota.append(f"la columna «{tabla['columnas'][j]}» se pasó de % a cantidades (× {fmt(base)} / 100)")
         if otras and all(f[jm] >= sum(f[j] for j in otras) - 1e-9 for f in filas):
             resto = [f[jm] - sum(f[j] for j in otras) for f in filas]
-            obs = [[f[j] for j in otras] + ([r] if any(r > 0 for r in resto) else []) for f, r in zip(filas, resto)]
+            hay_resto = any(r > 0 for r in resto)
+            obs = [[f[j] for j in otras] + ([r] if hay_resto else []) for f, r in zip(filas, resto)]
             nota.append(f"la columna «{tabla['columnas'][jm]}» es el tamaño de cada muestra: se agrega la columna "
                         "de los que no tienen el atributo (muestra - resto)")
-            return obs, "; ".join(nota)
+            etq_cols = [_nombre_atributo(tabla["columnas"][j]) for j in otras]
+            etq_cols += [_nombre_resto(etq_cols)] if hay_resto else []
+            return {"tabla": obs, "nota": "; ".join(nota), "filas": etq_filas, "columnas": etq_cols,
+                    "nombre_filas": nombre_filas, "grupos": "filas"}
     obs = [[float(f[j]) for j in usar] for f in filas]
     if len(usar) < 2:
         return None
-    return obs, "; ".join(nota)
+    return {"tabla": obs, "nota": "; ".join(nota), "filas": etq_filas, "columnas": [tabla["columnas"][j] for j in usar],
+            "nombre_filas": nombre_filas, "grupos": grupos}
+
+
+def guardar_etiquetas(an: Analisis, filas=None, columnas=None, nombre_filas=None, grupos=None):
+    """Nombres de filas y columnas de la tabla observada (para las tablas de la resolución y la hipótesis)."""
+    for clave, v in (("tabla_filas", filas), ("tabla_columnas", columnas), ("tabla_nombre_filas", nombre_filas),
+                     ("chi_grupos", grupos)):
+        if v:
+            an.datos[clave] = v
+        else:
+            an.datos.pop(clave, None)
 
 
 def completar_contingencia(an: Analisis, t):
     for tabla in an.tablas:
         r = tabla_contingencia_de({"columnas": list(tabla["columnas"]), "filas": [list(f) for f in tabla["filas"]]})
         if r:
-            an.datos["tabla"] = r[0]
-            an.evidencias.append(Evidencia("tabla", r[0], "", "tabla del enunciado" + (f" ({r[1]})" if r[1] else "")))
+            an.datos["tabla"] = r["tabla"]
+            guardar_etiquetas(an, r["filas"], r["columnas"], r["nombre_filas"], r["grupos"])
+            an.evidencias.append(Evidencia("tabla", r["tabla"], "", "tabla del enunciado" +
+                                           (f" ({r['nota']})" if r["nota"] else "")))
             return
+
+
+RE_DEPENDENCIA = r"(depend|independ|asocia|relacion entre)"
+RE_MUESTRAS_POR_GRUPO = r"muestras? (aleatorias? |semanales |diarias )?(de|sobre) \d|sobre (una muestra de )?\d+ (piezas|unidades)"
+
+
+def diseno_contingencia(texto_norm: str, grupos: Optional[str]) -> str:
+    """'independencia' (una sola muestra clasificada por dos variables: H0 «son independientes») u
+    'homogeneidad' (una muestra de tamaño fijado por grupo: H0 «las proporciones son iguales en todos los grupos»,
+    las «Pruebas de Consistencia» de la guía). Si el enunciado pregunta por dependencia / asociación manda eso."""
+    if _hay(RE_DEPENDENCIA, texto_norm):
+        return "independencia"
+    if grupos or _hay(RE_MUESTRAS_POR_GRUPO, texto_norm):
+        return "homogeneidad"
+    return "independencia"
 
 
 # ---------------------------------------------------------------- bondad de ajuste
@@ -291,8 +363,8 @@ def clasificar_ajuste(inc: Inciso, an: Analisis, norm: str) -> Tuple[str, str]:
         inc.params["conocidos"] = conocidos
     if _hay(r"(cual|que modelo)[^?]{0,40}(mejor|ajusta mejor)|mejor de los ajustes|el mejor", norm):
         inc.params["mejor"] = True
-    nombres = ", ".join(aj.NOMBRES[m] for m in modelos) or "el modelo propuesto"
-    return "ensayo", f"Bondad de ajuste χ² a {nombres}: se compara χ² calculado contra el crítico."
+    nombres = ("el modelo " + ", ".join(aj.NOMBRES[m] for m in modelos)) if modelos else "el modelo propuesto"
+    return "ensayo", f"Bondad de ajuste χ² a{'l' + nombres[2:]}: se compara χ² calculado contra el crítico."
 
 
 # ---------------------------------------------------------------- resolución
@@ -350,21 +422,25 @@ def chi_ajuste_modelos(d, alpha, res, estado):
         resultados.append(r)
         nombre = aj.NOMBRES[m]
         res.pasos.append(f"**— Modelo {nombre} —**")
+        params = _params_txt(r) if r.parametros else ""
         res.pasos.append(f"**Hipótesis**: H0: la variable sigue el modelo {nombre}"
-                         + (" con " + _params_txt(r) if not r.estimados and r.parametros else "")
+                         + (" con " + params if not r.estimados and params else "")
                          + f"  vs  H1: no lo sigue.  α = {fmt(alpha, 4)}.")
         if r.media is not None:
             res.pasos.append(f"**Estimación** (marcas de clase): x̄ = {fmt(r.media, 4)}"
                              + (f", S = {fmt(r.desvio, 4)}" if r.desvio else "") + ".")
-        if r.parametros:
-            res.pasos.append(f"**Parámetros del modelo**: {_params_txt(r)}.")
+        if params:
+            res.pasos.append(f"**Parámetros del modelo**: {params}.")
+        amalgamado = len(r.tabla_final) < len(r.tabla)
         res.pasos.append("**Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde "
-                         "del dominio):\n\n" + _tabla_md(r.tabla))
-        if len(r.tabla_final) < len(r.tabla):
-            res.pasos.append("**Amalgamado** (Fe < 5 se une con la clase vecina):\n\n" + _tabla_md(r.tabla_final))
+                         "del dominio):\n\n" + _tabla_md(r.tabla, aportes=not amalgamado))
+        if amalgamado:
+            res.pasos.append("**Amalgamado** (Fe < 5 se une con la clase vecina):\n\n" +
+                             _tabla_md(r.tabla_final, aportes=True))
         k = len(r.tabla_final)
         res.pasos.append(f"**Estadístico**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = {fmt(r.chi2_calc, 4)}; ν = k - 1 - p = "
                          f"{k} - 1 - {len(r.estimados)} = {r.df}; χ²(1-α; ν) = {fmt(r.chi2_critico, 4)}.")
+        res.pasos.append(f"**Condición de rechazo**: si χ² > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0.")
         res.pasos.append("**Decisión**: " + (f"χ² = {fmt(r.chi2_calc, 4)} > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0: "
                                              f"la variable NO sigue el modelo {nombre}." if r.rechaza else
                                              f"χ² = {fmt(r.chi2_calc, 4)} ≤ {fmt(r.chi2_critico, 4)} ⇒ no se rechaza H0: "
@@ -394,10 +470,20 @@ def chi_ajuste_modelos(d, alpha, res, estado):
                        f"χ² > {fmt(resultados[0].chi2_critico, 4)}", "la variable no sigue el modelo")
 
 
-def _tabla_md(tabla) -> str:
-    lineas = ["| Clase | Fo | P | Fe |", "|---|---|---|---|"]
+def _tabla_md(tabla, aportes: bool = False) -> str:
+    """Tabla del ajuste; con `aportes`, la columna (Fo - Fe)²/Fe y la fila de totales (la que da el χ²)."""
+    if not aportes:
+        lineas = ["| Clase | Fo | P | Fe |", "|---|---|---|---|"]
+        for c in tabla:
+            lineas.append(f"| {c.etiqueta} | {fmt(c.fo)} | {fmt(c.prob, 4)} | {fmt(c.fe, 3)} |")
+        return "\n".join(lineas)
+    lineas = ["| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |", "|---|---|---|---|---|"]
     for c in tabla:
-        lineas.append(f"| {c.etiqueta} | {fmt(c.fo)} | {fmt(c.prob, 4)} | {fmt(c.fe, 3)} |")
+        lineas.append(f"| {c.etiqueta} | {fmt(c.fo)} | {fmt(c.prob, 4)} | {fmt(c.fe, 3)} | "
+                      f"{fmt((c.fo - c.fe) ** 2 / c.fe, 4)} |")
+    lineas.append(f"| **Total** | **{fmt(sum(c.fo for c in tabla))}** | **{fmt(sum(c.prob for c in tabla), 4)}** | "
+                  f"**{fmt(sum(c.fe for c in tabla), 3)}** | "
+                  f"**χ² = {fmt(sum((c.fo - c.fe) ** 2 / c.fe for c in tabla), 4)}** |")
     return "\n".join(lineas)
 
 
@@ -409,6 +495,7 @@ def _chi_ajuste_despacho(d, alpha, res, estado):
 
 
 def _clasificar_contingencia(inc: Inciso, an: Analisis, norm: str):
+    inc.params["chi_diseno"] = diseno_contingencia(norm + " " + normalizar(an.planteo), an.datos.get("chi_grupos"))
     return clasificar_inciso(norm, an.tema, normalizar(an.planteo))
 
 

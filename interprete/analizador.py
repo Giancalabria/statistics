@@ -1399,12 +1399,15 @@ def extraer_chi(an: Analisis, t: Texto):
                 mejor = [f]
         if len(mejor) >= 2:
             an.datos["tabla"] = [f[1] for f in mejor]
+            an.datos["tabla_filas"] = [f[0] for f in mejor]
             an.evidencias.append(Evidencia("tabla", an.datos["tabla"], t.texto[mejor[0][2]:mejor[-1][3]],
                                            "filas de la tabla: " + ", ".join(f[0] for f in mejor)))
             return
         tp = tabla_porcentajes(t)
         if tp:
             an.datos["tabla"] = tp[0]
+            an.datos["tabla_filas"] = tp[1]
+            an.datos["chi_grupos"] = "filas"
             an.evidencias.append(Evidencia("tabla", tp[0], "", "filas (" + ", ".join(tp[1]) + "): total del grupo × "
                                                                "porcentaje de cada categoría"))
             an.avisos += tp[2]
@@ -1418,6 +1421,9 @@ def extraer_chi(an: Analisis, t: Texto):
             n2 = tot[1].valor if len(tot) > 1 else n1
             r1, r2 = cuentas[0].valor, cuentas[1].valor
             an.datos["tabla"] = [[r1, n1 - r1], [r2, n2 - r2]]
+            an.datos["tabla_filas"] = [f"Grupo 1 (n = {fmt(n1)})", f"Grupo 2 (n = {fmt(n2)})"]
+            an.datos["tabla_columnas"] = ["Con el atributo (r)", "Sin el atributo (n − r)"]
+            an.datos["chi_grupos"] = "filas"
             an.evidencias.append(Evidencia("tabla", an.datos["tabla"], "",
                                            f"2 grupos: {fmt(r1)} de {fmt(n1)} y {fmt(r2)} de {fmt(n2)} "
                                            "(filas: grupo; columnas: sí / no)"))

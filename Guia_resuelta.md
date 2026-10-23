@@ -3179,6 +3179,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 600, r = 150, p̂ = r/n = 0,25.
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,221 ; B = 0,2808.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 902, ν₂ = 2r = 300; F(0,95; 902; 300) = 1,172; A = 1/[1 + (451/150)·1,172] = 0,22105.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 302, ν₂ = 2(n − r) = 900; F(0,95; 302; 900) = 1,1635; B = 1/[1 + 450/(151·1,1635)] = 0,280792.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,2209 ; 0,2791] (e = 0,0291).
 
 **Conclusión:** El porcentaje poblacional estará entre 22,1% y 28,08%, con un 90% de confianza: P(0,2210 ≤ p ≤ 0,2808) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,22105 y 0,280792).
@@ -3228,7 +3230,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 25, r = 3, p̂ = r/n = 0,12.
-- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0255 ; B = 0,3122.
+- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0254 ; B = 0,3122.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 46, ν₂ = 2r = 6; F(0,975; 46; 6) = 4,9916; A = 1/[1 + (23/3)·4,9916] = 0,025465.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 8, ν₂ = 2(n − r) = 44; F(0,975; 8; 44) = 2,4964; B = 1/[1 + 22/(4·2,4964)] = 0,31219.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [-0,01 ; 0,25] (e = 0,13).
 
 **Conclusión:** El porcentaje poblacional estará entre 2,54% y 31,22%, con un 95% de confianza: P(0,0254 ≤ p ≤ 0,3122) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,025465 y 0,31219).
@@ -3245,7 +3249,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Límite unilateral** (máximo): todo α = 0,05 va a una sola cola → se calcula como el extremo del IC con riesgo 2α = 0,1.
 - **Datos**: n = 25, r = 3, p̂ = r/n = 0,12.
-- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0335 ; B = 0,2817.
+- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0335 ; B = 0,2818.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 46, ν₂ = 2r = 6; F(0,95; 46; 6) = 3,7609; A = 1/[1 + (23/3)·3,7609] = 0,03352.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 8, ν₂ = 2(n − r) = 44; F(0,95; 8; 44) = 2,1572; B = 1/[1 + 22/(4·2,1572)] = 0,281723.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,0109 ; 0,2291] (e = 0,1091).
 
 **Conclusión:** Con un 95% de confianza, p ≤ 0,2818: P(p ≤ 0,2818) = 0,95 (cota máxima redondeada hacia arriba; sin redondear 0,281723).
@@ -3281,6 +3287,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 10, r = 1, p̂ = r/n = 0,1.
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0051 ; B = 0,3942.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 20, ν₂ = 2r = 2; F(0,95; 20; 2) = 19,4458; A = 1/[1 + (10/1)·19,4458] = 0,005116.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 4, ν₂ = 2(n − r) = 18; F(0,95; 4; 18) = 2,9277; B = 1/[1 + 9/(2·2,9277)] = 0,394163.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [-0,0645 ; 0,2645] (e = 0,1645).
 
 **Conclusión:** El porcentaje poblacional estará entre 0,51% y 39,42%, con un 90% de confianza: P(0,0051 ≤ p ≤ 0,3942) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,005116 y 0,394163).
@@ -3299,6 +3307,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 10, r = 0, p̂ = r/n = 0.
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0 ; B = 0,2589.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 2, ν₂ = 2(n − r) = 20; F(0,95; 2; 20) = 3,4928; B = 1/[1 + 10/(1·3,4928)] = 0,258866.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0 ; 0] (e = 0).
 
 **Conclusión:** El porcentaje poblacional estará entre 0% y 25,89%, con un 90% de confianza: P(0,0000 ≤ p ≤ 0,2589) = 0,9 (límites redondeados hacia afuera; sin redondear: 0 y 0,258866).
@@ -3326,7 +3335,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 600, r = 60, p̂ = r/n = 0,1.
-- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0772 ; B = 0,1268.
+- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0771 ; B = 0,1269.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 1082, ν₂ = 2r = 120; F(0,975; 1082; 120) = 1,3261; A = 1/[1 + (541/60)·1,3261] = 0,07718.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 122, ν₂ = 2(n − r) = 1080; F(0,975; 122; 1080) = 1,286; B = 1/[1 + 540/(61·1,286)] = 0,126843.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,076 ; 0,124] (e = 0,024).
 
 **Conclusión:** El porcentaje poblacional estará entre 7,71% y 12,69%, con un 95% de confianza: P(0,0771 ≤ p ≤ 0,1269) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,07718 y 0,126843).
@@ -3353,6 +3364,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 1000, r = 198, p̂ = r/n = 0,198.
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,1737 ; B = 0,2241.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 1606, ν₂ = 2r = 396; F(0,975; 1606; 396) = 1,1728; A = 1/[1 + (803/198)·1,1728] = 0,17372.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 398, ν₂ = 2(n − r) = 1604; F(0,975; 398; 1604) = 1,1638; B = 1/[1 + 802/(199·1,1638)] = 0,224072.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,1733 ; 0,2227] (e = 0,0247).
 
 **Conclusión:** El porcentaje poblacional estará entre 17,37% y 22,41%, con un 95% de confianza: P(0,1737 ≤ p ≤ 0,2241) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,17372 y 0,224072).
@@ -3379,6 +3392,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 30, r = 9, p̂ = r/n = 0,3.
 - **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,1473 ; B = 0,494.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 44, ν₂ = 2r = 18; F(0,975; 44; 18) = 2,3673; A = 1/[1 + (22/9)·2,3673] = 0,147345.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 20, ν₂ = 2(n − r) = 42; F(0,975; 20; 42) = 2,0499; B = 1/[1 + 21/(10·2,0499)] = 0,493959.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,1332 ; 0,4668] (e = 0,1668).
 
 **Conclusión:** El porcentaje poblacional estará entre 14,73% y 49,4%, con un 95% de confianza: P(0,1473 ≤ p ≤ 0,4940) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,147345 y 0,493959).
@@ -3440,7 +3455,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 100, r = 14, p̂ = r/n = 0,14.
-- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0867 ; B = 0,2102.
+- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0866 ; B = 0,2102.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 174, ν₂ = 2r = 28; F(0,95; 174; 28) = 1,6958; A = 1/[1 + (87/14)·1,6958] = 0,086668.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 30, ν₂ = 2(n − r) = 172; F(0,95; 30; 172) = 1,5256; B = 1/[1 + 86/(15·1,5256)] = 0,210174.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,0826 ; 0,1974] (e = 0,0574).
 
 **Conclusión:** El porcentaje poblacional estará entre 8,66% y 21,02%, con un 90% de confianza: P(0,0866 ≤ p ≤ 0,2102) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,086668 y 0,210174).
@@ -4044,7 +4061,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 30, r = 25, p̂ = r/n = 0,8333.
-- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,6528 ; B = 0,9436.
+- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,6527 ; B = 0,9436.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 12, ν₂ = 2r = 50; F(0,975; 12; 50) = 2,2162; A = 1/[1 + (6/25)·2,2162] = 0,652788.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 52, ν₂ = 2(n − r) = 10; F(0,975; 52; 10) = 3,2161; B = 1/[1 + 5/(26·3,2161)] = 0,943578.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,6977 ; 0,969] (e = 0,1356).
 
 **Conclusión:** El porcentaje poblacional estará entre 65,27% y 94,36%, con un 95% de confianza: P(0,6527 ≤ p ≤ 0,9436) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,652788 y 0,943578).
@@ -6406,17 +6425,47 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.
+- **1 · Planteo de hipótesis** (prueba de homogeneidad, una muestra por grupo): H0: p₁ = p₂ para cada categoría (Desocupados, Sub-ocupados y Ocupados), siendo pᵢ su proporción en cada grupo (1 = Área 1, 2 = Área 2)  vs  H1: en al menos una categoría las pᵢ son distintas.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.
-- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = 3,4476; ν = (f-1)(c-1) = 2; χ²crítico(1-α; 2) = 5,9915.
+- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (3-1)(2-1) = 2 grados de libertad; χ²crítico(1-α; 2) = 5,9915.
 - **Modelos y distribuciones empleados**:  
 • Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).  
 • La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 5,9915, se rechaza H0 → se da por probado que las variables están asociadas. En caso contrario no se rechaza H0 → no se puede afirmar que las variables están asociadas.
-- **6 · Cálculos y decisión**: χ² ≤ χ²c ⇒ no se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 5,9915 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 5,9915, se rechaza H0 → se da por probado que la distribución de Desocupados, Sub-ocupados y Ocupados no es la misma en Área 1 y Área 2. En caso contrario no se rechaza H0 → no se puede afirmar que la distribución de Desocupados, Sub-ocupados y Ocupados no es la misma en Área 1 y Área 2.
+- **6 · Cálculos y decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².
 
-**Conclusión:** A un nivel de significación del 5%, no existe evidencia estadística suficiente para rechazar la hipótesis nula de que las variables son independientes (no hay asociación / los grupos son homogéneos) (χ² = 3,44764 [χ²c = 5,99146; ν = 2] no cae en la zona de rechazo). Por consiguiente, no se puede afirmar que no es cierto que las variables son independientes (no hay asociación / los grupos son homogéneos): se mantiene H0 (no rechazarla no equivale a probarla).
+*Frecuencias observadas Oᵢⱼ*
+
+| Atributo | Área 1 | Área 2 | **Total** |
+|---|---|---|---|
+| Desocupados | 35 | 37 | **72** |
+| Sub-ocupados | 165 | 263 | **428** |
+| Ocupados | 300 | 500 | **800** |
+| **Total** | **500** | **800** | **1.300** |
+
+*Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / 1.300*
+
+| Atributo | Área 1 | Área 2 | **Total** |
+|---|---|---|---|
+| Desocupados | 27,6923 | 44,3077 | **72** |
+| Sub-ocupados | 164,6154 | 263,3846 | **428** |
+| Ocupados | 307,6923 | 492,3077 | **800** |
+| **Total** | **500** | **800** | **1.300** |
+
+*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*
+
+| Atributo | Área 1 | Área 2 | **Total** |
+|---|---|---|---|
+| Desocupados | 1,9284 | 1,2053 | **3,1337** |
+| Sub-ocupados | 0,0009 | 0,0006 | **0,0015** |
+| Ocupados | 0,1923 | 0,1202 | **0,3125** |
+| **Total** | **2,1216** | **1,326** | **χ² = 3,4476** |
+
+χ² = 3,4476 ≤ χ²c = 5,9915 ⇒ no se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 5%, no existe evidencia estadística suficiente para rechazar la hipótesis nula de que la distribución de Desocupados, Sub-ocupados y Ocupados es la misma en Área 1 y Área 2 (χ² = 3,4476 [χ²c = 5,9915; ν = 2] no cae en la zona de rechazo). Por consiguiente, no se puede afirmar que la distribución de Desocupados, Sub-ocupados y Ocupados no es la misma en Área 1 y Área 2: se mantiene H0 (no rechazarla no equivale a probarla).
 
 **Respuesta de la guía:** Pruebas de Consistencia: H0) p1 = p2, α = 0,05. Esperados: 27,6923; 44,3077; 164,6154; 263,3846; 307,6923; 492,3077. χ²calc = 3,4476; ν = (f−1)·(k−1) = 2; χ²(0,95;2) = 5,9915. No se rechaza la hipótesis planteada, de manera que se concluye que no se puede asegurar que la proporción de ocupación en las dos áreas sean diferentes. (Ilustrativo, por atributo: desocupados p̂1,1 = 0,07, p̂2,1 = 0,0463, α* = 0,046 → se rechaza; sub-ocupados p̂1,2 = 0,33, p̂2,2 = 0,3288, α* = 0,505 → no se rechaza; ocupados p̂1,3 = 0,6, p̂2,3 = 0,625, α* = 0,1996 → no se rechaza. Aproximación normal: desocupados gc = 0,0215, g = 0,0237 → se rechaza; sub-ocupados gc = 0,0441, g = 0,0012 → no se rechaza; ocupados gc = 0,0457, g = 0,025 → no se rechaza.)
 
@@ -6449,17 +6498,44 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.
+- **1 · Planteo de hipótesis** (prueba de homogeneidad, una muestra por grupo): H0: p₁ = p₂, siendo pᵢ la proporción de «Repuestos (fallas)» en cada método (1 = A, 2 = B)  vs  H1: p₁ ≠ p₂.
 - **2 · Nivel de significación**: α = 0,02 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.
-- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = 6,2745; ν = (f-1)(c-1) = 1; χ²crítico(1-α; 1) = 5,4119.
+- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (2-1)(2-1) = 1 grado de libertad; χ²crítico(1-α; 1) = 5,4119.
 - **Modelos y distribuciones empleados**:  
 • Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).  
 • La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 5,4119, se rechaza H0 → se da por probado que las variables están asociadas. En caso contrario no se rechaza H0 → no se puede afirmar que las variables están asociadas.
-- **6 · Cálculos y decisión**: χ² > χ²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 5,4119 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 5,4119, se rechaza H0 → se da por probado que la proporción de «Repuestos (fallas)» difiere entre A y B. En caso contrario no se rechaza H0 → no se puede afirmar que la proporción de «Repuestos (fallas)» difiere entre A y B.
+- **6 · Cálculos y decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².
 
-**Conclusión:** A un nivel de significación del 2%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que las variables son independientes (no hay asociación / los grupos son homogéneos) (χ² = 6,27451 [χ²c = 5,41189; ν = 1] cae en la zona de rechazo). Por consiguiente, se da por probado que no es cierto que las variables son independientes (no hay asociación / los grupos son homogéneos).
+*Frecuencias observadas Oᵢⱼ*
+
+| Método | Repuestos (fallas) | No repuestos (fallas) | **Total** |
+|---|---|---|---|
+| A | 10 | 22 | **32** |
+| B | 20 | 12 | **32** |
+| **Total** | **30** | **34** | **64** |
+
+*Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / 64*
+
+| Método | Repuestos (fallas) | No repuestos (fallas) | **Total** |
+|---|---|---|---|
+| A | 15 | 17 | **32** |
+| B | 15 | 17 | **32** |
+| **Total** | **30** | **34** | **64** |
+
+*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*
+
+| Método | Repuestos (fallas) | No repuestos (fallas) | **Total** |
+|---|---|---|---|
+| A | 1,6667 | 1,4706 | **3,1373** |
+| B | 1,6667 | 1,4706 | **3,1373** |
+| **Total** | **3,3333** | **2,9412** | **χ² = 6,2745** |
+
+χ² = 6,2745 > χ²c = 5,4119 ⇒ se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 2%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que la proporción de «Repuestos (fallas)» es la misma en A y B (χ² = 6,2745 [χ²c = 5,4119; ν = 1] cae en la zona de rechazo). Por consiguiente, se da por probado que la proporción de «Repuestos (fallas)» difiere entre A y B.
 
 **Respuesta de la guía:** Resp: Se puede asegurar que la diferencia es significativa, el método “A” es mejor que el “B”.
 
@@ -6484,17 +6560,44 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.
+- **1 · Planteo de hipótesis** (prueba de homogeneidad, una muestra por grupo): H0: p₁ = p₂, siendo pᵢ la proporción de «Defectuosos» en cada proveedor (1 = Nuevo, 2 = Habitual)  vs  H1: p₁ ≠ p₂.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.
-- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = 7,3825; ν = (f-1)(c-1) = 1; χ²crítico(1-α; 1) = 6,6349.
+- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (2-1)(2-1) = 1 grado de libertad; χ²crítico(1-α; 1) = 6,6349.
 - **Modelos y distribuciones empleados**:  
 • Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).  
 • La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 6,6349, se rechaza H0 → se da por probado que las variables están asociadas. En caso contrario no se rechaza H0 → no se puede afirmar que las variables están asociadas.
-- **6 · Cálculos y decisión**: χ² > χ²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 6,6349 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 6,6349, se rechaza H0 → se da por probado que la proporción de «Defectuosos» difiere entre Nuevo y Habitual. En caso contrario no se rechaza H0 → no se puede afirmar que la proporción de «Defectuosos» difiere entre Nuevo y Habitual.
+- **6 · Cálculos y decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².
 
-**Conclusión:** A un nivel de significación del 1%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que las variables son independientes (no hay asociación / los grupos son homogéneos) (χ² = 7,38248 [χ²c = 6,63490; ν = 1] cae en la zona de rechazo). Por consiguiente, se da por probado que no es cierto que las variables son independientes (no hay asociación / los grupos son homogéneos).
+*Frecuencias observadas Oᵢⱼ*
+
+| Proveedor | Defectuosos | No defectuosos | **Total** |
+|---|---|---|---|
+| Nuevo | 20 | 230 | **250** |
+| Habitual | 75 | 425 | **500** |
+| **Total** | **95** | **655** | **750** |
+
+*Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / 750*
+
+| Proveedor | Defectuosos | No defectuosos | **Total** |
+|---|---|---|---|
+| Nuevo | 31,6667 | 218,3333 | **250** |
+| Habitual | 63,3333 | 436,6667 | **500** |
+| **Total** | **95** | **655** | **750** |
+
+*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*
+
+| Proveedor | Defectuosos | No defectuosos | **Total** |
+|---|---|---|---|
+| Nuevo | 4,2982 | 0,6234 | **4,9217** |
+| Habitual | 2,1491 | 0,3117 | **2,4608** |
+| **Total** | **6,4474** | **0,9351** | **χ² = 7,3825** |
+
+χ² = 7,3825 > χ²c = 6,6349 ⇒ se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 1%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que la proporción de «Defectuosos» es la misma en Nuevo y Habitual (χ² = 7,3825 [χ²c = 6,6349; ν = 1] cae en la zona de rechazo). Por consiguiente, se da por probado que la proporción de «Defectuosos» difiere entre Nuevo y Habitual.
 
 **Respuesta de la guía:** Resp: Se puede asegurar que los porcentajes de defectuosos son diferentes, se aconseja cambiar de proveedor.
 
@@ -6521,17 +6624,50 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.
+- **1 · Planteo de hipótesis** (prueba de homogeneidad, una muestra por grupo): H0: p₁ = p₂ = p₃ = p₄ para cada categoría (Elongación baja, Elongación media y Elongación alta), siendo pᵢ su proporción en cada planta (1 = Planta 1, 2 = Planta 2, 3 = Planta 3, 4 = Planta 4)  vs  H1: en al menos una categoría las pᵢ son distintas.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.
-- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = 12,8587; ν = (f-1)(c-1) = 6; χ²crítico(1-α; 6) = 12,5916.
+- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (4-1)(3-1) = 6 grados de libertad; χ²crítico(1-α; 6) = 12,5916.
 - **Modelos y distribuciones empleados**:  
 • Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).  
 • La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 12,5916, se rechaza H0 → se da por probado que las variables están asociadas. En caso contrario no se rechaza H0 → no se puede afirmar que las variables están asociadas.
-- **6 · Cálculos y decisión**: χ² > χ²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 12,5916 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 12,5916, se rechaza H0 → se da por probado que la distribución de Elongación baja, Elongación media y Elongación alta no es la misma en Planta 1, Planta 2, Planta 3 y Planta 4. En caso contrario no se rechaza H0 → no se puede afirmar que la distribución de Elongación baja, Elongación media y Elongación alta no es la misma en Planta 1, Planta 2, Planta 3 y Planta 4.
+- **6 · Cálculos y decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².
 
-**Conclusión:** A un nivel de significación del 5%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que las variables son independientes (no hay asociación / los grupos son homogéneos) (χ² = 12,85868 [χ²c = 12,59159; ν = 6] cae en la zona de rechazo). Por consiguiente, se da por probado que no es cierto que las variables son independientes (no hay asociación / los grupos son homogéneos).
+*Frecuencias observadas Oᵢⱼ*
+
+| Planta | Elongación baja | Elongación media | Elongación alta | **Total** |
+|---|---|---|---|---|
+| Planta 1 | 10 | 176 | 14 | **200** |
+| Planta 2 | 16 | 178 | 6 | **200** |
+| Planta 3 | 17 | 174 | 9 | **200** |
+| Planta 4 | 8 | 173 | 19 | **200** |
+| **Total** | **51** | **701** | **48** | **800** |
+
+*Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / 800*
+
+| Planta | Elongación baja | Elongación media | Elongación alta | **Total** |
+|---|---|---|---|---|
+| Planta 1 | 12,75 | 175,25 | 12 | **200** |
+| Planta 2 | 12,75 | 175,25 | 12 | **200** |
+| Planta 3 | 12,75 | 175,25 | 12 | **200** |
+| Planta 4 | 12,75 | 175,25 | 12 | **200** |
+| **Total** | **51** | **701** | **48** | **800** |
+
+*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*
+
+| Planta | Elongación baja | Elongación media | Elongación alta | **Total** |
+|---|---|---|---|---|
+| Planta 1 | 0,5931 | 0,0032 | 0,3333 | **0,9297** |
+| Planta 2 | 0,8284 | 0,0432 | 3 | **3,8716** |
+| Planta 3 | 1,4167 | 0,0089 | 0,75 | **2,1756** |
+| Planta 4 | 1,7696 | 0,0289 | 4,0833 | **5,8818** |
+| **Total** | **4,6078** | **0,0842** | **8,1667** | **χ² = 12,8587** |
+
+χ² = 12,8587 > χ²c = 12,5916 ⇒ se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 5%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que la distribución de Elongación baja, Elongación media y Elongación alta es la misma en Planta 1, Planta 2, Planta 3 y Planta 4 (χ² = 12,8587 [χ²c = 12,5916; ν = 6] cae en la zona de rechazo). Por consiguiente, se da por probado que la distribución de Elongación baja, Elongación media y Elongación alta no es la misma en Planta 1, Planta 2, Planta 3 y Planta 4.
 
 **Respuesta de la guía:** Resp: Se puede asegurar que las proporciones de elongación en las 4 plantas son diferentes.
 
@@ -6558,17 +6694,50 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.
+- **1 · Planteo de hipótesis** (prueba de homogeneidad, una muestra por grupo): H0: p₁ = p₂ = p₃ = p₄, siendo pᵢ la proporción de «Defectuosas» en cada semana (1 = Semana 1, 2 = Semana 2, 3 = Semana 3, 4 = Semana 4)  vs  H1: al menos una pᵢ es distinta.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.
-- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = 4,4206; ν = (f-1)(c-1) = 3; χ²crítico(1-α; 3) = 7,8147.
+- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (4-1)(2-1) = 3 grados de libertad; χ²crítico(1-α; 3) = 7,8147.
 - **Modelos y distribuciones empleados**:  
 • Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).  
 • La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 7,8147, se rechaza H0 → se da por probado que las variables están asociadas. En caso contrario no se rechaza H0 → no se puede afirmar que las variables están asociadas.
-- **6 · Cálculos y decisión**: χ² ≤ χ²c ⇒ no se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 7,8147 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 7,8147, se rechaza H0 → se da por probado que la proporción de «Defectuosas» difiere entre Semana 1, Semana 2, Semana 3 y Semana 4. En caso contrario no se rechaza H0 → no se puede afirmar que la proporción de «Defectuosas» difiere entre Semana 1, Semana 2, Semana 3 y Semana 4.
+- **6 · Cálculos y decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².
 
-**Conclusión:** A un nivel de significación del 5%, no existe evidencia estadística suficiente para rechazar la hipótesis nula de que las variables son independientes (no hay asociación / los grupos son homogéneos) (χ² = 4,42056 [χ²c = 7,81473; ν = 3] no cae en la zona de rechazo). Por consiguiente, no se puede afirmar que no es cierto que las variables son independientes (no hay asociación / los grupos son homogéneos): se mantiene H0 (no rechazarla no equivale a probarla).
+*Frecuencias observadas Oᵢⱼ*
+
+| Semana | Defectuosas | No defectuosas | **Total** |
+|---|---|---|---|
+| Semana 1 | 21 | 279 | **300** |
+| Semana 2 | 12 | 288 | **300** |
+| Semana 3 | 14 | 286 | **300** |
+| Semana 4 | 11 | 289 | **300** |
+| **Total** | **58** | **1.142** | **1.200** |
+
+*Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / 1.200*
+
+| Semana | Defectuosas | No defectuosas | **Total** |
+|---|---|---|---|
+| Semana 1 | 14,5 | 285,5 | **300** |
+| Semana 2 | 14,5 | 285,5 | **300** |
+| Semana 3 | 14,5 | 285,5 | **300** |
+| Semana 4 | 14,5 | 285,5 | **300** |
+| **Total** | **58** | **1.142** | **1.200** |
+
+*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*
+
+| Semana | Defectuosas | No defectuosas | **Total** |
+|---|---|---|---|
+| Semana 1 | 2,9138 | 0,148 | **3,0618** |
+| Semana 2 | 0,431 | 0,0219 | **0,4529** |
+| Semana 3 | 0,0172 | 0,0009 | **0,0181** |
+| Semana 4 | 0,8448 | 0,0429 | **0,8877** |
+| **Total** | **4,2069** | **0,2137** | **χ² = 4,4206** |
+
+χ² = 4,4206 ≤ χ²c = 7,8147 ⇒ no se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 5%, no existe evidencia estadística suficiente para rechazar la hipótesis nula de que la proporción de «Defectuosas» es la misma en Semana 1, Semana 2, Semana 3 y Semana 4 (χ² = 4,4206 [χ²c = 7,8147; ν = 3] no cae en la zona de rechazo). Por consiguiente, no se puede afirmar que la proporción de «Defectuosas» difiere entre Semana 1, Semana 2, Semana 3 y Semana 4: se mantiene H0 (no rechazarla no equivale a probarla).
 
 **Respuesta de la guía:** Resp: No se puede asegurar que los porcentajes de defectuosas haya variado.
 
@@ -6592,17 +6761,47 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.
+- **1 · Planteo de hipótesis** (prueba de homogeneidad, una muestra por grupo): H0: p₁ = p₂ = p₃ para cada categoría (Primera calidad, Segunda calidad y Defectuosas), siendo pᵢ su proporción en cada turno (1 = Mañana, 2 = Tarde, 3 = Noche)  vs  H1: en al menos una categoría las pᵢ son distintas.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.
-- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = 38,9843; ν = (f-1)(c-1) = 4; χ²crítico(1-α; 4) = 13,2767.
+- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (3-1)(3-1) = 4 grados de libertad; χ²crítico(1-α; 4) = 13,2767.
 - **Modelos y distribuciones empleados**:  
 • Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).  
 • La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 13,2767, se rechaza H0 → se da por probado que las variables están asociadas. En caso contrario no se rechaza H0 → no se puede afirmar que las variables están asociadas.
-- **6 · Cálculos y decisión**: χ² > χ²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 13,2767 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 13,2767, se rechaza H0 → se da por probado que la distribución de Primera calidad, Segunda calidad y Defectuosas no es la misma en Mañana, Tarde y Noche. En caso contrario no se rechaza H0 → no se puede afirmar que la distribución de Primera calidad, Segunda calidad y Defectuosas no es la misma en Mañana, Tarde y Noche.
+- **6 · Cálculos y decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².
 
-**Conclusión:** A un nivel de significación del 1%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que las variables son independientes (no hay asociación / los grupos son homogéneos) (χ² = 38,98433 [χ²c = 13,27670; ν = 4] cae en la zona de rechazo). Por consiguiente, se da por probado que no es cierto que las variables son independientes (no hay asociación / los grupos son homogéneos).
+*Frecuencias observadas Oᵢⱼ*
+
+| Turno | Primera calidad | Segunda calidad | Defectuosas | **Total** |
+|---|---|---|---|---|
+| Mañana | 450 | 45 | 5 | **500** |
+| Tarde | 680 | 80 | 40 | **800** |
+| Noche | 320 | 40 | 40 | **400** |
+| **Total** | **1.450** | **165** | **85** | **1.700** |
+
+*Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / 1.700*
+
+| Turno | Primera calidad | Segunda calidad | Defectuosas | **Total** |
+|---|---|---|---|---|
+| Mañana | 426,4706 | 48,5294 | 25 | **500** |
+| Tarde | 682,3529 | 77,6471 | 40 | **800** |
+| Noche | 341,1765 | 38,8235 | 20 | **400** |
+| **Total** | **1.450** | **165** | **85** | **1.700** |
+
+*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*
+
+| Turno | Primera calidad | Segunda calidad | Defectuosas | **Total** |
+|---|---|---|---|---|
+| Mañana | 1,2982 | 0,2567 | 16 | **17,5549** |
+| Tarde | 0,0081 | 0,0713 | 0 | **0,0794** |
+| Noche | 1,3144 | 0,0357 | 20 | **21,3501** |
+| **Total** | **2,6207** | **0,3636** | **36** | **χ² = 38,9843** |
+
+χ² = 38,9843 > χ²c = 13,2767 ⇒ se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 1%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que la distribución de Primera calidad, Segunda calidad y Defectuosas es la misma en Mañana, Tarde y Noche (χ² = 38,9843 [χ²c = 13,2767; ν = 4] cae en la zona de rechazo). Por consiguiente, se da por probado que la distribución de Primera calidad, Segunda calidad y Defectuosas no es la misma en Mañana, Tarde y Noche.
 
 **Respuesta de la guía:** Resp: Se puede asegurar que los niveles de calidad en los tres turnos son diferentes.
 
@@ -6627,17 +6826,50 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.
+- **1 · Planteo de hipótesis** (prueba de independencia): H0: no hay relación entre las variables, es decir, p₁ = p₂ = p₃ = p₄, siendo pᵢ la proporción con reclamo en cada color (1 = Blanco, 2 = Azul, 3 = Rojo, 4 = Verde)  vs  H1: al menos una pᵢ es distinta.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.
-- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = 5,5739; ν = (f-1)(c-1) = 3; χ²crítico(1-α; 3) = 7,8147.
+- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (4-1)(2-1) = 3 grados de libertad; χ²crítico(1-α; 3) = 7,8147.
 - **Modelos y distribuciones empleados**:  
 • Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).  
 • La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 7,8147, se rechaza H0 → se da por probado que las variables están asociadas. En caso contrario no se rechaza H0 → no se puede afirmar que las variables están asociadas.
-- **6 · Cálculos y decisión**: χ² ≤ χ²c ⇒ no se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 7,8147 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 7,8147, se rechaza H0 → se da por probado que hay relación entre las variables (la proporción con reclamo difiere entre Blanco, Azul, Rojo y Verde). En caso contrario no se rechaza H0 → no se puede afirmar que hay relación entre las variables (la proporción con reclamo difiere entre Blanco, Azul, Rojo y Verde).
+- **6 · Cálculos y decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².
 
-**Conclusión:** A un nivel de significación del 5%, no existe evidencia estadística suficiente para rechazar la hipótesis nula de que las variables son independientes (no hay asociación / los grupos son homogéneos) (χ² = 5,57386 [χ²c = 7,81473; ν = 3] no cae en la zona de rechazo). Por consiguiente, no se puede afirmar que no es cierto que las variables son independientes (no hay asociación / los grupos son homogéneos): se mantiene H0 (no rechazarla no equivale a probarla).
+*Frecuencias observadas Oᵢⱼ*
+
+| Color | Con reclamo | Sin reclamo | **Total** |
+|---|---|---|---|
+| Blanco | 90 | 460 | **550** |
+| Azul | 90 | 360 | **450** |
+| Rojo | 75 | 405 | **480** |
+| Verde | 45 | 275 | **320** |
+| **Total** | **300** | **1.500** | **1.800** |
+
+*Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / 1.800*
+
+| Color | Con reclamo | Sin reclamo | **Total** |
+|---|---|---|---|
+| Blanco | 91,6667 | 458,3333 | **550** |
+| Azul | 75 | 375 | **450** |
+| Rojo | 80 | 400 | **480** |
+| Verde | 53,3333 | 266,6667 | **320** |
+| **Total** | **300** | **1.500** | **1.800** |
+
+*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*
+
+| Color | Con reclamo | Sin reclamo | **Total** |
+|---|---|---|---|
+| Blanco | 0,0303 | 0,0061 | **0,0364** |
+| Azul | 3 | 0,6 | **3,6** |
+| Rojo | 0,3125 | 0,0625 | **0,375** |
+| Verde | 1,3021 | 0,2604 | **1,5625** |
+| **Total** | **4,6449** | **0,929** | **χ² = 5,5739** |
+
+χ² = 5,5739 ≤ χ²c = 7,8147 ⇒ no se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 5%, no existe evidencia estadística suficiente para rechazar la hipótesis nula de que no hay relación entre las variables (la proporción con reclamo es la misma en Blanco, Azul, Rojo y Verde) (χ² = 5,5739 [χ²c = 7,8147; ν = 3] no cae en la zona de rechazo). Por consiguiente, no se puede afirmar que hay relación entre las variables (la proporción con reclamo difiere entre Blanco, Azul, Rojo y Verde): se mantiene H0 (no rechazarla no equivale a probarla).
 
 **Respuesta de la guía:** Resp: No se puede asegurar que exista relación entre el color de los autos y el porcentaje de fallas por pintura.
 
@@ -6662,17 +6894,44 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.
+- **1 · Planteo de hipótesis** (prueba de independencia): H0: no hay relación entre las variables, es decir, p₁ = p₂ = … = p₅, siendo pᵢ la proporción de «Empresa» en cada grupo (1 = A, 2 = B, 3 = C, 4 = D, 5 = E)  vs  H1: al menos una pᵢ es distinta.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.
-- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = 15,7899; ν = (f-1)(c-1) = 4; χ²crítico(1-α; 4) = 9,4877.
+- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (2-1)(5-1) = 4 grados de libertad; χ²crítico(1-α; 4) = 9,4877.
 - **Modelos y distribuciones empleados**:  
 • Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).  
 • La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 9,4877, se rechaza H0 → se da por probado que las variables están asociadas. En caso contrario no se rechaza H0 → no se puede afirmar que las variables están asociadas.
-- **6 · Cálculos y decisión**: χ² > χ²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 9,4877 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 9,4877, se rechaza H0 → se da por probado que hay relación entre las variables (la proporción de «Empresa» difiere entre A, B, C, D y E). En caso contrario no se rechaza H0 → no se puede afirmar que hay relación entre las variables (la proporción de «Empresa» difiere entre A, B, C, D y E).
+- **6 · Cálculos y decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².
 
-**Conclusión:** A un nivel de significación del 5%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que las variables son independientes (no hay asociación / los grupos son homogéneos) (χ² = 15,78995 [χ²c = 9,48773; ν = 4] cae en la zona de rechazo). Por consiguiente, se da por probado que no es cierto que las variables son independientes (no hay asociación / los grupos son homogéneos).
+*Frecuencias observadas Oᵢⱼ*
+
+| Preferencia | A | B | C | D | E | **Total** |
+|---|---|---|---|---|---|---|
+| Empresa | 36 | 20 | 28 | 33 | 16 | **133** |
+| Competencia | 44 | 30 | 12 | 17 | 24 | **127** |
+| **Total** | **80** | **50** | **40** | **50** | **40** | **260** |
+
+*Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / 260*
+
+| Preferencia | A | B | C | D | E | **Total** |
+|---|---|---|---|---|---|---|
+| Empresa | 40,9231 | 25,5769 | 20,4615 | 25,5769 | 20,4615 | **133** |
+| Competencia | 39,0769 | 24,4231 | 19,5385 | 24,4231 | 19,5385 | **127** |
+| **Total** | **80** | **50** | **40** | **50** | **40** | **260** |
+
+*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*
+
+| Preferencia | A | B | C | D | E | **Total** |
+|---|---|---|---|---|---|---|
+| Empresa | 0,5922 | 1,216 | 2,7773 | 2,1544 | 0,9728 | **7,7128** |
+| Competencia | 0,6202 | 1,2735 | 2,9085 | 2,2561 | 1,0188 | **8,0772** |
+| **Total** | **1,2125** | **2,4895** | **5,6859** | **4,4105** | **1,9916** | **χ² = 15,7899** |
+
+χ² = 15,7899 > χ²c = 9,4877 ⇒ se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 5%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que no hay relación entre las variables (la proporción de «Empresa» es la misma en A, B, C, D y E) (χ² = 15,7899 [χ²c = 9,4877; ν = 4] cae en la zona de rechazo). Por consiguiente, se da por probado que hay relación entre las variables (la proporción de «Empresa» difiere entre A, B, C, D y E).
 
 **Respuesta de la guía:** Resp: Sí, la preferencia del público, a una marca, depende de la zona en donde se comercializa.
 
@@ -6698,17 +6957,47 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: las variables son independientes (o los grupos son homogéneos)  vs  H1: no lo son.
+- **1 · Planteo de hipótesis** (prueba de independencia): H0: no hay relación entre las variables, es decir, p₁ = p₂ = p₃ para cada categoría (Neutro, Lavanda, Deportivo y Fresh), siendo pᵢ su proporción en cada local (1 = Local 1, 2 = Local 2, 3 = Local 3)  vs  H1: en al menos una categoría las pᵢ son distintas.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Eᵢⱼ = (total fila i · total columna j) / total general.
-- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ = 13,5075; ν = (f-1)(c-1) = 6; χ²crítico(1-α; 6) = 10,6446.
+- **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (3-1)(4-1) = 6 grados de libertad; χ²crítico(1-α; 6) = 10,6446.
 - **Modelos y distribuciones empleados**:  
 • Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).  
 • La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 10,6446, se rechaza H0 → se da por probado que las variables están asociadas. En caso contrario no se rechaza H0 → no se puede afirmar que las variables están asociadas.
-- **6 · Cálculos y decisión**: χ² > χ²c ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 10,6446 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ con la tabla observada. Si χ² > 10,6446, se rechaza H0 → se da por probado que hay relación entre las variables (la distribución de Neutro, Lavanda, Deportivo y Fresh no es la misma en Local 1, Local 2 y Local 3). En caso contrario no se rechaza H0 → no se puede afirmar que hay relación entre las variables (la distribución de Neutro, Lavanda, Deportivo y Fresh no es la misma en Local 1, Local 2 y Local 3).
+- **6 · Cálculos y decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².
 
-**Conclusión:** A un nivel de significación del 10%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que las variables son independientes (no hay asociación / los grupos son homogéneos) (χ² = 13,50747 [χ²c = 10,64464; ν = 6] cae en la zona de rechazo). Por consiguiente, se da por probado que no es cierto que las variables son independientes (no hay asociación / los grupos son homogéneos).
+*Frecuencias observadas Oᵢⱼ*
+
+| Local | Neutro | Lavanda | Deportivo | Fresh | **Total** |
+|---|---|---|---|---|---|
+| Local 1 | 32 | 45 | 23 | 28 | **128** |
+| Local 2 | 14 | 51 | 15 | 14 | **94** |
+| Local 3 | 14 | 14 | 12 | 8 | **48** |
+| **Total** | **60** | **110** | **50** | **50** | **270** |
+
+*Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / 270*
+
+| Local | Neutro | Lavanda | Deportivo | Fresh | **Total** |
+|---|---|---|---|---|---|
+| Local 1 | 28,4444 | 52,1481 | 23,7037 | 23,7037 | **128** |
+| Local 2 | 20,8889 | 38,2963 | 17,4074 | 17,4074 | **94** |
+| Local 3 | 10,6667 | 19,5556 | 8,8889 | 8,8889 | **48** |
+| **Total** | **60** | **110** | **50** | **50** | **270** |
+
+*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*
+
+| Local | Neutro | Lavanda | Deportivo | Fresh | **Total** |
+|---|---|---|---|---|---|
+| Local 1 | 0,4444 | 0,9798 | 0,0209 | 0,7787 | **2,2239** |
+| Local 2 | 2,2719 | 4,2141 | 0,3329 | 0,667 | **7,4859** |
+| Local 3 | 1,0417 | 1,5783 | 1,0889 | 0,0889 | **3,7977** |
+| **Total** | **3,758** | **6,7722** | **1,4427** | **1,5346** | **χ² = 13,5075** |
+
+χ² = 13,5075 > χ²c = 10,6446 ⇒ se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 10%, existe evidencia estadística suficiente para rechazar la hipótesis nula de que no hay relación entre las variables (la distribución de Neutro, Lavanda, Deportivo y Fresh es la misma en Local 1, Local 2 y Local 3) (χ² = 13,5075 [χ²c = 10,6446; ν = 6] cae en la zona de rechazo). Por consiguiente, se da por probado que hay relación entre las variables (la distribución de Neutro, Lavanda, Deportivo y Fresh no es la misma en Local 1, Local 2 y Local 3).
 
 **Respuesta de la guía:** H0) “La preferencia a una determinada fragancia es independiente del local donde se comercializa el desodorante”, α = 0,10. Esperados: Loc 1: 28,4444; 52,1481; 23,7037; 23,7037; Loc 2: 20,8889; 38,2963; 17,4074; 17,4074; Loc 3: 10,6667; 19,5556; 8,8889; 8,8889. χ²calc = 13,5075; ν = (f−1)·(k−1) = 6; χ²(0,90;6) = 10,6446. Se rechaza la hipótesis planteada, de manera que se concluye que la preferencia de cada fragancia depende del local donde se comercializa o sea que las preferencias difieren entre los locales.
 
@@ -6741,27 +7030,28 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### Resolución (Ensayo de hipótesis (decidir)) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Uniforme discreto: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Uniforme discreto: se compara χ² calculado contra el crítico.
 
 - **— Modelo Uniforme discreto —**
-- **1 · Planteo de hipótesis**: H0: la variable sigue el modelo Uniforme discreto con   vs  H1: no lo sigue.  α = 0,05.
+- **1 · Planteo de hipótesis**: H0: la variable sigue el modelo Uniforme discreto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 1 | 14 | 0,1667 | 10 |
-| 2 | 6 | 0,1667 | 10 |
-| 3 | 6 | 0,1667 | 10 |
-| 4 | 13 | 0,1667 | 10 |
-| 5 | 16 | 0,1667 | 10 |
-| 6 | 5 | 0,1667 | 10 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 1 | 14 | 0,1667 | 10 | 1,6 |
+| 2 | 6 | 0,1667 | 10 | 1,6 |
+| 3 | 6 | 0,1667 | 10 | 1,6 |
+| 4 | 13 | 0,1667 | 10 | 0,9 |
+| 5 | 16 | 0,1667 | 10 | 3,6 |
+| 6 | 5 | 0,1667 | 10 | 2,5 |
+| **Total** | **60** | **1** | **60** | **χ² = 11,8** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 11,8; ν = k - 1 - p = 6 - 1 - 0 = 5; χ²(1-α; ν) = 11,0705.
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = k - 1 - (parámetros estimados).  
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
-- **Parámetros del modelo**: .
+- **4 · Condición de rechazo (CR)**: si χ² > 11,0705 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 11,0705, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 11,8 > 11,0705 ⇒ se rechaza H0: la variable NO sigue el modelo Uniforme discreto.
 
@@ -6789,24 +7079,25 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### Resolución (Ensayo de hipótesis (decidir)) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Uniforme discreto: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Uniforme discreto: se compara χ² calculado contra el crítico.
 
 - **— Modelo Uniforme discreto —**
-- **1 · Planteo de hipótesis**: H0: la variable sigue el modelo Uniforme discreto con   vs  H1: no lo sigue.  α = 0,05.
+- **1 · Planteo de hipótesis**: H0: la variable sigue el modelo Uniforme discreto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 0 (cero) | 42 | 0,3333 | 333,333 |
-| Negro | 520 | 0,3333 | 333,333 |
-| Colorado | 438 | 0,3333 | 333,333 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 0 (cero) | 42 | 0,3333 | 333,333 | 254,6253 |
+| Negro | 520 | 0,3333 | 333,333 | 104,5333 |
+| Colorado | 438 | 0,3333 | 333,333 | 32,8653 |
+| **Total** | **1.000** | **1** | **1.000** | **χ² = 392,024** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 392,024; ν = k - 1 - p = 3 - 1 - 0 = 2; χ²(1-α; ν) = 5,9915.
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = k - 1 - (parámetros estimados).  
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
-- **Parámetros del modelo**: .
+- **4 · Condición de rechazo (CR)**: si χ² > 5,9915 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 5,9915, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 392,024 > 5,9915 ⇒ se rechaza H0: la variable NO sigue el modelo Uniforme discreto.
 
@@ -6835,25 +7126,26 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### Resolución (Ensayo de hipótesis (decidir)) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Uniforme discreto: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Uniforme discreto: se compara χ² calculado contra el crítico.
 
 - **— Modelo Uniforme discreto —**
-- **1 · Planteo de hipótesis**: H0: la variable sigue el modelo Uniforme discreto con   vs  H1: no lo sigue.  α = 0,05.
+- **1 · Planteo de hipótesis**: H0: la variable sigue el modelo Uniforme discreto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| A | 16 | 0,25 | 20 |
-| B | 22 | 0,25 | 20 |
-| C | 24 | 0,25 | 20 |
-| D | 18 | 0,25 | 20 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| A | 16 | 0,25 | 20 | 0,8 |
+| B | 22 | 0,25 | 20 | 0,2 |
+| C | 24 | 0,25 | 20 | 0,8 |
+| D | 18 | 0,25 | 20 | 0,2 |
+| **Total** | **80** | **1** | **80** | **χ² = 2** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 2; ν = k - 1 - p = 4 - 1 - 0 = 3; χ²(1-α; ν) = 7,8147.
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = k - 1 - (parámetros estimados).  
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
-- **Parámetros del modelo**: .
+- **4 · Condición de rechazo (CR)**: si χ² > 7,8147 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 7,8147, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 2 ≤ 7,8147 ⇒ no se rechaza H0: el modelo Uniforme discreto es un buen candidato.
 
@@ -6879,19 +7171,30 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### Resolución (Ensayo de hipótesis (decidir)) ✅
 
-*Qué pide:* Bondad de ajuste χ² a el modelo propuesto: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo propuesto: se compara χ² calculado contra el crítico.
 
-- **1 · Planteo de hipótesis**: H0: los datos siguen el modelo propuesto  vs  H1: no lo siguen.
+- **1 · Planteo de hipótesis**: H0: las proporciones de cada categoría son las del modelo propuesto (24": 0,4; 36": 0,4; 40": 0,2)  vs  H1: al menos una difiere.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas**: Feᵢ = N·pᵢ con N = 200 → 80, 80, 40.
-- **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 5,625; ν = k - 1 - p = 3 - 1 - 0 = 2; χ²crítico = 5,9915.
+- **Frecuencias esperadas**: bajo H0, Feᵢ = N·pᵢ con N = 200.
+- **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ, con ν = k - 1 - p = 3 - 1 - 0 = 2 grados de libertad; χ²crítico = 5,9915.
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = k - 1 - (parámetros estimados).  
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
-- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Foᵢ - Feᵢ)²/Feᵢ con las frecuencias observadas. Si χ² > 5,9915, se rechaza H0 → se da por probado que los datos no siguen el modelo propuesto. En caso contrario no se rechaza H0 → no se puede afirmar que los datos no siguen el modelo propuesto.
-- **6 · Cálculos y decisión**: χ² ≤ χ²c ⇒ no se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 5,9915 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² = Σ(Foᵢ - Feᵢ)²/Feᵢ con las frecuencias observadas. Si χ² > 5,9915, se rechaza H0 → se da por probado que las proporciones no son las del modelo propuesto. En caso contrario no se rechaza H0 → no se puede afirmar que las proporciones no son las del modelo propuesto.
+- **6 · Cálculos y decisión**: frecuencias observadas, esperadas y aporte de cada categoría al χ².
 
-**Conclusión:** A un nivel de significación del 5%, no existe evidencia estadística suficiente para rechazar la hipótesis nula de que los datos siguen el modelo propuesto (χ² = 5,62500 [χ²c = 5,99146; ν = 2] no cae en la zona de rechazo). Por consiguiente, no se puede afirmar que no es cierto que los datos siguen el modelo propuesto: se mantiene H0 (no rechazarla no equivale a probarla).
+| Categoría | Foᵢ | pᵢ | Feᵢ | (Foᵢ - Feᵢ)²/Feᵢ |
+|---|---|---|---|---|
+| 24" | 85 | 0,4 | 80 | 0,3125 |
+| 36" | 65 | 0,4 | 80 | 2,8125 |
+| 40" | 50 | 0,2 | 40 | 2,5 |
+| **Total** | **200** | **1** | **200** | **χ² = 5,625** |
+
+χ² = 5,625 ≤ χ²c = 5,9915 ⇒ no se rechaza H0.
+
+
+**Conclusión:** A un nivel de significación del 5%, no existe evidencia estadística suficiente para rechazar la hipótesis nula de que las proporciones son las del modelo propuesto (χ² = 5,625 [χ²c = 5,9915; ν = 2] no cae en la zona de rechazo). Por consiguiente, no se puede afirmar que las proporciones no son las del modelo propuesto: se mantiene H0 (no rechazarla no equivale a probarla).
 
 **Respuesta de la guía:** Resp: No se puede asegurar que el patrón histórico de ventas haya cambiado.
 
@@ -6919,7 +7222,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### Resolución (Ensayo de hipótesis (decidir)) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Normal: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Normal: se compara χ² calculado contra el crítico.
 
 > ⚠️ Se amalgamaron clases con Fe < 5: de 7 a 6 clases efectivas.
 
@@ -6940,14 +7243,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 20 a 30 | 6 | 0,0253 | 15,187 |
-| 30 a 40 | 90 | 0,146 | 87,625 |
-| 40 a 50 | 232 | 0,3514 | 210,824 |
-| 50 a 60 | 192 | 0,3333 | 200,006 |
-| 60 a 70 | 66 | 0,1246 | 74,784 |
-| 70 a 90 | 14 | 0,0193 | 11,573 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 20 a 30 | 6 | 0,0253 | 15,187 | 5,5572 |
+| 30 a 40 | 90 | 0,146 | 87,625 | 0,0644 |
+| 40 a 50 | 232 | 0,3514 | 210,824 | 2,1269 |
+| 50 a 60 | 192 | 0,3333 | 200,006 | 0,3205 |
+| 60 a 70 | 66 | 0,1246 | 74,784 | 1,0318 |
+| 70 a 90 | 14 | 0,0193 | 11,573 | 0,5088 |
+| **Total** | **600** | **1** | **600** | **χ² = 9,6097** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 9,6097; ν = k - 1 - p = 6 - 1 - 2 = 3; χ²(1-α; ν) = 7,8147.
 - **Modelos y distribuciones empleados**:  
@@ -6955,6 +7259,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
 - **Estimación** (marcas de clase): x̄ = 49,4333, S = 9,942.
 - **Parámetros del modelo**: μ = 49,4333 (estimado), σ = 9,942 (estimado).
+- **4 · Condición de rechazo (CR)**: si χ² > 7,8147 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 7,8147, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 9,6097 > 7,8147 ⇒ se rechaza H0: la variable NO sigue el modelo Normal.
 
@@ -6987,7 +7292,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### a) Ensayo de hipótesis (decidir) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Gumbel del mínimo: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Gumbel del mínimo: se compara χ² calculado contra el crítico.
 
 > ⚠️ Se amalgamaron clases con Fe < 5: de 7 a 6 clases efectivas.
 
@@ -7008,14 +7313,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 0 a 15 | 8 | 0,1054 | 15,071 |
-| 15 a 30 | 40 | 0,1124 | 16,07 |
-| 30 a 45 | 30 | 0,2004 | 28,662 |
-| 45 a 60 | 25 | 0,2789 | 39,887 |
-| 60 a 75 | 18 | 0,2311 | 33,045 |
-| 75 a 105 | 22 | 0,0718 | 10,265 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 0 a 15 | 8 | 0,1054 | 15,071 | 3,3178 |
+| 15 a 30 | 40 | 0,1124 | 16,07 | 35,6352 |
+| 30 a 45 | 30 | 0,2004 | 28,662 | 0,0625 |
+| 45 a 60 | 25 | 0,2789 | 39,887 | 5,5562 |
+| 60 a 75 | 18 | 0,2311 | 33,045 | 6,85 |
+| 75 a 105 | 22 | 0,0718 | 10,265 | 13,4167 |
+| **Total** | **143** | **1** | **143** | **χ² = 64,8385** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 64,8385; ν = k - 1 - p = 6 - 1 - 2 = 3; χ²(1-α; ν) = 11,3449.
 - **Modelos y distribuciones empleados**:  
@@ -7023,6 +7329,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
 - **Estimación** (marcas de clase): x̄ = 45,6818, S = 24,3257.
 - **Parámetros del modelo**: β = 18,9667 (estimado), θ (modo) = 56,6297 (estimado).
+- **4 · Condición de rechazo (CR)**: si χ² > 11,3449 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 11,3449, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 64,8385 > 11,3449 ⇒ se rechaza H0: la variable NO sigue el modelo Gumbel del mínimo.
 
@@ -7032,7 +7339,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### b) Ensayo de hipótesis (decidir) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Gumbel del máximo, Weibull: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Gumbel del máximo, Weibull: se compara χ² calculado contra el crítico.
 
 - **— Modelo Gumbel del máximo —**
 - **1 · Planteo de hipótesis**: H0: la variable sigue el modelo Gumbel del máximo  vs  H1: no lo sigue.  α = 0,01.
@@ -7042,28 +7349,30 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 0 a 15 | 8 | 0,059 | 8,435 |
-| 15 a 30 | 40 | 0,2181 | 31,186 |
-| 30 a 45 | 30 | 0,2817 | 40,284 |
-| 45 a 60 | 25 | 0,2093 | 29,925 |
-| 60 a 75 | 18 | 0,1192 | 17,041 |
-| 75 a 90 | 15 | 0,06 | 8,576 |
-| 90 a 105 | 7 | 0,0528 | 7,553 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 0 a 15 | 8 | 0,059 | 8,435 | 0,0224 |
+| 15 a 30 | 40 | 0,2181 | 31,186 | 2,4913 |
+| 30 a 45 | 30 | 0,2817 | 40,284 | 2,6255 |
+| 45 a 60 | 25 | 0,2093 | 29,925 | 0,8105 |
+| 60 a 75 | 18 | 0,1192 | 17,041 | 0,0539 |
+| 75 a 90 | 15 | 0,06 | 8,576 | 4,8127 |
+| 90 a 105 | 7 | 0,0528 | 7,553 | 0,0405 |
+| **Total** | **143** | **1** | **143** | **χ² = 10,8569** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 10,8569; ν = k - 1 - p = 7 - 1 - 2 = 4; χ²(1-α; ν) = 13,2767.
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 0 a 15 | 8 | 0,0853 | 12,193 |
-| 15 a 30 | 40 | 0,2076 | 29,69 |
-| 30 a 45 | 30 | 0,2427 | 34,707 |
-| 45 a 60 | 25 | 0,2046 | 29,252 |
-| 60 a 75 | 18 | 0,1357 | 19,412 |
-| 75 a 90 | 15 | 0,0734 | 10,501 |
-| 90 a 105 | 7 | 0,0507 | 7,245 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 0 a 15 | 8 | 0,0853 | 12,193 | 1,4422 |
+| 15 a 30 | 40 | 0,2076 | 29,69 | 3,5802 |
+| 30 a 45 | 30 | 0,2427 | 34,707 | 0,6384 |
+| 45 a 60 | 25 | 0,2046 | 29,252 | 0,618 |
+| 60 a 75 | 18 | 0,1357 | 19,412 | 0,1027 |
+| 75 a 90 | 15 | 0,0734 | 10,501 | 1,9271 |
+| 90 a 105 | 7 | 0,0507 | 7,245 | 0,0083 |
+| **Total** | **143** | **1** | **143** | **χ² = 8,3167** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 8,3167; ν = k - 1 - p = 7 - 1 - 2 = 4; χ²(1-α; ν) = 13,2767.
 - **Modelos y distribuciones empleados**:  
@@ -7071,6 +7380,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
 - **Estimación** (marcas de clase): x̄ = 45,6818, S = 24,3257.
 - **Parámetros del modelo**: β = 18,9667 (estimado), θ (modo) = 34,7339 (estimado).
+- **4 · Condición de rechazo (CR)**: si χ² > 13,2767 ⇒ se rechaza H0.
+- **4 · Condición de rechazo (CR)**: si χ² > 13,2767 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 13,2767, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 10,8569 ≤ 13,2767 ⇒ no se rechaza H0: el modelo Gumbel del máximo es un buen candidato.
 - **— Modelo Weibull —**
@@ -7108,7 +7419,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### Resolución (Ensayo de hipótesis (decidir)) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Poisson: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Poisson: se compara χ² calculado contra el crítico.
 
 > ⚠️ Se amalgamaron clases con Fe < 5: de 11 a 10 clases efectivas.
 
@@ -7133,18 +7444,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 0 | 26 | 0,0294 | 20,119 |
-| 1 | 62 | 0,1037 | 70,944 |
-| 2 | 120 | 0,1829 | 125,086 |
-| 3 | 145 | 0,215 | 147,031 |
-| 4 | 131 | 0,1895 | 129,619 |
-| 5 | 101 | 0,1336 | 91,416 |
-| 6 | 61 | 0,0785 | 53,727 |
-| 7 | 27 | 0,0396 | 27,065 |
-| 8 | 9 | 0,0174 | 11,93 |
-| 9 a ≥ 10 | 2 | 0,0103 | 7,062 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 0 | 26 | 0,0294 | 20,119 | 1,7194 |
+| 1 | 62 | 0,1037 | 70,944 | 1,1277 |
+| 2 | 120 | 0,1829 | 125,086 | 0,2068 |
+| 3 | 145 | 0,215 | 147,031 | 0,0281 |
+| 4 | 131 | 0,1895 | 129,619 | 0,0147 |
+| 5 | 101 | 0,1336 | 91,416 | 1,0048 |
+| 6 | 61 | 0,0785 | 53,727 | 0,9846 |
+| 7 | 27 | 0,0396 | 27,065 | 0,0002 |
+| 8 | 9 | 0,0174 | 11,93 | 0,7197 |
+| 9 a ≥ 10 | 2 | 0,0103 | 7,062 | 3,6287 |
+| **Total** | **684** | **1** | **684** | **χ² = 9,4346** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 9,4346; ν = k - 1 - p = 10 - 1 - 1 = 8; χ²(1-α; ν) = 15,5073.
 - **Modelos y distribuciones empleados**:  
@@ -7152,6 +7464,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
 - **Estimación** (marcas de clase): x̄ = 3,5263.
 - **Parámetros del modelo**: m = 3,5263 (estimado).
+- **4 · Condición de rechazo (CR)**: si χ² > 15,5073 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 15,5073, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 9,4346 ≤ 15,5073 ⇒ no se rechaza H0: el modelo Poisson es un buen candidato.
 
@@ -7183,7 +7496,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### Resolución (Ensayo de hipótesis (decidir)) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Log-Normal: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Log-Normal: se compara χ² calculado contra el crítico.
 
 > ⚠️ Se amalgamaron clases con Fe < 5: de 7 a 6 clases efectivas.
 
@@ -7204,14 +7517,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 0 a 100 | 18 | 0,1866 | 18,663 |
-| 100 a 200 | 34 | 0,382 | 38,197 |
-| 200 a 300 | 28 | 0,218 | 21,802 |
-| 300 a 400 | 12 | 0,1052 | 10,515 |
-| 400 a 500 | 4 | 0,051 | 5,098 |
-| 500 a 1400 | 4 | 0,0572 | 5,725 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 0 a 100 | 18 | 0,1866 | 18,663 | 0,0235 |
+| 100 a 200 | 34 | 0,382 | 38,197 | 0,4612 |
+| 200 a 300 | 28 | 0,218 | 21,802 | 1,7621 |
+| 300 a 400 | 12 | 0,1052 | 10,515 | 0,2096 |
+| 400 a 500 | 4 | 0,051 | 5,098 | 0,2363 |
+| 500 a 1400 | 4 | 0,0572 | 5,725 | 0,5197 |
+| **Total** | **100** | **1** | **100** | **χ² = 3,2125** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 3,2125; ν = k - 1 - p = 6 - 1 - 2 = 3; χ²(1-α; ν) = 7,8147.
 - **Modelos y distribuciones empleados**:  
@@ -7219,6 +7533,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
 - **Estimación** (marcas de clase): x̄ = 221, S = 160,8343.
 - **Parámetros del modelo**: m = 5,1856 (estimado), D = 0,6519 (estimado).
+- **4 · Condición de rechazo (CR)**: si χ² > 7,8147 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 7,8147, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 3,2125 ≤ 7,8147 ⇒ no se rechaza H0: el modelo Log-Normal es un buen candidato.
 
@@ -7253,25 +7568,26 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### Resolución (Ensayo de hipótesis (decidir)) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Pareto: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Pareto: se compara χ² calculado contra el crítico.
 
 - **— Modelo Pareto —**
 - **1 · Planteo de hipótesis**: H0: la variable sigue el modelo Pareto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 400 a 500 | 59 | 0,3241 | 69,361 |
-| 500 a 600 | 34 | 0,1851 | 39,617 |
-| 600 a 700 | 26 | 0,1164 | 24,9 |
-| 700 a 800 | 20 | 0,0782 | 16,743 |
-| 800 a 1000 | 21 | 0,096 | 20,542 |
-| 1000 a 1200 | 15 | 0,0548 | 11,733 |
-| 1200 a 1500 | 11 | 0,0471 | 10,081 |
-| 1500 a 2000 | 10 | 0,039 | 8,336 |
-| 2000 a 3000 | 12 | 0,0302 | 6,461 |
-| 3000 a 5000 | 6 | 0,0291 | 6,226 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 400 a 500 | 59 | 0,3241 | 69,361 | 1,5476 |
+| 500 a 600 | 34 | 0,1851 | 39,617 | 0,7963 |
+| 600 a 700 | 26 | 0,1164 | 24,9 | 0,0486 |
+| 700 a 800 | 20 | 0,0782 | 16,743 | 0,6335 |
+| 800 a 1000 | 21 | 0,096 | 20,542 | 0,0102 |
+| 1000 a 1200 | 15 | 0,0548 | 11,733 | 0,9096 |
+| 1200 a 1500 | 11 | 0,0471 | 10,081 | 0,0837 |
+| 1500 a 2000 | 10 | 0,039 | 8,336 | 0,3322 |
+| 2000 a 3000 | 12 | 0,0302 | 6,461 | 4,7492 |
+| 3000 a 5000 | 6 | 0,0291 | 6,226 | 0,0082 |
+| **Total** | **214** | **1** | **214** | **χ² = 9,1192** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 9,1192; ν = k - 1 - p = 10 - 1 - 2 = 7; χ²(1-α; ν) = 14,0671.
 - **Modelos y distribuciones empleados**:  
@@ -7279,6 +7595,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
 - **Estimación** (marcas de clase): x̄ = 929,4393, S = 739,3517.
 - **Parámetros del modelo**: θ (mínimo) = 400 (estimado), b = 1,7555 (estimado).
+- **4 · Condición de rechazo (CR)**: si χ² > 14,0671 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 14,0671, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 9,1192 ≤ 14,0671 ⇒ no se rechaza H0: el modelo Pareto es un buen candidato.
 
@@ -7311,23 +7628,24 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### Resolución (Ensayo de hipótesis (decidir)) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Weibull: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Weibull: se compara χ² calculado contra el crítico.
 
 - **— Modelo Weibull —**
 - **1 · Planteo de hipótesis**: H0: la variable sigue el modelo Weibull  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 0 a 40 | 38 | 0,0758 | 37,913 |
-| 40 a 80 | 105 | 0,2028 | 101,404 |
-| 80 a 120 | 120 | 0,249 | 124,501 |
-| 120 a 160 | 96 | 0,2138 | 106,921 |
-| 160 a 200 | 80 | 0,1406 | 70,29 |
-| 200 a 240 | 43 | 0,0732 | 36,591 |
-| 240 a 280 | 15 | 0,0307 | 15,327 |
-| 280 a 320 | 3 | 0,0141 | 7,053 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 0 a 40 | 38 | 0,0758 | 37,913 | 0,0002 |
+| 40 a 80 | 105 | 0,2028 | 101,404 | 0,1275 |
+| 80 a 120 | 120 | 0,249 | 124,501 | 0,1628 |
+| 120 a 160 | 96 | 0,2138 | 106,921 | 1,1154 |
+| 160 a 200 | 80 | 0,1406 | 70,29 | 1,3414 |
+| 200 a 240 | 43 | 0,0732 | 36,591 | 1,1226 |
+| 240 a 280 | 15 | 0,0307 | 15,327 | 0,007 |
+| 280 a 320 | 3 | 0,0141 | 7,053 | 2,3293 |
+| **Total** | **500** | **1** | **500** | **χ² = 6,2061** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 6,2061; ν = k - 1 - p = 8 - 1 - 2 = 5; χ²(1-α; ν) = 11,0705.
 - **Modelos y distribuciones empleados**:  
@@ -7335,6 +7653,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
 - **Estimación** (marcas de clase): x̄ = 122,32, S = 62,5271.
 - **Parámetros del modelo**: w (forma) = 2,0503 (estimado), β = 138,0754 (estimado).
+- **4 · Condición de rechazo (CR)**: si χ² > 11,0705 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 11,0705, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 6,2061 ≤ 11,0705 ⇒ no se rechaza H0: el modelo Weibull es un buen candidato.
 
@@ -7397,7 +7716,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### b) Ensayo de hipótesis (decidir) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Normal: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Normal: se compara χ² calculado contra el crítico.
 
 > ⚠️ El enunciado no fija el riesgo α: se usó α = 0,05. Mirá el valor a posteriori α*: se rechaza H0 para cualquier α ≥ α* (así lo responde la guía en estos casos).
 > ⚠️ los parámetros dados se dividieron por 1000 (la tabla está en otra escala)
@@ -7422,14 +7741,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 10 a 16 | 21 | 0,0548 | 6,192 |
-| 16 a 18 | 18 | 0,1571 | 17,747 |
-| 18 a 20 | 30 | 0,2881 | 32,56 |
-| 20 a 22 | 22 | 0,2881 | 32,56 |
-| 22 a 24 | 16 | 0,1571 | 17,747 |
-| 24 a 28 | 6 | 0,0548 | 6,192 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 10 a 16 | 21 | 0,0548 | 6,192 | 35,4096 |
+| 16 a 18 | 18 | 0,1571 | 17,747 | 0,0036 |
+| 18 a 20 | 30 | 0,2881 | 32,56 | 0,2013 |
+| 20 a 22 | 22 | 0,2881 | 32,56 | 3,425 |
+| 22 a 24 | 16 | 0,1571 | 17,747 | 0,172 |
+| 24 a 28 | 6 | 0,0548 | 6,192 | 0,006 |
+| **Total** | **113** | **1** | **113** | **χ² = 39,2176** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 39,2176; ν = k - 1 - p = 6 - 1 - 0 = 5; χ²(1-α; ν) = 11,0705.
 - **Modelos y distribuciones empleados**:  
@@ -7437,6 +7757,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
 - **Estimación** (marcas de clase): x̄ = 19,0531, S = 3,2892.
 - **Parámetros del modelo**: μ = 20 (dado), σ = 2,5 (dado).
+- **4 · Condición de rechazo (CR)**: si χ² > 11,0705 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 11,0705, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 39,2176 > 11,0705 ⇒ se rechaza H0: la variable NO sigue el modelo Normal.
 
@@ -7448,7 +7769,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 #### c) Ensayo de hipótesis (decidir) ✅
 
-*Qué pide:* Bondad de ajuste χ² a Normal: se compara χ² calculado contra el crítico.
+*Qué pide:* Bondad de ajuste χ² al modelo Normal: se compara χ² calculado contra el crítico.
 
 > ⚠️ El enunciado no fija el riesgo α: se usó α = 0,05. Mirá el valor a posteriori α*: se rechaza H0 para cualquier α ≥ α* (así lo responde la guía en estos casos).
 > ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 7 clases efectivas.
@@ -7472,15 +7793,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
-| Clase | Fo | P | Fe |
-|---|---|---|---|
-| 10 a 14 | 8 | 0,0622 | 7,032 |
-| 14 a 16 | 13 | 0,1144 | 12,928 |
-| 16 a 18 | 18 | 0,1978 | 22,349 |
-| 18 a 20 | 30 | 0,2389 | 26,992 |
-| 20 a 22 | 22 | 0,2016 | 22,778 |
-| 22 a 24 | 16 | 0,1189 | 13,43 |
-| 24 a 28 | 6 | 0,0663 | 7,491 |
+| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
+|---|---|---|---|---|
+| 10 a 14 | 8 | 0,0622 | 7,032 | 0,1331 |
+| 14 a 16 | 13 | 0,1144 | 12,928 | 0,0004 |
+| 16 a 18 | 18 | 0,1978 | 22,349 | 0,8461 |
+| 18 a 20 | 30 | 0,2389 | 26,992 | 0,3353 |
+| 20 a 22 | 22 | 0,2016 | 22,778 | 0,0266 |
+| 22 a 24 | 16 | 0,1189 | 13,43 | 0,4917 |
+| 24 a 28 | 6 | 0,0663 | 7,491 | 0,2967 |
+| **Total** | **113** | **1** | **113** | **χ² = 2,13** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 2,13; ν = k - 1 - p = 7 - 1 - 2 = 4; χ²(1-α; ν) = 9,4877.
 - **Modelos y distribuciones empleados**:  
@@ -7488,6 +7810,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases).
 - **Estimación** (marcas de clase): x̄ = 19,0531, S = 3,2892.
 - **Parámetros del modelo**: μ = 19,0531 (estimado), σ = 3,2892 (estimado).
+- **4 · Condición de rechazo (CR)**: si χ² > 9,4877 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 9,4877, se rechaza H0 → se da por probado que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no se puede afirmar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 2,13 ≤ 9,4877 ⇒ no se rechaza H0: el modelo Normal es un buen candidato.
 
@@ -7506,7 +7829,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).
 - **Datos**: n = 203, r = 8, p̂ = r/n = 0,0394.
-- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0172 ; B = 0,0762.
+- **Modelo exacto** (Beta / F, el que usa la cátedra): A = 0,0171 ; B = 0,0762.
+- **Límite inferior (A)**: ν₁ = 2(n − r + 1) = 392, ν₂ = 2r = 16; F(0,975; 392; 16) = 2,3371; A = 1/[1 + (196/8)·2,3371] = 0,017165.
+- **Límite superior (B)**: ν₁ = 2(r + 1) = 18, ν₂ = 2(n − r) = 390; F(0,975; 18; 390) = 1,7865; B = 1/[1 + 195/(9·1,7865)] = 0,076172.
 - Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [0,0126 ; 0,0662] (e = 0,0268).
 
 **Conclusión:** El porcentaje poblacional estará entre 1,71% y 7,62%, con un 95% de confianza: P(0,0171 ≤ p ≤ 0,0762) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,017165 y 0,076172).

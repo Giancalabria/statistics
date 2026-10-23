@@ -70,6 +70,39 @@ def test_contingencia_saca_totales_e_indice():
     assert an.datos["tabla"] == [[10, 176, 14], [16, 178, 6], [17, 174, 9]]
 
 
+def test_contingencia_homogeneidad_con_tablas_y_nombres():
+    tabla = {"columnas": ["Turno", "Buenas", "Defectuosas", "Muestra"],
+             "filas": [["Mañana", 380, 20, 400], ["Noche", 360, 40, 400]]}
+    an, res = _resolver("Se tomaron muestras de 400 piezas en cada turno. Con un riesgo del 5%, ¿se puede asegurar "
+                        "que los porcentajes de calidad difieren entre turnos?", tablas=[tabla])
+    pasos = "\n".join(res[0].pasos)
+    assert "prueba de homogeneidad" in pasos and "1 = Mañana, 2 = Noche" in pasos
+    # observados con totales, esperados y aportes, con los nombres del enunciado
+    assert "*Frecuencias observadas Oᵢⱼ*" in pasos and "*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*" in pasos
+    assert "| Mañana | 380 | 20 | **400** |" in pasos
+    assert "| Mañana | 370 | 30 | **400** |" in pasos          # Eᵢⱼ = 400 · 750 / 800, 400 · 60 / 800
+    assert "Mañana y Noche" in res[0].conclusion
+
+
+def test_contingencia_independencia_si_pregunta_por_asociacion():
+    tabla = {"columnas": ["Zona", "Marca A", "Marca B"], "filas": [["Norte", 30, 20], ["Sur", 15, 35]]}
+    an, res = _resolver("Se registró la marca preferida por clientes de dos zonas. Con un riesgo del 5%, ¿la marca "
+                        "preferida depende de la zona?", tablas=[tabla])
+    pasos = "\n".join(res[0].pasos)
+    assert "prueba de independencia" in pasos and "en cada zona (1 = Norte, 2 = Sur)" in pasos
+    assert "no hay relación entre las variables" in res[0].conclusion
+    assert "no es cierto que" not in res[0].conclusion            # sin doble negación
+
+
+def test_contingencia_sin_nombres_usa_fila_y_columna():
+    an, res = _resolver("Con un riesgo del 5%, ¿las variables están asociadas?",
+                        tablas=[{"columnas": ["", "X", "Y"], "filas": [["a", 10, 20], ["b", 30, 40]]}])
+    an.datos["tabla"] = [[10, 20, 5], [30, 40, 15]]   # editada a mano: las columnas ya no son las del enunciado
+    pasos = "\n".join(resolver(an)[0].pasos)
+    assert "| a | 10 | 20 | 5 |" in pasos                  # las filas siguen siendo las mismas
+    assert "Columna 1, Columna 2 y Columna 3" in pasos and "| X |" not in pasos
+
+
 # ---------------------------------------------------------------- regresión simple
 
 PLANTEO_VENTAS = ("Una empresa quiere predecir sus ventas mensuales (en miles de unidades) a partir del gasto en "
