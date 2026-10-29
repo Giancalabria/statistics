@@ -8,6 +8,10 @@
   agregan decimales hasta que el mayor valor muestre 3 cifras significativas (II-1: 0,00158; II-5: 1,56). En los
   intervalos de medias además el error e debe mostrar 3 cifras (I-36b: e = 0,1149 → 0,985 y 1,215).
 Los cálculos encadenados usan siempre los valores sin redondear.
+
+Esto es solo la EXPRESIÓN del resultado final («dependerá de la variable», profesor en clase). En el desarrollo el
+profesor exige mínimo 4 decimales (fractiles, críticos, n y ν sin redondear): los pasos del resolver los muestran con
+4 decimales y la nota de cada intervalo trae el valor exacto.
 """
 
 from math import ceil, floor, log10

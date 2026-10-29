@@ -99,8 +99,8 @@ if opcion == "Varianzas (Test F)":
             n2 = st.number_input("Tamaño muestra 2 (n₂)", min_value=2, step=1, value=30, key="c2_tamano_muestra_2")
 
     colas = {"Unilateral izquierda (H1: φ < φ₀, p. ej. reducción)": "izquierda",
-             "Unilateral derecha (H1: φ > φ₀, p. ej. aumento)": "derecha",
-             "Bilateral (H1: φ ≠ φ₀)": "bilateral"}
+             "Unilateral derecha (H1: φ > φ₀, p. ej. aumento)": "derecha"}
+    # «Jamás me planteen una hipótesis bilateral en comparación» (profesor, 01/10): la muestra orienta el ensayo
 
     if objetivo_f.startswith("Ensayo"):
         phi0 = st.number_input("φ₀ = σ₁/σ₂ de H0 (1 = desvíos iguales; 0,88 = reducción del 12%)",
@@ -160,7 +160,9 @@ if opcion == "Varianzas (Test F)":
 
 elif opcion == "Medias - Muestras Independientes":
     st.subheader("Comparación de Medias - Muestras Independientes")
-    st.info("Paso 1: Se automatiza el test F para decidir entre pooled (varianzas iguales) o Welch (varianzas distintas).")
+    st.info("Paso 1 — ensayo auxiliar (no es parte del problema): test F UNILATERAL, con la varianza muestral mayor "
+            "sospechada mayor y un α propio = 0,10 (no el del problema). Si no se rechaza → amalgamado (Sa); si se "
+            "rechaza → Welch (ν truncado). En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.")
 
     # Recolectar datos de ambas muestras
     col1, col2 = st.columns(2)
@@ -177,7 +179,7 @@ elif opcion == "Medias - Muestras Independientes":
         n2 = st.number_input("Tamaño muestra (n₂)", min_value=2, step=1, value=30, key="n2_ind")
 
     # Paso 1: Test F automático
-    f_result = ts.f_test_equal_variances(s1, n1, s2, n2, alpha)
+    f_result = ts.f_test_equal_variances(s1, n1, s2, n2, 0.10)   # α propio del ensayo auxiliar (profesor: 0,10)
 
     if f_result.rejects_h0:
         st.warning("**Test F: Se RECHAZA H0 (varianzas distintas) → Se usa método de Welch**")
@@ -195,8 +197,8 @@ elif opcion == "Medias - Muestras Independientes":
     )
 
     if objetivo_ind == "Ensayo de Hipótesis":
-        cola = st.radio("¿Tipo de ensayo?", ["Unilateral cola derecha", "Unilateral cola izquierda", "Bilateral"],
-                        key="c2_tipo_ensayo_2")
+        cola = st.radio("¿Tipo de ensayo? (en comparaciones no hay bilaterales)",
+                        ["Unilateral cola derecha", "Unilateral cola izquierda"], key="c2_tipo_ensayo_2")
         tail = "derecha" if cola == "Unilateral cola derecha" else ("izquierda" if cola == "Unilateral cola izquierda" else "bilateral")
 
         if st.button("Calcular", key="btn_ensayo_ind"):
@@ -283,7 +285,8 @@ elif opcion == "Medias - Muestras Apareadas":
         )
 
         if objetivo_paired == "Ensayo de Hipótesis":
-            cola = st.radio("¿Tipo de ensayo?", ["Unilateral cola derecha", "Unilateral cola izquierda", "Bilateral"], key="cola_paired")
+            cola = st.radio("¿Tipo de ensayo? (en comparaciones no hay bilaterales)",
+                            ["Unilateral cola derecha", "Unilateral cola izquierda"], key="cola_paired")
             tail = "derecha" if cola == "Unilateral cola derecha" else ("izquierda" if cola == "Unilateral cola izquierda" else "bilateral")
 
             if st.button("Calcular", key="btn_ensayo_paired"):

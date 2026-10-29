@@ -1,0 +1,1630 @@
+[
+ {
+  "id": "R-I-1",
+  "tema": "I",
+  "ejercicio_origen": "I-1",
+  "enunciado": "En una planta envasadora de café, el contenido de cada lata es una variable normal; por la experiencia acumulada se sabe que su dispersión, medida por el desvío estándar, es de quince gramos. Se pesaron diez latas tomadas al azar y el contenido promedio resultó 246 g.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Entre qué valores estará el contenido medio de todas las latas, con un nivel de confianza del noventa por ciento?"
+   },
+   {
+    "letra": "b",
+    "texto": "Si se quiere que el error de la estimación no supere los 5 g, ¿cuántas latas adicionales hay que pesar?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    238.19,
+    253.81
+   ],
+   "b": [
+    15
+   ]
+  },
+  "nota": "números en palabras (quince, diez, noventa por ciento)"
+ },
+ {
+  "id": "R-I-10",
+  "tema": "I",
+  "ejercicio_origen": "I-10",
+  "enunciado": "Un nuevo aditivo para nafta promete bajar el consumo. Hay datos históricos abundantes, que pueden tomarse como parámetros de la población: en el recorrido de prueba el consumo medio es 11,2 l y el desvío 1,3 l; se supone que el aditivo no altera la dispersión. Se hicieron 10 corridas con el aditivo y el consumo promedio fue 10,6 l. La empresa solo lo lanzará al mercado si hay evidencia de la reducción, y acepta como máximo un 5% de probabilidad de lanzarlo sin que funcione.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Alcanzan los resultados para lanzarlo?"
+   },
+   {
+    "letra": "b",
+    "texto": "Si con el aditivo el consumo medio real fuera de 10,5 l, ¿qué probabilidad hay de lanzarlo?"
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas corridas en total harían falta para que esa probabilidad sea del 90%?"
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": [
+    0.5231
+   ],
+   "c": [
+    30
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-I-11",
+  "tema": "I",
+  "ejercicio_origen": "I-11",
+  "enunciado": "Por contrato, las pérdidas medias de los medidores eléctricos de cada partida no pueden superar 1 watt. Se sabe por experiencia que las pérdidas son normales con σ = 0,1 W. De la última partida se midieron diez medidores, con una pérdida media de 1,06 W.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Si el cliente admite un riesgo de 0,10 de rechazar una partida buena, ¿debe aceptarla?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Qué chance tiene de quedarse con una partida cuya pérdida media real es de 1,05 W?"
+   },
+   {
+    "letra": "c",
+    "texto": "¿Con qué tamaño de muestra esa chance bajaría al 10%?"
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": [
+    0.3831
+   ],
+   "c": [
+    27
+   ]
+  },
+  "decision": {
+   "a": "rechaza"
+  },
+  "nota": "'chance de quedarse con' = β; 'no pueden superar' = especificación máxima"
+ },
+ {
+  "id": "R-I-31",
+  "tema": "I",
+  "ejercicio_origen": "I-31",
+  "enunciado": "Una firma lanzará una campaña de ventas en una región del interior solo si el ingreso familiar medio es mayor a U$S 1.000 mensuales. Se encuestó a 100 familias: el ingreso medio del último mes fue U$S 1.100, con un desvío de U$S 923. La probabilidad de lanzar la campaña por error se fija en uno por ciento.\na) ¿Conviene lanzar la campaña?\nb) Estimar el ingreso medio de la región con 90% de confianza.\nc) ¿Qué tamaño de muestra se necesita para que el error del intervalo anterior se reduzca a la mitad?",
+  "incisos": [],
+  "esperado": {
+   "a": [],
+   "b": [
+    946.74,
+    1253.26
+   ],
+   "c": [
+    395
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "nota": "enunciado pegado entero (incisos dentro del texto). 'uno por ciento' en palabras"
+ },
+ {
+  "id": "R-II-9",
+  "tema": "II",
+  "ejercicio_origen": "II-9",
+  "enunciado": "Una embotelladora controla periódicamente la dispersión del volumen dosificado: la especificación dice que el desvío estándar debe ser, a lo sumo, de 15 cm³. Se midieron 10 botellas y se obtuvo S = 18,2 cm³.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Con α = 0,05, ¿hay que parar la máquina para revisarla?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de que el control no advierta que el desvío real es de 16 cm³?"
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas botellas más habría que medir para que esa probabilidad sea 0,10?"
+   },
+   {
+    "letra": "d",
+    "texto": "Con la muestra disponible, dar un intervalo del 95% para el desvío."
+   }
+  ],
+  "esperado": {
+   "a": [
+    20.5664
+   ],
+   "b": [
+    0.9054
+   ],
+   "c": [
+    1025,
+    1015
+   ],
+   "d": [
+    12.51,
+    33.23
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "nota": "'no advierta' = β"
+ },
+ {
+  "id": "R-II-10",
+  "tema": "II",
+  "ejercicio_origen": "II-10",
+  "enunciado": "Se compraría una nueva dosificadora solo si se demuestra que su desvío estándar es inferior a 15 cm³. En una prueba de veinte envases la desviación típica fue de 12,5 cm³.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Con un riesgo máximo de 5 %, ¿se recomienda la compra?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es el valor máximo del desvío que se puede garantizar con 95% de confianza?"
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": [
+    17.14
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "nota": "'desviación típica', 'veinte', 'valor máximo garantizado'"
+ },
+ {
+  "id": "R-EX-1",
+  "tema": "I",
+  "ejercicio_origen": "Ejercicio_de_Prueba_de_Hipótesis (inédito estilo guía)",
+  "enunciado": "La resistencia a la tracción de cierto tipo de piezas metálicas producidas por un proceso estándar es una variable aleatoria de la cual se dispone de un amplio registro histórico que arroja una media de 200 kg con un desvío estándar de 12 kg, valores que pueden considerarse parámetros poblacionales. Se desea ensayar un nuevo método de fabricación con el que se espera aumentar la resistencia media de las piezas y, de confirmarse esta suposición, se implementará en la planta. Dados los costos operativos implicados en el cambio, se establece un riesgo máximo del 5% de implementar el nuevo método cuando en realidad no produce el efecto deseado. Se realiza una prueba preliminar tomando una muestra aleatoria de 16 piezas fabricadas con el nuevo método, registrándose una resistencia promedio de 204,5 kg, y resulta razonable asumir que el desvío estándar poblacional no se modificará.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Establecer la hipótesis nula (bajo criterio pesimista), la condición de rechazo, la regla de decisión e indicar si el resultado de la prueba preliminar es concluyente para implementar el nuevo método de fabricación."
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de implementar el nuevo método cuando con él se logra que la resistencia media aumente en 6 kg (es decir, a 206 kg)?"
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas observaciones en total (y cuántas adicionales) habría que efectuar para que la probabilidad del inciso anterior valga 0,90?"
+   },
+   {
+    "letra": "d",
+    "texto": "Con los datos de la muestra preliminar, estimar la resistencia media de las piezas fabricadas con el nuevo método con un 95% de confianza."
+   }
+  ],
+  "esperado": {
+   "a": [
+    204.93
+   ],
+   "b": [
+    0.6388
+   ],
+   "c": [
+    35,
+    19
+   ],
+   "d": [
+    198.62,
+    210.38
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "nota": "Verificado con scipy: x̄c = 204,9346; 1-β = 0,63876; n = 34,26 → 35; IC 198,62–210,38."
+ },
+ {
+  "id": "R-EX-2",
+  "tema": "I",
+  "ejercicio_origen": "Resolución Problemas — Problema 1 (sistema productivo)",
+  "enunciado": "El departamento de I+D de una empresa ha desarrollado un nuevo sistema de producción que quiere implementar para modificar su proceso de fabricación. Luego de pruebas experimentales, se piensa que el nuevo sistema aumentaría la productividad a un valor promedio de 5.8 piezas por minuto. El sistema actual del proceso de fabricación tiene una productividad promedio de 4.2 piezas por minuto con un desvío estándar de 2.53 piezas por minuto. A fin de tomar una decisión sobre la modificación del sistema productivo, se estipulan las siguientes condiciones: el departamento de ingeniería propone que es conveniente establecer una probabilidad de 0.95 de modificar el sistema productivo cuando con la modificación se obtiene un valor promedio de 5.8 piezas por minuto; en cambio el gerente general desea asumir la certeza del 99% de no realizar la modificación en el sistema productivo, cuando con la modificación no se consigue el efecto deseado. Se asume que el desvío estándar no se modificará.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Indicar el tamaño de la muestra y la hipótesis adecuada, también establecer condición de rechazo y la regla de decisión."
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de no realizar la modificación en el sistema productivo si la productividad promedio, con la modificación, es de 4.98 piezas por minuto?"
+   },
+   {
+    "letra": "c",
+    "texto": "Suponga que se realizó la modificación y se sacó la muestra calculada en el inciso a), y se encontraron 10 piezas sin defectos. Estimar con un 99% de confianza el porcentaje de piezas malas fabricadas por la empresa."
+   }
+  ],
+  "esperado": {
+   "a": [
+    40,
+    5.13
+   ],
+   "b": [
+    0.6467
+   ],
+   "c": [
+    0.5387,
+    0.9002
+   ]
+  },
+  "nota": "Decimales con punto. c) depende de a) (n = 40) y r es el complemento (40 - 10 = 30 malas). El .md usa la aproximación normal (57,4%–92,6%); la cátedra usa el IC exacto (Beta): 0,5387–0,9002 (scipy)."
+ },
+ {
+  "id": "R-EX-3",
+  "tema": "II",
+  "ejercicio_origen": "Resolución Problemas — Problema 2 (faena de conejos)",
+  "enunciado": "Un criador de conejos para faena desea estudiar las características de la población de estos en el establecimiento. Con el motivo de efectuar la próxima faena decide efectuar un control del lote de conejos, de manera que si el lote pesa en promedio más de 4.6 kg y un desvío estándar menor a 0.55 kg, efectuará la faena. Caso contrario se esperará más tiempo para la misma. Se desea asumir el riesgo de 1% de efectuar equivocadamente la faena de conejos. A tal efecto se tomó una muestra de 20 conejos elegidos al azar obteniéndose los siguientes resultados de pesos medidos en kg: 5.01 - 5.11 - 5.08 - 4.41 - 4.37 - 4.31 - 5.05 - 4.35 - 4.25 - 5.15 - 5.02 - 5.09 - 5.08 - 5.15 - 4.23 - 5.18 - 5.14 - 5.17 - 4.21 - 5.06",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Considera que los datos son concluyentes para realizar la correspondiente faena?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de no detectar que el desvío estándar es de 0.3 kg?"
+   },
+   {
+    "letra": "c",
+    "texto": "Estimar el peso promedio y el desvío estándar de todo el lote de conejos del establecimiento. Tomar un nivel de confianza de 99%."
+   },
+   {
+    "letra": "d",
+    "texto": "¿Cuántos conejos más se deben pesar para reducir en un 15% el error de estimación del valor promedio calculado anteriormente?"
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": [
+    0.1401
+   ],
+   "c": [
+    4.569,
+    5.073,
+    0.2764,
+    0.6563
+   ],
+   "d": [
+    7
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "nota": "Doble condición (media y desvío). scipy: x̄ = 4,821, S = 0,3939; t = 2,509 < 2,539 y χ² = 9,745 > 7,633 → no se faena; β = 0,1401. d) iterando t como la cátedra (I-28): n = 27 → 7 más (el .md da 8 con t fijo)."
+ },
+ {
+  "id": "R-III-9",
+  "tema": "III",
+  "ejercicio_origen": "III-9",
+  "enunciado": "Una marca de gaseosas pautará publicidad en TV solo si más del sesenta por ciento de los televidentes mira deportes habitualmente. Sobre 500 televidentes consultados, 325 dijeron que los miran en forma continuada. El riesgo de pautar sin que se cumpla la condición se fija en 0,10.\na) ¿Qué se aconseja?\nb) Si en realidad el 66 % mira deportes, ¿qué probabilidad hay de que no se paute?\nc) ¿Y la probabilidad de pautar si la proporción real es 0,68?",
+  "incisos": [],
+  "esperado": {
+   "a": [],
+   "b": [
+    0.0724
+   ],
+   "c": [
+    0.9922
+   ]
+  },
+  "decision": {
+   "a": "rechaza"
+  },
+  "nota": "enunciado pegado entero (incisos dentro del texto). 'pautar' en vez de 'iniciar la campaña'; p₁ como 0,68 (fracción)"
+ },
+ {
+  "id": "R-III-10",
+  "tema": "III",
+  "ejercicio_origen": "III-10",
+  "enunciado": "Actualmente solo se inscribe a los cursos a distancia el 5% de quienes reciben la carta de invitación. Se rediseñaron los cursos y se enviarán n cartas. Se quiere que la probabilidad de concluir por error que la inscripción subió sea de 0,20, y que la probabilidad de advertir una suba de dos puntos porcentuales sea de 0,90.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Dar la condición de rechazo y la regla de decisión."
+   },
+   {
+    "letra": "b",
+    "texto": "¿Con qué probabilidad se advertiría que la inscripción subió un punto porcentual?"
+   },
+   {
+    "letra": "c",
+    "texto": "Si se envían las n cartas y se inscribe el 5,2% de los destinatarios, ¿subió la inscripción?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    37,
+    638,
+    652,
+    38
+   ],
+   "b": [
+    0.608,
+    0.5966
+   ],
+   "c": []
+  },
+  "decision": {
+   "c": "no_rechaza"
+  },
+  "nota": "'advertir' = detectar; c) depende del n de a)"
+ },
+ {
+  "id": "R-III-11",
+  "tema": "III",
+  "ejercicio_origen": "III-11",
+  "enunciado": "Una línea fabrica piezas con 12 de cada 100 defectuosas cuando funciona normalmente. Para vigilarla se revisan muestras de cincuenta piezas. Se quiere que, si el proceso anda bien, solo un 5% de las veces se lo pare para revisarlo.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿A partir de cuántas piezas defectuosas en la muestra habrá que parar la línea?"
+   },
+   {
+    "letra": "b",
+    "texto": "Si la fracción defectuosa sube a 0,14, ¿con qué probabilidad el control no la para?"
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas piezas habría que revisar para que esa probabilidad baje a 0,5?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    11
+   ],
+   "b": [
+    0.9176
+   ],
+   "c": [
+    755,
+    715
+   ]
+  },
+  "nota": "'12 de cada 100', 'cincuenta', 'parar' en vez de 'detener'"
+ },
+ {
+  "id": "R-III-13",
+  "tema": "III",
+  "ejercicio_origen": "III-13",
+  "enunciado": "Un comprador revisa 100 unidades de cada lote y lo devuelve si aparecen nueve defectuosas o más. Según el contrato, un lote es bueno si tiene a lo sumo el 5% de unidades defectuosas. El comprador reconoce que corre un riesgo de 0,15 de quedarse con un lote malo.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Qué hipótesis nula se está poniendo a prueba y cuál es la probabilidad de que se le rechace al proveedor un lote bueno?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Qué porcentaje de defectuosas tiene un lote que el comprador considera malo?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    0.0631
+   ],
+   "b": [
+    0.1183
+   ]
+  },
+  "nota": "'devuelve' = rechaza; plan dado con número en palabras"
+ },
+ {
+  "id": "R-III-14",
+  "tema": "III",
+  "ejercicio_origen": "III-14",
+  "enunciado": "Hoy un 14% de las piezas sale defectuosa. Se evalúa una materia prima más cara, que se adoptará solo si baja apreciablemente esa fracción. Si con la nueva materia prima el porcentaje baja al diez por ciento, se quiere tener una probabilidad de 0,95 de adoptarla; si no baja nada, esa probabilidad debe ser de 0,01.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Plantear H0, tamaño de muestra, condición de rechazo y regla de decisión."
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es la probabilidad de no adoptar la nueva materia prima si con ella el porcentaje defectuoso es del 12%?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    1043,
+    1058,
+    120,
+    121
+   ],
+   "b": [
+    0.668,
+    0.6942
+   ]
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-III-15",
+  "tema": "III",
+  "ejercicio_origen": "III-15",
+  "enunciado": "Se explotará un monte de eucaliptus si queda demostrado que más del 70% de los árboles superan los 5 m de altura. De treinta árboles elegidos al azar, veinticinco tienen más de 5 m. El riesgo de explotar el monte por error es del 5%.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Se recomienda explotar el monte?"
+   },
+   {
+    "letra": "b",
+    "texto": "Si se muestrearan 100 árboles, ¿cuántos altos harían falta como mínimo para recomendarlo?"
+   },
+   {
+    "letra": "c",
+    "texto": "Con la muestra de 30, estimar el porcentaje de árboles altos con 95% de confianza."
+   },
+   {
+    "letra": "d",
+    "texto": "¿Cuántos árboles habría que muestrear para reducir a la mitad el error de esa estimación?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    26,
+    0.0766
+   ],
+   "b": [
+    78
+   ],
+   "c": [
+    0.6527,
+    0.9436
+   ],
+   "d": [
+    0.145395,
+    0.072698,
+    102
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "nota": "'treinta', 'veinticinco' en palabras"
+ },
+ {
+  "id": "R-III-16",
+  "tema": "III",
+  "ejercicio_origen": "III-16",
+  "enunciado": "La penetración en el mercado de un jabón en polvo era del 12% antes de una campaña publicitaria. Si la campaña funcionó, se repetirá con otro producto. Se quiere que la probabilidad de repetirla cuando no hubo mejora sea de 0,01, y que si la penetración subió tres puntos la probabilidad de no repetirla sea de 0,10.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Hipótesis nula, condición de rechazo y regla de decisión."
+   },
+   {
+    "letra": "b",
+    "texto": "¿Qué probabilidad hay de repetir la campaña si la penetración subió 2 puntos?"
+   },
+   {
+    "letra": "c",
+    "texto": "¿Qué tamaño de muestra haría falta para que esa probabilidad sea 0,90?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    233,
+    229,
+    1675,
+    1637,
+    228
+   ],
+   "b": [
+    0.5527,
+    0.5443
+   ],
+   "c": [
+    3667,
+    487,
+    3604,
+    479
+   ]
+  },
+  "nota": "'tres puntos' en palabras; c) depende de b)"
+ },
+ {
+  "id": "R-III-23",
+  "tema": "III",
+  "ejercicio_origen": "III-23",
+  "enunciado": "Un proceso se considera bajo control con un 4% de defectuosos. Cada día se inspeccionan 80 unidades y se detiene la producción si aparecen 5 o más defectuosas. ¿Con qué probabilidad se detiene el proceso si en realidad produce un cinco y medio por ciento de defectuosos?",
+  "incisos": [],
+  "esperado": {
+   "única": [
+    0.451
+   ]
+  },
+  "nota": "sin incisos; 'cinco y medio por ciento' en palabras"
+ },
+ {
+  "id": "R-III-24",
+  "tema": "III",
+  "ejercicio_origen": "III-24",
+  "enunciado": "El contrato admite hasta un 5 % de unidades defectuosas en cada lote grande. Se inspeccionan 40 unidades y se acepta el lote si hay 2 defectuosas o menos.\na) ¿Qué probabilidad tiene de ser aceptado un lote que está justo en el límite del contrato?\nb) ¿Y si el lote tiene un 6,25% de defectuosas?",
+  "incisos": [],
+  "esperado": {
+   "a": [
+    0.6767
+   ],
+   "b": [
+    0.5397
+   ]
+  },
+  "nota": "enunciado pegado entero (incisos dentro del texto). 'justo en el límite' = p₀; b) hereda la pregunta de a)"
+ },
+ {
+  "id": "R-III-26",
+  "tema": "III",
+  "ejercicio_origen": "III-26",
+  "enunciado": "En condiciones normales el proceso no debe superar el 1% de piezas defectuosas. Se quiere un plan de control tal que la probabilidad de parar el proceso cuando funciona normalmente sea como máximo de 0,01, y que si los defectuosos suben al 2 %, el proceso se detenga con un 95% de seguridad. ¿Qué plan de muestreo se recomienda?",
+  "incisos": [],
+  "esperado": {
+   "única": [
+    2258,
+    35,
+    2133,
+    34
+   ]
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-IV-1",
+  "tema": "IV",
+  "ejercicio_origen": "IV-1",
+  "enunciado": "Dos tornos automáticos nuevos, de marcas distintas, fabrican la misma pieza. Se midió el diámetro (en décimas de mm) de 13 piezas del primero, con un desvío de 3,6, y de 25 piezas del segundo, con un desvío de 5,4.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Límites de confianza del 90% para el cociente de las varianzas poblacionales."
+   },
+   {
+    "letra": "b",
+    "texto": "Con igual cantidad de piezas en cada torno, ¿cuántas medir en cada uno para que la relación entre los límites del intervalo anterior se reduzca a la mitad?"
+   },
+   {
+    "letra": "c",
+    "texto": "Límites de confianza del 90% para el cociente de los desvíos poblacionales."
+   }
+  ],
+  "esperado": {
+   "a": [
+    0.2035,
+    1.1136,
+    0.898,
+    4.9127
+   ],
+   "b": [
+    45
+   ],
+   "c": [
+    0.4511,
+    1.0553,
+    0.9476,
+    2.2165
+   ]
+  },
+  "nota": "'cociente' en vez de 'relación'"
+ },
+ {
+  "id": "R-IV-2",
+  "tema": "IV",
+  "ejercicio_origen": "IV-2",
+  "enunciado": "Se piensa cambiar la composición de una aleación por otra más cara para bajar el desvío estándar de una dimensión crítica en más de un 20%. Si la baja fuera exactamente del 20%, la probabilidad de cambiar debe ser de 0,1. Con la aleación actual (A) se midieron 21 piezas, con un desvío de 0,084 mm; con la propuesta (P), 13 piezas, con un desvío de 0,06 mm.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Qué se recomienda hacer?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Qué probabilidad hay de no cambiar si en realidad el desvío baja un 30%?"
+   },
+   {
+    "letra": "c",
+    "texto": "Con el mismo número de piezas de cada aleación, ¿cuántas hacen falta para que esa probabilidad sea 0,05?"
+   },
+   {
+    "letra": "d",
+    "texto": "Con los datos del enunciado, intervalo de confianza del 90% para la relación entre los desvíos."
+   }
+  ],
+  "esperado": {
+   "a": [
+    0.5574,
+    0.3107,
+    0.7143,
+    0.5102
+   ],
+   "b": [
+    0.7897
+   ],
+   "c": [
+    482,
+    483
+   ],
+   "d": [
+    0.4732,
+    1.1392
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-IV-4",
+  "tema": "IV",
+  "ejercicio_origen": "IV-4",
+  "enunciado": "Reacondicionar las hiladoras solo vale la pena si eso reduce el desvío estándar de la producción por máquina en un 12% como mínimo. Se reacondicionaron 4 máquinas elegidas al azar: producción media 1.470 m, desvío 132 m. Otras 16 máquinas sin reacondicionar dieron una producción media de 1.208 m con un desvío de 354 m.\na) Con un riesgo del 10 %, ¿se puede afirmar esa reducción del 12 %?\nb) ¿Qué probabilidad hay de detectar una reducción del 30%?\nc) ¿Qué tamaño de muestra (igual en cada grupo) hace falta para que esa probabilidad sea 0,9?",
+  "incisos": [],
+  "esperado": {
+   "a": [],
+   "b": [
+    0.1779
+   ],
+   "c": [
+    128
+   ]
+  },
+  "decision": {
+   "a": "rechaza"
+  },
+  "nota": "enunciado pegado entero (incisos dentro del texto)."
+ },
+ {
+  "id": "R-IV-5",
+  "tema": "IV",
+  "ejercicio_origen": "IV-5",
+  "enunciado": "Se probará un aditivo para el látex que supuestamente reduce la desviación estándar. Condiciones: un riesgo máximo del 5% de adoptarlo si no reduce la dispersión, y una probabilidad de 0,99 de adoptarlo si la reducción del desvío es del 30% respecto de la fórmula sin aditivo.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Hipótesis nula, tamaño de muestra, condición de rechazo y regla de decisión."
+   },
+   {
+    "letra": "b",
+    "texto": "Probabilidad de adoptarlo si la reducción lograda es del 20%."
+   },
+   {
+    "letra": "c",
+    "texto": "¿Cuántas muestras más de cada fórmula harían falta para que esa probabilidad sea 0,9?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    127,
+    0.8632
+   ],
+   "b": [
+    0.1972
+   ],
+   "c": [
+    174,
+    47
+   ]
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-V-4",
+  "tema": "V",
+  "ejercicio_origen": "V-4",
+  "enunciado": "Para probar un aditivo para combustible se hicieron 10 corridas con aditivo, con un consumo medio de 4,2 l (S = 0,58 l), y 10 corridas sin aditivo, con el mismo modelo de auto y el mismo trayecto, con un consumo medio de 5,25 l (S = 0,63 l).",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Puede afirmarse que el aditivo baja el consumo medio por lo menos medio litro?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Y que lo baja al menos un diez por ciento?"
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": []
+  },
+  "decision": {
+   "a": "rechaza",
+   "b": "rechaza"
+  },
+  "nota": "'medio litro' (0,5 en palabras)"
+ },
+ {
+  "id": "R-V-7",
+  "tema": "V",
+  "ejercicio_origen": "V-7",
+  "enunciado": "Una variedad nueva de maíz híbrido es más cara de producir. En 10 parcelas sembradas con cada variedad se obtuvo: variedad actual, rendimiento medio de 15,2 quintales por parcela y S = 1,63; variedad nueva, 17,1 quintales y S = 1,43. Solo se lanzará la nueva si, con un 95% de seguridad, su rendimiento medio es al menos un 10% superior al de la actual. Plantear H0, hacer el ensayo y decidir.",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "no_rechaza"
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-V-8",
+  "tema": "V",
+  "ejercicio_origen": "V-8",
+  "enunciado": "Un aditivo para látex debería aumentar la resistencia media a la tracción. Se hicieron 21 ensayos con aditivo: media de 8,5 kg y desvío de 1,2 kg. Como nunca se había estudiado el látex sin aditivo, se hicieron 61 ensayos: media de 7,6 kg, desvío de 1,25 kg.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Con 5% de riesgo, ¿se puede asegurar que el aditivo sube la resistencia media 0,45 kg o más?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Cuál es el aumento mínimo garantizado de la resistencia media, con 95% de confianza?"
+   },
+   {
+    "letra": "c",
+    "texto": "¿Se puede asegurar un aumento de al menos el 10%?"
+   },
+   {
+    "letra": "d",
+    "texto": "¿Cuál es el aumento porcentual mínimo garantizado con 95% de confianza?"
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": [
+    0.3788
+   ],
+   "c": [],
+   "d": [
+    4.9
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza",
+   "c": "no_rechaza"
+  },
+  "nota": "'aumento mínimo garantizado' = cota inferior"
+ },
+ {
+  "id": "R-V-11",
+  "tema": "V",
+  "ejercicio_origen": "V-11",
+  "enunciado": "Se prueba un plaguicida nuevo contra el pulgón en avena. Se fumigaron 5 parcelas infectadas y el rendimiento medio fue de 20 quintales por parcela, con un desvío de 2,5. Con el producto tradicional, en otras 5 parcelas infectadas, el rendimiento medio fue de 19,5 quintales con un desvío de 3.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Con un riesgo del 10%, ¿puede asegurarse que el nuevo producto rinde al menos 0,2 quintales por parcela más?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Y si se supiera que con el producto tradicional el rendimiento medio en cultivos infectados es de 19,5 quintales por parcela?"
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": []
+  },
+  "decision": {
+   "a": "no_rechaza",
+   "b": "no_rechaza"
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-V-14",
+  "tema": "V",
+  "ejercicio_origen": "V-14",
+  "enunciado": "Para ver si una tinta especial alarga la vida del calzado, a 8 personas se les dio un par en el que un zapato estaba tratado y el otro no; así se elimina la variabilidad entre personas. Semanas hasta la primera grieta. Sin tratar: 12 - 7 - 18 - 15 - 20 - 8 - 13 - 13. Tratado: 14 - 7 - 21 - 14 - 23 - 9 - 14 - 12. Con α = 5%, ¿es concluyente que la tinta aumenta la duración?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "no_rechaza"
+  },
+  "nota": "apareadas sin la palabra 'apareadas'; datos en el texto"
+ },
+ {
+  "id": "R-V-15",
+  "tema": "V",
+  "ejercicio_origen": "V-15",
+  "enunciado": "Para ver si el ruido influye en la productividad se midió a operarios de igual calificación en jornadas de 8 horas. Con ruido alto, 12 operarios produjeron en promedio 5,2 piezas por hora, con un desvío de 3,1; con ruido bajo, 10 operarios produjeron en promedio 6,3 piezas por hora, con un desvío de 3,5. Con un riesgo del 1%, ¿el nivel de ruido influye sobre la producción?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "no_rechaza"
+  },
+  "nota": "orden de las muestras invertido; jornada de 8 horas es ruido"
+ },
+ {
+  "id": "R-V-16",
+  "tema": "V",
+  "ejercicio_origen": "V-16",
+  "enunciado": "¿Un acelerante aumenta la dureza (grados Shore) del plástico inyectado? Dureza de piezas con acelerante: 75,3 – 76,7 – 70,8 – 72,7 – 69,1. Sin acelerante: 69,3 – 75,4 – 71,3 – 69,5 – 72,8 – 73,7 – 72,3 – 70,4 – 71,9 – 69,7. ¿Qué se concluye con un riesgo del 5%?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "no_rechaza"
+  },
+  "nota": "muestras en otro orden (con acelerante primero)"
+ },
+ {
+  "id": "R-V-20",
+  "tema": "V",
+  "ejercicio_origen": "V-20",
+  "enunciado": "Un ingenio azucarero aplica a la caña un compuesto para aumentar el rinde. En parcelas tratadas se registraron 655 observaciones con un rinde promedio de 9,97 y un desvío de 0,366; en parcelas sin tratar, 599 observaciones con un rinde promedio de 9,83 y un desvío de 0,3342.\na) Con α = 0,10, ¿el tratamiento aumenta el rinde?\nb) ¿Qué aumento porcentual mínimo del rinde se garantiza con 95% de confianza?",
+  "incisos": [],
+  "esperado": {
+   "a": [],
+   "b": [
+    1.09
+   ]
+  },
+  "decision": {
+   "a": "rechaza"
+  },
+  "nota": "enunciado pegado entero (incisos dentro del texto)."
+ },
+ {
+  "id": "R-VI-2",
+  "tema": "VI",
+  "ejercicio_origen": "VI-2",
+  "enunciado": "Se compararon dos tratamientos para postes de palmito: se colocaron 32 postes con cada uno. Después de seis años hubo que reponer 10 de los tratados con el método A y 20 de los tratados con el método B. Con un riesgo de 0,02, ¿difieren los porcentajes de fallas de los dos métodos?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "rechaza"
+  },
+  "nota": "sin tabla: datos en el texto"
+ },
+ {
+  "id": "R-VI-3",
+  "tema": "VI",
+  "ejercicio_origen": "VI-3",
+  "enunciado": "Se piensa cambiar de proveedor de conos de hilo por uno más caro pero con menos defectuosos. Del proveedor actual se revisaron 500 conos y 75 resultaron defectuosos; del nuevo se revisaron 250 conos y 20 resultaron defectuosos. Con un 1% de riesgo, ¿conviene el cambio?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "rechaza"
+  },
+  "nota": "sin tabla; orden de proveedores invertido"
+ },
+ {
+  "id": "R-VI-6",
+  "tema": "VI",
+  "ejercicio_origen": "VI-6",
+  "enunciado": "Una fábrica trabaja en tres turnos y clasifica su producción en primera calidad, segunda calidad y defectuosas. Turno mañana (500 piezas): 450, 45 y 5. Turno tarde (800 piezas): 680, 80 y 40. Turno noche (400 piezas): 320, 40 y 40. Con α = 0,01, ¿la calidad depende del turno?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "rechaza"
+  },
+  "nota": "tabla escrita en prosa"
+ },
+ {
+  "id": "R-VI-8",
+  "tema": "VI",
+  "ejercicio_origen": "VI-8",
+  "enunciado": "Una empresa de consumo masivo encuestó la preferencia del público por su marca o la de la competencia en cinco zonas del país (ver tabla). ¿La preferencia por la marca está relacionada con la zona? Usar un riesgo del 5%.",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "rechaza"
+  },
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Marca preferida",
+     "Zona A",
+     "Zona B",
+     "Zona C",
+     "Zona D",
+     "Zona E"
+    ],
+    "filas": [
+     [
+      "Nuestra marca",
+      36,
+      20,
+      28,
+      33,
+      16
+     ],
+     [
+      "Competencia",
+      44,
+      30,
+      12,
+      17,
+      24
+     ]
+    ]
+   }
+  ],
+  "nota": ""
+ },
+ {
+  "id": "R-VI-10",
+  "tema": "VI",
+  "ejercicio_origen": "VI-10",
+  "enunciado": "Se tiró un dado 60 veces: el uno salió 14 veces, el dos 6, el tres 6, el cuatro 13, el cinco 16 y el seis 5. Con un 5% de significación, ¿está cargado?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "rechaza"
+  },
+  "nota": "frecuencias en prosa con las caras en palabras"
+ },
+ {
+  "id": "R-VI-12",
+  "tema": "VI",
+  "ejercicio_origen": "VI-12",
+  "enunciado": "Un distribuidor sostiene que sus instalaciones de aire acondicionado se reparten por igual entre sus 4 localidades. En una muestra de 80 instalaciones del año pasado se contó: A: 16; B: 22; C: 24; D: 18. Con un 5% de riesgo, ¿se puede refutar al distribuidor?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "no_rechaza"
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-VI-13",
+  "tema": "VI",
+  "ejercicio_origen": "VI-13",
+  "enunciado": "Históricamente las ventas de televisores se reparten así: 40% de 24\", 40% de 36\" y 20% de 40\". De 200 ventas recientes, 85 fueron de 24\", 65 de 36\" y 50 de 40\". Con α = 0,05, ¿cambió el patrón de ventas?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "no_rechaza"
+  },
+  "nota": "sin tabla"
+ },
+ {
+  "id": "R-VI-16",
+  "tema": "VI",
+  "ejercicio_origen": "VI-16",
+  "enunciado": "Se registró durante 684 días la cantidad de levantacristales que llegan reclamados por día a la fábrica (ver tabla). ¿Se puede considerar que los reclamos diarios siguen una distribución de Poisson, con un riesgo del 5%?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "no_rechaza"
+  },
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Reclamos en el día",
+     "Días"
+    ],
+    "filas": [
+     [
+      0,
+      26
+     ],
+     [
+      1,
+      62
+     ],
+     [
+      2,
+      120
+     ],
+     [
+      3,
+      145
+     ],
+     [
+      4,
+      131
+     ],
+     [
+      5,
+      101
+     ],
+     [
+      6,
+      61
+     ],
+     [
+      7,
+      27
+     ],
+     [
+      8,
+      9
+     ],
+     [
+      9,
+      1
+     ],
+     [
+      10,
+      1
+     ]
+    ]
+   }
+  ],
+  "nota": ""
+ },
+ {
+  "id": "R-VII-2",
+  "tema": "VII",
+  "ejercicio_origen": "VII-2",
+  "enunciado": "Se registraron las ventas mensuales de un producto (en miles de unidades) y el cociente entre el precio del competidor y el precio propio:\nRelación de precios | Ventas\n0,8 | 36,4\n0,75 | 32,1\n0,6 | 32,3\n0,92 | 40,3\n0,86 | 37,1",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Hay relación lineal entre ambas variables? Usar los dos criterios."
+   },
+   {
+    "letra": "b",
+    "texto": "Con 90% de confianza, ¿cuál es la venta mínima esperable en un mes con relación de precios igual a 0,80?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    0.8816
+   ],
+   "b": [
+    32.594
+   ]
+  },
+  "nota": "tabla pegada como texto con '|'"
+ },
+ {
+  "id": "R-VII-5",
+  "tema": "VII",
+  "ejercicio_origen": "VII-5",
+  "enunciado": "Una distribuidora de gas natural quiere predecir la demanda diaria de una ciudad (en 10^5 m³) a partir de la temperatura media pronosticada (en ºC). Con los datos de 10 días se calcularon: Σx = 97 ; Σx² = 1.169 ; Σy = 21,16 ; Σy² = 48,68 ; Σy·x = 180,9326",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Puede asegurarse que por cada grado menos de temperatura la demanda crece más de 7.000 m³?"
+   },
+   {
+    "letra": "b",
+    "texto": "Si para mañana se pronostican 5 ºC, ¿qué demanda mínima puede asegurarse con 90% de confianza?"
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": [
+    199813.14
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-VII-6",
+  "tema": "VII",
+  "ejercicio_origen": "VII-6",
+  "enunciado": "El jefe de producto sostiene que cada mil dólares adicionales invertidos en publicidad generan al menos 2.500 dólares más de ventas. Datos históricos, en miles de dólares, en la tabla.\na) ¿Los datos respaldan lo que dice el jefe de producto?\nb) Estimar con 95% de confianza las ventas medias si no se gasta nada en publicidad.",
+  "incisos": [],
+  "esperado": {
+   "a": [],
+   "b": [
+    13.4885,
+    72.4836
+   ]
+  },
+  "decision": {
+   "a": "no_rechaza"
+  },
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Publicidad",
+     "Ventas"
+    ],
+    "filas": [
+     [
+      5.0,
+      72
+     ],
+     [
+      7.2,
+      79
+     ],
+     [
+      6.3,
+      73
+     ],
+     [
+      4.2,
+      59
+     ],
+     [
+      5.4,
+      67
+     ],
+     [
+      6.8,
+      69
+     ]
+    ],
+    "variable_y": "Ventas"
+   }
+  ],
+  "nota": "enunciado pegado entero (incisos dentro del texto)."
+ },
+ {
+  "id": "R-VII-11",
+  "tema": "VII",
+  "ejercicio_origen": "VII-11",
+  "enunciado": "Se estudia la relación entre el consumo mensual de los usuarios (kWh) y su demanda máxima de potencia (kW):\nConsumo (kWh) | Potencia (kW)\n110 | 0,7\n568 | 2,41\n245 | 1,19\n324 | 1,53\n76 | 0,53",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Suponiendo un modelo potencial y = α·x^β (x: consumo, y: potencia), estimar α y β y verificar si el modelo es válido."
+   },
+   {
+    "letra": "b",
+    "texto": "Para un usuario que consume 450 kWh, ¿qué potencia máxima se puede asegurar con una probabilidad de 0,05 de excederla?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    -3.8635,
+    0.743,
+    0.021,
+    0.9987
+   ],
+   "b": [
+    2.1728
+   ]
+  },
+  "nota": ""
+ },
+ {
+  "id": "R-VIII-3",
+  "tema": "VIII",
+  "ejercicio_origen": "VIII-3",
+  "enunciado": "Se quiere explicar el tiempo que tardan unos atletas en una prueba a partir de su estatura, peso y edad. Datos de 6 atletas en la tabla.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Ajustar el modelo lineal con las tres variables explicativas y validarlo."
+   },
+   {
+    "letra": "b",
+    "texto": "Comparar con el modelo que usa solo la estatura y la edad: ¿cuál conviene?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    40.4622,
+    0.647,
+    -2.3392,
+    0.7138
+   ],
+   "b": [
+    -0.6408,
+    0.704
+   ]
+  },
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Estatura (cm)",
+     "Peso (kg)",
+     "Edad (años)",
+     "Tiempo (seg)"
+    ],
+    "filas": [
+     [
+      165,
+      64,
+      25,
+      15
+     ],
+     [
+      175,
+      68,
+      40,
+      25
+     ],
+     [
+      180,
+      68,
+      30,
+      17
+     ],
+     [
+      200,
+      72,
+      42,
+      30
+     ],
+     [
+      195,
+      70,
+      28,
+      25
+     ],
+     [
+      183,
+      68,
+      45,
+      32
+     ]
+    ],
+    "variable_y": "Tiempo (seg)"
+   }
+  ],
+  "nota": ""
+ },
+ {
+  "id": "R-VIII-5",
+  "tema": "VIII",
+  "ejercicio_origen": "VIII-5",
+  "enunciado": "Se midió la dureza de pastillas de freno en función del porcentaje de azufre y de neopreno (tabla). ¿Es válido un modelo lineal general para explicar la dureza a partir de ambos componentes?",
+  "incisos": [],
+  "esperado": {
+   "única": [
+    32.1281,
+    6.9785,
+    -1.166
+   ]
+  },
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Azufre (%)",
+     "Neopreno (%)",
+     "Dureza (shore)"
+    ],
+    "filas": [
+     [
+      5.0,
+      3.0,
+      64.36
+     ],
+     [
+      5.0,
+      4.23,
+      61.92
+     ],
+     [
+      5.0,
+      5.57,
+      60.68
+     ],
+     [
+      5.26,
+      3.0,
+      63.76
+     ],
+     [
+      5.26,
+      4.23,
+      63.5
+     ],
+     [
+      5.26,
+      5.57,
+      62.64
+     ],
+     [
+      5.51,
+      3.0,
+      69.04
+     ],
+     [
+      5.51,
+      4.23,
+      63.88
+     ],
+     [
+      5.51,
+      5.57,
+      64.75
+     ]
+    ],
+    "variable_y": "Dureza (shore)"
+   }
+  ],
+  "nota": ""
+ },
+ {
+  "id": "C-III-21",
+  "tema": "III",
+  "ejercicio_origen": "III-21",
+  "enunciado": "Cada horneada de piezas se controla con una muestra de n piezas, y la horneada se descarta cuando aparecen dos o más piezas defectuosas en la muestra.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Si una horneada con 1% de defectuosas se considera aceptable, ¿qué tamaño de muestra hace falta para que ese tipo de horneada sea aceptada con probabilidad mayor a 0,95?"
+   },
+   {
+    "letra": "b",
+    "texto": "Con ese plan, ¿qué chance hay de aceptar una horneada con un 11 % de defectuosas?"
+   }
+  ],
+  "esperado": {
+   "a": [
+    35,
+    30
+   ],
+   "b": [
+    0.0902,
+    0.1586
+   ]
+  },
+  "nota": "control; 'se descarta' = se rechaza; 'chance'",
+  "control": true
+ },
+ {
+  "id": "C-V-10",
+  "tema": "V",
+  "ejercicio_origen": "V-10",
+  "enunciado": "Una campaña publicitaria buscó subir las ventas mensuales de un jabón en polvo; si funcionó se repetirá con otro producto, y la probabilidad de repetirla sin que haya funcionado se fija en 0,05. Durante los 4 meses de la campaña las ventas promediaron 642.000 unidades, con un desvío de 73.000. De los 12 meses previos a la campaña se sabe que el promedio fue de 570.000 unidades, con un desvío de 45.000.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "¿Qué se decide si se quiere tener casi la certeza de que la campaña aumentó las ventas medias en por lo menos 50.000 unidades?"
+   },
+   {
+    "letra": "b",
+    "texto": "¿Y si se pidiera asegurar un aumento de por lo menos el 10%?"
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": []
+  },
+  "decision": {
+   "a": "no_rechaza",
+   "b": "no_rechaza"
+  },
+  "nota": "control; b) elíptico",
+  "control": true
+ },
+ {
+  "id": "C-V-12",
+  "tema": "V",
+  "ejercicio_origen": "V-12",
+  "enunciado": "Una sociedad de cereales sembró dos variedades nuevas de trigo, A y B, en parcelas de las mismas 8 fincas elegidas al azar. Producción en quintales por parcela, finca por finca:\nVariedad A: 86 87 56 93 84 93 75 79\nVariedad B: 80 79 58 91 77 82 74 66",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Con un riesgo del 5%, ¿puede afirmarse que la variedad A rinde más de 2 quintales por parcela por encima de la B?"
+   },
+   {
+    "letra": "b",
+    "texto": "Dar un intervalo de confianza del 90% para la diferencia de producciones medias."
+   }
+  ],
+  "esperado": {
+   "a": [],
+   "b": [
+    2.32,
+    9.18
+   ]
+  },
+  "decision": {
+   "a": "rechaza"
+  },
+  "nota": "control; apareadas por finca sin la palabra 'apareadas'",
+  "control": true
+ },
+ {
+  "id": "C-VI-5",
+  "tema": "VI",
+  "ejercicio_origen": "VI-5",
+  "enunciado": "Cada semana se revisan 300 bielas y se cuentan las defectuosas. En el último mes hubo 21 defectuosas la primera semana, 12 la segunda, 14 la tercera y 11 la cuarta. ¿Hay evidencia de que el porcentaje de defectuosas cambió de una semana a otra? Usar α = 0,05.",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "no_rechaza"
+  },
+  "nota": "control; todo en prosa",
+  "control": true
+ },
+ {
+  "id": "C-VI-9",
+  "tema": "VI",
+  "ejercicio_origen": "VI-9",
+  "enunciado": "Un desodorante se vende en 4 fragancias y se registraron las compras de las clientas en tres sucursales (tabla). Con un 10% de riesgo, ¿la fragancia elegida depende de la sucursal?",
+  "incisos": [],
+  "esperado": {
+   "única": [
+    13.5075,
+    6,
+    10.6446
+   ]
+  },
+  "decision": {
+   "única": "rechaza"
+  },
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Sucursal",
+     "Neutro",
+     "Lavanda",
+     "Deportivo",
+     "Fresh"
+    ],
+    "filas": [
+     [
+      "Sucursal Norte",
+      32,
+      45,
+      23,
+      28
+     ],
+     [
+      "Sucursal Centro",
+      14,
+      51,
+      15,
+      14
+     ],
+     [
+      "Sucursal Sur",
+      14,
+      14,
+      12,
+      8
+     ]
+    ]
+   }
+  ],
+  "nota": "control",
+  "control": true
+ },
+ {
+  "id": "C-VI-11",
+  "tema": "VI",
+  "ejercicio_origen": "VI-11",
+  "enunciado": "Un consultor registró 1.000 tiradas de una ruleta sospechada de estar adulterada: el cero salió 42 veces, el negro 520 y el colorado 438. ¿Qué concluye el consultor con un riesgo del 5%?",
+  "incisos": [],
+  "esperado": {
+   "única": []
+  },
+  "decision": {
+   "única": "rechaza"
+  },
+  "nota": "control; frecuencias en prosa",
+  "control": true
+ },
+ {
+  "id": "C-VII-12",
+  "tema": "VII",
+  "ejercicio_origen": "VII-12",
+  "enunciado": "Se midió la deformación (mm) y la dureza Brinell (kg/mm²) de 12 muestras de acero; datos en la tabla.",
+  "incisos": [
+   {
+    "letra": "a",
+    "texto": "Obtener la recta de mínimos cuadrados y validarla."
+   },
+   {
+    "letra": "b",
+    "texto": "¿Se puede afirmar con un riesgo del 5% que cada milímetro más de deformación baja la dureza en más de 1 kg/mm²?"
+   },
+   {
+    "letra": "c",
+    "texto": "Intervalo del 95% para la dureza promedio de los aceros con una deformación de 10 mm."
+   }
+  ],
+  "esperado": {
+   "a": [
+    74.6589,
+    -1.3198,
+    0.9261
+   ],
+   "b": [
+    -1.2136
+   ],
+   "c": [
+    58.0671,
+    64.8554
+   ]
+  },
+  "decision": {
+   "b": "rechaza"
+  },
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Deformación (mm)",
+     "Dureza Brinell (kg/mm²)"
+    ],
+    "filas": [
+     [
+      6,
+      70
+     ],
+     [
+      9,
+      68
+     ],
+     [
+      10,
+      66
+     ],
+     [
+      12,
+      55
+     ],
+     [
+      14,
+      52
+     ],
+     [
+      15,
+      50
+     ],
+     [
+      18,
+      48
+     ],
+     [
+      22,
+      44
+     ],
+     [
+      26,
+      40
+     ],
+     [
+      28,
+      37
+     ],
+     [
+      33,
+      35
+     ],
+     [
+      35,
+      30
+     ]
+    ],
+    "variable_y": "Dureza Brinell (kg/mm²)"
+   }
+  ],
+  "nota": "control",
+  "control": true
+ }
+]

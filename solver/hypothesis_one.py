@@ -281,7 +281,11 @@ def disenar_ensayo_media_sigma_desconocido(
     n_inicial: int = 100,
     max_iter: int = 20,
 ) -> DisenoEnsayoResult:
-    """Análogo a disenar_ensayo_media_sigma_conocido pero con S/t (σ desconocido).
+    """FUERA DE LA CÁTEDRA: el profesor no calcula β ni n en ensayos de medias con σ desconocido (necesitan la t no
+    central: «no van a calcular ustedes beta cuando desconocen σ … tampoco tamaño de muestra», 03/09). La app ya no
+    lo ofrece (ni en el intérprete ni en la página de ensayos); queda solo por compatibilidad.
+
+    Análogo a disenar_ensayo_media_sigma_conocido pero con S/t (σ desconocido).
 
     Bucle iterativo igual al de intervals.n_media_sigma_desconocido: t depende de
     nu=n-1, así que se itera hasta que el n que sale coincide con el que entra.
@@ -375,8 +379,8 @@ def disenar_ensayo_media_sigma_desconocido(
         df=df,
         regla_decision=regla,
         warnings=[
-            "Caso no validado contra un ejercicio real de la cátedra "
-            "(σ desconocido + potencia fijada): es una extensión analógica."
+            "Fuera de la cátedra: con σ desconocido el profesor no calcula β ni n (requieren la t no central). "
+            "Esto es una extensión analógica, no validada: no usar en el examen."
         ],
     )
 
@@ -454,6 +458,8 @@ def ensayo_media_sigma_desconocido(
         se = s / sqrt(n)
         result.beta = _beta_media(critical_value, mu1, se, tail)
         result.power = 1 - result.beta
+        result.warnings.append("Fuera de la cátedra: con σ desconocido el profesor no calcula β (requiere la t no "
+                               "central). Valor aproximado con la normal: no usar en el examen.")
 
     return result
 
@@ -552,6 +558,16 @@ def ensayo_varianza(
     return result
 
 
+def p_txt(p0: float) -> str:
+    """p₀ para mostrar: los periódicos como fracción (1/37), como pide el profesor («no trunquen los periódicos»)."""
+    from fractions import Fraction
+    fr = Fraction(p0).limit_denominator(1000)
+    if fr.denominator > 1 and abs(float(fr) - p0) < 1e-12 and \
+            fr.denominator not in (2, 4, 5, 8, 10, 20, 25, 40, 50, 100, 125, 200, 250, 500, 1000):
+        return f"{fr.numerator}/{fr.denominator}"
+    return f"{p0:g}"
+
+
 def _buscar_rc_derecha(n: int, p0: float, alpha: float) -> int:
     """Busca r_c para cola derecha."""
     for r in range(n + 1):
@@ -587,15 +603,15 @@ def ensayo_proporcion(
 
     if tail == "derecha":
         rc = _buscar_rc_derecha(n, p0, alpha)
-        h0_text = f"p ≤ {p0}"
-        h1_text = f"p > {p0}"
+        h0_text = f"p ≤ {p_txt(p0)}"
+        h1_text = f"p > {p_txt(p0)}"
         rejects = r >= rc
         critical_value = rc
         p_value = dist.binom_upper_tail(r, n, p0)
     elif tail == "izquierda":
         rc = _buscar_rc_izquierda(n, p0, alpha)
-        h0_text = f"p ≥ {p0}"
-        h1_text = f"p < {p0}"
+        h0_text = f"p ≥ {p_txt(p0)}"
+        h1_text = f"p < {p_txt(p0)}"
         rejects = r <= rc
         critical_value = rc
         p_value = dist.binom_cdf(r, n, p0)
@@ -603,8 +619,8 @@ def ensayo_proporcion(
         alpha_media = alpha / 2
         rc_derecha = _buscar_rc_derecha(n, p0, alpha_media)
         rc_izquierda = _buscar_rc_izquierda(n, p0, alpha_media)
-        h0_text = f"p = {p0}"
-        h1_text = f"p ≠ {p0}"
+        h0_text = f"p = {p_txt(p0)}"
+        h1_text = f"p ≠ {p_txt(p0)}"
         rejects = r <= rc_izquierda or r >= rc_derecha
         critical_value = (rc_izquierda, rc_derecha)
         p_value_der = dist.binom_upper_tail(r, n, p0)

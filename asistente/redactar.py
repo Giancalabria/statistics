@@ -31,7 +31,8 @@ Reglas:
 1. Números: todos (fractiles, valores críticos, límites, n, frecuencias, estadísticos) se copian tal cual de la \
 RESOLUCIÓN DEL SOLVER o del ENUNCIADO. No hagas cuentas nuevas ni redondees distinto. Si el formato pide un número \
 que la resolución no trae, omitilo. Los números de los ejemplos del formato son de OTROS ejercicios: nunca los copies.
-2. Tablas: si la resolución del solver trae una tabla, copiala completa en el paso de cálculos.
+2. Tablas: si la resolución del solver trae una tabla, copiala completa en el paso de cálculos. No armes tablas \
+que el solver no trae (por ejemplo una curva de operación inventada).
 3. Incisos: respetá exactamente los incisos que indica DATOS DEL EJERCICIO. No agregues incisos ni subdividas la \
 resolución en a), b), c) si el ejercicio tiene una sola consigna.
 4. Pasos: numerá los pasos como el FORMATO (la numeración de la resolución del solver es interna, no la uses).
@@ -44,9 +45,15 @@ lo menciones.
 suficiente para asegurar que…)».
 8. Intervalos: límites exactamente como los informa el solver (ya están redondeados hacia afuera) y expresión formal \
 P(A ≤ θ ≤ B) = 1 − α.
-9. Español rioplatense, coma decimal (2,5), unidades del enunciado. Sin introducción ni comentarios finales: solo \
+9. En cada ensayo y cada diseño escribí dos renglones separados, antes de ver la muestra: «**Condición de rechazo \
+(CR)**: …» con la desigualdad (r ≥ r_c, x̄ > x̄c, J < Jc…) y «**Regla de decisión (RD)**: …» con el curso \
+de acción en palabras para quien decide.
+10. Probabilidades (α, β, 1 − β, P(…), G, F) siempre entre 0 y 1, nunca en %: «β = 0,0212», jamás «2,12 %» ni \
+«97,88 % de probabilidad». El % solo vale para el nivel de confianza («95 % de confianza») o para porcentajes del \
+enunciado.
+11. Español rioplatense, coma decimal (2,5), unidades del enunciado. Sin introducción ni comentarios finales: solo \
 la resolución.
-10. El FORMATO de abajo es material de referencia: describe cómo tiene que quedar la resolución y trae ejemplos de \
+12. El FORMATO de abajo es material de referencia: describe cómo tiene que quedar la resolución y trae ejemplos de \
 OTROS ejercicios. No lo copies, no repitas sus títulos, sus reglas ni sus ejemplos: escribí solo la resolución de \
 este ejercicio.
 
@@ -55,6 +62,7 @@ FORMATO DE LA RESOLUCIÓN (referencia, no copiar):
 
 _TEMA_ROMANO = dict(TEMA_A_GUIA, regresion_multiple="VIII")
 _RE_TEMAS = re.compile(r"<!--\s*temas:\s*([IVX ]+?)\s*-->")
+_RE_TIPOS = re.compile(r"<!--\s*tipos:\s*([\w ]+?)\s*-->")
 
 
 def estilo() -> str:
@@ -64,15 +72,19 @@ def estilo() -> str:
         return ""
 
 
-def estilo_para(tema: Optional[str]) -> str:
-    """ESTILO_CATEDRA.md sin el encabezado y sin las secciones (## / ###) marcadas para otros temas."""
+def estilo_para(tema: Optional[str], tipos: Optional[Sequence[str]] = None) -> str:
+    """ESTILO_CATEDRA.md sin el encabezado y sin las secciones (## / ###) marcadas para otros temas.
+
+    Con `tipos` (los tipos de inciso del ejercicio) va un solo ejemplo, el que más comparte con el ejercicio según su
+    línea `<!-- tipos: -->`: con varios el modelo local se confunde y copia números de otros ejercicios."""
     texto = estilo()
     if "\n## " not in texto:
         return texto
     texto = texto[texto.index("\n## ") + 1:]
     romano = _TEMA_ROMANO.get(tema or "")
     partes = re.split(r"(?m)^(?=#{2,3} )", texto)
-    salida, saltar_nivel = [], None
+    salida, saltar_nivel, ejemplos = [], None, []
+    buscados = set(tipos or ()) | {tema or ""}
     for parte in partes:
         nivel = len(parte) - len(parte.lstrip("#"))
         if saltar_nivel is not None and nivel > saltar_nivel:
@@ -82,7 +94,13 @@ def estilo_para(tema: Optional[str]) -> str:
         if m and romano and romano not in m.group(1).split():
             saltar_nivel = nivel
             continue
+        t = _RE_TIPOS.search(parte.split("\n\n", 1)[0])
+        if t and tipos is not None:
+            ejemplos.append((len(buscados & set(t.group(1).split())), -len(ejemplos), len(salida)))
         salida.append(re.sub(r"<!--.*?-->\n?", "", parte, flags=re.S).replace("\n\n\n", "\n\n"))
+    if ejemplos:
+        mejor = max(ejemplos)[2]
+        salida = [x for i, x in enumerate(salida) if i == mejor or i not in {e[2] for e in ejemplos}]
     # una sección ## que quedó sin contenido (todos sus ejemplos eran de otros temas) no se manda, el checklist es
     # para quien revisa (las reglas ya están en el prompt) y los números de sección se sacan: el modelo los copiaba
     limpio = [x for i, x in enumerate(salida)
@@ -128,7 +146,7 @@ def mensajes(an: Analisis, resultados: Sequence[Resultado], pedido: str = ""):
                + (f"PEDIDO: {pedido.strip()}" if pedido.strip() else
                   "PEDIDO: escribí la resolución completa, paso a paso, como en el examen.")
                + f"\nTu respuesta empieza directamente con «{primero}».")
-    return [{"role": "system", "content": SISTEMA + estilo_para(an.tema)}, {"role": "user", "content": usuario}]
+    return [{"role": "system", "content": SISTEMA + estilo_para(an.tema, [i.tipo for i in an.incisos])}, {"role": "user", "content": usuario}]
 
 
 def redactar(an: Analisis, resultados: Sequence[Resultado], pedido: str = "", modelo: Optional[str] = None,
@@ -172,7 +190,14 @@ INTERVALOS = {"ic", "ic_coef", "ic_rho", "ic_rho2", "pronostico"}
 
 _ACEPTO = re.compile(r"\bacept(o|a|amos|ar|e|ando)\s+(la\s+(hip[oó]tesis\s+(nula\s+)?)?)?(h0|h₀|hip[oó]tesis nula)",
                      re.IGNORECASE)
-_FORMAL = re.compile(r"P\s*\(\s*[^()]*?(≤|<=)[^()]*?(≤|<=)[^()]*?\)\s*=", re.IGNORECASE)
+_PROB_PORCENTAJE = re.compile(r"\d+(?:,\d+)?\s*%\s*de\s+(probabilidad|riesgo|posibilidad|potencia)|"
+                              r"(probabilidad|potencia|riesgo|\bβ|\bα)[^.\n%]{0,40}?(\bes|=|\bvale)\s+(del?\s+|un\s+)?"
+                              r"\d+(?:,\d+)?\s*%",
+                              re.IGNORECASE)
+# P(A ≤ θ ≤ B) = 1 − α, o con un solo límite P(θ ≥ A) / P(θ ≤ B); θ puede llevar paréntesis: μ(R) − μ(S), σ(P)/σ(A)
+_ARG = r"(?:[^()\n]|\([^()\n]*\))"
+_FORMAL = re.compile(rf"P\s*\(\s*{_ARG}*?(?:≤|<=){_ARG}*?(?:≤|<=){_ARG}*?\)\s*=|"
+                     rf"P\s*\(\s*{_ARG}*?(?:≥|>=|≤|<=)\s*-?\d[\d.,]*\s*\w*\s*\)\s*=", re.IGNORECASE)
 
 
 def _secciones(texto: str) -> dict:
@@ -198,6 +223,9 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
                                       re.IGNORECASE)), "Define la variable en palabras (X: …)"))
     if _ACEPTO.search(texto):
         out.append(Control(False, f"Dice «{_ACEPTO.search(texto).group(0)}»: tiene que ser «no se rechaza H0»"))
+    m = _PROB_PORCENTAJE.search(texto)
+    out.append(Control(not m, "Probabilidades entre 0 y 1, nunca en %" if not m else
+                       f"Expresa una probabilidad en %: «{m.group(0).strip()}» (el profesor la quiere entre 0 y 1)"))
     letras = {i.letra.lower() for i in an.incisos}
     inventados = sorted(k for k in _secciones(texto) if k not in letras)
     out.append(Control(not inventados, "No agrega incisos que el ejercicio no tiene" if not inventados else

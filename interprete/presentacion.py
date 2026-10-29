@@ -40,7 +40,11 @@ def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: 
         ref = ref or 1.0
         a, b = d.get("nombre1") or "1", d.get("nombre2") or "2"
         sim = f"φ = σ({a})/σ({b})"
-    v0 = _v(ref) if ref is not None else f"{sim}₀"
+    if tema == "proporcion" and isinstance(ref, float):
+        from solver.hypothesis_one import p_txt
+        v0 = p_txt(ref).replace(".", ",")   # los periódicos como fracción (1/37), no truncados
+    else:
+        v0 = _v(ref) if ref is not None else f"{sim}₀"
     h0 = f"H0: {sim} {OPUESTO[tail]} {v0}"
     h1 = f"H1: {sim} {SIGNO[tail]} {v0}"
     if d.get("ambos") and d.get("mu0") is not None and d.get("sigma0") is not None:
@@ -89,19 +93,22 @@ def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: 
 def _modelo_media(d: Dict, tipo: str) -> List[str]:
     finita = d.get("N")
     fpc = (f" Como la población es finita (N = {_v(finita)}) y se muestrea sin reposición, el error estándar lleva "
-           f"el factor √((N-n)/N).") if finita else ""
+           f"el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no "
+           f"hace»).") if finita else ""
     if d.get("sigma_conocido"):
-        lineas = ["La variable X se supone Normal: X ~ N(μ; σ²) con σ conocido (si no fuera Normal, con n grande vale "
-                  "el Teorema Central del Límite).",
+        lineas = ["La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).",
                   "Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n)." + fpc,
-                  "Se estandariza con Z = (x̄ - μ)/(σ/√n) ~ N(0; 1) y se usan los fractiles de la Normal estándar."]
+                  "Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal "
+                  "dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)"]
     else:
-        lineas = ["La variable X se supone Normal: X ~ N(μ; σ²), con σ DESCONOCIDO.",
-                  "Al estimar σ con el desvío muestral S, el estadístico t = (x̄ - μ)/(S/√n) sigue una t de Student con "
-                  "ν = n - 1 grados de libertad (más \"ancha\" que la Normal por la incertidumbre de S)." + fpc]
+        lineas = ["La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).",
+                  "Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE "
+                  "ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t "
+                  "de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)" + fpc]
     if tipo in ("beta", "curva", "diseno"):
         lineas.append("Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: "
-                      "β = P(x̄ en la zona de no rechazo | μ = μ₁).")
+                      "β = P(x̄ en la zona de no rechazo | μ = μ₁)." if d.get("sigma_conocido", True) else
+                      "Con σ desconocido la cátedra no calcula β ni n (hace falta la t no central).")
     if tipo == "n":
         lineas.append("El tamaño de muestra sale de despejar n del error e = (fractil)·σ/√n" +
                       (" (con t se itera porque ν depende de n)." if not d.get("sigma_conocido") else "."))
@@ -126,9 +133,16 @@ def _modelo_proporcion(d: Dict, tipo: str) -> List[str]:
     if tipo == "ic":
         lineas.append("El intervalo exacto usa la relación entre la Binomial y la distribución Beta (o F de Snedecor).")
     elif tipo == "n":
-        lineas.append("Para el n se usa la aproximación Normal: p̂ ~ N(p; p(1-p)/n), válida con n grande.")
+        lineas.append("Para el n se usa la aproximación Normal: p̂ ~ N(p; p(1-p)/n). La aproximación se justifica con el n "
+                      "RESULTANTE: normal si n·p > 10 y n·(1-p) > 10; Poisson si p ≤ 0,005; si se cumplen las dos o "
+                      "ninguna, criterio de Mermoz (n₀ = 0,23·(1-p)²/p³).")
+    elif tipo == "diseno":
+        lineas.append("El plan exacto sale de la Binomial (el menor n con G ≤ α y F ≤ β). Las aproximaciones normal o de "
+                      "Poisson solo sirven para calcular n y se justifican con el n RESULTANTE (normal si n·p₀ > 10 y "
+                      "n·(1-p₀) > 10; Poisson si p₀ ≤ 0,005; si no, criterio de Mermoz).")
     else:
-        lineas.append("El ensayo se resuelve con la Binomial exacta (el valor crítico r_c es un entero).")
+        lineas.append("El ensayo se resuelve con la Binomial exacta (el valor crítico r_c es un entero, con α real ≤ α). "
+                      "No hay ensayos bilaterales sobre p.")
     return lineas
 
 
@@ -159,17 +173,21 @@ def explicar_distribuciones(tema: str, tipo: str, d: Dict) -> Optional[str]:
             lineas.append("Con n₁ = n₂ = n la relación entre límites B/A = F(1-α/2; ν; ν)/F(α/2; ν; ν) depende solo de "
                           "n: se itera sobre F hasta cumplirla.")
     elif tema == "dos_medias":
-        lineas = ["Las poblaciones se suponen Normales. Si las muestras son apareadas se trabaja con las diferencias "
-                  "dᵢ (una sola muestra, t con ν = n-1).",
-                  "Si son independientes, primero un test F decide si las varianzas pueden considerarse iguales: si sí, "
-                  "t con S combinado (ν = n₁ + n₂ - 2); si no, t de Welch (ν aproximado)."]
+        lineas = ["Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad "
+                  "experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).",
+                  "Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la "
+                  "varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa "
+                  "amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).",
+                  "En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n."]
     elif tema == "chi_contingencia":
-        lineas = ["Con las frecuencias esperadas Fe = (total fila · total columna)/total, el estadístico "
-                  "Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).",
-                  "La aproximación exige Fe ≥ 5 en cada celda (si no, se agrupan categorías)."]
+        lineas = ["Con las frecuencias esperadas Fe = (total fila · total columna)/total (con decimales: no se "
+                  "redondean), el estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = (filas - 1)(columnas - 1).",
+                  "La aproximación exige N ≥ 60 y Fe ≥ 5 en cada celda (si no, se amalgaman categorías)."]
     elif tema == "chi_ajuste":
-        lineas = ["El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = k - 1 - (parámetros estimados).",
-                  "La aproximación exige Fe ≥ 5 en cada clase (si no, se agrupan clases)."]
+        lineas = ["El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros "
+                  "estimados con la muestra).",
+                  "La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene "
+                  "un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual."]
     else:
         return None
     return "**Modelos y distribuciones empleados**:  \n" + "  \n".join("• " + x for x in lineas)

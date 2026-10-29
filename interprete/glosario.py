@@ -91,13 +91,14 @@ COMO_PRESENTAR = {
     "ensayo": [
         "Planteo de hipótesis: criterio (optimista / pesimista), H0 vs H1 (la igualdad siempre en H0).",
         "Nivel de significación α = P(rechazar H0 | H0 cierta).",
-        "Estadístico de prueba: Z (σ conocido), t con ν = n-1 (solo se tiene S), χ² (varianza), binomial (proporción).",
+        "Estadístico de prueba: Z si al estandarizar x̄ se divide por el parámetro σ (una constante: sigue normal); t con "
+        "ν = n-1 si se divide por S (una variable aleatoria); χ² (varianza), binomial exacta (proporción).",
         "Condición de rechazo (CR): valor crítico (x̄c, S²c, r_c) y zona de rechazo.",
         "Regla de decisión (RD) en lenguaje llano y ANTES de calcular: 'se toma una muestra de n..., si x̄ > x̄c se "
         "rechaza H0 → acción; si no → otra acción'.",
-        "Cálculos: valor observado y si cae o no en la zona de rechazo.",
-        "Conclusión formal: 'A un nivel de significación del α%, (no) existe evidencia estadística suficiente para "
-        "rechazar H0... Por consiguiente, <acción>' (NUNCA 'se acepta H0').",
+        "Cálculos: el ESTIMADOR (x̄, S, r, J, D) contra el valor crítico, nunca contra el valor de H0.",
+        "Conclusión: 'se rechaza H0: puedo asegurar que…' o 'no se rechaza H0: no hay evidencia suficiente para asegurar "
+        "que…' (NUNCA 'se acepta H0'). α y β como probabilidades (0,05), nunca en %.",
     ],
     "beta": [
         "Recordar la región crítica del ensayo (x̄c).",
@@ -124,3 +125,51 @@ def buscar_frases(texto: str) -> List[Tuple[str, str]]:
         if re.search(patron, norm):
             salida.append((frase, significado))
     return salida
+
+
+# ---------------------------------------------------------------------------
+# Sinónimos: otras redacciones (de examen) que se pasan a la palabra que leen las reglas
+# ---------------------------------------------------------------------------
+
+# (patrón sobre el texto normalizado, reemplazo). El reemplazo puede usar los grupos del patrón.
+SINONIMOS: List[Tuple[str, str]] = [
+    # 'chance' = probabilidad
+    (r"\bchances?\b", "probabilidad"),
+    # 'advertir / percibir' que cambió = detectar
+    (r"\badvertir(la|lo)?\b", r"detectar\1"), (r"\badvierta\b", "detecte"), (r"\badviertan\b", "detecten"), (r"\badvierte\b", "detecta"),
+    (r"\badvierten\b", "detectan"),
+    (r"\badvertiria\b", "detectaría"), (r"\badvertira\b", "detectará"), (r"\bpercibir\b", "detectar"), (r"\bperciba\b", "detecte"),
+    # 'parar' la máquina / el proceso / la línea = detener
+    (r"\bparar(la|lo|las|los|se)?\b", r"detener\1"), (r"\bpare\b", "detenga"), (r"\bparen\b", "detengan"),
+    (r"\bpararia\b", "detendría"), (r"\bparara\b", "detendrá"),
+    # 'devolver' el lote = rechazarlo
+    (r"\bdevuelve\b", "rechaza"), (r"\bdevuelven\b", "rechazan"), (r"\bdevolver(lo|la)?\b", r"rechazar\1"),
+    (r"\bdevolvera\b", "rechazará"), (r"\bdevolveria\b", "rechazaría"),
+    # 'descartar' la horneada / el lote = rechazarlo
+    (r"\bdescarta\b", "rechaza"), (r"\bdescartan\b", "rechazan"), (r"\bdescartar(lo|la)?\b", r"rechazar\1"),
+    (r"\bdescartara\b", "rechazará"), (r"\bdescartaria\b", "rechazaría"),
+    # 'quedarse con' un lote / una partida = aceptarlo
+    (r"\bquedarse con\b", "aceptar"), (r"\bse queda con\b", "acepta"),
+    # 'desviación típica' = desvío estándar; 'significancia' = significación
+    (r"\bdesviacion tipica\b", "desviación estándar"), (r"\bdesvio tipico\b", "desvío estándar"),
+    (r"\bsignificancia\b", "significación"),
+    # 'cociente' entre varianzas / desvíos = relación
+    (r"\bcociente\b", "relación"),
+]
+_RE_MONEDA_ANTES = re.compile(r"(u\$s|u\$d|us\$|usd|\$)\s*(\d[\d.,]*\d|\d)", re.IGNORECASE)
+
+
+def unificar_redaccion(texto: str) -> str:
+    """Pasa sinónimos de examen a la palabra que leen las reglas ('chance' → 'probabilidad', 'parar la máquina' →
+    'detener', 'devuelve el lote' → 'rechaza', 'desviación típica' → 'desvío estándar') y deja la moneda después del
+    número ('U$S 1.100' → '1.100 U$S', como escribe la guía)."""
+    texto = _RE_MONEDA_ANTES.sub(lambda m: f"{m.group(2)} {m.group(1)}", texto)
+    for patron, reemplazo in SINONIMOS:
+        norm = normalizar(texto)
+        partes, ult = [], 0
+        for m in re.finditer(patron, norm):
+            partes.append(texto[ult:m.start()] + m.expand(reemplazo))
+            ult = m.end()
+        if partes:
+            texto = "".join(partes) + texto[ult:]
+    return texto

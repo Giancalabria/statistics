@@ -423,7 +423,7 @@ def chi_ajuste_modelos(d, alpha, res, estado):
         nombre = aj.NOMBRES[m]
         res.pasos.append(f"**— Modelo {nombre} —**")
         params = _params_txt(r) if r.parametros else ""
-        res.pasos.append(f"**Hipótesis**: H0: la variable sigue el modelo {nombre}"
+        res.pasos.append(f"**Hipótesis**: H0: lo observado se ajusta al modelo {nombre}"
                          + (" con " + params if not r.estimados and params else "")
                          + f"  vs  H1: no lo sigue.  α = {fmt(alpha, 4)}.")
         if r.media is not None:
@@ -438,7 +438,7 @@ def chi_ajuste_modelos(d, alpha, res, estado):
             res.pasos.append("**Amalgamado** (Fe < 5 se une con la clase vecina):\n\n" +
                              _tabla_md(r.tabla_final, aportes=True))
         k = len(r.tabla_final)
-        res.pasos.append(f"**Estadístico**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = {fmt(r.chi2_calc, 4)}; ν = k - 1 - p = "
+        res.pasos.append(f"**Estadístico**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = {fmt(r.chi2_calc, 4)}; ν = clases efectivas - 1 - p = "
                          f"{k} - 1 - {len(r.estimados)} = {r.df}; χ²(1-α; ν) = {fmt(r.chi2_critico, 4)}.")
         res.pasos.append(f"**Condición de rechazo**: si χ² > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0.")
         res.pasos.append("**Decisión**: " + (f"χ² = {fmt(r.chi2_calc, 4)} > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0: "
@@ -455,11 +455,17 @@ def chi_ajuste_modelos(d, alpha, res, estado):
     for r in resultados:
         nombre = aj.NOMBRES[r.modelo]
         if r.rechaza:
-            concl.append(f"Con un riesgo del {fmt(100 * alpha, 2)}% se puede asegurar que la variable no se comporta "
-                         f"según el modelo {nombre}.")
+            concl.append(f"Con α = {fmt(alpha, 4)} se rechaza H0: se puede asegurar que la variable no sigue el modelo "
+                         f"{nombre}.")
+        elif r.modelo in aj.DISCRETOS and r.modelo != "uniforme":
+            # tres situaciones de las discretas (profesor, 22/10)
+            concl.append(f"Con α = {fmt(alpha, 4)} no se rechaza H0. Si además se cumple el proceso físico del modelo "
+                         f"{nombre} (p. ej. Poisson: sucesos puntuales e independientes en un medio continuo), se puede "
+                         f"afirmar que la variable sigue el modelo {nombre}; si no se cumple, el modelo {nombre} es un "
+                         "buen candidato.")
         else:
-            concl.append(f"No se puede asegurar que la variable no siga el modelo {nombre}: el modelo {nombre} es un "
-                         f"buen candidato (no se rechaza H0 con α = {fmt(alpha, 4)}).")
+            concl.append(f"Con α = {fmt(alpha, 4)} no se rechaza H0: no hay evidencia suficiente para asegurar que la "
+                         f"variable no siga el modelo {nombre}; el modelo {nombre} es un buen candidato.")
     if len(resultados) > 1 or d.get("mejor"):
         no_rech = [r for r in resultados if not r.rechaza] or resultados
         mejor = min(no_rech, key=lambda r: r.chi2_calc / r.chi2_critico)

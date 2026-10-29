@@ -9,6 +9,13 @@ respuesta es solo verbal se compara la decisión (rechaza / no rechaza).
     python herramientas/evaluar_guia.py -v           # detalle por inciso
     python herramientas/evaluar_guia.py -v I-5 VII   # solo algunos ejercicios / temas
     python herramientas/evaluar_guia.py --fallas     # solo los incisos que no coinciden
+    python herramientas/evaluar_guia.py --raros      # banco de enunciados "estilo examen raro"
+    python herramientas/evaluar_guia.py --raros -v R-V-8 VI   # detalle de algunos (por id o tema)
+
+`--raros` corre el intérprete sobre `datos/enunciados_raros.json`: ejercicios de la guía reescritos a mano con otra
+redacción (sinónimos, números en palabras, datos en otro orden, tablas en prosa, incisos pegados en el texto...) y
+enunciados de práctica, con la respuesta esperada. Mide tema, incisos clasificados, valores y decisiones. Los marcados
+`"control": true` se escribieron después de ajustar las reglas y se informan aparte (miden si los arreglos generalizan).
 
 Con la IA local (Ollama abierto, ver ASISTENTE_IA.md):
 
@@ -186,6 +193,91 @@ def evaluar(ej, verbose=False, solo_fallas=False, obtener=analizar_reglas):
     return tema_ok, tot, ok, exactos, dtot, dok
 
 
+RAROS = RAIZ / "datos" / "enunciados_raros.json"
+
+
+def como_guia(raro):
+    """Un enunciado del banco raro con la forma de un ejercicio de la guía (para reusar `emparejar`)."""
+    esperado, decision = raro.get("esperado") or {}, raro.get("decision") or {}
+    letras = [i["letra"] for i in raro["incisos"]] or list(esperado)
+    return {"id": raro["id"], "tema": raro["tema"], "tablas": raro.get("tablas") or [],
+            "incisos": [{"letra": l, "valores": esperado.get(l, []), "decision": decision.get(l, "")} for l in letras]}
+
+
+def evaluar_raro(raro, verbose=False, solo_fallas=False):
+    """(tema_ok, incisos esperados, incisos clasificados, valores, ok, decisiones, dok, incisos separados bien)."""
+    ej = como_guia(raro)
+    incisos = [(i["letra"], i["texto"]) for i in raro["incisos"]] or None
+    an = analizar(raro["enunciado"], incisos, tablas=ej["tablas"] or None)
+    resultados = resolver(an)
+    letras_an = [i.letra.split(".")[0] for i in an.incisos]
+    separados = all(i["letra"] in letras_an for i in ej["incisos"])
+    tot = ok = dtot = dok = clas = 0
+    lineas = []
+    vistos = set()
+    for inc, res, guia, nums in emparejar(ej, an, resultados):
+        base = inc.letra.split(".")[0]
+        if base not in vistos and inc.tipo != "no_soportado" and not res.errores:
+            clas += 1
+            vistos.add(base)
+        esperado = guia.get("valores", []) or []
+        hits = [v for v in esperado if coincide(v, nums)]
+        tot += len(esperado)
+        ok += len(hits)
+        dec = guia.get("decision") or ""
+        dmarca = ""
+        if dec:
+            dtot += 1
+            if decision_de(res) == dec:
+                dok += 1
+            else:
+                dmarca = f"  | decisión {decision_de(res) or '—'} (esperada {dec})"
+        falla = len(hits) < len(esperado) or bool(dmarca) or bool(res.errores) or inc.tipo == "no_soportado"
+        if verbose and (not solo_fallas or falla):
+            marca = "XX " if falla else "OK "
+            err = f" ERR: {res.errores[0]}" if res.errores else ""
+            faltan = [v for v in esperado if v not in hits]
+            lineas.append(f"  {marca} {inc.letra}) {inc.tipo:10s} {res.resumen[:90]}"
+                          f"{'  | faltan ' + str(faltan) if faltan else ''}{dmarca}{err}")
+    n_inc = len(ej["incisos"])
+    clas = min(clas, n_inc)
+    tema_ok = an.tema in TEMA_ESPERADO[raro["tema"]]
+    if verbose and (lineas or not tema_ok or not separados):
+        print(f"=== {raro['id']} ({raro['ejercicio_origen']}) tema={an.tema}"
+              f"{'' if tema_ok else ' (!! esperado ' + raro['tema'] + ')'}"
+              f"{'' if separados else ' (!! incisos ' + str(letras_an) + ')'}")
+        print("\n".join(lineas))
+    return tema_ok, n_inc, clas, tot, ok, dtot, dok, separados
+
+
+def main_raros(args):
+    verbose = "-v" in args or "--fallas" in args
+    solo_fallas = "--fallas" in args
+    filtros = [a for a in args if not a.startswith("-")]
+    banco = json.loads(RAROS.read_text(encoding="utf-8"))
+    sel = [r for r in banco if not filtros or r["id"] in filtros or r["tema"] in filtros]
+    por_tema, control = {}, [0] * 9
+    for r in sel:
+        t = por_tema.setdefault(r["tema"], [0] * 9)
+        fila = (1,) + evaluar_raro(r, verbose, solo_fallas)
+        for i, v in enumerate(fila):
+            t[i] += v
+            if r.get("control"):
+                control[i] += v
+    print("\nTEMA   enunc  tema_ok  incisos_ok   valores    decisiones  separados")
+    g = [0] * 9
+    for tema in sorted(por_tema, key=lambda x: ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"].index(x)):
+        n, tok, ninc, clas, tot, ok, dtot, dok, sep = por_tema[tema]
+        print(f"{tema:5s} {n:5d}  {tok:5d}    {clas:4d}/{ninc:<4d}  {ok:4d}/{tot:<4d}   {dok:3d}/{dtot:<4d}   {sep:3d}/{n}")
+        g = [a + b for a, b in zip(g, por_tema[tema])]
+    print(f"TOTAL {g[0]:5d}  {g[1]:5d}    {g[3]:4d}/{g[2]:<4d}  {g[5]:4d}/{g[4]:<4d}   {g[7]:3d}/{g[6]:<4d}   {g[8]:3d}/{g[0]}   "
+          f"(valores {100 * g[5] / max(1, g[4]):.0f}% · decisiones {100 * g[7] / max(1, g[6]):.0f}%)")
+    if control[0]:
+        c = control
+        print(f"  de esos, CONTROL (escritos después de los arreglos, sin ajustar nada para ellos): {c[0]} enunciados, "
+              f"tema {c[1]}/{c[0]}, incisos {c[3]}/{c[2]}, valores {c[5]}/{c[4]}, decisiones {c[7]}/{c[6]}")
+
+
 def _opcion(args, nombre):
     if nombre in args:
         i = args.index(nombre)
@@ -243,6 +335,9 @@ def con_ia(modo, modelo, pensar, stats):
 
 def main():
     args = sys.argv[1:]
+    if "--raros" in args:
+        args.remove("--raros")
+        return main_raros(args)
     modelo = _opcion(args, "--modelo")
     limite = _opcion(args, "--limite")
     pensar = "--pensar" in args

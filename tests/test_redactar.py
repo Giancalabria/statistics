@@ -97,3 +97,32 @@ def test_el_checklist_marca_incisos_inventados_y_criterio_en_chi():
              "CR y RD. Se rechaza H0.")
     fallas = " | ".join(_fallas(texto, an, res, fuentes))
     assert "Agrega incisos" in fallas and "criterio optimista" in fallas.lower()
+
+
+def test_el_checklist_marca_probabilidades_en_porcentaje():
+    an, res, fuentes = _resuelto(PROP)
+    base = ("### única) Intervalo\nX: atributo de cada pieza (1 = defectuosa, 0 = buena). n = 10, r = 1.\n"
+            "F(0,95; 20; 2) = 19,4458 ⇒ A = 0,0051. F(0,95; 4; 18) = 2,9277 ⇒ B = 0,3942.\n"
+            "P(0,0051 ≤ p ≤ 0,3942) = 0,90. ")
+    for mal in ("Hay un 97,88 % de probabilidad de rechazar H0.", "La potencia es del 97,88 %.", "β = 2,12 %."):
+        assert any("en %" in f for f in _fallas(base + mal, an, res, fuentes)), mal
+    for bien in ("Con un 90 % de confianza el porcentaje de defectuosas no supera el 39,42 %.",
+                 "Con α = 0,10, β = 0,0212."):
+        assert not any("en %" in f for f in _fallas(base + bien, an, res, fuentes)), bien
+
+
+def test_va_un_solo_ejemplo_el_del_tipo_de_inciso():
+    an, res, _ = _resuelto(PROP)                                  # intervalo de p: el ejemplo de intervalo
+    sistema = red.mensajes(an, res)[0]["content"]
+    assert sistema.count("### Ejemplo") == 1 and "Ejemplo 3" in sistema
+    assert red.estilo_para("proporcion").count("### Ejemplo") > 1  # sin tipos, todos los del tema
+    assert "Ejemplo III-16" in red.estilo_para("proporcion", ["diseno", "beta", "diseno", "curva"])
+    assert "Ejemplo III-19" in red.estilo_para("proporcion", ["ensayo", "beta"])
+
+
+def test_expresion_formal_con_parentesis_y_cotas_de_un_limite():
+    for bien in ("P(67,55 ≤ μ(R) − μ(S) ≤ 456,45) = 0,9", "P(0,4732 ≤ σ(P)/σ(A) ≤ 1,1392) = 0,9",
+                 "P(δ ≥ 0,3788 kg) = 0,95", "P(0,0051 ≤ p ≤ 0,3942) = 0,90"):
+        assert red._FORMAL.search(bien), bien
+    for mal in ("P(h = 1,0490 ⇒ μ ≥ 1,0490·μ) = 0,95", "P(rechazar H0) = 0,21", "P(F < 0,6341) = 0,2103"):
+        assert not red._FORMAL.search(mal), mal

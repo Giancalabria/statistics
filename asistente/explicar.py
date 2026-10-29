@@ -22,8 +22,15 @@ alumno a entender y redactar la resolución de un ejercicio. Respondé en españ
 Reglas estrictas:
 - Los NÚMEROS salen únicamente del ENUNCIADO o de la RESOLUCIÓN DEL SOLVER que te paso. No hagas cuentas nuevas \
 ni redondees distinto. Si algo no está calculado, decí que hay que calcularlo con la app.
-- Seguí las convenciones de la cátedra (planteo de H0 con criterio optimista/pesimista, 7 pasos del ensayo, \
-conclusión formal con el nivel de significación, límites redondeados hacia afuera).
+- Seguí las reglas del profesor (Ing. Dopazo), que mandan sobre la guía: H0 justificada en palabras (lo que se \
+quiere probar va en H1; pesimista u optimista), pasos del ensayo en orden, comparar el ESTIMADOR con el valor \
+crítico (nunca contra el valor de H0 ni con estadísticos t/F/χ² observados), «se rechaza H0: puedo asegurar que…» o \
+«no hay evidencia suficiente para asegurar que…» (nunca «acepto H0»), límites redondeados hacia afuera.
+- Probabilidades (α, β, 1-β, P) siempre entre 0 y 1, NUNCA en %. Mínimo 4 decimales en el desarrollo.
+- Z se justifica porque al estandarizar x̄ se divide por el parámetro σ (una constante); t porque se divide por S, \
+una variable aleatoria. Nunca «uso Z porque conozco σ».
+- No hay ensayos bilaterales sobre p, σ², σ ni en comparaciones. No se decide con el valor a posteriori α*. \
+La estimación de p es siempre exacta (nunca por la normal). Con t no se calculan β ni n.
 - Usá coma decimal (2,5) como en el examen.
 """
 
@@ -52,6 +59,10 @@ def resolucion_texto(an: Analisis, resultados: Sequence[Resultado]) -> str:
         b += [f"ERROR: {e}" for e in res.errores]
         b += [f"Aviso: {a}" for a in res.avisos]
         b += [f"- {p}" for p in res.pasos]
+        if res.tabla:                                  # curvas OC / potencia: sin la tabla el modelo la inventa
+            cols = list(res.tabla[0])
+            b.append("| " + " | ".join(cols) + " |\n|" + "---|" * len(cols))
+            b += ["| " + " | ".join(f"{float(f[c]):.4f}".replace(".", ",") for c in cols) + " |" for f in res.tabla]
         if res.conclusion:
             b.append(f"Conclusión: {res.conclusion}")
         bloques.append("\n".join(b))

@@ -250,21 +250,24 @@ def ic_proporcion_exacto(r: int, n: int, alpha: float) -> IntervalResult:
     warnings = []
 
     if r == 0:
-        # Con r = 0 el límite inferior es exactamente 0. La guía igual usa α/2 en el superior (III-3b: n=10, 90%
-        # -> [0 ; 0,2589]); la teoría pondría α entero arriba (0,2057). Se sigue a la guía y se avisa.
+        # Con r = 0 el límite inferior es exactamente 0 y queda UN solo límite: todo el riesgo va al superior, con
+        # α ENTERO (el profesor en clase, 10/09 y 17/09: «no se divide el alfa por 2 … todo el riesgo lo juntás en el
+        # límite superior»). III-3b: n = 10, 90 % → B = 0,2057. La guía imprime 0,2589 (con α/2) y el profesor dijo
+        # que está mal; coincide con III-20 de la propia guía (LTPD = 0,2057).
         a = 0.0
-        b = dist.beta_value(1 - alpha / 2, r + 1, n - r)
+        b = dist.beta_value(1 - alpha, r + 1, n - r)
         warnings.append(
-            "Con r = 0 el límite inferior es 0. Como la guía (III-3b), el superior se calcula con α/2; "
-            f"con α entero en el extremo superior (cota unilateral) daría {dist.beta_value(1 - alpha, r + 1, n - r):.4f}."
+            "Con r = 0 el límite inferior es 0 y hay un solo límite: el superior se calcula con α entero (criterio del "
+            f"profesor en clase). La guía usa α/2 en III-3b y daría {dist.beta_value(1 - alpha / 2, r + 1, n - r):.4f}: "
+            "el profesor dijo que eso está mal."
         )
     elif r == n:
-        # Simétrico al caso anterior: el límite superior es exactamente 1.
-        a = dist.beta_value(alpha / 2, r, n - r + 1)
+        # Simétrico al caso anterior: el límite superior es exactamente 1 y el inferior va con α entero.
+        a = dist.beta_value(alpha, r, n - r + 1)
         b = 1.0
         warnings.append(
-            "Con r = n el límite superior es 1. Como la guía, el inferior se calcula con α/2; "
-            f"con α entero (cota unilateral) daría {dist.beta_value(alpha, r, n - r + 1):.4f}."
+            "Con r = n el límite superior es 1 y hay un solo límite: el inferior se calcula con α entero (criterio "
+            f"del profesor en clase). Con α/2 daría {dist.beta_value(alpha / 2, r, n - r + 1):.4f}."
         )
     else:
         a = dist.beta_value(alpha / 2, r, n - r + 1)
@@ -277,23 +280,21 @@ def ic_proporcion_exacto(r: int, n: int, alpha: float) -> IntervalResult:
 
 
 def ic_proporcion_normal(p_hat: float, n: int, alpha: float) -> IntervalResult:
-    """Aproximación normal (§1.3 del esquema). Se mantiene como referencia/comparación:
-    la guía usa el modelo exacto como resultado principal, y solo recurre a esta
-    aproximación cuando no hay forma cerrada exacta (p. ej. cálculo de n).
+    """Aproximación normal del IC de p. SOLO PARA COMPARAR: NO USAR EN EL EXAMEN.
+
+    El profesor la llama «aberración estadística» («No me usen para estimar la normal»; fue el error n.º 4 del
+    1° parcial): la estimación de p es siempre exacta (Beta / F). Las aproximaciones solo sirven para calcular n.
     """
     if not (0 < alpha < 1):
         raise ValueError(f"alpha debe estar entre 0 y 1, no {alpha}")
     if not (0 <= p_hat <= 1):
         raise ValueError(f"p_hat debe estar entre 0 y 1, no {p_hat}")
-    warnings = []
+    warnings = ["Aproximación normal del IC de p: solo para comparar, NO usar en el examen (el profesor la llama "
+                "«aberración»; la estimación de p es siempre exacta)."]
     if p_hat in (0.0, 1.0):
         warnings.append(
             "Con p\u0302 = 0 (o p\u0302 = 1) el error estandar de la aproximacion normal es 0 "
-            "y el intervalo degenera en un punto: usar el metodo exacto."
-        )
-    if n * p_hat < 5 or n * (1 - p_hat) < 5:
-        warnings.append(
-            "No se cumple n·p̂ ≥ 5 y n·(1-p̂) ≥ 5: la aproximación normal puede no ser confiable."
+            "y el intervalo degenera en un punto."
         )
     z = dist.z_two_tailed(alpha)
     se = sqrt(p_hat * (1 - p_hat) / (n - 1))

@@ -61,10 +61,12 @@ def f_test_equal_variances(
 
     rejects = j_squared > f_c
 
+    # Ensayo auxiliar UNILATERAL orientado por la muestra (profesor en clase, 08/10): la varianza muestral mayor se
+    # sospecha mayor → H0: σ²(mayor) ≤ σ²(menor), con un α propio y grande (0,10), no el del problema.
     result = HypothesisTestResult(
-        h0_text=f"σ₁² = σ₂²",
-        h1_text=f"σ₁² ≠ σ₂²",
-        tail="bilateral",
+        h0_text="σ²(mayor S) ≤ σ²(menor S)",
+        h1_text="σ²(mayor S) > σ²(menor S)",
+        tail="derecha",
         critical_value=f_c,
         observed_value=j_squared,
         rejects_h0=rejects,

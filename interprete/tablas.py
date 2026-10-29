@@ -97,9 +97,10 @@ def _cols(encabezado: str, k: int) -> List[str]:
 def series_etiquetadas(texto: str) -> List[Tuple[str, List[float]]]:
     """Texto aplanado: 'Etiqueta n1 n2 n3 ... Otra etiqueta m1 m2 m3 ...' → [(etiqueta, valores)]."""
     salida = []
-    patron = re.compile(r"([A-Za-zÁÉÍÓÚáéíóúñ“”\"'()/.°º$ 0-9]{2,80}?)\s+((?:-?\d[\d.,]*\s+){2,}-?\d[\d.,]*)(?=\s+[A-Za-zÁÉÍÓÚáéíóúñ(]|\s*$|\s*[.:])")
+    # la etiqueta puede terminar en ':' ('Variedad A: 86 87 56 ...')
+    patron = re.compile(r"([A-Za-zÁÉÍÓÚáéíóúñ“”\"'()/.°º$ 0-9]{2,80}?:?)\s+((?:-?\d[\d.,]*\s+){2,}-?\d[\d.,]*)(?=\s+[A-Za-zÁÉÍÓÚáéíóúñ(]|\s*$|\s*[.:])")
     for m in patron.finditer(texto):
-        etq = re.sub(r"\s+", " ", m.group(1)).strip()
+        etq = re.sub(r"\s+", " ", m.group(1)).strip().rstrip(":").strip()
         etq = re.sub(r"^(\d[\d.,]*\s+)+", "", etq)
         vals = [n.valor * (-1 if texto[max(0, n.ini - 1)] == "-" else 1) for n in buscar_numeros(m.group(2))]
         salida.append((etq, vals))

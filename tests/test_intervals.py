@@ -196,7 +196,8 @@ def test_n_media_sigma_desconocido_caso_real_de_la_guia():
 # 4. intervals.py — proporción
 # ---------------------------------------------------------------------------
 
-def test_ic_proporcion_normal_sin_warning_cuando_se_cumple_condicion():
+def test_ic_proporcion_normal_siempre_avisa_que_no_se_usa_en_el_examen():
+    """El profesor llama «aberración» a estimar p con la normal: queda solo como comparación, siempre con aviso."""
     p_hat, n, alpha = 0.3, 100, 0.05
     result = intervals.ic_proporcion_normal(p_hat, n, alpha)
 
@@ -204,13 +205,13 @@ def test_ic_proporcion_normal_sin_warning_cuando_se_cumple_condicion():
     e_esperado = z * math.sqrt(p_hat * (1 - p_hat) / (n - 1))
 
     assert result.error == pytest.approx(e_esperado)
-    assert result.warnings == []
+    assert len(result.warnings) == 1 and "NO usar en el examen" in result.warnings[0]
 
 
-def test_ic_proporcion_normal_advierte_cuando_np_menor_a_5():
-    p_hat, n, alpha = 0.02, 100, 0.05  # n*p_hat = 2 < 5
-    result = intervals.ic_proporcion_normal(p_hat, n, alpha)
-    assert len(result.warnings) == 1
+def test_ic_proporcion_normal_no_usa_el_criterio_np_mayor_que_5():
+    """El criterio n·p ≥ 5 no es el del profesor («no me usen otro criterio»): ya no se informa."""
+    result = intervals.ic_proporcion_normal(0.02, 100, 0.05)
+    assert not any("≥ 5" in w for w in result.warnings)
 
 
 @pytest.mark.parametrize(
@@ -221,7 +222,7 @@ def test_ic_proporcion_normal_advierte_cuando_np_menor_a_5():
         (150, 600, 0.10, 0.2210, 0.2808),  # problema 1
         (3, 25, 0.05, 0.0254, 0.3122),      # problema 2a
         (1, 10, 0.10, 0.0051, 0.3942),      # problema 3a
-        (0, 10, 0.10, 0.0, 0.2589),         # problema 3b (la guía usa alpha/2 también con r = 0)
+        (0, 10, 0.10, 0.0, 0.2057),         # problema 3b: α entero (profesor en clase; la guía da 0,2589 y está mal)
         (60, 600, 0.05, 0.0771, 0.1269),    # problema 4
         (198, 1000, 0.05, 0.1737, 0.2241),  # problema 5
         (9, 30, 0.05, 0.1473, 0.4940),      # problema 6
@@ -237,21 +238,22 @@ def test_ic_proporcion_exacto_casos_reales_de_la_guia(r, n, alpha, a_esperado, b
 def test_ic_proporcion_exacto_r_igual_a_n():
     result = intervals.ic_proporcion_exacto(10, 10, 0.05)
     assert result.b == 1.0
-    # Como la guía: alpha/2 también en el extremo que no es trivial.
-    assert result.a == pytest.approx(0.025 ** (1 / 10))
+    # Un solo límite: α entero (profesor en clase), no α/2.
+    assert result.a == pytest.approx(0.05 ** (1 / 10))
     assert len(result.warnings) == 1
 
 
-def test_ic_proporcion_exacto_r_cero_usa_alpha_medio_como_la_guia():
-    """Con r = 0 el inferior es 0 y la guía calcula el superior con alpha/2 (no con alpha entero).
+def test_ic_proporcion_exacto_r_cero_usa_alpha_entero_como_el_profesor():
+    """Con r = 0 el inferior es 0 y hay un solo límite: el superior va con α ENTERO.
 
-    Problema 3b del TEMA III: n=10, 90% -> [0 ; 0,2589] = 1 - (alpha/2)^(1/n). Con alpha entero sería 0,2057.
+    Problema 3b del TEMA III: n=10, 90% -> [0 ; 0,2057] = 1 - α^(1/n). El profesor (17/09): la guía da 0,2589 con
+    α/2 «y está mal».
     """
     result = intervals.ic_proporcion_exacto(0, 10, 0.10)
     assert result.a == 0.0
-    assert result.b == pytest.approx(1 - 0.05 ** (1 / 10))
-    assert result.b == pytest.approx(0.2589, abs=1e-4)
-    assert "0.2057" in result.warnings[0]
+    assert result.b == pytest.approx(1 - 0.10 ** (1 / 10))
+    assert result.b == pytest.approx(0.2057, abs=1e-4)
+    assert "0.2589" in result.warnings[0]
     assert len(result.warnings) == 1
 
 

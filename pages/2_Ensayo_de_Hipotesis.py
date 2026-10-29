@@ -25,6 +25,11 @@ alpha = st.number_input(
 cola = st.radio("¿Tipo de ensayo?", ["Unilateral cola derecha", "Unilateral cola izquierda", "Bilateral"],
                 key="eh_tipo_ensayo")
 tail = "derecha" if cola == "Unilateral cola derecha" else ("izquierda" if cola == "Unilateral cola izquierda" else "bilateral")
+if tail == "bilateral" and parametro != "Media":
+    st.error("No existen ensayos bilaterales sobre σ², σ ni p (el profesor: «jamás van a encontrar un ensayo de hipótesis "
+             "bilateral para la varianza»; «no existe caso bilateral en p»). Elegí la cola según lo que se quiere probar "
+             "(eso va en H1).")
+    st.stop()
 
 # Función para mostrar resultados
 def mostrar_ensayo(result: hyp.HypothesisTestResult) -> None:
@@ -63,16 +68,23 @@ def mostrar_ensayo(result: hyp.HypothesisTestResult) -> None:
         if result.power is not None:
             st.write(f"Potencia (1-β): {result.power:.5f}")
         if result.p_value is not None:
-            st.write(f"Valor a posteriori (α*): {result.p_value:.5f}")
+            st.write(f"Valor a posteriori (α*): {result.p_value:.5f} — dato informativo: la decisión se toma "
+                     "comparando el estimador con el valor crítico, nunca con α*.")
 
 
 if parametro == "Media":
     sigma_conocido = st.radio("¿Se conoce el desvío poblacional σ?", ["Sí", "No"],
                               key="eh_conoce_desvio_poblacional") == "Sí"
-    objetivo = st.radio(
-        "¿Qué querés hacer?", ["Ensayar la hipótesis (dado x̄)", "Calcular n para una potencia fijada"],
-        key="eh_objetivo"
-    )
+    if sigma_conocido:
+        objetivo = st.radio(
+            "¿Qué querés hacer?", ["Ensayar la hipótesis (dado x̄)", "Calcular n para una potencia fijada"],
+            key="eh_objetivo"
+        )
+    else:
+        objetivo = "Ensayar la hipótesis (dado x̄)"
+        st.info("Con σ desconocido (t de Student) la cátedra NO calcula β, potencia ni n: hace falta la t no central "
+                "(«no van a calcular ustedes beta cuando desconocen σ … tampoco tamaño de muestra»). Si el enunciado "
+                "los pide, revisá si en realidad σ es conocido.")
 
     mu0 = st.number_input("Media bajo H0 (μ₀)", value=0.0, format="%.5f", key="eh_media_bajo_h0")
 
@@ -87,9 +99,9 @@ if parametro == "Media":
             s = st.number_input("Desvío muestral (S)", min_value=1e-9, value=1.0, format="%.5f",
                                 key="eh_desvio_muestral_s_2")
 
-        # Opcionalmente calcular β y potencia
-        calcular_potencia = st.checkbox("¿Calcular β y potencia? (proporcionar μ₁ alternativa)",
-                                        key="eh_calcular_potencia_proporcionar")
+        # Opcionalmente calcular β y potencia (solo con σ conocido)
+        calcular_potencia = sigma_conocido and st.checkbox("¿Calcular β y potencia? (proporcionar μ₁ alternativa)",
+                                                           key="eh_calcular_potencia_proporcionar")
         mu1 = None
         if calcular_potencia:
             mu1 = st.number_input("Media alternativa (μ₁)", value=1.0, format="%.5f", key="eh_media_alternativa_1")
@@ -108,13 +120,15 @@ if parametro == "Media":
             except ValueError as e:
                 st.error(f"Error: {e}")
 
-        with st.expander("Tabla de curva de potencia (OC) para varios μ₁"):
-            st.write(
-                "Ingresá una lista de valores μ₁ (separados por comas o espacios) para ver "
-                "β y la potencia (1-β) en cada uno, sin tener que repetir el cálculo a mano."
-            )
-            mu1_texto = st.text_area("Valores de μ₁", value="", key="mu1_curva")
-            if st.button("Generar tabla", key="btn_curva_potencia"):
+        # Solo con σ conocido: con t la cátedra no calcula β (st.container vacío en lugar del expander)
+        with st.expander("Tabla de curva de potencia (OC) para varios μ₁") if sigma_conocido else st.container():
+            if sigma_conocido:
+                st.write(
+                    "Ingresá una lista de valores μ₁ (separados por comas o espacios) para ver "
+                    "β y la potencia (1-β) en cada uno, sin tener que repetir el cálculo a mano."
+                )
+            mu1_texto = st.text_area("Valores de μ₁", value="", key="mu1_curva") if sigma_conocido else ""
+            if sigma_conocido and st.button("Generar tabla", key="btn_curva_potencia"):
                 try:
                     mu1_list = parse_numbers(mu1_texto)
                     if not mu1_list:

@@ -35,13 +35,15 @@ def test_plan_dado_con_otra_redaccion():
 
 # ---------------------------------------------------------------- comparación: unilateral en el sentido de los datos
 
-def test_comparacion_difieren_unilateral_con_referencia_bilateral():
+def test_comparacion_difieren_unilateral_sin_bilateral():
     an, res = _res("Se midió el rendimiento de dos máquinas. Máquina A: muestra de 15 piezas, media 20,4, desvío 1,1. "
                    "Máquina B: muestra de 15 piezas, media 19,6, desvío 1,2.",
                    ["¿Difieren los rendimientos medios? Riesgo 5%."])
     inc = an.incisos[0]
     assert inc.params["tail"] == "derecha" and inc.params["bilateral_pregunta"]
-    assert any("Referencia — planteo bilateral" in p for p in res[0].pasos)
+    # el profesor: «jamás me planteen una hipótesis bilateral en comparación» → ya no hay referencia bilateral
+    assert not any("bilateral" in p and "Referencia" in p for p in res[0].pasos)
+    assert any(p.startswith("**Orientación**") for p in res[0].pasos)
 
 
 def test_beta_dos_medias():
@@ -49,7 +51,8 @@ def test_beta_dos_medias():
                    ["¿Se puede asegurar con 5% de riesgo que la línea nueva produce piezas más largas?",
                     "¿Qué probabilidad hay de no detectar una diferencia real de 1,5?"])
     assert an.incisos[1].tipo == "beta" and an.incisos[1].params["delta1"] == 1.5
-    assert "β =" in res[1].resumen and not res[1].errores
+    # con desvíos desconocidos (t) la cátedra no calcula β (t no central): se avisa en lugar de inventarlo
+    assert res[1].resumen == "fuera de la cátedra" and "t no central" in res[1].errores[0]
 
 
 # ---------------------------------------------------------------- límites de control con medias por período

@@ -26,7 +26,7 @@ def fmt_num(value, decimals: int = DECIMALES) -> str:
 def texto_intervalo(parametro: str, result: IntervalResult, confianza: float) -> str:
     conf_pct = confianza * 100
     return (
-        f"Con un nivel de confianza del {conf_pct:g}%, "
+        f"Con un {conf_pct:g}% de confianza, "
         f"P({result.a:.5f} ≤ {parametro} ≤ {result.b:.5f}) = {confianza:.4g}."
     )
 
@@ -69,7 +69,7 @@ def texto_tamano_muestra_varianza(
             f"Para lograr una relación entre límites R' = {result.r_sigma_objetivo:.4f}, "
             f"el tamaño de muestra necesario es n = {result.n}."
         )
-    texto += f" (Ecuación de García: a = {result.a:.4f}, ν = {result.nu:.2f}.)"
+    texto += f" (Ecuación de García: a = {result.a:.4f}, ν = {result.nu:.4f}.)"
     if n_preliminar is not None and n_preliminar > 0:
         delta = max(0, result.n - n_preliminar)
         texto += (
@@ -79,22 +79,28 @@ def texto_tamano_muestra_varianza(
     return texto
 
 
+def _alfa(alpha: float) -> str:
+    """α como número entre 0 y 1 con coma (nunca en %: el profesor lo penaliza)."""
+    return f"{alpha:.4f}".rstrip("0").rstrip(".").replace(".", ",")
+
+
 def conclusion_formal(alpha: float, rechaza: bool, h0: str, h1: str, obs: str,
                       si_rechaza: Optional[str] = None, si_no_rechaza: Optional[str] = None) -> str:
-    """Conclusión formal (paso 7 de la cátedra): arranca con el nivel de significación,
-    dice si hay evidencia para rechazar H0 y cierra con la acción que se sigue.
+    """Conclusión formal (último paso), como la pide el profesor:
 
-    Nunca dice "se acepta H0": no rechazarla no equivale a probarla.
+    - se rechaza H0: «puedo asegurar que …» (H1) y la acción que se sigue;
+    - no se rechaza: «no hay evidencia suficiente para asegurar que …». Nunca «acepto H0»: no rechazarla no la prueba.
+
+    α se escribe como probabilidad (0,05), nunca en %.
     """
-    pct = f"{alpha * 100:g}"
+    a = _alfa(alpha)
     if rechaza:
-        accion = si_rechaza or f"se da por probado que {h1}"
-        return (f"A un nivel de significación del {pct}%, existe evidencia estadística suficiente para rechazar "
-                f"la hipótesis nula {h0} ({obs} cae en la zona de rechazo). Por consiguiente, {accion}.")
-    accion = si_no_rechaza or (f"no se puede afirmar que {h1}: se mantiene H0 "
-                               f"(no rechazarla no equivale a probarla)")
-    return (f"A un nivel de significación del {pct}%, no existe evidencia estadística suficiente para rechazar "
-            f"la hipótesis nula {h0} ({obs} no cae en la zona de rechazo). Por consiguiente, {accion}.")
+        texto = (f"Con α = {a}, {obs} cae en la zona de rechazo ⇒ se rechaza la hipótesis nula {h0}. "
+                 f"Se puede asegurar que {h1}")
+        return texto + (f"; por lo tanto, {si_rechaza}." if si_rechaza else ".")
+    texto = (f"Con α = {a}, {obs} no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula {h0}. "
+             f"No hay evidencia suficiente para asegurar que {h1} (no rechazar H0 no la prueba)")
+    return texto + (f"; por lo tanto, {si_no_rechaza}." if si_no_rechaza else ".")
 
 
 def texto_ensayo(result, alpha: float) -> str:

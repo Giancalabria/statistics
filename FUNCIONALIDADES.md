@@ -23,9 +23,10 @@ de la interfaz (probada con `pytest` en `tests/`).
 | `asistente/` | IA local opcional (ver `ASISTENTE_IA.md`): completa lo que las reglas del intérprete no entienden (solo si mejora la resolución), explica y redacta resoluciones del solver marcando números sin respaldo. Nunca calcula: los números son del solver. |
 | `interprete/` | Lógica del intérprete (reglas offline, sin IA): `analizador.py`, `resolver.py`, `buscador.py`, `glosario.py`, `tablas.py` (tablas de datos en el texto), `chi_modelos.py` (TEMA VI), `regresion.py` (TEMAS VII y VIII). |
 | `datos/verdad/tema_*.json` | Transcripción de la Guía de Problemas 2026 verificada página por página contra el PDF: enunciado, incisos, tablas estructuradas, respuesta de cada inciso y sus valores numéricos, notas sobre erratas de la guía. |
+| `datos/enunciados_raros.json` | Banco de enunciados "estilo examen raro": ejercicios de la guía reescritos a mano (sinónimos, números en palabras, datos en otro orden, tablas en prosa, incisos pegados, preguntas indirectas) y enunciados de práctica, con la respuesta esperada. Se mide con `python herramientas/evaluar_guia.py --raros`. |
 | `datos/guia_ejercicios.json` | Los 142 ejercicios unidos (`herramientas/armar_guia.py`). Es lo que usan el buscador, el evaluador y el generador de resueltos. |
 | `Guia_resuelta.md` | Todos los ejercicios de la guía resueltos por la app paso a paso, con la respuesta de la guía al lado y la lista de discrepancias (`herramientas/generar_resueltos.py`). |
-| `herramientas/` | Scripts de mantenimiento: `armar_guia.py` (verdad → JSON), `evaluar_guia.py` (mide el intérprete contra los valores de la guía, temas I–VIII, con tolerancia y dígito a dígito), `generar_resueltos.py` (arma `Guia_resuelta.md`), `extraer_guia.py` (extracción automática vieja del PDF, ya no se usa para el JSON), `ver_analisis.py`. |
+| `herramientas/` | Scripts de mantenimiento: `armar_guia.py` (verdad → JSON), `evaluar_guia.py` (mide el intérprete contra los valores de la guía, temas I–VIII, con tolerancia y dígito a dígito; con `--raros`, contra el banco de redacciones de examen), `generar_resueltos.py` (arma `Guia_resuelta.md`), `extraer_guia.py` (extracción automática vieja del PDF, ya no se usa para el JSON), `ver_analisis.py`. |
 | `solver/distributions.py` | Wrappers sobre `scipy.stats` (valores críticos e inversos para Z, t, χ², F, Beta, Binomial; factor de corrección por finitud). |
 | `solver/intervals.py`, `hypothesis_one.py`, `two_samples.py`, `chi_square.py` | Lógica estadística de cada módulo. |
 | `solver/ajuste.py` | Bondad de ajuste χ² calculando las frecuencias esperadas de un modelo (uniforme, binomial, Poisson, normal, log-normal, exponencial, gamma, Weibull, Gumbel máx/mín, Pareto), con estimación por momentos y amalgamado de clases. |
@@ -54,8 +55,9 @@ población finita (con `N` conocido), aplicando el factor de corrección por fin
     o R' directamente) o fijar la relación objetivo. Informa a, ν, n, el Δn respecto de la muestra
     preliminar y un control por búsqueda exacta sobre χ².
 - **Proporción**
-  - IC por **método exacto** (Clopper-Pearson / transformación F), y opcionalmente comparación con
-    la **aproximación normal**.
+  - IC por **método exacto** (Clopper-Pearson / transformación F). Con r = 0 (o r = n) hay un solo límite y va con
+    **α entero** (III-3b: 0,2057; el profesor dijo que el 0,2589 de la guía está mal). La aproximación normal queda
+    solo como comparación, marcada «NO usar en el examen» (el profesor la llama «aberración»).
   - Tamaño de muestra `n` dado un error admitido `e` y una proporción estimada `p̂` (0.5 por defecto
     si no hay estimación previa).
 
@@ -66,13 +68,14 @@ error muestral y si se aplicó corrección por finitud.
 ## 2. Ensayo de Hipótesis (1 población)
 
 Permite elegir el **parámetro** a contrastar (Media, Varianza o Proporción), el **nivel de
-significación (α)** y el **tipo de ensayo** (unilateral derecha, unilateral izquierda o bilateral).
+significación (α)** y el **tipo de ensayo** (unilateral derecha, unilateral izquierda o bilateral; el bilateral
+solo para la media: para σ², σ y p no existe y la página lo rechaza).
 
 - **Media**
   - Ensayo con σ conocido (Z) o desconocido (t), dado x̄.
-  - Cálculo de β (error Tipo II) y potencia (1-β) si se provee una media alternativa μ₁.
-  - Cálculo de tamaño de muestra `n` para una potencia fijada (σ conocido validado contra ejercicios
-    de cátedra; σ desconocido marcado como extensión analógica no validada).
+  - Cálculo de β (error Tipo II) y potencia (1-β) si se provee una media alternativa μ₁, y tamaño de muestra `n`
+    para una potencia fijada: **solo con σ conocido**. Con σ desconocido (t) la cátedra no calcula β ni n (requieren
+    la t no central): la página y el intérprete no lo ofrecen.
 - **Varianza**
   - Ensayo χ² sobre el desvío muestral vs. σ₀, con cálculo opcional de β/potencia dado σ₁ alternativo.
 - **Proporción**
@@ -80,29 +83,32 @@ significación (α)** y el **tipo de ensayo** (unilateral derecha, unilateral iz
     dado p₁ alternativo.
 
 Cada resultado muestra el/los valor(es) crítico(s), la decisión (Rechaza / No rechaza H0), la
-conclusión redactada formalmente, y detalle expandible con distribución, grados de libertad, β,
-potencia y valor p (α*).
+conclusión redactada formalmente (α como probabilidad, nunca en %; «puedo asegurar que…» / «no hay evidencia
+suficiente para asegurar que…»), y detalle expandible con distribución, grados de libertad, β, potencia y el valor
+a posteriori α* como **dato informativo** (nunca se decide con él).
 
 ## 3. Comparación de 2 Poblaciones
 
 - **Varianzas / desvíos (TEMA IV, distribución F)**: parámetro φ = σ₁/σ₂ con la muestra 1 en el numerador
   (si hay un grupo con el cambio —reacondicionado, propuesto, con aditivo— va arriba).
-  - Ensayo contra cualquier φ₀ ("reducir el desvío un 12%" → H0: φ ≥ 0,88; j²c = φ₀²·F), con cola a elección
-    y β / potencia para un φ₁ alternativo.
+  - Ensayo contra cualquier φ₀ ("reducir el desvío un 12%" → H0: φ ≥ 0,88; j²c = φ₀²·F), siempre unilateral
+    (en comparaciones no hay bilaterales; si no se indica, lo orienta la muestra), con la decisión J contra Jc, y
+    β / potencia para un φ₁ alternativo.
   - IC para σ₁²/σ₂² y σ₁/σ₂ (y sus inversas) con la relación entre límites B/A.
   - Tamaño de muestra (n₁ = n₂) para una potencia fijada y para una relación entre límites del IC
     (búsqueda exacta sobre F; coincide con la guía: IV-1 45 y 444, IV-2 483, IV-3 260 y 68, IV-4 128, IV-5 127 y 174).
-- **Medias — Muestras independientes**: ejecuta automáticamente el **Test F** para decidir el
-  método:
-  - Si no se rechaza H0 (varianzas iguales) → método **pooled** (varianza combinada).
-  - Si se rechaza H0 (varianzas distintas) → método **Welch**.
+- **Medias — Muestras independientes**: ejecuta automáticamente el **ensayo auxiliar F** (no es parte del
+  problema: unilateral, con la varianza muestral mayor sospechada mayor y un α propio = 0,10) para decidir el método:
+  - Si no se rechaza H0 → se suponen iguales → **amalgamado** (Sa).
+  - Si se rechaza H0 (varianzas distintas) → método **Welch** (ν truncado).
   
   Con el método elegido, permite calcular IC para la diferencia de medias δ, ensayo de hipótesis
   (dado δ₀ y tipo de cola), o tamaño de muestra `n` para un error deseado (pooled; en el intérprete también
   Welch y σ conocidos con Z). En el intérprete además: datos agrupados de dos grupos, varias comparaciones con/sin,
-  "supera en un X%" (H0: μ₁ ≤ h·μ₂), β / potencia para una diferencia real δ₁, y el **criterio de la cátedra**
-  para "¿difieren?": en una comparación el ensayo se plantea unilateral en el sentido de los datos (el bilateral
-  se muestra como referencia).
+  "supera en un X%" (H0: μ₁ ≤ h·μ₂, con h² en el término de la población que lleva h, también dentro de ν de Welch),
+  el porcentaje mínimo resolviendo la inecuación en h y **verificando cada raíz** (V-8d: sirve 1,0490, no 1,1906),
+  y para "¿difieren?" el ensayo unilateral en el sentido de los datos (el profesor: «jamás me planteen una hipótesis
+  bilateral en comparación»). β / potencia solo con σ₁ y σ₂ conocidos (con t la cátedra no los calcula).
 - **Medias — Muestras apareadas**: el usuario ingresa las diferencias d_i entre pares (texto libre
   separado por comas o espacios). Se aplica el ensayo t de una muestra sobre esas diferencias:
   IC para δ, ensayo de hipótesis, o tamaño de muestra `n` (con S_d calculado a partir de las
@@ -111,19 +117,26 @@ potencia y valor p (α*).
 ## 4. Contrastes Chi-Cuadrado
 
 (Planes de muestreo de proporciones, en el intérprete: además del plan binomial exacto de menor n se listan los
-rangos de n válidos para los primeros r_c —la guía a veces informa el mayor— y la "aproximación de Poisson" como la
-calcula la guía, con la tabla de Poisson (m al 0,1).)
+rangos de n válidos para los primeros r_c —la guía a veces informa el mayor— y las aproximaciones normal y de
+Poisson, cada una **justificada con el n resultante** con el criterio del profesor (`solver/aproximaciones.py`:
+normal si n·p₀ > 10 y n·(1−p₀) > 10; Poisson si p₀ ≤ 0,005; si se cumplen las dos o ninguna, Mermoz). Si el criterio
+no habilita la aproximación, se avisa y su n no se informa como respuesta (III-11c: el 855 por Poisson es incorrecto).
+El r_c se elige con α real ≤ α y la decisión es r contra r_c, nunca con α*.)
 
 - **Ajuste a un modelo (calcula las Fe)**: se carga la tabla de frecuencias (clases `20-30 ; 6` o valores `0 ; 26`)
   y el modelo: uniforme, binomial, Poisson, normal, log-normal, exponencial, gamma, Weibull, Gumbel del máximo y del
   mínimo, Pareto. Los parámetros que no se cargan se estiman por momentos con las marcas de clase (x̄ y S corregido;
   Weibull por el coeficiente de variación como la tabla de la cátedra; Pareto con el mínimo θ dado y b = μ/(μ-θ)) y
-  cada uno resta un grado de libertad. La primera y la última clase llegan al borde del dominio y las clases con
-  Fe < 5 se amalgaman con la vecina. Muestra la tabla Fo / P / Fe antes y después de amalgamar.
+  cada uno resta un grado de libertad. El dominio se completa como el profesor: en continuas la primera y la última
+  clase llevan F y G acumuladas; en discretas se agrega la clase «≥ k+1» (y/o «≤ …») con O = 0 y probabilidad
+  **acumulada**, no puntual. Las clases con Fe < 5 se amalgaman con la vecina y ν usa las clases efectivas. Avisa si
+  N < 60 y si el ajuste es «demasiado perfecto» (χ² < χ²(α; ν)). Muestra la tabla Fo / P / Fe antes y después de
+  amalgamar.
 - **Bondad de ajuste (Fe ya calculadas)**: el usuario ingresa las frecuencias observadas (F_o) y esperadas (F_e) —ya
   calculadas para el modelo a probar— y la cantidad de parámetros estimados `p` (afecta los grados
   de libertad). Devuelve χ² calculado, χ² crítico, grados de libertad y decisión.
-- **Tabla de contingencia** (independencia/homogeneidad): el usuario ingresa una tabla de
+- **Tabla de contingencia** (independencia —«asociación»— o consistencia —«niveles, porcentajes»—, con H0 de
+  independencia en palabras y la de consistencia categoría por categoría): el usuario ingresa una tabla de
   frecuencias observadas (filas × columnas, texto libre). La app calcula automáticamente la tabla
   de frecuencias esperadas y el estadístico χ², mostrando ambas tablas.
 

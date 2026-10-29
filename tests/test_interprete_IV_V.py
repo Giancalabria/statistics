@@ -178,7 +178,8 @@ def test_sigmas_conocidos_z_y_afirmados_verificados():
     assert conocido.datos["sigma_pob1"] == 2 and conocido.datos["sigma_afirmado"] is False
     r = resolver(conocido)[0]
     se = (4 / 25 + 9 / 30) ** 0.5
-    assert _num(r, 1.959964 * se) and "RECHAZA" in r.resumen and "NO" not in r.resumen
+    # sin bilaterales en comparaciones (profesor en clase): unilateral orientado por los datos, Z(0,95)
+    assert _num(r, 1.644854 * se) and "RECHAZA" in r.resumen and "NO" not in r.resumen
     afirmado = analizar("Se cree que ambas llenadoras trabajan con el mismo volumen medio y con desvíos σA = 0,015 cm³ y "
                         "σB = 0,018 cm³. Llenadora “A”: 16,03 – 16,04 – 16,05 – 16,05 – 16,02 – 16,01 – 15,96 – 15,98 – "
                         "16,02 – 15,99; Llenadora “B”: 16,02 – 15,97 – 15,96 – 16,01 – 15,99 – 16,03 – 16,04 – 16,02 – "

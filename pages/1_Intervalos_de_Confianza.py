@@ -313,7 +313,7 @@ else:  # Proporción
                 st.subheader("Método exacto (Clopper-Pearson / transformación F)")
                 mostrar_intervalo("p", exacto)
 
-                with st.expander("Comparar con aproximación normal"):
+                with st.expander("Aproximación normal — solo para comparar, NO usar en el examen («aberración»)"):
                     normal = intervals.ic_proporcion_normal(p_hat, n, alpha)
                     mostrar_intervalo("p", normal)
             except ValueError as e:

@@ -1,6 +1,8 @@
 {
   "_descripcion": "Por qué un valor de la guía no coincide (o coincide solo aproximadamente) con lo que calcula la app. Clave: 'EJERCICIO:inciso'. Lo usa herramientas/generar_resueltos.py. Ver CONVENCIONES_CATEDRA.md.",
   "I-4:a": "Errata de la guía: el límite exacto 20.203,8696 se informa 20.203,88 (redondeado da 20.203,87).",
+  "III-3:b": "Cambio a propósito (fuente: el profesor en clase, 17/09/2026): con r = 0 hay un solo límite y «no se divide el alfa por 2… todo el riesgo lo juntás en el límite superior»; sobre la guía dijo «lo hicieron con alfa sobre 2 y está mal». La app da B = 0,2057 (α entero, F(0,90; 2; 20) = 2,5893), que coincide con el LTPD de III-20 de la propia guía; la guía imprime 0,2589 (α/2).",
+  "III-11:c": "Cambio a propósito (fuente: el profesor en clase, 17/09/2026): el n = 855 por Poisson es incorrecto porque el criterio de aproximación se aplicó con el n inicial (50); con el n resultante (855·0,12 = 102,6 > 10 y 855·0,88 > 10) corresponde la normal. Valen el exacto 755 (r_c = 106) o la normal 715. La propia guía lo aclara («la aproximación de Poisson no es correcta»). La app muestra el cálculo de Poisson con el aviso pero no lo informa como respuesta.",
   "III-15:d": "Poisson: la guía da 26.909 tanteando valores de n; la relación entre límites cambia apenas 4·10⁻⁷ por unidad de n, así que el n depende de cómo se tantea. La app informa la aproximación normal (22.255), que sí coincide.",
   "III-16:a": "Inconsistencia de la guía: la CR por aproximación normal dice r_c = 229 (conservador) y la RD dice 228 (con 228, α real = 0,0101 > 0,01). La app informa 229.",
   "III-16:b": "La guía calcula la potencia con el r_c = 228 de su RD (0,5443); con el r_c conservador 229 la aproximación normal da 0,5159 y el plan exacto 0,5527.",

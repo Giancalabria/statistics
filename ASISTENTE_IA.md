@@ -21,6 +21,14 @@ El modelo se usa para lo que a las reglas les cuesta:
 La IA **nunca hace las cuentas**: no hay un modo «solo IA» porque un modelo de 8B se equivoca en aritmética y el
 solver está verificado dígito a dígito contra la guía. Para resolver charlando está la página *Asistente IA*.
 
+**Reglas del profesor en los prompts.** Las instrucciones de *Explicar con IA* (`asistente/explicar.py`) y la
+redacción (`asistente/redactar.py`, que lee `ESTILO_CATEDRA.md`) siguen lo que dijo el profesor en clase, que manda
+sobre la guía: probabilidades entre 0 y 1 (nunca en %), mínimo 4 decimales en el desarrollo, Z/t justificadas por
+la estructura (dividir por el parámetro σ o por la variable aleatoria S), estimador contra valor crítico, nunca
+«acepto H0», sin bilaterales en p, σ², σ ni comparaciones, sin decidir con α*, estimación de p siempre exacta y
+sin β ni n con t. Ojo: el profesor dijo en clase que no acepta resoluciones hechas con IA en el examen; esto es
+para estudiar.
+
 ## Instalación en la MacBook (una sola vez, con internet)
 
 1. Instalar Ollama: descargar la app de <https://ollama.com/download> (o `brew install ollama`).
@@ -54,7 +62,7 @@ puede tardar un minuto o más por pedido.
 
 - `OLLAMA_HOST`: dónde corre Ollama (por defecto `http://localhost:11434`).
 - `ASISTENTE_MODELO`: modelo por defecto (`qwen3:8b`).
-- `ASISTENTE_NUM_CTX`: contexto en tokens que se le pide al modelo (12288; el prompt de interpretación usa ~4000).
+- `ASISTENTE_NUM_CTX`: contexto en tokens que se le pide al modelo (16384; el prompt de interpretación usa ~4000 y el de redacción de los temas del 2° parcial, hasta ~10.000 más la respuesta).
 
 ## Antes del examen
 

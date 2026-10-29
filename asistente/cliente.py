@@ -18,7 +18,7 @@ if not HOST.startswith("http"):
 MODELO = os.environ.get("ASISTENTE_MODELO", "qwen3:8b")
 
 # Contexto suficiente para el enunciado + ejemplos de la guía + apuntes (Ollama trae 2048-4096 por defecto).
-NUM_CTX = int(os.environ.get("ASISTENTE_NUM_CTX", "12288"))
+NUM_CTX = int(os.environ.get("ASISTENTE_NUM_CTX", "16384"))
 TIMEOUT = 600
 
 

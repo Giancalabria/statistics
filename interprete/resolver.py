@@ -11,6 +11,7 @@ from math import sqrt
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from solver import chi_square as chi
+from solver.aproximaciones import criterio_aproximacion
 from solver import distributions as dist
 from solver import hypothesis_one as hyp
 from solver import intervals as ic
@@ -41,6 +42,15 @@ class FaltaDato(Exception):
     pass
 
 
+class FueraDeCatedra(Exception):
+    """El cálculo existe en los libros pero el profesor no lo pide (o lo prohíbe): se avisa y no se calcula."""
+
+
+SIN_BETA_CON_T = ("Con σ desconocido (t de Student) la cátedra no calcula β, potencia ni n en ensayos de medias: hace "
+                  "falta la t no central («no van a calcular ustedes beta cuando desconocen σ … tampoco tamaño de "
+                  "muestra», profesor en clase). Si el enunciado lo pide, revisá si en realidad σ es conocido.")
+
+
 def _req(d: Dict, *claves):
     faltan = [k for k in claves if d.get(k) in (None, "", [])]
     if faltan:
@@ -68,8 +78,8 @@ def _entre(a: float, b: float, base: int) -> str:
 
 def _acciones(d: Dict, h1: str):
     """Qué se hace si se rechaza / si no se rechaza H0 (las del sistema de control, si las hay)."""
-    return (d.get("accion_rechazo") or f"se da por probado que {h1}",
-            d.get("accion_no_rechazo") or f"no se puede afirmar que {h1}")
+    return (d.get("accion_rechazo") or f"se puede asegurar que {h1}",
+            d.get("accion_no_rechazo") or f"no hay evidencia suficiente para asegurar que {h1}")
 
 
 def _ensayo_txt(r, alpha: float, obs: str, d: Optional[Dict] = None) -> str:
@@ -187,11 +197,11 @@ def media_ic(d, alpha, res: Resultado, estado):
     n = int(d["n"])
     fpc = " · √((N-n)/N)" if d.get("N") else ""
     if conocido:
-        res.pasos.append(f"**Distribución**: σ conocido → Z. Z(1-α/2) = Z({fmt(1 - alpha / 2, 4)}) = {fmt(r.critical_value, 4)}.")
+        res.pasos.append(f"**Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = Z({fmt(1 - alpha / 2, 4)}) = {fmt(r.critical_value, 4)}.")
         res.pasos.append(f"**Límites**: A;B = x̄ ∓ Z·σ/√n{fpc} = {fmt(d['xbar'], 4)} ∓ {fmt(r.critical_value, 4)}·"
                          f"{fmt(d['desvio'], 4)}/√{n}{fpc} = {fmt(d['xbar'], 4)} ∓ {fmt(r.error, 4)}.")
     else:
-        res.pasos.append(f"**Distribución**: σ desconocido → t de Student con ν = n-1 = {n - 1}. "
+        res.pasos.append(f"**Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student con ν = número de grados de libertad = n-1 = {n - 1}. "
                          f"t({fmt(1 - alpha / 2, 4)}; {n - 1}) = {fmt(r.critical_value, 4)}.")
         res.pasos.append(f"**Límites**: A;B = x̄ ∓ t·S/√n{fpc} = {fmt(d['xbar'], 4)} ∓ {fmt(r.critical_value, 4)}·"
                          f"{fmt(d['desvio'], 4)}/√{n}{fpc} = {fmt(d['xbar'], 4)} ∓ {fmt(r.error, 4)}.")
@@ -239,7 +249,7 @@ def media_n(d, alpha, res: Resultado, estado):
         r = ic.n_media_sigma_conocido(s, e, alpha, N=N)
         z = dist.z_two_tailed(alpha)
         res.pasos.append(f"**Fórmula** (σ conocido): n = (Z·σ/e)² = ({fmt(z, 4)}·{fmt(s, 4)}/{fmt(e, 4)})² = "
-                         f"{fmt((z * s / e) ** 2, 2)} → se redondea hacia arriba.")
+                         f"{fmt((z * s / e) ** 2, 4)} → se redondea hacia arriba.")
     else:
         r = ic.n_media_sigma_desconocido(s, e, alpha, N=N)
         res.pasos.append(f"**Fórmula** (σ desconocido): n = (t(1-α/2; n-1)·S/e)². Como t depende de n se itera: "
@@ -258,7 +268,7 @@ def media_n(d, alpha, res: Resultado, estado):
             texto += " (El tamaño de muestra actual alcanza.)"
     if r.n_exacto and (not an_n or r.n <= int(n_act)):
         # para decidir si la muestra tomada alcanza se compara contra el valor sin redondear
-        texto += f" (Sin redondear, la fórmula da {fmt(r.n_exacto, 2)}.)"
+        texto += f" (Sin redondear, la fórmula da {fmt(r.n_exacto, 4)}.)"
         res.numeros.append(r.n_exacto)
     if N and r.n_infinito:
         res.numeros.append(r.n_infinito)
@@ -278,7 +288,8 @@ def _desvio_efectivo(d, res: Resultado):
     if N and N > n:
         f = dist.fpc(N, n)
         res.pasos.append(f"**Población finita** (N = {fmt(N)}): factor √((N-n)/N) = {fmt(f, 4)} → "
-                         f"σ·factor = {fmt(s * f, 4)}.")
+                         f"σ·factor = {fmt(s * f, 4)}. (Es el factor del apunte y del profesor; «algunos autores "
+                         f"ponen sobre N − 1. El uno mucho no hace»: daría {fmt(((N - n) / (N - 1)) ** 0.5, 4)}.)")
         return s * f
     return s
 
@@ -326,8 +337,8 @@ def media_ensayo(d, alpha, res: Resultado, estado):
         res.numeros.append(xc_bruto)
     pv = _p_valor_media(d, tail)
     if pv is not None:
-        res.pasos.append(f"**Valor a posteriori** α* = P(obtener un x̄ tan extremo | H0) = {fmt(pv, 4)} "
-                         f"(se rechaza H0 para cualquier α ≥ α*).")
+        res.pasos.append(f"Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan "
+                         f"extremo | H0) = {fmt(pv, 4)}. La decisión se toma comparando x̄ con x̄c.")
         res.numeros += [pv, pv * 100]
     res.resumen = f"H0: {r.h0_text}; x̄c = {_cv(r.critical_value)}; " + ("RECHAZA H0" if r.rejects_h0 else "NO rechaza H0")
 
@@ -351,11 +362,11 @@ def _pasos_ensayo_media(d, r, alpha, res: Resultado, decidir=True):
     cuantil = f"(1-α/2)" if tail == "bilateral" else "(1-α)"
     if conocido:
         crit = dist.z_two_tailed(alpha) if tail == "bilateral" else dist.z_one_tailed(alpha)
-        res.pasos.append(f"**Distribución**: σ conocido → Z. Z{cuantil} = {fmt(crit, 4)}.")
+        res.pasos.append(f"**Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z{cuantil} = {fmt(crit, 4)}.")
         base = "σ/√n"
     else:
         crit = dist.t_two_tailed(alpha, n - 1) if tail == "bilateral" else dist.t_one_tailed(alpha, n - 1)
-        res.pasos.append(f"**Distribución**: σ desconocido → t de Student, ν = {n - 1}. t{cuantil} = {fmt(crit, 4)}.")
+        res.pasos.append(f"**Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student, ν = número de grados de libertad = {n - 1}. t{cuantil} = {fmt(crit, 4)}.")
         base = "S/√n"
     if tail == "bilateral":
         c1, c2 = r.critical_value
@@ -405,6 +416,8 @@ def media_beta(d, alpha, res: Resultado, estado):
         mu1 = neto
         d = dict(d, mu1=mu1)
     tail = d.get("tail") or estado.get("tail") or ("izquierda" if mu1 < mu0 else "derecha")
+    if d.get("sigma_conocido") is False:
+        raise FueraDeCatedra(SIN_BETA_CON_T)
     f = hyp.ensayo_media_sigma_conocido if d.get("sigma_conocido") else hyp.ensayo_media_sigma_desconocido
     kw = {"sigma": s} if d.get("sigma_conocido") else {"s": s}
     r = f(xbar=mu0, n=int(n), mu0=mu0, alpha=alpha, tail=tail, mu1=mu1, **kw)
@@ -476,6 +489,8 @@ def media_diseno(d, alpha, res: Resultado, estado):
     mu0, s = _req(d, "mu0", "desvio")
     mu1, beta = d.get("mu1"), d.get("beta")
     if mu1 is not None and beta is not None:
+        if d.get("sigma_conocido") is False:
+            raise FueraDeCatedra(SIN_BETA_CON_T)
         tail = d.get("tail")
         if tail not in ("derecha", "izquierda", "bilateral") or (tail == "derecha" and mu1 < mu0) or \
                 (tail == "izquierda" and mu1 > mu0):
@@ -487,7 +502,7 @@ def media_diseno(d, alpha, res: Resultado, estado):
         res.pasos.append(f"**Condiciones**: P(rechazar H0 | μ = {fmt(mu0, 4)}) = α = {fmt(alpha, 4)} y "
                          f"P(no rechazar H0 | μ = {fmt(mu1, 4)}) = β = {fmt(beta, 4)}.")
         res.pasos.append(f"**Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [({fmt(r.z_alpha, 4)} + {fmt(r.z_beta, 4)})·"
-                         f"{fmt(s, 4)}/{fmt(abs(mu0 - mu1), 4)}]² = {fmt(r.n_exacto, 2)} → n = {r.n}.")
+                         f"{fmt(s, 4)}/{fmt(abs(mu0 - mu1), 4)}]² = {fmt(r.n_exacto, 4)} → n = {r.n}.")
         res.pasos.append(f"**Condición de rechazo**: x̄c = {_cv(r.critical_value)}  (con n = {r.n}).")
         res.pasos.append(f"**Regla de decisión**: {_coma(r.regla_decision)}")
         if d.get("control"):
@@ -561,6 +576,8 @@ def media_diseno(d, alpha, res: Resultado, estado):
 
 def media_curva(d, alpha, res: Resultado, estado):
     mu0, s, n = _req(d, "mu0", "desvio", "n")
+    if d.get("sigma_conocido") is False:
+        raise FueraDeCatedra(SIN_BETA_CON_T)
     tail = d.get("tail") or estado.get("tail") or "bilateral"
     se = s / sqrt(int(n))
     if tail == "derecha":
@@ -623,7 +640,7 @@ def varianza_n(d, alpha, res: Resultado, estado):
         raise FaltaDato("Falta la relación entre límites buscada o la reducción pedida")
     res.pasos.append(f"**Relación buscada** R' = B'/A' = {fmt(r.r_sigma_objetivo, 4)} → R = (R')² = {fmt(r.r_var_objetivo, 4)}.")
     res.pasos.append(f"**Ecuación de García**: a = Z(1-α/2)·(R^(1/3)+1)/(2·(R^(1/3)-1)) = {fmt(r.a, 4)}; "
-                     f"ν = (2/9)·(a + √(a²+1))² = {fmt(r.nu, 2)}; n = ν + 1 → {r.n}.")
+                     f"ν = (2/9)·(a + √(a²+1))² = {fmt(r.nu, 4)} → ν al entero superior; n = ν + 1 → {r.n}.")
     if r.n_exacto:
         res.pasos.append(f"Control por búsqueda exacta en χ²: n = {r.n_exacto} (R' logrado = {fmt(r.r_sigma_logrado, 4)}).")
     res.conclusion = _coma(wording.texto_tamano_muestra_varianza(r, d.get("n")))
@@ -637,6 +654,9 @@ def varianza_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
     s, n, s0 = _req(d, "desvio", "n", "sigma0")
     n = int(n)
     tail = d.get("tail") or estado.get("tail") or ("derecha" if s > s0 else "izquierda")
+    if tail == "bilateral":
+        # no hay ensayos bilaterales sobre σ² ni σ (profesor, 03/09)
+        tail = _sin_bilateral(d, res, "σ² / σ", (d.get("sigma1") or s) > s0)
     s1 = d.get("sigma1")
     r = hyp.ensayo_varianza(s ** 2, n, round(s0 ** 2, 10), alpha, tail=tail, sigma1_2=s1 ** 2 if s1 else None)
     res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}  (α = {fmt(alpha, 4)}).")
@@ -661,11 +681,12 @@ def varianza_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
         return
     res.pasos.append(f"**Decisión**: S² = {fmt(s ** 2, 5)} (S = {fmt(s, 4)}) → " +
                      ("cae en la zona de rechazo." if r.rejects_h0 else "no cae en la zona de rechazo."))
-    # forma equivalente con la variable estandarizada: χ²calc = ν·S²/σ₀² contra el χ² de tabla
+    # el profesor compara el ESTIMADOR (S o S²) con su valor crítico, no un χ² observado contra el de tabla (08/10);
+    # la guía a veces lo informa (II-9), así que queda como dato, sin usarlo para decidir
     chi_calc = (n - 1) * s ** 2 / s0 ** 2
     chi_tab = tuple((n - 1) * c / s0 ** 2 for c in crit) if isinstance(crit, tuple) else (n - 1) * crit / s0 ** 2
-    res.pasos.append(f"**Equivalente con χ²**: χ²calc = ν·S²/σ₀² = {n - 1}·{fmt(s ** 2, 5)}/{fmt(s0 ** 2, 5)} = "
-                     f"{fmt(chi_calc, 4)} contra χ² de tabla = {_cv(chi_tab)}.")
+    res.pasos.append(f"Dato informativo (la guía a veces lo informa; el profesor decide con S contra Sc): forma "
+                     f"equivalente estandarizada ν·S²/σ₀² = {fmt(chi_calc, 4)} y χ² de tabla = {_cv(chi_tab)}.")
     res.numeros += [chi_calc] + (list(chi_tab) if isinstance(chi_tab, tuple) else [chi_tab])
     res.conclusion = _ensayo_txt(r, alpha, f"S = {fmt(s, 4)}", d)
     if isinstance(crit, tuple):
@@ -709,16 +730,19 @@ def prop_ic(d, alpha, res: Resultado, estado):
     alpha_orig, alpha = alpha, _cota(d, alpha, res)
     r_, n = _req(d, "r", "n")
     r = ic.ic_proporcion_exacto(int(r_), int(n), alpha)
-    rn = ic.ic_proporcion_normal(int(r_) / int(n), int(n), alpha)
     if d.get("_r_contado") is not None:
         res.pasos.append(f"**Casos**: se contaron {int(d['_r_contado'])} buenas y se pregunta por las malas → "
                          f"r = n - {int(d['_r_contado'])} = {int(n)} - {int(d['_r_contado'])} = {int(r_)}.")
     res.pasos.append(f"**Datos**: n = {int(n)}, r = {int(r_)}, p̂ = r/n = {fmt(int(r_) / int(n), 4)}.")
     ra, rb = redondeo.afuera(r.a, r.b, 4)
     res.pasos.append(f"**Modelo exacto** (Beta / F, el que usa la cátedra): A = {fmt(ra, 4)} ; B = {fmt(rb, 4)}.")
+    if int(r_) in (0, int(n)) and not d.get("cota"):
+        res.pasos.append(f"**Un solo límite**: con r = {int(r_)} el límite {'inferior es 0' if int(r_) == 0 else 'superior es 1'} "
+                         f"y queda un único límite, que se calcula con α ENTERO = {fmt(alpha, 4)} (no α/2): «todo el "
+                         "riesgo lo juntás en un límite» (profesor en clase; la guía usa α/2 en III-3b y está mal).")
     res.pasos += _pasos_f_proporcion(int(r_), int(n), alpha, r.a, r.b)
-    res.pasos.append(f"Referencia, aproximación normal: p̂ ∓ Z·√(p̂(1-p̂)/(n-1)) = [{fmt(rn.a, 4)} ; {fmt(rn.b, 4)}] "
-                     f"(e = {fmt(rn.error, 4)}).")
+    res.pasos.append("La estimación de p es siempre exacta (Beta / F). La aproximación normal NO se usa para estimar p: "
+                     "el profesor la llama «aberración»; las aproximaciones solo sirven para calcular n.")
     for w in r.warnings:
         res.avisos.append(w)
     # la estimación de la cátedra es el IC exacto: su error es la semiamplitud (B - A)/2 y su relación B/A
@@ -743,7 +767,8 @@ def _pasos_f_proporcion(r: int, n: int, alpha: float, a: float, b: float) -> Lis
     """Los límites exactos escritos con la distribución F, como en la guía (III-3a): ν, fractiles y la fórmula.
     Solo se muestran si reproducen los límites calculados (si no, no se muestra nada)."""
     from scipy import stats
-    q = 1 - alpha / 2
+    # con r = 0 o r = n hay un solo límite: va con α entero (profesor en clase)
+    q = 1 - alpha if r in (0, n) else 1 - alpha / 2
     pasos = []
     if r > 0:
         v1, v2 = 2 * (n - r + 1), 2 * r
@@ -770,17 +795,22 @@ def _n_plan_dado(d, res: Resultado, estado):
     while n < 1_000_000 and 1 - hyp._prob_rechazo_binomial(n + 1, rc, p0, "derecha") >= prob:
         n += 1
     acepta = 1 - hyp._prob_rechazo_binomial(n, rc, p0, "derecha")
-    res.pasos.append(f"**Plan**: se rechaza si r ≥ {rc}. P(aceptar | p₀ = {fmt(p0, 4)}) = P(r ≤ {rc - 1}) decrece con n: "
+    res.pasos.append(f"**Plan**: se rechaza si r ≥ {rc}. P(aceptar | p₀ = {hyp.p_txt(p0).replace('.', ',')}) = P(r ≤ {rc - 1}) decrece con n: "
                      f"el mayor n con P ≥ {fmt(prob, 4)} es n = {n} (P = {fmt(acepta, 4)}).")
     res.conclusion = f"n = {n}: con n mayor la probabilidad de aceptar un lote con p = {fmt(p0, 4)} baja de {fmt(prob, 4)}."
     res.numeros = [n]
     res.resumen = f"n = {n}"
     estado.update(n=n, tail="derecha", rc=rc)
     poi = hyp.n_plan_dado_poisson(p0, rc, prob)
+    if poi and criterio_aproximacion(poi[0], p0).elegida != "poisson":
+        res.pasos.append(f"Por aproximación de Poisson daría n = {poi[0]}, pero con ese n el criterio del profesor no "
+                         f"habilita Poisson ({criterio_aproximacion(poi[0], p0).texto}): no se informa.")
+        poi = None
     if poi:
         n_p, m = poi
         res.pasos.append(f"**Por aproximación de Poisson** (como la guía, con la tabla de Poisson: m al 0,1): el mayor m con "
-                         f"P(r ≤ {rc - 1} | m) ≥ {fmt(prob, 4)} en la tabla es m = {fmt(m, 1)} → n = m/p₀ = {n_p}.")
+                         f"P(r ≤ {rc - 1} | m) ≥ {fmt(prob, 4)} en la tabla es m = {fmt(m, 1)} → n = m/p₀ = {n_p}. "
+                         f"{criterio_aproximacion(n_p, p0).texto}")
         res.conclusion += f" (Por aproximación de Poisson con la tabla: n = {n_p}.)"
         res.numeros.append(n_p)
         res.resumen += f" | Poisson: n = {n_p}"
@@ -812,8 +842,9 @@ def prop_n(d, alpha, res: Resultado, estado):
         extra = [r_act, r_new]
     if e is None and d.get("reduccion") is not None:
         e_act = estado.get("e_actual")
-        if e_act is None and d.get("n"):
-            e_act = ic.ic_proporcion_normal(p_hat, int(d["n"]), alpha).error
+        if e_act is None and d.get("n") and d.get("r") is not None:
+            ex = ic.ic_proporcion_exacto(int(d["r"]), int(d["n"]), alpha)   # la estimación es siempre exacta
+            e_act = (ex.b - ex.a) / 2
         if e_act is None:
             raise FaltaDato("Falta el error actual para aplicar la reducción")
         e = e_act * (1 - d["reduccion"])
@@ -825,6 +856,12 @@ def prop_n(d, alpha, res: Resultado, estado):
     z = dist.z_two_tailed(alpha)
     res.pasos.append(f"**Fórmula** (aprox. normal): n = Z²·p̂(1-p̂)/e² + 1 = {fmt(z, 4)}²·{fmt(p_hat, 4)}·{fmt(1 - p_hat, 4)}/"
                      f"{fmt(e, 4)}² + 1 → n = {r.n}.")
+    if 0 < p_hat < 1:
+        crit = criterio_aproximacion(r.n, p_hat)
+        res.pasos.append(f"**Justificación de la aproximación**: {crit.texto}")
+        if crit.elegida != "normal":
+            res.avisos.append(f"Con el n resultante ({r.n}) el criterio del profesor indica la aproximación de Poisson, no la "
+                              "normal: el n por la normal no queda justificado (revisalo con la relación entre límites).")
     res.conclusion = f"El tamaño de muestra necesario es n = {r.n}."
     res.numeros = [r.n]
     delta = None
@@ -874,6 +911,28 @@ def _beta_plan_dado(d, res: Resultado, estado):
     estado.update(n=n, tail=tail)
 
 
+def _sin_bilateral(d, res: Resultado, param: str, hacia_arriba: bool) -> str:
+    """En p, σ², σ y en las comparaciones no hay ensayos bilaterales (profesor en clase): se avisa y se plantea el
+    unilateral hacia donde apunta lo que se quiere probar (o la muestra)."""
+    res.avisos.append(f"No existen ensayos bilaterales sobre {param} (el profesor: «no existe caso bilateral»). Se planteó el "
+                      f"unilateral hacia {'arriba' if hacia_arriba else 'abajo'}, que es lo que la muestra/enunciado "
+                      "sugiere probar: revisá qué dice el enunciado que se quiere probar (eso va en H1).")
+    return "derecha" if hacia_arriba else "izquierda"
+
+
+def _eleccion_rc(n: int, p0: float, alpha: float, tail: str, rc: int) -> str:
+    """Cómo se elige r_c con el aplicativo: de los dos valores vecinos, el que deja α real ≤ α estipulado."""
+    if tail == "derecha":
+        a_rc, a_prev = dist.binom_upper_tail(rc, n, p0), dist.binom_upper_tail(rc - 1, n, p0)
+        return (f"r_c es el menor valor con G_b(r_c | n = {n}; p₀ = {hyp.p_txt(p0).replace('.', ',')}) ≤ α: G_b({rc - 1}) = {fmt(a_prev, 4)} > α y "
+                f"G_b({rc}) = {fmt(a_rc, 4)} ≤ α → r_c = {rc} (α real = {fmt(a_rc, 4)} ≤ α = {fmt(alpha, 4)}; el α real "
+                "nunca puede superar al estipulado).")
+    a_rc, a_next = dist.binom_cdf(rc, n, p0), dist.binom_cdf(rc + 1, n, p0)
+    return (f"r_c es el mayor valor con F_b(r_c | n = {n}; p₀ = {hyp.p_txt(p0).replace('.', ',')}) ≤ α: F_b({rc + 1}) = {fmt(a_next, 4)} > α y "
+            f"F_b({rc}) = {fmt(a_rc, 4)} ≤ α → r_c = {rc} (α real = {fmt(a_rc, 4)} ≤ α = {fmt(alpha, 4)}; el α real nunca "
+            "puede superar al estipulado).")
+
+
 def prop_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
     if beta_modo and d.get("rc") is not None:
         _beta_plan_dado(d, res, estado)
@@ -884,22 +943,28 @@ def prop_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
         raise FaltaDato("Falta r (casos observados) o p̂")
     p_obs = (r_ / n) if r_ is not None else p0
     tail = d.get("tail") or estado.get("tail") or ("derecha" if p_obs > p0 else "izquierda")
+    if tail == "bilateral":
+        # en p no hay ensayos bilaterales (profesor, 10/09 y 17/09): se orienta según lo que se quiere probar
+        tail = _sin_bilateral(d, res, "p", p_obs > p0 if r_ is not None else (d.get("p1") or p0) >= p0)
     r = hyp.ensayo_proporcion(int(r_ if r_ is not None else round(p0 * n)), int(n), p0, alpha, tail=tail, p1=d.get("p1"))
     res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}  (α = {fmt(alpha, 4)}).")
-    res.pasos.append(f"**Modelo**: binomial exacto con n = {int(n)} y p₀ = {fmt(p0, 4)}.")
+    res.pasos.append(f"**Modelo**: binomial exacto con n = {int(n)} y p₀ = {hyp.p_txt(p0).replace('.', ',')}.")
     if isinstance(r.critical_value, tuple):
         c1, c2 = r.critical_value
         res.pasos.append(f"**Condición de rechazo**: r ≤ {c1} o r ≥ {c2} ⇒ se rechaza H0.")
     else:
         op = "≥" if tail == "derecha" else "≤"
-        res.pasos.append(f"**Condición de rechazo**: el menor r_c con P(r {op} r_c | p₀) ≤ α es r_c = {r.critical_value}. "
-                         f"Si r {op} {r.critical_value} ⇒ se rechaza H0.")
+        res.pasos.append(f"**Condición de rechazo**: {_eleccion_rc(int(n), p0, alpha, tail, r.critical_value)} "
+                         f"Si r {op} {r.critical_value} ⇒ se rechaza H0 (la decisión se toma con r contra r_c, a priori).")
     estado["tail"] = tail
     res.numeros = list(r.critical_value) if isinstance(r.critical_value, tuple) else [r.critical_value]
     if beta_modo:
         if r.beta is None:
             raise FaltaDato("Falta la proporción alternativa p₁")
-        res.pasos.append(f"**β** = P(no rechazar H0 | p = {fmt(d['p1'], 4)}) = {fmt(r.beta, 4)}.")
+        rc = r.critical_value
+        fb = (f"F_b({rc - 1} | n = {int(n)}; p₁ = {fmt(d['p1'], 4)})" if tail == "derecha" else
+              f"G_b({rc + 1} | n = {int(n)}; p₁ = {fmt(d['p1'], 4)})") if not isinstance(rc, tuple) else "P(no rechazar)"
+        res.pasos.append(f"**β** = P(no rechazar H0 | p = {fmt(d['p1'], 4)}) = {fb} = {fmt(r.beta, 4)}.")
         _cierre_beta(d, r.beta, r.power, res)
         plan_n = estado.get("plan_normal")
         if plan_n and int(n) == estado.get("n") and tail in ("derecha", "izquierda"):
@@ -909,8 +974,12 @@ def prop_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
             res.numeros += [pot_n, 1 - pot_n]
             res.resumen += f" | normal: 1-β = {fmt(pot_n, 4)}"
         return
-    res.pasos.append(f"**Decisión**: r = {int(r_)} (p̂ = {fmt(p_obs, 4)}); valor a posteriori α* = {fmt(r.p_value, 4)} → " +
-                     ("se rechaza H0." if r.rejects_h0 else "no se rechaza H0."))
+    op = "≥" if tail == "derecha" else "≤"
+    res.pasos.append(f"**Decisión**: r = {int(r_)} (p̂ = {fmt(p_obs, 4)}) " +
+                     (f"{op} r_c = {r.critical_value} → se rechaza H0." if r.rejects_h0 else
+                      f"no es {op} r_c = {r.critical_value} → no se rechaza H0."))
+    res.pasos.append(f"Dato informativo (no es criterio de decisión): valor a posteriori α* = {fmt(r.p_value, 4)}. El "
+                     "profesor decide con r contra r_c (a priori); el α* «no me gusta».")
     res.conclusion = _ensayo_txt(r, alpha, f"r = {int(r_)}", d)
     if isinstance(r.critical_value, tuple):
         cond = f"r ≤ {r.critical_value[0]} o r ≥ {r.critical_value[1]}"
@@ -935,7 +1004,7 @@ def _plan_dado(d, alpha, res: Resultado, estado):
     numeros, partes = [], []
     if p0 is not None:
         a_real = hyp._prob_rechazo_binomial(n, rc, p0, tail)
-        res.pasos.append(f"**Riesgo del proveedor** α = P(r {op} {rc} | n = {n}; p₀ = {fmt(p0, 4)}) = {fmt(a_real, 4)} "
+        res.pasos.append(f"**Riesgo del proveedor** α = P(r {op} {rc} | n = {n}; p₀ = {hyp.p_txt(p0).replace('.', ',')}) = {fmt(a_real, 4)} "
                          f"(binomial exacto).")
         numeros.append(a_real)
         partes.append(f"α = {fmt(a_real, 4)}")
@@ -977,7 +1046,7 @@ def prop_diseno(d, alpha, res: Resultado, estado):
     if p1 is not None and beta is not None:
         r = hyp.disenar_plan_proporcion(p0, p1, alpha, beta, tail=None)
         res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}.")
-        res.pasos.append(f"**Condiciones**: P(rechazar | p₀ = {fmt(p0, 4)}) ≤ α = {fmt(alpha, 4)} y "
+        res.pasos.append(f"**Condiciones**: P(rechazar | p₀ = {hyp.p_txt(p0).replace('.', ',')}) ≤ α = {fmt(alpha, 4)} y "
                          f"P(no rechazar | p₁ = {fmt(p1, 4)}) ≤ β = {fmt(beta, 4)}.")
         res.pasos.append(f"**Plan (binomial exacto, se itera n)**: n = {r.n}, r_c = {r.rc}. α real = {fmt(r.alpha_real, 4)}, "
                          f"β real = {fmt(r.beta_real, 4)}.")
@@ -1002,13 +1071,18 @@ def prop_diseno(d, alpha, res: Resultado, estado):
         except (ValueError, RuntimeError):
             rn = None
         if rn is not None:
-            res.pasos.append(f"**Por aproximación normal** (la guía la informa como alternativa): n = [(Z(1-α)·√(p₀q₀) + "
-                             f"Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = {rn.n}; con ese n el binomial da r_c = {rn.rc} "
-                             f"(α real = {fmt(rn.alpha_real, 4)}, β real = {fmt(rn.beta_real, 4)}).")
-            res.conclusion += f" (Por aproximación normal: n = {rn.n} y r_c = {rn.rc}.)"
-            res.numeros += [rn.n, rn.rc]
-            res.resumen += f" | normal: n = {rn.n}; rc = {rn.rc}"
-            estado["plan_normal"] = (rn.n, rn.rc)
+            cn = criterio_aproximacion(rn.n, p0)
+            vale = cn.elegida == "normal"
+            res.pasos.append(f"**Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → "
+                             f"n = {rn.n}; con ese n el binomial da r_c = {rn.rc} (α real = {fmt(rn.alpha_real, 4)}, "
+                             f"β real = {fmt(rn.beta_real, 4)}). {cn.texto}" +
+                             ("" if vale else " ⚠️ Con el n resultante el criterio NO habilita la normal: no usar este n "
+                                              "como respuesta."))
+            if vale:
+                res.conclusion += f" (Por aproximación normal, justificada con el n resultante: n = {rn.n} y r_c = {rn.rc}.)"
+                res.numeros += [rn.n, rn.rc]
+                res.resumen += f" | normal: n = {rn.n}; rc = {rn.rc}"
+                estado["plan_normal"] = (rn.n, rn.rc)
         try:
             planes = hyp.planes_factibles(p0, p1, alpha, beta, r.tail)
         except (ValueError, RuntimeError):
@@ -1026,32 +1100,38 @@ def prop_diseno(d, alpha, res: Resultado, estado):
         except (ValueError, ZeroDivisionError):
             pg = None
         if pg is not None:
+            cp = criterio_aproximacion(pg.n, p0)
+            vale = cp.elegida == "poisson"
             if r.tail == "derecha":
                 R_txt = f"R = p₁/p₀ = {fmt(p1 / p0, 4)}; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)]"
                 n_txt = (f"c = ⌊ν/2⌋ = {pg.rc - 1} → g.l. = 2c = {pg.gl}; n = máx[χ²(α; {pg.gl})/(2p₀) ; "
-                         f"χ²(1-β; {pg.gl})/(2p₁)] = máx[{fmt(pg.n_alpha, 2)} ; {fmt(pg.n_beta, 2)}] → n = {pg.n}; r_c = c + 1 = {pg.rc}")
+                         f"χ²(1-β; {pg.gl})/(2p₁)] = máx[{fmt(pg.n_alpha, 4)} ; {fmt(pg.n_beta, 4)}] → n = {pg.n}; r_c = c + 1 = {pg.rc}")
             else:
                 R_txt = f"R = p₀/p₁ = {fmt(p0 / p1, 4)}; a = [Z(1-α) + Z(1-β)·∛R]/[2(∛R - 1)]"
                 n_txt = (f"r_c = ⌈(ν-2)/2⌉ = {pg.rc} → g.l. = 2r_c + 2 = {pg.gl}; n = máx[χ²(1-α; {pg.gl})/(2p₀) ; "
-                         f"χ²(β; {pg.gl})/(2p₁)] = máx[{fmt(pg.n_alpha, 2)} ; {fmt(pg.n_beta, 2)}] → n = {pg.n}")
-            res.pasos.append(f"**Por aproximación de Poisson** (Ecuación de García, como la teoría y la guía): {R_txt} = "
-                             f"{fmt(pg.a, 4)}; ν = 2/9·(a + √(a² + 1))² = {fmt(pg.nu, 2)}; {n_txt}. "
-                             "Es una aproximación gruesa: el plan puede no cumplir α y β exactos." +
-                             (" Con p de este tamaño la aproximación de Poisson no es adecuada (sirve para p chico); se "
-                              "informa como referencia, como hace la guía en III-11c." if max(p0, p1) > 0.1 else ""))
-            res.conclusion += f" (Por aproximación de Poisson: n = {pg.n} y r_c = {pg.rc}.)"
-            res.numeros += [pg.n, pg.rc]
-            res.resumen += f" | Poisson: n = {pg.n}; rc = {pg.rc}"
+                         f"χ²(β; {pg.gl})/(2p₁)] = máx[{fmt(pg.n_alpha, 4)} ; {fmt(pg.n_beta, 4)}] → n = {pg.n}")
+            res.pasos.append(f"**Por aproximación de Poisson** (Ecuación de García): {R_txt} = {fmt(pg.a, 4)}; "
+                             f"ν = 2/9·(a + √(a² + 1))² = {fmt(pg.nu, 4)}; {n_txt}. {cp.texto}" +
+                             ("" if vale else " ⚠️ Con el n resultante el criterio NO habilita Poisson: este n no es una "
+                                              "respuesta válida (el profesor, sobre III-11c: el 855 por Poisson es "
+                                              "incorrecto porque el criterio se aplicó con el n inicial)."))
+            if vale:
+                res.conclusion += (f" (Por aproximación de Poisson, justificada con el n resultante: n = {pg.n} y "
+                                   f"r_c = {pg.rc}.)")
+                res.numeros += [pg.n, pg.rc]
+                res.resumen += f" | Poisson: n = {pg.n}; rc = {pg.rc}"
         poi = hyp.plan_poisson_tabla(p0, r.rc, alpha, r.tail) if pg is None else None
         if poi:
             n_p, m = poi
             op = "≥" if r.tail == "derecha" else "≤"
+            cp = criterio_aproximacion(n_p, p0)
             res.pasos.append(f"**Por aproximación de Poisson** (como la guía, con la tabla de Poisson: m al 0,1): con r_c = "
                              f"{r.rc}, m₀ = n·p₀ tal que P(r {op} {r.rc} | m₀) ≤ α en la tabla → m₀ = {fmt(m, 1)} → "
-                             f"n = m₀/p₀ = {n_p}.")
-            res.numeros.append(n_p)
-            res.resumen += f" | Poisson: n = {n_p}"
-            res.conclusion += f" (Por aproximación de Poisson con la tabla: n = {n_p}.)"
+                             f"n = m₀/p₀ = {n_p}. {cp.texto}")
+            if cp.elegida == "poisson":
+                res.numeros.append(n_p)
+                res.resumen += f" | Poisson: n = {n_p}"
+                res.conclusion += f" (Por aproximación de Poisson con la tabla: n = {n_p}.)"
         estado.update(n=r.n, tail=r.tail, rc=r.rc, n_es_diseno=True)
         return
     if d.get("rc") is not None and d.get("n"):
@@ -1059,10 +1139,12 @@ def prop_diseno(d, alpha, res: Resultado, estado):
         return
     n = _req(d, "n")[0]
     tail = d.get("tail") or "derecha"
+    if tail == "bilateral":
+        tail = _sin_bilateral(d, res, "p", p1 is None or p1 >= p0)
     r = hyp.ensayo_proporcion(int(round(p0 * n)), int(n), p0, alpha, tail=tail, p1=p1)
     op = "≥" if tail == "derecha" else "≤"
     res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}.")
-    res.pasos.append(f"**Condición de rechazo**: r_c = {r.critical_value} (binomial n = {int(n)}, p₀ = {fmt(p0, 4)}). "
+    res.pasos.append(f"**Condición de rechazo**: {_eleccion_rc(int(n), p0, alpha, tail, r.critical_value)} "
                      f"Si r {op} {r.critical_value} ⇒ se rechaza H0.")
     res.conclusion = f"Si en la muestra de {int(n)} se encuentran r {op} {r.critical_value}, se rechaza H0."
     res.numeros = list(r.critical_value) if isinstance(r.critical_value, tuple) else [r.critical_value]
@@ -1099,10 +1181,22 @@ def _phi_txt(d) -> str:
     return f"φ = σ({a})/σ({b})"
 
 
-def _cola_relacion(d, estado) -> str:
+def _cola_relacion(d, estado, res: Optional[Resultado] = None) -> str:
     tail = d.get("tail") or estado.get("tail") or "bilateral"
     phi1 = d.get("phi1")
     phi0 = d.get("phi0") or 1.0
+    if tail == "bilateral":
+        # «Las hipótesis bilaterales no existen en comparaciones» (profesor, 01/10): la muestra (o φ₁) orienta el ensayo
+        if phi1 is not None and phi1 != phi0:
+            arriba = phi1 > phi0
+        elif all(d.get(k) for k in ("s1", "s2")):
+            arriba = float(d["s1"]) / float(d["s2"]) > phi0
+        else:
+            arriba = True
+        if res is not None:
+            res.avisos.append("En comparaciones no hay ensayos bilaterales (profesor en clase): se planteó el unilateral "
+                              f"hacia {'arriba' if arriba else 'abajo'}, en el sentido que muestran los datos.")
+        tail = "derecha" if arriba else "izquierda"
     if d.get("orden") == "mayor" and tail != "bilateral":
         tail = "derecha"   # arriba va el de mayor desvío: lo que se quiere probar es que es MAYOR
     if phi1 is not None and tail != "bilateral" and phi1 != phi0:
@@ -1131,7 +1225,7 @@ def dos_var_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
     """TEMA IV: ensayo F sobre φ = σ₁/σ₂ (muestra 1 arriba) contra φ₀ (1 o, p. ej., 0,88 si se pide reducir un 12%)."""
     a, b = _nombres(d)
     phi0 = d.get("phi0") or 1.0
-    tail = _cola_relacion(d, estado)
+    tail = _cola_relacion(d, estado, res)
     phi1 = d.get("phi1")
     con_muestras = all(d.get(k) for k in ("s1", "n1", "s2", "n2"))
     if con_muestras:
@@ -1167,13 +1261,16 @@ def dos_var_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
         _cierre_beta(dict(d, phi0=phi0, tail=tail), r.beta, r.power, res)
         return
     j = sqrt(r.observed_value)
-    res.pasos.append(f"**Decisión**: j² = {fmt(s1 ** 2, 6)}/{fmt(s2 ** 2, 6)} = {fmt(r.observed_value, 4)} (j = {fmt(j, 4)}) → " +
+    jc_txt = (f"Jc = {fmt(sqrt(crit[0]), 4)} ; {fmt(sqrt(crit[1]), 4)}" if isinstance(crit, tuple)
+              else f"Jc = √{fmt(crit, 4)} = {fmt(sqrt(crit), 4)}")
+    res.pasos.append(f"**Decisión** (el estimador contra el valor crítico): J = S({a})/S({b}) = {fmt(s1, 4)}/{fmt(s2, 4)} = "
+                     f"{fmt(j, 4)} (J² = {fmt(r.observed_value, 4)}) contra {jc_txt} → " +
                      ("cae en la zona de rechazo." if r.rejects_h0 else "no cae en la zona de rechazo."))
-    res.conclusion = _ensayo_txt(r, alpha, f"j² = {fmt(r.observed_value, 4)}", d).replace("φ = σ₁/σ₂", _phi_txt(d))
+    res.conclusion = _ensayo_txt(r, alpha, f"J = {fmt(j, 4)}", d).replace("φ = σ₁/σ₂", _phi_txt(d))
     res.regla = _regla(d, f"calcula la relación j² = S²({a})/S²({b}) con las muestras de {int(n1)} y {int(n2)}",
                        _cond_relacion(tail, crit), h1)
     res.numeros += [r.observed_value, j]
-    res.resumen = f"H0: {h0}; j² = {fmt(r.observed_value, 4)} vs j²c = {_cv(crit)}: " + \
+    res.resumen = f"H0: {h0}; J = {fmt(j, 4)} vs Jc = {_cv(tuple(sqrt(c) for c in crit) if isinstance(crit, tuple) else sqrt(crit))}: " + \
                   ("RECHAZA H0" if r.rejects_h0 else "NO rechaza H0")
 
 
@@ -1188,7 +1285,7 @@ def dos_var_diseno(d, alpha, res: Resultado, estado):
     phi1, beta = d.get("phi1"), d.get("beta")
     if phi1 is None or beta is None:
         raise FaltaDato("Para el diseño faltan la relación alternativa φ₁ y/o β")
-    tail = _cola_relacion(d, estado)
+    tail = _cola_relacion(d, estado, res)
     r = two.n_relacion_desvios_para_potencia(phi0, phi1, alpha, beta, tail=tail if tail != "bilateral" else None)
     h0, h1 = r.h0_text.replace("φ = σ₁/σ₂", _phi_txt(d)), r.h1_text.replace("φ = σ₁/σ₂", _phi_txt(d))
     nu = r.n - 1
@@ -1346,10 +1443,19 @@ def _hipotesis_contingencia(d, filas: List[str], cols: List[str]) -> Tuple[str, 
         h0_txt = f"la distribución de {_y(cats)} es la misma en {_y(grupos)}"
         h1_txt = f"la distribución de {_y(cats)} no es la misma en {_y(grupos)}"
     if indep:
-        return (f"**Hipótesis** (prueba de independencia): H0: no hay relación entre las variables, es decir, {h0}  vs  "
-                f"H1: {h1}.",
-                f"no hay relación entre las variables ({h0_txt})", f"hay relación entre las variables ({h1_txt})")
-    return (f"**Hipótesis** (prueba de homogeneidad, una muestra por grupo): H0: {h0}  vs  H1: {h1}.", h0_txt, h1_txt)
+        # independencia: H0 EN PALABRAS (profesor, 22/10: «las fallas por pintura son independientes del color»)
+        en_filas = (nombre or "la clasificación de las filas").lower()
+        en_cols = f"la clasificación en {_y(cols)}"
+        return (f"**Hipótesis** (prueba de independencia: se pregunta por una asociación): H0: {en_filas} es "
+                f"independiente de {en_cols}; equivale a {h0}  vs  H1: hay asociación entre las dos clasificaciones. "
+                "No rechazar H0 no prueba la independencia.",
+                f"{en_filas} es independiente de {en_cols}",
+                f"existe asociación entre {en_filas} y {en_cols}")
+    # consistencia: H0 escrita CATEGORÍA POR CATEGORÍA (profesor: «no me pongan P mañana, P tarde…»)
+    return (f"**Hipótesis** (prueba de consistencia —homogeneidad—, se comparan niveles o porcentajes de varios grupos): "
+            f"H0: {h0}  vs  H1: {h1}. Al rechazar: alguno es distinto (no «todos son distintos»).",
+            h0_txt, h1_txt.replace("no es la misma en", "difiere en al menos uno de los grupos:").replace(
+                "difiere entre", "difiere en al menos uno de los grupos:"))
 
 
 def _conclusion_chi(r, alpha: float, h0_txt: str, h1_txt: str) -> str:
@@ -1531,8 +1637,10 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
                 res.avisos.append("El inciso no fija el riesgo α: se usó α = 0,05.")
         if alpha is None and inc.tipo == "ensayo":
             alpha = 0.05
-            res.avisos.append("El enunciado no fija el riesgo α: se usó α = 0,05. Mirá el valor a posteriori α*: "
-                              "se rechaza H0 para cualquier α ≥ α* (así lo responde la guía en estos casos).")
+            res.avisos.append("El enunciado no fija el riesgo α: se eligió α = 0,05. En el examen hay que elegirlo y "
+                              "JUSTIFICARLO antes de ver la muestra (p. ej. «0,05, no porque sea estándar, sino porque el "
+                              "perito tiene que ser imparcial»); una vez fijado, α no se toca. El valor a posteriori α* se "
+                              "muestra solo como dato: no se decide con él.")
         if alpha is None:
             raise FaltaDato("Falta el riesgo α")
         _paso_resumen(d, res) if tema in ("media", "varianza") else None
@@ -1553,6 +1661,9 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
     except FaltaDato as e:
         res.errores.append(str(e))
         res.resumen = "faltan datos"
+    except FueraDeCatedra as e:
+        res.errores.append(str(e))
+        res.resumen = "fuera de la cátedra"
     except (ValueError, RuntimeError, ZeroDivisionError, TypeError, KeyError) as e:
         res.errores.append(f"No se pudo calcular: {e}")
         res.resumen = "error"

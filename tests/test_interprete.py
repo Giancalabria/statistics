@@ -327,14 +327,14 @@ def test_ensayo_sale_en_los_7_pasos_de_la_catedra():
     assert numerados == ["1", "2", "3", "4", "5", "6"]
     rd = next(p for p in a.pasos if p.startswith("**5 · Regla de decisión"))
     assert "n = 25" in rd and "504,9346" in rd and "En caso contrario" in rd
-    assert a.conclusion.startswith("A un nivel de significación del 5%, existe evidencia estadística suficiente")
-    assert "Por consiguiente" in a.conclusion and "acepta" not in a.conclusion
+    assert a.conclusion.startswith("Con α = 0,05, ") and "se rechaza la hipótesis nula" in a.conclusion
+    assert "Se puede asegurar que" in a.conclusion and "acepta" not in a.conclusion and "5%" not in a.conclusion
 
 
 def test_conclusion_formal_usa_la_accion_del_sistema_de_control():
     an = analizar(EXAMEN_P2, EXAMEN_I2)
     a = resolver(an)[0]
-    assert a.conclusion.count("A un nivel de significación") == 2
+    assert a.conclusion.count("Con α = ") == 2
     assert sum(p.startswith("**5 · Regla de decisión") for p in a.pasos) == 2
 
 

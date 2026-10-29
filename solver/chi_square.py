@@ -22,6 +22,17 @@ class ChiSquareResult:
     expected_table: Optional[List[List[float]]] = None  # solo para tabla_contingencia
 
 
+def aviso_demasiado_perfecto(chi2_calc: float, df: int, alpha: float) -> Optional[str]:
+    """«Ajuste demasiado perfecto» (profesor en clase, 22/10; «no está en ningún libro»): si χ²obs < χ²(α; ν), la
+    cola IZQUIERDA, se sospecha de los DATOS (cocinados), no del modelo. Ej.: dado 11/9/11/9… da χ² = 0,6 <
+    χ²(0,05; 5) = 1,1455."""
+    inferior = dist.chi2_value(alpha, df)
+    if chi2_calc < inferior:
+        return (f"Ajuste demasiado perfecto: χ² = {chi2_calc:.4f} < χ²(α; ν) = χ²({alpha:g}; {df}) = {inferior:.4f}. "
+                "Hay que sospechar de los datos (pueden estar «cocinados»), no del modelo.")
+    return None
+
+
 def bondad_de_ajuste(
     observados: List[float], esperados: List[float], p: int, alpha: float
 ) -> ChiSquareResult:
@@ -94,6 +105,9 @@ def bondad_de_ajuste(
 
     # Decisión: se rechaza si chi2_calc > chi2_critico
     rejects = chi2_calc > chi2_critico
+    perfecto = aviso_demasiado_perfecto(chi2_calc, df, alpha)
+    if perfecto:
+        warnings.append(perfecto)
 
     return ChiSquareResult(
         chi2_calc=chi2_calc,
@@ -182,6 +196,9 @@ def tabla_contingencia(tabla_observada: List[List[float]], alpha: float) -> ChiS
 
     # Decisión: se rechaza si chi2_calc > chi2_critico
     rejects = chi2_calc > chi2_critico
+    perfecto = aviso_demasiado_perfecto(chi2_calc, df, alpha)
+    if perfecto:
+        warnings.append(perfecto)
 
     return ChiSquareResult(
         chi2_calc=chi2_calc,

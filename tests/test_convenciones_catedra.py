@@ -82,8 +82,9 @@ def test_I_36_a_posteriori_es_unilateral_hacia_la_muestra():
 
 # --- proporciones -------------------------------------------------------------------------------
 
-def test_ic_proporcion_r_cero_usa_alpha_medio():
-    assert ic.ic_proporcion_exacto(0, 10, 0.10).b == pytest.approx(0.2589, abs=1e-4)
+def test_ic_proporcion_r_cero_usa_alpha_entero_como_el_profesor():
+    # III-3b: el profesor (17/09) dijo que el 0,2589 de la guía (α/2) está mal: con un solo límite va α entero
+    assert ic.ic_proporcion_exacto(0, 10, 0.10).b == pytest.approx(0.2057, abs=1e-4)
 
 
 @pytest.mark.parametrize("p0, p1, alpha, beta, tail, n, rc", [

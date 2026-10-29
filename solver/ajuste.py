@@ -183,11 +183,18 @@ def _contraste(modelo, prm, est, m, s, tabla, alpha, avisos, extra_df=0):
     final = amalgamar(tabla)
     if len(final) < len(tabla):
         avisos.append(f"Se amalgamaron clases con Fe < 5: de {len(tabla)} a {len(final)} clases efectivas.")
+    N = sum(c.fo for c in tabla)
+    if N < 60:
+        avisos.append(f"N = {N:g} < 60: la aproximación χ² exige N ≥ 60 (profesor en clase).")
     chi2 = sum((c.fo - c.fe) ** 2 / c.fe for c in final)
     df = len(final) - 1 - len(est) - extra_df
     if df <= 0:
         raise ValueError(f"Grados de libertad no válidos (ν = {df}): hay pocas clases para el modelo.")
     crit = dist.chi2_one_tailed(alpha, df)
+    from .chi_square import aviso_demasiado_perfecto
+    perfecto = aviso_demasiado_perfecto(chi2, df, alpha)
+    if perfecto:
+        avisos.append(perfecto)
     return AjusteResult(modelo=modelo, parametros=prm, estimados=est, media=m, desvio=s, tabla=tabla,
                         tabla_final=final, chi2_calc=chi2, df=df, chi2_critico=crit, rechaza=chi2 > crit,
                         alpha=alpha, avisos=avisos)
@@ -248,16 +255,18 @@ def ajuste_discreto(modelo: str, valores: Sequence[float], fo: Sequence[float], 
         cdf = lambda r: stats.binom.cdf(r, n, p)
     else:
         raise ValueError(f"Modelo discreto desconocido: {modelo}")
+    # Completar el dominio como el profesor (22/10): las clases observadas llevan la probabilidad PUNTUAL y se agrega
+    # una clase al principio y/o al final con O = 0 y la probabilidad ACUMULADA (F o G), no la puntual.
     tabla = []
-    for i, (v, f) in enumerate(zip(vals, fo)):
-        if i == 0:
-            prob = cdf(v)
-            etq = f"{v:g}" if v == 0 else f"≤ {v:g}"
-        elif i == k - 1 and ultima_abierta:
-            prob = 1 - cdf(v - 1)
-            etq = f"≥ {v:g}"
-        else:
-            prob = pmf(v)
-            etq = f"{v:g}"
-        tabla.append(Clase(etq, f, prob, N * prob))
+    if vals[0] > 0 and cdf(vals[0] - 1) > 0:
+        tabla.append(Clase(f"≤ {vals[0] - 1:g}", 0.0, cdf(vals[0] - 1), N * cdf(vals[0] - 1)))
+        avisos.append(f"Se completó el dominio al principio con la clase «≤ {vals[0] - 1:g}» (O = 0, probabilidad "
+                      f"acumulada F({vals[0] - 1:g})).")
+    for v, f in zip(vals, fo):
+        tabla.append(Clase(f"{v:g}", f, pmf(v), N * pmf(v)))
+    cola = 1 - cdf(vals[-1])
+    if ultima_abierta and cola > 1e-12:
+        tabla.append(Clase(f"≥ {vals[-1] + 1:g}", 0.0, cola, N * cola))
+        avisos.append(f"Se completó el dominio al final con la clase «≥ {vals[-1] + 1:g}» (O = 0, probabilidad "
+                      f"acumulada G({vals[-1] + 1:g}) = {cola:.4f}), no la puntual.")
     return _contraste(modelo, conocidos, est, m, None, tabla, alpha, avisos)

@@ -326,13 +326,15 @@ def _magnitud(t, an: Analisis, solo_libres=True) -> Optional[Tuple[str, float, N
         if _hay(r"(riesgo|confianza|seguridad|probabilidad)[^0-9]{0,12}$", a):
             continue
         if n.pct:
-            if _hay(r"(en|un|del|de)\s*$", a) and _hay(P_MAS_V + "|" + P_MENOS_V + r"|al menos|como minimo|por lo menos",
+            if _hay(r"(en|un|del|de|el)\s*$", a) and _hay(P_MAS_V + "|" + P_MENOS_V + r"|al menos|como minimo|por lo menos",
                                                        a[-40:] + " " + d[:30]):
                 return "pct", n.fraccion, n
             continue
-        if _hay(r"(\ben|\bde|superior en|mayor en|minima de|por mas de|mas de|en mas de)\s*$", a) and \
+        if _hay(r"(\ben|\bde|superior en|mayor en|minima de|por mas de|mas de|en mas de|"
+                r"en (por lo menos|al menos|como minimo))\s*$", a) and \
                 _hay(P_MAS_V + "|" + P_MENOS_V + r"|al menos|como minimo|por lo menos|diferencia", a[-60:] + " " + d[:35]) or \
-                _hay(r"^\s*[a-z.]*\s*(al menos|como minimo|por lo menos)", d) or \
+                _hay(r"^\s*[a-z.]*\s*(al menos|como minimo|por lo menos|o mas\b)", d) or \
+                (_hay(r"(al menos|como minimo|por lo menos)\s*$", a) and _hay(P_MAS_V + "|" + P_MENOS_V, a[-60:])) or \
                 (_hay(r"(como minimo|al menos|por lo menos|como maximo)\s*$", a) and
                  _hay(r"^\s*([a-z.]+\s+){0,4}(mas|menos)\b", d)):
             valor = n.valor
@@ -423,20 +425,16 @@ def params_dos_medias(inc: Inciso, an: Analisis, t, previo: Dict):
         direccion = dr or dr_pl
         if direccion is None and _hay(r"(idem|igual que|misma)", norm) and previo.get("direccion"):
             direccion = previo["direccion"]
-        if direccion in (None, "bilateral") and inc.tipo == "ensayo":
-            # Criterio de la cátedra (Comparación de Parámetros, caso III): el ensayo bilateral "en los procesos de
-            # comparación no se aplica en la realidad: la comparación se hace a la luz de los datos" → unilateral en
-            # el sentido que muestran las muestras (así lo resuelve la guía en V-2, V-13 y V-21).
+        if direccion in (None, "bilateral"):
+            # El profesor (01/10): «jamás me planteen una hipótesis bilateral en comparación»; la muestra orienta el
+            # ensayo (unilateral en el sentido que muestran los datos). Así lo resuelve también la guía en V-2, V-13 y
+            # V-21. Vale para el ensayo y para el planteo a priori.
             p["tail"] = "derecha"
             p["sujeto_por_datos"] = True
             p["bilateral_pregunta"] = True
-            inc.razones.append("Pregunta si las medias difieren sin dirección. Criterio de la cátedra: en una comparación "
-                               "el ensayo se plantea unilateral en el sentido que muestran los datos (H1: el de mayor media "
-                               "supera al otro); como referencia se informa también el bilateral.")
-        elif direccion in (None, "bilateral"):
-            p["tail"] = "bilateral"
-            inc.razones.append("Pregunta si las medias difieren (sin dirección) → H1: δ ≠ δ₀, bilateral." if direccion
-                               else "Sin palabras de dirección → bilateral (revisalo).")
+            inc.razones.append("Pregunta si las medias difieren sin dirección. En comparaciones no hay ensayos bilaterales "
+                               "(profesor en clase): se plantea unilateral en el sentido que muestran los datos (H1: el de "
+                               "mayor media supera al otro).")
         else:
             nuevo = int(an.datos.get("sujeto") or 0)
             if direccion == "menos" and sujeto is not None and nuevo and sujeto == 3 - nuevo:
@@ -461,7 +459,7 @@ def params_dos_medias(inc: Inciso, an: Analisis, t, previo: Dict):
         if extra:   # 'Ídem a), si se deseara asegurar un incremento del 10%': manda la condición nueva
             mag = _magnitud(A.Texto(extra.group(1)), an, solo_libres=False)
         mag = mag or _magnitud(t, an)
-        if mag is None and not _hay(r"\d", re.sub(r"\d+\s*%", "", norm)):
+        if mag is None and not _hay(r"\d", re.sub(r"\d+\s*%|\bh\s*[01]\b", "", norm)):   # 'Plantear H0' no es un dato
             mag = _magnitud(A.Texto(_afirmacion_del_planteo(pl, an)[2]), an, solo_libres=False)
         if mag:
             clase, valor, _ = mag
@@ -545,11 +543,16 @@ def _plantear(d: Dict, alpha: float, res: Resultado) -> Dict:
     j2, j2c = f.observed_value, f.critical_value
     iguales = not f.rejects_h0
     res.numeros += [j2c, sqrt(j2c), j2, sqrt(j2)]
-    res.pasos.append(("" if res.pasos and res.pasos[-1].startswith("Los desvíos") else "**Modelo**: ") + f"¿desvíos iguales? (test F, α = {fmt(alpha_f, 4)}, el desvío muestral mayor arriba): "
-                     f"H0: σ({may}) ≤ σ({men}). j² = S²({may})/S²({men}) = {fmt(j2, 4)} (j = {fmt(sqrt(j2), 4)}); "
-                     f"j²c = F({fmt(1 - alpha_f, 4)}; {nmay - 1}; {nmen - 1}) = {fmt(j2c, 4)} (jc = {fmt(sqrt(j2c), 4)}) → " +
-                     ("no se rechaza: se suponen desvíos IGUALES y se amalgaman." if iguales else
-                      "se rechaza: los desvíos son DISTINTOS → Welch."))
+    res.pasos.append(("" if res.pasos and res.pasos[-1].startswith("Los desvíos") else "**Modelo**: ") +
+                     f"**ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S({may}) > "
+                     f"S({men}), lo único que se puede sospechar es σ({may}) > σ({men}) → unilateral, H0: "
+                     f"φ = σ({may})/σ({men}) ≤ 1, con un α propio y grande α = {fmt(alpha_f, 4)} (no el del problema: "
+                     f"si no se rechaza se quiere poder suponerlos iguales). Jc = √F({fmt(1 - alpha_f, 4)}; ν₁ = "
+                     f"{nmay - 1}; ν₂ = {nmen - 1}) = √{fmt(j2c, 4)} = {fmt(sqrt(j2c), 4)}; J = S({may})/S({men}) = "
+                     f"{fmt(sqrt(j2), 4)} → " +
+                     (f"J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y "
+                      "se amalgaman (Sa)." if iguales else
+                      f"J > Jc: se rechaza H0 → los desvíos son DISTINTOS → Welch."))
     metodo = "pooled" if iguales else "welch"
     err = two.error_dos_medias(s1, n1, s2, n2, metodo)
     if metodo == "pooled":
@@ -595,6 +598,12 @@ def dos_medias_ensayo(d, alpha, res: Resultado, estado):
 
 def _ensayo_simple(d, alpha, res: Resultado, estado):
     tail = d.get("tail") or "bilateral"
+    if tail == "bilateral":
+        # nunca bilaterales en comparaciones (profesor en clase): se orienta por los datos
+        tail = "derecha"
+        d = dict(d, sujeto_por_datos=True, bilateral_pregunta=True)
+        res.avisos.append("En comparaciones no hay ensayos bilaterales (profesor en clase): se planteó el unilateral en el "
+                          "sentido que muestran las muestras.")
     d = _orientar(d, tail)
     a, b = d.get("nombre1") or "1", d.get("nombre2") or "2"
     c = _plantear(d, alpha, res)
@@ -636,7 +645,8 @@ def _ensayo_simple(d, alpha, res: Resultado, estado):
                      f"{q}·σ(d) = {_cv(crit)}. Si {cond} ⇒ se rechaza H0.")
     res.pasos.append(f"**Decisión**: d = {fmt(obs, 4)} → " + ("se rechaza H0." if r.rejects_h0 else "no se rechaza H0."))
     if r.p_value is not None:
-        res.pasos.append(f"Valor a posteriori α* = {fmt(r.p_value, 4)} (se rechaza H0 para cualquier α ≥ α*).")
+        res.pasos.append(f"Dato informativo (no es criterio de decisión): valor a posteriori α* = {fmt(r.p_value, 4)}. "
+                         "La decisión se toma comparando el estimador con el valor crítico.")
     r.h0_text, r.h1_text = h0, h1
     res.conclusion = _ensayo_txt(r, alpha, f"d = {fmt(obs, 4)}", d)
     res.regla = _regla(d, f"calcula la diferencia d entre {'las medias muestrales' if c['metodo'] != 'apareadas' else 'los pares'}",
@@ -647,13 +657,9 @@ def _ensayo_simple(d, alpha, res: Resultado, estado):
     res.resumen = f"H0: {h0}; dc = {_cv(crit)}; " + ("RECHAZA H0" if r.rejects_h0 else "NO rechaza H0")
     estado.update(metodo=c["metodo"], tail=tail)
     if d.get("bilateral_pregunta") and tail != "bilateral":
-        ref = Resultado()
-        _ensayo_simple(dict(d, tail="bilateral", bilateral_pregunta=False, sujeto_por_datos=False), alpha, ref, {})
-        decide = "RECHAZA" if "NO rechaza" not in ref.resumen else "NO rechaza"
-        res.numeros += ref.numeros
-        res.pasos.append(f"**Referencia — planteo bilateral** (H1: δ ≠ 0, si se toma la pregunta literal): "
-                         f"{ref.resumen.split('; ', 1)[-1]}." + ("" if decide == ("RECHAZA" if r.rejects_h0 else "NO rechaza")
-                                                                 else " ⚠️ Con el bilateral la decisión cambia."))
+        res.pasos.append("**Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen "
+                         "ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que "
+                         f"μ({a}), el de mayor media muestral, supera a μ({b}).")
 
 
 def dos_medias_beta(d, alpha, res: Resultado, estado):
@@ -664,6 +670,11 @@ def dos_medias_beta(d, alpha, res: Resultado, estado):
     tail = d.get("tail") or estado.get("tail") or ("derecha" if d1 >= 0 else "izquierda")
     d = _orientar(d, tail)
     c = _plantear(d, alpha, res)
+    if c["metodo"] != "z":
+        from .resolver import FueraDeCatedra
+        raise FueraDeCatedra("En comparaciones de medias con desvíos desconocidos (amalgamado, Welch o apareadas) la "
+                             "cátedra no calcula β, potencia ni n: hace falta la t no central («no lo vamos a generar "
+                             "para ustedes», profesor en clase). Solo con σ₁ y σ₂ conocidos (Z).")
     delta0 = abs(float(d.get("delta0") or 0.0)) * (-1 if tail == "izquierda" else 1)
     if c["metodo"] == "apareadas":
         rs = resumen_muestra([x - y for x, y in zip(c["l1"], c["l2"])])
@@ -718,6 +729,39 @@ def dos_medias_diseno(d, alpha, res: Resultado, estado):
         res.resumen = f"H0: δ {signo0} {fmt(d0, 4)}"
 
 
+def _inecuacion_h(x1: float, c: Dict, n1: int, x2: float, n2: int, alpha: float, cota: str) -> Optional[str]:
+    """Porcentaje mínimo / máximo como lo resuelve el profesor (V-8d): la CR como inecuación en h, al cuadrado, la
+    cuadrática y la VERIFICACIÓN de cada raíz en la inecuación original (una de las dos no sirve).
+    Solo con fractil constante (amalgamado o Z); con Welch ν depende de h y se itera."""
+    from math import sqrt as raiz
+    if c["metodo"] == "pooled":
+        sa2 = ((n1 - 1) * c["s1"] ** 2 + (n2 - 1) * c["s2"] ** 2) / (n1 + n2 - 2)
+        c1, c2, q = sa2 / n1, sa2 / n2, dist.t_one_tailed(alpha, n1 + n2 - 2)
+        err = f"t(1-α; {n1 + n2 - 2})·Sa·√(1/n₁ + h²/n₂)"
+    elif c["metodo"] == "z":
+        c1, c2, q = c["s1"] ** 2 / n1, c["s2"] ** 2 / n2, dist.z_one_tailed(alpha)
+        err = "Z(1-α)·√(σ₁²/n₁ + h²·σ₂²/n₂)"
+    else:
+        return None
+    A, B, C = x2 ** 2 - q ** 2 * c2, -2 * x1 * x2, x1 ** 2 - q ** 2 * c1
+    disc = B * B - 4 * A * C
+    if A == 0 or disc < 0:
+        return None
+    raices = sorted(((-B - raiz(disc)) / (2 * A), (-B + raiz(disc)) / (2 * A)))
+    signo = ">" if cota == "inf" else "<"
+    lineas = [f"**Inecuación en h**: x̄₁ - h·x̄₂ {signo} {'' if cota == 'inf' else '-'}{err} (h² va en el término de la "
+              f"población que lleva h). Con {fmt(x1, 4)} - {fmt(x2, 4)}·h y fractil {fmt(q, 4)}, al elevar al cuadrado: "
+              f"{fmt(A, 4)}·h² {'+' if B >= 0 else '-'} {fmt(abs(B), 4)}·h {'+' if C >= 0 else '-'} {fmt(abs(C), 4)} = 0 → "
+              f"raíces h = {redondeo.fijo(raices[0], 4)} y h = {redondeo.fijo(raices[1], 4)}. Verificación en la inecuación original:"]
+    for h in raices:
+        izq = x1 - h * x2
+        der = q * raiz(c1 + h * h * c2)
+        vale = izq >= 0 if cota == "inf" else izq <= 0
+        lineas.append(f"h = {redondeo.fijo(h, 4)}: x̄₁ - h·x̄₂ = {fmt(izq, 4)}; {'sirve' if vale else 'NO sirve'} "
+                      f"({'el lado izquierdo es negativo y no puede igualar a +' + fmt(der, 4) if not vale and cota == 'inf' else 'es raíz de la igualdad original' if vale else 'el lado izquierdo es positivo'}).")
+    return " ".join(lineas)
+
+
 def _cota_apareada(dif, alpha, cota):
     rs = resumen_muestra(dif)
     t = dist.t_one_tailed(alpha, rs.n - 1) if cota else dist.t_two_tailed(alpha, rs.n - 1)
@@ -738,12 +782,18 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
         h = two.h_limite_dos_medias(d["xbar1"], c["s1"], int(d["n1"]), d["xbar2"], c["s2"], int(d["n2"]), alpha,
                                     metodo=c["metodo"], cota=cota)
         lado = "mínima" if cota == "inf" else "máxima"
-        res.pasos.append(f"**Relación {lado} garantizada** h = μ({a})/μ({b}): el h que deja en el límite el ensayo "
-                         f"H0: μ({a}) {'≤' if cota == 'inf' else '≥'} h·μ({b}) con α = {fmt(alpha, 4)}: "
-                         f"x̄({a}) - h·x̄({b}) {'=' if cota == 'inf' else '= -'} {'t' if c['metodo'] != 'z' else 'z'}·"
-                         f"σ(d*(h)) → h = {fmt(h, 4)}.")
-        res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) es como {lado} un "
-                          f"{fmt((h - 1) * 100, 2)}% {'mayor' if h >= 1 else 'menor'} que μ({b}) (h = {fmt(h, 4)}).")
+        res.pasos.append(f"**Relación {lado} garantizada** h = μ({a})/μ({b}) (h es una constante, no un parámetro: no se "
+                         f"estima): es el h que deja en el límite la condición de rechazo de H0: μ({a}) "
+                         f"{'≤' if cota == 'inf' else '≥'} h·μ({b}) con α = {fmt(alpha, 4)} (un solo límite: α entero).")
+        cuad = _inecuacion_h(d["xbar1"], c, int(d["n1"]), d["xbar2"], int(d["n2"]), alpha, cota)
+        if cuad:
+            res.pasos.append(cuad)
+        else:
+            res.pasos.append(f"Con Welch ν depende de h (h² entra también en ν), así que se resuelve iterando: "
+                             f"x̄({a}) - h·x̄({b}) {'=' if cota == 'inf' else '= -'} t(1-α; ν(h))·σ(d*(h)) → h = {fmt(h, 4)}.")
+        res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) es como "
+                          f"{'mínimo' if cota == 'inf' else 'máximo'} un "
+                          f"{redondeo.fijo((h - 1) * 100, 2)}% {'mayor' if h >= 1 else 'menor'} que μ({b}) (h = {redondeo.fijo(h, 4)}).")
         res.numeros += [h, h - 1]
         res.resumen = f"h = {fmt(h, 4)} ({fmt((h - 1) * 100, 2)}%)"
         estado.update(metodo=c["metodo"])

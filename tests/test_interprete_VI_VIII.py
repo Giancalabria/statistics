@@ -76,7 +76,7 @@ def test_contingencia_homogeneidad_con_tablas_y_nombres():
     an, res = _resolver("Se tomaron muestras de 400 piezas en cada turno. Con un riesgo del 5%, ¿se puede asegurar "
                         "que los porcentajes de calidad difieren entre turnos?", tablas=[tabla])
     pasos = "\n".join(res[0].pasos)
-    assert "prueba de homogeneidad" in pasos and "1 = Mañana, 2 = Noche" in pasos
+    assert "prueba de consistencia" in pasos and "1 = Mañana, 2 = Noche" in pasos
     # observados con totales, esperados y aportes, con los nombres del enunciado
     assert "*Frecuencias observadas Oᵢⱼ*" in pasos and "*Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ*" in pasos
     assert "| Mañana | 380 | 20 | **400** |" in pasos
@@ -90,7 +90,8 @@ def test_contingencia_independencia_si_pregunta_por_asociacion():
                         "preferida depende de la zona?", tablas=[tabla])
     pasos = "\n".join(res[0].pasos)
     assert "prueba de independencia" in pasos and "en cada zona (1 = Norte, 2 = Sur)" in pasos
-    assert "no hay relación entre las variables" in res[0].conclusion
+    # independencia en palabras (profesor en clase): «… es independiente de …»
+    assert "zona es independiente de" in res[0].conclusion
     assert "no es cierto que" not in res[0].conclusion            # sin doble negación
 
 

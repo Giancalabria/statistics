@@ -25,10 +25,12 @@ def test_texto_tamano_muestra_preliminar_mayor_a_n_da_delta_cero():
 
 def test_conclusion_formal_no_rechazo_nunca_acepta_h0():
     texto = wording.conclusion_formal(0.05, False, "H0: μ ≤ 100", "μ > 100", "x̄ = 101")
-    assert texto.startswith("A un nivel de significación del 5%, no existe evidencia")
-    assert "no se puede afirmar que μ > 100" in texto and "se acepta" not in texto
+    assert texto.startswith("Con α = 0,05, x̄ = 101 no cae en la zona de rechazo")
+    assert "No hay evidencia suficiente para asegurar que μ > 100" in texto and "se acepta" not in texto
+    assert "%" not in texto   # α nunca en %
 
 
 def test_conclusion_formal_con_accion():
     texto = wording.conclusion_formal(0.1, True, "H0: μ ≥ 3", "μ < 3", "x̄ = 2", si_rechaza="se detiene el proceso")
-    assert texto.endswith("Por consiguiente, se detiene el proceso.")
+    assert "Se puede asegurar que μ < 3" in texto
+    assert texto.endswith("por lo tanto, se detiene el proceso.")

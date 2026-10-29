@@ -226,16 +226,21 @@ def _x0(inc_texto: str, excluir) -> Optional[Numero]:
 
 def _pend_val(inc: Inciso, an: Analisis, norm: str, texto: str) -> Optional[Tuple[float, str, str]]:
     """'por cada 1.000 dólares ... aumento de 2.500 como mínimo' → (β10, cola, explicación)."""
-    m = re.search(r"por cada\s*(\d[\d.,]*)?\s*([a-z ºº°]{0,40}?)(adicional|que (se )?(desciende|baja|disminuye|aumenta|sube|incrementa)|"
+    norm = re.sub(r"\bcada mil\b", "cada 1.000", re.sub(r"\bcada cien\b", "cada 100", norm))
+    m = re.search(r"(?:por )?cada\s*(\d[\d.,]*)?\s*([a-z ºº°]{0,40}?)(adicional|que (se )?(desciende|baja|disminuye|aumenta|sube|incrementa)|"
                   r"que se invierte|que se invierten|en la|de|\b)", norm)
     if not m:
         return None
     resto = norm[m.end():]
     cant_x = float(m.group(1).replace(".", "").replace(",", ".")) if m.group(1) else 1.0
-    baja_x = _hay(r"(desciende|baja|disminuye)", norm[m.start():m.end() + 40])
+    # x baja solo si lo dice pegado a 'cada': 'por cada grado que desciende la temperatura' (en 'cada mm más de
+    # deformación baja la dureza' el que baja es y)
+    baja_x = _hay(r"(desciende|baja|disminuye|\bmenos\b)", m.group(0)) or \
+        _hay(r"^\s*([a-z]+ )?(de [a-z]+ )?(menos|que (se )?(desciende|baja|disminuye|reduce))\b", resto[:40])
     m2 = re.search(r"(aument|increment|disminu|reduc|baj|sub|crec|decrec)[a-z]*[^0-9]{0,40}?(\d[\d.,]*)", resto)
     if not m2:
-        m2 = re.search(r"(\d[\d.,]*)[^0-9]{0,30}?(como minimo|como maximo|por lo menos)", resto)
+        m2 = re.search(r"(\d[\d.,]*)[^0-9]{0,30}?(como minimo|como maximo|por lo menos)", resto) or \
+            re.search(r"(?:al menos|como minimo|por lo menos)\s+(\d[\d.,]*)", resto)
         if not m2:
             return None
         valor_txt, verbo = m2.group(1), "aument"
@@ -283,15 +288,17 @@ def clasificar(inc: Inciso, an: Analisis, norm: str) -> Tuple[str, str]:
         inc.params["modelo"] = "linlog"
     if _hay(r"intercepto igual a (0|cero)|pasa(r)? por el origen|ordenada (al origen )?(nula|igual a 0)|\bb0\s*=\s*0", norm):
         inc.params["origen"] = True
-    if inc.params.get("modelo") and _hay(r"(analizar|investig|mejor|ajusta|compar|estimar los parametros|si se supone)", norm):
+    if inc.params.get("modelo") and _hay(r"(analizar|investig|mejor|ajusta|compar|estimar los parametros|si se supone|"
+                                         r"suponiendo|estimar|verificar|valid)", norm):
         return "transformado", "Pide probar un modelo linealizable: se ajusta la recta sobre las variables transformadas y se compara r²."
     if inc.params.get("origen") and not _hay(r"(intervalo|estimar con|prediccion)", norm):
         return "origen", "Pide el modelo con intercepto 0: b1 = Σxy / Σx²."
     # ensayo de la pendiente contra un valor
     pv = _pend_val(inc, an, norm, texto)
-    if pv is None and _hay(r"(afirmacion|confirman|lo que (dice|afirma)|es correct)", norm):
+    if pv is None and _hay(r"(afirmacion|confirman|lo que (dice|afirma|sostiene)|es correct|respald|avalan|tiene razon)", norm):
         pv = _pend_val(inc, an, normalizar(an.planteo), an.planteo)  # la afirmación está en el planteo
-    if pv and _hay(r"(se puede|puede|es correct|confirman|asegurar|afirmar|afirmacion|considerar)", norm + " " + normalizar(an.planteo)) \
+    if pv and _hay(r"(se puede|puede|es correct|confirman|asegurar|afirmar|afirmacion|considerar|respald|avalan|"
+                   r"tiene razon|sostiene)", norm + " " + normalizar(an.planteo)) \
             and not _hay(r"(estimar|intervalo)", norm):
         inc.params["beta10"], inc.params["tail"] = pv[0], pv[1]
         inc.razones.append(pv[2])
@@ -307,7 +314,7 @@ def clasificar(inc: Inciso, an: Analisis, norm: str) -> Tuple[str, str]:
     x0 = None
     if _hay(r"(pronostic|predic|estimar|estimador puntual|cual (es|sera) la|que (demanda|venta|valor)|limites|"
             r"intervalo|minim[ao]|maxim[ao])", norm) and not _hay(r"(hallar|calcular) la recta", norm):
-        if _hay(r"(ningun|no realizar|sin gast|nulo|igual a cero)", norm):
+        if _hay(r"(ningun|no realizar|sin gast|nulo|igual a cero|no se gasta nada|no se invierte nada|sin invertir)", norm):
             inc.params["x0"] = 0.0
             x0 = 0.0
         else:
@@ -446,9 +453,9 @@ def validacion(d, alpha, res, estado):
     estado["reg"] = reg
     res.resumen = f"r = {fmt(reg.r, 4)}; r² = {fmt(reg.r2, 4)}; tc = {fmt(e.t_c, 4)} vs {fmt(e.t_critico, 4)}: " + \
         ("RECHAZA H0 (hay relación)" if e.rechaza else "NO rechaza H0")
-    res.conclusion = ((f"Con un riesgo del {fmt(100 * alpha, 2)}% se puede asegurar que existe relación lineal entre las "
+    res.conclusion = ((f"Con α = {fmt(alpha, 4)}, se puede asegurar que existe relación lineal entre las "
                        f"variables" if e.rechaza else
-                       f"Con un riesgo del {fmt(100 * alpha, 2)}% no se puede asegurar que exista relación lineal entre las variables")
+                       f"Con α = {fmt(alpha, 4)}, no se puede asegurar que exista relación lineal entre las variables")
                       + f"; r = {fmt(reg.r, 4)} ({rg.validez_por_r2(reg.r2)}).")
 
 
@@ -578,7 +585,7 @@ def ensayo_coef(d, alpha, res, estado):
                      + ("se rechaza H0." if e.rechaza else "no se rechaza H0."))
     res.numeros += [reg.b1, bc, e.t_critico, e.t_c, reg.Sb1]
     res.resumen = f"b1 = {fmt(reg.b1, 4)} vs b1c = {fmt(bc, 4)}: " + ("RECHAZA H0" if e.rechaza else "NO rechaza H0")
-    res.conclusion = (f"Con un riesgo del {fmt(100 * alpha, 2)}% " + ("se puede" if e.rechaza else "no se puede") +
+    res.conclusion = (f"Con α = {fmt(alpha, 4)}, " + ("se puede" if e.rechaza else "no se puede") +
                       f" asegurar que {_coma(e.h1)} (por cada unidad de x, y cambia "
                       f"{'más' if tail == 'derecha' else 'menos'} que {fmt(b10, 4)}).")
 
