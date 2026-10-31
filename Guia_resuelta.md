@@ -2124,11 +2124,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Población finita** (N = 1.200): factor √((N-n)/N) = 0,9849 → σ·factor = 7,8791. (El apunte y el profesor usan √((N-n)/(N-1)) = 0,9853 y aceptan N: «el uno mucho no hace»; la app usa N porque así reproduce la guía.)
+- **Población finita** (N = 1.200): factor √((N-n)/N) = 0,9849 → σ·factor = 7,8791. (Es el factor del apunte y del profesor; «algunos autores ponen sobre N − 1. El uno mucho no hace»: daría 0,9853.)
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
-• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor de corrección √((N-n)/(N-1)) (la app usa √((N-n)/N), que reproduce la guía; el profesor acepta los dos: «el uno mucho no hace»).  
+• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no hace»).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
 - **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6449·σ/√n = 45 + 1,6449·7,8791/√36 = 47,16. Si x̄ > 47,16 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 47,16; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 36 unidades y se calcula su media x̄. Si x̄ > 47,16, se rechaza H0 → se puede asegurar que μ > 45. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 45.
@@ -2145,7 +2145,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
-• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor de corrección √((N-n)/(N-1)) (la app usa √((N-n)/N), que reproduce la guía; el profesor acepta los dos: «el uno mucho no hace»).  
+• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no hace»).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = Z(0,95) = 1,6449.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n · √((N-n)/N) = 47 ∓ 1,6449·8/√36 · √((N-n)/N) = 47 ∓ 2,16.
@@ -2160,7 +2160,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
-• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor de corrección √((N-n)/(N-1)) (la app usa √((N-n)/N), que reproduce la guía; el profesor acepta los dos: «el uno mucho no hace»).  
+• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no hace»).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = Z(0,95) = 1,6449.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n · √((N-n)/N) = 47 ∓ 1,6449·8/√36 · √((N-n)/N) = 47 ∓ 2,16.
@@ -2176,7 +2176,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
-• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor de corrección √((N-n)/(N-1)) (la app usa √((N-n)/N), que reproduce la guía; el profesor acepta los dos: «el uno mucho no hace»).  
+• Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no hace»).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • El tamaño de muestra sale de despejar n del error e = (fractil)·σ/√n.
 - **Error buscado**: e = e_actual·(1 - 0,7) = 2,16·0,3 = 0,648.
@@ -2259,11 +2259,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Población finita** (N = 1.400): factor √((N-n)/N) = 0,9968 → σ·factor = 0,1495. (El apunte y el profesor usan √((N-n)/(N-1)) = 0,9971 y aceptan N: «el uno mucho no hace»; la app usa N porque así reproduce la guía.)
+- **Población finita** (N = 1.400): factor √((N-n)/N) = 0,9968 → σ·factor = 0,1495. (Es el factor del apunte y del profesor; «algunos autores ponen sobre N − 1. El uno mucho no hace»: daría 0,9971.)
 - **3 · Estadístico de prueba**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student, ν = número de grados de libertad = 8. t(1-α) = 1,3968.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
-• Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».) Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor de corrección √((N-n)/(N-1)) (la app usa √((N-n)/N), que reproduce la guía; el profesor acepta los dos: «el uno mucho no hace»).
+• Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».) Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no hace»).
 - **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,3968·S/√n = 1 + 1,3968·0,1495/√9 = 1,0696. Si x̄ > 1,0696 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,07; la decisión se toma con el valor exacto.
 - **5 · Regla de decisión (RD)**: Se toma una muestra de n = 9 unidades y se calcula su media x̄. Si x̄ > 1,0696, se rechaza H0 → se puede asegurar que μ > 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 1.
 - **6 · Cálculos y decisión**: x̄ = 1,1 → cae en la zona de rechazo.
@@ -2279,7 +2279,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
-• Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».) Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor de corrección √((N-n)/(N-1)) (la app usa √((N-n)/N), que reproduce la guía; el profesor acepta los dos: «el uno mucho no hace»).
+• Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».) Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no hace»).
 - **Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student con ν = número de grados de libertad = n-1 = 8. t(0,975; 8) = 2,306.
 - **Límites**: A;B = x̄ ∓ t·S/√n · √((N-n)/N) = 1,1 ∓ 2,306·0,15/√9 · √((N-n)/N) = 1,1 ∓ 0,1149.
 
@@ -2293,7 +2293,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
-• Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».) Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor de corrección √((N-n)/(N-1)) (la app usa √((N-n)/N), que reproduce la guía; el profesor acepta los dos: «el uno mucho no hace»).  
+• Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».) Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no hace»).  
 • El tamaño de muestra sale de despejar n del error e = (fractil)·σ/√n (con t se itera porque ν depende de n).
 - **Fórmula** (σ desconocido): n = (t(1-α/2; n-1)·S/e)². Como t depende de n se itera: [886, 867, 867].
 - **Población finita**: n∞ = 867; n = N·n∞/(N + n∞) = 1.400·867/(1.400 + 867) → n = 536.
@@ -7099,7 +7099,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **— Modelo Uniforme discreto —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Uniforme discreto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
@@ -7148,7 +7148,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **— Modelo Uniforme discreto —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Uniforme discreto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
@@ -7195,7 +7195,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **— Modelo Uniforme discreto —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Uniforme discreto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
@@ -7288,33 +7288,35 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo Normal: se compara χ² calculado contra el crítico.
 
-> ⚠️ Se amalgamaron clases con Fe < 5: de 7 a 6 clases efectivas.
+> ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 6 clases efectivas.
 
 - **— Modelo Normal —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Normal  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe |
 |---|---|---|---|
-| 20 a 30 | 6 | 0,0253 | 15,187 |
+| -∞ a 20 | 0 | 0,0015 | 0,921 |
+| 20 a 30 | 6 | 0,0238 | 14,265 |
 | 30 a 40 | 90 | 0,146 | 87,625 |
 | 40 a 50 | 232 | 0,3514 | 210,824 |
 | 50 a 60 | 192 | 0,3333 | 200,006 |
 | 60 a 70 | 66 | 0,1246 | 74,784 |
 | 70 a 80 | 12 | 0,0182 | 10,941 |
-| 80 a 90 | 2 | 0,0011 | 0,633 |
+| 80 a 90 | 2 | 0,001 | 0,619 |
+| 90 a ∞ | 0 | 0 | 0,013 |
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
-| 20 a 30 | 6 | 0,0253 | 15,187 | 5,5572 |
+| -∞ a 30 | 6 | 0,0253 | 15,187 | 5,5572 |
 | 30 a 40 | 90 | 0,146 | 87,625 | 0,0644 |
 | 40 a 50 | 232 | 0,3514 | 210,824 | 2,1269 |
 | 50 a 60 | 192 | 0,3333 | 200,006 | 0,3205 |
 | 60 a 70 | 66 | 0,1246 | 74,784 | 1,0318 |
-| 70 a 90 | 14 | 0,0193 | 11,573 | 0,5088 |
+| 70 a ∞ | 14 | 0,0193 | 11,573 | 0,5088 |
 | **Total** | **600** | **1** | **600** | **χ² = 9,6097** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 9,6097; ν = clases efectivas - 1 - p = 6 - 1 - 2 = 3; χ²(1-α; ν) = 7,8147.
@@ -7358,44 +7360,47 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo Gumbel del mínimo: se compara χ² calculado contra el crítico.
 
-> ⚠️ Se amalgamaron clases con Fe < 5: de 7 a 6 clases efectivas.
+> ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 7 clases efectivas.
 
 - **— Modelo Gumbel del mínimo —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Gumbel del mínimo  vs  H1: no lo sigue.  α = 0,01.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe |
 |---|---|---|---|
-| 0 a 15 | 8 | 0,1054 | 15,071 |
+| -∞ a 0 | 0 | 0,0492 | 7,042 |
+| 0 a 15 | 8 | 0,0561 | 8,029 |
 | 15 a 30 | 40 | 0,1124 | 16,07 |
 | 30 a 45 | 30 | 0,2004 | 28,662 |
 | 45 a 60 | 25 | 0,2789 | 39,887 |
 | 60 a 75 | 18 | 0,2311 | 33,045 |
 | 75 a 90 | 15 | 0,0688 | 9,836 |
 | 90 a 105 | 7 | 0,003 | 0,429 |
+| 105 a ∞ | 0 | 0 | 0 |
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
-| 0 a 15 | 8 | 0,1054 | 15,071 | 3,3178 |
+| -∞ a 0 | 0 | 0,0492 | 7,042 | 7,0425 |
+| 0 a 15 | 8 | 0,0561 | 8,029 | 0,0001 |
 | 15 a 30 | 40 | 0,1124 | 16,07 | 35,6352 |
 | 30 a 45 | 30 | 0,2004 | 28,662 | 0,0625 |
 | 45 a 60 | 25 | 0,2789 | 39,887 | 5,5562 |
 | 60 a 75 | 18 | 0,2311 | 33,045 | 6,85 |
-| 75 a 105 | 22 | 0,0718 | 10,265 | 13,4167 |
-| **Total** | **143** | **1** | **143** | **χ² = 64,8385** |
+| 75 a ∞ | 22 | 0,0718 | 10,265 | 13,4167 |
+| **Total** | **143** | **1** | **143** | **χ² = 68,5632** |
 
-- **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 64,8385; ν = clases efectivas - 1 - p = 6 - 1 - 2 = 3; χ²(1-α; ν) = 11,3449.
+- **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 68,5632; ν = clases efectivas - 1 - p = 7 - 1 - 2 = 4; χ²(1-α; ν) = 13,2767.
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
 • La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
 - **Estimación** (marcas de clase): x̄ = 45,6818, S = 24,3257.
 - **Parámetros del modelo**: β = 18,9667 (estimado), θ (modo) = 56,6297 (estimado).
-- **4 · Condición de rechazo (CR)**: si χ² > 11,3449 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 11,3449, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
-- **6 · Cálculos y decisión**: χ² = 64,8385 > 11,3449 ⇒ se rechaza H0: la variable NO sigue el modelo Gumbel del mínimo.
+- **4 · Condición de rechazo (CR)**: si χ² > 13,2767 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 13,2767, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
+- **6 · Cálculos y decisión**: χ² = 68,5632 > 13,2767 ⇒ se rechaza H0: la variable NO sigue el modelo Gumbel del mínimo.
 
 **Conclusión:** Con α = 0,01 se rechaza H0: se puede asegurar que la variable no sigue el modelo Gumbel del mínimo.
 
@@ -7405,27 +7410,57 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo Gumbel del máximo, Weibull: se compara χ² calculado contra el crítico.
 
+> ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 7 clases efectivas.
+> ⚠️ Se amalgamaron clases con Fe < 5: de 8 a 7 clases efectivas.
+
 - **— Modelo Gumbel del máximo —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Gumbel del máximo  vs  H1: no lo sigue.  α = 0,01.
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Weibull  vs  H1: no lo sigue.  α = 0,01.
 - **Estimación** (marcas de clase): x̄ = 45,6818, S = 24,3257.
 - **Parámetros del modelo**: w (forma) = 1,9592 (estimado), β = 51,5243 (estimado).
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
+
+| Clase | Fo | P | Fe |
+|---|---|---|---|
+| -∞ a 0 | 0 | 0,0019 | 0,278 |
+| 0 a 15 | 8 | 0,057 | 8,156 |
+| 15 a 30 | 40 | 0,2181 | 31,186 |
+| 30 a 45 | 30 | 0,2817 | 40,284 |
+| 45 a 60 | 25 | 0,2093 | 29,925 |
+| 60 a 75 | 18 | 0,1192 | 17,041 |
+| 75 a 90 | 15 | 0,06 | 8,576 |
+| 90 a 105 | 7 | 0,0285 | 4,077 |
+| 105 a ∞ | 0 | 0,0243 | 3,476 |
+
+- **Amalgamado** (Fe < 5 se une con la clase vecina):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
-| 0 a 15 | 8 | 0,059 | 8,435 | 0,0224 |
+| -∞ a 15 | 8 | 0,059 | 8,435 | 0,0224 |
 | 15 a 30 | 40 | 0,2181 | 31,186 | 2,4913 |
 | 30 a 45 | 30 | 0,2817 | 40,284 | 2,6255 |
 | 45 a 60 | 25 | 0,2093 | 29,925 | 0,8105 |
 | 60 a 75 | 18 | 0,1192 | 17,041 | 0,0539 |
 | 75 a 90 | 15 | 0,06 | 8,576 | 4,8127 |
-| 90 a 105 | 7 | 0,0528 | 7,553 | 0,0405 |
+| 90 a ∞ | 7 | 0,0528 | 7,553 | 0,0405 |
 | **Total** | **143** | **1** | **143** | **χ² = 10,8569** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 10,8569; ν = clases efectivas - 1 - p = 7 - 1 - 2 = 4; χ²(1-α; ν) = 13,2767.
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
+
+| Clase | Fo | P | Fe |
+|---|---|---|---|
+| 0 a 15 | 8 | 0,0853 | 12,193 |
+| 15 a 30 | 40 | 0,2076 | 29,69 |
+| 30 a 45 | 30 | 0,2427 | 34,707 |
+| 45 a 60 | 25 | 0,2046 | 29,252 |
+| 60 a 75 | 18 | 0,1357 | 19,412 |
+| 75 a 90 | 15 | 0,0734 | 10,501 |
+| 90 a 105 | 7 | 0,033 | 4,714 |
+| 105 a ∞ | 0 | 0,0177 | 2,531 |
+
+- **Amalgamado** (Fe < 5 se une con la clase vecina):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
@@ -7435,7 +7470,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 45 a 60 | 25 | 0,2046 | 29,252 | 0,618 |
 | 60 a 75 | 18 | 0,1357 | 19,412 | 0,1027 |
 | 75 a 90 | 15 | 0,0734 | 10,501 | 1,9271 |
-| 90 a 105 | 7 | 0,0507 | 7,245 | 0,0083 |
+| 90 a ∞ | 7 | 0,0507 | 7,245 | 0,0083 |
 | **Total** | **143** | **1** | **143** | **χ² = 8,3167** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 8,3167; ν = clases efectivas - 1 - p = 7 - 1 - 2 = 4; χ²(1-α; ν) = 13,2767.
@@ -7491,7 +7526,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **— Modelo Poisson —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Poisson  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe |
 |---|---|---|---|
@@ -7564,12 +7599,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo Log-Normal: se compara χ² calculado contra el crítico.
 
-> ⚠️ Se amalgamaron clases con Fe < 5: de 7 a 6 clases efectivas.
+> ⚠️ Se amalgamaron clases con Fe < 5: de 8 a 6 clases efectivas.
 
 - **— Modelo Log-Normal —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Log-Normal  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe |
 |---|---|---|---|
@@ -7579,7 +7614,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 300 a 400 | 12 | 0,1052 | 10,515 |
 | 400 a 500 | 4 | 0,051 | 5,098 |
 | 500 a 600 | 2 | 0,0257 | 2,566 |
-| 600 a 1400 | 2 | 0,0316 | 3,159 |
+| 600 a 1400 | 2 | 0,0308 | 3,079 |
+| 1400 a ∞ | 0 | 0,0008 | 0,08 |
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
@@ -7590,7 +7626,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 200 a 300 | 28 | 0,218 | 21,802 | 1,7621 |
 | 300 a 400 | 12 | 0,1052 | 10,515 | 0,2096 |
 | 400 a 500 | 4 | 0,051 | 5,098 | 0,2363 |
-| 500 a 1400 | 4 | 0,0572 | 5,725 | 0,5197 |
+| 500 a ∞ | 4 | 0,0572 | 5,725 | 0,5197 |
 | **Total** | **100** | **1** | **100** | **χ² = 3,2125** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 3,2125; ν = clases efectivas - 1 - p = 6 - 1 - 2 = 3; χ²(1-α; ν) = 7,8147.
@@ -7636,10 +7672,28 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo Pareto: se compara χ² calculado contra el crítico.
 
+> ⚠️ Se amalgamaron clases con Fe < 5: de 11 a 10 clases efectivas.
+
 - **— Modelo Pareto —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Pareto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
+
+| Clase | Fo | P | Fe |
+|---|---|---|---|
+| 400 a 500 | 59 | 0,3241 | 69,361 |
+| 500 a 600 | 34 | 0,1851 | 39,617 |
+| 600 a 700 | 26 | 0,1164 | 24,9 |
+| 700 a 800 | 20 | 0,0782 | 16,743 |
+| 800 a 1000 | 21 | 0,096 | 20,542 |
+| 1000 a 1200 | 15 | 0,0548 | 11,733 |
+| 1200 a 1500 | 11 | 0,0471 | 10,081 |
+| 1500 a 2000 | 10 | 0,039 | 8,336 |
+| 2000 a 3000 | 12 | 0,0302 | 6,461 |
+| 3000 a 5000 | 6 | 0,0172 | 3,687 |
+| 5000 a ∞ | 0 | 0,0119 | 2,54 |
+
+- **Amalgamado** (Fe < 5 se une con la clase vecina):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
@@ -7652,7 +7706,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 1200 a 1500 | 11 | 0,0471 | 10,081 | 0,0837 |
 | 1500 a 2000 | 10 | 0,039 | 8,336 | 0,3322 |
 | 2000 a 3000 | 12 | 0,0302 | 6,461 | 4,7492 |
-| 3000 a 5000 | 6 | 0,0291 | 6,226 | 0,0082 |
+| 3000 a ∞ | 6 | 0,0291 | 6,226 | 0,0082 |
 | **Total** | **214** | **1** | **214** | **χ² = 9,1192** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 9,1192; ν = clases efectivas - 1 - p = 10 - 1 - 2 = 7; χ²(1-α; ν) = 14,0671.
@@ -7696,10 +7750,26 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo Weibull: se compara χ² calculado contra el crítico.
 
+> ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 8 clases efectivas.
+
 - **— Modelo Weibull —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Weibull  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
+
+| Clase | Fo | P | Fe |
+|---|---|---|---|
+| 0 a 40 | 38 | 0,0758 | 37,913 |
+| 40 a 80 | 105 | 0,2028 | 101,404 |
+| 80 a 120 | 120 | 0,249 | 124,501 |
+| 120 a 160 | 96 | 0,2138 | 106,921 |
+| 160 a 200 | 80 | 0,1406 | 70,29 |
+| 200 a 240 | 43 | 0,0732 | 36,591 |
+| 240 a 280 | 15 | 0,0307 | 15,327 |
+| 280 a 320 | 3 | 0,0104 | 5,21 |
+| 320 a ∞ | 0 | 0,0037 | 1,843 |
+
+- **Amalgamado** (Fe < 5 se une con la clase vecina):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
@@ -7710,7 +7780,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 160 a 200 | 80 | 0,1406 | 70,29 | 1,3414 |
 | 200 a 240 | 43 | 0,0732 | 36,591 | 1,1226 |
 | 240 a 280 | 15 | 0,0307 | 15,327 | 0,007 |
-| 280 a 320 | 3 | 0,0141 | 7,053 | 2,3293 |
+| 280 a ∞ | 3 | 0,0141 | 7,053 | 2,3293 |
 | **Total** | **500** | **1** | **500** | **χ² = 6,2061** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 6,2061; ν = clases efectivas - 1 - p = 8 - 1 - 2 = 5; χ²(1-α; ν) = 11,0705.
@@ -7787,16 +7857,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El enunciado no fija el riesgo α: se eligió α = 0,05. En el examen hay que elegirlo y JUSTIFICARLO antes de ver la muestra (p. ej. «0,05, no porque sea estándar, sino porque el perito tiene que ser imparcial»); una vez fijado, α no se toca. El valor a posteriori α* se muestra solo como dato: no se decide con él.
 > ⚠️ los parámetros dados se dividieron por 1000 (la tabla está en otra escala)
-> ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 6 clases efectivas.
+> ⚠️ Se amalgamaron clases con Fe < 5: de 11 a 6 clases efectivas.
 
 - **— Modelo Normal —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Normal con μ = 20 (dado), σ = 2,5 (dado)  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe |
 |---|---|---|---|
-| 10 a 12 | 2 | 0,0007 | 0,078 |
+| -∞ a 10 | 0 | 0 | 0,004 |
+| 10 a 12 | 2 | 0,0007 | 0,074 |
 | 12 a 14 | 6 | 0,0075 | 0,849 |
 | 14 a 16 | 13 | 0,0466 | 5,266 |
 | 16 a 18 | 18 | 0,1571 | 17,747 |
@@ -7804,18 +7875,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 20 a 22 | 22 | 0,2881 | 32,56 |
 | 22 a 24 | 16 | 0,1571 | 17,747 |
 | 24 a 26 | 5 | 0,0466 | 5,266 |
-| 26 a 28 | 1 | 0,0082 | 0,926 |
+| 26 a 28 | 1 | 0,0075 | 0,849 |
+| 28 a ∞ | 0 | 0,0007 | 0,078 |
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
-| 10 a 16 | 21 | 0,0548 | 6,192 | 35,4096 |
+| -∞ a 16 | 21 | 0,0548 | 6,192 | 35,4096 |
 | 16 a 18 | 18 | 0,1571 | 17,747 | 0,0036 |
 | 18 a 20 | 30 | 0,2881 | 32,56 | 0,2013 |
 | 20 a 22 | 22 | 0,2881 | 32,56 | 3,425 |
 | 22 a 24 | 16 | 0,1571 | 17,747 | 0,172 |
-| 24 a 28 | 6 | 0,0548 | 6,192 | 0,006 |
+| 24 a ∞ | 6 | 0,0548 | 6,192 | 0,006 |
 | **Total** | **113** | **1** | **113** | **χ² = 39,2176** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 39,2176; ν = clases efectivas - 1 - p = 6 - 1 - 0 = 5; χ²(1-α; ν) = 11,0705.
@@ -7839,16 +7911,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Bondad de ajuste χ² al modelo Normal: se compara χ² calculado contra el crítico.
 
 > ⚠️ El enunciado no fija el riesgo α: se eligió α = 0,05. En el examen hay que elegirlo y JUSTIFICARLO antes de ver la muestra (p. ej. «0,05, no porque sea estándar, sino porque el perito tiene que ser imparcial»); una vez fijado, α no se toca. El valor a posteriori α* se muestra solo como dato: no se decide con él.
-> ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 7 clases efectivas.
+> ⚠️ Se amalgamaron clases con Fe < 5: de 11 a 7 clases efectivas.
 
 - **— Modelo Normal —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Normal  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
-- **Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde del dominio):
+- **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe |
 |---|---|---|---|
-| 10 a 12 | 2 | 0,016 | 1,808 |
+| -∞ a 10 | 0 | 0,003 | 0,334 |
+| 10 a 12 | 2 | 0,013 | 1,474 |
 | 12 a 14 | 6 | 0,0462 | 5,224 |
 | 14 a 16 | 13 | 0,1144 | 12,928 |
 | 16 a 18 | 18 | 0,1978 | 22,349 |
@@ -7856,19 +7929,20 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | 20 a 22 | 22 | 0,2016 | 22,778 |
 | 22 a 24 | 16 | 0,1189 | 13,43 |
 | 24 a 26 | 5 | 0,0489 | 5,531 |
-| 26 a 28 | 1 | 0,0173 | 1,959 |
+| 26 a 28 | 1 | 0,0141 | 1,591 |
+| 28 a ∞ | 0 | 0,0033 | 0,369 |
 
 - **Amalgamado** (Fe < 5 se une con la clase vecina):
 
 | Clase | Fo | P | Fe | (Fo - Fe)²/Fe |
 |---|---|---|---|---|
-| 10 a 14 | 8 | 0,0622 | 7,032 | 0,1331 |
+| -∞ a 14 | 8 | 0,0622 | 7,032 | 0,1331 |
 | 14 a 16 | 13 | 0,1144 | 12,928 | 0,0004 |
 | 16 a 18 | 18 | 0,1978 | 22,349 | 0,8461 |
 | 18 a 20 | 30 | 0,2389 | 26,992 | 0,3353 |
 | 20 a 22 | 22 | 0,2016 | 22,778 | 0,0266 |
 | 22 a 24 | 16 | 0,1189 | 13,43 | 0,4917 |
-| 24 a 28 | 6 | 0,0663 | 7,491 | 0,2967 |
+| 24 a ∞ | 6 | 0,0663 | 7,491 | 0,2967 |
 | **Total** | **113** | **1** | **113** | **χ² = 2,13** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 2,13; ν = clases efectivas - 1 - p = 7 - 1 - 2 = 4; χ²(1-α; ν) = 9,4877.
