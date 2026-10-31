@@ -10,7 +10,8 @@ El modelo se usa para lo que a las reglas les cuesta:
 
 | Dónde | Qué hace la IA |
 |---|---|
-| **Interpretar un enunciado** → modo **⚖️ Reglas y IA por separado, y se comparan** (recomendado) | Dos lecturas independientes: las reglas resuelven al instante y la IA (`asistente/simple.py`) primero **razona el planteo en palabras**, sin formulario ni categorías, y después se traduce a los campos del solver con ejemplos de la guía. Se comparan los **resultados** de los dos por inciso: ✅ iguales, ❌ distintos, 🤖 solo la IA o 📐 solo las reglas. Si no coinciden ves los dos planteos y elegís con un botón, o le **escribís a la IA qué leyó mal** y rehace su planteo (`asistente/comparar.py`). En una prueba rápida, las reglas acertaron 17/17 en ejercicios normales y la IA 2/17; en trampas de redacción, la IA 8/16 y las reglas 3/16: se equivocan en lugares distintos. ~1-2 min. |
+| **Interpretar un enunciado** → modo **🗳️ Consenso** (recomendado para el examen) | Tres lecturas del mismo enunciado: las **reglas**, la **IA con ejemplos** (`interpretar.pedir_ia`) y la **IA razonada** (`simple.plantear`). Las cuentas sobre tablas y listas las pone siempre el programa (`interpretar.completar_con_reglas`). Por inciso se vota (`asistente/consenso.py`): ✅ consenso si al menos dos dan el mismo planteo y los mismos números; ⚠️ sin consenso → elegís la lectura con un botón. En 6 exámenes reales: a ciegas acertó entre 2/5 y 11/12 según el examen; después de corregir, todos. Un consenso puede estar equivocado: controlar el planteo con `estudio/GUIA_CONTROL.md`. Sin «pensar», 15-35 s por problema. |
+| **Interpretar un enunciado** → modo **⚖️ Reglas y IA por separado, y se comparan** | Dos lecturas independientes: las reglas resuelven al instante y la IA (`asistente/simple.py`) primero **razona el planteo en palabras**, sin formulario ni categorías, y después se traduce a los campos del solver con ejemplos de la guía. Se comparan los **resultados** de los dos por inciso: ✅ iguales, ❌ distintos, 🤖 solo la IA o 📐 solo las reglas. Si no coinciden ves los dos planteos y elegís con un botón, o le **escribís a la IA qué leyó mal** y rehace su planteo (`asistente/comparar.py`). En una prueba rápida, las reglas acertaron 17/17 en ejercicios normales y la IA 2/17; en trampas de redacción, la IA 8/16 y las reglas 3/16: se equivocan en lugares distintos. ~1-2 min. |
 | **Interpretar un enunciado** → modo **🛡️ Solver + revisión IA** | Las reglas arman el planteo y el solver calcula; después la IA lo **audita**: (1) busca números del enunciado que el planteo no usa (sin IA), (2) lee el enunciado **a ciegas**, sin ver lo de las reglas, y compara campo por campo —la hipótesis se compara entera, en palabras—, y (3) donde no coinciden, un árbitro decide con las opciones en orden neutro y una **cita textual** del enunciado, que se verifica. Si el planteo de las reglas no se podía resolver, lo que la IA respalda con cita se aplica (🛠️); si ya se resolvía, **no lo pisa**: queda como sugerencia 💡 que aplicás con un clic (en la guía, aplicarlas solas rompía 35 de 536 valores). Lo dudoso queda ⚠️. ~30 s. |
 | **Interpretar un enunciado** → modo **🧩 Solver, y la IA completa lo que no entiende** | Primero corren las reglas. Solo si fallan (tema no identificado, un inciso sin clasificar, datos que faltan) se consulta a la IA, y su propuesta se aplica **únicamente si hace que el solver resuelva más incisos sin romper ninguno**. No detecta un planteo equivocado que igual se pueda calcular: para eso está la revisión. |
 | **Interpretar un enunciado** → modo **🤖 La IA arma el planteo** | La IA arma el planteo sola (sin las reglas) y el solver calcula. Sirve para comparar. |
@@ -66,6 +67,14 @@ puede tardar un minuto o más por pedido.
 
 ## Antes del examen
 
+0. **Medí el consenso con exámenes reales** (`datos/examenes_reales.json`, con la referencia de cada inciso):
+
+   ```bash
+   python herramientas/evaluar_examenes.py        # solo reglas, instantáneo
+   python herramientas/evaluar_examenes.py --ia   # consenso (Ollama abierto)
+   ```
+
+   Un examen nuevo se agrega al banco y se mide **antes** de corregir nada (prueba a ciegas).
 1. **Medí el modelo contra la guía** (con Ollama abierto):
 
    ```bash
@@ -89,6 +98,8 @@ asistente/
   cliente.py      API local de Ollama (urllib): chat, streaming, salida JSON con esquema, modo razonamiento
   esquema.py      JSON Schema del planteo (mismas claves que interprete/modelo.py) y su validación
   interpretar.py  híbrido reglas + IA (con ejercicios parecidos de la guía como ejemplos)
+  simple.py       IA que razona el planteo en palabras y después lo traduce a campos
+  consenso.py     vota reglas + IA con ejemplos + IA razonada, por inciso
   revisar.py      solver + revisión: lectura a ciegas, arbitraje con cita, hipótesis en palabras
   numeros.py      números del enunciado que el planteo no usa (sin IA)
   contexto.py     búsqueda TF-IDF en los apuntes .md

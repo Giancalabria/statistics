@@ -326,8 +326,9 @@ def _magnitud(t, an: Analisis, solo_libres=True) -> Optional[Tuple[str, float, N
         if _hay(r"(riesgo|confianza|seguridad|probabilidad)[^0-9]{0,12}$", a):
             continue
         if n.pct:
-            if _hay(r"(en|un|del|de|el)\s*$", a) and _hay(P_MAS_V + "|" + P_MENOS_V + r"|al menos|como minimo|por lo menos",
-                                                       a[-40:] + " " + d[:30]):
+            # 'una diferencia de más del 1% en la performance de A respecto de B' (2° parcial 10/11/25)
+            if _hay(r"(en|un|del|de|el)\s*$", a) and _hay(P_MAS_V + "|" + P_MENOS_V + r"|al menos|como minimo|por lo menos|"
+                                                       r"diferencia de mas", a[-40:] + " " + d[:30]):
                 return "pct", n.fraccion, n
             continue
         if _hay(r"(\ben|\bde|superior en|mayor en|minima de|por mas de|mas de|en mas de|"

@@ -8430,11 +8430,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Tema detectado por la app: Regresión y correlación simple (TEMA VII).*
 
-#### a) Validar el modelo (r, r², ensayo de β1 = 0) ✅
+#### a) Recta de mínimos cuadrados (b0, b1) ✅
 
-*Qué pide:* Validar el modelo: r, r² y ensayo de existencia (H0: β1 = 0, |t| > t(1-α; n-2)).
-
-> ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
+*Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
 - **Sumatorias**: n = 12; Σx = 72; Σx² = 504; Σy = 6.185; Σy² = 3.300.627; Σxy = 39.600.
 - **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 2.490/72 = 34,5833; b0 = ȳ - b1·x̄ = 515,4167 - 34,5833·6 = 307,9167.
@@ -8444,7 +8442,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 5,6831; t(1-α; ν = 10) = 1,8125. |tc| > t ⇒ se rechaza H0: existe relación lineal.
 - **2do criterio (fuerza de la relación)**: r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
 
-**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre las variables; r = 0,8738 (r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
+**Conclusión:** b1 = 34,5833: por cada unidad adicional de «Cantidad de exhibidores», «Ventas semanales (en unidades)» aumenta en promedio 34,5833 unidades. b0 = 307,9167: valor estimado de «Ventas semanales (en unidades)» cuando «Cantidad de exhibidores» vale 0 (ver si tiene sentido en el problema). Existe relación lineal (r = 0,8738; r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
 
 **Respuesta de la guía:** ŷ = 307,916̄ + 34,583̄·x, existe relación lineal entre variables, r = 0,8738 (se puede considerar que la relación es fuerte) o sea que el modelo se puede considerar válido para lo que se está empleando. El valor de b1 indica que por cada anaquel adicional en la exhibición del café las ventas semanales se incrementarán en aproximadamente 34,58 unidades, el valor de b0 indica que si no se exhibiera el café las ventas semanales serían aproximadamente de 307,92 unidades (esto es ridículo ya que, si el café no se exhibe, el mismo no se vende). Este es otro ejemplo de un modelo con intercepto igual a 0.
 
@@ -8814,11 +8812,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Tema detectado por la app: Regresión y correlación simple (TEMA VII).*
 
-#### a) Validar el modelo (r, r², ensayo de β1 = 0) ✅
+#### a) Recta de mínimos cuadrados (b0, b1) ✅
 
-*Qué pide:* Validar el modelo: r, r² y ensayo de existencia (H0: β1 = 0, |t| > t(1-α; n-2)).
-
-> ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
+*Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
 - **Sumatorias**: n = 12; Σx = 228; Σx² = 5.364; Σy = 595; Σy² = 31.443; Σxy = 9.943.
 - **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -1.362/1.032 = -1,3198; b0 = ȳ - b1·x̄ = 49,5833 - -1,3198·19 = 74,6589.
@@ -8828,7 +8824,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = -11,1963; t(1-α; ν = 10) = 1,8125. |tc| > t ⇒ se rechaza H0: existe relación lineal.
 - **2do criterio (fuerza de la relación)**: r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación.
 
-**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre las variables; r = -0,9624 (r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación).
+**Conclusión:** b1 = -1,3198: por cada unidad adicional de «Deformación (en mm)», «Dureza Brinell (en kg/mm²)» disminuye en promedio 1,3198 unidades. b0 = 74,6589: valor estimado de «Dureza Brinell (en kg/mm²)» cuando «Deformación (en mm)» vale 0 (ver si tiene sentido en el problema). Existe relación lineal (r = -0,9624; r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación).
 
 **Respuesta de la guía:** ŷ = 74,6589 − 1,3198·x; S = 3,7867; Sb1 = 0,1179; r = −0,9624; r² = 0,9261. H0) ρ = 0 (β1 = 0): t_obs = −11,1963 (|t_obs| = 11,1963) vs t(0,95;10) = 1,8125: se rechaza; existe relación lineal fuerte y el modelo es válido. b1: por cada mm adicional de deformación la dureza se reduce en promedio 1,3198 kg/mm²; b0: con deformación nula la dureza sería 74,6589 kg/mm².
 
@@ -8962,11 +8958,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Tema detectado por la app: Regresión y correlación simple (TEMA VII).*
 
-#### a) Validar el modelo (r, r², ensayo de β1 = 0) ✅
+#### a) Recta de mínimos cuadrados (b0, b1) ✅
 
-*Qué pide:* Validar el modelo: r, r² y ensayo de existencia (H0: β1 = 0, |t| > t(1-α; n-2)).
-
-> ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
+*Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
 - **Sumatorias**: n = 18; Σx = 659; Σx² = 28.967,5; Σy = 289,2; Σy² = 5.166,36; Σxy = 9.165,95.
 - **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -1.421,9833/4.840,7778 = -0,2938; b0 = ȳ - b1·x̄ = 16,0667 - -0,2938·36,6111 = 26,8212.
@@ -8976,7 +8970,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = -8,0879; t(1-α; ν = 16) = 1,7459. |tc| > t ⇒ se rechaza H0: existe relación lineal.
 - **2do criterio (fuerza de la relación)**: r² ≥ 0,8: válido para procesos físicos e industriales.
 
-**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre las variables; r = -0,8964 (r² ≥ 0,8: válido para procesos físicos e industriales).
+**Conclusión:** b1 = -0,2938: por cada unidad adicional de «X = Carbonatación (en mm)», «Y = Resistencia al quiebre (en MPa)» disminuye en promedio 0,2938 unidades. b0 = 26,8212: valor estimado de «Y = Resistencia al quiebre (en MPa)» cuando «X = Carbonatación (en mm)» vale 0 (ver si tiene sentido en el problema). Existe relación lineal (r = -0,8964; r² ≥ 0,8: válido para procesos físicos e industriales).
 
 **Respuesta de la guía:** ŷ = 26,8212 − 0,2938·x, existe relación lineal entre variables, r = 0,8964 (se puede considerar que la relación es fuerte) o sea que el modelo se puede considerar válido para lo que se está empleando. El valor de b1 indica que por cada mm de penetración en el hormigón, la resistencia al quiebre disminuye en aproximadamente 0,2937 Mpa, el valor de b0 indica que, si no se hubiera penetración en el hormigón, la resistencia al quiebre sería aproximadamente de 26,8212 Mpa.
 

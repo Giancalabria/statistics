@@ -182,7 +182,8 @@ def _corto(nombre: str, i: int) -> str:
 
 RE_CONF = re.compile(r"(\d+(?:,\d+)?)\s*%\s*(de )?(confianza|seguridad|certeza)|"
                      r"(confianza|prediccion|limites?|intervalo|riesgo|significacion)[^0-9.;]{0,20}?(del|de)\s*(\d+(?:,\d+)?)\s*%|"
-                     r"probabilidad de\s*(0,\d+)|riesgo (del|de)\s*(\d+(?:,\d+)?)\s*%")
+                     r"probabilidad de\s*(0,\d+)|riesgo (del|de)\s*(\d+(?:,\d+)?)\s*%|"
+                     r"(\d+(?:,\d+)?)\s*%\s*de (riesgo|significacion)")   # 'para un 5% de riesgo' (final 15/12/25)
 
 
 def _alpha_inciso(texto: str) -> Optional[Tuple[float, Tuple[int, int]]]:
@@ -197,7 +198,9 @@ def _alpha_inciso(texto: str) -> Optional[Tuple[float, Tuple[int, int]]]:
         return (v if _hay(r"riesgo|significacion", m.group(4)) else 1 - v), m.span()
     if m.group(7):
         return float(m.group(7).replace(",", ".")), m.span()
-    return float(m.group(9).replace(",", ".")) / 100, m.span()
+    if m.group(9):
+        return float(m.group(9).replace(",", ".")) / 100, m.span()
+    return float(m.group(10).replace(",", ".")) / 100, m.span()
 
 
 def _numeros_libres(texto: str, excluir: List[Tuple[int, int]]) -> List[Numero]:
@@ -222,6 +225,20 @@ def _x0(inc_texto: str, excluir) -> Optional[Numero]:
         if _hay(RE_X0, norm[max(0, n.ini - 60):n.ini]):
             return n
     return libres[-1] if libres else None
+
+
+def _dos_x0(texto: str, excluir, norm: str) -> Optional[Tuple[float, Numero]]:
+    """Dos valores de x en el mismo inciso: una pregunta puntual ('¿cuál sería ... a 85?') y después un intervalo
+    ('estime un IC ... para 55')."""
+    t_norm = normalizar(texto)
+    libres = [n for n in _numeros_libres(texto, excluir)
+              if _hay(RE_X0 + r"|\b(para|a)\s*$", t_norm[max(0, n.ini - 60):n.ini])]
+    if len(libres) != 2 or libres[0].valor == libres[1].valor:
+        return None
+    entre = normalizar(texto)[libres[0].fin:libres[1].ini]
+    if not (_hay(r"\?", entre) or _hay(r"[.;]", entre)) or not _hay(r"(intervalo|\bic\b|limites|estim)", entre):
+        return None
+    return libres[0].valor, libres[1]
 
 
 def _pend_val(inc: Inciso, an: Analisis, norm: str, texto: str) -> Optional[Tuple[float, str, str]]:
@@ -303,8 +320,25 @@ def clasificar(inc: Inciso, an: Analisis, norm: str) -> Tuple[str, str]:
         inc.params["beta10"], inc.params["tail"] = pv[0], pv[1]
         inc.razones.append(pv[2])
         return "ensayo_coef", "Afirmación sobre el cambio de y por unidad de x: ensayo de β1 contra un valor (caso I / II de la cátedra)."
-    if _hay(r"(influencia porcentual|coeficiente de determinacion|porcentaje de (la )?variabilidad)", norm) and \
-            _hay(r"(estim|intervalo|confianza)", norm):
+    pide_rho2 = _hay(r"(influencia porcentual|coeficiente de determinacion|porcentaje de (la )?variabilidad)", norm) and \
+        _hay(r"(estim|intervalo|confianza|calcul|concepto|cual es|que valor)", norm)   # 'Calcule ese parámetro' (rec 2024)
+    # 'hallar la recta, interpretar ... e investigar la asociación lineal. ¿Qué concepto ... influencia porcentual?'
+    # (final 15/12/25): un solo inciso que pide la recta, la validación y r² con su intervalo
+    # 'Encuentre un modelo lineal ... Calcule el coeficiente de determinación ... Testee el modelo' (final 2024)
+    if _hay(r"(hallar|calcular|obtener|determinar) la recta|(encuentre|encontrar|hallar|halle|obtener|obtenga|"
+            r"determinar|determine|ajustar|ajuste) (un|el) modelo (lineal|de regresion)", norm):
+        if _hay(r"(validar|valide|interpret|asociacion lineal|relacion lineal|test|ensay|coeficiente de determinacion)", norm):
+            inc.params["validar"] = True
+        if pide_rho2:
+            inc.params["rho2"] = True
+        return "recta", "Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄."
+    # 'por cada ppm de Fosfato, ¿cuál será la máxima ...?': cambio de y por unidad de x → límite unilateral de β1
+    if _hay(r"\bpor cada (unidad|[a-z]{1,12}) (de|del|adicional|mas)\b", norm) and _hay(r"\b(maxim|minim)[ao]\b", norm) \
+            and not _numeros_libres(texto, excl):
+        inc.params["cola"] = "superior" if _hay(r"\bmaxim[ao]\b", norm) else "inferior"
+        return "ic_coef", ("Pide el cambio máximo / mínimo de y por cada unidad de x (contribución marginal): límite "
+                           "de confianza unilateral de β1, b1 ± t(1-α; n-2)·Sb1.")
+    if pide_rho2:
         return "ic_rho2", "Influencia porcentual: r² y su intervalo (los límites del IC de ρ al cuadrado)."
     if _hay(r"(fuerza de la relacion|estime[^.?]{0,40}(dicho )?coeficiente|intervalo[^.?]{0,40}correlacion|"
             r"estimar[^.?]{0,40}correlacion)", norm):
@@ -312,13 +346,20 @@ def clasificar(inc: Inciso, an: Analisis, norm: str) -> Tuple[str, str]:
     if _hay(r"(contribucion marginal|coeficiente de regresion|intervalo[^.?]{0,40}(pendiente|β1|beta))", norm):
         return "ic_coef", "Intervalo de confianza para β1: b1 ± t(1-α/2; n-2)·Sb1."
     x0 = None
-    if _hay(r"(pronostic|predic|estimar|estimador puntual|cual (es|sera) la|que (demanda|venta|valor)|limites|"
-            r"intervalo|minim[ao]|maxim[ao])", norm) and not _hay(r"(hallar|calcular) la recta", norm):
+    if _hay(r"(pronostic|predic|estim|estimador puntual|cual (es|sera|seria) (la|el)|que (demanda|venta|valor)|limites|"
+            r"intervalo|\bic\b|minim[ao]|maxim[ao])", norm) and not _hay(r"(hallar|calcular) la recta", norm):
         if _hay(r"(ningun|no realizar|sin gast|nulo|igual a cero|no se gasta nada|no se invierte nada|sin invertir)", norm):
             inc.params["x0"] = 0.0
             x0 = 0.0
         else:
             n = _x0(texto, excl)
+            dos = _dos_x0(texto, excl, norm)
+            if dos:
+                # '¿Cuál sería el tiempo a 85ºC? Estime un IC para el tiempo medio para 55ºC' (final 2024): el primero es
+                # un pronóstico puntual y el segundo el intervalo pedido
+                inc.params["x0_puntual"], n = dos
+                inc.razones.append(f"El inciso pide dos cosas: el pronóstico puntual para x = {fmt(dos[0])} y el intervalo "
+                                   f"para x = {fmt(dos[1].valor)}.")
             if n is not None:
                 x0 = n.valor
                 ex = an.datos.get("escala_x", 1.0)
@@ -442,7 +483,12 @@ def recta(d, alpha, res, estado):
         e = _validacion(reg, alpha, res)
         concl += (" Existe relación lineal" if e.rechaza else " No se puede asegurar que exista relación lineal") + \
             f" (r = {fmt(reg.r, 4)}; {rg.validez_por_r2(reg.r2)})."
-        res.resumen += f"; r = {fmt(reg.r, 4)}"
+        res.resumen += f"; r = {fmt(reg.r, 4)}" + ("" if d.get("rho2") else f"; r² = {fmt(reg.r2, 4)}")
+    if d.get("rho2"):
+        resumen = res.resumen
+        ic_rho2(d, alpha, res, estado)
+        concl += " " + res.conclusion
+        res.resumen = resumen + "; " + res.resumen
     res.conclusion = concl
 
 
@@ -467,6 +513,23 @@ def _reg_estado(d, estado):
 
 
 def pronostico(d, alpha, res, estado):
+    xp = d.get("x0_puntual")
+    if xp is None:
+        return _pronostico(d, alpha, res, estado)
+    # dos pedidos en el inciso: el pronóstico puntual para x0_puntual y el intervalo para x0
+    reg = _reg_estado(d, estado)
+    yp = reg.predecir(xp)
+    res.pasos.append(f"**Pronóstico puntual** para x = {fmt(xp, 4)}: ŷ = b0 + b1·x = {fmt(reg.b0, 4)} + {fmt(reg.b1, 4)}·"
+                     f"{fmt(xp, 4)} = {fmt(yp, 4)}" + (f" (= {fmt(reg.a_original(yp), 4)} en la escala original)"
+                                                       if reg.modelo != "lineal" else "") + ".")
+    _pronostico(d, alpha, res, estado)
+    res.numeros = [yp, reg.a_original(yp)] + res.numeros
+    res.resumen = f"ŷ({fmt(xp)}) = {fmt(reg.a_original(yp), 4)} | x₀ = {fmt(d['x0'])}: {res.resumen}"
+    res.conclusion = (f"El pronóstico puntual para x = {fmt(xp, 4)} es ŷ = {fmt(reg.a_original(yp), 4)}. "
+                      + res.conclusion)
+
+
+def _pronostico(d, alpha, res, estado):
     from .resolver import FaltaDato
     reg = _reg_estado(d, estado)
     x0 = d.get("x0", estado.get("x0"))
@@ -524,6 +587,20 @@ def pronostico(d, alpha, res, estado):
 
 def ic_coef(d, alpha, res, estado):
     reg = _reg_estado(d, estado)
+    cola = d.get("cola")
+    if cola in ("superior", "inferior"):
+        ic = rg.ic_beta1(reg, alpha, cola)
+        lim, op = (ic.B, "+") if cola == "superior" else (ic.A, "-")
+        signo = "≤" if cola == "superior" else "≥"
+        res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}.")
+        res.pasos.append(f"**Límite {cola} para β1** (unilateral, α entero en una cola): b1 {op} t(1-α; ν = {reg.nu})·Sb1 "
+                         f"= {fmt(reg.b1, 4)} {op} {fmt(ic.critico, 4)}·{fmt(reg.Sb1, 4)} = {fmt(lim, 4)}.")
+        res.numeros += [reg.b1, lim, ic.error, ic.critico]
+        res.resumen = f"β1 {signo} {fmt(lim, 4)}"
+        res.conclusion = (f"Con un {fmt(100 * (1 - alpha), 2)}% de confianza, por cada unidad adicional de x el cambio de y "
+                          f"es como {'máximo' if cola == 'superior' else 'mínimo'} {fmt(lim, 4)}: "
+                          f"P(β1 {signo} {fmt(lim, 4)}) = {fmt(1 - alpha, 4)}.")
+        return
     ic = rg.ic_beta1(reg, alpha)
     res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}.")
     res.pasos.append(f"**IC para β1**: b1 ± t(1-α/2; ν = {reg.nu})·Sb1 = {fmt(reg.b1, 4)} ± {fmt(ic.critico, 4)}·"

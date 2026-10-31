@@ -645,7 +645,7 @@ def varianza_n(d, alpha, res: Resultado, estado):
         res.pasos.append(f"Control por búsqueda exacta en χ²: n = {r.n_exacto} (R' logrado = {fmt(r.r_sigma_logrado, 4)}).")
     res.conclusion = _coma(wording.texto_tamano_muestra_varianza(r, d.get("n")))
     res.numeros = [r.n] + ([r.n - int(d["n"])] if d.get("n") else [])
-    res.resumen = f"n = {r.n}"
+    res.resumen = f"n = {r.n}" + (f" ({r.n - int(d['n'])} más)" if d.get("n") else "")
 
 
 def varianza_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
@@ -1201,6 +1201,16 @@ def _cola_relacion(d, estado, res: Optional[Resultado] = None) -> str:
         tail = "derecha"   # arriba va el de mayor desvío: lo que se quiere probar es que es MAYOR
     if phi1 is not None and tail != "bilateral" and phi1 != phi0:
         tail = "izquierda" if phi1 < phi0 else "derecha"
+    elif phi1 is None and phi0 == 1.0 and tail != "bilateral" and all(d.get(k) for k in ("s1", "s2")) \
+            and float(d["s1"]) != float(d["s2"]):
+        # «en comparaciones la muestra orienta: si S₂ > S₁ lo único que se puede intentar probar es σ₂ > σ₁»
+        # (profesor, 01/10): una cola contra los datos no se puede probar nunca
+        arriba = float(d["s1"]) > float(d["s2"])
+        if (tail == "derecha") != arriba:
+            tail = "derecha" if arriba else "izquierda"
+            if res is not None:
+                res.avisos.append("La cola pedida va contra lo que muestran los datos; en comparaciones la muestra orienta "
+                                  "(profesor en clase): se planteó el unilateral en el sentido de los desvíos muestrales.")
     return tail
 
 

@@ -18,7 +18,7 @@ from interprete.modelo import CAMPOS_PLANTEO, TEMAS, TIPOS, TIPOS_POR_TEMA, Anal
 
 from . import cliente
 from .esquema import CAMPOS_INC, CLAVES_TEMA, ENUMS, desde_dict
-from .interpretar import _parsear, ejemplos, lista_incisos
+from .interpretar import _parsear, completar_con_reglas, con_tablas, ejemplos, lista_incisos
 
 RAZONAR = """Sos un docente de Estadística Aplicada (UADE, cátedra Dopazo – García). Leé el enunciado con mucho \
 cuidado, como lo leería un alumno atento en el examen, y escribí el PLANTEO en palabras. NO hagas los cálculos \
@@ -40,6 +40,11 @@ injustamente", "cambiar innecesariamente". β = probabilidad de no detectar.
 en H1 (criterio pesimista, unilateral). Si es un CONTROL DE RUTINA de un proceso con valor nominal ("se apartó", \
 "detener y recalibrar"), H0 es que está bien y el ensayo es BILATERAL salvo que solo importe un lado.
 - La igualdad siempre va en H0.
+- Regresión: "por cada unidad de X (por cada ppm, por cada $ invertido...), cuánto cambia Y / cuál es el máximo o \
+el mínimo" es el coeficiente de regresión β1 (contribución marginal): intervalo o límite de β1, NO un pronóstico en \
+x = 1. "Influencia porcentual" = coeficiente de determinación r². Un pronóstico necesita un valor concreto de X.
+- Una tabla de frecuencias por clases puede servir para varios temas a la vez: comparar las medias de dos columnas \
+(datos agrupados), ajustar un modelo (χ²) o contar los que cumplen / no cumplen un límite (proporción).
 
 Escribí, en este orden y sin rodeos:
 TEMA: uno de {temas}
@@ -121,16 +126,18 @@ def enunciado(planteo: str, incisos=None) -> Tuple[str, List[Tuple[str, str]], s
 
 
 def plantear(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = None,
-             conversacion: Optional[List[Dict[str, str]]] = None, excluir=()) -> Planteo:
+             conversacion: Optional[List[Dict[str, str]]] = None, excluir=(), pensar: bool = False) -> Planteo:
     """Paso 1 (razonar) + paso 2 (traducir). Con `conversacion` se continúa una charla anterior: el último mensaje
     del usuario es su corrección ("el 1.237,5 es el total, no la media")."""
     planteo, lista, texto = enunciado(planteo, incisos)
+    texto = con_tablas(texto, tablas)
     if conversacion:
         msgs = list(conversacion)
     else:
         msgs = [{"role": "system", "content": RAZONAR.format(temas="; ".join(f"{k} ({v})" for k, v in TEMAS.items() if k != "desconocido"))},
                 {"role": "user", "content": f"ENUNCIADO:\n{texto}"}]
-    razonamiento = re.sub(r"<think>.*?</think>", "", cliente.chat(msgs, modelo=modelo, temperatura=0, max_tokens=1500),
+    razonamiento = re.sub(r"<think>.*?</think>", "", cliente.chat(msgs, modelo=modelo, temperatura=0, pensar=pensar,
+                                                   max_tokens=8000 if pensar else 1500),
                           flags=re.DOTALL).strip()
     msgs = msgs + [{"role": "assistant", "content": razonamiento}]
     tema = _tema_de(razonamiento)
@@ -148,6 +155,10 @@ def plantear(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = No
     if not an.incisos:
         an.incisos = [Inciso(letra=l, texto=t) for l, t in (lista or [("única", planteo)])]
     an.razones_tema = ["Planteo armado por la IA (razonado en palabras)."]
+    completadas = completar_con_reglas(an, planteo, lista, an.tablas or None)
+    if completadas:
+        avisos.append("Lo que la IA no cargó lo completaron las reglas con el tema que eligió la IA: "
+                      + ", ".join(completadas) + ".")
     return Planteo(an, razonamiento, msgs, avisos)
 
 

@@ -290,6 +290,12 @@ def _columna_nombrada(cols, norm_inc: str):
         n = _sin_comillas(nombre)
         if n and re.search(r"\b" + re.escape(n) + r"\b", texto):
             return nombre, valores
+    # 'Cantidad Observada de la "Marca B"': lo que está entre comillas es el nombre del grupo
+    for nombre, valores in cols:
+        q = re.findall(r'["“”«»]([^"“”«»]+)["“”«»]', nombre)
+        n = _sin_comillas(normalizar(q[-1])) if q else ""
+        if n and re.search(r"\b" + re.escape(n) + r"\b", texto):
+            return nombre, valores
     return None
 
 
@@ -302,12 +308,35 @@ def _inciso_de_otro_tema(inc: Inciso, an: Analisis, norm: str) -> Optional[Tuple
     tabla, lim, cols = cf
     if len(cols) >= 2 and _hay(r"(que|cual)\s+(marca|maquina|proveedor|proceso|metodo|equipo|variedad)[a-z ]{0,20}"
                                r"(elegir|conviene|recomend|es mejor)|(mayor|menor) (duracion|rendimiento|media|promedio)|"
-                               r"comparar (las|los) (medias|promedios)", norm):
+                               r"comparar (las|los) (medias|promedios)|"
+                               # 'el tiempo de una marca es superior al de la otra por más del 10%' (final 15/12/25)
+                               r"(superior|mayor|inferior|menor|supera)[^.?]{0,60}\b(de la otra|del otro|que la otra|que el otro)\b|"
+                               # 'una diferencia de más del 1% en la performance del equipo A respecto del B' (2° parcial 10/11/25)
+                               r"\bdiferencias?\b[^.?]{0,80}\b(respecto|entre)\b",
+                               norm):
         from .dos_tablas import grupos_de_tablas
         g = grupos_de_tablas([tabla])
         if g and g.resumen.get("n"):
             r = g.resumen
-            inc.params.update(tema="dos_medias", apareadas=False, delta0=0.0, tail="derecha", sujeto_por_datos=True,
+            if _hay(r"(estim|intervalo|entre que)", norm):
+                inc.params.update(tema="dos_medias", apareadas=False,
+                                  nombre1=g.nombres[0], n1=r["n"][0], xbar1=r["xbar"][0], s1=r["s"][0],
+                                  nombre2=g.nombres[1], n2=r["n"][1], xbar2=r["xbar"][1], s2=r["s"][1])
+                if _hay(r"maxim[oa]", norm):
+                    inc.params["cota"] = "sup"
+                elif _hay(r"minim[oa]", norm):
+                    inc.params["cota"] = "inf"
+                inc.razones.append(f"Estima la diferencia de medias de los grupos de la tabla ({g.origen}): "
+                                   f"{g.nombres[0]} n = {fmt(r['n'][0])}, x̄ = {fmt(r['xbar'][0], 4)}, S = {fmt(r['s'][0], 4)}; "
+                                   f"{g.nombres[1]} n = {fmt(r['n'][1])}, x̄ = {fmt(r['xbar'][1], 4)}, S = {fmt(r['s'][1], 4)}"
+                                   + {"sup": " (MÁXIMA → cota superior).", "inf": " (MÍNIMA → cota inferior)."}
+                                   .get(inc.params.get("cota"), "."))
+                return "ic", "IC de la diferencia de medias con datos agrupados (test F previo)."
+            m_pct = re.search(r"(en|por|de) mas (del?|de un) (\d+(?:,\d+)?)\s*%", norm)
+            if m_pct:
+                inc.params.update(delta0_pct=float(m_pct.group(3).replace(",", ".")) / 100, direccion="mas")
+            inc.params.update(tema="dos_medias", apareadas=False, tail="derecha", sujeto_por_datos=True,
+                              **({} if m_pct else {"delta0": 0.0}),
                               nombre1=g.nombres[0], n1=r["n"][0], xbar1=r["xbar"][0], s1=r["s"][0],
                               nombre2=g.nombres[1], n2=r["n"][1], xbar2=r["xbar"][1], s2=r["s"][1])
             inc.razones.append(f"Compara los grupos de la tabla ({g.origen}): {g.nombres[0]} n = {fmt(r['n'][0])}, "
@@ -317,7 +346,7 @@ def _inciso_de_otro_tema(inc: Inciso, an: Analisis, norm: str) -> Optional[Tuple
             return "ensayo", "Comparación de dos medias con datos agrupados (test F previo y t)."
     m = re.search(r"(minim[ao]|maxim[ao]|menor(es)? (a|que|de)|mayor(es)? (a|que|de)|por debajo de|por encima de|"
                   r"inferior(es)? a|superior(es)? a)[^0-9]{0,30}(\d[\d.,]*)", norm)
-    if m and _hay(r"(porcentaje|proporcion|fraccion)", norm) and _hay(r"(estim|intervalo|entre que)", norm):
+    if m and _hay(r"(porcentaje|porcentual|proporcion|fraccion)", norm) and _hay(r"(estim|intervalo|entre que)", norm):
         limite = [n.valor for n in buscar_numeros(m.group(8))][0]
         lo, hi = lim[0][0], lim[-1][1]
         if not lo <= limite <= hi:

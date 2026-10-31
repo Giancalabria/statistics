@@ -22,6 +22,7 @@ from interprete import buscador
 from interprete.analizador import analizar, separar_incisos
 from interprete.modelo import CAMPOS_PLANTEO, TEMAS, TIPOS, Analisis, Inciso
 from interprete.resolver import Resultado, resolver
+from interprete.tablas import a_texto
 
 from . import cliente
 from .esquema import CAMPOS_INC, a_dict, catalogo_texto, desde_dict
@@ -67,6 +68,73 @@ def lista_incisos(planteo: str, incisos=None) -> Tuple[str, List[Tuple[str, str]
     if not lista:
         planteo, lista = separar_incisos(planteo, parrafos=True)
     return planteo, lista
+
+
+def con_tablas(planteo: str, tablas=None) -> str:
+    """La tabla cargada aparte (cuadro «Tabla de datos») se agrega al planteo que lee la IA: si no, no ve los datos."""
+    extra = [a_texto(t) for t in tablas or [] if t and t.get("filas")]
+    return planteo + "".join(f"\n\nTabla de datos:\n{t}" for t in extra)
+
+
+# Valores que salen de CONTAR o PROMEDIAR la tabla o la lista de datos: los pone siempre el programa
+CALCULADAS = {"n1", "n2", "xbar1", "xbar2", "s1", "s2", "datos", "datos1", "datos2", "observados", "clases",
+              "valores_var", "x", "y", "xs", "tabla"}
+
+
+def completar_con_reglas(an: Analisis, planteo: str, lista: List[Tuple[str, str]], tablas=None) -> List[str]:
+    """La IA decide QUÉ pide cada inciso (tema, tipo, valores con trampa); las reglas, con ese tema forzado, completan
+    lo que la IA dejó vacío: los datos que salen de la tabla (n, x̄, S, frecuencias) y las opciones del mismo tipo de
+    cálculo (validar la recta, media y desvío a la vez, cola...). Lo que puso la IA no se pisa.
+    Devuelve las claves agregadas, para avisar."""
+    agregadas: List[str] = []
+    temas = {inc.params.get("tema") or an.tema for inc in an.incisos} - {"desconocido", None}
+    for tema in sorted(temas):
+        try:
+            reglas = analizar(planteo, lista or None, tablas=tablas, tema=tema)
+        except Exception:      # las reglas son solo un complemento: si fallan, queda lo de la IA
+            continue
+        datos = dict(reglas.datos)
+        if tema == "proporcion":
+            datos.pop("datos", None)                  # en p, los números de una tabla no son una muestra de valores
+        if any("se asume α = 0,05" in a for a in reglas.avisos):
+            datos.pop("alpha", None)                  # que se avise que α se eligió
+        por_letra = {i.letra: i for i in reglas.incisos}
+        for inc in an.incisos:
+            if (inc.params.get("tema") or an.tema) != tema:
+                continue
+            propio = tema != an.tema                  # inciso de otro tema: sus datos van en sus params
+            ri = por_letra.get(inc.letra)
+            extra = dict(datos)
+            if ri is not None and ri.tipo == inc.tipo:
+                extra.update({k: v for k, v in ri.params.items() if k != "tema"})
+            del_inciso = set(ri.params) if ri is not None and ri.tipo == inc.tipo else set()
+            for k, v in extra.items():
+                if v is None:
+                    continue
+                if (k in CALCULADAS and (an.tablas or reglas.datos.get("datos") or reglas.datos.get("datos1"))) or \
+                        (k in ("n", "xbar", "desvio") and isinstance(reglas.datos.get("datos"), list) and tema != "proporcion"):
+                    # cuentas sobre la tabla / la lista de datos: la IA no calcula (se equivoca en la aritmética)
+                    destino = inc.params if propio or k in inc.params else an.datos
+                    if destino.get(k) != v:
+                        destino[k] = v
+                        agregadas.append(f"{inc.letra}) {k}" if destino is inc.params else k)
+                    continue
+                if k in inc.params or (k in an.datos and not propio):
+                    continue
+                if propio or k in del_inciso:
+                    inc.params[k] = v
+                    agregadas.append(f"{inc.letra}) {k}")
+                else:
+                    an.datos[k] = v
+                    agregadas.append(k)
+            if isinstance(reglas.datos.get("datos"), list) and tema != "proporcion":
+                # con la lista de valores, n, x̄ y S los calcula el resolver: lo que haya puesto la IA se descarta
+                for k in ("n", "xbar", "desvio"):
+                    if k not in reglas.datos:
+                        for dic in (inc.params, an.datos if not propio else {}):
+                            if dic.pop(k, None) is not None:
+                                agregadas.append(f"{k} (calculado de los datos)")
+    return list(dict.fromkeys(agregadas))
 
 
 def _enunciado(planteo: str, lista: List[Tuple[str, str]]) -> str:
@@ -134,7 +202,7 @@ def pedir_ia(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = No
              borrador: Optional[Analisis] = None, excluir: Sequence[str] = ()) -> Tuple[Analisis, List[str]]:
     """Le pide al modelo el planteo completo (sin mezclar con las reglas). Devuelve el análisis validado + avisos."""
     planteo, lista = lista_incisos(planteo, incisos)
-    salida = cliente.chat(mensajes(planteo, lista, borrador, excluir), modelo=modelo, formato=FORMATO,
+    salida = cliente.chat(mensajes(con_tablas(planteo, tablas), lista, borrador, excluir), modelo=modelo, formato=FORMATO,
                           pensar=pensar, temperatura=0)
     an, avisos = desde_dict(_parsear(salida), planteo, dict(lista))
     an.tablas = list(tablas) if tablas else (borrador.tablas if borrador else [])

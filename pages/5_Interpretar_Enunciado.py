@@ -11,6 +11,7 @@ from asistente.explicar import explicar, numeros_sin_respaldo
 from asistente.redactar import Control, controlar, corregir, problemas, redactar
 from asistente.interpretar import interpretar, pedir_ia
 from asistente.comparar import comparar, corregir as corregir_comparacion
+from asistente.consenso import NOMBRES as NOMBRES_LECTURA, combinado, consenso
 from asistente.revisar import aplicar_sugerencias, revisar
 from asistente.ui import configuracion as config_ia, descartar, en_curso, lanzar, recoger, seguir
 from interprete import buscador, glosario
@@ -24,13 +25,19 @@ from interprete.resolver import resolver
 PAGINA = "pages/5_Interpretar_Enunciado.py"
 # Lo que se borra de la sesión al interpretar de nuevo (además de los resultados).
 NUEVA_INTERPRETACION = {"ia_info": None, "revision": None, "comparacion": None, "ia_explicacion": None,
-                        "cambios_criterio": None}
+                        "cambios_criterio": None, "consenso": None, "consenso_elecciones": {}}
 
 
 def interpretar_con_ia(t, modo, planteo, incisos_txt, tablas_in, ia_modelo, ia_pensar):
     """Corre en segundo plano (sin Streamlit): -> (valores nuevos de la sesión, error para mostrar o None)."""
     t.etapa = {"comparar": "Resolviendo con las reglas y leyendo el enunciado con la IA (~1-2 min)",
-               "revision": "Resolviendo con las reglas y revisando con la IA (~30 s)"}.get(modo, "Interpretando con la IA")
+               "revision": "Resolviendo con las reglas y revisando con la IA (~30 s)",
+               "consenso": "Tres lecturas (reglas, IA con ejemplos, IA razonando) y votación (~30-60 s)"}.get(
+        modo, "Interpretando con la IA")
+    if modo == "consenso":
+        c = consenso(planteo, incisos_txt, tablas=tablas_in, modelo=ia_modelo)
+        an = combinado(c) or analizar(planteo, incisos_txt, tablas=tablas_in)
+        return {**NUEVA_INTERPRETACION, "consenso": c, "analisis": an}, None
     if modo == "comparar":
         comp = comparar(planteo, incisos_txt, tablas=tablas_in, modelo=ia_modelo)
         return {**NUEVA_INTERPRETACION, "comparacion": comp, "analisis": comp.reglas}, None
@@ -158,13 +165,18 @@ with st.expander("📋 Tabla de datos (regresión, frecuencias por clase, contin
             st.info("No encontré una tabla en el planteo.")
 
 MODOS = {
-    "comparar": "⚖️ Reglas y IA por separado, y se comparan (recomendado)",
+    "consenso": "🗳️ Consenso: reglas + 2 lecturas de IA, se vota (recomendado)",
+    "comparar": "⚖️ Reglas y IA por separado, y se comparan",
     "revision": "🛡️ Solver + revisión IA",
     "solver": "🔍 Solo solver (reglas)",
     "hibrido": "🧩 Solver, y la IA completa lo que no entiende",
     "ia": "🤖 La IA arma el planteo, el solver calcula",
 }
 AYUDA_MODOS = {
+    "consenso": "Tres lecturas independientes del enunciado: las reglas, la IA armando el planteo con ejemplos de la "
+                "guía y la IA razonando en palabras (las cuentas sobre tablas y datos las hace siempre el programa). Se "
+                "vota el RESULTADO de cada inciso: si dos o más coinciden, ✅; si no, ves cada lectura en palabras y "
+                "elegís. Medido con exámenes reales, acierta más que cualquier lectura sola. Sin 'pensar': ~30-60 s.",
     "comparar": "Las reglas resuelven al instante y, por separado, la IA lee el enunciado y razona el planteo en "
                 "palabras (como un alumno). Se comparan los RESULTADOS de los dos: si coinciden, ✅; si no, ves los dos "
                 "planteos lado a lado y elegís, o le explicás a la IA qué leyó mal. Las reglas aciertan más en los "
@@ -298,6 +310,44 @@ if comp:
             lanzar("interpretar", "Corrección del planteo", PAGINA, corregir_ia, comp, nota, ss["planteo"],
                    [tx for tx in ss["incisos"] if tx.strip()], [tabla] if tabla else None, ia_modelo)
             st.rerun()
+cons = ss.get("consenso")
+if cons:
+    marca = {"consenso": "✅ consenso", "sin_consenso": "⚠️ sin consenso", "una_sola": "☝️ una sola lectura",
+             "ninguna": "— ninguna"}
+    n_ok = sum(i.estado == "consenso" for i in cons.incisos)
+    (st.success if cons.todos_de_acuerdo else st.warning)(
+        f"🗳️ {n_ok} de {len(cons.incisos)} inciso(s) con consenso ({cons.segundos:.0f} s)."
+        + ("" if cons.todos_de_acuerdo else " En los marcados ⚠️/☝️ mirá las lecturas y elegí."))
+    errores = [f"{NOMBRES_LECTURA[l.fuente]}: {l.error}" for l in cons.lecturas if l.error]
+    for e in errores:
+        st.error(f"🗳️ {e}")
+    filas = []
+    for i in cons.incisos:
+        fila = {"Inciso": i.letra, "": marca[i.estado],
+                "Elegido": NOMBRES_LECTURA[i.elegido.fuente] if i.elegido else "—"}
+        for v in i.votos:
+            fila[NOMBRES_LECTURA[v.fuente]] = v.resultado.resumen or "; ".join(v.resultado.errores) or "no se resolvió"
+        filas.append(fila)
+    st.dataframe(pd.DataFrame(filas), hide_index=True, width="stretch")
+    dudosos = [i for i in cons.incisos if i.estado != "consenso" and len(i.votos) > 1]
+    elecciones = dict(ss.get("consenso_elecciones") or {})
+    for i in dudosos:
+        with st.expander(f"⚠️ Inciso {i.letra}): cómo lo leyó cada uno", expanded=True):
+            for v in i.votos:
+                resultado = v.resultado.resumen or "; ".join(v.resultado.errores) or "no se resolvió"
+                st.markdown(f"**{NOMBRES_LECTURA[v.fuente]}** — {v.que_pide}"
+                            + (f"\n\n`{v.hipotesis}`" if v.hipotesis else "") + f"\n\n→ {resultado}")
+            opciones = [v.fuente for v in i.votos if not v.resultado.errores]
+            if opciones:
+                actual = elecciones.get(i.letra) or (i.elegido.fuente if i.elegido else opciones[0])
+                elegida = st.radio("Usar la lectura de", opciones, index=opciones.index(actual) if actual in opciones else 0,
+                                   format_func=NOMBRES_LECTURA.get, key=f"v{V}_cons_{i.letra}", horizontal=True)
+                elecciones[i.letra] = elegida
+    if elecciones != (ss.get("consenso_elecciones") or {}):
+        ss["consenso_elecciones"] = elecciones
+        ss["analisis"], ss["resultados"] = combinado(cons, elecciones), None
+        ss["ver"] += 1
+        st.rerun()
 rv = ss.get("revision")
 if rv:
     if rv.error:

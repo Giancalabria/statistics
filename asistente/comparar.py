@@ -116,12 +116,12 @@ def _emparejar(c: Comparacion) -> None:
 
 
 def comparar(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = None,
-             analisis: Optional[Analisis] = None, excluir: Sequence[str] = ()) -> Comparacion:
+             analisis: Optional[Analisis] = None, excluir: Sequence[str] = (), pensar: bool = False) -> Comparacion:
     reglas = analisis if analisis is not None else analizar(planteo, incisos, tablas=tablas)
     c = Comparacion(reglas, resolver(reglas))
     t0 = time.time()
     try:
-        c.ia = simple.plantear(planteo, incisos, tablas, modelo, excluir=excluir)
+        c.ia = simple.plantear(planteo, incisos, tablas, modelo, excluir=excluir, pensar=pensar)
         c.res_ia = resolver(c.ia.analisis)
     except cliente.ErrorIA as e:
         c.error = str(e)

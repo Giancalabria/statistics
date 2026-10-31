@@ -7,6 +7,7 @@ descarta claves desconocidas o de otro tema, convierte los tipos y corrige los e
 0,05, 'xbar1' en un problema de una media, α anotado solo en el primer inciso).
 """
 
+import re
 from typing import Any, Dict, List, Optional, Tuple
 
 import interprete  # noqa: F401  (registra los temas y tipos de chi² y regresión)
@@ -58,7 +59,7 @@ CLAVES_TEMA: Dict[str, Tuple[List[str], List[str]]] = {
     "chi_ajuste": (["observados", "esperados", "proporciones", "p_estimados", "clases", "valores_var", "modelos",
                     "alpha"], ["alpha", "modelos", "tail"]),
     "regresion": (["x", "y", "nombre_x", "nombre_y", "escala_x", "escala_y", "alpha"],
-                  ["alpha", "x0", "individual", "cola", "beta10", "modelo", "origen", "tail"]),
+                  ["alpha", "x0", "individual", "cola", "beta10", "modelo", "origen", "tail", "validar", "rho2", "x0_puntual"]),
     "regresion_multiple": (["xs", "y", "nombre_y", "escala_y", "alpha"], ["alpha", "variables", "modelos"]),
 }
 
@@ -218,6 +219,38 @@ def _valor(clave: str, valor: Any, tipo: str, avisos: List[str], donde: str) -> 
         return None
 
 
+def _relacion_es_de_sigma(tipo, params: Dict[str, Any], tema: str, texto: str, avisos: List[str], letra: str) -> None:
+    """'reducir un 15% la relación de la estimación del desvío': la relación entre límites existe solo en el IC de σ / σ²
+    (en la media se habla del error). Si el modelo dejó el inciso en el tema media, se pasa a varianza (1er parcial
+    29/04/25: las dos lecturas de IA calcularon el n de la media)."""
+    from interprete.texto import normalizar
+    norm = normalizar(texto)
+    if tipo == "n" and (params.get("tema") or tema) == "media" and re.search(r"\brelacion\b", norm) and \
+            re.search(r"(desvio|desviacion|varianza|variabilidad)", norm):
+        params["tema"] = "varianza"
+        avisos.append(f"{letra}) la relación entre límites es del IC del desvío: se calcula el n para σ.")
+
+
+def _modelos_de_texto(d: Dict[str, Any], tema: str) -> None:
+    """El modelo escribe los modelos a ajustar como texto ("['exponencial']", "normal y weibull"): se leen los nombres
+    como en el enunciado."""
+    if isinstance(d.get("modelos"), str) and tema == "chi_ajuste":
+        from interprete.chi_modelos import modelos_en
+        from interprete.texto import normalizar
+        mods = modelos_en(normalizar(d.pop("modelos")))
+        if mods:
+            d["modelos"] = mods
+
+
+def _beta_es_riesgo(d: Dict[str, Any], avisos: List[str], donde: str) -> None:
+    """β es un riesgo (no detectar): nunca vale 0,99. Si el modelo anotó la probabilidad de DETECTAR (potencia) en β,
+    se pasa a β = 1 - potencia."""
+    b = d.get("beta")
+    if isinstance(b, (int, float)) and 0.5 < b < 1:
+        d["beta"] = round(1 - b, 10)
+        avisos.append(f"{donde}β = {b} es la potencia (probabilidad de detectar): se tomó β = {d['beta']}.")
+
+
 def desde_dict(d: Dict[str, Any], planteo: str = "", textos: Optional[Dict[str, str]] = None) -> Tuple[Analisis, List[str]]:
     """JSON del modelo -> Analisis validado + avisos de lo que se corrigió o descartó.
 
@@ -248,6 +281,8 @@ def desde_dict(d: Dict[str, Any], planteo: str = "", textos: Optional[Dict[str, 
         v = _valor(k, v, CAMPOS_PLANTEO[k][1], avisos, "")
         if v is not None:
             an.datos[k] = v
+    _beta_es_riesgo(an.datos, avisos, "")
+    _modelos_de_texto(an.datos, tema)
     for n, inc in enumerate(d.get("incisos") or []):
         if not isinstance(inc, dict):
             continue
@@ -261,7 +296,10 @@ def desde_dict(d: Dict[str, Any], planteo: str = "", textos: Optional[Dict[str, 
                 params[k] = v
         if params.get("tema") == tema:
             params.pop("tema")
+        _beta_es_riesgo(params, avisos, f"{letra}) ")
+        _modelos_de_texto(params, params.get("tema") or tema)
         tipo = inc.get("tipo")
+        _relacion_es_de_sigma(tipo, params, tema, textos.get(letra, ""), avisos, letra)
         validos = tipos_validos(params.get("tema") or tema)
         if tipo not in validos:
             if tipo:
@@ -278,11 +316,19 @@ def heredar(an: Analisis) -> None:
     es de otro parámetro solo se hereda α. El modelo suele anotar α una sola vez, en el primer inciso."""
     previo: Dict[str, Any] = {}
     tema_previo = an.tema
+    diseno_previo: Optional[Inciso] = None
     for inc in an.incisos:
         tema_inc = inc.params.get("tema", an.tema)
         for k in HEREDABLES if tema_inc == tema_previo else ("alpha",):
             if k not in inc.params and k in previo and not (k == "tail" and inc.tipo in ("ensayo", "diseno")):
                 inc.params[k] = previo[k]
+        # el ensayo que sigue al diseño usa ESE plan: H0 se fija antes de ver la muestra (el modelo suele reorientarla
+        # mirando los datos del inciso)
+        if inc.tipo == "ensayo" and diseno_previo is not None and diseno_previo.params.get("tail") and \
+                tema_inc == diseno_previo.params.get("tema", an.tema):
+            inc.params["tail"] = diseno_previo.params["tail"]
+        if inc.tipo == "diseno":
+            diseno_previo = inc
         if inc.tipo == "diseno" and "beta" not in inc.params and "beta" in an.datos:
             inc.params["beta"] = an.datos["beta"]
         tema_previo = tema_inc

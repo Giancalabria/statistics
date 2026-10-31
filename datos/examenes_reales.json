@@ -1,0 +1,888 @@
+[
+ {
+  "id": "P1",
+  "examen": "Final 15/12/2025 (tema 1)",
+  "planteo": "En el decapado del alambrón debido a la presencia de oxidación del material, se quiere estudiar la influencia del Fosfato en la cuba de lavado por la inmersión del rollo del alambrón. Se cree que el Fosfato influye sobre la rapidez en el decapado, a tal efecto se obtuvieron los siguientes resultados de un experimento:",
+  "incisos": [
+   [
+    "a",
+    "Hallar la recta de mínimos cuadrados, interpretar ambos estimadores (en términos del problema) e investigar la asociación lineal entre las variables. ¿Qué concepto usaría para explicar y estimar la influencia porcentual de la concentración de Fosfato en el comportamiento de la presencia final de la película de óxido en el alambrón?"
+   ],
+   [
+    "b",
+    "Para un 5% de riesgo, por cada ppm de Fosfato, ¿cuál será la máxima presencia final de la película de óxido en el alambrón que se puede esperar?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Concentración del Fosfato (en ppm)",
+     "Espesor final de la película de óxido (en μ)"
+    ],
+    "filas": [
+     [
+      2.5,
+      8.68
+     ],
+     [
+      5.03,
+      4.95
+     ],
+     [
+      7.6,
+      4.1
+     ],
+     [
+      11.6,
+      2.55
+     ],
+     [
+      13,
+      1.98
+     ],
+     [
+      19.6,
+      0.24
+     ],
+     [
+      16.2,
+      0.6
+     ],
+     [
+      13,
+      2.4
+     ],
+     [
+      14,
+      1.28
+     ],
+     [
+      15,
+      1.05
+     ],
+     [
+      15,
+      1.1
+     ]
+    ],
+    "variable_y": "Espesor final de la película de óxido (en μ)"
+   }
+  ],
+  "esperado": [
+   [
+    "8,2249 - 0,4644",
+    "0,9093"
+   ],
+   [
+    "-0,3748"
+   ]
+  ]
+ },
+ {
+  "id": "P2",
+  "examen": "Final 15/12/2025 (tema 1)",
+  "planteo": "En el comportamiento de los disyuntores en un tablero eléctrico domiciliario, el tiempo de respuesta del disyuntor es fundamental para la efectividad de respuesta de una determinada avería eléctrica. Un laboratorio de estudios de calidad tiene en investigación dos marcas de disyuntores: \"Marca A\" y \"Marca B\". El resultado de los tiempos de respuesta de estas dos marcas fue registrado en la siguiente tabla:",
+  "incisos": [
+   [
+    "a",
+    "¿Se puede afirmar que el disyuntor de una marca tiene un tiempo de respuesta superior al de la otra por más del 10%?"
+   ],
+   [
+    "b",
+    "Puede garantizar que el tiempo de respuesta del disyuntor \"Marca A\", se ajusta a la ley Exponencial."
+   ],
+   [
+    "c",
+    "La especificación técnica de un disyuntor estipula un tiempo de respuesta máximo de 3 mili-segundos, estimar el porcentual de disyuntores de la \"Marca B\" que no cumplen con la especificación. (Asumir un 99% de confianza)."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Tiempo de respuesta (en mili-segundos)",
+     "Cantidad Observada de la \"Marca A\"",
+     "Cantidad Observada de la \"Marca B\""
+    ],
+    "filas": [
+     [
+      "2-3",
+      35,
+      11
+     ],
+     [
+      "3-4",
+      20,
+      16
+     ],
+     [
+      "4-5",
+      19,
+      26
+     ],
+     [
+      "5-6",
+      15,
+      28
+     ],
+     [
+      "6-7",
+      8,
+      18
+     ],
+     [
+      "7-8",
+      5,
+      9
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    "1,1·μ",
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     122.3748
+    ]
+   ],
+   [
+    [
+     "n",
+     0.8004
+    ],
+    [
+     "n",
+     0.9589
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "P3",
+  "examen": "Final 15/12/2025 (tema 1)",
+  "planteo": "Una industria química quiere mejorar la rigidez de un determinado PVC cambiando la composición química utilizada en la fabricación. Se realiza una prueba piloto con una nueva composición química con 12 piezas prototipo, obteniendo los siguientes resultados de rigidez (medido en Kg/mm² de plasticidad del material): 55,1 - 55,8 - 56,0 - 54,9 - 55,0 - 56,9 - 55,2 - 55,2 - 55,9 - 56,1 - 56,2 - 55,7",
+  "incisos": [
+   [
+    "a",
+    "Estimar la rigidez promedio y el desvío estándar en las piezas con la nueva composición química. (Tomar un NC = 99%)"
+   ],
+   [
+    "b",
+    "¿Cuántas piezas prototipo más se deberán fabricar con la nueva composición química para reducir en un 45% la relación entre los límites de estimación del desvío estándar calculado anteriormente?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "n",
+     55.1283
+    ],
+    [
+     "n",
+     56.2051
+    ],
+    [
+     "n",
+     0.385
+    ],
+    [
+     "n",
+     1.2344
+    ]
+   ],
+   [
+    "n = 44"
+   ]
+  ]
+ },
+ {
+  "id": "Q1",
+  "examen": "2° parcial 23/06/2025 (tema 4)",
+  "planteo": "En una determinada ciudad, se ha detectado que el 40% de los habitantes es alcohólico. Se quiere implementar una política para reducir el porcentaje de alcohólicos al 20%. Se asume un riesgo del 5% de concluir erróneamente que la política ha sido efectiva (es decir, concluir que el porcentaje de alcohólicos ha disminuido cuando sigue siendo del 40%). A su vez, se quiere que la probabilidad de detectar que la política ha sido efectiva, sea del 0,99 (es decir, detectar que el porcentaje de alcohólicos se redujo al 30%).",
+  "incisos": [
+   [
+    "a",
+    "Indicar la hipótesis nula a ensayar y el tamaño de muestra apropiado; expresar la condición de rechazo y la regla de decisión."
+   ],
+   [
+    "b",
+    "¿Cuál es la probabilidad de no detectar que el porcentaje de alcohólicos es del 35%?"
+   ],
+   [
+    "c",
+    "¿Cuántos habitantes más se deberán encuestar para que la probabilidad anterior valga 0,10?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    "n = 360"
+   ],
+   [
+    [
+     "n",
+     0.3892
+    ]
+   ],
+   [
+    "n = 806"
+   ]
+  ]
+ },
+ {
+  "id": "Q2",
+  "examen": "2° parcial 23/06/2025 (tema 4)",
+  "planteo": "El volumen de llenado de ampollas se controla a la salida de las máquinas cerradoras con gráficas de control. El resultado en 2 de las máquinas fue:",
+  "incisos": [
+   [
+    "a",
+    "¿Existen diferencias en más de 0,05 ml en el llenado de la máquina \"B\" respecto de la \"A\"?"
+   ],
+   [
+    "b",
+    "¿Cuál es la mínima diferencia porcentual a esperar? (Tomar un riesgo del 5%)"
+   ],
+   [
+    "c",
+    "Con un 5% de riesgo, ¿se puede afirmar que el llenado de la máquina \"A\" se ajusta a un modelo Normal?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Contenido (en ml)",
+     "Máquina \"A\"",
+     "Máquina \"B\""
+    ],
+    "filas": [
+     [
+      "10,0-10,2",
+      4,
+      2
+     ],
+     [
+      "10,2-10,4",
+      10,
+      5
+     ],
+     [
+      "10,4-10,6",
+      20,
+      30
+     ],
+     [
+      "10,6-10,8",
+      30,
+      40
+     ],
+     [
+      "10,8-11,0",
+      15,
+      30
+     ],
+     [
+      "11,0-11,2",
+      10,
+      25
+     ],
+     [
+      "11,2-11,4",
+      5,
+      12
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     0.05
+    ]
+   ],
+   null,
+   [
+    [
+     "n",
+     2.2167
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "R1",
+  "examen": "Recuperatorio 2° parcial y final 12/12/2024 (Notion)",
+  "planteo": "El registro de la cantidad de vehículos particulares que llegan a una estación de peaje es el siguiente: (ver tabla) ¿Se verifica que la llegada de vehículos/minuto a la estación de peajes sigue la ley de distribuciones Poisson?",
+  "incisos": null,
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Vehículos/min",
+     "Observaciones"
+    ],
+    "filas": [
+     [
+      5,
+      1
+     ],
+     [
+      6,
+      2
+     ],
+     [
+      7,
+      3
+     ],
+     [
+      8,
+      5
+     ],
+     [
+      9,
+      7
+     ],
+     [
+      10,
+      9
+     ],
+     [
+      11,
+      6
+     ],
+     [
+      12,
+      6
+     ],
+     [
+      13,
+      3
+     ],
+     [
+      14,
+      4
+     ],
+     [
+      15,
+      2
+     ],
+     [
+      16,
+      2
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "R3",
+  "examen": "Recuperatorio 2° parcial y final 12/12/2024 (Notion)",
+  "planteo": "Con base en los datos reportados en un artículo de 1979 que apareció en el Journal of Gerontology (\"Serum Ferritin in an Elderly Population\", págs. 521-524), los autores concluyeron que la distribución de ferritina en los adultos mayores tenía un varianza más pequeña en los adultos jóvenes (la ferritina en suero se utiliza para diagnosticar deficiencia de hierro). Para una muestra de 28 varones adultos mayores, la desviación estándar de ferritina en suero (mg/l) fue S1=52.6; para 26 adultos jóvenes, la desviación estándar fue S2=84.2. ¿Confirman estos datos la conclusión del \"paper\" citado a un nivel de significación de 1%?",
+  "incisos": null,
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "R4",
+  "examen": "Recuperatorio 2° parcial y final 12/12/2024 (Notion)",
+  "planteo": "Se sugiere utilizar un Modelo Lineal para explicar la resistencia a la rotura en función del límite elástico de varillas de acero. Se midieron estas características de 5 varillas (ambas medidas en miles de lbs./pulg2) con los siguientes resultados:",
+  "incisos": [
+   [
+    "a",
+    "Investigar la asociación lineal entre las variables. Testee el modelo."
+   ],
+   [
+    "b",
+    "¿Qué concepto usaría para explicar la influencia porcentual del limite elástico de las varillas de acero en el comportamiento de la resistencia a la rotura de las mismas? Calcule ese parámetro."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Resistencia a la rotura",
+     "Límite elástico"
+    ],
+    "filas": [
+     [
+      78,
+      45.25
+     ],
+     [
+      79.5,
+      48
+     ],
+     [
+      82.5,
+      60.25
+     ],
+     [
+      93.5,
+      62
+     ],
+     [
+      98,
+      65
+     ]
+    ],
+    "variable_y": "Resistencia a la rotura"
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     0.8721
+    ]
+   ],
+   [
+    [
+     "n",
+     0.7606
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "F1",
+  "examen": "Recuperatorio 2° parcial y final 12/12/2024 (Notion)",
+  "planteo": "El volumen de huecos en una tela afecta las propiedades de comodidad, inflamabilidad y aislantes. La permeabilidad de una tela se refiere a la accesibilidad de los espacios huecos al flujo de un gas o líquido. El artículo \"The Relationship Between Porosity and Air Permeability of Woven Textile Fabrics\" (J. of Testing and Eval., 1997: 108-114) contiene información resumida sobre permeabilidad al aire (cm3 /cm2 /s) de varios tipos diferentes de tela. Considere los siguientes datos sobre dos tipos diferentes de tela de tejido ordinario: (ver tabla). Suponiendo que la distribuciones de porosidad de ambos tipos de tela son normales, calcule:",
+  "incisos": [
+   [
+    "a",
+    "Un intervalo de confianza para la diferencia entre la porosidad promedio verdadera de la tela de algodón y la de la tela de triacetato, utilizando un intervalo de confianza de 95%."
+   ],
+   [
+    "b",
+    "¿Puede afirmar, con un 5% de equivocarse, que la porosidad media de la tela de triacetato es mayor que la de la tela de algodón?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Tipo de tela",
+     "Tamaño de muestra",
+     "Media muestral",
+     "Desviación estándar de muestra"
+    ],
+    "filas": [
+     [
+      "Algodón",
+      10,
+      51.71,
+      0.79
+     ],
+     [
+      "Triacetato",
+      10,
+      136.14,
+      3.59
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     81.8
+    ],
+    [
+     "n",
+     87.06
+    ]
+   ],
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "F2",
+  "examen": "Recuperatorio 2° parcial y final 12/12/2024 (Notion)",
+  "planteo": "Un fabricante de hilo de cobre esmaltado para bobinaje de motores especiales de baja revolución quiere adquirir una nueva máquina extrusora para la confección de ese tipo de hilado que le asegure una maleabilidad promedio mínima de 3,62 Tn/mm2. Para tomar dicha decisión se estipula correr un riesgo del 1% de adquirir la máquina si no se consigue la premisa estipulada, y en un 5% el riesgo de no adquirirla si la maleabilidad se encuentra en el orden de 4,15 Tn/mm2 promedio. Se sabe por información histórica del fabricante que la variabilidad de la misma es de 0,45 Tn/mm2.",
+  "incisos": [
+   [
+    "a",
+    "Estipular la hipótesis adecuada al problema, determinar el tamaño de muestra adecuado, la condición de rechazo y enunciar correctamente la regla de decisión correspondiente en términos del problema planteado."
+   ],
+   [
+    "b",
+    "Se realizó la prueba con distintos equipos, obteniendo los siguientes resultados (medidos en Tn/mm2): 2,9 - 2,8 - 2,7 - 2,5 - 2,9 - 2,7 - 3,4 - 3,2 - 3,4 - 2,6 - 3,3 - 2,5. Informe la decisión que deberá tomar la empresa en función de los datos obtenidos."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "n",
+     12
+    ],
+    [
+     "n",
+     3.9222
+    ]
+   ],
+   [
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "F3",
+  "examen": "Recuperatorio 2° parcial y final 12/12/2024 (Notion)",
+  "planteo": "Tomando los mismos datos del punto anterior: un fabricante evalúa una nueva máquina extrusora de hilo de cobre; se realizó la prueba con distintos equipos, obteniendo los siguientes resultados de maleabilidad (medidos en Tn/mm2): 2,9 - 2,8 - 2,7 - 2,5 - 2,9 - 2,7 - 3,4 - 3,2 - 3,4 - 2,6 - 3,3 - 2,5.",
+  "incisos": [
+   [
+    "a",
+    "Estimar la variabilidad de la máquina con un 95% de confianza."
+   ],
+   [
+    "b",
+    "¿Cuántas pruebas más se deberán realizar si se quiere disminuir en un 30% la relación de estimación del desvío obtenida en el punto anterior?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "n",
+     0.2387
+    ],
+    [
+     "n",
+     0.5722
+    ]
+   ],
+   [
+    [
+     "n",
+     31
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "F4",
+  "examen": "Recuperatorio 2° parcial y final 12/12/2024 (Notion)",
+  "planteo": "Una compañía fabrica dispositivos semiconductores para ser usado en aplicaciones de gran amplitud térmica. La compañía sabe que el incremento de temperatura acorta el tiempo de vida de los dispositivos, y por lo tanto le solicita que determine un modelo que relaciones dichas variables. Se consiguieron los siguientes datos:",
+  "incisos": [
+   [
+    "a",
+    "Encuentre un modelo lineal para los datos brindados. Calcule el coeficiente de determinación e interprételo. Testee el modelo a un nivel de significación del 5%."
+   ],
+   [
+    "b",
+    "¿Cuál sería el tiempo de vida del dispositivo a 85ºC? Estime un IC para el tiempo de vida medio del dispositivo para 55ºC con un nivel de confianza del 95%."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Temperatura (ºC)",
+     "Tiempo de vida (hs)"
+    ],
+    "filas": [
+     [
+      10,
+      420
+     ],
+     [
+      20,
+      365
+     ],
+     [
+      30,
+      285
+     ],
+     [
+      40,
+      220
+     ],
+     [
+      50,
+      176
+     ],
+     [
+      60,
+      117
+     ],
+     [
+      70,
+      69
+     ],
+     [
+      80,
+      34
+     ],
+     [
+      90,
+      5
+     ],
+     [
+      100,
+      5
+     ]
+    ],
+    "variable_y": "Tiempo de vida (hs)"
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     437
+    ],
+    [
+     "n",
+     4.8618
+    ],
+    [
+     "n",
+     0.9642
+    ]
+   ],
+   [
+    [
+     "n",
+     23.7455
+    ],
+    [
+     "n",
+     147.67
+    ],
+    [
+     "n",
+     191.53
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "E1",
+  "examen": "1er parcial 29/04/2025 (tema 2), corregido por el profesor",
+  "planteo": "Un establecimiento agropecuario ha realizado una compra de un lote de cerdos para faena. Con el motivo de estimar la producción de chacinados decide efectuar un control del lote adquirido, de manera que si el lote pesa en promedio más de 51 Kg y un desvío estándar menor a 6 Kg, se usará para chacinados de primera categoría, caso contrario se usará para segunda categoría. A tal efecto se tomó una muestra de 20 cerdos elegidos al azar obteniéndose los siguientes resultados de pesos (medidos en Kg): 50,1 - 56,1 - 55,8 - 49,1 - 48,7 - 48,1 - 55,5 - 48,5 - 47,5 - 51,5 - 50,2 - 55,9 - 55,8 - 56,5 - 47,3 - 56,8 - 56,4 - 56,7 - 47,1 - 50,6",
+  "incisos": [
+   [
+    "a",
+    "¿Considera que los datos son concluyentes como para usar el lote para chacinados de primera categoría? Asumir un riesgo del 1%."
+   ],
+   [
+    "b",
+    "Estimar la resistencia promedio y el desvío estándar de todo el lote. Tomar un N.C.= 99%"
+   ],
+   [
+    "c",
+    "¿Cuántos cerdos más se deberán pesar para reducir en un 15% la relación de la estimación del desvío estándar de los pesos calculada anteriormente?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    "H0: μ ≤ 51",
+    "x̄c = 53,1767; NO rechaza",
+    "Sc = 3,8029; NO rechaza"
+   ],
+   [
+    [
+     "n",
+     49.7578
+    ],
+    [
+     "n",
+     54.6622
+    ],
+    [
+     "n",
+     2.69
+    ],
+    [
+     "n",
+     6.3868
+    ]
+   ],
+   [
+    "n = 30"
+   ]
+  ]
+ },
+ {
+  "id": "E2",
+  "examen": "1er parcial 29/04/2025 (tema 2), corregido por el profesor",
+  "planteo": "El departamento de ingeniería de un establecimiento ha desarrollado un nuevo dispositivo que quiere implementar en el proceso de fabricación. Luego de pruebas experimentales, se piensa que el nuevo dispositivo aumenta la productividad a un promedio de 7,5 piezas por minuto. El proceso de fabricación actual tiene una productividad promedio de 5,9 piezas por minuto con un desvío estándar de 1,58 piezas por minuto. El departamento de ingeniería propone que es conveniente establecer una probabilidad de 0,05 de no instalar el nuevo dispositivo cuando con él se obtiene un valor promedio de 7,5 piezas por minuto; en cambio el gerente general desea asumir un riesgo del 1% de instalar el nuevo dispositivo, cuando con él no se consigue el efecto deseado. Se asume que el desvío estándar no se modificará.",
+  "incisos": [
+   [
+    "a",
+    "Indicar el tamaño de la muestra y la hipótesis adecuada, también establecer la condición de rechazo y la regla de decisión."
+   ],
+   [
+    "b",
+    "¿Cuál es la probabilidad de no implementar el dispositivo cuando la productividad es de 6,2 piezas por minuto?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    "n = 16",
+    [
+     "n",
+     6.8189
+    ]
+   ],
+   [
+    [
+     "n",
+     0.9414
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "T1",
+  "examen": "2° parcial 10/11/2025 (tema 1, turno noche)",
+  "planteo": "Se quiere averiguar si 2 equipos de distintas marcas tienen la misma performance en la fabricación de una determinada pieza. Los resultados medidos en minutos por pieza observados con ambos equipos fueron:",
+  "incisos": [
+   [
+    "a",
+    "Para un riesgo del 5%, ¿Puede asegurar que existe una diferencia de más del 1% en la performance del equipo \"A\" respecto del equipo \"B\"?"
+   ],
+   [
+    "b",
+    "Estimar la diferencia máxima esperada en minutos/pieza del equipo \"A\" respecto del equipo \"B\", asumiendo un Nivel de Confianza del 90%"
+   ],
+   [
+    "c",
+    "¿Se puede verificar que la performance en el equipo \"A\" se ajusta a un Modelo Gamma?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Performance (en minutos/pieza)",
+     "Observaciones en el equipo \"A\"",
+     "Observaciones en el equipo \"B\""
+    ],
+    "filas": [
+     [
+      "15-20",
+      7,
+      0
+     ],
+     [
+      "20-25",
+      41,
+      48
+     ],
+     [
+      "25-30",
+      55,
+      40
+     ],
+     [
+      "30-35",
+      16,
+      8
+     ],
+     [
+      "35-40",
+      9,
+      7
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    "1,01·μ",
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     1.2268
+    ]
+   ],
+   [
+    [
+     "n",
+     4.6678
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "T2",
+  "examen": "2° parcial 10/11/2025 (tema 1, turno noche)",
+  "planteo": "En un proceso productivo se especifica un porcentaje de fallas máximo del 7%. De una muestra de 95 unidades elegidas al azar se detectó que 9 de las unidades tienen fallas.",
+  "incisos": [
+   [
+    "a",
+    "¿Considera que el proceso cumple con la especificación, tomando un riesgo máximo del 5%?"
+   ],
+   [
+    "b",
+    "Para un riesgo del 5%, estimar el porcentaje de unidades no falladas de toda la producción."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     0.8277
+    ],
+    [
+     "n",
+     0.9558
+    ]
+   ]
+  ]
+ }
+]
