@@ -3,8 +3,8 @@
 Sigue el apunte de la cátedra ("Contrastes Chi Cuadrado", Dopazo):
 - Los parámetros desconocidos se estiman por momentos con las marcas de clase: μ ≈ x̄ y
   σ ≈ S (desvío corregido, n-1). Cada parámetro estimado resta un grado de libertad.
-- La primera y la última clase se extienden hasta el borde del dominio del modelo
-  (la primera es F(ls₁), la última es G(li_k) = 1 - F(li_k)).
+- Si el dominio del modelo excede el recorrido observado, se agregan clases nuevas con Fo = 0
+  y probabilidad acumulada: F(li₁) al principio y G(ls_k) = 1 - F(ls_k) al final.
 - Las clases con frecuencia esperada < 5 se amalgaman con la vecina (de los extremos hacia adentro).
 - ν = k - 1 - p, con k = clases efectivas (después de amalgamar) y p = parámetros estimados.
 
@@ -212,13 +212,15 @@ def ajuste_continuo(modelo: str, limites: Sequence[Tuple[float, float]], fo: Seq
     prm, est = estimar_continuo(modelo, m, s, conocidos or {}, limites)
     F = _cdf(modelo, prm)
     N = sum(fo)
-    tabla = []
-    k = len(limites)
-    for i, ((a, b), f) in enumerate(zip(limites, fo)):
-        Fa = 0.0 if (extremos_abiertos and i == 0) else F(a)
-        Fb = 1.0 if (extremos_abiertos and i == k - 1) else F(b)
-        prob = Fb - Fa
-        tabla.append(Clase(f"{a:g} a {b:g}", f, prob, N * prob))
+    tabla = [Clase(f"{a:g} a {b:g}", f, F(b) - F(a), N * (F(b) - F(a))) for (a, b), f in zip(limites, fo)]
+    if extremos_abiertos:
+        # Completar el dominio con clases nuevas (Fo = 0) y probabilidad acumulada, como en clase (VI-15
+        # del 29/10): no se estiran las clases observadas. Si la nueva clase da Fe < 5, el amalgamado la une.
+        p_ini, p_fin = F(limites[0][0]), 1 - F(limites[-1][1])
+        if p_ini > 0:
+            tabla.insert(0, Clase(f"-∞ a {limites[0][0]:g}", 0, p_ini, N * p_ini))
+        if p_fin > 0:
+            tabla.append(Clase(f"{limites[-1][1]:g} a ∞", 0, p_fin, N * p_fin))
     return _contraste(modelo, prm, est, m, s, tabla, alpha, [])
 
 

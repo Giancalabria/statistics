@@ -432,8 +432,8 @@ def chi_ajuste_modelos(d, alpha, res, estado):
         if params:
             res.pasos.append(f"**Parámetros del modelo**: {params}.")
         amalgamado = len(r.tabla_final) < len(r.tabla)
-        res.pasos.append("**Frecuencias esperadas** Feᵢ = N·P(clase i) (la primera y la última clase llegan al borde "
-                         "del dominio):\n\n" + _tabla_md(r.tabla, aportes=not amalgamado))
+        res.pasos.append("**Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con "
+                         "clases de Fo = 0 y probabilidad acumulada):\n\n" + _tabla_md(r.tabla, aportes=not amalgamado))
         if amalgamado:
             res.pasos.append("**Amalgamado** (Fe < 5 se une con la clase vecina):\n\n" +
                              _tabla_md(r.tabla_final, aportes=True))

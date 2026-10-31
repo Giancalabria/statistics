@@ -34,9 +34,19 @@ def test_normal_con_parametros_dados_VI_20b():
 def test_gumbel_min_rechaza_y_max_weibull_no_VI_15():
     lim = _lim("0-15 15-30 30-45 45-60 60-75 75-90 90-105")
     fo = [8, 40, 30, 25, 18, 15, 7]
-    assert aj.ajuste_continuo("gumbel_min", lim, fo, 0.01).rechaza
-    assert not aj.ajuste_continuo("gumbel_max", lim, fo, 0.01).rechaza
-    assert not aj.ajuste_continuo("weibull", lim, fo, 0.01).rechaza
+    # números de la clase del 29/10: las clases que completan el dominio van aparte con Fo = 0
+    r = aj.ajuste_continuo("gumbel_min", lim, fo, 0.01)
+    assert r.rechaza and r.df == 4
+    assert r.tabla[0].etiqueta == "-∞ a 0" and r.tabla[0].fe == pytest.approx(7.04, abs=0.01)
+    assert r.chi2_calc == pytest.approx(68.55, abs=0.02)
+    assert r.chi2_critico == pytest.approx(13.2767, abs=1e-4)
+    r = aj.ajuste_continuo("gumbel_max", lim, fo, 0.01)
+    assert not r.rechaza and r.df == 4
+    assert r.chi2_calc == pytest.approx(10.8398, abs=0.03)  # el profesor redondeó las Fe
+    r = aj.ajuste_continuo("weibull", lim, fo, 0.01)
+    assert not r.rechaza and r.df == 4
+    assert r.parametros["w"] == pytest.approx(1.9592, abs=1e-4) and r.parametros["beta"] == pytest.approx(51.52, abs=0.01)
+    assert r.chi2_calc == pytest.approx(8.3318, abs=0.02)
 
 
 def test_weibull_forma_por_momentos_tabla_catedra():
