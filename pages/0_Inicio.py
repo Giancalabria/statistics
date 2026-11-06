@@ -74,11 +74,11 @@ st.markdown(
 - **Regresión**: recta, validación, intervalos (β1, ρ, pronóstico promedio / individual), modelos linealizables,
   modelo lineal general y selección de modelos (DET, Cp, R² ajustado, PRESS).
 - **Guía resuelta**: los 142 ejercicios de la guía resueltos paso a paso, con la respuesta de la guía al lado.
-- **Interpretar un enunciado**: pegás el problema tal cual y te dice qué pide cada inciso, qué datos hay, cómo
-  presentarlo y ejercicios parecidos de la guía; después corregís lo que haga falta y calcula todo.
-- **Asistente IA (opcional, sin internet)**: con Ollama abierto, la IA completa lo que las reglas no entienden,
-  explica la resolución y responde dudas de teoría con los apuntes. Los números los calcula siempre el solver
-  (ver `ASISTENTE_IA.md`).
+- **Interpretar un enunciado** (la página principal): pegás el problema tal cual; las reglas y dos lecturas de la
+  IA local lo interpretan, se vota cada inciso y el solver calcula. Controlás el planteo, corregís lo que haga falta
+  y recalculás.
+- **Asistente IA (opcional, sin internet)**: un chat. Si pegás un enunciado lo resuelve igual que *Interpretar*; si
+  preguntás algo, responde con los apuntes. Los números los calcula siempre el solver (ver `ASISTENTE_IA.md`).
 """
 )
 

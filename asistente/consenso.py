@@ -1,14 +1,17 @@
 """Consenso: tres lecturas independientes del mismo enunciado y se vota el RESULTADO de cada inciso.
 
-Medido con exámenes reales (final 15/12/25 y 2° parcial 23/06/25): las reglas, la IA que arma el JSON con ejemplos de
-la guía (`interpretar.pedir_ia`) y la IA que primero razona en palabras (`simple.plantear`) se equivocan en lugares
-distintos. Cuando dos llegan al mismo resultado es muy probable que esté bien; cuando no, se muestran las lecturas en
-palabras (qué pide, H0/H1, resultado) para que decida el alumno. Sin 'pensar': en el examen no hay tiempo.
+Las reglas, la IA que arma el JSON con ejemplos de la guía (`interpretar.pedir_ia`) y la IA con un prompt corto POR
+TEMA (`por_tema.pedir_ia_tema`) se equivocan en lugares distintos. Cuando dos llegan al mismo resultado es muy probable
+que esté bien; cuando no, se muestran las lecturas en palabras (qué pide, H0/H1, resultado) para que decida el alumno.
+Sin 'pensar': en el examen no hay tiempo.
+
+Hasta el 04/11/2026 la tercera lectura era la IA que razona en palabras (`simple.plantear`). Medido con qwen3:8b en los
+exámenes del 2° parcial (30 incisos): consenso 29/30 y ~130 s por problema; con la lectura por tema, 30/30 y ~60 s.
 
     from asistente.consenso import consenso
     c = consenso(planteo, incisos, tablas)
     for i in c.incisos:
-        i.letra, i.estado, i.elegido.resumen      # estado: 'consenso' | 'sin_consenso' | 'una_sola' | 'ninguna'
+        i.letra, i.estado, i.elegido.resumen      # estado: 'consenso' | 'ia_vs_reglas' | 'sin_consenso' | 'una_sola' | 'ninguna'
 """
 
 import copy
@@ -26,10 +29,14 @@ from interprete.texto import buscar_numeros
 from . import cliente, simple
 from .comparar import _cerca, _decision, _resuelto
 from .interpretar import completar_con_reglas, lista_incisos, pedir_ia
+from .por_tema import pedir_ia_tema
 
-# orden de preferencia cuando hay empate (medido: la IA con ejemplos acertó más que la razonada en lo no visto)
-FUENTES = ("reglas", "ia", "ia_razonada")
-NOMBRES = {"reglas": "Reglas (solver)", "ia": "IA con ejemplos de la guía", "ia_razonada": "IA razonando en palabras"}
+# las lecturas que se hacen, en orden de preferencia cuando hay empate (las reglas y la IA con ejemplos son las que más
+# aciertan solas: 27/30 cada una en los exámenes del 2° parcial; la IA por tema 23/30)
+FUENTES = ("reglas", "ia", "ia_tema")
+ORDEN = FUENTES + ("ia_razonada",)          # la razonada ya no se corre, pero se puede votar con ella (tests, pruebas)
+NOMBRES = {"reglas": "Reglas (solver)", "ia": "IA con ejemplos de la guía", "ia_tema": "IA por tema (prompt corto)",
+           "ia_razonada": "IA razonando en palabras"}
 
 
 @dataclass
@@ -54,7 +61,7 @@ class IncisoConsenso:
     letra: str
     votos: List[Voto]
     grupos: List[List[Voto]]  # votos con el mismo resultado, el más votado primero
-    estado: str               # 'consenso' (2+ iguales) | 'sin_consenso' | 'una_sola' | 'ninguna'
+    estado: str               # 'consenso' (2+ iguales) | 'ia_vs_reglas' | 'sin_consenso' | 'una_sola' | 'ninguna'
 
     @property
     def elegido(self) -> Optional[Voto]:
@@ -108,8 +115,8 @@ def _leer(fuente: str, planteo: str, incisos, tablas, modelo) -> Lectura:
     try:
         if fuente == "reglas":
             lec.analisis = analizar(planteo, incisos, tablas=tablas)
-        elif fuente == "ia":
-            an, _ = pedir_ia(planteo, incisos, tablas, modelo)
+        elif fuente in ("ia", "ia_tema"):
+            an, _ = (pedir_ia if fuente == "ia" else pedir_ia_tema)(planteo, incisos, tablas, modelo)
             pl, lista = lista_incisos(planteo, incisos)
             completar_con_reglas(an, pl, lista, an.tablas or None)
             lec.analisis = an
@@ -118,8 +125,19 @@ def _leer(fuente: str, planteo: str, incisos, tablas, modelo) -> Lectura:
         lec.resultados = resolver(lec.analisis)
     except cliente.ErrorIA as e:
         lec.error = str(e)
+    except Exception as e:      # noqa: BLE001 — una lectura que falla no puede tirar abajo las otras (ni las reglas)
+        lec.error = f"falló la lectura ({type(e).__name__}: {e})"
+        lec.analisis = lec.analisis if lec.resultados else None
     lec.segundos = time.time() - t0
     return lec
+
+
+def _ia_contra_reglas(grupos: List[List[Voto]]) -> bool:
+    """Las dos IA coinciden y las reglas resolvieron otra cosa. Se elige lo de las IA (en exámenes nuevos las reglas
+    fallan más), pero NO se muestra como consenso: las dos IA son el mismo modelo y se equivocan juntas. Medido el
+    05/11 en los enunciados trampa: con ✅ eran 4 de los 5 consensos equivocados; en el 2° parcial 23/06/25 (Q1), en
+    cambio, las IA tenían razón."""
+    return all(v.fuente != "reglas" for v in grupos[0]) and any(v.fuente == "reglas" for g in grupos[1:] for v in g)
 
 
 def votar(lecturas: List[Lectura]) -> List[IncisoConsenso]:
@@ -145,9 +163,11 @@ def votar(lecturas: List[Lectura]) -> List[IncisoConsenso]:
                 continue
             g = next((g for g in grupos if igual(g[0].resultado, v.resultado)), None)
             g.append(v) if g is not None else grupos.append([v])
-        grupos.sort(key=lambda g: (-len(g), min(FUENTES.index(v.fuente) for v in g)))
+        grupos.sort(key=lambda g: (-len(g), min(ORDEN.index(v.fuente) for v in g)))
         if not grupos:
             estado = "ninguna"
+        elif len(grupos[0]) >= 2 and _ia_contra_reglas(grupos):
+            estado = "ia_vs_reglas"
         elif len(grupos[0]) >= 2:
             estado = "consenso"
         elif len(grupos) == 1:
@@ -182,7 +202,7 @@ def combinado(c: Consenso, elecciones: Optional[Dict[str, str]] = None) -> Optio
         return f if f in lects else (ic.elegido.fuente if ic.elegido else None)
 
     cuenta = Counter(fuente_de(ic) for ic in c.incisos if fuente_de(ic))
-    base = max(lects, key=lambda f: (cuenta.get(f, 0), -FUENTES.index(f)))
+    base = max(lects, key=lambda f: (cuenta.get(f, 0), -ORDEN.index(f)))
     an = copy.deepcopy(lects[base].analisis)
     for k, ic in enumerate(c.incisos):
         f = fuente_de(ic)

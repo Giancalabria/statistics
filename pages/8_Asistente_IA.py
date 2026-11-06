@@ -1,21 +1,26 @@
-"""Chat libre con la IA local: dudas, revisar lo que escribiste, material propio o resolver un ejercicio entero."""
+"""Chat con la IA local. Un solo campo: si lo que mandás es un enunciado, la app lo resuelve por consenso (reglas + 2
+lecturas de IA) y la IA lo redacta; si es una pregunta, la IA responde con los apuntes y el último ejercicio."""
 
 import streamlit as st
 
-from asistente import cliente, contexto
-from asistente.explicar import (SISTEMA_LIBRE, SISTEMA_PREGUNTA, enunciado_texto, leer_adjunto,
-                                numeros_sin_respaldo, resolucion_texto, resolver_enunciado, responder)
+from asistente import cliente
+from asistente.explicar import (SISTEMA_LIBRE, enunciado_texto, leer_adjunto, numeros_sin_respaldo, parece_enunciado,
+                                resolucion_texto, resolver_por_consenso, responder)
 from asistente.ui import configuracion, descartar, en_curso, lanzar, recoger, seguir
 
 PAGINA = "pages/8_Asistente_IA.py"
 
-st.title("🤖 Asistente (IA local)")
-st.write("Chat libre: preguntale lo que quieras, pasale tu material (archivos o texto) o pegale un ejercicio "
-         "entero para que la app lo resuelva y la IA te lo explique.")
-st.caption("Corre en esta computadora, sin internet. Para los números confiá en la app: con «Resolver con la app» "
-           "las cuentas las hace el solver; lo que calcule la IA por su cuenta puede estar mal.")
+PEDIDO_ENUNCIADO = (
+    "Te pegué este enunciado y la app ya lo resolvió por consenso (te paso la resolución). Para cada inciso: en una o "
+    "dos líneas por qué se eligió ese camino (distribución, H0, cola), y después la respuesta como la entregaría en "
+    "el examen. Usá SOLO los números de la resolución: no recalcules ni agregues valores. Si un inciso no tiene "
+    "consenso o quedó sin calcular, decilo al principio de ese inciso.\n\n")
 
-ia_ok, modelo, pensar = configuracion()
+st.title("🤖 Asistente (IA local)")
+st.caption("Pegá un **enunciado** y la app lo resuelve (🗳️ consenso: reglas + 2 lecturas de IA); hacé una "
+           "**pregunta** y te responde con los apuntes. Los números, siempre del recuadro «Resolución de la app».")
+
+ia_ok, modelo, _ = configuracion(opciones=False)
 if not ia_ok:
     st.warning("La IA local no está disponible. Pasos (una sola vez, con internet):")
     st.code(f"brew install ollama          # o el instalador de https://ollama.com\n"
@@ -25,64 +30,27 @@ if not ia_ok:
     st.stop()
 
 ss = st.session_state
-ss.setdefault("chat_ia", [])            # [{"role", "content", "fuentes", "dudosos", "resolucion"}]
-ss.setdefault("chat_ejercicio", "")     # último ejercicio resuelto desde el chat
+ss.setdefault("chat_ia", [])            # [{"role", "content", "fuentes", "dudosos", "resolucion", "consenso"}]
+ss.setdefault("chat_ejercicio", "")     # último ejercicio resuelto (desde el chat o desde «Interpretar»)
 
-PRESETS = {"Libre": SISTEMA_LIBRE, "Responder con los apuntes": SISTEMA_PREGUNTA, "Personalizado": ""}
-
-with st.expander("⚙️ Opciones del chat", expanded=False):
-    preset = st.radio("Estilo", list(PRESETS), horizontal=True, key="chat_preset",
-                      help="Libre: conversa de cualquier cosa y puede resolver. Apuntes: respuestas cortas basadas "
-                           "en los apuntes del repo. Personalizado: escribís vos las instrucciones.")
-    if ss.get("chat_preset_previo") != preset:
-        ss["chat_sistema"] = PRESETS[preset] or ss.get("chat_sistema", SISTEMA_LIBRE)
-        ss["chat_preset_previo"] = preset
-    sistema = st.text_area("Instrucciones para la IA (podés editarlas)", key="chat_sistema", height=130)
-    c1, c2 = st.columns(2)
-    usar_apuntes = c1.toggle("Buscar en los apuntes del repo", value=True, key="chat_apuntes",
-                             help="Agrega a cada pregunta los fragmentos más parecidos de las convenciones, el "
-                                  "esquema teórico, la guía de redacción y la guía resuelta.")
-    mantener = c2.toggle("Recordar el último ejercicio resuelto", value=True, key="chat_mantener")
-    ejercicio_pag5 = ""
-    if ss.get("resultados"):
-        an5, res5 = ss["resultados"]
-        if st.checkbox("Incluir el ejercicio de «Interpretar un enunciado»", value=True, help=an5.planteo[:200],
-                       key="chat_incluir_ejercicio_interpretar"):
-            ejercicio_pag5 = "ENUNCIADO:\n" + enunciado_texto(an5) + "\n\nRESOLUCIÓN:\n" + resolucion_texto(an5, res5)
-    archivos = st.file_uploader("Material propio (txt, md, csv, json, pdf)", accept_multiple_files=True,
-                                type=["txt", "md", "csv", "json", "pdf"], key="chat_archivos")
-    extra = st.text_area("Texto extra para la IA (apuntes, tu resolución para que la revise, una tabla...)",
-                         key="chat_extra", height=100)
-
-adjuntos = "\n\n".join([f"[Archivo {a.name}]\n{leer_adjunto(a.name, a.getvalue())}" for a in archivos or []]
-                       + ([f"[Texto del alumno]\n{extra}"] if extra.strip() else []))
-if len(adjuntos) > 24000:
-    st.caption(f"⚠️ El material tiene {len(adjuntos):,} caracteres: se usan los primeros 24.000.")
-
-c1, c2, c3 = st.columns([3, 3, 1])
-resolver_msg = c1.toggle("🧮 Resolver mi mensaje con la app", key="chat_resolver",
-                         help="Tu próximo mensaje se toma como un ENUNCIADO: lo interpreta (reglas + IA), lo calcula el "
-                              "solver y la IA te explica la resolución.")
-if ss["chat_ejercicio"] and mantener:
-    c2.caption("📌 Hay un ejercicio resuelto en la conversación.")
-if c3.button("🗑 Limpiar"):
+if ss["chat_ia"] and st.button("🗑 Nueva conversación"):
     ss["chat_ia"], ss["chat_ejercicio"] = [], ""
     descartar("chat")
     st.rerun()
 
 
-def mostrar_resolucion(resolucion, informe):
-    with st.expander("🧮 Resolución de la app (solver)"):
-        st.markdown(resolucion)
-        for x in informe:
-            st.caption("🤖 " + x)
+def mostrar_resolucion(m, abierta):
+    if m.get("consenso"):
+        st.markdown("\n".join(f"- **{l})** {marca}" + (f" · {res}" if res else "") for l, marca, res in m["consenso"]))
+    with st.expander("🧮 Resolución de la app (de acá salen los números)", expanded=abierta):
+        st.markdown(m["resolucion"])
 
 
-def mostrar_extra(m):
-    if m.get("resolucion"):
-        mostrar_resolucion(m["resolucion"], m.get("informe", []))
+def mostrar_extra(m, abierta=False):
+    if m.get("aviso"):
+        st.caption("ℹ️ " + m["aviso"])
     if m.get("dudosos"):
-        st.caption("⚠️ Números que no salen de la app, los apuntes ni el material (verificalos): "
+        st.caption("⚠️ Números que no salen de la app, los apuntes ni lo que pegaste (no los copies): "
                    + ", ".join(m["dudosos"]))
     if m.get("fuentes"):
         with st.expander("Fuentes consultadas"):
@@ -91,34 +59,35 @@ def mostrar_extra(m):
                 st.caption(f.texto[:600] + ("…" if len(f.texto) > 600 else ""))
 
 
-def responder_chat(t, mensaje, historial, resolver_msg, ejercicio_pag5, ejercicio_chat, mantener, modelo, pensar,
-                   sistema, usar_apuntes, adjuntos):
-    """Corre en segundo plano (sin Streamlit): -> (mensaje de la IA, ejercicio resuelto en el chat)."""
+def responder_chat(t, mensaje, adjuntos, historial, ejercicio_previo, modelo):
+    """Corre en segundo plano (sin Streamlit): -> (mensaje de la IA, ejercicio que queda en la conversación)."""
     m = {"role": "assistant"}
-    pregunta = mensaje
-    if resolver_msg:
-        t.etapa = "Resolviendo con la app"
-        r, resultados, ejercicio_chat = resolver_enunciado(mensaje, modelo, pensar)
-        m["resolucion"] = resolucion_texto(r.analisis, resultados).replace("\n- ", "\n\n- ")
-        m["informe"] = r.informe
-        t.extra = m
-        pregunta = ("Te pegué este enunciado y la app ya lo resolvió (te paso la resolución). Explicámelo "
-                    "inciso por inciso y escribí la respuesta como la pondría en el examen. Si algún inciso "
-                    "quedó con error o sin calcular, decime qué falta.\n\n" + mensaje)
+    pregunta, ejercicio = mensaje, ejercicio_previo
+    if parece_enunciado(mensaje):
+        t.etapa = "Resolviendo por consenso: reglas + 2 lecturas de IA (~1 min)"
+        an, resultados, ejercicio_nuevo, filas = resolver_por_consenso(mensaje, modelo)
+        if any(res for _, _, res in filas):
+            m["resolucion"] = resolucion_texto(an, resultados).replace("\n- ", "\n\n- ")
+            m["consenso"] = filas
+            t.extra = m
+            pregunta, ejercicio = PEDIDO_ENUNCIADO + mensaje, ejercicio_nuevo
+        else:
+            # no salió ningún inciso: no era un enunciado para resolver (o le faltan datos), se responde como pregunta
+            m["aviso"] = ("La app no pudo resolver ningún inciso: lo tomé como una pregunta. Si era un enunciado, "
+                          "cargalo en «Interpretar un enunciado» para ver qué dato falta.")
     t.etapa = "Escribiendo la respuesta"
-    ejercicio = "\n\n".join(x for x in (ejercicio_pag5, ejercicio_chat if mantener else "") if x)
-    trozos, frags = responder(pregunta, historial, ejercicio, modelo=modelo, pensar=pensar,
-                              sistema=sistema, apuntes=usar_apuntes, adjuntos=adjuntos)
+    trozos, frags = responder(pregunta, historial, ejercicio, modelo=modelo, sistema=SISTEMA_LIBRE, apuntes=True,
+                              adjuntos=adjuntos)
     m["content"] = t.escribir(trozos)
     m["fuentes"] = frags
     respaldo = "\n".join([mensaje, ejercicio, adjuntos] + [f.texto for f in frags] + [x["content"] for x in historial])
     m["dudosos"] = numeros_sin_respaldo(m["content"], respaldo)
-    return m, ejercicio_chat
+    return m, ejercicio
 
 
 def mostrar_parcial(t):
     if t.extra.get("resolucion"):
-        mostrar_resolucion(t.extra["resolucion"], t.extra.get("informe", []))
+        mostrar_resolucion(t.extra, abierta=True)
     if t.texto:
         st.markdown(t.texto)
 
@@ -132,9 +101,14 @@ elif terminada:
     m, ss["chat_ejercicio"] = terminada.resultado
     ss["chat_ia"].append(m)
 
-for m in ss["chat_ia"]:
+ultimo = max((k for k, m in enumerate(ss["chat_ia"]) if m.get("resolucion")), default=None)
+for k, m in enumerate(ss["chat_ia"]):
     with st.chat_message(m["role"]):
+        if m.get("resolucion"):
+            mostrar_resolucion(m, abierta=(k == ultimo))
         st.markdown(m["content"])
+        for nombre in m.get("archivos", []):
+            st.caption(f"📎 {nombre}")
         mostrar_extra(m)
 
 pensando = en_curso("chat")
@@ -142,12 +116,20 @@ if pensando:
     with st.chat_message("assistant"):
         seguir("chat", mostrar_parcial)
 
-placeholder = ("Pegá el enunciado completo (con sus incisos)" if resolver_msg else
-               "Preguntá lo que quieras: «¿por qué acá es t y no Z?», «revisá mi conclusión», «explicame el β»…")
-mensaje = st.chat_input("La IA está respondiendo…" if pensando else placeholder, disabled=pensando)
-if mensaje:
+envio = st.chat_input("La IA está respondiendo…" if pensando else
+                      "Pegá un enunciado completo (con incisos y tabla) o preguntá lo que quieras · 📎 para adjuntar "
+                      "material o tu resolución",
+                      disabled=pensando, accept_file="multiple", file_type=["txt", "md", "csv", "json", "pdf"])
+if envio and (envio.text.strip() or envio.files):
+    archivos = list(envio.files or [])
+    adjuntos = "\n\n".join(f"[Archivo {a.name}]\n{leer_adjunto(a.name, a.getvalue())}" for a in archivos)[:24000]
+    mensaje = envio.text.strip() or "Leé el material que te adjunto y decime qué tiene."
+    # el ejercicio que se está trabajando en «Interpretar un enunciado», si no hay uno del chat
+    ejercicio = ss["chat_ejercicio"]
+    if not ejercicio and ss.get("resultados"):
+        an5, res5 = ss["resultados"]
+        ejercicio = "ENUNCIADO:\n" + enunciado_texto(an5) + "\n\nRESOLUCIÓN:\n" + resolucion_texto(an5, res5)
     historial = [{"role": m["role"], "content": m["content"]} for m in ss["chat_ia"]]
-    ss["chat_ia"].append({"role": "user", "content": mensaje})
-    lanzar("chat", "Chat", PAGINA, responder_chat, mensaje, historial, resolver_msg, ejercicio_pag5,
-           ss["chat_ejercicio"], mantener, modelo, pensar, sistema, usar_apuntes, adjuntos)
+    ss["chat_ia"].append({"role": "user", "content": mensaje, "archivos": [a.name for a in archivos]})
+    lanzar("chat", "Chat", PAGINA, responder_chat, mensaje, adjuntos, historial, ejercicio, modelo)
     st.rerun()

@@ -50,6 +50,9 @@ inciso agrega o cambia respecto del planteo.
 
 # JSON libre: con un JSON Schema, Ollama obliga a escribir las claves en el orden del esquema (ver esquema.json_schema)
 FORMATO = "json"
+# Tope de tokens del JSON del planteo: uno normal tiene unos cientos. Si el modelo entra en un bucle (pasó con
+# qwen3.5:9b el 04/11: más de 3.400 tokens sin cerrar el JSON) se corta a ~1 min en lugar de seguir varios minutos.
+MAX_TOKENS_JSON = 1500
 MAX_EJEMPLO = 3000
 
 
@@ -81,12 +84,44 @@ CALCULADAS = {"n1", "n2", "xbar1", "xbar2", "s1", "s2", "datos", "datos1", "dato
               "valores_var", "x", "y", "xs", "tabla"}
 
 
+# '¿se puede afirmar que el llenado se ajusta a un modelo Normal?': la pregunta misma es de bondad de ajuste, aunque
+# el problema sea de comparación de medias (2° parcial 23/06/25, 2c: las dos IA lo dejaban como no soportado)
+_MODELO = r"(modelo|distribucion|ley|normal|poisson|exponencial|gamma|weibull|binomial|uniforme|gumbel|pareto|log)"
+RE_PIDE_AJUSTE = re.compile(
+    rf"bondad de ajuste|\bajust[a-z]* (bien |adecuadamente )?(a|al) (un |una |el |la )?{_MODELO}|"
+    rf"(sigue|siguen|responde|responden|obedece|obedecen) (a )?(un |una |el |la )?{_MODELO}")
+# 'los datos se ajustan a un modelo lineal / potencial': es regresión, no χ²
+_RE_AJUSTE_REGRESION = re.compile(r"\b(lineal|recta|regresion|potencial|doble logaritmic|semilogaritmic)")
+
+
+def corregir_incisos_de_ajuste(an: Analisis) -> List[str]:
+    """Un inciso que pregunta si los datos se ajustan a un modelo es χ² de bondad de ajuste, diga lo que diga la IA.
+    Se le fija el tema y el tipo; los datos (columna de frecuencias, modelo) los completan las reglas después."""
+    from interprete.texto import normalizar
+    cambiados = []
+    for inc in an.incisos:
+        tema = inc.params.get("tema") or an.tema
+        if (tema == "chi_ajuste" and inc.tipo == "ensayo") or tema in ("regresion", "regresion_multiple"):
+            continue
+        norm = normalizar(inc.texto or "")
+        if not RE_PIDE_AJUSTE.search(norm) or _RE_AJUSTE_REGRESION.search(norm):
+            continue
+        alpha = inc.params.get("alpha")
+        inc.params = {"tema": "chi_ajuste"} if an.tema != "chi_ajuste" else {}
+        if alpha is not None:
+            inc.params["alpha"] = alpha
+        inc.tipo = "ensayo"
+        inc.que_pide = f"Según la IA (corregido): {TIPOS['ensayo']} de bondad de ajuste χ²."
+        cambiados.append(inc.letra)
+    return cambiados
+
+
 def completar_con_reglas(an: Analisis, planteo: str, lista: List[Tuple[str, str]], tablas=None) -> List[str]:
     """La IA decide QUÉ pide cada inciso (tema, tipo, valores con trampa); las reglas, con ese tema forzado, completan
     lo que la IA dejó vacío: los datos que salen de la tabla (n, x̄, S, frecuencias) y las opciones del mismo tipo de
     cálculo (validar la recta, media y desvío a la vez, cola...). Lo que puso la IA no se pisa.
     Devuelve las claves agregadas, para avisar."""
-    agregadas: List[str] = []
+    agregadas: List[str] = [f"{l}) tema = bondad de ajuste" for l in corregir_incisos_de_ajuste(an)]
     temas = {inc.params.get("tema") or an.tema for inc in an.incisos} - {"desconocido", None}
     for tema in sorted(temas):
         try:
@@ -188,14 +223,20 @@ def mensajes(planteo: str, lista: List[Tuple[str, str]], borrador: Optional[Anal
 
 
 def _parsear(texto: str) -> Dict:
+    """El objeto JSON de la respuesta, aunque venga con texto antes o después. Si no hay uno válido (por ejemplo, la
+    respuesta se cortó en el tope de tokens), ErrorIA: la lectura queda con error y las otras siguen."""
     texto = re.sub(r"<think>.*?</think>", "", texto, flags=re.DOTALL).strip()
     try:
-        return json.loads(texto)
+        d = json.loads(texto)
     except ValueError:
-        m = re.search(r"\{.*\}", texto, re.DOTALL)
-        if m:
-            return json.loads(m.group(0))
+        inicio = texto.find("{")
+        try:
+            d = json.JSONDecoder().raw_decode(texto[inicio:])[0] if inicio >= 0 else None
+        except ValueError:
+            d = None
+    if not isinstance(d, dict):
         raise cliente.ErrorIA(f"La IA no devolvió un JSON válido: {texto[:200]}")
+    return d
 
 
 def pedir_ia(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = None, pensar: bool = False,
@@ -203,7 +244,7 @@ def pedir_ia(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = No
     """Le pide al modelo el planteo completo (sin mezclar con las reglas). Devuelve el análisis validado + avisos."""
     planteo, lista = lista_incisos(planteo, incisos)
     salida = cliente.chat(mensajes(con_tablas(planteo, tablas), lista, borrador, excluir), modelo=modelo, formato=FORMATO,
-                          pensar=pensar, temperatura=0)
+                          pensar=pensar, temperatura=0, max_tokens=8000 if pensar else MAX_TOKENS_JSON)
     an, avisos = desde_dict(_parsear(salida), planteo, dict(lista))
     an.tablas = list(tablas) if tablas else (borrador.tablas if borrador else [])
     if not an.incisos:

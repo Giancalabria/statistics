@@ -1,18 +1,15 @@
-"""Interpretar un enunciado: pegás el problema, la app dice qué pide, lo corregís y calcula todo."""
+"""Interpretar un enunciado: pegás el problema, la app lo lee (reglas + 2 lecturas de IA, se vota), lo controlás,
+lo corregís si hace falta y el solver calcula."""
 
 import copy
-from dataclasses import replace
 
 import pandas as pd
 import streamlit as st
 
 from asistente import cliente as ia_cliente
+from asistente.consenso import NOMBRES as NOMBRES_LECTURA, combinado, consenso
 from asistente.explicar import explicar, numeros_sin_respaldo
 from asistente.redactar import Control, controlar, corregir, problemas, redactar
-from asistente.interpretar import interpretar, pedir_ia
-from asistente.comparar import comparar, corregir as corregir_comparacion
-from asistente.consenso import NOMBRES as NOMBRES_LECTURA, combinado, consenso
-from asistente.revisar import aplicar_sugerencias, revisar
 from asistente.ui import configuracion as config_ia, descartar, en_curso, lanzar, recoger, seguir
 from interprete import buscador, glosario
 from interprete.analizador import analizar, cambiar_criterio, separar_incisos
@@ -23,91 +20,53 @@ from interprete.modelo import (CAMPOS_INCISO, CAMPOS_PLANTEO, COLAS, TEMAS, TIPO
 from interprete.resolver import resolver
 
 PAGINA = "pages/5_Interpretar_Enunciado.py"
-# Lo que se borra de la sesión al interpretar de nuevo (además de los resultados).
-NUEVA_INTERPRETACION = {"ia_info": None, "revision": None, "comparacion": None, "ia_explicacion": None,
-                        "cambios_criterio": None, "consenso": None, "consenso_elecciones": {}}
+# Lo que se borra de la sesión al interpretar de nuevo.
+NUEVA_INTERPRETACION = {"ia_explicacion": None, "cambios_criterio": None, "consenso": None, "consenso_elecciones": {}}
 
 
-def interpretar_con_ia(t, modo, planteo, incisos_txt, tablas_in, ia_modelo, ia_pensar):
+def interpretar_con_ia(t, planteo, incisos_txt, tablas_in, ia_modelo):
     """Corre en segundo plano (sin Streamlit): -> (valores nuevos de la sesión, error para mostrar o None)."""
-    t.etapa = {"comparar": "Resolviendo con las reglas y leyendo el enunciado con la IA (~1-2 min)",
-               "revision": "Resolviendo con las reglas y revisando con la IA (~30 s)",
-               "consenso": "Tres lecturas (reglas, IA con ejemplos, IA razonando) y votación (~30-60 s)"}.get(
-        modo, "Interpretando con la IA")
-    if modo == "consenso":
-        c = consenso(planteo, incisos_txt, tablas=tablas_in, modelo=ia_modelo)
-        an = combinado(c) or analizar(planteo, incisos_txt, tablas=tablas_in)
-        return {**NUEVA_INTERPRETACION, "consenso": c, "analisis": an}, None
-    if modo == "comparar":
-        comp = comparar(planteo, incisos_txt, tablas=tablas_in, modelo=ia_modelo)
-        return {**NUEVA_INTERPRETACION, "comparacion": comp, "analisis": comp.reglas}, None
-    if modo == "revision":
-        rv = revisar(planteo, incisos_txt, tablas=tablas_in, modelo=ia_modelo, pensar=ia_pensar)
-        return {**NUEVA_INTERPRETACION, "analisis": rv.analisis, "revision": rv}, None
-    if modo == "hibrido":
-        r = interpretar(planteo, incisos_txt, tablas=tablas_in, modelo=ia_modelo, pensar=ia_pensar)
-        ia_info = r if (r.usado_ia or r.error) else None
-        return {**NUEVA_INTERPRETACION, "analisis": r.analisis, "ia_info": ia_info}, None
-    try:
-        an, avisos = pedir_ia(planteo, incisos_txt, tablas_in, ia_modelo, ia_pensar)
-        an.avisos += [f"🤖 IA: {a}" for a in avisos]
-        return {**NUEVA_INTERPRETACION, "analisis": an}, None
-    except ia_cliente.ErrorIA as e:
-        return ({**NUEVA_INTERPRETACION, "analisis": analizar(planteo, incisos_txt, tablas=tablas_in)},
-                f"🤖 No se pudo consultar a la IA: {e}. Se usan las reglas.")
+    t.etapa = "Tres lecturas (reglas, IA con ejemplos, IA por tema) y votación (~1 min)"
+    c = consenso(planteo, incisos_txt, tablas=tablas_in, modelo=ia_modelo)
+    an = combinado(c) or analizar(planteo, incisos_txt, tablas=tablas_in)
+    return {**NUEVA_INTERPRETACION, "consenso": c, "analisis": an, "resultados": (an, resolver(an))}, None
 
 
-def corregir_ia(t, comp, nota, planteo, incisos_txt, tablas_in, ia_modelo):
-    """Corre en segundo plano: rehace el planteo de la IA con la corrección del usuario."""
-    t.etapa = "La IA está rehaciendo el planteo"
-    nueva = corregir_comparacion(comp, nota, planteo, incisos_txt, tablas_in, ia_modelo)
-    cambios = {"comparacion": nueva}
-    if nueva.ia is not None and not nueva.error:
-        cambios["analisis"] = nueva.ia.analisis              # la corregiste: se pasa a su planteo
-    return cambios, None
-
-
-def redactar_ia(t, nuevo, resultados, pedido, ia_modelo, ia_pensar):
+def redactar_ia(t, nuevo, resultados, pedido, ia_modelo):
     """Corre en segundo plano: la redacción con el estilo de la cátedra, con una vuelta de corrección si hace falta."""
     t.etapa = "Redactando como en el examen"
-    trozos, fuentes = redactar(nuevo, resultados, pedido, modelo=ia_modelo, pensar=ia_pensar)
+    trozos, fuentes = redactar(nuevo, resultados, pedido, modelo=ia_modelo)
     texto = t.escribir(trozos)
     controles = controlar(texto, nuevo, fuentes, resultados)
     fallan = problemas(controles)
     if fallan:
         t.etapa = "🔁 La redacción no cumple el checklist (" + "; ".join(fallan) + "): corrigiendo"
-        texto2 = t.escribir(corregir(nuevo, resultados, texto, fallan, pedido, ia_modelo, ia_pensar))
+        texto2 = t.escribir(corregir(nuevo, resultados, texto, fallan, pedido, ia_modelo))
         controles2 = controlar(texto2, nuevo, fuentes, resultados)
         if len(problemas(controles2)) < len(fallan):
             texto, controles = texto2, controles2
     return texto, controles
 
 
-def explicar_ia(t, nuevo, resultados, pedido, ia_modelo, ia_pensar):
+def explicar_ia(t, nuevo, resultados, pedido, ia_modelo):
     """Corre en segundo plano: por qué se eligió cada camino."""
     t.etapa = "Explicando la resolución"
-    trozos, fuentes = explicar(nuevo, resultados, pedido, modelo=ia_modelo, pensar=ia_pensar)
+    trozos, fuentes = explicar(nuevo, resultados, pedido, modelo=ia_modelo)
     texto = t.escribir(trozos)
     return texto, numeros_sin_respaldo(texto, fuentes)
 
 
 st.title("Interpretar un enunciado")
-st.write(
-    "Pegá el planteo y agregá los incisos. **Interpretar** te dice qué pide cada parte, qué datos encontró "
-    "y cómo presentarlo. Revisá y corregí lo que haga falta, y después **Calcular** resuelve todo con el solver."
-)
-st.caption("Funciona sin internet: son reglas armadas con el estilo de la Guía de Problemas, así que revisá "
-           "siempre los datos detectados antes de calcular. Si tenés la IA local (Ollama) abierta, interviene "
-           "donde las reglas no entienden; los números los calcula siempre el solver.")
-ia_ok, ia_modelo, ia_pensar = config_ia()
+st.caption("Pegá el problema → **Interpretar** → controlá el planteo con `estudio/GUIA_CONTROL.md` (tema, parámetro, "
+           "H0 y cola, α, datos) → si algo está mal, corregilo abajo y **Recalcular**. Los números los calcula siempre "
+           "el solver; funciona sin internet.")
+ia_ok, ia_modelo, _ = config_ia(opciones=False)
 
 ss = st.session_state
 ss.setdefault("incisos", [""])
 ss.setdefault("ver", 0)          # versión del análisis (renueva las claves de los widgets)
 ss.setdefault("analisis", None)
 ss.setdefault("resultados", None)
-ss.setdefault("ia_info", None)
-ss.setdefault("revision", None)
 ss.setdefault("ia_explicacion", None)
 if "tabla_txt_nueva" in ss:
     ss["tabla_txt"] = ss.pop("tabla_txt_nueva")
@@ -164,54 +123,32 @@ with st.expander("📋 Tabla de datos (regresión, frecuencias por clase, contin
         else:
             st.info("No encontré una tabla en el planteo.")
 
-MODOS = {
-    "consenso": "🗳️ Consenso: reglas + 2 lecturas de IA, se vota (recomendado)",
-    "comparar": "⚖️ Reglas y IA por separado, y se comparan",
-    "revision": "🛡️ Solver + revisión IA",
-    "solver": "🔍 Solo solver (reglas)",
-    "hibrido": "🧩 Solver, y la IA completa lo que no entiende",
-    "ia": "🤖 La IA arma el planteo, el solver calcula",
-}
-AYUDA_MODOS = {
-    "consenso": "Tres lecturas independientes del enunciado: las reglas, la IA armando el planteo con ejemplos de la "
-                "guía y la IA razonando en palabras (las cuentas sobre tablas y datos las hace siempre el programa). Se "
-                "vota el RESULTADO de cada inciso: si dos o más coinciden, ✅; si no, ves cada lectura en palabras y "
-                "elegís. Medido con exámenes reales, acierta más que cualquier lectura sola. Sin 'pensar': ~30-60 s.",
-    "comparar": "Las reglas resuelven al instante y, por separado, la IA lee el enunciado y razona el planteo en "
-                "palabras (como un alumno). Se comparan los RESULTADOS de los dos: si coinciden, ✅; si no, ves los dos "
-                "planteos lado a lado y elegís, o le explicás a la IA qué leyó mal. Las reglas aciertan más en los "
-                "ejercicios de estructura conocida y la IA en las redacciones retorcidas. Tarda ~1-2 min.",
-    "revision": "Las reglas arman el planteo y el solver calcula. Después la IA lo audita: busca números del enunciado "
-                "que no se usaron, lo lee por su cuenta sin ver el de las reglas y, donde no coinciden, decide con una "
-                "cita textual del enunciado. Si al planteo le falta algo para resolverse, lo completa (🛠️); si el planteo ya se "
-                "resuelve, NO lo pisa: te sugiere el cambio (💡) y lo aplicás vos con un clic. Lo dudoso queda ⚠️. "
-                "Tarda ~30 s.",
-    "solver": "Solo las reglas (verificadas contra la guía). Instantáneo y sin IA.",
-    "hibrido": "Las reglas primero; la IA solo interviene si algún inciso no se puede resolver.",
-    "ia": "La IA lee el enunciado y arma el planteo sin las reglas; los números los calcula el solver. Sirve para "
-          "comparar: en la guía rinde menos que las reglas.",
-}
-opciones_modo = list(MODOS) if ia_ok else ["solver"]
-if ss.get("modo_interpretar") not in opciones_modo:
-    ss["modo_interpretar"] = opciones_modo[0]
-modo = st.radio("Cómo interpretar", opciones_modo, format_func=MODOS.get, key="modo_interpretar", horizontal=True,
-                help="\n\n".join(f"**{MODOS[m]}**: {AYUDA_MODOS[m]}" for m in opciones_modo))
-st.caption(AYUDA_MODOS[modo] + ("" if ia_ok else " (Para usar la IA abrí Ollama con un modelo descargado.)"))
 interpretando = en_curso("interpretar")
-if st.button("🔍 Interpretar", type="primary", disabled=interpretando):
+c1, c2 = st.columns(2)
+con_ia = c1.button("🗳️ Interpretar (reglas + IA, se vota · ~1 min)", type="primary", disabled=interpretando or not ia_ok,
+                   help="Tres lecturas independientes: las reglas, la IA con ejemplos de la guía y la IA con un prompt "
+                        "corto del tema. Se vota el RESULTADO de cada inciso: ✅ si dos o más coinciden; si no, ves cada "
+                        "lectura y elegís. Un consenso también puede estar mal: controlalo igual.")
+solo_reglas = c2.button("⚡ Solo reglas (al instante, sin IA)", disabled=interpretando,
+                        type="secondary" if ia_ok else "primary")
+if not ia_ok:
+    st.caption("La IA local no está abierta (Ollama): se puede interpretar solo con las reglas.")
+if con_ia or solo_reglas:
     if not ss.get("planteo", "").strip():
         st.error("Escribí el planteo.")
     else:
         tabla = desde_texto_editado(ss.get("tabla_txt", "")) if ss.get("tabla_txt", "").strip() else None
         incisos_txt = [tx for tx in ss["incisos"] if tx.strip()]
         tablas_in = [tabla] if tabla else None
-        if modo == "solver":
-            ss.update({**NUEVA_INTERPRETACION, "resultados": None,
-                       "analisis": analizar(ss["planteo"], incisos_txt, tablas=tablas_in)})
+        if solo_reglas:
+            an_r = analizar(ss["planteo"], incisos_txt, tablas=tablas_in)
+            ss.update({**NUEVA_INTERPRETACION, "analisis": an_r, "resultados": (an_r, resolver(an_r))})
             ss["ver"] += 1
+            descartar("redaccion")
         else:
-            lanzar("interpretar", "Interpretación", PAGINA, interpretar_con_ia, modo, ss["planteo"], incisos_txt,
-                   tablas_in, ia_modelo, ia_pensar)
+            lanzar("interpretar", "Interpretación", PAGINA, interpretar_con_ia, ss["planteo"], incisos_txt,
+                   tablas_in, ia_modelo)
+            descartar("redaccion")
             interpretando = True
 
 terminada = recoger("interpretar")
@@ -219,7 +156,7 @@ if terminada and terminada.error:
     st.exception(terminada.error)
 elif terminada:
     cambios, aviso = terminada.resultado
-    ss.update({"resultados": None, **cambios})
+    ss.update(cambios)
     ss["ver"] += 1
     if aviso:
         st.error(aviso)
@@ -255,65 +192,17 @@ if an.criterio:
     if elegido != an.criterio:
         nuevo_an = copy.deepcopy(an)
         ss["cambios_criterio"] = cambiar_criterio(nuevo_an, elegido)
-        ss["analisis"], ss["resultados"] = nuevo_an, None
+        ss["analisis"], ss["resultados"] = nuevo_an, (nuevo_an, resolver(nuevo_an))
         ss["ver"] += 1
         st.rerun()
     if ss.get("cambios_criterio"):
         st.info("**Al cambiar el criterio:**\n" + "\n".join(f"- {c}" for c in ss["cambios_criterio"]))
 for a in an.avisos:
-    if a.startswith("🛠️"):
-        continue                                    # las correcciones de la revisión se muestran abajo, juntas
     (st.info if a.startswith("🤖") else st.warning)(a)
-comp = ss.get("comparacion")
-if comp:
-    if comp.error:
-        st.error(f"⚖️ No se pudo consultar a la IA: {comp.error}. Quedan las reglas.")
-    elif comp.coinciden:
-        st.success(f"⚖️ ✅ La IA leyó el enunciado por su cuenta y llega a los mismos resultados que las reglas "
-                   f"({comp.segundos:.0f} s).")
-    else:
-        estados = [i.estado for i in comp.incisos]
-        if "distinto" in estados:
-            st.warning(f"⚖️ Las reglas y la IA **llegan a resultados distintos** en {estados.count('distinto')} de "
-                       f"{len(estados)} inciso(s) ({comp.segundos:.0f} s). Mirá los dos planteos y decidí cuál es el "
-                       "correcto.")
-        if "solo_ia" in estados:
-            st.warning(f"⚖️ En {estados.count('solo_ia')} inciso(s) las reglas no pudieron y **la IA sí**: revisá su "
-                       "planteo y, si está bien, usalo.")
-        if "solo_reglas" in estados and "distinto" not in estados and "solo_ia" not in estados:
-            st.info(f"⚖️ La IA no pudo armar un planteo completo ({comp.segundos:.0f} s); quedan las reglas. Igual "
-                    "controlá el planteo, o explicale a la IA qué no entendió.")
-    if comp.incisos:
-        marca = {"coincide": "✅ iguales", "distinto": "❌ distintos", "solo_ia": "🤖 solo la IA",
-                 "solo_reglas": "📐 solo las reglas", "ninguno": "— ninguno"}
-        st.dataframe(pd.DataFrame([{"Inciso": i.letra, "": marca[i.estado], "📐 Reglas": i.reglas, "🤖 IA": i.ia}
-                                   for i in comp.incisos]), hide_index=True, width="stretch")
-    if comp.ia is not None:
-        with st.expander("🤖 Cómo lo planteó la IA (en palabras)", expanded=not comp.coinciden):
-            st.markdown(comp.ia.razonamiento)
-        usa_ia = an is comp.ia.analisis
-        c1, c2 = st.columns(2)
-        if c1.button("📐 Usar el planteo de las reglas", disabled=not usa_ia, key=f"v{V}_usar_reglas"):
-            ss["analisis"], ss["resultados"] = comp.reglas, None
-            ss["ver"] += 1
-            st.rerun()
-        if c2.button("🤖 Usar el planteo de la IA", disabled=usa_ia, key=f"v{V}_usar_ia"):
-            ss["analisis"], ss["resultados"] = comp.ia.analisis, None
-            ss["ver"] += 1
-            st.rerun()
-        st.caption("Ahora se usa el planteo de " + ("**la IA**." if usa_ia else "**las reglas**.")
-                   + " Igual podés corregir cualquier dato abajo, a mano.")
-        nota = st.text_area("💬 Corregile a la IA (qué leyó mal)", key=f"v{V}_nota_ia",
-                            placeholder="Ej.: el 1.237,5 es el peso TOTAL de los 25 paquetes, no la media.")
-        if st.button("Rehacer el planteo de la IA con mi corrección", disabled=not nota.strip(), key=f"v{V}_corregir"):
-            tabla = desde_texto_editado(ss.get("tabla_txt", "")) if ss.get("tabla_txt", "").strip() else None
-            lanzar("interpretar", "Corrección del planteo", PAGINA, corregir_ia, comp, nota, ss["planteo"],
-                   [tx for tx in ss["incisos"] if tx.strip()], [tabla] if tabla else None, ia_modelo)
-            st.rerun()
 cons = ss.get("consenso")
 if cons:
-    marca = {"consenso": "✅ consenso", "sin_consenso": "⚠️ sin consenso", "una_sola": "☝️ una sola lectura",
-             "ninguna": "— ninguna"}
+    marca = {"consenso": "✅ consenso", "ia_vs_reglas": "⚠️ las 2 IA contra las reglas", "sin_consenso": "⚠️ sin consenso",
+             "una_sola": "☝️ una sola lectura", "ninguna": "— ninguna"}
     n_ok = sum(i.estado == "consenso" for i in cons.incisos)
     (st.success if cons.todos_de_acuerdo else st.warning)(
         f"🗳️ {n_ok} de {len(cons.incisos)} inciso(s) con consenso ({cons.segundos:.0f} s)."
@@ -345,66 +234,14 @@ if cons:
                 elecciones[i.letra] = elegida
     if elecciones != (ss.get("consenso_elecciones") or {}):
         ss["consenso_elecciones"] = elecciones
-        ss["analisis"], ss["resultados"] = combinado(cons, elecciones), None
+        ss["analisis"] = combinado(cons, elecciones)
+        ss["resultados"] = (ss["analisis"], resolver(ss["analisis"]))
         ss["ver"] += 1
         st.rerun()
-rv = ss.get("revision")
-if rv:
-    if rv.error:
-        st.error(f"🛡️ {rv.veredicto}")
-    elif rv.corregidos or rv.sugeridos or rv.a_revisar:
-        st.warning(f"🛡️ {rv.veredicto} ({rv.segundos:.0f} s)")
-    else:
-        st.success(f"🛡️ {rv.veredicto} ({rv.segundos:.0f} s)")
-    for i in rv.corregidos:
-        lugar = "Planteo" if i.donde == "planteo" else f"Inciso {i.donde})"
-        st.info(f"🛠️ **{lugar} · {i.que}**: {i.detalle}" + (f"\n\n> «{i.cita}»" if i.cita else ""))
-    if rv.sugeridos:
-        st.markdown("**💡 La IA leyó distinto y sugiere estos cambios** (el planteo de las reglas ya se resolvía, así "
-                    "que no se aplicaron solos). Leé la cita y marcá los que correspondan:")
-        marcados = []
-        for k, i in enumerate(rv.sugeridos):
-            lugar = "Planteo" if i.donde == "planteo" else f"Inciso {i.donde})"
-            if st.checkbox(f"{lugar} · {i.que}: {i.detalle}", key=f"v{V}_sug{k}",
-                           help=f"«{i.cita}»" if i.cita else None):
-                marcados.append(i)
-            if i.cita:
-                st.caption(f"> «{i.cita}»")
-        if st.button("Aplicar los marcados", disabled=not marcados, key=f"v{V}_aplicar_sug"):
-            tabla = desde_texto_editado(ss.get("tabla_txt", "")) if ss.get("tabla_txt", "").strip() else None
-            ss["analisis"] = aplicar_sugerencias(rv, marcados, ss["planteo"], [tx for tx in ss["incisos"] if tx.strip()],
-                                                 [tabla] if tabla else None)
-            rv.analisis = ss["analisis"]
-            rv.items = [i for i in rv.items if i not in marcados] + [replace(i, estado="corregido") for i in marcados]
-            ss["resultados"] = None
-            ss["ver"] += 1
-            st.rerun()
-    for i in rv.a_revisar:
-        lugar = "Planteo" if i.donde == "planteo" else f"Inciso {i.donde})"
-        st.warning(f"⚠️ **{lugar} · {i.que}**: {i.detalle}" + (f"\n\n> «{i.cita}»" if i.cita else ""))
-    confirmados = [i for i in rv.items if i.estado == "confirmado"]
-    if confirmados:
-        with st.expander(f"✅ Lo que la revisión confirmó ({len(confirmados)})"):
-            for i in confirmados:
-                st.markdown(f"- {'Planteo' if i.donde == 'planteo' else 'Inciso ' + i.donde + ')'} · {i.que}: "
-                            f"{i.detalle}")
-info = ss.get("ia_info")
-if info:
-    if info.error:
-        st.error(f"🤖 No se pudo consultar a la IA: {info.error}")
-    elif not info.informe:
-        st.caption(f"🤖 La IA revisó el enunciado ({info.segundos:.0f} s) y no hizo falta cambiar nada.")
-    if info.sugerencias or info.avisos_ia:
-        with st.expander(f"🤖 La IA leyó distinto ({len(info.sugerencias)} diferencias, no aplicadas: revisalas)",
-                         expanded=bool(info.sugerencias)):
-            for x in info.sugerencias:
-                st.markdown(f"- {x}")
-            for x in info.avisos_ia:
-                st.caption("↳ " + x)
 
 frases = glosario.buscar_frases(an.planteo + " " + " ".join(i.texto for i in an.incisos))
 if frases:
-    with st.expander(f"📖 Pistas de lectura ({len(frases)} frases típicas encontradas)", expanded=True):
+    with st.expander(f"📖 Pistas de lectura ({len(frases)} frases típicas encontradas)"):
         for frase, significado in frases:
             st.markdown(f"- *{frase}* → {significado}")
 
@@ -508,16 +345,16 @@ for k, inc in enumerate(an.incisos):
 # 5) Ejercicios parecidos de la guía
 # ---------------------------------------------------------------------------
 
-st.subheader("5 · Ejercicios parecidos de la guía")
-solo_parcial = st.checkbox("Solo los que entraban en el primer parcial", value=False, key="solo_parcial")
-parecidos = buscador.buscar(an.planteo + " " + " ".join(i.texto for i in an.incisos), k=4, tema=tema,
-                            solo_parcial=solo_parcial)
-if not parecidos:
-    st.caption("No se encontró `datos/guia_ejercicios.json` (correr `python herramientas/extraer_guia.py`).")
-for sim, ej in parecidos:
-    marca = " · ✅ resuelto en la guía" if ej["resuelto"] else ""
-    with st.expander(f"Tema {ej['tema']} – Problema {ej['numero']} (pág. {ej['pagina']}) · similitud "
-                     f"{sim:.0%}{marca}"):
+with st.expander("📚 Ejercicios parecidos de la guía"):
+    solo_parcial = st.checkbox("Solo los que entraban en el primer parcial", value=False, key="solo_parcial")
+    parecidos = buscador.buscar(an.planteo + " " + " ".join(i.texto for i in an.incisos), k=4, tema=tema,
+                                solo_parcial=solo_parcial)
+    if not parecidos:
+        st.caption("No se encontró `datos/guia_ejercicios.json` (correr `python herramientas/extraer_guia.py`).")
+    for sim, ej in parecidos:
+        marca = " · ✅ resuelto en la guía" if ej["resuelto"] else ""
+        st.markdown(f"**Tema {ej['tema']} – Problema {ej['numero']}** (pág. {ej['pagina']}) · similitud "
+                    f"{sim:.0%}{marca}")
         st.markdown(ej["enunciado"])
         if ej["respuesta"]:
             st.markdown(f"**Respuesta de la guía:** {ej['respuesta']}")
@@ -525,6 +362,7 @@ for sim, ej in parecidos:
             st.markdown("**Cómo lo concluye la guía:**")
             for c in ej["conclusiones"][:6]:
                 st.markdown(f"> {c}")
+        st.divider()
 
 # ---------------------------------------------------------------------------
 # 6) Calcular
@@ -575,7 +413,9 @@ def construir():
     return nuevo, errores
 
 
-if st.button("🧮 Calcular", type="primary"):
+if st.button("🧮 Recalcular con lo que corregí", type="primary",
+             help="La resolución de abajo ya está calculada con el planteo interpretado. Si cambiaste algún dato, el "
+                  "tipo o los parámetros de un inciso, recalculá."):
     nuevo, errores = construir()
     for e in errores:
         st.error(e)
@@ -626,12 +466,12 @@ if ss.get("resultados") and ia_ok:
                          "unidad, 7 pasos, CR y RD, expresión formal de los intervalos. Los números son los del "
                          "solver; al final se pasa el checklist."):
         nuevo, resultados = ss["resultados"]
-        lanzar("redaccion", "Redacción", PAGINA, redactar_ia, nuevo, resultados, pedido, ia_modelo, ia_pensar)
+        lanzar("redaccion", "Redacción", PAGINA, redactar_ia, nuevo, resultados, pedido, ia_modelo)
         redactando = True
     if c_exp.button("💬 Explicar con IA", disabled=redactando,
                     help="Explica por qué se eligió cada camino (distribución, hipótesis, cola)."):
         nuevo, resultados = ss["resultados"]
-        lanzar("redaccion", "Explicación", PAGINA, explicar_ia, nuevo, resultados, pedido, ia_modelo, ia_pensar)
+        lanzar("redaccion", "Explicación", PAGINA, explicar_ia, nuevo, resultados, pedido, ia_modelo)
         redactando = True
     terminada = recoger("redaccion")
     if terminada and isinstance(terminada.error, ia_cliente.ErrorIA):

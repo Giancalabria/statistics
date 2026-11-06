@@ -204,7 +204,11 @@ def test_analizar_con_tema_forzado():
 
 def test_busqueda_en_apuntes():
     frags = contexto.buscar("criterio pesimista optimista hipótesis nula", k=3, fuentes=explicar.APUNTES)
-    assert frags and any("riterio" in f.titulo for f in frags)
+    # lo que dijo el profesor (estudio/REGLAS_PROFESOR.md) manda y tiene que aparecer
+    assert any(f.fuente == "profesor" and "H0" in f.titulo for f in frags)
+    assert "redaccion" not in explicar.APUNTES       # la «Guía Definitiva…» contradice al profesor
+    assert "## 6. Ensayos sobre p" in contexto.reglas_profesor("proporcion")
+    assert "## 8." not in contexto.reglas_profesor("proporcion")
     assert contexto.buscar("dosificación latas café", k=1, fuentes=("guia",))[0].titulo.startswith("I-1")
 
 

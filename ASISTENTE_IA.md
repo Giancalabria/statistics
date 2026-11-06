@@ -10,17 +10,15 @@ El modelo se usa para lo que a las reglas les cuesta:
 
 | Dónde | Qué hace la IA |
 |---|---|
-| **Interpretar un enunciado** → modo **🗳️ Consenso** (recomendado para el examen) | Tres lecturas del mismo enunciado: las **reglas**, la **IA con ejemplos** (`interpretar.pedir_ia`) y la **IA razonada** (`simple.plantear`). Las cuentas sobre tablas y listas las pone siempre el programa (`interpretar.completar_con_reglas`). Por inciso se vota (`asistente/consenso.py`): ✅ consenso si al menos dos dan el mismo planteo y los mismos números; ⚠️ sin consenso → elegís la lectura con un botón. En 6 exámenes reales: a ciegas acertó entre 2/5 y 11/12 según el examen; después de corregir, todos. Un consenso puede estar equivocado: controlar el planteo con `estudio/GUIA_CONTROL.md`. Sin «pensar», 15-35 s por problema. |
-| **Interpretar un enunciado** → modo **⚖️ Reglas y IA por separado, y se comparan** | Dos lecturas independientes: las reglas resuelven al instante y la IA (`asistente/simple.py`) primero **razona el planteo en palabras**, sin formulario ni categorías, y después se traduce a los campos del solver con ejemplos de la guía. Se comparan los **resultados** de los dos por inciso: ✅ iguales, ❌ distintos, 🤖 solo la IA o 📐 solo las reglas. Si no coinciden ves los dos planteos y elegís con un botón, o le **escribís a la IA qué leyó mal** y rehace su planteo (`asistente/comparar.py`). En una prueba rápida, las reglas acertaron 17/17 en ejercicios normales y la IA 2/17; en trampas de redacción, la IA 8/16 y las reglas 3/16: se equivocan en lugares distintos. ~1-2 min. |
-| **Interpretar un enunciado** → modo **🛡️ Solver + revisión IA** | Las reglas arman el planteo y el solver calcula; después la IA lo **audita**: (1) busca números del enunciado que el planteo no usa (sin IA), (2) lee el enunciado **a ciegas**, sin ver lo de las reglas, y compara campo por campo —la hipótesis se compara entera, en palabras—, y (3) donde no coinciden, un árbitro decide con las opciones en orden neutro y una **cita textual** del enunciado, que se verifica. Si el planteo de las reglas no se podía resolver, lo que la IA respalda con cita se aplica (🛠️); si ya se resolvía, **no lo pisa**: queda como sugerencia 💡 que aplicás con un clic (en la guía, aplicarlas solas rompía 35 de 536 valores). Lo dudoso queda ⚠️. ~30 s. |
-| **Interpretar un enunciado** → modo **🧩 Solver, y la IA completa lo que no entiende** | Primero corren las reglas. Solo si fallan (tema no identificado, un inciso sin clasificar, datos que faltan) se consulta a la IA, y su propuesta se aplica **únicamente si hace que el solver resuelva más incisos sin romper ninguno**. No detecta un planteo equivocado que igual se pueda calcular: para eso está la revisión. |
-| **Interpretar un enunciado** → modo **🤖 La IA arma el planteo** | La IA arma el planteo sola (sin las reglas) y el solver calcula. Sirve para comparar. |
-| **Interpretar un enunciado** → modo **🔍 Solo solver** | Solo las reglas, sin IA. |
+| **Interpretar un enunciado** → **🗳️ Interpretar** (la página que abre la app; lo que se usa en el examen) | Tres lecturas del mismo enunciado: las **reglas**, la **IA con ejemplos** (`interpretar.pedir_ia`) y la **IA por tema** (`por_tema.pedir_ia_tema`: primero clasifica el tema, después un prompt corto con solo las claves de ese tema y ejemplos del mismo tema). Las cuentas sobre tablas y listas las pone siempre el programa (`interpretar.completar_con_reglas`). Por inciso se vota (`asistente/consenso.py`): ✅ consenso si al menos dos dan el mismo planteo y los mismos números; ⚠️ sin consenso → elegís la lectura con un botón. El resultado se calcula solo; si corregís algo, *🧮 Recalcular*. Si las dos IA coinciden contra las reglas se elige lo de las IA, pero se marca **⚠️ las 2 IA contra las reglas** (no ✅): son el mismo modelo y se equivocan juntas. Medido el 04-05/11 con qwen3:8b: exámenes del 2° parcial, 30/30 y ningún ✅ equivocado; banco completo con el código de la app, 35/35; enunciados trampa (82 incisos), 76/82 elegidos bien y 1 ✅ equivocado (sin la marca ⚠️ eran 5). ~1 min por problema con la Mac despierta. Un consenso puede estar equivocado: controlar el planteo con `estudio/GUIA_CONTROL.md`. |
+| **Interpretar un enunciado** → **⚡ Solo reglas** | Solo las reglas, sin IA, al instante. Plan B si Ollama no anda. |
 | **Interpretar un enunciado** → *💬 Explicar con IA* (después de Calcular) | Explica por qué se eligió cada camino y redacta la respuesta de examen con las convenciones de la cátedra, a partir de la resolución del solver. Marca con ⚠️ cualquier número que no salga del enunciado ni de la resolución. |
-| **Asistente IA** (página 8) | **Chat libre**: dudas, revisar lo que escribiste, resolver ejercicios. Opciones: instrucciones editables (estilo *Libre*, *Responder con los apuntes* o *Personalizado*), buscar o no en los apuntes del repo, subir material propio (txt, md, csv, json, pdf) o pegar texto, e incluir el ejercicio de *Interpretar un enunciado*. Con **🧮 Resolver mi mensaje con la app**, el mensaje se toma como enunciado: lo interpretan las reglas (+ IA si hace falta), lo calcula el solver y la IA lo explica. Ese ejercicio queda en la conversación para seguir preguntando. Los números que no salen de la app ni del material se marcan con ⚠️. |
+| **Asistente IA** (página 8) | **Un solo campo de chat, sin opciones.** Si lo que mandás parece un **enunciado** (varios datos y además incisos, una tabla o una consigna), se resuelve en modo **🗳️ consenso** (reglas + 2 lecturas de IA, se vota) y se muestra el estado de cada inciso (✅ consenso / ⚠️ sin consenso / ☝️ una sola lectura) y la resolución del solver; después la IA lo redacta sin agregar números. Si es una **pregunta** o un pedido («explicame…», «revisá mi respuesta…»), responde con los apuntes del repo y el último ejercicio resuelto (del chat o de *Interpretar un enunciado*). Con 📎 se adjunta material (txt, md, csv, json, pdf). Los números que no salen de la app ni del material se marcan con ⚠️. |
 
 La IA **nunca hace las cuentas**: no hay un modo «solo IA» porque un modelo de 8B se equivoca en aritmética y el
 solver está verificado dígito a dígito contra la guía. Para resolver charlando está la página *Asistente IA*.
+
+**Modos que se sacaron de la pantalla (04/11).** *⚖️ Comparar*, *🛡️ Revisión*, *🧩 Híbrido* y *🤖 La IA sola* rendían menos que el consenso o mostraban lo mismo con más pasos. El código sigue (`comparar.py`, `revisar.py`, `interpretar.interpretar`, `simple.py`) porque lo usan `herramientas/evaluar_guia.py` y los tests. La IA razonada (`simple.plantear`) era la tercera lectura del consenso hasta el 04/11: en los exámenes del 2° parcial acertaba 22/30 y tardaba ~104 s por problema (la IA por tema: 23/30 sola, pero el consenso con ella da 30/30 contra 29/30, en la mitad del tiempo).
 
 **Reglas del profesor en los prompts.** Las instrucciones de *Explicar con IA* (`asistente/explicar.py`) y la
 redacción (`asistente/redactar.py`, que lee `ESTILO_CATEDRA.md`) siguen lo que dijo el profesor en clase, que manda
@@ -53,11 +51,12 @@ Listo: a partir de acá funciona **sin internet**. Para verificarlo, desactivá 
 | `qwen3:14b` | ~9 GB | Entra, pero es más o menos la mitad de rápido. Mejor en enunciados enredados. |
 | `qwen3:4b` | ~2,5 GB | Rápido, para máquinas con poca memoria. Se equivoca más. |
 
-El modelo se elige en la barra lateral (aparecen los que tengas descargados). Para cambiar el que viene
-elegido por defecto: `export ASISTENTE_MODELO=qwen3:14b` antes de `streamlit run app.py`.
+La app usa el modelo de `ASISTENTE_MODELO` (la barra lateral solo muestra si está listo). Para probar otro:
+`export ASISTENTE_MODELO=qwen3:14b` antes de `streamlit run app.py`, y medilo antes con
+`python herramientas/evaluar_examenes.py --ia --modelo qwen3:14b`.
 
-El interruptor **«Razonar antes de responder»** activa el modo razonamiento de Qwen3. Es más preciso, pero
-puede tardar un minuto o más por pedido.
+Sin modo razonamiento: se sacó de la pantalla porque tardaba minutos por pedido y no mejoró los resultados
+(medido en octubre con qwen3:8b y qwen3:14b).
 
 ### Variables de entorno (opcionales)
 
@@ -98,14 +97,15 @@ asistente/
   cliente.py      API local de Ollama (urllib): chat, streaming, salida JSON con esquema, modo razonamiento
   esquema.py      JSON Schema del planteo (mismas claves que interprete/modelo.py) y su validación
   interpretar.py  híbrido reglas + IA (con ejercicios parecidos de la guía como ejemplos)
-  simple.py       IA que razona el planteo en palabras y después lo traduce a campos
-  consenso.py     vota reglas + IA con ejemplos + IA razonada, por inciso
+  simple.py       IA que razona el planteo en palabras y después lo traduce a campos (ya no se usa en la app)
+  por_tema.py     IA con un prompt corto por tema (clasifica el tema y después pide el JSON de ese tema)
+  consenso.py     vota reglas + IA con ejemplos + IA por tema, por inciso
   revisar.py      solver + revisión: lectura a ciegas, arbitraje con cita, hipótesis en palabras
   numeros.py      números del enunciado que el planteo no usa (sin IA)
   contexto.py     búsqueda TF-IDF en los apuntes .md
   explicar.py     explicaciones / chat y control de números sin respaldo
   tareas.py       consultas en segundo plano (un hilo por consulta): siguen aunque cambies de página
-  ui.py           barra lateral de Streamlit (estado de Ollama, modelo, razonamiento) y seguimiento de tareas
+  ui.py           barra lateral de Streamlit (estado de Ollama y modelo) y seguimiento de tareas
 ```
 
 - **Seguir trabajando en otra página**: interpretar con IA, rehacer el planteo, redactar, explicar y el chat corren

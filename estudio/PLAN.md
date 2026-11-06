@@ -19,12 +19,14 @@ Lo que hay que entrenar:
 
 La teoría se estudia **solo en lo conceptual**: cuándo se usa cada test, cómo se plantea H0, qué significa el resultado. Cada vez que la app se equivoca en una práctica, se anota el caso en la guía de control.
 
+**Ajuste del 02/11:** en el examen Q copié lo de la app sin detectar ningún error, porque no sabía qué tenía que dar el planteo. Desde ahora cada tema empieza con **planteo a ciegas**: leo el enunciado y escribo **yo, sin la app**, el tema, el parámetro, p₀/p₁ (o δ₀), α y β, H0/H1 y la cola (2-3 minutos por problema). Recién después lo cargo en la app y comparo. Si no coinciden, alguno de los dos está mal, y eso es lo que se entrena.
+
 ---
 
 ## Cómo es una sesión de práctica
 
 1. Claude me da un examen real (o un problema de la guía) **sin la resolución**.
-2. Lo cargo en la app (modo 🗳️ Consenso), con el reloj corriendo.
+2. Lo cargo en la app (*Interpretar un enunciado* → 🗳️ Interpretar), con el reloj corriendo.
 3. Controlo cada inciso con [GUIA_CONTROL.md](GUIA_CONTROL.md) y corrijo lo que esté mal.
 4. Escribo la respuesta como la entregaría.
 5. Claude la compara con la referencia y con `REGLAS_PROFESOR.md`: qué se me escapó del planteo, qué falta en la redacción y cuánto tardé.
@@ -66,7 +68,8 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 Leyenda: ⬜ pendiente · 🟨 en curso · ✅ terminado
 
 **Errores detectados en las prácticas** (míos al controlar o al redactar):
-- (todavía nada)
+- 02/11, examen Q, problema 1: no detecté que la app tomó **p₀ = 0,20** (era 0,40, el del paréntesis), **β = 0,10** (era 0,01: potencia 0,99) y **H1 con «>»** para una reducción. La pista era el «−83 habitantes más» del inciso c. Q1 sigue fallando en la app: se corrige a mano.
+- 02/11, examen Q, problema 2: lo di por bueno, pero los números venían del **chat de explicación**, que los inventó (SB > SA, t = 0,371). Los números se copian solo del panel del solver. *(App corregida: 2b y 2c, y el chat ahora resuelve siempre por consenso.)*
 
 **Presentación:** desde el 05/11 la app presenta cada tema como los ejercicios resueltos en clase (tests en `tests/test_presentacion_clase.py`). En las prácticas, completar «Variable en palabras», «Unidad» y «Acción si se rechaza H0» (ver `GUIA_CONTROL.md`, punto 6).
 
@@ -99,8 +102,8 @@ Si consigo más exámenes (sobre todo 2° parciales corregidos), son lo más val
 
 ## Compu para el examen (probar el 18/11 con el wifi apagado)
 
-- El solver levanta sin internet y Ollama responde con `qwen3:8b` (modo 🗳️ Consenso, sin «pensar»).
-- Plan B si la IA no anda: la app funciona solo con reglas (modo reglas); controlar más todavía el planteo.
+- El solver levanta sin internet y Ollama responde con `qwen3:8b` (🗳️ Interpretar).
+- Plan B si la IA no anda: la app funciona solo con reglas (⚡ Solo reglas); controlar más todavía el planteo.
 - *Probability Distributions* sin actualizar; Excel con `GAMMA.LN` y el Solver activado (Weibull).
 - Apuntes, la guía de control y `REGLAS_PROFESOR.md` descargados o impresos.
 

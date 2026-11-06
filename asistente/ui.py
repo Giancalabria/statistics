@@ -19,8 +19,9 @@ def _estado() -> Tuple[bool, list]:
         return True, []
 
 
-def configuracion() -> Tuple[bool, Optional[str], bool]:
-    """Barra lateral: estado de la IA local, modelo y modo razonamiento. Devuelve (lista, modelo, pensar)."""
+def configuracion(opciones: bool = True) -> Tuple[bool, Optional[str], bool]:
+    """Barra lateral: estado de la IA local, modelo y modo razonamiento. Devuelve (lista, modelo, pensar).
+    Con `opciones=False` solo muestra el estado y usa el modelo recomendado, sin razonamiento (lo más rápido)."""
     ok, instalados = _estado()
     with st.sidebar:
         st.markdown("### 🤖 IA local")
@@ -35,6 +36,9 @@ def configuracion() -> Tuple[bool, Optional[str], bool]:
             st.caption(f"Ollama está abierto pero no hay modelos. Descargá uno: `ollama pull {cliente.MODELO}`")
             return False, None, False
         preferido = next((m for m in instalados if cliente.modelo_instalado(cliente.MODELO, [m])), instalados[0])
+        if not opciones:
+            st.caption(f"✅ Lista ({preferido}). Sin internet: todo corre en esta computadora.")
+            return True, preferido, False
         modelo = st.selectbox("Modelo", instalados, index=instalados.index(preferido), key="ia_modelo")
         pensar = st.toggle("Razonar antes de responder", value=False, key="ia_pensar",
                            help="Qwen3 / DeepSeek-R1: más preciso en enunciados enredados, pero tarda bastante más.")

@@ -2,6 +2,7 @@
 
     python herramientas/evaluar_examenes.py            # solo reglas (instantáneo)
     python herramientas/evaluar_examenes.py --ia       # consenso: reglas + 2 lecturas de IA (necesita Ollama)
+    python herramientas/evaluar_examenes.py --ia --modelo qwen3:8b   # con otro modelo (por defecto, el de la app)
 
 Cada inciso tiene una referencia calculada aparte (scipy): un texto que tiene que aparecer en el resumen, ["n", valor]
 (un número del resumen con tolerancia de redondeo) o ["d", "rechaza" | "no_rechaza"]. Los incisos ambiguos
@@ -39,15 +40,17 @@ def cumple(resultado, esperado) -> bool:
 
 def main():
     con_ia = "--ia" in sys.argv
+    modelo = sys.argv[sys.argv.index("--modelo") + 1] if "--modelo" in sys.argv else None
     examenes = json.loads((RAIZ / "datos" / "examenes_reales.json").read_text(encoding="utf-8"))
     if con_ia:
         from asistente.consenso import consenso
-    tot = {"incisos": 0, "reglas": 0, "ia": 0, "ia_razonada": 0, "consenso": 0, "consenso_mal": 0, "alguna": 0}
+    tot = {"incisos": 0, "reglas": 0, "ia": 0, "ia_tema": 0, "ia_razonada": 0, "consenso": 0, "consenso_mal": 0,
+           "alguna": 0}
     for ex in examenes:
         incisos = [tuple(i) for i in ex["incisos"]] if ex["incisos"] else None
         t0 = time.time()
         if con_ia:
-            c = consenso(ex["planteo"], incisos, ex["tablas"])
+            c = consenso(ex["planteo"], incisos, ex["tablas"], modelo=modelo)
             filas = [(ic.letra, {v.fuente: v.resultado for v in ic.votos}, ic) for ic in c.incisos]
         else:
             an = analizar(ex["planteo"], incisos, tablas=ex["tablas"])
@@ -66,10 +69,10 @@ def main():
                 tot["consenso"] += elegido_ok
                 tot["consenso_mal"] += ic.estado == "consenso" and not elegido_ok
                 linea += f" | {ic.estado}: {'OK' if elegido_ok else 'MAL'}"
-            print(linea)
+            print(linea, flush=True)
         print(f"   {ex['id']} ({ex['examen']}, {time.time() - t0:.0f} s)")
     n = tot["incisos"]
-    print(f"\nReglas {tot['reglas']}/{n}" + (f" · IA con ejemplos {tot['ia']}/{n} · IA razonada {tot['ia_razonada']}/{n}"
+    print(f"\nReglas {tot['reglas']}/{n}" + (f" · IA con ejemplos {tot['ia']}/{n} · IA por tema {tot['ia_tema']}/{n}"
                                             f" · CONSENSO {tot['consenso']}/{n} (consensos equivocados: "
                                             f"{tot['consenso_mal']}) · alguna lectura bien {tot['alguna']}/{n}"
                                             if con_ia else ""))

@@ -34,9 +34,9 @@ git pull
 .venv/bin/python -m streamlit run app.py
 ```
 
-- **Interpretar un enunciado**: *🤖 Interpretar con IA* y, después de calcular, *💬 Explicar con IA*.
-- **Asistente IA**: chat libre (dudas, material propio, *🧮 Resolver mi mensaje con la app*).
-- El modelo y el modo "Razonar" se eligen en la barra lateral.
+- **Interpretar un enunciado** (la página que abre la app): *🗳️ Interpretar* (reglas + IA, se vota) o *⚡ Solo reglas*; el resultado sale solo, y después *📝 Redactar* o *💬 Explicar*.
+- **Asistente IA**: un solo chat: pegás un enunciado y lo resuelve por consenso; preguntás algo y responde con los apuntes.
+- El modelo es el de `ASISTENTE_MODELO` (por defecto el recomendado); la barra lateral solo muestra si la IA está lista.
 
 ## Comandos útiles de Ollama
 

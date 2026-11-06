@@ -63,10 +63,10 @@ def test_votacion_y_planteo_combinado():
     buena = analizar(planteo, incisos)
     mala = analizar(planteo, incisos)
     mala.incisos[0].params["alpha"] = 0.01                      # otra lectura con otro α en el inciso a)
-    lecturas = [Lectura(f, an, resolver(an)) for f, an in (("reglas", mala), ("ia", buena), ("ia_razonada", buena))]
+    lecturas = [Lectura(f, an, resolver(an)) for f, an in (("reglas", mala), ("ia", buena), ("ia_tema", buena))]
     votos = votar(lecturas)
-    assert [v.estado for v in votos] == ["consenso", "consenso"]
-    assert {v.fuente for v in votos[0].grupos[0]} == {"ia", "ia_razonada"}
+    assert [v.estado for v in votos] == ["ia_vs_reglas", "consenso"]       # a): las dos IA contra las reglas
+    assert {v.fuente for v in votos[0].grupos[0]} == {"ia", "ia_tema"}
     an = combinado(Consenso(lecturas, votos))
     assert an.incisos[0].params.get("alpha") != 0.01
     assert resolver(an)[0].resumen == resolver(buena)[0].resumen
@@ -82,3 +82,63 @@ def test_la_relacion_entre_limites_es_del_desvio():
     an, avisos = desde_dict({"tema": "media", "datos": {"alpha": 0.01},
                              "incisos": [{"letra": "c", "tipo": "n", "params": {"reduccion": 0.15}}]}, "", {"c": texto})
     assert an.incisos[0].params["tema"] == "varianza"
+
+
+def test_lectura_por_tema_prompt_corto_y_tema_de_cada_inciso(monkeypatch):
+    """La IA por tema: primero clasifica, después pide el JSON con solo las claves de esos temas."""
+    import json
+    from asistente import cliente, por_tema
+    pedidos = []
+    respuestas = iter([
+        {"tema": "dos_medias", "incisos": {"a": "dos_medias", "b": "chi_ajuste"}},
+        {"tema": "dos_medias", "datos": {"alpha": 0.05},
+         "incisos": [{"letra": "a", "tipo": "ensayo", "params": {"delta0": 0.05}},
+                     {"letra": "b", "tipo": "ensayo", "params": {"modelos": "normal"}}]}])
+
+    def chat(mensajes, **kw):
+        pedidos.append(mensajes)
+        return json.dumps(next(respuestas))
+    monkeypatch.setattr(cliente, "chat", chat)
+    an, _ = por_tema.pedir_ia_tema("Dos máquinas llenan botellas.", [("a", "¿Difieren en más de 0,05 ml?"),
+                                                                     ("b", "¿La máquina A se ajusta a una Normal?")],
+                                   [TABLA])
+    sistema = pedidos[1][0]["content"]
+    assert len(sistema) < 7000 and "delta0_pct" in sistema and "modelos" in sistema
+    assert "p_hat" not in sistema and "x0" not in sistema            # claves de proporción y regresión: no van
+    assert all(m["content"].count("dos_medias") or m["role"] != "assistant" for m in pedidos[1][1:-1])
+    assert an.tema == "dos_medias" and an.incisos[1].params["tema"] == "chi_ajuste"
+    assert an.incisos[0].params["delta0"] == 0.05
+
+
+def test_json_con_texto_alrededor_o_cortado():
+    from asistente import cliente
+    from asistente.interpretar import _parsear
+    assert _parsear('Acá va: {"tema": "media", "datos": {"n": 3}} y algo más }') == {"tema": "media", "datos": {"n": 3}}
+    for malo in ('{"tema": "media", "datos": {"n": 3', "[1, 2]", "sin json"):
+        with pytest.raises(cliente.ErrorIA):
+            _parsear(malo)
+
+
+def test_una_lectura_que_falla_no_tira_abajo_el_consenso(monkeypatch):
+    from asistente import consenso as cons
+
+    def rota(*a, **kw):
+        raise KeyError("clave rara")
+    monkeypatch.setattr(cons, "pedir_ia", rota)
+    monkeypatch.setattr(cons, "pedir_ia_tema", rota)
+    c = cons.consenso("Se midió la rigidez de 12 piezas: 55,1 - 55,8 - 56,0 - 54,9 - 55,0 - 56,9 - 55,2 - 55,2 - "
+                      "55,9 - 56,1 - 56,2 - 55,7", ["Estimar la rigidez promedio con un 95% de confianza."])
+    assert [l.error != "" for l in c.lecturas] == [False, True, True]
+    assert c.incisos[0].estado == "una_sola" and c.incisos[0].elegido.fuente == "reglas"
+
+
+def test_las_dos_ia_contra_las_reglas_no_es_consenso():
+    planteo = "Se midió la rigidez de 12 piezas: 55,1 - 55,8 - 56,0 - 54,9 - 55,0 - 56,9 - 55,2 - 55,2 - 55,9 - 56,1 - 56,2 - 55,7"
+    incisos = ["Estimar la rigidez promedio con un 95% de confianza."]
+    reglas = analizar(planteo, incisos)
+    ia = analizar(planteo, incisos)
+    ia.incisos[0].params["alpha"] = 0.01
+    lecturas = [Lectura(f, an, resolver(an)) for f, an in (("reglas", reglas), ("ia", ia), ("ia_tema", ia))]
+    v = votar(lecturas)[0]
+    assert v.estado == "ia_vs_reglas" and v.elegido.fuente == "ia"      # se elige lo de las IA, pero con ⚠️
+    assert not Consenso(lecturas, [v]).todos_de_acuerdo

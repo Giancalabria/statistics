@@ -775,6 +775,11 @@ def _cota_apareada(dif, alpha, cota):
 def dos_medias_ic(d, alpha, res: Resultado, estado):
     cota = d.get("cota")
     d = _orientar(d, None)
+    if d.get("porcentual") and cota and not d.get("sujeto") and None not in (d.get("xbar1"), d.get("xbar2")) \
+            and d["xbar1"] < d["xbar2"]:
+        # 'la mínima diferencia porcentual a esperar' sin decir de quién: el de mayor media va primero (h > 1);
+        # con el otro orden sale un h < 1 que no responde la pregunta (2° parcial 23/06/25, 2b)
+        d = _invertir(d)
     a, b = d.get("nombre1") or "1", d.get("nombre2") or "2"
     c = _plantear(d, alpha, res)
     if d.get("porcentual") and cota:

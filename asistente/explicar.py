@@ -5,6 +5,7 @@ El modelo no hace cuentas: recibe los pasos y resultados del solver y los explic
 (con el redondeo que tenga); los que no, se muestran como advertencia.
 """
 
+import re
 from functools import lru_cache
 from typing import Dict, Iterator, List, Optional, Sequence, Tuple
 
@@ -14,7 +15,9 @@ from interprete.texto import buscar_numeros
 
 from . import cliente, contexto
 
-APUNTES = ("convenciones", "redaccion", "teoria", "tutorial", "ejemplo")
+# fuentes del chat, en orden de autoridad (las reglas del profesor mandan). No va la «Guía Definitiva…» (redaccion):
+# contradice al profesor en el factor de finitud.
+APUNTES = ("profesor", "control", "convenciones", "teoria", "tutorial", "ejemplo")
 
 SISTEMA_EXPLICAR = """Sos un profesor de Estadística Aplicada (UADE, cátedra Dopazo - García) que ayuda a un \
 alumno a entender y redactar la resolución de un ejercicio. Respondé en español rioplatense, claro y ordenado.
@@ -146,12 +149,12 @@ def numeros_sin_respaldo(respuesta: str, fuentes: str) -> List[str]:
 def mensajes_explicar(an: Analisis, resultados: Sequence[Resultado], pedido: str = "") -> List[Dict[str, str]]:
     enunciado = enunciado_texto(an)
     resolucion = resolucion_texto(an, resultados)
-    apuntes = contexto.buscar(f"{TEMAS.get(an.tema, '')} {enunciado}", k=3, fuentes=("redaccion", "teoria"))
     pedido = pedido.strip() or ("Explicá la resolución inciso por inciso: por qué se eligió ese camino "
                                 "(distribución, hipótesis, cola) y después escribí la respuesta como la pondría "
                                 "en el examen.")
-    usuario = (f"CONVENCIONES DE LA CÁTEDRA:\n{contexto.convenciones()}\n\n"
-               f"APUNTES RELACIONADOS:\n{contexto.como_texto(apuntes, 5000)}\n\n"
+    # solo lo del tema del ejercicio (prompts cortos y precisos rinden más con el modelo local)
+    usuario = (f"REGLAS DEL PROFESOR (mandan sobre todo lo demás):\n{contexto.reglas_profesor(an.tema)}\n\n"
+               f"CONVENCIONES DE LA APP:\n{contexto.convenciones()}\n\n"
                f"ENUNCIADO:\n{enunciado}\n\nRESOLUCIÓN DEL SOLVER (números verificados):\n{resolucion}\n\n"
                f"PEDIDO: {pedido}")
     return [{"role": "system", "content": SISTEMA_EXPLICAR}, {"role": "user", "content": usuario}]
@@ -211,6 +214,63 @@ def resolver_enunciado(texto: str, modelo: Optional[str] = None, pensar: bool = 
     texto_res = ("ENUNCIADO:\n" + enunciado_texto(r.analisis) + "\n\nRESOLUCIÓN:\n"
                  + resolucion_texto(r.analisis, resultados))
     return r, resultados, texto_res
+
+
+# Lo que el alumno le pide a la IA (una pregunta, que revise lo suyo), aunque traiga números de un ejercicio
+_RE_PEDIDO = re.compile(
+    r"^\W*(por ?que|porque|explica|explicame|que (es|significa|diferencia)|como (se|hago|planteo|redacto|justifico)|"
+    r"cuando (se|uso|conviene)|cual(es)? es la diferencia|revisa|revisame|corregi|corregime|controla|mira|fijate|"
+    r"te paso|esta bien|estaria bien|me (podes|explicas|ayudas)|ayudame|hola|necesito|quiero|dame|deci)\b|"
+    r"\b(mi (respuesta|resolucion|conclusion|redaccion|planteo)|lo que escribi|como lo entregaria)\b")
+# en cualquier parte del mensaje: el alumno le habla a la IA (voseo, «sin la app»), aunque haya pegado un enunciado
+_RE_PEDIDO_EN_MEDIO = re.compile(
+    r"\b(escribi|escribime|deci|decime|explicame|revisame|corregi|corregime|fijate|mandame|"
+    r"respondeme|contestame|ayudame|sin hacer cuentas|sin la app|mi (respuesta|resolucion|planteo|conclusion))\b")
+_RE_INCISO = re.compile(r"(^|\n)\s*([a-hA-H]|[ivx]{1,4})\s*[).-]\s+\S")
+
+
+def parece_enunciado(texto: str) -> bool:
+    """¿El mensaje del chat es un enunciado para resolver (y no una pregunta para la IA)? Un enunciado narra un
+    problema con varios datos numéricos y trae incisos o una tabla, o es largo; un pedido ('explicame…', 'revisá mi
+    respuesta…') nunca se resuelve aunque traiga números."""
+    from interprete.tablas import buscar_tablas
+    from interprete.texto import buscar_numeros, normalizar
+    t = (texto or "").strip()
+    norm = normalizar(t[:400])
+    if len(t) < 60 or _RE_PEDIDO.search(norm) or _RE_PEDIDO_EN_MEDIO.search(normalizar(t)):
+        return False
+    numeros = [n for n in buscar_numeros(t) if not (n.es_entero and n.valor <= 3 and not n.pct)]
+    if len(numeros) < 2:
+        return False
+    # consigna corta de la guía: 'Calcular los límites de confianza del 90%… si se tomó una muestra de 10 unidades'
+    consigna = re.search(r"\b(calcular|estimar|determinar|hallar|ensayar|indicar|disenar|para el plan|se tomo|se tomaron|"
+                         r"de un proceso|una muestra de)\b", norm)
+    return bool(_RE_INCISO.search(t)) or bool(buscar_tablas(t)) or len(t) >= 250 or bool(consigna)
+
+
+MARCAS_CONSENSO = {"consenso": "✅ consenso", "ia_vs_reglas": "⚠️ las 2 IA contra las reglas — controlalo",
+                   "sin_consenso": "⚠️ sin consenso — controlalo",
+                   "una_sola": "☝️ una sola lectura — controlalo", "ninguna": "— nadie lo resolvió"}
+
+
+def resolver_por_consenso(texto: str, modelo: Optional[str] = None):
+    """Un enunciado pegado en el chat, resuelto como en «Interpretar un enunciado» con el modo recomendado (reglas +
+    2 lecturas de IA, se vota). -> (análisis, resultados, texto de la resolución, filas [(letra, marca, resumen)])."""
+    from interprete.analizador import analizar, separar_incisos
+    from interprete.resolver import resolver
+    from interprete.tablas import buscar_tablas
+    from .consenso import NOMBRES, combinado, consenso
+    planteo, incs = separar_incisos(texto, parrafos=True)
+    incisos = [tx for _, tx in incs] or None
+    tablas = buscar_tablas(texto)[:1] or None
+    c = consenso(planteo, incisos, tablas=tablas, modelo=modelo)
+    an = combinado(c) or analizar(planteo, incisos, tablas=tablas)
+    resultados = resolver(an)
+    filas = [(i.letra, MARCAS_CONSENSO[i.estado] + (f" ({NOMBRES[i.elegido.fuente]})" if i.elegido and i.estado != "consenso" else ""),
+              i.elegido.resultado.resumen if i.elegido else "") for i in c.incisos]
+    texto_res = ("ENUNCIADO:\n" + enunciado_texto(an) + "\n\nRESOLUCIÓN:\n" + resolucion_texto(an, resultados)
+                 + "\n\nCONSENSO POR INCISO:\n" + "\n".join(f"{l}) {m}" for l, m, _ in filas))
+    return an, resultados, texto_res, filas
 
 
 def leer_adjunto(nombre: str, datos: bytes) -> str:

@@ -14,8 +14,12 @@ from interprete.buscador import _tokens, _vector
 
 RAIZ = Path(__file__).resolve().parent.parent
 
-# nombre corto -> (archivo, nivel de título por el que se corta, peso en la búsqueda)
+# nombre corto -> (archivo, nivel de título por el que se corta, peso en la búsqueda). Las reglas del profesor
+# (estudio/) mandan sobre todo lo demás; los .md de la raíz están armados con IA y pesan menos. La «Guía Definitiva…»
+# queda indexada pero el chat no la usa: contradice al profesor (factor de finitud √((N−n)/(N−1))).
 FUENTES = {
+    "profesor": ("estudio/REGLAS_PROFESOR.md", 2, 1.6),
+    "control": ("estudio/GUIA_CONTROL.md", 3, 1.3),
     "convenciones": ("CONVENCIONES_CATEDRA.md", 6, 1.3),
     "redaccion": ("Guía Definitiva de Planteo y Redacción para Exámenes de Estadística Aplicada.md", 6, 1.3),
     "teoria": ("esquema_teorico_examen_estadistica.md", 6, 1.2),
@@ -105,6 +109,27 @@ def como_texto(fragmentos: List[Fragmento], max_chars: int = 9000) -> str:
         if total >= max_chars:
             break
     return "\n\n---\n\n".join(partes)
+
+
+# sección de estudio/REGLAS_PROFESOR.md de cada tema (por el número de su título «## N. …»)
+_SECCION_TEMA = {"proporcion": "6", "dos_varianzas": "7", "dos_medias": "8", "chi_ajuste": "9",
+                 "chi_contingencia": "9", "regresion": "10", "regresion_multiple": "10"}
+
+
+def reglas_profesor(tema: str = "") -> str:
+    """Las reglas del profesor que valen para un ejercicio de `tema`: las generales (cómo corrige, errores
+    penalizados, H0, pasos del ensayo, notación) y la sección de ese tema. Sin `tema`, el documento entero."""
+    ruta = RAIZ / FUENTES["profesor"][0]
+    if not ruta.exists():
+        return ""
+    texto = ruta.read_text(encoding="utf-8")
+    if not tema:
+        return texto
+    secciones = re.split(r"(?m)^(?=## )", texto)
+    numero = _SECCION_TEMA.get(tema)
+    elegidas = [s for s in secciones if (m := re.match(r"## (\d+)\.", s))
+                and (m.group(1) in ("2", "3", "4", "5") or m.group(1) == numero)]
+    return "\n".join(s.strip().strip("-").strip() for s in elegidas)
 
 
 def convenciones() -> str:

@@ -312,13 +312,17 @@ def _inciso_de_otro_tema(inc: Inciso, an: Analisis, norm: str) -> Optional[Tuple
                                # 'el tiempo de una marca es superior al de la otra por más del 10%' (final 15/12/25)
                                r"(superior|mayor|inferior|menor|supera)[^.?]{0,60}\b(de la otra|del otro|que la otra|que el otro)\b|"
                                # 'una diferencia de más del 1% en la performance del equipo A respecto del B' (2° parcial 10/11/25)
-                               r"\bdiferencias?\b[^.?]{0,80}\b(respecto|entre)\b",
+                               r"\bdiferencias?\b[^.?]{0,80}\b(respecto|entre)\b|"
+                               # '¿cuál es la mínima diferencia porcentual a esperar?' (2° parcial 23/06/25, 2b)
+                               r"\b(minim[ao]|maxim[ao]) diferencia|\bdiferencias? (porcentual(es)? )?(minim[ao]|maxim[ao])|"
+                               r"\bdiferencias?\b[^.?]{0,40}\b(a esperar|esperad[ao]|garantizad[ao])",
                                norm):
         from .dos_tablas import grupos_de_tablas
         g = grupos_de_tablas([tabla])
         if g and g.resumen.get("n"):
             r = g.resumen
-            if _hay(r"(estim|intervalo|entre que)", norm):
+            if _hay(r"(estim|intervalo|entre que|a esperar|esperad[ao]|garantizad[ao])", norm) or \
+                    _hay(r"\b(minim[ao]|maxim[ao]) diferencia|\bdiferencias? (porcentual(es)? )?(minim[ao]|maxim[ao])", norm):
                 inc.params.update(tema="dos_medias", apareadas=False,
                                   nombre1=g.nombres[0], n1=r["n"][0], xbar1=r["xbar"][0], s1=r["s"][0],
                                   nombre2=g.nombres[1], n2=r["n"][1], xbar2=r["xbar"][1], s2=r["s"][1])
@@ -326,6 +330,8 @@ def _inciso_de_otro_tema(inc: Inciso, an: Analisis, norm: str) -> Optional[Tuple
                     inc.params["cota"] = "sup"
                 elif _hay(r"minim[oa]", norm):
                     inc.params["cota"] = "inf"
+                if inc.params.get("cota") and _hay(r"porcentual|porcentaje|por ciento", norm):
+                    inc.params["porcentual"] = True
                 inc.razones.append(f"Estima la diferencia de medias de los grupos de la tabla ({g.origen}): "
                                    f"{g.nombres[0]} n = {fmt(r['n'][0])}, x̄ = {fmt(r['xbar'][0], 4)}, S = {fmt(r['s'][0], 4)}; "
                                    f"{g.nombres[1]} n = {fmt(r['n'][1])}, x̄ = {fmt(r['xbar'][1], 4)}, S = {fmt(r['s'][1], 4)}"
