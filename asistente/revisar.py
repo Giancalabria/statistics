@@ -35,7 +35,7 @@ from .interpretar import FORMATO, _mostrar, _par, _parsear, fallas, lista_inciso
 from .numeros import NumeroSinUsar, derivados_del_texto, sin_usar, valores_del_texto
 
 # Lo que se compara entre la lectura de las reglas y la de la IA (nombres y listas largas no: mismo dato, otro texto)
-IGNORAR = {"nombre1", "nombre2", "nombre_x", "nombre_y", "var_x", "var_y", "unidad_x", "unidad_y", "variable", "unidad", "modelos", "r_buenas", "direccion", "sujeto_por_datos"}
+IGNORAR = {"nombre1", "nombre2", "nombre_x", "nombre_y", "var_x", "var_y", "unidad_x", "unidad_y", "variable", "unidad", "accion", "modelos", "r_buenas", "direccion", "sujeto_por_datos"}
 # Parámetros de inciso que, si solo los ve la IA, probablemente las reglas los pasaron por alto
 CLAVE_INC = {"delta0", "delta0_pct", "mu0", "p0", "sigma0", "phi0", "mu1", "p1", "sigma1", "e", "reduccion", "x0",
              "beta10", "cota", "n", "r", "p_hat", "beta", "relacion", "individual", "porcentual", "total", "costo_fijo"}

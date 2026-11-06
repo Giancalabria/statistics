@@ -67,8 +67,9 @@ DESPACHO_EXTRA: Dict[tuple, Any] = {}
 
 CAMPOS_PLANTEO = {
     # paso 1 de toda resolución: la variable en palabras, con su unidad (temas I, II y V)
-    "variable": ("Variable X en palabras (paso 1: «peso de un paquete»)", "texto"),
+    "variable": ("Variable en palabras (paso 1: «peso de un paquete»; en proporción, lo que se cuenta: «piezas defectuosas»)", "texto"),
     "unidad": ("Unidad de X (kg, L, horas, $...)", "texto"),
+    "accion": ("Acción si se rechaza H0, en infinitivo («modificar el sistema»): RD y probabilidades en palabras", "texto"),
     # 1 población
     "n": ("Tamaño de muestra n", "int"),
     "xbar": ("Media muestral x̄", "float"),

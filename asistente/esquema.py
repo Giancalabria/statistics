@@ -67,8 +67,8 @@ CLAVES_TEMA: Dict[str, Tuple[List[str], List[str]]] = {
 # Un inciso puede ser de otro parámetro (params.tema: uno de una media en un problema de dos, uno de proporción en
 # un χ²...) y trae sus propios parámetros: en los incisos se permiten además los de 1 y 2 poblaciones. Los 'datos'
 # del planteo sí quedan restringidos al tema.
-for _tema in ("media", "varianza", "dos_medias", "dos_varianzas"):   # paso 1: la variable en palabras y su unidad
-    CLAVES_TEMA[_tema][0].extend(["variable", "unidad"])
+for _tema in ("media", "varianza", "dos_medias", "dos_varianzas", "proporcion"):  # paso 1 y la acción de la RD
+    CLAVES_TEMA[_tema][0].extend(["variable", "unidad", "accion"])
 _OTRO_TEMA_INC = list(dict.fromkeys(_UNA_POB_INC + CLAVES_TEMA["dos_medias"][1] + CLAVES_TEMA["dos_varianzas"][1]))
 for _tema, (_datos, _params) in CLAVES_TEMA.items():
     CLAVES_TEMA[_tema] = (_datos, list(dict.fromkeys(_params + _OTRO_TEMA_INC)))

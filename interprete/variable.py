@@ -15,7 +15,7 @@ from typing import Dict, Optional
 from .texto import fmt, normalizar
 
 # temas con una variable medida (la que se define en el paso 1)
-TEMAS_VARIABLE = ("media", "varianza", "dos_medias", "dos_varianzas")
+TEMAS_VARIABLE = ("media", "varianza", "dos_medias", "dos_varianzas", "proporcion")
 # temas cuya conclusión se expresa en unidades de la variable
 TEMAS_UNIDAD = ("media", "dos_medias")
 
@@ -66,10 +66,24 @@ def detectar_unidad(texto: str, datos: Dict) -> Optional[str]:
     return None
 
 
+_RE_MEDIDA = re.compile(r"\b(?:medid[oa]s?|se miden?|mid[eé]ndose|expresad[oa]s?|registrad[oa]s?|en unidades de)\b"
+                        r"[^.;]{0,50}?\ben\s+((?:" + UNIDADES + r"))(?![a-záéíóúñ])", re.I)
+
+
+def unidad_en_palabras(texto: str) -> Optional[str]:
+    """«… y se mide su espesor en milímetros» → 'milímetros' (cuando la unidad no está pegada a un número)."""
+    m = _RE_MEDIDA.search(texto)
+    return m.group(1) if m else None
+
+
 def paso_variable(tema: str, d: Dict) -> Optional[str]:
     if tema not in TEMAS_VARIABLE:
         return None
     var, u = (d.get("variable") or "").strip(), (d.get("unidad") or "").strip()
+    if tema == "proporcion":
+        que = var or "⟨qué se cuenta, p. ej. «piezas defectuosas»⟩"
+        return (f"**Variable** (paso 1): r = cantidad de {que} en la muestra (cada unidad es o no es uno de ellos); "
+                f"p = proporción de {que} en la población." + ("" if var else _COMPLETAR_P))
     if tema in ("dos_medias", "dos_varianzas"):
         a, b = d.get("nombre1") or "1", d.get("nombre2") or "2"
         base = f"X₁ y X₂ = {var}" if var else "X₁ y X₂ = ⟨qué se mide, en palabras⟩"
@@ -81,6 +95,8 @@ def paso_variable(tema: str, d: Dict) -> Optional[str]:
             _COMPLETAR)
 
 
+_COMPLETAR_P = (" _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión "
+                "y en la conclusión._")
 _COMPLETAR = (" _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); "
               "completala en «Variable X en palabras» y queda en las conclusiones._")
 
@@ -111,4 +127,112 @@ def con_unidades(texto: str, tema: str, d: Dict) -> str:
     # el estimador de la conclusión de un ensayo: 'x̄ = 246', 'd = 0,9'
     texto = re.sub(r"((?:x̄|d̄|d\*?) = )" + n + r"(?! ?" + re.escape(u) + ")", lambda m: f"{m.group(1)}{m.group(2)} {u}",
                    texto, count=1)
+    return texto
+
+
+# ---------------------------------------------------------------------------
+# Qué se hace si se rechaza H0 (la RD «en lenguaje de planta» y las 4 probabilidades en términos del problema)
+# ---------------------------------------------------------------------------
+
+VERBOS = (r"modificar|cambiar|comprar|adquirir|lanzar|implementar|incorporar|reemplazar|invertir|contratar|aprobar|"
+          r"adoptar|instalar|introducir|iniciar|efectuar|realizar|hacer|utilizar|usar|aplicar|habilitar|autorizar|"
+          r"construir|abrir|fabricar|comercializar|ampliar|agregar|incluir|sustituir|renovar|ejecutar|emprender|"
+          r"aumentar|cambiarse|pasarse|mudarse|otorgar|recomendar|certificar|homologar|denunciar|sancionar|multar")
+# criterio optimista (control): rechazar H0 = detener / rechazar el lote / intervenir
+VERBOS_CONTROL = (r"detener(?:lo|la)?|parar(?:lo|la)?|revisar(?:lo|la)?|rechazar(?:lo|la)?|devolver(?:lo|la)?|"
+                  r"ajustar(?:lo|la)?|intervenir(?:lo|la)?|calibrar(?:lo|la)?|reparar(?:lo|la)?|suspender(?:lo|la)?|"
+                  r"reclamar|recalibrar|reprocesar|descartar(?:lo|la)?")
+
+
+def _re_para(verbos: str):
+    return re.compile(r"\b(?:de|para|si conviene|conviene|decidir|decide|deber[ií]a)\s+(" + verbos + r")\b"
+                      r"((?:\s+[\wáéíóúñü%]+){0,6})", re.I)
+
+
+_PARA = _re_para(VERBOS)
+_PARA_CONTROL = _re_para(VERBOS_CONTROL)
+_CORTE = re.compile(r"\s+\b(cuando|si|en caso|siempre|ya que|porque|pero|y no|o no|con una|con un|en un|en una|"
+                    r"durante|mientras|debido|frente|antes|luego|a partir|debe|deber[aá]|deber[ií]a|es|sea|son|"
+                    r"tiene|vale|valga|ser[aá]|resulte|resulta|supere|que|se|m[aá]s|[\wáéíóúñ]+(?:ando|endo|iendo)|"
+                    r"\d)\b.*$", re.I)
+_NO_DECISION = re.compile(r"(efectuar|realizar|hacer|ejecutar)\s+(el|la|los|las|un|una|dicho|dicha)?\s*"
+                          r"(comparaci|prueba|estudio|ensayo|experiencia|an[aá]lisis|medici|muestreo|investigaci|"
+                          r"relevamiento|encuesta|control|verificaci|c[aá]lculo|evaluaci)", re.I)
+_COLGANTES = {"y", "o", "de", "del", "la", "el", "los", "las", "un", "una", "en", "con", "por", "a", "al", "otra",
+              "otro", "otras", "otros", "su", "sus"}
+
+
+def detectar_accion(texto: str, criterio: Optional[str] = "pesimista") -> Optional[str]:
+    """«probabilidad de 0,95 de modificar el sistema cuando …» → 'modificar el sistema'. Solo verbos de decisión
+    (no 'estimar' ni 'calcular'); se descartan los precedidos de 'no' («de no realizar la modificación»).
+    Con criterio optimista, los verbos de control («la probabilidad de detenerlo y revisarlo»)."""
+    for m in (_PARA_CONTROL if criterio == "optimista" else _PARA).finditer(texto):
+        if re.search(r"\bno\s*$", texto[max(0, m.start() - 4):m.start()]):
+            continue
+        frase = (m.group(1) + m.group(2)).strip()
+        if _NO_DECISION.match(frase):
+            continue                                   # «para efectuar la comparación»: el propósito del muestreo
+        frase = re.sub(r"\s+[\wáéíóúñ]+mente\b", "", frase)   # «comprar equivocadamente el equipo»
+        frase = re.sub(r"^(\S+)\s+o\s+\S+(?:ar|er|ir)\b", r"\1", frase)   # «rechazar o aceptar una partida»
+        frase = _CORTE.sub("", frase).strip(" ,.;:")
+        palabras = frase.split()
+        while len(palabras) > 1 and palabras[-1].lower() in _COLGANTES:
+            palabras.pop()
+        frase = " ".join(palabras)
+        if len(palabras) >= 2 or (criterio == "optimista" and frase):
+            return frase.lower() if not frase[:2].isupper() else frase
+    return None
+
+
+def acciones(d: Dict):
+    """(qué pasa si se rechaza H0, si no) o None. Las del sistema de control mandan; si no, la del campo «accion»."""
+    if d.get("accion_rechazo"):
+        return d["accion_rechazo"], d.get("accion_no_rechazo") or "no se toma esa decisión"
+    acc = (d.get("accion") or "").strip()
+    if acc:
+        return f"corresponde {acc}", f"no corresponde {acc}"
+    return None
+
+
+_REL = {">": "mayor que", "<": "menor que", "≠": "distinta de", "≥": "mayor o igual que", "≤": "menor o igual que"}
+_NUM = r"(-?\d[\d.]*(?:,\d+)?(?:/\d+)?)"
+
+
+def h1_en_palabras(texto: str, tema: str, d: Dict) -> str:
+    """'Se puede asegurar que p > 1/37' → '… que p > 1/37 (la proporción de ceros es mayor que 1/37)'."""
+    var = (d.get("variable") or "").strip()
+    if not var or not texto:
+        return texto
+    u = (d.get("unidad") or "").strip()
+    nombre = {"media": f"la media de {var}", "varianza": f"el desvío de {var}", "proporcion": f"la proporción de {var}"}
+    if tema not in nombre:
+        return texto
+    sim = {"media": "μ", "varianza": "σ", "proporcion": "p"}[tema]
+
+    def rep(m):
+        if tema == "varianza" and m.group(1) == "σ²":
+            return m.group(0)
+        con_u = f" {u}" if u and tema != "proporcion" else ""
+        return f"{m.group(0)} ({nombre[tema]} es {_REL[m.group(2)]} {m.group(3)}{con_u})"
+    return re.sub(r"(?<=asegurar que )(" + re.escape(sim) + r"²?) ([<>≠≥≤]) " + _NUM, rep, texto)
+
+
+def rd_en_palabras(texto: str, tema: str, d: Dict) -> str:
+    """La regla de decisión del solver ('… se rechaza H0.') con la acción y lo que se cuenta, como la escribe el
+    profesor: «Si en 1637 encuestados hay 229 o más interesados, se inicia una nueva campaña; si no, no.»"""
+    if not texto:
+        return texto
+    var = (d.get("variable") or "").strip()
+    if tema == "proporcion" and var:
+        texto = re.sub(r"\bcasos\b", var, texto)
+        texto = re.sub(r"[Ss]e encuentran r ([≥≤]) (\d+)(?: " + re.escape(var) + r")?",
+                       lambda m: f"hay {m.group(2)} o {'más' if m.group(1) == '≥' else 'menos'} {var}", texto)
+    if tema == "media" and (d.get("unidad") or "").strip():
+        u = d["unidad"].strip()
+        texto = re.sub(r"\b(superior|inferior|mayor|menor) (a|que) " + _NUM + r"(?! ?" + re.escape(u) + ")",
+                       lambda m: f"{m.group(1)} {m.group(2)} {m.group(3)} {u}", texto)
+    acc = acciones(d)
+    if acc and not d.get("control"):
+        si, no = acc
+        texto = re.sub(r"se rechaza H0\.(?=\s|$)", f"se rechaza H0: {si}; si no, {no}.", texto)
     return texto

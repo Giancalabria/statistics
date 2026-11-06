@@ -14,7 +14,7 @@ from .dos_tablas import grupos_de_tablas, tablas_de_texto
 from .glosario import unificar_redaccion
 from .modelo import EXTENSIONES, Analisis, Evidencia, Inciso, TEMAS
 from .tablas import buscar_tablas
-from .variable import TEMAS_VARIABLE, detectar_unidad
+from .variable import TEMAS_VARIABLE, detectar_accion, detectar_unidad, unidad_en_palabras
 from .texto import ListaDatos, Numero, buscar_listas, buscar_numeros, fmt, normalizar, oraciones, parse_num
 
 # ---------------------------------------------------------------------------
@@ -3106,8 +3106,14 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
     if "alpha" not in an.datos and not any("alpha" in i.params for i in an.incisos) :
         an.datos["alpha"] = 0.05
         an.avisos.append("No se encontró el riesgo α ni la confianza: se asume α = 0,05 (revisalo).")
+    if an.tema in TEMAS_VARIABLE and an.criterio in ("pesimista", "optimista") and not an.datos.get("control")             and "accion" not in an.datos:
+        acc = detectar_accion(an.planteo + " " + " ".join(i.texto for i in an.incisos), an.criterio)
+        if acc:
+            an.datos["accion"] = acc
+            an.evidencias.append(Evidencia("accion", acc, "", f"lo que se hace al rechazar H0 (criterio {an.criterio})"))
     if an.tema in TEMAS_VARIABLE and "unidad" not in an.datos:
-        u = detectar_unidad(an.planteo + " " + " ".join(i.texto for i in an.incisos), an.datos)
+        texto_u = an.planteo + " " + " ".join(i.texto for i in an.incisos)
+        u = detectar_unidad(texto_u, an.datos) or unidad_en_palabras(texto_u)
         if u:
             an.datos["unidad"] = u
             an.evidencias.append(Evidencia("unidad", u, "", "unidad que acompaña a los datos (paso 1: la variable con su unidad)"))

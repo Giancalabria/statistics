@@ -69,17 +69,21 @@ def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: 
                       f"(el valor de referencia {v0}).")
     alpha, beta = d.get("alpha"), d.get("beta")
     alt = d.get(ALT[tema])
-    if d.get("control") and alpha is not None:
-        si, no = d.get("accion_rechazo", "se detiene el proceso"), d.get("accion_no_rechazo", "el proceso sigue")
-        txt = f"α = P(error de tipo I) = P({si} | {sim} = {v0}) = {_v(alpha)}"
-        if beta is not None and alt is not None:
-            txt += f"; β = P(error de tipo II) = P({no} | {sim} = {_v(alt)}) = {_v(beta)}"
+    # las 4 probabilidades en términos del problema (profesor): α = P(acción | H0), 1-α, β = P(no acción | μ₁), 1-β
+    from .variable import acciones
+    acc = acciones(d)
+    si, no = acc if acc else ("rechazar H0", "no rechazar H0")
+    if alpha is not None:
+        cond0 = f"{sim} = {v0}" if acc else "H0 cierta"
+        txt = (f"α = P({si} | {cond0}) = {_v(alpha)} (error de tipo I); "
+               f"1 - α = P({no} | {cond0}) = {_v(1 - alpha)}")
+        if beta is not None and alt is not None and (tipo == "diseno" or d.get("control")):
+            txt += (f"; β = P({no} | {sim} = {_v(alt)}) = {_v(beta)} (error de tipo II); "
+                    f"1 - β = P({si} | {sim} = {_v(alt)}) = {_v(1 - beta)} (potencia)")
         lineas.append(txt + ".")
-    elif alpha is not None:
-        txt = f"α = P(rechazar H0 | H0 cierta) = {_v(alpha)} (error de tipo I)"
-        if beta is not None and alt is not None and tipo == "diseno":
-            txt += f"; β = P(no rechazar H0 | {sim} = {_v(alt)}) = {_v(beta)} (error de tipo II)"
-        lineas.append(txt + ".")
+        if not acc:
+            lineas.append("Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se "
+                          "rechaza H0» (p. ej. «modificar el sistema»).")
     cola = {"derecha": "unilateral a la derecha", "izquierda": "unilateral a la izquierda",
             "bilateral": "bilateral (sin dirección)"}[tail]
     lineas.append(f"El ensayo es {cola}: la zona de rechazo está donde apunta H1.")

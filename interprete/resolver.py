@@ -20,7 +20,7 @@ from solver import wording
 from solver.muestra import resumen_muestra
 
 from .modelo import DESPACHO_EXTRA, TIPOS, Analisis, Inciso
-from .variable import con_unidades, paso_variable
+from .variable import acciones, con_unidades, h1_en_palabras, paso_variable, rd_en_palabras
 from .presentacion import agregar_presentacion, siete_pasos
 from . import redondeo
 from .texto import fmt
@@ -707,7 +707,11 @@ def varianza_diseno(d, alpha, res: Resultado, estado):
         res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}.")
         res.pasos.append(f"Se busca el menor n tal que con α = {fmt(alpha, 4)} se tenga β ≤ {fmt(beta, 4)} cuando σ = {fmt(s1, 4)}: "
                          f"n = {r.n} (S²c = {fmt(r.s2_c, 5)}, Sc = {fmt(sqrt(r.s2_c), 4)}, β real = {fmt(r.beta_real, 4)}).")
-        res.conclusion = f"El tamaño de muestra necesario es n = {r.n}."
+        sc = sqrt(r.s2_c)
+        si, no = _acciones(d, _coma(r.h1_text))
+        res.pasos.append(f"**Regla de decisión**: se toma una muestra de n = {r.n} y se calcula su desvío S. Si S > "
+                         f"{fmt(sc, 4)}, se rechaza H0 → {si}. En caso contrario → {no}.")
+        res.conclusion = f"El tamaño de muestra necesario es n = {r.n} (Sc = {redondeo.critico(sc, 'derecha')})."
         res.numeros = [r.n, sqrt(r.s2_c)]
         res.resumen = f"n = {r.n}"
         if d.get("n"):
@@ -719,8 +723,9 @@ def varianza_diseno(d, alpha, res: Resultado, estado):
     d = dict(d)
     d.setdefault("desvio", s0)
     varianza_ensayo(d, alpha, res, estado)
-    res.pasos = [p for p in res.pasos if not p.startswith("**Decisión**")]
-    res.conclusion = "Valor crítico y condición de rechazo arriba."
+    res.pasos = [p for p in res.pasos if not p.startswith(("**Decisión**", "Dato informativo"))]   # todavía no hay muestra
+    res.pasos.append(f"**Regla de decisión**: {res.regla}")
+    res.conclusion = res.regla
 
 
 # ---------------------------------------------------------------------------
@@ -1630,6 +1635,16 @@ def _alternativas(d, f, res: Resultado, estado):
     res.conclusion = " ".join(conclusiones)
 
 
+def _beta_en_palabras(d: Dict, tema: str, acc) -> str:
+    """β / 1-β en términos del problema: «1 - β = P(corresponde efectuar otra campaña | p = 0,14)»."""
+    sim, alt = {"media": ("μ", "mu1"), "varianza": ("σ", "sigma1"), "proporcion": ("p", "p1")}.get(tema, (None, None))
+    if not sim or d.get(alt) is None:
+        return ""
+    si, no = acc
+    v = fmt(d[alt], 4)
+    return f" En términos del problema: β = P({no} | {sim} = {v}); 1 - β = P({si} | {sim} = {v})."
+
+
 def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
     res = Resultado(titulo=f"{inc.letra}) {TITULOS.get(inc.tipo) or TIPOS.get(inc.tipo, 'Sin cálculo')}")
     tema = inc.params.get("tema") or an.tema   # un inciso puede ser de otro parámetro que el planteo
@@ -1654,6 +1669,9 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
                               "muestra solo como dato: no se decide con él.")
         if alpha is None:
             raise FaltaDato("Falta el riesgo α")
+        acc = acciones(d)
+        if acc and not d.get("accion_rechazo"):     # «Acción si se rechaza H0»: RD y conclusión en palabras
+            d["accion_rechazo"], d["accion_no_rechazo"] = acc
         _paso_resumen(d, res) if tema in ("media", "varianza") else None
         cola_previa = estado.get("tail")
         if d.get("ambos") and tema in ("media", "varianza") and inc.tipo in ("ensayo", "ic"):
@@ -1671,7 +1689,15 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
         if paso and not estado.get("variable_dicha"):   # una vez por problema, como en el pizarrón
             res.pasos.insert(0, paso)
             estado["variable_dicha"] = True
-        res.conclusion = con_unidades(res.conclusion, tema, d)
+        res.conclusion = h1_en_palabras(rd_en_palabras(con_unidades(res.conclusion, tema, d), tema, d), tema, d)
+        res.pasos = [rd_en_palabras(x, tema, d) if x.startswith(("**Regla de decisión**", "**5 · Regla"))
+                     else x for x in res.pasos]
+        if acc:   # «Condiciones: P(rechazar H0 | μ = 11,2) = α» → «P(corresponde lanzar el producto | μ = 11,2) = α»
+            res.pasos = [x.replace("P(no rechazar H0 |", f"P({acc[1]} |").replace("P(rechazar H0 |", f"P({acc[0]} |")
+                         .replace("P(no rechazar |", f"P({acc[1]} |").replace("P(rechazar |", f"P({acc[0]} |")
+                         if x.startswith("**Condiciones**") else x for x in res.pasos]
+        if inc.tipo == "beta" and acc and "β" in res.conclusion:
+            res.conclusion += _beta_en_palabras(d, tema, acc)
         if inc.tipo == "ensayo" and not d.get("ambos"):
             res.pasos = siete_pasos(res.pasos, float(alpha), res.regla)
     except FaltaDato as e:
