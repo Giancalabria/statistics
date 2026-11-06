@@ -69,6 +69,8 @@ CLAVES_TEMA: Dict[str, Tuple[List[str], List[str]]] = {
 # del planteo sí quedan restringidos al tema.
 for _tema in ("media", "varianza", "dos_medias", "dos_varianzas", "proporcion"):  # paso 1 y la acción de la RD
     CLAVES_TEMA[_tema][0].extend(["variable", "unidad", "accion"])
+for _tema in ("chi_contingencia", "chi_ajuste"):
+    CLAVES_TEMA[_tema][0].append("variable")
 _OTRO_TEMA_INC = list(dict.fromkeys(_UNA_POB_INC + CLAVES_TEMA["dos_medias"][1] + CLAVES_TEMA["dos_varianzas"][1]))
 for _tema, (_datos, _params) in CLAVES_TEMA.items():
     CLAVES_TEMA[_tema] = (_datos, list(dict.fromkeys(_params + _OTRO_TEMA_INC)))

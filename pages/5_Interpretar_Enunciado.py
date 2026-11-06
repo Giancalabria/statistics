@@ -416,8 +416,10 @@ st.subheader("3 · Datos del planteo (corregí lo que esté mal)")
 evid = {e.clave: e for e in an.evidencias}
 claves = [k for k in an.datos if k in CAMPOS_PLANTEO] + [k for k in ss.get(f"v{V}_extra", []) if k not in an.datos]
 # paso 1 del profesor: la variable en palabras con su unidad (se muestra siempre, aunque esté vacía)
-SIEMPRE = {"media": ["variable", "unidad"], "varianza": ["variable", "unidad"], "dos_medias": ["variable", "unidad"],
-           "dos_varianzas": ["variable", "unidad"], "regresion": ["var_y", "unidad_y", "var_x", "unidad_x"]}
+_V = ["variable", "unidad", "accion"]
+SIEMPRE = {"media": _V, "varianza": _V, "dos_medias": _V, "dos_varianzas": _V, "proporcion": ["variable", "accion"],
+           "chi_contingencia": ["variable"], "chi_ajuste": ["variable"],
+           "regresion": ["var_y", "unidad_y", "var_x", "unidad_x"]}
 claves = [k for k in SIEMPRE.get(tema, []) if k not in claves] + claves
 nuevos = {}
 for clave in claves:

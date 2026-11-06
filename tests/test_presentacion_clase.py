@@ -181,3 +181,63 @@ def test_V_12_trigo_apareadas():
     assert "se rechaza la hipótesis nula" in a.conclusion and "en más de 2 quintales por parcela" in a.conclusion
     assert "entre 2,3204 quintales por parcela y 9,1796 quintales por parcela" in b.conclusion
     assert "P(2,3204 ≤ μ(Variedad “A”) - μ(Variedad “B”) ≤ 9,1796) = 0,9" in b.conclusion
+
+
+# ------------------------------------------------------------------ Tema VI
+
+def test_VI_6_consistencia_turnos():
+    """Clase: consistencia (pide «niveles»), H0 por categoría; ν = 4; χ²c = 13,2767; χ² = 38,9843 ⇒ se rechaza:
+    «en algún turno el nivel de calidad es distinto»."""
+    _, (a,) = _resolver("VI-6", variable="nivel de calidad de una pieza según el turno")
+    assert a.pasos[0] == "**Variable** (paso 1): nivel de calidad de una pieza según el turno (cada unidad cae en una categoría)."
+    t = _todo(a)
+    assert "consistencia" in t and "para cada categoría" in t and "13,2767" in t
+    assert "χ² = 38,9843" in a.conclusion and "se rechaza" in a.conclusion and "al menos uno" in a.conclusion
+
+
+def test_VI_7_independencia_color():
+    """Clase: independencia (pide «asociación»); ν = 3; χ²c = 7,8147; χ² = 5,5739 ⇒ no se rechaza: «no hay evidencia
+    suficiente para asegurar que exista asociación entre el color y las fallas de pintura»."""
+    _, (a,) = _resolver("VI-7")
+    t = _todo(a)
+    assert "independencia" in t and "7,8147" in t and "91,6667" in t
+    assert "no hay evidencia suficiente" in a.conclusion.lower() or "No hay evidencia suficiente" in a.conclusion
+    assert "asociación" in a.conclusion
+
+
+def test_VI_10_dado():
+    """Clase: H0 uniforme (pᵢ = 1/6); ν = 5; χ²c = 11,0705; χ² = 11,8 ⇒ se rechaza: el dado está cargado."""
+    _, (a,) = _resolver("VI-10", variable="número que sale en una tirada")
+    assert "χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 11,8" in _todo(a) and "11,0705" in _todo(a)
+    assert "se puede asegurar que el número que sale en una tirada no sigue el modelo Uniforme discreto" in a.conclusion
+
+
+def test_VI_13_patron_historico():
+    """Clase: H0: 0,40 / 0,40 / 0,20; E = 80 / 80 / 40; ν = 2; χ² = 5,625 ≤ 5,9915 ⇒ no se rechaza."""
+    _, (a,) = _resolver("VI-13")
+    assert "5,9915" in _todo(a) and "χ² = 5,625" in a.conclusion and "no se rechaza" in a.conclusion
+
+
+def test_VI_16_poisson():
+    """Clase: m̂ = 3,5263; «11 o más» con G(11) = 0,0011 (acumulada); se amalgaman 9, 10 y ≥ 11; 10 clases efectivas,
+    ν = 8; χ² = 9,4346 ≤ 15,5073 ⇒ no se rechaza; con el proceso físico de Poisson, sigue el modelo."""
+    _, (a,) = _resolver("VI-16")
+    t = _todo(a) + " ".join(a.avisos)
+    assert "G(11)" in t and "3,5263" in t
+    assert "10 - 1 - 1 = 8" in t and "9,4346" in t and "15,5073" in t
+    assert "proceso físico" in a.conclusion
+
+
+def test_VI_15_continuos_cada_modelo_en_su_bloque():
+    """Clase (29/10): x̄ = 45,6818, S = 24,3257, α = 0,01, χ²c = 13,2767 con ν = 4. Gumbel del mínimo 68,56 se rechaza;
+    Gumbel del máximo 10,84 y Weibull 8,33 (ω = 1,9592, β = 51,52) son buenos candidatos; Weibull, el mejor.
+    Cada modelo con sus pasos: los datos y parámetros primero, sin mezclarse con los del modelo siguiente."""
+    _, (a, b) = _resolver("VI-15")
+    assert "68,5632" in a.conclusion or "68,5632" in _todo(a)
+    pasos = b.pasos
+    i_w = next(i for i, p in enumerate(pasos) if p.startswith("**— Modelo Weibull"))
+    gumbel, weibull = pasos[:i_w], pasos[i_w:]
+    assert any("θ (modo) = 34,7339" in p for p in gumbel) and not any("w (forma)" in p for p in gumbel)
+    assert any("w (forma) = 1,9592" in p for p in weibull)
+    assert weibull[1].startswith("**Estimación**") and weibull[3].startswith("**1 · Planteo")
+    assert "El que mejor ajusta es el modelo Weibull" in b.conclusion

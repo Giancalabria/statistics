@@ -80,7 +80,16 @@ def unidad_en_palabras(texto: str) -> Optional[str]:
     return m.group(1) if m else None
 
 
+TEMAS_CHI = ("chi_contingencia", "chi_ajuste")
+
+
 def paso_variable(tema: str, d: Dict) -> Optional[str]:
+    if tema in TEMAS_CHI:
+        var = (d.get("variable") or "").strip()
+        return ("**Variable** (paso 1): " + (var if var else "⟨qué se observa en cada unidad, en palabras: p. ej. «número "
+                "que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩") +
+                (" (cada unidad cae en una categoría)." if tema == "chi_contingencia" else ".") +
+                ("" if var else " _Completala en «Variable en palabras» y queda en la conclusión._"))
     if tema not in TEMAS_VARIABLE:
         return None
     var, u = (d.get("variable") or "").strip(), (d.get("unidad") or "").strip()
@@ -118,6 +127,9 @@ def _num(t: str) -> str:
 def con_unidades(texto: str, tema: str, d: Dict) -> str:
     """Unidades en los límites / cotas / estimadores de la conclusión y el nombre de la variable en el parámetro."""
     u, var = (d.get("unidad") or "").strip(), (d.get("variable") or "").strip()
+    if tema == "chi_ajuste" and var and texto:
+        from .regresion import _el   # artículo según el género: «el número que sale…»
+        return re.sub(r"\bla variable\b", _el(var), texto)
     if tema == "proporcion" and var and texto:
         return re.sub(r"\b([Ee]l porcentaje poblacional|la proporción poblacional)\b(?! de)",
                       lambda m: f"{m.group(1)} de {var}", texto, count=1)

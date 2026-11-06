@@ -203,6 +203,8 @@ def explicar_distribuciones(tema: str, tipo: str, d: Dict) -> Optional[str]:
 
 # prefijo del paso -> (número de paso al que pertenece, título nuevo o None si se deja)
 PASOS_ENSAYO = {
+    "**Estimación**": (0.5, None),            # procesar los datos primero (profesor, 29/10)
+    "**Parámetros del modelo**": (0.6, None),
     "**Hipótesis**": (1, "**1 · Planteo de hipótesis**"),
     "**Justificación de H0**": (1.5, None),  # va después del planteo
     "**Distribución**": (3, "**3 · Estadístico de prueba**"),
@@ -224,7 +226,16 @@ def siete_pasos(pasos: List[str], alpha: float, regla: str = "") -> List[str]:
     La 7 (conclusión formal) es `Resultado.conclusion`.
 
     Los pasos sin prefijo conocido quedan pegados al anterior (paso 0 si están al principio).
+    Si el inciso ajusta varios modelos («**— Modelo X —**»), cada modelo se numera por separado: ordenar todo junto
+    mezclaba los pasos de un modelo con los del siguiente (VI-15).
     """
+    cortes = [i for i, p in enumerate(pasos) if p.startswith("**— Modelo")]
+    if len(cortes) > 1:
+        salida = list(pasos[:cortes[0]])
+        for k, i in enumerate(cortes):
+            bloque = pasos[i:cortes[k + 1] if k + 1 < len(cortes) else len(pasos)]
+            salida += [bloque[0]] + siete_pasos(bloque[1:], alpha, regla)
+        return salida
     items = []
     actual = 0
     for p in pasos:
