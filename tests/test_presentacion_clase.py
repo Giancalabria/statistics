@@ -36,7 +36,7 @@ def test_I_10_aditivo():
     assert a.pasos[0].startswith("**Variable** (paso 1)")
     assert "α = P(corresponde lanzar el producto | μ = 11,2) = 0,05" in _todo(a)
     assert "x̄c = 10,52" in _todo(a)
-    assert "Si x̄ < 10,5238, se rechaza H0 → corresponde lanzar el producto" in _todo(a)
+    assert "Si x̄ < 10,5238 litros, se rechaza H0 → corresponde lanzar el producto" in _todo(a)
     assert "x̄ = 10,6 litros" in a.conclusion and "no corresponde lanzar el producto" in a.conclusion
     assert "1-β = 0,5231" in b.conclusion and "1 - β = P(corresponde lanzar el producto | μ = 10,5)" in b.conclusion
     assert "n = 30" in c.conclusion and "inferior a 10,8096 litros" in c.conclusion
@@ -153,3 +153,31 @@ def test_IV_4_hiladoras():
     assert "se reduce en más de un 12%" in a.conclusion
     assert "1-β = 0,1779" in b.conclusion and "P(corresponde reacondicionar a nuevo las hiladoras | φ = 0,7)" in b.conclusion
     assert "n = 128" in c.conclusion
+
+
+# ------------------------------------------------------------------ Tema V
+
+def test_V_8_latex():
+    """Clase: test F auxiliar ⇒ amalgamado; a) Dc = 0,9711 kg, D = 0,9 kg ⇒ no se rechaza («no hay evidencia
+    suficiente para asegurar que el aditivo aumente la resistencia media en 0,45 kg o más»); b) mínimo 0,3788 kg;
+    c) D*c = 0,5349, D* = 0,14; d) como mínimo un 4,90 %."""
+    an, (a, b, c, dd) = _resolver("V-8")
+    assert an.datos["unidad"] == "kg"
+    assert "d_c = δ₀ + t·σ(d) = 0,9711 kg" in _todo(a)
+    assert "d = 0,9 kg no cae en la zona de rechazo" in a.conclusion
+    assert "la media con aditivo supera a la media sin aditivo en más de 0,45 kg" in a.conclusion
+    assert "0,3788 kg" in b.conclusion
+    assert "0,5349" in _todo(c) and "en más de un 10%" in c.conclusion
+    assert "4,90%" in dd.conclusion
+
+
+def test_V_12_trigo_apareadas():
+    """Clase: apareadas (misma finca); d̄ = 5,75, S_D = 5,12; D̄c = 5,4295 ⇒ se rechaza; P(2,3204 ≤ Δ ≤ 9,1796) = 0,90,
+    en quintales por parcela."""
+    an, (a, b) = _resolver("V-12")
+    assert an.datos["unidad"] == "quintales por parcela"
+    assert "apareadas" in a.pasos[0] and "misma unidad experimental" in a.pasos[0]
+    assert "5,4295 quintales por parcela" in _todo(a)
+    assert "se rechaza la hipótesis nula" in a.conclusion and "en más de 2 quintales por parcela" in a.conclusion
+    assert "entre 2,3204 quintales por parcela y 9,1796 quintales por parcela" in b.conclusion
+    assert "P(2,3204 ≤ μ(Variedad “A”) - μ(Variedad “B”) ≤ 9,1796) = 0,9" in b.conclusion

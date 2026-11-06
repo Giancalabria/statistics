@@ -1706,7 +1706,8 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
             estado["variable_dicha"] = True
         res.conclusion = h1_en_palabras(rd_en_palabras(con_unidades(res.conclusion, tema, d), tema, d), tema, d)
         res.regla = h1_en_palabras(rd_en_palabras(res.regla, tema, d), tema, d)
-        res.pasos = [rd_en_palabras(x, tema, d) if x.startswith(("**Regla de decisión**", "**5 · Regla"))
+        res.pasos = [rd_en_palabras(x, tema, d) if x.startswith(("**Regla de decisión**", "**5 · Regla",
+                                                                  "**Condición de rechazo**", "**4 · Condición"))
                      else x for x in res.pasos]
         if acc:   # «Condiciones: P(rechazar H0 | μ = 11,2) = α» → «P(corresponde lanzar el producto | μ = 11,2) = α»
             res.pasos = [x.replace("P(no rechazar H0 |", f"P({acc[1]} |").replace("P(rechazar H0 |", f"P({acc[0]} |")

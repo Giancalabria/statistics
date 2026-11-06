@@ -70,9 +70,13 @@ _RE_MEDIDA = re.compile(r"\b(?:medid[oa]s?|se miden?|mid[eé]ndose|expresad[oa]s
                         r"[^.;]{0,50}?\ben\s+((?:" + UNIDADES + r"))(?![a-záéíóúñ])", re.I)
 
 
+_RE_PARENTESIS = re.compile(r"\(\s*(?:(?:valores|datos|medidos|medidas|expresados|expresadas)\s+)?(?:en\s+)?((?:" + UNIDADES + r")(?:\s*(?:por|/)\s*[a-záéíóúñ]+)?)\s*\)", re.I)
+
+
 def unidad_en_palabras(texto: str) -> Optional[str]:
-    """«… y se mide su espesor en milímetros» → 'milímetros' (cuando la unidad no está pegada a un número)."""
-    m = _RE_MEDIDA.search(texto)
+    """«… y se mide su espesor en milímetros» → 'milímetros'; «(quintales por parcela)» → 'quintales por parcela'
+    (cuando la unidad no está pegada a un número)."""
+    m = _RE_MEDIDA.search(texto) or _RE_PARENTESIS.search(texto)
     return m.group(1) if m else None
 
 
@@ -84,6 +88,12 @@ def paso_variable(tema: str, d: Dict) -> Optional[str]:
         que = var or "⟨qué se cuenta, p. ej. «piezas defectuosas»⟩"
         return (f"**Variable** (paso 1): r = cantidad de {que} en la muestra (cada unidad es o no es uno de ellos); "
                 f"p = proporción de {que} en la población." + ("" if var else _COMPLETAR_P))
+    if tema == "dos_medias" and d.get("apareadas"):
+        a, b = d.get("nombre1") or "1", d.get("nombre2") or "2"
+        que = var or "⟨qué se mide, en palabras⟩"
+        return (f"**Variable** (paso 1): d = {que} con {a} − {que} con {b}, en una misma unidad experimental"
+                + (f", en {u}" if u else ", ⟨unidad⟩") + f". Δ = μ({a}) − μ({b}). Son **apareadas** porque cada unidad "
+                "se mide con los dos tratamientos (no porque los n sean iguales)." + ("" if var else _COMPLETAR))
     if tema in ("dos_medias", "dos_varianzas"):
         a, b = d.get("nombre1") or "1", d.get("nombre2") or "2"
         base = f"X₁ y X₂ = {var}" if var else "X₁ y X₂ = ⟨qué se mide, en palabras⟩"
@@ -199,7 +209,32 @@ def acciones(d: Dict):
 
 
 _REL = {">": "mayor que", "<": "menor que", "≠": "distinta de", "≥": "mayor o igual que", "≤": "menor o igual que"}
-_NUM = r"(-?\d[\d.]*(?:,\d+)?(?:/\d+)?)"
+_NUM = r"(-?\d+(?:\.\d{3})*(?:,\d+)?(?:/\d+)?)"
+
+
+def _la_media(x: str) -> str:
+    """'con aditivo' → 'la media con aditivo'; 'Variedad A' → 'la media de Variedad A'."""
+    return f"la media {x}" if re.match(r"(con|sin|de|del|en|para)\b", x, re.I) else f"la media de {x}"
+
+
+def _a_float(t: str) -> float:
+    return float(t.replace(".", "").replace(",", "."))
+
+
+def _delta_palabras(a: str, b: str, op: str, v: str, u: str) -> str:
+    """'δ = μ(A) - μ(B) > 2' → 'la media de A supera a la de B en más de 2 quintales'."""
+    con_u = f" {u}" if u else ""
+    if abs(_a_float(v)) < 1e-12:
+        return f"{_la_media(a)} es {'mayor' if op == '>' else 'menor'} que {_la_media(b)}"
+    return f"{_la_media(a)} supera a {_la_media(b)} en {'más' if op == '>' else 'menos'} de {v}{con_u}"
+
+
+def _h_palabras(a: str, b: str, op: str, h: str) -> str:
+    """'μ(A) > 1,1·μ(B)' → 'la media de A supera a la de B en más de un 10%'."""
+    x = (_a_float(h) - 1) * 100
+    if op == ">" and x > 0:
+        return f"{_la_media(a)} supera a {_la_media(b)} en más de un {fmt(x, 2)}%"
+    return f"{_la_media(a)} es {'mayor' if op == '>' else 'menor'} que {h} veces {_la_media(b)}"
 
 
 def _phi_palabras(m) -> str:
@@ -218,6 +253,12 @@ def _phi_palabras(m) -> str:
 
 def h1_en_palabras(texto: str, tema: str, d: Dict) -> str:
     """'Se puede asegurar que p > 1/37' → '… que p > 1/37 (la proporción de ceros es mayor que 1/37)'."""
+    if tema == "dos_medias" and texto:
+        u = (d.get("unidad") or "").strip()
+        texto = re.sub(r"(?<=asegurar que )δ = μ\(([^)]+)\) - μ\(([^)]+)\) ([<>]) " + _NUM,
+                       lambda m: f"{m.group(0)} ({_delta_palabras(m.group(1), m.group(2), m.group(3), m.group(4), u)})", texto)
+        return re.sub(r"(?<=asegurar que )μ\(([^)]+)\) ([<>]) " + _NUM + r"·μ\(([^)]+)\)",
+                      lambda m: f"{m.group(0)} ({_h_palabras(m.group(1), m.group(4), m.group(2), m.group(3))})", texto)
     if tema == "dos_varianzas" and texto:
         return re.sub(r"(?<=asegurar que )φ = σ\(([^)]+)\)/σ\(([^)]+)\) ([<>]) " + _NUM, _phi_palabras, texto)
     var = (d.get("variable") or "").strip()
@@ -249,6 +290,12 @@ def rd_en_palabras(texto: str, tema: str, d: Dict) -> str:
                        lambda m: f"hay {m.group(2)} o {'más' if m.group(1) == '≥' else 'menos'} {var}", texto)
         texto = re.sub(r"\bSi r ([≥≤]) (\d+),",
                        lambda m: f"Si hay {m.group(2)} o {'más' if m.group(1) == '≥' else 'menos'} {var},", texto)
+    if tema in ("media", "dos_medias") and (d.get("unidad") or "").strip():
+        u = d["unidad"].strip()
+        texto = re.sub(r"\b((?:Si|si) (?:x̄|d̄|d\*?|D\*?|D̄) [<>] )" + _NUM + r"(?! ?" + re.escape(u) + ")",
+                       lambda m: f"{m.group(1)}{m.group(2)} {u}", texto)
+        texto = re.sub(r"(\b(?:d_c|x̄c|D̄c|Dc) = [^.;]*?= )" + _NUM + r"(?=[.;\s]|$)(?! ?" + re.escape(u) + ")",
+                       lambda m: f"{m.group(1)}{m.group(2)} {u}", texto, count=1)
     if tema == "media" and (d.get("unidad") or "").strip():
         u = d["unidad"].strip()
         texto = re.sub(r"\b(superior|inferior|mayor|menor) (a|que) " + _NUM + r"(?! ?" + re.escape(u) + ")",

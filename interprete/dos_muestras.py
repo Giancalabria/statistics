@@ -817,20 +817,22 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
                          f"{fmt(e, 4)}.")
     estado.update(e_actual=e, metodo=c["metodo"], alpha_ic=alpha)
     if cota == "inf":
-        c = redondeo.cota(lo, False, 2)
+        c = redondeo.cota(lo, False, 4)   # diferencias: 4 decimales, como en clase (V-8b: 0,3788)
         res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) - μ({b}) ≥ {c}: la diferencia "
                           f"mínima garantizada para {a} es {c} (redondeada hacia abajo; sin redondear {fmt(lo, 6)}).")
         res.numeros += [lo, e]
         res.resumen = f"δ ≥ {fmt(lo, 4)}"
     elif cota == "sup":
-        c = redondeo.cota(hi, True, 2)
+        c = redondeo.cota(hi, True, 4)
         res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) - μ({b}) ≤ {c} "
                           f"(redondeada hacia arriba; sin redondear {fmt(hi, 6)}).")
         res.numeros += [hi, e]
         res.resumen = f"δ ≤ {fmt(hi, 4)}"
     else:
-        ia, ib, nota = redondeo.intervalo(-hi, -lo, 2)
-        res.conclusion = (_p(f"μ({a}) - μ({b})", lo, hi, alpha, 2) + f" (e = {fmt(e, 4)}). Para μ({b}) - μ({a}): entre "
+        ia, ib, nota = redondeo.intervalo(-hi, -lo, 4)   # V-12b: 2,3204 a 9,1796
+        la, lb, _ = redondeo.intervalo(lo, hi, 4)
+        res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, la diferencia entre la media de {a} y la de "
+                          f"{b} está entre {la} y {lb}: " + _p(f"μ({a}) - μ({b})", lo, hi, alpha, 4) + f" (e = {fmt(e, 4)}). Para μ({b}) - μ({a}): entre "
                           f"{ia} y {ib}. Límites redondeados hacia afuera; sin redondear: {fmt(lo, 6)} y {fmt(hi, 6)}.")
         res.numeros += [lo, hi, e, -hi, -lo]
         res.resumen = f"IC δ: [{fmt(lo, 4)} ; {fmt(hi, 4)}]"
