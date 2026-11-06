@@ -140,7 +140,8 @@ def con_unidades(texto: str, tema: str, d: Dict) -> str:
 VERBOS = (r"modificar|cambiar|comprar|adquirir|lanzar|implementar|incorporar|reemplazar|invertir|contratar|aprobar|"
           r"adoptar|instalar|introducir|iniciar|efectuar|realizar|hacer|utilizar|usar|aplicar|habilitar|autorizar|"
           r"construir|abrir|fabricar|comercializar|ampliar|agregar|incluir|sustituir|renovar|ejecutar|emprender|"
-          r"aumentar|cambiarse|pasarse|mudarse|otorgar|recomendar|certificar|homologar|denunciar|sancionar|multar")
+          r"aumentar|cambiarse|pasarse|mudarse|otorgar|recomendar|certificar|homologar|denunciar|sancionar|multar|"
+          r"reacondicionar|readecuar|remodelar|actualizar|tercerizar|automatizar|capacitar|exportar|importar")
 # criterio optimista (control): rechazar H0 = detener / rechazar el lote / intervenir
 VERBOS_CONTROL = (r"detener(?:lo|la)?|parar(?:lo|la)?|revisar(?:lo|la)?|rechazar(?:lo|la)?|devolver(?:lo|la)?|"
                   r"ajustar(?:lo|la)?|intervenir(?:lo|la)?|calibrar(?:lo|la)?|reparar(?:lo|la)?|suspender(?:lo|la)?|"
@@ -201,8 +202,24 @@ _REL = {">": "mayor que", "<": "menor que", "≠": "distinta de", "≥": "mayor 
 _NUM = r"(-?\d[\d.]*(?:,\d+)?(?:/\d+)?)"
 
 
+def _phi_palabras(m) -> str:
+    """'φ = σ(A)/σ(B) < 0,88' → '… (el desvío de A es menor que 0,88 veces el de B: se reduce en más de un 12%)'."""
+    a, b, op, v = m.group(1), m.group(2), m.group(3), float(m.group(4).replace(".", "").replace(",", "."))
+    if abs(v - 1) < 1e-12:
+        txt = f"el desvío de {a} es {'menor' if op == '<' else 'mayor'} que el de {b}"
+    elif op == "<" and v < 1:
+        txt = f"el desvío de {a} es menor que {m.group(4)} veces el de {b}: se reduce en más de un {fmt((1 - v) * 100, 2)}%"
+    elif op == ">" and v > 1:
+        txt = f"el desvío de {a} supera al de {b} en más de un {fmt((v - 1) * 100, 2)}%"
+    else:
+        txt = f"el desvío de {a} es {'menor' if op == '<' else 'mayor'} que {m.group(4)} veces el de {b}"
+    return f"{m.group(0)} ({txt})"
+
+
 def h1_en_palabras(texto: str, tema: str, d: Dict) -> str:
     """'Se puede asegurar que p > 1/37' → '… que p > 1/37 (la proporción de ceros es mayor que 1/37)'."""
+    if tema == "dos_varianzas" and texto:
+        return re.sub(r"(?<=asegurar que )φ = σ\(([^)]+)\)/σ\(([^)]+)\) ([<>]) " + _NUM, _phi_palabras, texto)
     var = (d.get("variable") or "").strip()
     if not var or not texto:
         return texto

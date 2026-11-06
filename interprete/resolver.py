@@ -1232,9 +1232,11 @@ def _criticos_txt(phi0, alpha, df1, df2, tail, crit) -> str:
 
 
 def _cond_relacion(tail, crit) -> str:
+    """El profesor compara el estimador J = S₁/S₂ contra Jc (IV-4: «si J da menos de 0,3859 …»); j² entre paréntesis."""
     if tail == "bilateral":
-        return f"j² < {fmt(crit[0], 4)} o j² > {fmt(crit[1], 4)}"
-    return f"j² {_signo(tail)} {fmt(crit, 4)}"
+        return (f"J < {fmt(sqrt(crit[0]), 4)} o J > {fmt(sqrt(crit[1]), 4)} (j² < {fmt(crit[0], 4)} o "
+                f"j² > {fmt(crit[1], 4)})")
+    return f"J {_signo(tail)} {fmt(sqrt(crit), 4)} (j² {_signo(tail)} {fmt(crit, 4)})"
 
 
 def dos_var_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
@@ -1283,7 +1285,7 @@ def dos_var_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
                      f"{fmt(j, 4)} (J² = {fmt(r.observed_value, 4)}) contra {jc_txt} → " +
                      ("cae en la zona de rechazo." if r.rejects_h0 else "no cae en la zona de rechazo."))
     res.conclusion = _ensayo_txt(r, alpha, f"J = {fmt(j, 4)}", d).replace("φ = σ₁/σ₂", _phi_txt(d))
-    res.regla = _regla(d, f"calcula la relación j² = S²({a})/S²({b}) con las muestras de {int(n1)} y {int(n2)}",
+    res.regla = _regla(d, f"calcula la relación J = S({a})/S({b}) con las muestras de {int(n1)} y {int(n2)}",
                        _cond_relacion(tail, crit), h1)
     res.numeros += [r.observed_value, j]
     res.resumen = f"H0: {h0}; J = {fmt(j, 4)} vs Jc = {_cv(tuple(sqrt(c) for c in crit) if isinstance(crit, tuple) else sqrt(crit))}: " + \
@@ -1333,6 +1335,19 @@ def dos_var_diseno(d, alpha, res: Resultado, estado):
     estado.update(n_relacion=r.n, tail=r.tail)
 
 
+def _interp_relacion(que: str, a: str, b: str, lo: float, hi: float) -> str:
+    """En %, como el profesor (IV-1): «la varianza de A es como mínimo un 79,65 % menor y como máximo un 11,36 % mayor
+    que la de B». Con los límites ya redondeados hacia afuera (4 decimales)."""
+    lo, hi = redondeo.abajo(lo, 4), redondeo.arriba(hi, 4)
+    art = "el" if que == "el desvío" else "la"
+    if lo >= 1:
+        return f"{que.capitalize()} de {a} es mayor que {art} de {b} entre un {fmt((lo - 1) * 100, 2)}% y un {fmt((hi - 1) * 100, 2)}%."
+    if hi <= 1:
+        return f"{que.capitalize()} de {a} es menor que {art} de {b} entre un {fmt((1 - hi) * 100, 2)}% y un {fmt((1 - lo) * 100, 2)}%."
+    return (f"{que.capitalize()} de {a} es como mínimo un {fmt((1 - lo) * 100, 2)}% menor y como máximo un "
+            f"{fmt((hi - 1) * 100, 2)}% mayor que {art} de {b}.")
+
+
 def dos_var_ic(d, alpha, res: Resultado, estado):
     s1, n1, s2, n2 = _req(d, "s1", "n1", "s2", "n2")
     a, b = _nombres(d)
@@ -1352,14 +1367,13 @@ def dos_var_ic(d, alpha, res: Resultado, estado):
     estado.update(rel_varianzas=r_var, rel_desvios=r_sig, sobre=sobre)
     lo, hi = (sqrt(rd.a), sqrt(rd.b)) if sobre == "desvios" else (rd.a, rd.b)
     par = f"σ({a})/σ({b})" if sobre == "desvios" else f"σ²({a})/σ²({b})"
-    res.conclusion = (f"Con un {_pct(alpha)} de confianza: " + _p(par, lo, hi, alpha, 4) +
-                      f" (límites redondeados hacia afuera; sin redondear: {fmt(lo, 6)} y {fmt(hi, 6)}).")
-    if sobre == "desvios" and lo > 1:
-        res.conclusion += (f" El desvío de {a} es mayor que el de {b} entre un {fmt((lo - 1) * 100, 2)}% y un "
-                           f"{fmt((hi - 1) * 100, 2)}%.")
-    elif sobre == "desvios" and hi < 1:
-        res.conclusion += (f" El desvío de {a} es menor que el de {b} entre un {fmt((1 - hi) * 100, 2)}% y un "
-                           f"{fmt((1 - lo) * 100, 2)}%.")
+    lo_i, hi_i = (sqrt(ri.a), sqrt(ri.b)) if sobre == "desvios" else (ri.a, ri.b)
+    par_i = f"σ({b})/σ({a})" if sobre == "desvios" else f"σ²({b})/σ²({a})"
+    que = "el desvío" if sobre == "desvios" else "la varianza"
+    res.conclusion = (f"Con un {_pct(alpha)} de confianza: " + _p(par, lo, hi, alpha, 4) + ". "
+                      + _interp_relacion(que, a, b, lo, hi) +
+                      f" Relación inversa: " + _p(par_i, lo_i, hi_i, alpha, 4) + ": " + _interp_relacion(que, b, a, lo_i, hi_i)
+                      + f" (límites redondeados hacia afuera; sin redondear: {fmt(lo, 6)} y {fmt(hi, 6)}).")
     res.numeros = [rd.a, rd.b, ri.a, ri.b, sqrt(rd.a), sqrt(rd.b), sqrt(ri.a), sqrt(ri.b), lo - 1, hi - 1, 1 - lo, 1 - hi]
     res.resumen = f"IC {par}: [{fmt(lo, 4)} ; {fmt(hi, 4)}]"
 
@@ -1637,7 +1651,8 @@ def _alternativas(d, f, res: Resultado, estado):
 
 def _beta_en_palabras(d: Dict, tema: str, acc) -> str:
     """β / 1-β en términos del problema: «1 - β = P(corresponde efectuar otra campaña | p = 0,14)»."""
-    sim, alt = {"media": ("μ", "mu1"), "varianza": ("σ", "sigma1"), "proporcion": ("p", "p1")}.get(tema, (None, None))
+    sim, alt = {"media": ("μ", "mu1"), "varianza": ("σ", "sigma1"), "proporcion": ("p", "p1"),
+                "dos_varianzas": ("φ", "phi1")}.get(tema, (None, None))
     if not sim or d.get(alt) is None:
         return ""
     si, no = acc

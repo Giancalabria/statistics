@@ -125,3 +125,31 @@ def test_III_19_ruleta():
     assert "se rechaza la hipótesis nula" in a.conclusion
     assert "(la proporción de ceros es mayor que 1/37)" in a.conclusion
     assert "1-β = 0,9788" in b.conclusion
+
+
+# ------------------------------------------------------------------ Tema IV
+
+def test_IV_1_tornos():
+    """Clase: P(0,2035 ≤ σA²/σB² ≤ 1,1136) = 0,90, «la varianza de A es como mínimo un 79,65 % menor y como máximo un
+    11,36 % mayor que la de B»; n = 45; desvíos 0,4511 a 1,0553; n = 444."""
+    _, (a, b, c, d) = _resolver("IV-1", nombre1="A", nombre2="B")
+    t = a.conclusion
+    assert "0,2035 ≤" in t and "≤ 1,1136" in t
+    assert "como mínimo un 79,65% menor y como máximo un 11,36% mayor" in t
+    assert "n = 45" in b.conclusion
+    assert "0,4511 ≤" in c.conclusion and "≤ 1,0553" in c.conclusion
+    assert "n = 444" in d.conclusion
+
+
+def test_IV_4_hiladoras():
+    """Clase: H0: φ ≥ 0,88 (pesimista); α = P(reacondicionar | no se reduce el 12 %); Jc = 0,3859; RD con J;
+    J = 0,3729 ⇒ se rechaza: «se reduce el desvío en más de un 12 %»; 1-β = 0,1779; n = 128."""
+    an, (a, b, c) = _resolver("IV-4")
+    assert an.datos["accion"] == "reacondicionar a nuevo las hiladoras"
+    t = _todo(a)
+    assert "α = P(corresponde reacondicionar a nuevo las hiladoras |" in t
+    assert "Si J < 0,3859" in t
+    assert "J = 0,3729 cae en la zona de rechazo" in a.conclusion
+    assert "se reduce en más de un 12%" in a.conclusion
+    assert "1-β = 0,1779" in b.conclusion and "P(corresponde reacondicionar a nuevo las hiladoras | φ = 0,7)" in b.conclusion
+    assert "n = 128" in c.conclusion
