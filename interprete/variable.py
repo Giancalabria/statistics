@@ -107,9 +107,12 @@ def _num(t: str) -> str:
 
 def con_unidades(texto: str, tema: str, d: Dict) -> str:
     """Unidades en los límites / cotas / estimadores de la conclusión y el nombre de la variable en el parámetro."""
+    u, var = (d.get("unidad") or "").strip(), (d.get("variable") or "").strip()
+    if tema == "proporcion" and var and texto:
+        return re.sub(r"\b([Ee]l porcentaje poblacional|la proporción poblacional)\b(?! de)",
+                      lambda m: f"{m.group(1)} de {var}", texto, count=1)
     if not texto or tema not in TEMAS_UNIDAD:
         return texto
-    u, var = (d.get("unidad") or "").strip(), (d.get("variable") or "").strip()
     if var:
         de = "del" if re.match(r"(el)\b", var) else "de"
         nombre = re.sub(r"^el\s+", "", var) if de == "del" else var
@@ -227,6 +230,8 @@ def rd_en_palabras(texto: str, tema: str, d: Dict) -> str:
         texto = re.sub(r"\bcasos\b", var, texto)
         texto = re.sub(r"[Ss]e encuentran r ([≥≤]) (\d+)(?: " + re.escape(var) + r")?",
                        lambda m: f"hay {m.group(2)} o {'más' if m.group(1) == '≥' else 'menos'} {var}", texto)
+        texto = re.sub(r"\bSi r ([≥≤]) (\d+),",
+                       lambda m: f"Si hay {m.group(2)} o {'más' if m.group(1) == '≥' else 'menos'} {var},", texto)
     if tema == "media" and (d.get("unidad") or "").strip():
         u = d["unidad"].strip()
         texto = re.sub(r"\b(superior|inferior|mayor|menor) (a|que) " + _NUM + r"(?! ?" + re.escape(u) + ")",

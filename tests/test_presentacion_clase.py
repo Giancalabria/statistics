@@ -82,3 +82,46 @@ def test_II_12_suelas():
     assert "β = 0,3222" in b.conclusion and "β = P(no corresponde detener el proceso | σ = 8)" in b.conclusion
     assert "n = 27" in c.conclusion and "Δn = 27 - 10 = 17" in c.conclusion
     assert "Si S > 6,1147" in _todo(c)
+
+
+# ------------------------------------------------------------------ Tema III
+
+def test_III_3_intervalo_exacto():
+    """Clase: a) P(0,0051 ≤ p ≤ 0,3942) = 0,90; b) r = 0 ⇒ un solo límite con α entero: B = 0,2057."""
+    _, (a, b) = _resolver("III-3", variable="piezas defectuosas")
+    assert "P(0,0051 ≤ p ≤ 0,3942) = 0,9" in a.conclusion
+    assert "El porcentaje poblacional de piezas defectuosas" in a.conclusion
+    assert "0,2057" in b.conclusion and "α ENTERO" in _todo(b)
+
+
+def test_III_11_control_de_proceso():
+    """Clase: optimista; rc = 11; «Se revisan 50 piezas; si hay 11 o más defectuosas, se detiene el proceso y se
+    revisa»; β = P(no detener | p = 0,14) = 0,9176; c) exacto n = 755, normal 715."""
+    an, (a, b, c) = _resolver("III-11", variable="piezas defectuosas")
+    assert an.criterio == "optimista" and an.datos["accion"] == "detenerlo y revisarlo"
+    assert "Si en la muestra de 50 hay 11 o más piezas defectuosas, se rechaza H0: corresponde detenerlo y revisarlo"         in a.conclusion
+    assert "β = 0,9176" in b.conclusion and "β = P(no corresponde detenerlo y revisarlo | p = 0,14)" in b.conclusion
+    assert "n = 755" in c.conclusion and "n = 715" in c.conclusion
+
+
+def test_III_16_campana():
+    """Clase: pesimista; α = P(hacer otra campaña | p ≤ 0,12) = 0,01; exacto n = 1675 (rc = 233), normal 1637
+    (rc = 229); «si en 1637 encuestados hay 229 o más interesados, se inicia una nueva campaña»; 1-β = 0,5159."""
+    an, (a, b, *_) = _resolver("III-16", variable="encuestados interesados")
+    assert an.criterio == "pesimista" and an.datos["accion"] == "efectuar otra campaña"
+    t = _todo(a)
+    assert "α = P(corresponde efectuar otra campaña | p = 0,12) = 0,01" in t
+    assert "Si hay 233 o más encuestados interesados, se rechaza H0: corresponde efectuar otra campaña" in a.conclusion
+    assert "n = 1637 y r_c = 229" in a.conclusion
+    assert "1-β = 0,5159" in _todo(b) and "1 - β = P(corresponde efectuar otra campaña | p = 0,14)" in b.conclusion
+
+
+def test_III_19_ruleta():
+    """Clase: H0: p ≤ 1/37 (la denuncia va en H1, no es bilateral); α = 0,05; rc = 37; r = 42 ⇒ se rechaza:
+    «puedo asegurar que el cero sale con una frecuencia mayor que 1/37»; 1-β = 0,9788."""
+    _, (a, b) = _resolver("III-19", variable="ceros")
+    assert "H0: p ≤ 1/37" in _todo(a) and "r_c = 37" in _todo(a)
+    assert "Si hay 37 o más ceros, se rechaza H0" in _todo(a)
+    assert "se rechaza la hipótesis nula" in a.conclusion
+    assert "(la proporción de ceros es mayor que 1/37)" in a.conclusion
+    assert "1-β = 0,9788" in b.conclusion
