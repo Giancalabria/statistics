@@ -38,7 +38,7 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 
 > Actualizar al final de cada sesión.
 
-**Última actualización:** 31/10/2026. Plan reemplazado por el enfoque «el solver resuelve, yo controlo». El plan anterior (resolver en papel) quedó en `informes/plan_anterior_31-10.md`, con los valores de los ejercicios hechos en clase.
+**Última actualización:** 05/11/2026 (clase 14 procesada: `informes/informe_clase_14.md`). Antes, 31/10: plan reemplazado por el enfoque «el solver resuelve, yo controlo». El plan anterior (resolver en papel) quedó en `informes/plan_anterior_31-10.md`, con los valores de los ejercicios hechos en clase.
 
 | Fecha | Qué | Estado |
 |---|---|---|
@@ -47,13 +47,13 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 | Lun 02/11 | Examen 2: recuperatorio del 2° parcial 2024 (R) + teoría mínima de varianzas y χ² de ajuste | ⬜ |
 | Mar 03/11 | Examen 3: final 12/12/2024 (F) + teoría mínima de regresión | ⬜ |
 | Mié 04/11 | Examen 4: final 15/12/25 (P) | ⬜ |
-| **Jue 05/11** | Clase (validación de regresión). Procesarla: reglas nuevas a `REGLAS_PROFESOR.md`, solver y guía de control | ⬜ |
+| **Jue 05/11** | Clase (validación de regresión). Procesarla: reglas nuevas a `REGLAS_PROFESOR.md`, solver y guía de control | ✅ Reglas en §10, solver de regresión con la presentación del pizarrón, paso «Variable» con unidad en todos los temas, error de los negativos corregido |
 | Vie 06/11 | Examen 5: 2° parcial 10/11/25 (T) con el circuito completo y cronómetro | ⬜ |
 | Sáb 07/11 | Temas que no salieron en los exámenes: apareadas (V-12 a V-21) | ⬜ |
 | Dom 08/11 | χ² de consistencia e independencia (VI-1 a VI-9) | ⬜ |
 | Lun 09/11 | Diseño de p con α y β (III-16, III-22) y varianzas (IV-1, IV-4) | ⬜ |
 | Mar 10/11 | Problema combinado tipo VI-20 y bondad de ajuste continua (VI-15, VI-18) | ⬜ |
-| Mié 11/11 | Regresión con validación (VII-12, VII-13) | ⬜ |
+| Mié 11/11 | Regresión simple con validación: VII-12 en la app (VII-13 ya se hizo en clase; comparar con el informe 14) | ⬜ |
 | **Jue 12/11** | Clase. Procesarla como la del 05/11 | ⬜ |
 | Vie 13/11 | Lo nuevo de la clase del 12/11 | ⬜ |
 | Sáb 14/11 | **Simulacro 1**: examen armado por Claude con problemas que la app no vio, 120 minutos | ⬜ |
@@ -68,8 +68,11 @@ Leyenda: ⬜ pendiente · 🟨 en curso · ✅ terminado
 **Errores detectados en las prácticas** (míos al controlar o al redactar):
 - (todavía nada)
 
+**Errores de la app encontrados:**
+- 05/11: los números negativos escritos en la pantalla perdían el signo (VII-13 d daba «se rechaza»). Corregido.
+
 **Para confirmar con el profesor o el campus:**
-- Si entra regresión múltiple. El recuperatorio del 2° parcial de 2024 tuvo **elección entre 4 modelos de regresión múltiple con R², S², PRESS, DET y Cp/p**: la app no está probada en eso.
+- ~~Si entra regresión múltiple~~: **no entra en el parcial** (05/11). Para el final da la salida del Excel para interpretar; la app hoy calcula desde los datos, no lee una salida de Excel ni una tabla de candidatos ya calculada (el recuperatorio 2024 tuvo 4 modelos con R², S², PRESS, DET y Cp/p). Pendiente para después del parcial.
 - Si en el test F auxiliar acepta un α mayor que 0,10.
 - Fecha del final (17/12 o 21/12).
 

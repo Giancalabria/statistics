@@ -14,6 +14,7 @@ from .dos_tablas import grupos_de_tablas, tablas_de_texto
 from .glosario import unificar_redaccion
 from .modelo import EXTENSIONES, Analisis, Evidencia, Inciso, TEMAS
 from .tablas import buscar_tablas
+from .variable import TEMAS_VARIABLE, detectar_unidad
 from .texto import ListaDatos, Numero, buscar_listas, buscar_numeros, fmt, normalizar, oraciones, parse_num
 
 # ---------------------------------------------------------------------------
@@ -3105,4 +3106,9 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
     if "alpha" not in an.datos and not any("alpha" in i.params for i in an.incisos) :
         an.datos["alpha"] = 0.05
         an.avisos.append("No se encontró el riesgo α ni la confianza: se asume α = 0,05 (revisalo).")
+    if an.tema in TEMAS_VARIABLE and "unidad" not in an.datos:
+        u = detectar_unidad(an.planteo + " " + " ".join(i.texto for i in an.incisos), an.datos)
+        if u:
+            an.datos["unidad"] = u
+            an.evidencias.append(Evidencia("unidad", u, "", "unidad que acompaña a los datos (paso 1: la variable con su unidad)"))
     return an

@@ -153,7 +153,9 @@ Errores que anticipó para el 2° parcial:
 
 ## 10. Regresión (Temas VII y VIII)
 
-Empezó el 29/10 (teoría y mínimos cuadrados). La validación queda para el 05/11. Detalle en `informes/informe_clase_13.md`.
+Teoría y mínimos cuadrados el 29/10; validación, inferencias y VII-13 resuelto el 05/11. Detalle en `informes/informe_clase_13.md` y `informes/informe_clase_14.md`.
+
+**Entra en el parcial: regresión simple completa. Regresión múltiple NO entra en el parcial** (es para el final, y ahí da la salida del Excel para interpretar).
 
 - **«Lineal» = lineal en los parámetros**, no en X. Linealizables: los que se linealizan con logaritmo.
 - **X = variable explicativa** (no decir «independiente»). Conviene que no sea aleatoria y que se pueda manipular. **Y = variable explicada**, siempre aleatoria. La dirección es única: Y en función de X.
@@ -168,3 +170,23 @@ Empezó el 29/10 (teoría y mínimos cuadrados). La validación queda para el 05
   2. Que la relación sea fuerte.
 
   Son condiciones necesarias, no suficientes. Interesa causa-efecto, no relaciones casuales.
+
+### 10.1 Validación (05/11): se hace siempre, aunque no la pidan
+- **Primero se procesan los datos**: n, Σx, x̄, Σx², Σy, ȳ, Σy², Σxy, b₀, b₁ (con unidades: b₀ en las de Y, b₁ en unidad de Y por unidad de X), r, r², S² = (Σy² − b₀Σy − b₁Σxy)/(n − 2), S, S_b₁ = S/√(Σx² − n·x̄²).
+- **Validar aunque el inciso no lo pida.** Si el modelo no es válido, «la pregunta no tiene sentido».
+  1. Existencia: H0: ρ = 0 (o β₁ = 0, es lo mismo). |t_obs| = |r|/√((1 − r²)/(n − 2)) contra **t(1 − α; n − 2)**. Si no dan α, se elige.
+  2. Fuerza, con r² según el uso: ≥ 0,4 sociología / psicología; ≥ 0,6 económico; ≥ 0,8 técnico / industrial («orientativos, no taxativos»).
+- r lleva el **signo de b₁**. r² es la **influencia porcentual** de X en Y; el resto, perturbación del entorno u otra variable.
+- **β₀ no se estima**: el modelo vale solo en el **entorno observado** (x mín a x máx). b₀ se interpreta «en teoría» y diciendo que no se puede asegurar. Extrapolar tiene mucho error.
+- Interpretar **en términos del problema, con unidades**: «por cada mm que aumenta la profundidad, la resistencia al quiebre disminuye 0,29 MPa».
+
+### 10.2 Inferencias
+- IC de β₁: b₁ ± t(1 − α/2; n − 2)·S_b₁. Con negativos, **A es el más negativo**. Se escribe P(A ≤ β₁ ≤ B) = 1 − α y A, B con unidades.
+- Ensayo de β₁: **no hay bilateral**. «Disminuye en más de 0,25» ⇒ H1: β₁ < −0,25 (más negativo); b₁c = β₁₀ − t(1 − α)·S_b₁. Ojo con el signo.
+- ρ por Fisher (Zρ ± Z(1 − α/2)·√(1/(n − 3))); ρ² = los límites al cuadrado. Casi nunca pide ρ: pide la influencia (ρ²).
+- «Promedio» (o «toda la estructura») ⇒ E(y | x₀); un caso puntual («un sector», «un acero») ⇒ **intervalo de predicción** (pronóstico, con «1 +» en la raíz). Un pronóstico es un intervalo.
+- Modelos log: doble log ⇒ elasticidad (% por %); log-lineal ⇒ coeficiente·100 = % de Y por unidad de X; lineal-log ⇒ β₁/100 unidades de Y por 1 % de X. Si X ya está en %, es **punto porcentual**, no 1 %.
+
+### 10.3 Múltiple (para el final)
+- Todo por computadora: va a dar la salida del Excel y pedir interpretarla.
+- El análisis global (ANOVA / F) «no sirve»: se evalúa **cada variable** (t individual).

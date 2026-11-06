@@ -21,6 +21,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la media poblacional μ con un 90% de confianza mediante un intervalo de confianza. Como σ es conocido se usa Z.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en gramos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
@@ -28,7 +29,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = Z(0,95) = 1,6449.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n = 246 ∓ 1,6449·15/√10 = 246 ∓ 7,8022.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 238,19 y 253,81, afirmándolo con un 90% de confianza, o sea: P(238,19 ≤ μ ≤ 253,81) = 0,9 (límites redondeados hacia afuera; sin redondear: 238,197774 y 253,802226).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 238,19 gramos y 253,81 gramos, afirmándolo con un 90% de confianza, o sea: P(238,19 ≤ μ ≤ 253,81) = 0,9 (límites redondeados hacia afuera; sin redondear: 238,197774 y 253,802226).
 
 **Respuesta de la guía:** Entre 238,19 y 253,81 gramos.
 
@@ -64,6 +65,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Calcular el tamaño de muestra (completá el error e o la reducción pedida).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en minutos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
@@ -86,7 +88,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = Z(0,995) = 2,5758.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n = 15 ∓ 2,5758·5/√42 = 15 ∓ 1,9873.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 13,01 y 16,99, afirmándolo con un 99% de confianza, o sea: P(13,01 ≤ μ ≤ 16,99) = 0,99 (límites redondeados hacia afuera; sin redondear: 13,012705 y 16,987295).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 13,01 minutos y 16,99 minutos, afirmándolo con un 99% de confianza, o sea: P(13,01 ≤ μ ≤ 16,99) = 0,99 (límites redondeados hacia afuera; sin redondear: 13,012705 y 16,987295).
 
 **Respuesta de la guía:** Entre 13,01 y 16,99 minutos.
 
@@ -115,6 +117,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Calcular el tamaño de muestra para un error máximo e = 0,5.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 23, x̄ = Σxᵢ/n = 2,5217, S = √[Σ(xᵢ - x̄)²/(n-1)] = 1,4419.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
@@ -199,6 +202,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la media poblacional μ con un 95% de confianza mediante un intervalo de confianza. Como σ no se conoce se usa S y t de Student (ν = n-1).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 4, x̄ = Σxᵢ/n = 17,35, S = √[Σ(xᵢ - x̄)²/(n-1)] = 1,7935.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
@@ -252,6 +256,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la media poblacional μ con un 95% de confianza mediante un intervalo de confianza. Como σ es conocido se usa Z.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
@@ -259,7 +264,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = Z(0,975) = 1,96.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n = 38 ∓ 1,96·4,2/√20 = 38 ∓ 1,8407.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 36,15 y 39,85, afirmándolo con un 95% de confianza, o sea: P(36,15 ≤ μ ≤ 39,85) = 0,95 (límites redondeados hacia afuera; sin redondear: 36,159303 y 39,840697).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 36,15 kg y 39,85 kg, afirmándolo con un 95% de confianza, o sea: P(36,15 ≤ μ ≤ 39,85) = 0,95 (límites redondeados hacia afuera; sin redondear: 36,159303 y 39,840697).
 
 **Respuesta de la guía:** Entre 36,15 y 39,85 kg.
 
@@ -294,13 +299,14 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la media poblacional μ con un 90% de confianza mediante un intervalo de confianza. Como σ no se conoce se usa S y t de Student (ν = n-1).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)
 - **Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student con ν = número de grados de libertad = n-1 = 59. t(0,95; 59) = 1,6711.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 48,5 ∓ 1,6711·42/√60 = 48,5 ∓ 9,061.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 39,43 y 57,57, afirmándolo con un 90% de confianza, o sea: P(39,43 ≤ μ ≤ 57,57) = 0,9 (límites redondeados hacia afuera; sin redondear: 39,439038 y 57,560962).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 39,43 kg y 57,57 kg, afirmándolo con un 90% de confianza, o sea: P(39,43 ≤ μ ≤ 57,57) = 0,9 (límites redondeados hacia afuera; sin redondear: 39,439038 y 57,560962).
 
 **Respuesta de la guía:** Entre 39,43 y 57,57 kg.
 
@@ -318,13 +324,14 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la media poblacional μ con un 95% de confianza mediante un intervalo de confianza. Como σ no se conoce se usa S y t de Student (ν = n-1).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en unidades. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)
 - **Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student con ν = número de grados de libertad = n-1 = 24. t(0,975; 24) = 2,0639.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 214 ∓ 2,0639·21,3542/√25 = 214 ∓ 8,8146.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 205,18 y 222,82, afirmándolo con un 95% de confianza, o sea: P(205,18 ≤ μ ≤ 222,82) = 0,95 (límites redondeados hacia afuera; sin redondear: 205,185437 y 222,814563).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 205,18 unidades y 222,82 unidades, afirmándolo con un 95% de confianza, o sea: P(205,18 ≤ μ ≤ 222,82) = 0,95 (límites redondeados hacia afuera; sin redondear: 205,185437 y 222,814563).
 
 **Respuesta de la guía:** Entre 205,18 y 222,82 unidades.
 
@@ -342,6 +349,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en gramos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 250 supone que cumple; H1: μ < 250 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
@@ -379,6 +387,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en metros. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 5, x̄ = Σxᵢ/n = 3,904, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,1431.
 - **1 · Planteo de hipótesis**: H0: μ ≥ 4  vs  H1: μ < 4.
 - **Justificación de H0**:  
@@ -396,7 +405,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 3,904 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0762. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 3,904 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 4. No hay evidencia suficiente para asegurar que μ < 4 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, x̄ = 3,904 metros no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 4. No hay evidencia suficiente para asegurar que μ < 4 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No hay pruebas suficientes para asegurar que la longitud media sea inferior a los 4 metros, por lo cual se considera aceptable la partida.
 
@@ -477,6 +486,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en litros. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≥ 11,2  vs  H1: μ < 11,2.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 11,2 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 11,2 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -493,7 +503,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 10,6 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0722. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 10,6 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 11,2. No hay evidencia suficiente para asegurar que μ < 11,2 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, x̄ = 10,6 litros no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 11,2. No hay evidencia suficiente para asegurar que μ < 11,2 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No, no se puede asegurar que el consumo promedio ha disminuido.
 
@@ -570,6 +580,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en watts. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≤ 1  vs  H1: μ > 1.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≤ 1 supone que cumple; H1: μ > 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
@@ -586,7 +597,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 1,06 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0289. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,1, x̄ = 1,06 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 1. Se puede asegurar que μ > 1.
+**Conclusión:** Con α = 0,1, x̄ = 1,06 watts cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 1. Se puede asegurar que μ > 1.
 
 **Respuesta de la guía:** No, se puede asegurar que las pérdidas promedio son mayores que 1 watts.
 
@@ -646,6 +657,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en minutos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≥ 2  vs  H1: μ < 2.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 2 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 2 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -662,7 +674,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 1,7 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,103. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 1,7 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 2. No hay evidencia suficiente para asegurar que μ < 2 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, x̄ = 1,7 minutos no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 2. No hay evidencia suficiente para asegurar que μ < 2 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No comprar las nuevas máquinas.
 
@@ -698,6 +710,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en litros. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≥ 200  vs  H1: μ < 200.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 200 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 200 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -714,7 +727,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 180 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0259. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 180 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≥ 200. Se puede asegurar que μ < 200.
+**Conclusión:** Con α = 0,05, x̄ = 180 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≥ 200. Se puede asegurar que μ < 200.
 
 **Respuesta de la guía:** Sí, se puede asegurar que el consumo medio es inferior a 200 litros.
 
@@ -729,7 +742,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = Z(0,9) = 1,2816.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n = 180 ∓ 1,2816·23/√5 = 180 ∓ 13,1819.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 166,81 y 193,19, afirmándolo con un 80% de confianza, o sea: P(166,81 ≤ μ ≤ 193,19) = 0,8 (límites redondeados hacia afuera; sin redondear: 166,818072 y 193,181928).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 166,81 litros y 193,19 litros, afirmándolo con un 80% de confianza, o sea: P(166,81 ≤ μ ≤ 193,19) = 0,8 (límites redondeados hacia afuera; sin redondear: 166,818072 y 193,181928).
 
 **Respuesta de la guía:** Entre 166,81 y 193,19 litros.
 
@@ -749,6 +762,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en litros. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 580 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 580 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 522) = 0,1 (error de tipo II).  
@@ -822,6 +836,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en minutos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≥ 12  vs  H1: μ < 12.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 12 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 12 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -838,7 +853,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 10,8 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0013. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 10,8 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≥ 12. Se puede asegurar que μ < 12.
+**Conclusión:** Con α = 0,05, x̄ = 10,8 minutos cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≥ 12. Se puede asegurar que μ < 12.
 
 **Respuesta de la guía:** Sí, se puede asegurar que el equipo requiere en promedio menos de 12 minutos de preparación.
 
@@ -899,6 +914,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • Es un **sistema de control**: la decisión es entre dos acciones. Rechazar H0 ⇒ se detiene el proceso; no rechazarla ⇒ el proceso sigue.  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 38 supone que cumple; H1: μ < 38 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
@@ -973,6 +989,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 80 supone que cumple; H1: μ < 80 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 75) = 0,1 (error de tipo II).  
@@ -1065,6 +1082,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 280 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 280 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 290) = 0,15 (error de tipo II).  
@@ -1117,6 +1135,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 1.250 supone que cumple; H1: μ < 1.250 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 1.100) = 0,1 (error de tipo II).  
@@ -1169,6 +1188,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 4,5 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 4,5 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 4,7) = 0,01 (error de tipo II).  
@@ -1222,6 +1242,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en U$s por mes. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≥ 250  vs  H1: μ < 250.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 250 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 250 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -1238,7 +1259,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 232 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0708. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,01, x̄ = 232 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 250. No hay evidencia suficiente para asegurar que μ < 250 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,01, x̄ = 232 U$s por mes no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 250. No hay evidencia suficiente para asegurar que μ < 250 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** (Criterio Pesimista) H0) μ ≥ μ0 = 250 U$s; No se rechaza la hipótesis nula, por lo tanto, se concluye que no se cambia por el nuevo tipo de aceite.
 
@@ -1275,6 +1296,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en horas. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **— Alternativa 1 —**
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 30 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 30 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -1321,6 +1343,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 25 supone que cumple; H1: μ < 25 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
@@ -1394,6 +1417,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 10.000.000 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 10.000.000 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 11.000.000) = 0,85 (error de tipo II).  
@@ -1456,6 +1480,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en U$s. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Valor neto**: lo que se compara con μ₀ es la media NETA: x̄ neto = x̄ - 5.000 = 140.000 - 5.000 = 135.000.
 - **1 · Planteo de hipótesis**: H0: μ ≤ 128000  vs  H1: μ > 128000.
 - **Justificación de H0**:  
@@ -1474,7 +1499,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Equivalente en valores brutos**: la media bruta debería superar x̄c bruto = 141.009,7 (se obtuvo 140.000).
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,1314. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,1, x̄ = 135,000 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 128000. No hay evidencia suficiente para asegurar que μ > 128000 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,1, x̄ = 135,000 U$s no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 128000. No hay evidencia suficiente para asegurar que μ > 128000 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** H0) μ ≤ μ0 = 128.000 U$s (pesimista); x̄c = 136.009,70 U$s. La recaudación media neta es 135.000 U$s, la hipótesis no se rechaza y no se recomienda continuar con esta compañía (equivalente: con valores brutos, crítico de 141.010 U$s).
 
@@ -1519,7 +1544,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Equivalente en valores brutos**: la media bruta debería superar x̄c bruto = 138.785,41 (se obtuvo 140.000).
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0705. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,1, x̄ = 137,200 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 128000. Se puede asegurar que μ > 128000.
+**Conclusión:** Con α = 0,1, x̄ = 137,200 U$s cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 128000. Se puede asegurar que μ > 128000.
 
 **Respuesta de la guía:** La recaudación bruta deberá superar los 138.785,41 U$s; la hipótesis nula se rechazaría y convendría continuar con la compañía.
 
@@ -1552,6 +1577,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en cm. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ = 11,5 supone que cumple; H1: μ ≠ 11,5 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
 • α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); β = P(no rechazar H0 | μ = 11,4) = 0,05 (error de tipo II).  
@@ -1646,6 +1672,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '≠'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en cm. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ = 2  vs  H1: μ ≠ 2.
 - **Justificación de H0**:  
 • H1: μ ≠ 2 recoge lo que el enunciado quiere probar; H0: μ = 2 es el complemento y lleva la igualdad (el valor de referencia 2).  
@@ -1662,7 +1689,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 2,04 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,2059. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,1, x̄ = 2,04 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ = 2. No hay evidencia suficiente para asegurar que μ ≠ 2 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,1, x̄ = 2,04 cm no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ = 2. No hay evidencia suficiente para asegurar que μ ≠ 2 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** H0) μ = μ0 = 2 cm (bilateral); LIC = x̄c1 = 1,9479 cm y LSC = x̄c2 = 2,0521 cm; CR: Si x̄ < 1,9479 cm o x̄ > 2,0521 cm ⇒ Rechazo H0. Como x̄ = 2,04 cm, no se rechaza H0: el torno no necesita ajuste.
 
@@ -1752,6 +1779,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en unidades. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 5, x̄ = Σxᵢ/n = 743.200, S = √[Σ(xᵢ - x̄)²/(n-1)] = 82.460,2935.
 - **1 · Planteo de hipótesis**: H0: μ ≤ 700000  vs  H1: μ > 700000.
 - **Justificación de H0**:  
@@ -1768,7 +1796,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 743.200 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,1532. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,01, x̄ = 743,200 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 700000. No hay evidencia suficiente para asegurar que μ > 700000 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,01, x̄ = 743,200 unidades no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 700000. No hay evidencia suficiente para asegurar que μ > 700000 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No, no se puede afirmar que la campaña fue efectiva.
 
@@ -1783,7 +1811,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student con ν = número de grados de libertad = n-1 = 4. t(0,975; 4) = 2,7764.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 743.200 ∓ 2,7764·82.460,2935/√5 = 743.200 ∓ 102.387,9777.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 640.812,02 y 845.587,98, afirmándolo con un 95% de confianza, o sea: P(640.812,02 ≤ μ ≤ 845.587,98) = 0,95 (límites redondeados hacia afuera; sin redondear: 640.812,022311 y 845.587,977689).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 640.812,02 unidades y 845.587,98 unidades, afirmándolo con un 95% de confianza, o sea: P(640.812,02 ≤ μ ≤ 845.587,98) = 0,95 (límites redondeados hacia afuera; sin redondear: 640.812,022311 y 845.587,977689).
 
 **Respuesta de la guía:** Entre 640.812,02 y 845.587,98 unidades.
 
@@ -1817,6 +1845,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en unidades por hora. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 100 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 100 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
@@ -1852,6 +1881,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en litros. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≤ 100  vs  H1: μ > 100.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 100 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 100 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -1867,7 +1897,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 114 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0036. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,1, x̄ = 114 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 100. Se puede asegurar que μ > 100.
+**Conclusión:** Con α = 0,1, x̄ = 114 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 100. Se puede asegurar que μ > 100.
 
 **Respuesta de la guía:** Se toma la decisión de lanzar el nuevo producto, se puede asegura que el volumen de venta anual promedio tiene un valor mayor que 100 litros.
 
@@ -1881,7 +1911,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student con ν = número de grados de libertad = n-1 = 15. t(0,95; 15) = 1,7531.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 114 ∓ 1,7531·18/√16 = 114 ∓ 7,8887.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 106,11 y 121,89, afirmándolo con un 90% de confianza, o sea: P(106,11 ≤ μ ≤ 121,89) = 0,9 (límites redondeados hacia afuera; sin redondear: 106,111273 y 121,888727).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 106,11 litros y 121,89 litros, afirmándolo con un 90% de confianza, o sea: P(106,11 ≤ μ ≤ 121,89) = 0,9 (límites redondeados hacia afuera; sin redondear: 106,111273 y 121,888727).
 
 **Respuesta de la guía:** Entre 106,11 y 121,89 litros.
 
@@ -1916,6 +1946,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en U$s. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≤ 1000  vs  H1: μ > 1000.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 1.000 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 1.000 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -1931,7 +1962,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 1.100 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,1406. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,01, x̄ = 1,100 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 1000. No hay evidencia suficiente para asegurar que μ > 1000 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,01, x̄ = 1,100 U$s no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 1000. No hay evidencia suficiente para asegurar que μ > 1000 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se aconseja comenzar la campaña, no se puede asegurar que los ingresos promedio por familia de la región superen los 1.000 U$s.
 
@@ -1945,7 +1976,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student con ν = número de grados de libertad = n-1 = 99. t(0,95; 99) = 1,6604.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 1.100 ∓ 1,6604·923/√100 = 1.100 ∓ 153,2541.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 946,74 y 1.253,26, afirmándolo con un 90% de confianza, o sea: P(946,74 ≤ μ ≤ 1.253,26) = 0,9 (límites redondeados hacia afuera; sin redondear: 946,745896 y 1.253,254104).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 946,74 U$s y 1.253,26 U$s, afirmándolo con un 90% de confianza, o sea: P(946,74 ≤ μ ≤ 1.253,26) = 0,9 (límites redondeados hacia afuera; sin redondear: 946,745896 y 1.253,254104).
 
 **Respuesta de la guía:** Entre 946,74 y 1.253,26 U$s.
 
@@ -1982,6 +2013,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en gramos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≤ 250  vs  H1: μ > 250.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≤ 250 supone que cumple; H1: μ > 250 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
@@ -1997,7 +2029,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 280 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,01, x̄ = 280 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 250. Se puede asegurar que μ > 250.
+**Conclusión:** Con α = 0,01, x̄ = 280 gramos cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 250. Se puede asegurar que μ > 250.
 
 **Respuesta de la guía:** Sí, se pudo asegurar que la máquina estaba fuera de control.
 
@@ -2011,7 +2043,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student con ν = número de grados de libertad = n-1 = 19. t(0,995; 19) = 2,8609.
 - **Límites**: A;B = x̄ ∓ t·S/√n = 280 ∓ 2,8609·15/√20 = 280 ∓ 9,5959.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 270,40 y 289,60, afirmándolo con un 99% de confianza, o sea: P(270,40 ≤ μ ≤ 289,60) = 0,99 (límites redondeados hacia afuera; sin redondear: 270,404134 y 289,595866).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 270,40 gramos y 289,60 gramos, afirmándolo con un 99% de confianza, o sea: P(270,40 ≤ μ ≤ 289,60) = 0,99 (límites redondeados hacia afuera; sin redondear: 270,404134 y 289,595866).
 
 **Respuesta de la guía:** Entre 270,40 y 289,60 gramos.
 
@@ -2054,6 +2086,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en minutos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 75, x̄ = Σxᵢ/n = 10,362, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,3716.
 - **1 · Planteo de hipótesis**: H0: μ ≤ 10,25  vs  H1: μ > 10,25.
 - **Justificación de H0**:  
@@ -2071,7 +2104,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 10,362 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0678. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 10,362 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 10,25. No hay evidencia suficiente para asegurar que μ > 10,25 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, x̄ = 10,362 minutos no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 10,25. No hay evidencia suficiente para asegurar que μ > 10,25 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No, no hay razón para creer que el tiempo medio es mayor que 10,25 minutos.
 
@@ -2095,7 +2128,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 10,362 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0055. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 10,362 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 10,25. Se puede asegurar que μ > 10,25.
+**Conclusión:** Con α = 0,05, x̄ = 10,362 minutos cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 10,25. Se puede asegurar que μ > 10,25.
 
 **Respuesta de la guía:** No se arriba a la misma conclusión, en este caso se tiene seguridad para afirmar que el tiempo medio de armado es mayor a 10,25 minutos.
 
@@ -2118,6 +2151,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El enunciado no fija el riesgo α: se eligió α = 0,05. En el examen hay que elegirlo y JUSTIFICARLO antes de ver la muestra (p. ej. «0,05, no porque sea estándar, sino porque el perito tiene que ser imparcial»); una vez fijado, α no se toca. El valor a posteriori α* se muestra solo como dato: no se decide con él.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en Kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≤ 45  vs  H1: μ > 45.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 45 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 45 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -2135,7 +2169,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 47 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0639. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 47 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 45. No hay evidencia suficiente para asegurar que μ > 45 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, x̄ = 47 Kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 45. No hay evidencia suficiente para asegurar que μ > 45 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** Si se toma un 6,39% o más de riesgo, la respuesta es “si”; caso contrario, la respuesta es: “no puede asegurarse que el peso medio de los cerdos se haya incrementado”.
 
@@ -2150,7 +2184,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = Z(0,95) = 1,6449.
 - **Límites**: A;B = x̄ ∓ Z·σ/√n · √((N-n)/N) = 47 ∓ 1,6449·8/√36 · √((N-n)/N) = 47 ∓ 2,16.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 44,84 y 49,16, afirmándolo con un 90% de confianza, o sea: P(44,84 ≤ μ ≤ 49,16) = 0,9 (límites redondeados hacia afuera; sin redondear: 44,840009 y 49,159991).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 44,84 Kg y 49,16 Kg, afirmándolo con un 90% de confianza, o sea: P(44,84 ≤ μ ≤ 49,16) = 0,9 (límites redondeados hacia afuera; sin redondear: 44,840009 y 49,159991).
 
 **Respuesta de la guía:** Entre 44,84 y 49,16 kg.
 
@@ -2166,7 +2200,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Límites**: A;B = x̄ ∓ Z·σ/√n · √((N-n)/N) = 47 ∓ 1,6449·8/√36 · √((N-n)/N) = 47 ∓ 2,16.
 - **Total poblacional** T = N·μ: se multiplican los límites por N = 1.200.
 
-**Conclusión:** El total poblacional estará entre 53.808,01 y 58.991,99 (límites redondeados hacia afuera; sin redondear: 53.808,011284 y 58.991,988716): P(53.808,01 ≤ T ≤ 58.991,99) = 0,9
+**Conclusión:** El total poblacional estará entre 53.808,01 Kg y 58.991,99 Kg (límites redondeados hacia afuera; sin redondear: 53.808,011284 y 58.991,988716): P(53.808,01 ≤ T ≤ 58.991,99) = 0,9
 
 **Respuesta de la guía:** Entre 53.808,01 y 58.991,99 kg.
 
@@ -2202,6 +2236,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en segundos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ = 360 supone que cumple; H1: μ ≠ 360 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
@@ -2253,6 +2288,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la media poblacional μ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ ≤ 1  vs  H1: μ > 1.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≤ 1 supone que cumple; H1: μ > 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
@@ -2269,7 +2305,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 1,1 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0399. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,1, x̄ = 1,1 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 1. Se puede asegurar que μ > 1.
+**Conclusión:** Con α = 0,1, x̄ = 1,1 kg cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 1. Se puede asegurar que μ > 1.
 
 **Respuesta de la guía:** H0) μ ≤ μ0 = 1 kg; x̄c = 1,07 kg; CR: Si x̄ > 1,07 kg ⇒ Rechazo H0. Como x̄ = 1,10 kg se rechaza H0: hay razones suficientes para afirmar que el proceso se encuentra fuera de control.
 
@@ -2283,7 +2319,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Distribución**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student con ν = número de grados de libertad = n-1 = 8. t(0,975; 8) = 2,306.
 - **Límites**: A;B = x̄ ∓ t·S/√n · √((N-n)/N) = 1,1 ∓ 2,306·0,15/√9 · √((N-n)/N) = 1,1 ∓ 0,1149.
 
-**Conclusión:** Se concluye que la media poblacional estará comprendida entre 0,985 y 1,215, afirmándolo con un 95% de confianza, o sea: P(0,985 ≤ μ ≤ 1,215) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,985071 y 1,214929).
+**Conclusión:** Se concluye que la media poblacional estará comprendida entre 0,985 kg y 1,215 kg, afirmándolo con un 95% de confianza, o sea: P(0,985 ≤ μ ≤ 1,215) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,985071 y 1,214929).
 
 **Respuesta de la guía:** Entre 0,985 kg y 1,215 kg (1,1 ± 0,1149), con un 95% de confianza.
 
@@ -2345,6 +2381,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en ppm. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 12, x̄ = Σxᵢ/n = 5,1333, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,4313.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ = 5 supone que cumple; H1: μ ≠ 5 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
@@ -2423,6 +2460,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 95% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 12, x̄ = Σxᵢ/n = 3, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,0234.
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
@@ -2457,6 +2495,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 90% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 5, x̄ = Σxᵢ/n = 25,12, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,1924.
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
@@ -2483,6 +2522,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 95% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.
@@ -2509,6 +2549,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 90% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en horas. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.
@@ -2557,6 +2598,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 90% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 4, x̄ = Σxᵢ/n = 38,175, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,5315.
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
@@ -2608,6 +2650,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 95% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en gramos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.
@@ -2650,6 +2693,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 95% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en U$s. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.
@@ -2701,6 +2745,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 90% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 12, x̄ = Σxᵢ/n = 12,275, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,3864.
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
@@ -2793,6 +2838,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la varianza σ² / el desvío σ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en cm. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: σ² ≤ 225  vs  H1: σ² > 225.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: σ ≤ 15 supone que cumple; H1: σ > 15 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
@@ -2891,6 +2937,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la varianza σ² / el desvío σ: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en cm. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: σ² ≥ 225  vs  H1: σ² < 225.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: σ ≥ 15 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: σ < 15 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -2943,6 +2990,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la varianza σ² / el desvío σ: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en U$s. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: σ² ≤ 400  vs  H1: σ² > 400.
 - **Justificación de H0**:  
 • H1: σ > 20 recoge lo que el enunciado quiere probar; H0: σ ≤ 20 es el complemento y lleva la igualdad (el valor de referencia 20).  
@@ -2993,6 +3041,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en gramos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: σ ≤ 5 supone que cumple; H1: σ > 5 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
@@ -3077,6 +3126,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Doble condición: hacer DOS ensayos, uno sobre la media μ (t de Student) y otro sobre el desvío σ (χ²), ambos con H1 '>'. Solo se recomienda si se rechazan las DOS hipótesis nulas.
 
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en gramos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 9, x̄ = Σxᵢ/n = 1,5333, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,0235.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 1,5 y σ ≤ 0,015 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 1,5 y σ > 0,015 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -4724,6 +4774,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la relación de varianzas σ₁²/σ₂² con un 90% de confianza mediante un intervalo de confianza.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Muestra 2, población 2 = Muestra 1. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • Las dos variables se suponen Normales y las muestras independientes (supuesto necesario: la F no es robusta si X no es Normal).  
 • Entonces (S₁²/σ₁²)/(S₂²/σ₂²) ~ F de Snedecor con ν₁ = n₁-1 (numerador) y ν₂ = n₂-1 (denominador). Con φ = σ₁/σ₂ y j² = S₁²/S₂²: j²/φ² ~ F(ν₁; ν₂). La F es asimétrica: el IC no es simétrico y F(α; ν₁; ν₂) = 1/F(1-α; ν₂; ν₁).
@@ -4802,6 +4853,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la relación de varianzas σ₁²/σ₂²: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en mm; población 1 = P, población 2 = A. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: φ = σ(P)/σ(A) ≥ 0,8  vs  H1: φ = σ(P)/σ(A) < 0,8.  En varianzas: φ₀² = 0,64.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: φ = σ(P)/σ(A) ≥ 0,8 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: φ = σ(P)/σ(A) < 0,8 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -4931,6 +4983,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la relación de varianzas σ₁²/σ₂²: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en kg; población 1 = Casablanca, población 2 = La Providencia. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: φ = σ(Casablanca)/σ(La Providencia) ≤ 1  vs  H1: φ = σ(Casablanca)/σ(La Providencia) > 1.  En varianzas: φ₀² = 1.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: φ = σ(Casablanca)/σ(La Providencia) ≤ 1 supone que cumple; H1: φ = σ(Casablanca)/σ(La Providencia) > 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
@@ -5042,6 +5095,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la relación de varianzas σ₁²/σ₂²: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en metros; población 1 = reacondicionadas, población 2 = sin reacondicionar. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: φ = σ(reacondicionadas)/σ(sin reacondicionar) ≥ 0,88  vs  H1: φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88.  En varianzas: φ₀² = 0,7744.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: φ = σ(reacondicionadas)/σ(sin reacondicionar) ≥ 0,88 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
@@ -5120,6 +5174,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = con aditivo, población 2 = sin aditivo. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: φ = σ(con aditivo)/σ(sin aditivo) ≥ 1 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: φ = σ(con aditivo)/σ(sin aditivo) < 1 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
 • α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | φ = σ(con aditivo)/σ(sin aditivo) = 0,7) = 0,01 (error de tipo II).  
@@ -5208,6 +5263,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Proceso Viejo, población 2 = Proceso Nuevo. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Proceso Nuevo) - μ(Proceso Viejo) ≥ 0  vs  H1: δ = μ(Proceso Nuevo) - μ(Proceso Viejo) < 0.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Proceso Nuevo) > S(Proceso Viejo), lo único que se puede sospechar es σ(Proceso Nuevo) > σ(Proceso Viejo) → unilateral, H0: φ = σ(Proceso Nuevo)/σ(Proceso Viejo) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 11; ν₂ = 11) = √2,2269 = 1,4923; J = S(Proceso Nuevo)/S(Proceso Viejo) = 1,0359 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5291,6 +5347,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Ración “A”, población 2 = Ración “B”. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Ración “B”) - μ(Ración “A”) ≤ 0  vs  H1: δ = μ(Ración “B”) - μ(Ración “A”) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Ración “B”) > S(Ración “A”), lo único que se puede sospechar es σ(Ración “B”) > σ(Ración “A”) → unilateral, H0: φ = σ(Ración “B”)/σ(Ración “A”) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 5; ν₂ = 5) = √3,453 = 1,8582; J = S(Ración “B”)/S(Ración “A”) = 1,1885 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5351,6 +5408,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en metros; población 1 = reacondicionadas, población 2 = sin reacondicionar. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(reacondicionadas) - μ(sin reacondicionar) ≤ 0  vs  H1: δ = μ(reacondicionadas) - μ(sin reacondicionar) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(sin reacondicionar) > S(reacondicionadas), lo único que se puede sospechar es σ(sin reacondicionar) > σ(reacondicionadas) → unilateral, H0: φ = σ(sin reacondicionar)/σ(reacondicionadas) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 15; ν₂ = 3) = √5,2003 = 2,2804; J = S(sin reacondicionar)/S(reacondicionadas) = 2,6818 → J > Jc: se rechaza H0 → los desvíos son DISTINTOS → Welch.
@@ -5365,7 +5423,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = 262 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,0162. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 262 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(reacondicionadas) - μ(sin reacondicionar) ≤ 0. Se puede asegurar que δ = μ(reacondicionadas) - μ(sin reacondicionar) > 0.
+**Conclusión:** Con α = 0,05, d = 262 metros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(reacondicionadas) - μ(sin reacondicionar) ≤ 0. Se puede asegurar que δ = μ(reacondicionadas) - μ(sin reacondicionar) > 0.
 
 **Respuesta de la guía:** Desvíos: H0: σSR ≤ σCR (φ = σSR/σCR, H0: φ ≤ φ0 = 1), jc = 2,2804 (j²c = 5,2003), j = 2,6818 (j² = 7,1922): se rechaza, los desvíos son distintos (Welch, νaw = 14,2641 → 14). Medias: H0: μCR ≤ μSR (δ = μCR − μSR, H0: δ ≤ δ0 = 0), dc = 194,4494 m, d = 1.470 − 1.208 = 262 m. Se rechaza la hipótesis: las máquinas reacondicionadas tienen una producción promedio mayor; se aconseja el reacondicionamiento de todas las máquinas.
 
@@ -5381,7 +5439,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - ν de Aspin-Welch = (S₁²/n₁ + S₂²/n₂)²/[(S₁²/n₁)²/(n₁-1) + (S₂²/n₂)²/(n₂-1)] = 14,2641 → ν = 14.
 - **IC para δ = μ(reacondicionadas) - μ(sin reacondicionar)** (t de Welch (desvíos distintos)): d = 262; e = t(0,95; 14)·σ(d) = 1,7613·110,400408 = 194,4494.
 
-**Conclusión:** P(67,55 ≤ μ(reacondicionadas) - μ(sin reacondicionar) ≤ 456,45) = 0,9 (e = 194,4494). Para μ(sin reacondicionar) - μ(reacondicionadas): entre -456,45 y -67,55. Límites redondeados hacia afuera; sin redondear: 67,550643 y 456,449357.
+**Conclusión:** P(67,55 ≤ μ(reacondicionadas) - μ(sin reacondicionar) ≤ 456,45) = 0,9 (e = 194,4494). Para μ(sin reacondicionar) - μ(reacondicionadas): entre -456,45 metros y -67,55 metros. Límites redondeados hacia afuera; sin redondear: 67,550643 y 456,449357.
 
 **Respuesta de la guía:** Entre 67,55 metros y 456,45 metros (δ = μCR − μSR; 262 ± 194,4482), con un error de muestreo e = 194,4482.
 
@@ -5446,6 +5504,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en litros; población 1 = con aditivo, población 2 = sin aditivo. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(con aditivo) - μ(sin aditivo) ≥ -0,5  vs  H1: δ = μ(con aditivo) - μ(sin aditivo) < -0,5.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(sin aditivo) > S(con aditivo), lo único que se puede sospechar es σ(sin aditivo) > σ(con aditivo) → unilateral, H0: φ = σ(sin aditivo)/σ(con aditivo) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 9; ν₂ = 9) = √2,4403 = 1,5622; J = S(sin aditivo)/S(con aditivo) = 1,0862 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5460,7 +5519,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = -1,05 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,0286. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = -1,05 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(con aditivo) - μ(sin aditivo) ≥ -0,5. Se puede asegurar que δ = μ(con aditivo) - μ(sin aditivo) < -0,5.
+**Conclusión:** Con α = 0,05, d = -1,05 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(con aditivo) - μ(sin aditivo) ≥ -0,5. Se puede asegurar que δ = μ(con aditivo) - μ(sin aditivo) < -0,5.
 
 **Respuesta de la guía:** Se puede asegurar que el aditivo reduce el consumo de combustible en más de 0,5 litros.
 
@@ -5482,7 +5541,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = -0,525 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,0283. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = -0,525 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ(con aditivo) ≥ 0,9·μ(sin aditivo) (δ* = μ(con aditivo) - 0,9·μ(sin aditivo) ≥ 0). Se puede asegurar que μ(con aditivo) < 0,9·μ(sin aditivo).
+**Conclusión:** Con α = 0,05, d = -0,525 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ(con aditivo) ≥ 0,9·μ(sin aditivo) (δ* = μ(con aditivo) - 0,9·μ(sin aditivo) ≥ 0). Se puede asegurar que μ(con aditivo) < 0,9·μ(sin aditivo).
 
 **Respuesta de la guía:** Se puede asegurar que el aditivo reduce el consumo de combustible en más del 10%.
 
@@ -5508,6 +5567,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en kg; población 1 = Variedad “A”, población 2 = Variedad “B”. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Variedad “B”) - μ(Variedad “A”) ≤ 0  vs  H1: δ = μ(Variedad “B”) - μ(Variedad “A”) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Variedad “A”) > S(Variedad “B”), lo único que se puede sospechar es σ(Variedad “A”) > σ(Variedad “B”) → unilateral, H0: φ = σ(Variedad “A”)/σ(Variedad “B”) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 14; ν₂ = 14) = √2,0224 = 1,4221; J = S(Variedad “A”)/S(Variedad “B”) = 1,2143 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5522,7 +5582,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = 1,2 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,1502. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 1,2 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Variedad “B”) - μ(Variedad “A”) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Variedad “B”) - μ(Variedad “A”) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 1,2 kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Variedad “B”) - μ(Variedad “A”) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Variedad “B”) - μ(Variedad “A”) > 0 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que la variedad “B” sea más efectiva para el engorde promedio de los novillos que la variedad “A”.
 
@@ -5538,7 +5598,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 3,114482; ν = n₁ + n₂ - 2 = 28.
 - **Límite para δ = μ(Variedad “B”) - μ(Variedad “A”)** (t con Sa (desvíos iguales)): d = 1,2; e = t(0,95; 28)·σ(d) = 1,7011·1,137248 = 1,9346.
 
-**Conclusión:** Con un 95% de confianza, μ(Variedad “B”) - μ(Variedad “A”) ≥ -0,735: la diferencia mínima garantizada para Variedad “B” es -0,735 (redondeada hacia abajo; sin redondear -0,734608).
+**Conclusión:** Con un 95% de confianza, μ(Variedad “B”) - μ(Variedad “A”) ≥ -0,735: la diferencia mínima garantizada para Variedad “B” es -0,735 kg (redondeada hacia abajo; sin redondear -0,734608).
 
 **Respuesta de la guía:** (− 0,73) kg, se estima que la variedad “A” puede engordar más que la “B” en 0,73 kg.
 
@@ -5573,6 +5633,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El enunciado no fija el riesgo α: se eligió α = 0,05. En el examen hay que elegirlo y JUSTIFICARLO antes de ver la muestra (p. ej. «0,05, no porque sea estándar, sino porque el perito tiene que ser imparcial»); una vez fijado, α no se toca. El valor a posteriori α* se muestra solo como dato: no se decide con él.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Máquina “A”, población 2 = Máquina “B”. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Máquina “B”) - μ(Máquina “A”) ≤ 0,1  vs  H1: δ = μ(Máquina “B”) - μ(Máquina “A”) > 0,1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Máquina “B”) > S(Máquina “A”), lo único que se puede sospechar es σ(Máquina “B”) > σ(Máquina “A”) → unilateral, H0: φ = σ(Máquina “B”)/σ(Máquina “A”) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 89; ν₂ = 89) = √1,3137 = 1,1462; J = S(Máquina “B”)/S(Máquina “A”) = 1,0605 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5680,6 +5741,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Variedad Actual (A), población 2 = Variedad Nueva (N). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ(Variedad Nueva (N)) ≤ 1,1·μ(Variedad Actual (A)) (δ* = μ(Variedad Nueva (N)) - 1,1·μ(Variedad Actual (A)) ≤ 0)  vs  H1: μ(Variedad Nueva (N)) > 1,1·μ(Variedad Actual (A)).
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Variedad Actual (A)) > S(Variedad Nueva (N)), lo único que se puede sospechar es σ(Variedad Actual (A)) > σ(Variedad Nueva (N)) → unilateral, H0: φ = σ(Variedad Actual (A))/σ(Variedad Nueva (N)) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 9; ν₂ = 9) = √2,4403 = 1,5622; J = S(Variedad Actual (A))/S(Variedad Nueva (N)) = 1,1399 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5715,6 +5777,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pregunta si hay un efecto (aumenta / reduce / influye): ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en kg; población 1 = con aditivo, población 2 = sin aditivo. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(con aditivo) - μ(sin aditivo) ≤ 0,45  vs  H1: δ = μ(con aditivo) - μ(sin aditivo) > 0,45.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(sin aditivo) > S(con aditivo), lo único que se puede sospechar es σ(sin aditivo) > σ(con aditivo) → unilateral, H0: φ = σ(sin aditivo)/σ(con aditivo) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 60; ν₂ = 20) = √1,6768 = 1,2949; J = S(sin aditivo)/S(con aditivo) = 1,0417 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5729,7 +5792,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = 0,9 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,0773. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 0,9 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(con aditivo) - μ(sin aditivo) ≤ 0,45. No hay evidencia suficiente para asegurar que δ = μ(con aditivo) - μ(sin aditivo) > 0,45 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 0,9 kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(con aditivo) - μ(sin aditivo) ≤ 0,45. No hay evidencia suficiente para asegurar que δ = μ(con aditivo) - μ(sin aditivo) > 0,45 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el aditivo aumente la resistencia en 0,45 kg como mínimo.
 
@@ -5745,7 +5808,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 1,237689; ν = n₁ + n₂ - 2 = 80.
 - **Límite para δ = μ(con aditivo) - μ(sin aditivo)** (t con Sa (desvíos iguales)): d = 0,9; e = t(0,95; 80)·σ(d) = 1,6641·0,313144 = 0,5211.
 
-**Conclusión:** Con un 95% de confianza, μ(con aditivo) - μ(sin aditivo) ≥ 0,378: la diferencia mínima garantizada para con aditivo es 0,378 (redondeada hacia abajo; sin redondear 0,378889).
+**Conclusión:** Con un 95% de confianza, μ(con aditivo) - μ(sin aditivo) ≥ 0,378: la diferencia mínima garantizada para con aditivo es 0,378 kg (redondeada hacia abajo; sin redondear 0,378889).
 
 **Respuesta de la guía:** 0,3788 kg, el aditivo puede aumentar la resistencia del látex en 0,3788 kg.
 
@@ -5767,7 +5830,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = 0,14 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,3322. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 0,14 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(con aditivo) ≤ 1,1·μ(sin aditivo) (δ* = μ(con aditivo) - 1,1·μ(sin aditivo) ≤ 0). No hay evidencia suficiente para asegurar que μ(con aditivo) > 1,1·μ(sin aditivo) (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 0,14 kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(con aditivo) ≤ 1,1·μ(sin aditivo) (δ* = μ(con aditivo) - 1,1·μ(sin aditivo) ≤ 0). No hay evidencia suficiente para asegurar que μ(con aditivo) > 1,1·μ(sin aditivo) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el aditivo aumente la resistencia en un 10% como mínimo.
 
@@ -5810,6 +5873,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = John Deere (JD), población 2 = Vasalli (V). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(John Deere (JD)) - μ(Vasalli (V)) ≤ 0  vs  H1: δ = μ(John Deere (JD)) - μ(Vasalli (V)) > 0.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Vasalli (V)) > S(John Deere (JD)), lo único que se puede sospechar es σ(Vasalli (V)) > σ(John Deere (JD)) → unilateral, H0: φ = σ(Vasalli (V))/σ(John Deere (JD)) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 4; ν₂ = 4) = √4,1072 = 2,0266; J = S(Vasalli (V))/S(John Deere (JD)) = 1,3913 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5861,6 +5925,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide la conclusión / decisión: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en unidades; población 1 = con la campaña, población 2 = sin la campaña. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(con la campaña) - μ(sin la campaña) ≤ 50,000  vs  H1: δ = μ(con la campaña) - μ(sin la campaña) > 50,000.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(con la campaña) > S(sin la campaña), lo único que se puede sospechar es σ(con la campaña) > σ(sin la campaña) → unilateral, H0: φ = σ(con la campaña)/σ(sin la campaña) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 3; ν₂ = 11) = √2,6602 = 1,631; J = S(con la campaña)/S(sin la campaña) = 1,6222 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5875,7 +5940,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = 72.000 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,239. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 72,000 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(con la campaña) - μ(sin la campaña) ≤ 50,000. No hay evidencia suficiente para asegurar que δ = μ(con la campaña) - μ(sin la campaña) > 50,000 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 72,000 unidades no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(con la campaña) - μ(sin la campaña) ≤ 50,000. No hay evidencia suficiente para asegurar que δ = μ(con la campaña) - μ(sin la campaña) > 50,000 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que la campaña haya incrementado las ventas en 50.000 unidades por lo menos.
 
@@ -5897,7 +5962,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = 15.000 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,3178. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 15,000 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(con la campaña) ≤ 1,1·μ(sin la campaña) (δ* = μ(con la campaña) - 1,1·μ(sin la campaña) ≤ 0). No hay evidencia suficiente para asegurar que μ(con la campaña) > 1,1·μ(sin la campaña) (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 15,000 unidades no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(con la campaña) ≤ 1,1·μ(sin la campaña) (δ* = μ(con la campaña) - 1,1·μ(sin la campaña) ≤ 0). No hay evidencia suficiente para asegurar que μ(con la campaña) > 1,1·μ(sin la campaña) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No puedo asegurar que la campaña haya incrementado las ventas en un 10% por lo menos.
 
@@ -5920,7 +5985,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 642.000 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,094. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 642,000 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 580000. No hay evidencia suficiente para asegurar que μ > 580000 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, x̄ = 642,000 unidades no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 580000. No hay evidencia suficiente para asegurar que μ > 580000 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** α = 0,094 o más.
 
@@ -5939,6 +6004,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide decidir si se puede asegurar una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en quintales; población 1 = nuevo producto, población 2 = producto tradicional. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(nuevo producto) - μ(producto tradicional) ≤ 0,2  vs  H1: δ = μ(nuevo producto) - μ(producto tradicional) > 0,2.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(producto tradicional) > S(nuevo producto), lo único que se puede sospechar es σ(producto tradicional) > σ(nuevo producto) → unilateral, H0: φ = σ(producto tradicional)/σ(nuevo producto) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 4; ν₂ = 4) = √4,1072 = 2,0266; J = S(producto tradicional)/S(nuevo producto) = 1,2 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5953,7 +6019,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = 0,5 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,4339. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,1, d = 0,5 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(nuevo producto) - μ(producto tradicional) ≤ 0,2. No hay evidencia suficiente para asegurar que δ = μ(nuevo producto) - μ(producto tradicional) > 0,2 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,1, d = 0,5 quintales no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(nuevo producto) - μ(producto tradicional) ≤ 0,2. No hay evidencia suficiente para asegurar que δ = μ(nuevo producto) - μ(producto tradicional) > 0,2 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el nuevo plaguicida mejore el rendimiento en 0,2 quintales como mínimo.
 
@@ -5976,7 +6042,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: x̄ = 20 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,3389. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,1, x̄ = 20 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 19,5. No hay evidencia suficiente para asegurar que μ > 19,5 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,1, x̄ = 20 quintales no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≤ 19,5. No hay evidencia suficiente para asegurar que μ > 19,5 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el nuevo plaguicida mejore el rendimiento.
 
@@ -6000,6 +6066,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Variedad “A”, población 2 = Variedad “B”. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Variedad “A”) - μ(Variedad “B”) ≤ 2  vs  H1: δ = μ(Variedad “A”) - μ(Variedad “B”) > 2.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Variedad “A”) - x(Variedad “B”) → d̄ = 5,75, S_d = 5,12, n = 8 pares (ν = 7); σ(d̄) = S_d/√n = 1,8102.
@@ -6053,6 +6120,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Método Propuesto, población 2 = Método Clásico. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Método Clásico) - μ(Método Propuesto) ≤ 0  vs  H1: δ = μ(Método Clásico) - μ(Método Propuesto) > 0.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Método Clásico) - x(Método Propuesto) → d̄ = 0,5714, S_d = 0,7564, n = 14 pares (ν = 13); σ(d̄) = S_d/√n = 0,2022.
@@ -6090,6 +6158,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Zapato sin tratar, población 2 = Zapato tratado. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Zapato tratado) - μ(Zapato sin tratar) ≤ 0  vs  H1: δ = μ(Zapato tratado) - μ(Zapato sin tratar) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Zapato tratado) - x(Zapato sin tratar) → d̄ = 1, S_d = 1,6036, n = 8 pares (ν = 7); σ(d̄) = S_d/√n = 0,5669.
@@ -6119,6 +6188,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en piezas por hora; población 1 = Muestra 1, población 2 = Muestra 2. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Muestra 1) - μ(Muestra 2) ≤ 0  vs  H1: δ = μ(Muestra 1) - μ(Muestra 2) > 0.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Muestra 1) > S(Muestra 2), lo único que se puede sospechar es σ(Muestra 1) > σ(Muestra 2) → unilateral, H0: φ = σ(Muestra 1)/σ(Muestra 2) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 9; ν₂ = 11) = √2,2735 = 1,5078; J = S(Muestra 1)/S(Muestra 2) = 1,129 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -6134,7 +6204,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,2217. La decisión se toma comparando el estimador con el valor crítico.
 - **Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que μ(Muestra 1), el de mayor media muestral, supera a μ(Muestra 2).
 
-**Conclusión:** Con α = 0,01, d = 1,1 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Muestra 1) - μ(Muestra 2) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Muestra 1) - μ(Muestra 2) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,01, d = 1,1 piezas por hora no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Muestra 1) - μ(Muestra 2) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Muestra 1) - μ(Muestra 2) > 0 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el alto nivel sonoro influya sobre los tiempos de producción.
 
@@ -6157,6 +6227,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Sin acelerante, población 2 = Con acelerante. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Con acelerante) - μ(Sin acelerante) ≤ 0  vs  H1: δ = μ(Con acelerante) - μ(Sin acelerante) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Con acelerante) > S(Sin acelerante), lo único que se puede sospechar es σ(Con acelerante) > σ(Sin acelerante) → unilateral, H0: φ = σ(Con acelerante)/σ(Sin acelerante) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 4; ν₂ = 9) = √2,6927 = 1,6409; J = S(Con acelerante)/S(Sin acelerante) = 1,5695 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -6198,6 +6269,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Proceso Actual (A), población 2 = Proceso Propuesto (P). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Proceso Actual (A)) - μ(Proceso Propuesto (P)) ≤ 2  vs  H1: δ = μ(Proceso Actual (A)) - μ(Proceso Propuesto (P)) > 2.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Proceso Actual (A)) - x(Proceso Propuesto (P)) → d̄ = 4,75, S_d = 3,6936, n = 8 pares (ν = 7); σ(d̄) = S_d/√n = 1,3059.
@@ -6277,6 +6349,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Con albúmina humana, población 2 = Sin albúmina humana. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Sin albúmina humana) - μ(Con albúmina humana) ≤ 0  vs  H1: δ = μ(Sin albúmina humana) - μ(Con albúmina humana) > 0.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Sin albúmina humana) - x(Con albúmina humana) → d̄ = 0,1306, S_d = 0,1501, n = 6 pares (ν = 5); σ(d̄) = S_d/√n = 0,0613.
@@ -6319,6 +6392,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = 4 ºC Sin albúmina, población 2 = 4 ºC Con albúmina. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
@@ -6369,6 +6443,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = tratadas, población 2 = sin tratar. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(tratadas) - μ(sin tratar) ≤ 0  vs  H1: δ = μ(tratadas) - μ(sin tratar) > 0.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(tratadas) > S(sin tratar), lo único que se puede sospechar es σ(tratadas) > σ(sin tratar) → unilateral, H0: φ = σ(tratadas)/σ(sin tratar) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 654; ν₂ = 598) = √1,1083 = 1,0527; J = S(tratadas)/S(sin tratar) = 1,0952 → J > Jc: se rechaza H0 → los desvíos son DISTINTOS → Welch.
@@ -6430,6 +6505,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Máquina “A”, población 2 = Máquina “B”. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Máquina “A”) - μ(Máquina “B”) ≤ 0  vs  H1: δ = μ(Máquina “A”) - μ(Máquina “B”) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: ¿valen los desvíos afirmados? H0: σ ≤ σ₀ (χ², α = 0,05). Máquina “A”: Sc = σ₀·√(χ²(0,95; 9)/9) = 0,0206 vs S = 0,0303 → se rechaza: σ no es 0,015. Máquina “B”: Sc = 0,0247 vs S = 0,0255 → se rechaza: σ no es 0,018.
@@ -7832,6 +7908,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El enunciado no fija el riesgo α: se eligió α = 0,05. En el examen hay que elegirlo y JUSTIFICARLO antes de ver la muestra (p. ej. «0,05, no porque sea estándar, sino porque el perito tiene que ser imparcial»); una vez fijado, α no se toca. El valor a posteriori α* se muestra solo como dato: no se decide con él.
 
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Marca A, población 2 = Marca B. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Marca B) - μ(Marca A) ≤ 0  vs  H1: δ = μ(Marca B) - μ(Marca A) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Marca B) > S(Marca A), lo único que se puede sospechar es σ(Marca B) > σ(Marca A) → unilateral, H0: φ = σ(Marca B)/σ(Marca A) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 202; ν₂ = 112) = √1,2448 = 1,1157; J = S(Marca B)/S(Marca A) = 1,0179 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -8017,10 +8094,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
+- **Primero se valida el modelo** (aunque el inciso no lo pida: un modelo no validado no sirve para estimar).
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 2,6518; ν = n - 2 = 3; t(1-α; ν) = t(0,95; 3) = 2,3534. CR: si |t_obs| > 2,3534 ⇒ se rechaza H0. 2,6518 > 2,3534 ⇒ se rechaza H0: existe relación lineal entre el área sembrada y el PBI.
+- **2° fuerza de la relación**: r² = 0,701 (70,1%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
 - **Recta**: ŷ = 7,5091 + 0,1813·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 7,5091 + 0,1813·5,401 = 8,4885.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 7,5091 + (0,1813)·5,401 = 8,4885.
 
-**Conclusión:** El pronóstico puntual para x₀ = 5,401 es ŷ₀ = 8,488544.
+**Conclusión:** El pronóstico puntual del PBI para el área sembrada = 5,401 10^6 hectáreas es ŷ₀ = 8,488544 millones de U$s.
 
 **Respuesta de la guía:** 8,488544 millones de U$s.
 
@@ -8030,15 +8110,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
 
-- **Sumatorias**: n = 5; Σx = 18,3435; Σx² = 71,5906; Σy = 40,872; Σy² = 334,3055; Σxy = 150,7258.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 0,7787/4,2938 = 0,1813; b0 = ȳ - b1·x̄ = 8,1744 - 0,1813·3,6687 = 7,5091.
-- **Recta**: ŷ = 7,5091 + 0,1813·x.
-- **Ajuste**: S² = SCR/(n-2) = 0,0201; S = 0,1417; Sb1 = S/√(Σx² - n·x̄²) = 0,0684.
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = 0,8372; r² = 0,701.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 2,6518; t(1-α; ν = 3) = 2,3534. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
+- **Variables**: Y = PBI (millones de U$s) → variable explicada (aleatoria); X = área sembrada (10^6 hectáreas) → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 5; Σx = 18,3435; x̄ = 3,6687; Σx² = 71,5906; Σy = 40,872; ȳ = 8,1744; Σy² = 334,3055; Σxy = 150,7258.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 0,7787/4,2938 = 0,181345 millones de U$s/10^6 hectáreas; b0 = ȳ - b1·x̄ = 8,1744 - (0,1813)·3,6687 = 7,5091 millones de U$s.
+- **Recta (modelo estimador)**: ŷ = 7,5091 + 0,1813·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 0,020081; S = 0,141707; Sb1 = S/√(Σx² - n·x̄²) = 0,068386; r = 0,83723; r² = 0,700954.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 2,6518; ν = n - 2 = 3; t(1-α; ν) = t(0,95; 3) = 2,3534. CR: si |t_obs| > 2,3534 ⇒ se rechaza H0. 2,6518 > 2,3534 ⇒ se rechaza H0: existe relación lineal entre el área sembrada y el PBI.
+- **2° fuerza de la relación**: r² = 0,701 (70,1%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
 
-**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre las variables; r = 0,8372 (r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
+**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre el área sembrada y el PBI; r = 0,8372, r² = 0,701 (r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
 
 **Respuesta de la guía:** Se rechaza la hipótesis, por lo tanto, se puede afirmar que existe relación lineal entre las variables y como el valor de r = 0,8372 es alto, se puede considerar que dicha relación es fuerte para el uso dado.
 
@@ -8047,10 +8127,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 7,5091 + 0,1813·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 7,5091 + 0,1813·5,401 = 8,4885.
-- **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,3534; error = 0,4595.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 7,5091 + (0,1813)·5,401 = 8,4885.
+- **Intervalo para un valor individual de y (intervalo de predicción o pronóstico)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,3534 (ν = n - 2 = 3); error = 0,4595.
 
-**Conclusión:** Con un 90% de confianza, el valor de y para x₀ = 5,401 estará entre 8,0289 y 8,9481: P(8,0289 ≤ y(x₀) ≤ 8,9481) = 0,9 (límites redondeados hacia afuera; sin redondear: 8,028998 y 8,94809).
+**Conclusión:** Con un 90% de confianza, el valor del PBI con el área sembrada en 5,401 10^6 hectáreas estará entre 8,0289 millones de U$s y 8,9481 millones de U$s: P(8,0289 ≤ y(x₀ = 5,401) ≤ 8,9481) = 0,9 (límites redondeados hacia afuera; sin redondear: 8,028998 y 8,94809).
 
 **Respuesta de la guía:** Entre 8,028998 y 8,94809 millones de U$s.
 
@@ -8081,15 +8161,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
 
-- **Sumatorias**: n = 5; Σx = 3,93; Σx² = 3,1485; Σy = 178,2; Σy² = 6.399,16; Σxy = 141,557.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1,4918/0,0595 = 25,0638; b0 = ȳ - b1·x̄ = 35,64 - 25,0638·0,786 = 15,9398.
-- **Recta**: ŷ = 15,9398 + 25,0638·x.
-- **Ajuste**: S² = SCR/(n-2) = 3,5739; S = 1,8905; Sb1 = S/√(Σx² - n·x̄²) = 7,7489.
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = 0,8816; r² = 0,7772.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 3,2345; t(1-α; ν = 3) = 2,3534. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
+- **Variables**: Y = ventas (miles de unidades) → variable explicada (aleatoria); X = relación precio de competidor/precio del propio producto → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 5; Σx = 3,93; x̄ = 0,786; Σx² = 3,1485; Σy = 178,2; ȳ = 35,64; Σy² = 6.399,16; Σxy = 141,557.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1,4918/0,0595 = 25,063844; b0 = ȳ - b1·x̄ = 35,64 - (25,0638)·0,786 = 15,939819 miles de unidades.
+- **Recta (modelo estimador)**: ŷ = 15,9398 + 25,0638·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 3,573919; S = 1,890481; Sb1 = S/√(Σx² - n·x̄²) = 7,748915; r = 0,881561; r² = 0,77715.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 3,2345; ν = n - 2 = 3; t(1-α; ν) = t(0,95; 3) = 2,3534. CR: si |t_obs| > 2,3534 ⇒ se rechaza H0. 3,2345 > 2,3534 ⇒ se rechaza H0: existe relación lineal entre la relación precio de competidor/precio del propio producto y las ventas.
+- **2° fuerza de la relación**: r² = 0,7772 (77,72%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
 
-**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre las variables; r = 0,8816 (r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
+**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre la relación precio de competidor/precio del propio producto y las ventas; r = 0,8816, r² = 0,7772 (r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
 
 **Respuesta de la guía:** Se rechaza la hipótesis, por lo tanto, se puede afirmar que existe relación lineal entre las variables y como el valor de r = 0,8816 es alto, se puede considerar que dicha relación es fuerte para el uso dado.
 
@@ -8098,10 +8178,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 15,9398 + 25,0638·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 15,9398 + 25,0638·0,8 = 35,9909.
-- **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α; ν) = 1,6377; error = 3,3963.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 15,9398 + (25,0638)·0,8 = 35,9909.
+- **Intervalo para un valor individual de y (intervalo de predicción o pronóstico)**: ŷ₀ ± t(1-α; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α; ν) = 1,6377 (ν = n - 2 = 3); error = 3,3963.
 
-**Conclusión:** Con un 90% de confianza el valor mínimo de y para x₀ = 0,8 es 32,5946 (redondeado hacia abajo; sin redondear 32,594608).
+**Conclusión:** Con un 90% de confianza el valor mínimo del valor de las ventas con la relación precio de competidor/precio del propio producto en 0,8 es 32,5946 miles de unidades (redondeado hacia abajo; sin redondear 32,594608).
 
 **Respuesta de la guía:** A = 32,594 miles de unidades.
 
@@ -8140,12 +8220,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
-- **Sumatorias**: n = 15; Σx = 45; Σx² = 145; Σy = 132; Σy² = 1.204; Σxy = 411.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 15/10 = 1,5; b0 = ȳ - b1·x̄ = 8,8 - 1,5·3 = 4,3.
-- **Recta**: ŷ = 4,3000 + 1,5000·x.
-- **Ajuste**: S² = SCR/(n-2) = 1,5308; S = 1,2372; Sb1 = S/√(Σx² - n·x̄²) = 0,3913.
+- **Variables**: Y = tiempo (segundos) → variable explicada (aleatoria); X = cantidad de presentaciones → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 15; Σx = 45; x̄ = 3; Σx² = 145; Σy = 132; ȳ = 8,8; Σy² = 1.204; Σxy = 411.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 15/10 = 1,5; b0 = ȳ - b1·x̄ = 8,8 - (1,5)·3 = 4,3 segundos.
+- **Recta (modelo estimador)**: ŷ = 4,3000 + 1,5000·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 1,530769; S = 1,237243; Sb1 = S/√(Σx² - n·x̄²) = 0,39125; r = 0,728464; r² = 0,53066.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 3,8339; ν = n - 2 = 13; t(1-α; ν) = t(0,95; 13) = 1,7709. CR: si |t_obs| > 1,7709 ⇒ se rechaza H0. 3,8339 > 1,7709 ⇒ se rechaza H0: existe relación lineal entre la cantidad de presentaciones y el tiempo.
+- **2° fuerza de la relación**: r² = 0,5307 (53,07%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,4: válido solo para sociología o psicología.
 
-**Conclusión:** b1 = 1,5: por cada unidad adicional de «Cantidad de presentaciones», «Tiempo (en segundos)» aumenta en promedio 1,5 unidades. b0 = 4,3: valor estimado de «Tiempo (en segundos)» cuando «Cantidad de presentaciones» vale 0 (ver si tiene sentido en el problema).
+**Conclusión:** b1 = 1,5 (coeficiente de regresión o contribución marginal): por cada unidad adicional de cantidad de presentaciones, el tiempo aumenta en promedio 1,5 segundos. b0 = 4,3 segundos: en teoría, sería el tiempo cuando la cantidad de presentaciones vale 0, pero no se puede asegurar: el modelo se valida solo en el entorno observado (la cantidad de presentaciones entre 2 y 4) y X = 0 queda afuera. Por eso no se estima β0. r² = 0,5307: la cantidad de presentaciones influye en un 53,07% (aprox.) en la explicación del tiempo; el 46,93% restante lo explican la perturbación del entorno u otras variables que no están en el modelo. Existe relación lineal y r² ≥ 0,4: válido solo para sociología o psicología: el modelo se valida (solo para el entorno observado).
 
 **Respuesta de la guía:** ŷ = 4,3 + 1,5·x
 
@@ -8153,15 +8236,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Validar el modelo: r, r² y ensayo de existencia (H0: β1 = 0, |t| > t(1-α; n-2)).
 
-- **Sumatorias**: n = 15; Σx = 45; Σx² = 145; Σy = 132; Σy² = 1.204; Σxy = 411.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 15/10 = 1,5; b0 = ȳ - b1·x̄ = 8,8 - 1,5·3 = 4,3.
-- **Recta**: ŷ = 4,3000 + 1,5000·x.
-- **Ajuste**: S² = SCR/(n-2) = 1,5308; S = 1,2372; Sb1 = S/√(Σx² - n·x̄²) = 0,3913.
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = 0,7285; r² = 0,5307.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 3,8339; t(1-α; ν = 13) = 1,7709. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,4: válido solo para sociología o psicología.
+- **Variables**: Y = tiempo (segundos) → variable explicada (aleatoria); X = cantidad de presentaciones → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 15; Σx = 45; x̄ = 3; Σx² = 145; Σy = 132; ȳ = 8,8; Σy² = 1.204; Σxy = 411.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 15/10 = 1,5; b0 = ȳ - b1·x̄ = 8,8 - (1,5)·3 = 4,3 segundos.
+- **Recta (modelo estimador)**: ŷ = 4,3000 + 1,5000·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 1,530769; S = 1,237243; Sb1 = S/√(Σx² - n·x̄²) = 0,39125; r = 0,728464; r² = 0,53066.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 3,8339; ν = n - 2 = 13; t(1-α; ν) = t(0,95; 13) = 1,7709. CR: si |t_obs| > 1,7709 ⇒ se rechaza H0. 3,8339 > 1,7709 ⇒ se rechaza H0: existe relación lineal entre la cantidad de presentaciones y el tiempo.
+- **2° fuerza de la relación**: r² = 0,5307 (53,07%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,4: válido solo para sociología o psicología.
 
-**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre las variables; r = 0,7285 (r² ≥ 0,4: válido solo para sociología o psicología).
+**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre la cantidad de presentaciones y el tiempo; r = 0,7285, r² = 0,5307 (r² ≥ 0,4: válido solo para sociología o psicología).
 
 **Respuesta de la guía:** Sí, se puede afirmar que existe relación lineal entre las variables y es válido para su uso, dado que el valor de r = 0,7285 puede considerarse una relación adecuada.
 
@@ -8195,12 +8278,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
-- **Sumatorias**: n = 10; Σx = 34,4; Σx² = 1.676,86; Σy = 65,9; Σy² = 2.530,19; Σxy = 1.603,82.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1.377,124/1.558,524 = 0,8836; b0 = ȳ - b1·x̄ = 6,59 - 0,8836·3,44 = 3,5504.
-- **Recta**: ŷ = 3,5504 + 0,8836·x.
-- **Ajuste**: S² = SCR/(n-2) = 109,8839; S = 10,4826; Sb1 = S/√(Σx² - n·x̄²) = 0,2655.
+> ⚠️ No fijan α para validar el modelo: se eligió α = 0,05 (en el examen, elegirlo y justificarlo).
 
-**Conclusión:** b1 = 0,8836: por cada unidad adicional de «Bolsa», «Fondo» aumenta en promedio 0,8836 unidades. b0 = 3,5504: valor estimado de «Fondo» cuando «Bolsa» vale 0 (ver si tiene sentido en el problema).
+- **Variables**: Y = fondo → variable explicada (aleatoria); X = bolsa → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 10; Σx = 34,4; x̄ = 3,44; Σx² = 1.676,86; Σy = 65,9; ȳ = 6,59; Σy² = 2.530,19; Σxy = 1.603,82.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1.377,124/1.558,524 = 0,883608; b0 = ȳ - b1·x̄ = 6,59 - (0,8836)·3,44 = 3,550389.
+- **Recta (modelo estimador)**: ŷ = 3,5504 + 0,8836·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 109,883932; S = 10,482554; Sb1 = S/√(Σx² - n·x̄²) = 0,265528; r = 0,761956; r² = 0,580577.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 3,3277; ν = n - 2 = 8; t(1-α; ν) = t(0,95; 8) = 1,8595. CR: si |t_obs| > 1,8595 ⇒ se rechaza H0. 3,3277 > 1,8595 ⇒ se rechaza H0: existe relación lineal entre la bolsa y el fondo.
+- **2° fuerza de la relación**: r² = 0,5806 (58,06%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,4: válido solo para sociología o psicología.
+
+**Conclusión:** b1 = 0,8836 (coeficiente de regresión o contribución marginal): por cada unidad adicional de bolsa, el fondo aumenta en promedio 0,8836. b0 = 3,5504: en teoría, sería el fondo cuando la bolsa vale 0, pero no se puede asegurar: el modelo se valida solo en el entorno observado (la bolsa entre -17,4 y 20,1). Por eso no se estima β0. r² = 0,5806: la bolsa influye en un 58,06% (aprox.) en la explicación del fondo; el 41,94% restante lo explican la perturbación del entorno u otras variables que no están en el modelo. Existe relación lineal y r² ≥ 0,4: válido solo para sociología o psicología: el modelo se valida (solo para el entorno observado).
 
 **Respuesta de la guía:** ŷ = 3,5504 + 0,8836·x
 
@@ -8209,9 +8297,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Intervalo de confianza para β1: b1 ± t(1-α/2; n-2)·Sb1.
 
 - **Recta**: ŷ = 3,5504 + 0,8836·x; Sb1 = 0,2655.
-- **IC para β1**: b1 ± t(1-α/2; ν = 8)·Sb1 = 0,8836 ± 2,306·0,2655 = [0,2713 ; 1,4959].
+- **IC para β1**: b1 ± t(1-α/2; ν = n - 2 = 8)·Sb1 = 0,8836 ± 2,306·0,2655 = [0,2713 ; 1,4959].
 
-**Conclusión:** Con un 95% de confianza, por cada unidad adicional de x, y cambia entre 0,2713 y 1,4959: P(0,2713 ≤ β1 ≤ 1,4959) = 0,95.
+**Conclusión:** Con un 95% de confianza, por cada unidad adicional de bolsa, el fondo aumenta entre 0,2712 y 1,4960: P(0,2712 ≤ β1 ≤ 1,4960) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,271299 y 1,495917).
 
 **Respuesta de la guía:** Por cada punto adicional en la rentabilidad promedio del mercado bursátil la rentabilidad del fondo aumenta entre 0,2712 (como mínimo) y 1,4960 (como máximo).
 
@@ -8234,12 +8322,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
 
-- **Recta**: ŷ = 3,1502 - 0,1066·x; Sb1 = 0,0268; ν = 8.
-- **Hipótesis**: H0: β1 ≥ -0,07  vs  H1: β1 < -0,07  (α = 0,05).
-- **Valor crítico** (planteo a priori): b1c = β1₀ - t(1-α; ν)·Sb1 = -0,07 - 1,8595·0,0268 = -0,1199.
+- **Primero se valida el modelo** (aunque el inciso no lo pida: un modelo no validado no sirve para estimar).
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 3,9753; ν = n - 2 = 8; t(1-α; ν) = t(0,95; 8) = 1,8595. CR: si |t_obs| > 1,8595 ⇒ se rechaza H0. 3,9753 > 1,8595 ⇒ se rechaza H0: existe relación lineal entre x y y.
+- **2° fuerza de la relación**: r² = 0,6639 (66,39%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
+- **Recta**: ŷ = 3,1502 - 0,1066·x; Sb1 = 0,0268; ν = n - 2 = 8.
+- **Hipótesis**: se quiere probar que por cada unidad adicional de x, y disminuye en más de 0,07 ⇒ va en H1. H0: β1 ≥ -0,07  vs  H1: β1 < -0,07; α = 0,05. Ojo con el signo: «disminuye en más» es MÁS negativo.
+- **Valor crítico** (antes de mirar b1): b1c = β1₀ - t(1-α; ν)·Sb1 = -0,07 - 1,8595·0,0268 = -0,1199.
 - **Condición de rechazo**: si b1 < -0,1199 ⇒ se rechaza H0. b1 = -0,1066 ⇒ no se rechaza H0.
 
-**Conclusión:** Con α = 0,05, no se puede asegurar que β1 < -0,07 (por cada unidad de x, y cambia menos que -0,07).
+**Conclusión:** Con α = 0,05, b1 = -0,1066 no cae en la zona de rechazo ⇒ no se rechaza H0: no hay evidencia suficiente para asegurar que por cada unidad adicional de x, y disminuye en más de 0,07.
 
 **Respuesta de la guía:** No se puede asegurar que por cada grado que desciende la temperatura la demanda aumente en más de 7.000 m³.
 
@@ -8247,12 +8338,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
+- **Primero se valida el modelo** (aunque el inciso no lo pida: un modelo no validado no sirve para estimar).
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,1. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 3,9753; ν = n - 2 = 8; t(1-α; ν) = t(0,9; 8) = 1,3968. CR: si |t_obs| > 1,3968 ⇒ se rechaza H0. 3,9753 > 1,3968 ⇒ se rechaza H0: existe relación lineal entre x y y.
+- **2° fuerza de la relación**: r² = 0,6639 (66,39%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
 - **Recta**: ŷ = 3,1502 - 0,1066·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 3,1502 + -0,1066·5 = 2,6171 → 261.710,12 en unidades.
-- **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α; ν) = 1,3968; error = 0,619.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 3,1502 + (-0,1066)·5 = 2,6171 → 261.710,12 en unidades.
+- **Intervalo para un valor individual de y (intervalo de predicción o pronóstico)**: ŷ₀ ± t(1-α; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α; ν) = 1,3968 (ν = n - 2 = 8); error = 0,619.
 - **En unidades**: × 100.000 → 199.812,46.
 
-**Conclusión:** Con un 90% de confianza el valor mínimo de y para x₀ = 5 es 1,9981 (199.812,45 en unidades) (redondeado hacia abajo; sin redondear 1,998125).
+**Conclusión:** Con un 90% de confianza el valor mínimo del valor de y para x₀ = 5 es 1,9981 (199.812,45 en unidades) (redondeado hacia abajo; sin redondear 1,998125).
 
 **Respuesta de la guía:** A = 199.813,14 m³.
 
@@ -8286,12 +8380,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
 
-- **Recta**: ŷ = 42,9860 + 4,6156·x; Sb1 = 1,7977; ν = 4.
-- **Hipótesis**: H0: β1 ≤ 2,5  vs  H1: β1 > 2,5  (α = 0,05).
-- **Valor crítico** (planteo a priori): b1c = β1₀ + t(1-α; ν)·Sb1 = 2,5 + 2,1318·1,7977 = 6,3323.
+- **Primero se valida el modelo** (aunque el inciso no lo pida: un modelo no validado no sirve para estimar).
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 2,5675; ν = n - 2 = 4; t(1-α; ν) = t(0,95; 4) = 2,1318. CR: si |t_obs| > 2,1318 ⇒ se rechaza H0. 2,5675 > 2,1318 ⇒ se rechaza H0: existe relación lineal entre los gastos de publicidad y las ventas.
+- **2° fuerza de la relación**: r² = 0,6224 (62,24%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
+- **Recta**: ŷ = 42,9860 + 4,6156·x; Sb1 = 1,7977; ν = n - 2 = 4.
+- **Hipótesis**: se quiere probar que por cada unidad adicional de gastos de publicidad, las ventas aumentan en más de 2,5 ⇒ va en H1. H0: β1 ≤ 2,5  vs  H1: β1 > 2,5; α = 0,05.
+- **Valor crítico** (antes de mirar b1): b1c = β1₀ + t(1-α; ν)·Sb1 = 2,5 + 2,1318·1,7977 = 6,3323.
 - **Condición de rechazo**: si b1 > 6,3323 ⇒ se rechaza H0. b1 = 4,6156 ⇒ no se rechaza H0.
 
-**Conclusión:** Con α = 0,05, no se puede asegurar que β1 > 2,5 (por cada unidad de x, y cambia más que 2,5).
+**Conclusión:** Con α = 0,05, b1 = 4,6156 no cae en la zona de rechazo ⇒ no se rechaza H0: no hay evidencia suficiente para asegurar que por cada unidad adicional de gastos de publicidad, las ventas aumentan en más de 2,5.
 
 **Respuesta de la guía:** No se puede asegurar que por cada 1.000 dólares que se invierten en publicidad las ventas aumenten como mínimo en 2.500 dólares.
 
@@ -8299,11 +8396,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
-- **Recta**: ŷ = 42,9860 + 4,6156·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 42,986 + 4,6156·0 = 42,986.
-- **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,7764; error = 29,4975.
+> ⚠️ x₀ = 0 está FUERA del entorno observado (los gastos de publicidad entre 4,2 y 7,2): es extrapolar. El modelo solo se validó en ese entorno y el error crece mucho al alejarse; decirlo en la respuesta.
 
-**Conclusión:** Con un 95% de confianza, el promedio de y para x₀ = 0 estará entre 13,4885 y 72,4836: P(13,4885 ≤ μy(x₀) ≤ 72,4836) = 0,95 (límites redondeados hacia afuera; sin redondear: 13,488533 y 72,483556).
+- **Primero se valida el modelo** (aunque el inciso no lo pida: un modelo no validado no sirve para estimar).
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 2,5675; ν = n - 2 = 4; t(1-α; ν) = t(0,95; 4) = 2,1318. CR: si |t_obs| > 2,1318 ⇒ se rechaza H0. 2,5675 > 2,1318 ⇒ se rechaza H0: existe relación lineal entre los gastos de publicidad y las ventas.
+- **2° fuerza de la relación**: r² = 0,6224 (62,24%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
+- **Recta**: ŷ = 42,9860 + 4,6156·x.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 42,986 + (4,6156)·0 = 42,986.
+- **Intervalo para el valor promedio de y, E(y | x₀) (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,7764 (ν = n - 2 = 4); error = 29,4975.
+
+**Conclusión:** Con un 95% de confianza, las ventas promedio con los gastos de publicidad en 0 estarán entre 13,4885 y 72,4836: P(13,4885 ≤ E(y | x₀ = 0) ≤ 72,4836) = 0,95 (límites redondeados hacia afuera; sin redondear: 13,488533 y 72,483556).
 
 **Respuesta de la guía:** Entre 13,4885 y 72,4836 miles de U$s.
 
@@ -8338,12 +8440,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
-- **Sumatorias**: n = 9; Σx = 128; Σx² = 2.142; Σy = 897; Σy² = 98.681; Σxy = 14.452.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1.694,6667/321,5556 = 5,2702; b0 = ȳ - b1·x̄ = 99,6667 - 5,2702·14,2222 = 24,7125.
-- **Recta**: ŷ = 24,7125 + 5,2702·x.
-- **Ajuste**: S² = SCR/(n-2) = 49,8205; S = 7,0584; Sb1 = S/√(Σx² - n·x̄²) = 0,3936.
+> ⚠️ No fijan α para validar el modelo: se eligió α = 0,05 (en el examen, elegirlo y justificarlo).
 
-**Conclusión:** b1 = 5,2702: por cada unidad adicional de «Distancia recorrida (en cientos de Km)», «Costo (en U$s/unidad transportada)» aumenta en promedio 5,2702 unidades. b0 = 24,7125: valor estimado de «Costo (en U$s/unidad transportada)» cuando «Distancia recorrida (en cientos de Km)» vale 0 (ver si tiene sentido en el problema).
+- **Variables**: Y = costo (U$s/unidad transportada) → variable explicada (aleatoria); X = distancia recorrida (cientos de Km) → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 9; Σx = 128; x̄ = 14,222222; Σx² = 2.142; Σy = 897; ȳ = 99,666667; Σy² = 98.681; Σxy = 14.452.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1.694,6667/321,5556 = 5,270214 U$s/unidad transportada/cientos de Km; b0 = ȳ - b1·x̄ = 99,6667 - (5,2702)·14,2222 = 24,712509 U$s/unidad transportada.
+- **Recta (modelo estimador)**: ŷ = 24,7125 + 5,2702·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 49,820515; S = 7,058365; Sb1 = S/√(Σx² - n·x̄²) = 0,393619; r = 0,98103; r² = 0,96242.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 13,3891; ν = n - 2 = 7; t(1-α; ν) = t(0,95; 7) = 1,8946. CR: si |t_obs| > 1,8946 ⇒ se rechaza H0. 13,3891 > 1,8946 ⇒ se rechaza H0: existe relación lineal entre la distancia recorrida y el costo.
+- **2° fuerza de la relación**: r² = 0,9624 (96,24%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación.
+
+**Conclusión:** b1 = 5,2702 U$s/unidad transportada/cientos de Km (coeficiente de regresión o contribución marginal): por cada cientos de Km adicional de distancia recorrida, el costo aumenta en promedio 5,2702 U$s/unidad transportada. b0 = 24,7125 U$s/unidad transportada: en teoría, sería el costo cuando la distancia recorrida vale 0 cientos de Km, pero no se puede asegurar: el modelo se valida solo en el entorno observado (la distancia recorrida entre 6 y 27 cientos de Km) y X = 0 queda afuera. Por eso no se estima β0. r² = 0,9624: la distancia recorrida influye en un 96,24% (aprox.) en la explicación del costo; el 3,76% restante lo explican la perturbación del entorno u otras variables que no están en el modelo. Existe relación lineal y r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación: el modelo se valida (solo para el entorno observado).
 
 **Respuesta de la guía:** ŷ = 24,7125 + 5,2702·x
 
@@ -8352,10 +8459,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 24,7125 + 5,2702·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 24,7125 + 5,2702·17 = 114,3062.
-- **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8946; error = 4,9154.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 24,7125 + (5,2702)·17 = 114,3062.
+- **Intervalo para el valor promedio de y, E(y | x₀) (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8946 (ν = n - 2 = 7); error = 4,9154.
 
-**Conclusión:** Con un 90% de confianza, el promedio de y para x₀ = 17 estará entre 109,3907 y 119,2216: P(109,3907 ≤ μy(x₀) ≤ 119,2216) = 0,9 (límites redondeados hacia afuera; sin redondear: 109,390785 y 119,221517).
+**Conclusión:** Con un 90% de confianza, el costo promedio con la distancia recorrida en 17 cientos de Km estará entre 109,3907 U$s/unidad transportada y 119,2216 U$s/unidad transportada: P(109,3907 ≤ E(y | x₀ = 17) ≤ 119,2216) = 0,9 (límites redondeados hacia afuera; sin redondear: 109,390785 y 119,221517).
 
 **Respuesta de la guía:** Entre 109,39 y 119,23 U$s/unidad transportada.
 
@@ -8363,12 +8470,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide el modelo con intercepto 0: b1 = Σxy / Σx².
 
-- **Sumatorias**: n = 9; Σx = 128; Σx² = 2.142; Σy = 897; Σy² = 98.681; Σxy = 14.452.
-- **Recta por el origen**: b1 = Σxy / Σx² = 6,747.
-- **Recta**: ŷ = 6,7470·x.
-- **Ajuste**: S² = SCR/(n-1) = 146,7319; S = 12,1133; Sb1 = S/√(Σx² - n·x̄²) = 0,2617.
+- **Variables**: Y = costo (U$s/unidad transportada) → variable explicada (aleatoria); X = distancia recorrida (cientos de Km) → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 9; Σx = 128; x̄ = 14,222222; Σx² = 2.142; Σy = 897; ȳ = 99,666667; Σy² = 98.681; Σxy = 14.452.
+- **Recta por el origen**: b1 = Σxy / Σx² = 6,746965 U$s/unidad transportada/cientos de Km.
+- **Recta (modelo estimador)**: ŷ = 6,7470·x.
+- **Ajuste**: S² = (Σy² - b1·Σxy)/(n - 1) = 146,731909; S = 12,113295; Sb1 = S/√(Σx² - n·x̄²) = 0,261729; r = 0,98103; r² = 0,96242.
 
-**Conclusión:** Con intercepto 0 el modelo es ŷ = 6,7470·x. b1 = 6,747: por cada unidad adicional de «Distancia recorrida (en cientos de Km)», «Costo (en U$s/unidad transportada)» aumenta en promedio 6,747 unidades. Solo conviene si el entorno de observación está cerca de x = 0.
+**Conclusión:** Con intercepto 0 el modelo es ŷ = 6,7470·x. b1 = 6,747 U$s/unidad transportada/cientos de Km (coeficiente de regresión o contribución marginal): por cada cientos de Km adicional de distancia recorrida, el costo aumenta en promedio 6,747 U$s/unidad transportada. Solo conviene si el entorno de observación está cerca de x = 0.
 
 **Respuesta de la guía:** La recta hallada no pasa por el origen porque la misma responde al entorno de observación (el cual no tiene a 0 como punto de observación). La recta debería pasar por el origen, por lo cual se debería hallar la recta con el intercepto igual a 0, que es: ŷ = 6,7470·x.
 
@@ -8376,23 +8484,26 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide probar un modelo linealizable: se ajusta la recta sobre las variables transformadas y se compara r².
 
+- **Variables**: Y = costo (U$s/unidad transportada) → variable explicada (aleatoria); X = distancia recorrida (cientos de Km) → variable explicativa. Y = f(X).
 - **Modelo**: ln ŷ = b0 + b1·ln x  (y = e^b0 · x^b1, elasticidad constante). Se trabaja con Y' = ln y y X' = ln x.
-- **Sumatorias**: n = 9; Σx = 23,1242; Σx² = 60,9716; Σy = 40,9245; Σy² = 187,1179; Σxy = 106,3994.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1,2498/1,5573 = 0,8026; b0 = ȳ - b1·x̄ = 4,5472 - 0,8026·2,5694 = 2,4851.
-- **Recta**: ln ŷ = 2,4851 + 0,8026·ln x.
-- **Ajuste**: S² = SCR/(n-2) = 0,0035; S = 0,0589; Sb1 = S/√(Σx² - n·x̄²) = 0,0472.
+- **Procesamiento de los datos**: n = 9; Σx = 23,1242; x̄ = 2,569356; Σx² = 60,9716; Σy = 40,9245; ȳ = 4,547167; Σy² = 187,1179; Σxy = 106,3994.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1,2498/1,5573 = 0,802554; b0 = ȳ - b1·x̄ = 4,5472 - (0,8026)·2,5694 = 2,48512.
+- **Recta (modelo estimador)**: ln ŷ = 2,4851 + 0,8026·ln x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 0,003473; S = 0,058932; Sb1 = S/√(Σx² - n·x̄²) = 0,047224; r = 0,988098; r² = 0,976337.
 - **Volviendo a la escala original**: y = 12,0026·x^0,8026.
 - **Comparación**: r lineal = 0,981 (r² = 0,9624); r loglog = 0,9881 (r² = 0,9763).
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = 0,9881; r² = 0,9763.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 16,9948; t(1-α; ν = 7) = 1,4149. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,1. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 16,9948; ν = n - 2 = 7; t(1-α; ν) = t(0,9; 7) = 1,4149. CR: si |t_obs| > 1,4149 ⇒ se rechaza H0. 16,9948 > 1,4149 ⇒ se rechaza H0: existe relación lineal entre la distancia recorrida y el costo.
+- **2° fuerza de la relación**: r² = 0,9763 (97,63%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación.
 - **Pronóstico con este modelo**:
+- **Primero se valida el modelo** (aunque el inciso no lo pida: un modelo no validado no sirve para estimar).
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,1. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 16,9948; ν = n - 2 = 7; t(1-α; ν) = t(0,9; 7) = 1,4149. CR: si |t_obs| > 1,4149 ⇒ se rechaza H0. 16,9948 > 1,4149 ⇒ se rechaza H0: existe relación lineal entre la distancia recorrida y el costo.
+- **2° fuerza de la relación**: r² = 0,9763 (97,63%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación.
 - **Recta**: ln ŷ = 2,4851 + 0,8026·ln x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 2,4851 + 0,8026·17 = 4,7589 (= 116,6207 en la escala original).
-- **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8946; error = 0,0441.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 2,4851 + (0,8026)·17 = 4,7589 (= 116,6207 en la escala original).
+- **Intervalo para el valor promedio de y, E(y | x₀) (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8946 (ν = n - 2 = 7); error = 0,0441.
 - **Antitransformando** (e^límite): [111,5925 ; 121,8754].
 
-**Conclusión:** El modelo doble logarítmico ajusta mejor que el lineal (r² 0,9763 vs 0,9624). b1 = 0,8026 es la elasticidad: si «Distancia recorrida (en cientos de Km)» aumenta 1%, «Costo (en U$s/unidad transportada)» cambia 0,8026%. Con un 90% de confianza, el promedio de y para x₀ = 17 estará entre 4,7148 y 4,8030: P(4,7148 ≤ μy(x₀) ≤ 4,8030) = 0,9 (límites redondeados hacia afuera; sin redondear: 4,714854 y 4,802999).
+**Conclusión:** El modelo doble logarítmico ajusta mejor que el lineal (r² 0,9763 vs 0,9624). b1 = 0,8026 es la elasticidad (modelo de elasticidad constante): si la distancia recorrida aumenta un 1%, el costo aumenta un 0,8026% (cambio porcentual por cambio porcentual). Con un 90% de confianza, el costo promedio con la distancia recorrida en 17 cientos de Km estará entre 111,5924 U$s/unidad transportada y 121,8754 U$s/unidad transportada: P(111,5924 ≤ E(y | x₀ = 17) ≤ 121,8754) = 0,9 (límites redondeados hacia afuera; sin redondear: 111,592495 y 121,875374).
 
 **Respuesta de la guía:** El modelo será: ŷ = 12,0026·x^0,8026, el modelo lineal nos queda ln(ŷ) = 2,4851 + 0,8026·ln(x). Este modelo ajusta mejor y además indica el cambio porcentual del costo de transporte ante un cambio porcentual en la distancia recorrida, o sea cuando la distancia recorrida aumenta en 1% el costo por unidad transportada aumenta en 0,8026%. Este modelo corresponde a la elasticidad del costo por unidad transportada respecto de la distancia recorrida. La respuesta para la pregunta b) sería: entre 111,59 y 121,88 U$s/unidad transportada.
 
@@ -8434,15 +8545,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
-- **Sumatorias**: n = 12; Σx = 72; Σx² = 504; Σy = 6.185; Σy² = 3.300.627; Σxy = 39.600.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 2.490/72 = 34,5833; b0 = ȳ - b1·x̄ = 515,4167 - 34,5833·6 = 307,9167.
-- **Recta**: ŷ = 307,9167 + 34,5833·x.
-- **Ajuste**: S² = SCR/(n-2) = 2.666,2417; S = 51,6357; Sb1 = S/√(Σx² - n·x̄²) = 6,0853.
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = 0,8738; r² = 0,7636.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 5,6831; t(1-α; ν = 10) = 1,8125. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
+> ⚠️ No fijan α para validar el modelo: se eligió α = 0,05 (en el examen, elegirlo y justificarlo).
 
-**Conclusión:** b1 = 34,5833: por cada unidad adicional de «Cantidad de exhibidores», «Ventas semanales (en unidades)» aumenta en promedio 34,5833 unidades. b0 = 307,9167: valor estimado de «Ventas semanales (en unidades)» cuando «Cantidad de exhibidores» vale 0 (ver si tiene sentido en el problema). Existe relación lineal (r = 0,8738; r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
+- **Variables**: Y = ventas semanales (unidades) → variable explicada (aleatoria); X = cantidad de exhibidores → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 12; Σx = 72; x̄ = 6; Σx² = 504; Σy = 6.185; ȳ = 515,416667; Σy² = 3.300.627; Σxy = 39.600.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 2.490/72 = 34,583333; b0 = ȳ - b1·x̄ = 515,4167 - (34,5833)·6 = 307,916667 unidades.
+- **Recta (modelo estimador)**: ŷ = 307,9167 + 34,5833·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 2.666,241667; S = 51,635663; Sb1 = S/√(Σx² - n·x̄²) = 6,085321; r = 0,87383; r² = 0,763578.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 5,6831; ν = n - 2 = 10; t(1-α; ν) = t(0,95; 10) = 1,8125. CR: si |t_obs| > 1,8125 ⇒ se rechaza H0. 5,6831 > 1,8125 ⇒ se rechaza H0: existe relación lineal entre la cantidad de exhibidores y las ventas semanales.
+- **2° fuerza de la relación**: r² = 0,7636 (76,36%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
+
+**Conclusión:** b1 = 34,5833 (coeficiente de regresión o contribución marginal): por cada unidad adicional de cantidad de exhibidores, las ventas semanales aumentan en promedio 34,5833 unidades. b0 = 307,9167 unidades: en teoría, sería las ventas semanales cuando la cantidad de exhibidores vale 0, pero no se puede asegurar: el modelo se valida solo en el entorno observado (la cantidad de exhibidores entre 3 y 9) y X = 0 queda afuera. Por eso no se estima β0. r² = 0,7636: la cantidad de exhibidores influye en un 76,36% (aprox.) en la explicación de las ventas semanales; el 23,64% restante lo explican la perturbación del entorno u otras variables que no están en el modelo. Existe relación lineal y r² ≥ 0,6: válido para econometría (variables macro y microeconómicas): el modelo se valida (solo para el entorno observado).
 
 **Respuesta de la guía:** ŷ = 307,916̄ + 34,583̄·x, existe relación lineal entre variables, r = 0,8738 (se puede considerar que la relación es fuerte) o sea que el modelo se puede considerar válido para lo que se está empleando. El valor de b1 indica que por cada anaquel adicional en la exhibición del café las ventas semanales se incrementarán en aproximadamente 34,58 unidades, el valor de b0 indica que si no se exhibiera el café las ventas semanales serían aproximadamente de 307,92 unidades (esto es ridículo ya que, si el café no se exhibe, el mismo no se vende). Este es otro ejemplo de un modelo con intercepto igual a 0.
 
@@ -8450,11 +8563,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar ρ: transformación de Fisher Z = ½·ln((1+r)/(1-r)) ± z/√(n-3).
 
-- **Coeficiente de correlación**: r = 0,8738 (n = 12).
-- **Fisher**: Z = ½·ln((1+r)/(1-r)) = 1,3491; Z(1-α/2) /√(n-3) = 1,6449/√9 = 0,5483; Zmín = 0,8008; Zmáx = 1,8973.
-- **Límites**: A = (e^(2Zmín) - 1)/(e^(2Zmín) + 1) = 0,6645; B = (e^(2Zmáx) - 1)/(e^(2Zmáx) + 1) = 0,956.
+- **Coeficiente de correlación**: r = 0,8738 (n = 12); lleva el signo de b1.
+- **Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = 1,3491; Z(1-α/2)·√(1/(n-3)) = 1,6449·√(1/9) = 0,5483; Zρmín = 0,8008; Zρmáx = 1,8973.
+- **Límites**: A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = 0,6645; B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = 0,956.
 
-**Conclusión:** Con un 90% de confianza el coeficiente de correlación poblacional está entre 0,6645 y 0,956: P(0,6645 ≤ ρ ≤ 0,956) = 0,9.
+**Conclusión:** Con un 90% de confianza, la fuerza de la relación entre la cantidad de exhibidores y las ventas semanales (coeficiente de correlación poblacional) está entre 0,6644 y 0,9561: P(0,6644 ≤ ρ ≤ 0,9561) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,664467 y 0,956009).
 
 **Respuesta de la guía:** Entre 0,6645 y 0,9561.
 
@@ -8462,12 +8575,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Influencia porcentual: r² y su intervalo (los límites del IC de ρ al cuadrado).
 
-- **Coeficiente de determinación**: r² = 0,7636 (76,36% de la variación de y se explica por x).
-- **Fisher**: Z = ½·ln((1+r)/(1-r)) = 1,3491; Z(1-α/2) /√(n-3) = 1,6449/√9 = 0,5483; Zmín = 0,8008; Zmáx = 1,8973.
-- **Límites**: A = (e^(2Zmín) - 1)/(e^(2Zmín) + 1) = 0,6645; B = (e^(2Zmáx) - 1)/(e^(2Zmáx) + 1) = 0,956.
-- **IC para ρ²**: los límites al cuadrado → [0,4415 ; 0,914].
+- **Coeficiente de determinación**: r² = 0,7636 (76,36% de influencia de la cantidad de exhibidores en las ventas semanales).
+- **Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = 1,3491; Z(1-α/2)·√(1/(n-3)) = 1,6449·√(1/9) = 0,5483; Zρmín = 0,8008; Zρmáx = 1,8973.
+- **Límites**: A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = 0,6645; B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = 0,956.
+- **IC para ρ²**: los límites del IC de ρ al cuadrado → [0,4415 ; 0,914].
 
-**Conclusión:** x influye en un 76,36% en la explicación de y; con un 90% de confianza la influencia porcentual está entre el 44,15% y el 91,4%.
+**Conclusión:** La cantidad de exhibidores influye en un 76,36% (aprox.) en las ventas semanales; con un 90% de confianza, la influencia real está entre el 44,15% y el 91,40%: P(0,4415 ≤ ρ² ≤ 0,9140) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,441516 y 0,913953).
 
 **Respuesta de la guía:** r² = 0,7636, indica que la cantidad de anaqueles en la exhibición influyen, aproximadamente, en un 76,36% en las ventas semanales, se estima que la influencia porcentual se encuentra entre el 44,15% y 91,4%.
 
@@ -8475,12 +8588,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Afirmación sobre el cambio de y por unidad de x: ensayo de β1 contra un valor (caso I / II de la cátedra).
 
-- **Recta**: ŷ = 307,9167 + 34,5833·x; Sb1 = 6,0853; ν = 10.
-- **Hipótesis**: H0: β1 ≤ 20  vs  H1: β1 > 20  (α = 0,05).
-- **Valor crítico** (planteo a priori): b1c = β1₀ + t(1-α; ν)·Sb1 = 20 + 1,8125·6,0853 = 31,0294.
+- **Recta**: ŷ = 307,9167 + 34,5833·x; Sb1 = 6,0853; ν = n - 2 = 10.
+- **Hipótesis**: se quiere probar que por cada unidad adicional de cantidad de exhibidores, las ventas semanales aumentan en más de 20 unidades ⇒ va en H1. H0: β1 ≤ 20  vs  H1: β1 > 20; α = 0,05.
+- **Valor crítico** (antes de mirar b1): b1c = β1₀ + t(1-α; ν)·Sb1 = 20 + 1,8125·6,0853 = 31,0294.
 - **Condición de rechazo**: si b1 > 31,0294 ⇒ se rechaza H0. b1 = 34,5833 ⇒ se rechaza H0.
 
-**Conclusión:** Con α = 0,05, se puede asegurar que β1 > 20 (por cada unidad de x, y cambia más que 20).
+**Conclusión:** Con α = 0,05, b1 = 34,5833 cae en la zona de rechazo ⇒ se rechaza H0: se puede asegurar que por cada unidad adicional de cantidad de exhibidores, las ventas semanales aumentan en más de 20 unidades.
 
 **Respuesta de la guía:** Se puede asegurar que por cada anaquel adicional en la exhibición las ventas semanales se incrementarán en más de 20 unidades, se considera correcta la afirmación del gerente.
 
@@ -8489,9 +8602,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Intervalo de confianza para β1: b1 ± t(1-α/2; n-2)·Sb1.
 
 - **Recta**: ŷ = 307,9167 + 34,5833·x; Sb1 = 6,0853.
-- **IC para β1**: b1 ± t(1-α/2; ν = 10)·Sb1 = 34,5833 ± 1,8125·6,0853 = [23,5539 ; 45,6127].
+- **IC para β1**: b1 ± t(1-α/2; ν = n - 2 = 10)·Sb1 = 34,5833 ± 1,8125·6,0853 = [23,5539 ; 45,6127].
 
-**Conclusión:** Con un 90% de confianza, por cada unidad adicional de x, y cambia entre 23,5539 y 45,6127: P(23,5539 ≤ β1 ≤ 45,6127) = 0,9.
+**Conclusión:** Con un 90% de confianza, por cada unidad adicional de cantidad de exhibidores, las ventas semanales aumentan entre 23,5539 y 45,6128 unidades: P(23,5539 ≤ β1 ≤ 45,6128) = 0,9 (límites redondeados hacia afuera; sin redondear: 23,553925 y 45,612741).
 
 **Respuesta de la guía:** Entre 23,55 y 45,62 unidades/anaquel de exhibición.
 
@@ -8500,10 +8613,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 307,9167 + 34,5833·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 307,9167 + 34,5833·6 = 515,4167.
-- **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8125; error = 27,0164.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 307,9167 + (34,5833)·6 = 515,4167.
+- **Intervalo para el valor promedio de y, E(y | x₀) (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8125 (ν = n - 2 = 10); error = 27,0164.
 
-**Conclusión:** Con un 90% de confianza, el promedio de y para x₀ = 6 estará entre 488,4002 y 542,4331: P(488,4002 ≤ μy(x₀) ≤ 542,4331) = 0,9 (límites redondeados hacia afuera; sin redondear: 488,400245 y 542,433089).
+**Conclusión:** Con un 90% de confianza, las ventas semanales promedio con la cantidad de exhibidores en 6 estarán entre 488,4002 unidades y 542,4331 unidades: P(488,4002 ≤ E(y | x₀ = 6) ≤ 542,4331) = 0,9 (límites redondeados hacia afuera; sin redondear: 488,400245 y 542,433089).
 
 **Respuesta de la guía:** Entre 488,40 y 542,44 unidades en promedio.
 
@@ -8512,10 +8625,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 307,9167 + 34,5833·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 307,9167 + 34,5833·6 = 515,4167.
-- **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8125; error = 97,4091.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 307,9167 + (34,5833)·6 = 515,4167.
+- **Intervalo para un valor individual de y (intervalo de predicción o pronóstico)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 1,8125 (ν = n - 2 = 10); error = 97,4091.
 
-**Conclusión:** Con un 90% de confianza, el valor de y para x₀ = 6 estará entre 418,0075 y 612,8258: P(418,0075 ≤ y(x₀) ≤ 612,8258) = 0,9 (límites redondeados hacia afuera; sin redondear: 418,007572 y 612,825762).
+**Conclusión:** Con un 90% de confianza, el valor de las ventas semanales con la cantidad de exhibidores en 6 estará entre 418,0075 unidades y 612,8258 unidades: P(418,0075 ≤ y(x₀ = 6) ≤ 612,8258) = 0,9 (límites redondeados hacia afuera; sin redondear: 418,007572 y 612,825762).
 
 **Respuesta de la guía:** Entre 418 y 613 unidades.
 
@@ -8523,12 +8636,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide el modelo con intercepto 0: b1 = Σxy / Σx².
 
-- **Sumatorias**: n = 12; Σx = 72; Σx² = 504; Σy = 6.185; Σy² = 3.300.627; Σxy = 39.600.
-- **Recta por el origen**: b1 = Σxy / Σx² = 78,5714.
-- **Recta**: ŷ = 78,5714·x.
-- **Ajuste**: S² = SCR/(n-1) = 17.199,8571; S = 131,1482; Sb1 = S/√(Σx² - n·x̄²) = 5,8418.
+- **Variables**: Y = ventas semanales (unidades) → variable explicada (aleatoria); X = cantidad de exhibidores → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 12; Σx = 72; x̄ = 6; Σx² = 504; Σy = 6.185; ȳ = 515,416667; Σy² = 3.300.627; Σxy = 39.600.
+- **Recta por el origen**: b1 = Σxy / Σx² = 78,571429.
+- **Recta (modelo estimador)**: ŷ = 78,5714·x.
+- **Ajuste**: S² = (Σy² - b1·Σxy)/(n - 1) = 17.199,857143; S = 131,148226; Sb1 = S/√(Σx² - n·x̄²) = 5,841806; r = 0,87383; r² = 0,763578.
 
-**Conclusión:** Con intercepto 0 el modelo es ŷ = 78,5714·x. b1 = 78,5714: por cada unidad adicional de «Cantidad de exhibidores», «Ventas semanales (en unidades)» aumenta en promedio 78,5714 unidades. Solo conviene si el entorno de observación está cerca de x = 0.
+**Conclusión:** Con intercepto 0 el modelo es ŷ = 78,5714·x. b1 = 78,5714 (coeficiente de regresión o contribución marginal): por cada unidad adicional de cantidad de exhibidores, las ventas semanales aumentan en promedio 78,5714 unidades. Solo conviene si el entorno de observación está cerca de x = 0.
 
 **Respuesta de la guía:** ŷ = 78,5714·x
 
@@ -8562,12 +8676,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
-- **Sumatorias**: n = 8; Σx = 63,5; Σx² = 520,25; Σy = 15.426; Σy² = 33.143.750; Σxy = 115.464.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -6.979,875/16,2188 = -430,3584; b0 = ȳ - b1·x̄ = 1.928,25 - -430,3584·7,9375 = 5.344,2197.
-- **Recta**: ŷ = 5344,2197 - 430,3584·x.
-- **Ajuste**: S² = SCR/(n-2) = 65.786,2987; S = 256,4884; Sb1 = S/√(Σx² - n·x̄²) = 63,6882.
+> ⚠️ No fijan α para validar el modelo: se eligió α = 0,05 (en el examen, elegirlo y justificarlo).
 
-**Conclusión:** b1 = -430,3584: por cada unidad adicional de «Tasa de interés (en %)», «Cantidad de licencias de construcción» disminuye en promedio 430,3584 unidades. b0 = 5.344,2197: valor estimado de «Cantidad de licencias de construcción» cuando «Tasa de interés (en %)» vale 0 (ver si tiene sentido en el problema).
+- **Variables**: Y = cantidad de licencias de construcción → variable explicada (aleatoria); X = tasa de interés (%) → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 8; Σx = 63,5; x̄ = 7,9375; Σx² = 520,25; Σy = 15.426; ȳ = 1.928,25; Σy² = 33.143.750; Σxy = 115.464.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -6.979,875/16,2188 = -430,358382; b0 = ȳ - b1·x̄ = 1.928,25 - (-430,3584)·7,9375 = 5.344,219653.
+- **Recta (modelo estimador)**: ŷ = 5344,2197 - 430,3584·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 65.786,298651; S = 256,488399; Sb1 = S/√(Σx² - n·x̄²) = 63,688209; r = -0,940137; r² = 0,883858.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 6,7573; ν = n - 2 = 6; t(1-α; ν) = t(0,95; 6) = 1,9432. CR: si |t_obs| > 1,9432 ⇒ se rechaza H0. 6,7573 > 1,9432 ⇒ se rechaza H0: existe relación lineal entre la tasa de interés y la cantidad de licencias de construcción.
+- **2° fuerza de la relación**: r² = 0,8839 (88,39%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,8: válido para procesos físicos e industriales.
+
+**Conclusión:** b1 = -430,3584 (coeficiente de regresión o contribución marginal): por cada punto porcentual adicional de la tasa de interés, la cantidad de licencias de construcción disminuye en promedio 430,3584. b0 = 5.344,2197: en teoría, sería la cantidad de licencias de construcción cuando la tasa de interés vale 0 %, pero no se puede asegurar: el modelo se valida solo en el entorno observado (la tasa de interés entre 6 y 10 %) y X = 0 queda afuera. Por eso no se estima β0. r² = 0,8839: la tasa de interés influye en un 88,39% (aprox.) en la explicación de la cantidad de licencias de construcción; el 11,61% restante lo explican la perturbación del entorno u otras variables que no están en el modelo. Existe relación lineal y r² ≥ 0,8: válido para procesos físicos e industriales: el modelo se valida (solo para el entorno observado).
 
 **Respuesta de la guía:** ŷ = 5.344,2197 − 430,3584·x
 
@@ -8577,15 +8696,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
 
-- **Sumatorias**: n = 8; Σx = 63,5; Σx² = 520,25; Σy = 15.426; Σy² = 33.143.750; Σxy = 115.464.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -6.979,875/16,2188 = -430,3584; b0 = ȳ - b1·x̄ = 1.928,25 - -430,3584·7,9375 = 5.344,2197.
-- **Recta**: ŷ = 5344,2197 - 430,3584·x.
-- **Ajuste**: S² = SCR/(n-2) = 65.786,2987; S = 256,4884; Sb1 = S/√(Σx² - n·x̄²) = 63,6882.
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = -0,9401; r² = 0,8839.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = -6,7573; t(1-α; ν = 6) = 1,9432. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,8: válido para procesos físicos e industriales.
+- **Variables**: Y = cantidad de licencias de construcción → variable explicada (aleatoria); X = tasa de interés (%) → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 8; Σx = 63,5; x̄ = 7,9375; Σx² = 520,25; Σy = 15.426; ȳ = 1.928,25; Σy² = 33.143.750; Σxy = 115.464.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -6.979,875/16,2188 = -430,358382; b0 = ȳ - b1·x̄ = 1.928,25 - (-430,3584)·7,9375 = 5.344,219653.
+- **Recta (modelo estimador)**: ŷ = 5344,2197 - 430,3584·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 65.786,298651; S = 256,488399; Sb1 = S/√(Σx² - n·x̄²) = 63,688209; r = -0,940137; r² = 0,883858.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 6,7573; ν = n - 2 = 6; t(1-α; ν) = t(0,95; 6) = 1,9432. CR: si |t_obs| > 1,9432 ⇒ se rechaza H0. 6,7573 > 1,9432 ⇒ se rechaza H0: existe relación lineal entre la tasa de interés y la cantidad de licencias de construcción.
+- **2° fuerza de la relación**: r² = 0,8839 (88,39%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,8: válido para procesos físicos e industriales.
 
-**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre las variables; r = -0,9401 (r² ≥ 0,8: válido para procesos físicos e industriales).
+**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre la tasa de interés y la cantidad de licencias de construcción; r = -0,9401, r² = 0,8839 (r² ≥ 0,8: válido para procesos físicos e industriales).
 
 **Respuesta de la guía:** r = −0,9401
 
@@ -8594,10 +8713,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 5344,2197 - 430,3584·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 5.344,2197 + -430,3584·8,5 = 1.686,1734.
-- **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,4469; error = 671,422.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 5.344,2197 + (-430,3584)·8,5 = 1.686,1734.
+- **Intervalo para un valor individual de y (intervalo de predicción o pronóstico)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,4469 (ν = n - 2 = 6); error = 671,422.
 
-**Conclusión:** Con un 95% de confianza, el valor de y para x₀ = 8,5 estará entre 1.014,7513 y 2.357,5955: P(1.014,7513 ≤ y(x₀) ≤ 2.357,5955) = 0,95 (límites redondeados hacia afuera; sin redondear: 1.014,751369 y 2.357,595452).
+**Conclusión:** Con un 95% de confianza, el valor de la cantidad de licencias de construcción con la tasa de interés en 8,5 % estará entre 1.014,7513 y 2.357,5955: P(1.014,7513 ≤ y(x₀ = 8,5) ≤ 2.357,5955) = 0,95 (límites redondeados hacia afuera; sin redondear: 1.014,751369 y 2.357,595452).
 
 **Respuesta de la guía:** Entre 1.014 y 2.358 licencias.
 
@@ -8605,23 +8724,26 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide probar un modelo linealizable: se ajusta la recta sobre las variables transformadas y se compara r².
 
+- **Variables**: Y = cantidad de licencias de construcción → variable explicada (aleatoria); X = tasa de interés (%) → variable explicativa. Y = f(X).
 - **Modelo**: ln ŷ = b0 + b1·x  (y = e^b0 · e^(b1·x)). Se trabaja con Y' = ln y y X' = x.
-- **Sumatorias**: n = 8; Σx = 63,5; Σx² = 520,25; Σy = 60,0323; Σy² = 451,4878; Σxy = 472,7095.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -3,7969/16,2188 = -0,2341; b0 = ȳ - b1·x̄ = 7,504 - -0,2341·7,9375 = 9,3622.
-- **Recta**: ln ŷ = 9,3622 - 0,2341·x.
-- **Ajuste**: S² = SCR/(n-2) = 0,0191; S = 0,1381; Sb1 = S/√(Σx² - n·x̄²) = 0,0343.
+- **Procesamiento de los datos**: n = 8; Σx = 63,5; x̄ = 7,9375; Σx² = 520,25; Σy = 60,0323; ȳ = 7,504037; Σy² = 451,4878; Σxy = 472,7095.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -3,7969/16,2188 = -0,234105; b0 = ȳ - b1·x̄ = 7,504 - (-0,2341)·7,9375 = 9,362246.
+- **Recta (modelo estimador)**: ln ŷ = 9,3622 - 0,2341·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 0,019059; S = 0,138056; Sb1 = S/√(Σx² - n·x̄²) = 0,03428; r = -0,941282; r² = 0,886011.
 - **Volviendo a la escala original**: y = 11.640,5002·0,7913^x.
 - **Comparación**: r lineal = -0,9401 (r² = 0,8839); r loglin = -0,9413 (r² = 0,886).
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = -0,9413; r² = 0,886.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = -6,8291; t(1-α; ν = 6) = 1,9432. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,8: válido para procesos físicos e industriales.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 6,8291; ν = n - 2 = 6; t(1-α; ν) = t(0,95; 6) = 1,9432. CR: si |t_obs| > 1,9432 ⇒ se rechaza H0. 6,8291 > 1,9432 ⇒ se rechaza H0: existe relación lineal entre la tasa de interés y la cantidad de licencias de construcción.
+- **2° fuerza de la relación**: r² = 0,886 (88,6%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,8: válido para procesos físicos e industriales.
 - **Pronóstico con este modelo**:
+- **Primero se valida el modelo** (aunque el inciso no lo pida: un modelo no validado no sirve para estimar).
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 6,8291; ν = n - 2 = 6; t(1-α; ν) = t(0,95; 6) = 1,9432. CR: si |t_obs| > 1,9432 ⇒ se rechaza H0. 6,8291 > 1,9432 ⇒ se rechaza H0: existe relación lineal entre la tasa de interés y la cantidad de licencias de construcción.
+- **2° fuerza de la relación**: r² = 0,886 (88,6%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,8: válido para procesos físicos e industriales.
 - **Recta**: ln ŷ = 9,3622 - 0,2341·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 9,3622 + -0,2341·8,5 = 7,3724 (= 1.591,3743 en la escala original).
-- **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,4469; error = 0,3614.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 9,3622 + (-0,2341)·8,5 = 7,3724 (= 1.591,3743 en la escala original).
+- **Intervalo para un valor individual de y (intervalo de predicción o pronóstico)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,4469 (ν = n - 2 = 6); error = 0,3614.
 - **Antitransformando** (e^límite): [1.108,716 ; 2.284,1488].
 
-**Conclusión:** El modelo logarítmico lineal ajusta mejor que el lineal (r² 0,886 vs 0,8839). Por cada unidad adicional de «Tasa de interés (en %)», «Cantidad de licencias de construcción» cambia un -20,87% (factor e^b1 = 0,7913). Con un 95% de confianza, el valor de y para x₀ = 8,5 estará entre 7,0109 y 7,7338: P(7,0109 ≤ y(x₀) ≤ 7,7338) = 0,95 (límites redondeados hacia afuera; sin redondear: 7,010958 y 7,733749).
+**Conclusión:** El modelo logarítmico lineal ajusta mejor que el lineal (r² 0,886 vs 0,8839). b1·100 = -23,4105: por cada punto porcentual adicional de la tasa de interés, la cantidad de licencias de construcción disminuye aproximadamente un 23,4105% (cambio porcentual de Y por cambio absoluto de X; exacto: (e^b1 - 1)·100 = -20,8721%). Con un 95% de confianza, el valor de la cantidad de licencias de construcción con la tasa de interés en 8,5 % estará entre 1.108,7159 y 2.284,1488: P(1.108,7159 ≤ y(x₀ = 8,5) ≤ 2.284,1488) = 0,95 (límites redondeados hacia afuera; sin redondear: 1.108,715976 y 2.284,148768).
 
 **Respuesta de la guía:** El modelo será: ŷ = 11.640,5·0,7913^x, el modelo lineal nos queda ln(ŷ) = 9,3623 − 0,2341·x. Este modelo ajusta mejor y además indica el cambio porcentual de las licencias de construcción ante un cambio unitario de la tasa de interés. o sea cuando la tasa de interés aumenta en 1% las licencias de construcción disminuyen en 23,41%. La respuesta para la pregunta c) sería: entre 1.108 y 2.285 licencias.
 
@@ -8665,15 +8787,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
 
-- **Sumatorias**: n = 14; Σx = 500.005; Σx² = 25.352.409.311; Σy = 104.641; Σy² = 1.270.430.911; Σxy = 5.376.080.521.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1.638.864.577,7857/7.494.909.309,2143 = 0,2187; b0 = ȳ - b1·x̄ = 7.474,3571 - 0,2187·35.714,6429 = -335,1387.
-- **Recta**: ŷ = -335,1387 + 0,2187·x.
-- **Ajuste**: S² = SCR/(n-2) = 10.828.876,4876; S = 3.290,7258; Sb1 = S/√(Σx² - n·x̄²) = 0,038.
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = 0,8567; r² = 0,7339.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 5,7527; t(1-α; ν = 12) = 1,7823. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
+- **Variables**: Y = consumo de energía → variable explicada (aleatoria); X = P.B.I. → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 14; Σx = 500.005; x̄ = 35.714,642857; Σx² = 25.352.409.311; Σy = 104.641; ȳ = 7.474,357143; Σy² = 1.270.430.911; Σxy = 5.376.080.521.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1.638.864.577,7857/7.494.909.309,2143 = 0,218664; b0 = ȳ - b1·x̄ = 7.474,3571 - (0,2187)·35.714,6429 = -335,138699.
+- **Recta (modelo estimador)**: ŷ = -335,1387 + 0,2187·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 10.828.876,487585; S = 3.290,72583; Sb1 = S/√(Σx² - n·x̄²) = 0,038011; r = 0,85667; r² = 0,733883.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 5,7527; ν = n - 2 = 12; t(1-α; ν) = t(0,95; 12) = 1,7823. CR: si |t_obs| > 1,7823 ⇒ se rechaza H0. 5,7527 > 1,7823 ⇒ se rechaza H0: existe relación lineal entre el P.B.I. y el consumo de energía.
+- **2° fuerza de la relación**: r² = 0,7339 (73,39%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
 
-**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre las variables; r = 0,8567 (r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
+**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre el P.B.I. y el consumo de energía; r = 0,8567, r² = 0,7339 (r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
 
 **Respuesta de la guía:** r = 0,8567.
 
@@ -8681,11 +8803,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar ρ: transformación de Fisher Z = ½·ln((1+r)/(1-r)) ± z/√(n-3).
 
-- **Coeficiente de correlación**: r = 0,8567 (n = 14).
-- **Fisher**: Z = ½·ln((1+r)/(1-r)) = 1,2807; Z(1-α/2) /√(n-3) = 1,96/√11 = 0,591; Zmín = 0,6897; Zmáx = 1,8716.
-- **Límites**: A = (e^(2Zmín) - 1)/(e^(2Zmín) + 1) = 0,5978; B = (e^(2Zmáx) - 1)/(e^(2Zmáx) + 1) = 0,9537.
+- **Coeficiente de correlación**: r = 0,8567 (n = 14); lleva el signo de b1.
+- **Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = 1,2807; Z(1-α/2)·√(1/(n-3)) = 1,96·√(1/11) = 0,591; Zρmín = 0,6897; Zρmáx = 1,8716.
+- **Límites**: A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = 0,5978; B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = 0,9537.
 
-**Conclusión:** Con un 95% de confianza el coeficiente de correlación poblacional está entre 0,5978 y 0,9537: P(0,5978 ≤ ρ ≤ 0,9537) = 0,95.
+**Conclusión:** Con un 95% de confianza, la fuerza de la relación entre el P.B.I. y el consumo de energía (coeficiente de correlación poblacional) está entre 0,5978 y 0,9538: P(0,5978 ≤ ρ ≤ 0,9538) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,597817 y 0,953743).
 
 **Respuesta de la guía:** Entre 0,5978 y 0,9538.
 
@@ -8693,15 +8815,15 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Validar el modelo: r, r² y ensayo de existencia (H0: β1 = 0, |t| > t(1-α; n-2)).
 
-- **Sumatorias**: n = 14; Σx = 500.005; Σx² = 25.352.409.311; Σy = 104.641; Σy² = 1.270.430.911; Σxy = 5.376.080.521.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1.638.864.577,7857/7.494.909.309,2143 = 0,2187; b0 = ȳ - b1·x̄ = 7.474,3571 - 0,2187·35.714,6429 = -335,1387.
-- **Recta**: ŷ = -335,1387 + 0,2187·x.
-- **Ajuste**: S² = SCR/(n-2) = 10.828.876,4876; S = 3.290,7258; Sb1 = S/√(Σx² - n·x̄²) = 0,038.
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = 0,8567; r² = 0,7339.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 5,7527; t(1-α; ν = 12) = 1,7823. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
+- **Variables**: Y = consumo de energía → variable explicada (aleatoria); X = P.B.I. → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 14; Σx = 500.005; x̄ = 35.714,642857; Σx² = 25.352.409.311; Σy = 104.641; ȳ = 7.474,357143; Σy² = 1.270.430.911; Σxy = 5.376.080.521.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1.638.864.577,7857/7.494.909.309,2143 = 0,218664; b0 = ȳ - b1·x̄ = 7.474,3571 - (0,2187)·35.714,6429 = -335,138699.
+- **Recta (modelo estimador)**: ŷ = -335,1387 + 0,2187·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 10.828.876,487585; S = 3.290,72583; Sb1 = S/√(Σx² - n·x̄²) = 0,038011; r = 0,85667; r² = 0,733883.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 5,7527; ν = n - 2 = 12; t(1-α; ν) = t(0,95; 12) = 1,7823. CR: si |t_obs| > 1,7823 ⇒ se rechaza H0. 5,7527 > 1,7823 ⇒ se rechaza H0: existe relación lineal entre el P.B.I. y el consumo de energía.
+- **2° fuerza de la relación**: r² = 0,7339 (73,39%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,6: válido para econometría (variables macro y microeconómicas).
 
-**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre las variables; r = 0,8567 (r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
+**Conclusión:** Con α = 0,05, se puede asegurar que existe relación lineal entre el P.B.I. y el consumo de energía; r = 0,8567, r² = 0,7339 (r² ≥ 0,6: válido para econometría (variables macro y microeconómicas)).
 
 **Respuesta de la guía:** Sí, se puede asegurar que existe relación lineal entre las variable y fuerte, de manera que el modelo es válido para el uso que se le está dando.
 
@@ -8709,18 +8831,18 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide probar un modelo linealizable: se ajusta la recta sobre las variables transformadas y se compara r².
 
+- **Variables**: Y = consumo de energía → variable explicada (aleatoria); X = P.B.I. → variable explicativa. Y = f(X).
 - **Modelo**: ln ŷ = b0 + b1·ln x  (y = e^b0 · x^b1, elasticidad constante). Se trabaja con Y' = ln y y X' = ln x.
-- **Sumatorias**: n = 14; Σx = 142,152; Σx² = 1.456,3835; Σy = 120,4549; Σy² = 1.046,2294; Σxy = 1.233,5873.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 10,5227/13,0117 = 0,8087; b0 = ȳ - b1·x̄ = 8,6039 - 0,8087·10,1537 = 0,3926.
-- **Recta**: ln ŷ = 0,3926 + 0,8087·ln x.
-- **Ajuste**: S² = SCR/(n-2) = 0,1113; S = 0,3336; Sb1 = S/√(Σx² - n·x̄²) = 0,0925.
+- **Procesamiento de los datos**: n = 14; Σx = 142,152; x̄ = 10,153718; Σx² = 1.456,3835; Σy = 120,4549; ȳ = 8,603919; Σy² = 1.046,2294; Σxy = 1.233,5873.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 10,5227/13,0117 = 0,808704; b0 = ȳ - b1·x̄ = 8,6039 - (0,8087)·10,1537 = 0,392563.
+- **Recta (modelo estimador)**: ln ŷ = 0,3926 + 0,8087·ln x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 0,111317; S = 0,333643; Sb1 = S/√(Σx² - n·x̄²) = 0,092494; r = 0,92969; r² = 0,864323.
 - **Volviendo a la escala original**: y = 1,4808·x^0,8087.
 - **Comparación**: r lineal = 0,8567 (r² = 0,7339); r loglog = 0,9297 (r² = 0,8643).
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = 0,9297; r² = 0,8643.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 8,7433; t(1-α; ν = 12) = 1,7823. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,8: válido para procesos físicos e industriales.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 8,7433; ν = n - 2 = 12; t(1-α; ν) = t(0,95; 12) = 1,7823. CR: si |t_obs| > 1,7823 ⇒ se rechaza H0. 8,7433 > 1,7823 ⇒ se rechaza H0: existe relación lineal entre el P.B.I. y el consumo de energía.
+- **2° fuerza de la relación**: r² = 0,8643 (86,43%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,8: válido para procesos físicos e industriales.
 
-**Conclusión:** El modelo doble logarítmico ajusta mejor que el lineal (r² 0,8643 vs 0,7339). b1 = 0,8087 es la elasticidad: si «P.B.I.» aumenta 1%, «Consumo de energía» cambia 0,8087%.
+**Conclusión:** El modelo doble logarítmico ajusta mejor que el lineal (r² 0,8643 vs 0,7339). b1 = 0,8087 es la elasticidad (modelo de elasticidad constante): si el P.B.I. aumenta un 1%, el consumo de energía aumenta un 0,8087% (cambio porcentual por cambio porcentual).
 
 **Respuesta de la guía:** El modelo doble logarítmico es mejor dado que su valor del coeficiente de correlación es r = 0,9297, dado que son variables econométricas referentes a individuos de una población. El modelo será: ŷ = 1,4808·x^0,8087, el modelo lineal nos queda ln(ŷ) = 0,3926 + 0,8087·ln(x). Indica el cambio porcentual del consumo de energía ante un cambio porcentual en el P.B.I., o sea cuando el P.B.I. aumenta en 1% el consumo de energía en 0,8087%. Este modelo corresponde a la elasticidad del consumo de energía respecto del P.B.I. del país.
 
@@ -8751,18 +8873,18 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ El inciso no fija el riesgo α: se usó α = 0,05.
 
+- **Variables**: Y = potencia (Kw) → variable explicada (aleatoria); X = consumo (Kwh) → variable explicativa. Y = f(X).
 - **Modelo**: ln ŷ = b0 + b1·ln x  (y = e^b0 · x^b1, elasticidad constante). Se trabaja con Y' = ln y y X' = ln x.
-- **Sumatorias**: n = 5; Σx = 26,6553; Σx² = 144,7531; Σy = 0,4873; Σy² = 1,5151; Σxy = 4,568.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1,9702/2,6517 = 0,743; b0 = ȳ - b1·x̄ = 0,0975 - 0,743·5,3311 = -3,8635.
-- **Recta**: ln ŷ = -3,8635 + 0,7430·ln x.
-- **Ajuste**: S² = SCR/(n-2) = 0,0013; S = 0,0357; Sb1 = S/√(Σx² - n·x̄²) = 0,0219.
+- **Procesamiento de los datos**: n = 5; Σx = 26,6553; x̄ = 5,331067; Σx² = 144,7531; Σy = 0,4873; ȳ = 0,097459; Σy² = 1,5151; Σxy = 4,568.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = 1,9702/2,6517 = 0,742989; b0 = ȳ - b1·x̄ = 0,0975 - (0,743)·5,3311 = -3,863466.
+- **Recta (modelo estimador)**: ln ŷ = -3,8635 + 0,7430·ln x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 0,001273; S = 0,035683; Sb1 = S/√(Σx² - n·x̄²) = 0,021913; r = 0,998698; r² = 0,997397.
 - **Volviendo a la escala original**: y = 0,021·x^0,743.
 - **Comparación**: r lineal = 0,9995 (r² = 0,999); r loglog = 0,9987 (r² = 0,9974).
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = 0,9987; r² = 0,9974.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = 33,9067; t(1-α; ν = 3) = 2,3534. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 33,9067; ν = n - 2 = 3; t(1-α; ν) = t(0,95; 3) = 2,3534. CR: si |t_obs| > 2,3534 ⇒ se rechaza H0. 33,9067 > 2,3534 ⇒ se rechaza H0: existe relación lineal entre el consumo y la potencia.
+- **2° fuerza de la relación**: r² = 0,9974 (99,74%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación.
 
-**Conclusión:** El modelo doble logarítmico no ajusta mejor que el lineal (r² 0,9974 vs 0,999). b1 = 0,743 es la elasticidad: si «Consumo (en Kwh)» aumenta 1%, «Potencia (en Kw)» cambia 0,743%.
+**Conclusión:** El modelo doble logarítmico no ajusta mejor que el lineal (r² 0,9974 vs 0,999). b1 = 0,743 es la elasticidad (modelo de elasticidad constante): si el consumo aumenta un 1%, la potencia aumenta un 0,743% (cambio porcentual por cambio porcentual).
 
 **Respuesta de la guía:** Se debe estudiar el siguiente modelo: ln y = ln α + β·ln x, el cual se estima con el modelo: ln ŷ = ln a + b·ln x, siendo a y b los estimadores de α y β: ln ŷ = −3,8635 + 0,743·ln x; a = 0,0210 y b = 0,7430. El modelo es válido para el uso correspondiente con un valor de r = 0,9987.
 
@@ -8771,11 +8893,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ln ŷ = -3,8635 + 0,7430·ln x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = -3,8635 + 0,743·450 = 0,6756 (= 1,9653 en la escala original).
-- **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α; ν) = 2,3534; error = 0,1004.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = -3,8635 + (0,743)·450 = 0,6756 (= 1,9653 en la escala original).
+- **Intervalo para un valor individual de y (intervalo de predicción o pronóstico)**: ŷ₀ ± t(1-α; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α; ν) = 2,3534 (ν = n - 2 = 3); error = 0,1004.
 - **Antitransformando** (e^límite): 2,1728.
 
-**Conclusión:** Con un 95% de confianza el valor máximo de y para x₀ = 450 es 0,7761 (redondeado hacia arriba; sin redondear 0,776).
+**Conclusión:** Con un 95% de confianza el valor máximo del valor de la potencia con el consumo en 450 Kwh es 2,1728 Kw (redondeado hacia arriba; sin redondear 2,172765).
 
 **Respuesta de la guía:** 2,1728 Kw.
 
@@ -8816,15 +8938,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
-- **Sumatorias**: n = 12; Σx = 228; Σx² = 5.364; Σy = 595; Σy² = 31.443; Σxy = 9.943.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -1.362/1.032 = -1,3198; b0 = ȳ - b1·x̄ = 49,5833 - -1,3198·19 = 74,6589.
-- **Recta**: ŷ = 74,6589 - 1,3198·x.
-- **Ajuste**: S² = SCR/(n-2) = 14,3393; S = 3,7867; Sb1 = S/√(Σx² - n·x̄²) = 0,1179.
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = -0,9624; r² = 0,9261.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = -11,1963; t(1-α; ν = 10) = 1,8125. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación.
+> ⚠️ No fijan α para validar el modelo: se eligió α = 0,05 (en el examen, elegirlo y justificarlo).
 
-**Conclusión:** b1 = -1,3198: por cada unidad adicional de «Deformación (en mm)», «Dureza Brinell (en kg/mm²)» disminuye en promedio 1,3198 unidades. b0 = 74,6589: valor estimado de «Dureza Brinell (en kg/mm²)» cuando «Deformación (en mm)» vale 0 (ver si tiene sentido en el problema). Existe relación lineal (r = -0,9624; r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación).
+- **Variables**: Y = dureza Brinell (kg/mm²) → variable explicada (aleatoria); X = deformación (mm) → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 12; Σx = 228; x̄ = 19; Σx² = 5.364; Σy = 595; ȳ = 49,583333; Σy² = 31.443; Σxy = 9.943.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -1.362/1.032 = -1,319767 kg/mm²/mm; b0 = ȳ - b1·x̄ = 49,5833 - (-1,3198)·19 = 74,658915 kg/mm².
+- **Recta (modelo estimador)**: ŷ = 74,6589 - 1,3198·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 14,339341; S = 3,786732; Sb1 = S/√(Σx² - n·x̄²) = 0,117876; r = -0,962352; r² = 0,926121.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 11,1963; ν = n - 2 = 10; t(1-α; ν) = t(0,95; 10) = 1,8125. CR: si |t_obs| > 1,8125 ⇒ se rechaza H0. 11,1963 > 1,8125 ⇒ se rechaza H0: existe relación lineal entre la deformación y la dureza Brinell.
+- **2° fuerza de la relación**: r² = 0,9261 (92,61%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación.
+
+**Conclusión:** b1 = -1,3198 kg/mm²/mm (coeficiente de regresión o contribución marginal): por cada mm adicional de deformación, la dureza Brinell disminuye en promedio 1,3198 kg/mm². b0 = 74,6589 kg/mm²: en teoría, sería la dureza Brinell cuando la deformación vale 0 mm, pero no se puede asegurar: el modelo se valida solo en el entorno observado (la deformación entre 6 y 35 mm) y X = 0 queda afuera. Por eso no se estima β0. r² = 0,9261: la deformación influye en un 92,61% (aprox.) en la explicación de la dureza Brinell; el 7,39% restante lo explican la perturbación del entorno u otras variables que no están en el modelo. Existe relación lineal y r² ≥ 0,9: el modelo es válido para cualquier campo de aplicación: el modelo se valida (solo para el entorno observado).
 
 **Respuesta de la guía:** ŷ = 74,6589 − 1,3198·x; S = 3,7867; Sb1 = 0,1179; r = −0,9624; r² = 0,9261. H0) ρ = 0 (β1 = 0): t_obs = −11,1963 (|t_obs| = 11,1963) vs t(0,95;10) = 1,8125: se rechaza; existe relación lineal fuerte y el modelo es válido. b1: por cada mm adicional de deformación la dureza se reduce en promedio 1,3198 kg/mm²; b0: con deformación nula la dureza sería 74,6589 kg/mm².
 
@@ -8832,11 +8956,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar ρ: transformación de Fisher Z = ½·ln((1+r)/(1-r)) ± z/√(n-3).
 
-- **Coeficiente de correlación**: r = -0,9624 (n = 12).
-- **Fisher**: Z = ½·ln((1+r)/(1-r)) = -1,9768; Z(1-α/2) /√(n-3) = 1,96/√9 = 0,6533; Zmín = -2,6301; Zmáx = -1,3235.
-- **Límites**: A = (e^(2Zmín) - 1)/(e^(2Zmín) + 1) = -0,9897; B = (e^(2Zmáx) - 1)/(e^(2Zmáx) + 1) = -0,8676.
+- **Coeficiente de correlación**: r = -0,9624 (n = 12); lleva el signo de b1.
+- **Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = -1,9768; Z(1-α/2)·√(1/(n-3)) = 1,96·√(1/9) = 0,6533; Zρmín = -2,6301; Zρmáx = -1,3235.
+- **Límites**: A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = -0,9897; B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = -0,8676.
 
-**Conclusión:** Con un 95% de confianza el coeficiente de correlación poblacional está entre -0,9897 y -0,8676: P(-0,9897 ≤ ρ ≤ -0,8676) = 0,95.
+**Conclusión:** Con un 95% de confianza, la fuerza de la relación entre la deformación y la dureza Brinell (coeficiente de correlación poblacional) está entre -0,9897 y -0,8676: P(-0,9897 ≤ ρ ≤ -0,8676) = 0,95 (límites redondeados hacia afuera; sin redondear: -0,989666 y -0,867648).
 
 **Respuesta de la guía:** Z = −3,9536 ± 0,6533: Zρmín = −2,6301; ZρMáx = −1,3235 (tal cual en la guía). P(−0,9897 ≤ ρ ≤ −0,8676) = 0,95.
 
@@ -8844,12 +8968,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Influencia porcentual: r² y su intervalo (los límites del IC de ρ al cuadrado).
 
-- **Coeficiente de determinación**: r² = 0,9261 (92,61% de la variación de y se explica por x).
-- **Fisher**: Z = ½·ln((1+r)/(1-r)) = -1,9768; Z(1-α/2) /√(n-3) = 1,96/√9 = 0,6533; Zmín = -2,6301; Zmáx = -1,3235.
-- **Límites**: A = (e^(2Zmín) - 1)/(e^(2Zmín) + 1) = -0,9897; B = (e^(2Zmáx) - 1)/(e^(2Zmáx) + 1) = -0,8676.
-- **IC para ρ²**: los límites al cuadrado → [0,7528 ; 0,9794].
+- **Coeficiente de determinación**: r² = 0,9261 (92,61% de influencia de la deformación en la dureza Brinell).
+- **Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = -1,9768; Z(1-α/2)·√(1/(n-3)) = 1,96·√(1/9) = 0,6533; Zρmín = -2,6301; Zρmáx = -1,3235.
+- **Límites**: A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = -0,9897; B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = -0,8676.
+- **IC para ρ²**: los límites del IC de ρ al cuadrado → [0,7528 ; 0,9794].
 
-**Conclusión:** x influye en un 92,61% en la explicación de y; con un 95% de confianza la influencia porcentual está entre el 75,28% y el 97,94%.
+**Conclusión:** La deformación influye en un 92,61% (aprox.) en la dureza Brinell; con un 95% de confianza, la influencia real está entre el 75,28% y el 97,95%: P(0,7528 ≤ ρ² ≤ 0,9795) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,752813 y 0,979438).
 
 **Respuesta de la guía:** r² = 0,9261 (92,61%); P(0,7528 ≤ ρ² ≤ 0,9795) = 0,95: la influencia se encuentra entre el 75,28% y el 97,95%.
 
@@ -8857,12 +8981,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Afirmación sobre el cambio de y por unidad de x: ensayo de β1 contra un valor (caso I / II de la cátedra).
 
-- **Recta**: ŷ = 74,6589 - 1,3198·x; Sb1 = 0,1179; ν = 10.
-- **Hipótesis**: H0: β1 ≥ -1  vs  H1: β1 < -1  (α = 0,05).
-- **Valor crítico** (planteo a priori): b1c = β1₀ - t(1-α; ν)·Sb1 = -1 - 1,8125·0,1179 = -1,2136.
+- **Recta**: ŷ = 74,6589 - 1,3198·x; Sb1 = 0,1179; ν = n - 2 = 10.
+- **Hipótesis**: se quiere probar que por cada mm adicional de deformación, la dureza Brinell disminuye en más de 1 kg/mm² ⇒ va en H1. H0: β1 ≥ -1  vs  H1: β1 < -1 (β1 en kg/mm²/mm); α = 0,05. Ojo con el signo: «disminuye en más» es MÁS negativo.
+- **Valor crítico** (antes de mirar b1): b1c = β1₀ - t(1-α; ν)·Sb1 = -1 - 1,8125·0,1179 = -1,2136 kg/mm²/mm.
 - **Condición de rechazo**: si b1 < -1,2136 ⇒ se rechaza H0. b1 = -1,3198 ⇒ se rechaza H0.
 
-**Conclusión:** Con α = 0,05, se puede asegurar que β1 < -1 (por cada unidad de x, y cambia menos que -1).
+**Conclusión:** Con α = 0,05, b1 = -1,3198 cae en la zona de rechazo ⇒ se rechaza H0: se puede asegurar que por cada mm adicional de deformación, la dureza Brinell disminuye en más de 1 kg/mm².
 
 **Respuesta de la guía:** H0) β1 ≥ −1 kg/mm²; b1c = −1 − 1,8125·0,1179 = −1,2136; se rechaza la hipótesis nula: por cada mm de deformación la dureza brinell disminuye en más de 1 kg/mm².
 
@@ -8871,9 +8995,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Intervalo de confianza para β1: b1 ± t(1-α/2; n-2)·Sb1.
 
 - **Recta**: ŷ = 74,6589 - 1,3198·x; Sb1 = 0,1179.
-- **IC para β1**: b1 ± t(1-α/2; ν = 10)·Sb1 = -1,3198 ± 2,2281·0,1179 = [-1,5824 ; -1,0571].
+- **IC para β1**: b1 ± t(1-α/2; ν = n - 2 = 10)·Sb1 = -1,3198 ± 2,2281·0,1179 = [-1,5824 ; -1,0571] (con valores negativos, A es el MÁS negativo).
 
-**Conclusión:** Con un 95% de confianza, por cada unidad adicional de x, y cambia entre -1,5824 y -1,0571: P(-1,5824 ≤ β1 ≤ -1,0571) = 0,95.
+**Conclusión:** Con un 95% de confianza, por cada mm adicional de deformación, la dureza Brinell disminuye entre 1,0571 y 1,5825 kg/mm²: P(-1,5825 ≤ β1 ≤ -1,0571) = 0,95 (β1 en kg/mm²/mm) (límites redondeados hacia afuera; sin redondear: -1,582411 y -1,057124).
 
 **Respuesta de la guía:** −1,3198 ± 2,2281·0,1179 = −1,3198 ± 0,2626: entre −1,5824 y −1,0572 (kg/mm²)/mm.
 
@@ -8882,10 +9006,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 74,6589 - 1,3198·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 74,6589 + -1,3198·10 = 61,4612.
-- **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,2281; error = 3,3941.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 74,6589 + (-1,3198)·10 = 61,4612.
+- **Intervalo para el valor promedio de y, E(y | x₀) (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,2281 (ν = n - 2 = 10); error = 3,3941.
 
-**Conclusión:** Con un 95% de confianza, el promedio de y para x₀ = 10 estará entre 58,0671 y 64,8554: P(58,0671 ≤ μy(x₀) ≤ 64,8554) = 0,95 (límites redondeados hacia afuera; sin redondear: 58,067136 y 64,855345).
+**Conclusión:** Con un 95% de confianza, la dureza Brinell promedio con la deformación en 10 mm estará entre 58,0671 kg/mm² y 64,8554 kg/mm²: P(58,0671 ≤ E(y | x₀ = 10) ≤ 64,8554) = 0,95 (límites redondeados hacia afuera; sin redondear: 58,067136 y 64,855345).
 
 **Respuesta de la guía:** ŷ0 = 61,4612 kg/mm²; 61,4612 ± 2,2281·3,7867·√(1/12 + (10−19)²/(5.364−12·19²)) = 61,4612 ± 3,3941: entre 58,0671 y 64,8554 kg/mm².
 
@@ -8894,10 +9018,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 74,6589 - 1,3198·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 74,6589 + -1,3198·10 = 61,4612.
-- **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,2281; error = 9,0945.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 74,6589 + (-1,3198)·10 = 61,4612.
+- **Intervalo para un valor individual de y (intervalo de predicción o pronóstico)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,2281 (ν = n - 2 = 10); error = 9,0945.
 
-**Conclusión:** Con un 95% de confianza, el valor de y para x₀ = 10 estará entre 52,3667 y 70,5557: P(52,3667 ≤ y(x₀) ≤ 70,5557) = 0,95 (límites redondeados hacia afuera; sin redondear: 52,366787 y 70,555694).
+**Conclusión:** Con un 95% de confianza, el valor de la dureza Brinell con la deformación en 10 mm estará entre 52,3667 kg/mm² y 70,5557 kg/mm²: P(52,3667 ≤ y(x₀ = 10) ≤ 70,5557) = 0,95 (límites redondeados hacia afuera; sin redondear: 52,366787 y 70,555694).
 
 **Respuesta de la guía:** 61,4612 ± 9,0943: entre 52,3667 y 70,5557 kg/mm².
 
@@ -8962,15 +9086,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Recta de mínimos cuadrados: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²), b0 = ȳ - b1·x̄.
 
-- **Sumatorias**: n = 18; Σx = 659; Σx² = 28.967,5; Σy = 289,2; Σy² = 5.166,36; Σxy = 9.165,95.
-- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -1.421,9833/4.840,7778 = -0,2938; b0 = ȳ - b1·x̄ = 16,0667 - -0,2938·36,6111 = 26,8212.
-- **Recta**: ŷ = 26,8212 - 0,2938·x.
-- **Ajuste**: S² = SCR/(n-2) = 6,3857; S = 2,527; Sb1 = S/√(Σx² - n·x̄²) = 0,0363.
-- **Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = -0,8964; r² = 0,8035.
-- **1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. tc = b1/Sb1 = r/√((1-r²)/(n-2)) = -8,0879; t(1-α; ν = 16) = 1,7459. |tc| > t ⇒ se rechaza H0: existe relación lineal.
-- **2do criterio (fuerza de la relación)**: r² ≥ 0,8: válido para procesos físicos e industriales.
+> ⚠️ No fijan α para validar el modelo: se eligió α = 0,05 (en el examen, elegirlo y justificarlo).
 
-**Conclusión:** b1 = -0,2938: por cada unidad adicional de «X = Carbonatación (en mm)», «Y = Resistencia al quiebre (en MPa)» disminuye en promedio 0,2938 unidades. b0 = 26,8212: valor estimado de «Y = Resistencia al quiebre (en MPa)» cuando «X = Carbonatación (en mm)» vale 0 (ver si tiene sentido en el problema). Existe relación lineal (r = -0,8964; r² ≥ 0,8: válido para procesos físicos e industriales).
+- **Variables**: Y = resistencia al quiebre (MPa) → variable explicada (aleatoria); X = carbonatación (mm) → variable explicativa. Y = f(X).
+- **Procesamiento de los datos**: n = 18; Σx = 659; x̄ = 36,611111; Σx² = 28.967,5; Σy = 289,2; ȳ = 16,066667; Σy² = 5.166,36; Σxy = 9.165,95.
+- **Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = -1.421,9833/4.840,7778 = -0,293751 MPa/mm; b0 = ȳ - b1·x̄ = 16,0667 - (-0,2938)·36,6111 = 26,821217 MPa.
+- **Recta (modelo estimador)**: ŷ = 26,8212 - 0,2938·x.
+- **Ajuste**: S² = (Σy² - b0·Σy - b1·Σxy)/(n - 2) = 6,385685; S = 2,526991; Sb1 = S/√(Σx² - n·x̄²) = 0,03632; r = -0,896366; r² = 0,803472.
+- **Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 (β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = 0,05. |t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = 8,0879; ν = n - 2 = 16; t(1-α; ν) = t(0,95; 16) = 1,7459. CR: si |t_obs| > 1,7459 ⇒ se rechaza H0. 8,0879 > 1,7459 ⇒ se rechaza H0: existe relación lineal entre la carbonatación y la resistencia al quiebre.
+- **2° fuerza de la relación**: r² = 0,8035 (80,35%). Mínimos orientativos según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. r² ≥ 0,8: válido para procesos físicos e industriales.
+
+**Conclusión:** b1 = -0,2938 MPa/mm (coeficiente de regresión o contribución marginal): por cada mm adicional de carbonatación, la resistencia al quiebre disminuye en promedio 0,2938 MPa. b0 = 26,8212 MPa: en teoría, sería la resistencia al quiebre cuando la carbonatación vale 0 mm, pero no se puede asegurar: el modelo se valida solo en el entorno observado (la carbonatación entre 8 y 65 mm) y X = 0 queda afuera. Por eso no se estima β0. r² = 0,8035: la carbonatación influye en un 80,35% (aprox.) en la explicación de la resistencia al quiebre; el 19,65% restante lo explican la perturbación del entorno u otras variables que no están en el modelo. Existe relación lineal y r² ≥ 0,8: válido para procesos físicos e industriales: el modelo se valida (solo para el entorno observado).
 
 **Respuesta de la guía:** ŷ = 26,8212 − 0,2938·x, existe relación lineal entre variables, r = 0,8964 (se puede considerar que la relación es fuerte) o sea que el modelo se puede considerar válido para lo que se está empleando. El valor de b1 indica que por cada mm de penetración en el hormigón, la resistencia al quiebre disminuye en aproximadamente 0,2937 Mpa, el valor de b0 indica que, si no se hubiera penetración en el hormigón, la resistencia al quiebre sería aproximadamente de 26,8212 Mpa.
 
@@ -8978,11 +9104,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar ρ: transformación de Fisher Z = ½·ln((1+r)/(1-r)) ± z/√(n-3).
 
-- **Coeficiente de correlación**: r = -0,8964 (n = 18).
-- **Fisher**: Z = ½·ln((1+r)/(1-r)) = -1,4534; Z(1-α/2) /√(n-3) = 1,96/√15 = 0,5061; Zmín = -1,9595; Zmáx = -0,9474.
-- **Límites**: A = (e^(2Zmín) - 1)/(e^(2Zmín) + 1) = -0,961; B = (e^(2Zmáx) - 1)/(e^(2Zmáx) + 1) = -0,7386.
+- **Coeficiente de correlación**: r = -0,8964 (n = 18); lleva el signo de b1.
+- **Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = -1,4534; Z(1-α/2)·√(1/(n-3)) = 1,96·√(1/15) = 0,5061; Zρmín = -1,9595; Zρmáx = -0,9474.
+- **Límites**: A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = -0,961; B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = -0,7386.
 
-**Conclusión:** Con un 95% de confianza el coeficiente de correlación poblacional está entre -0,961 y -0,7386: P(-0,961 ≤ ρ ≤ -0,7386) = 0,95.
+**Conclusión:** Con un 95% de confianza, la fuerza de la relación entre la carbonatación y la resistencia al quiebre (coeficiente de correlación poblacional) está entre -0,9611 y -0,7385: P(-0,9611 ≤ ρ ≤ -0,7385) = 0,95 (límites redondeados hacia afuera; sin redondear: -0,96105 y -0,738583).
 
 **Respuesta de la guía:** Entre (-0,96105) y (-0,73858).
 
@@ -8990,12 +9116,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Influencia porcentual: r² y su intervalo (los límites del IC de ρ al cuadrado).
 
-- **Coeficiente de determinación**: r² = 0,8035 (80,35% de la variación de y se explica por x).
-- **Fisher**: Z = ½·ln((1+r)/(1-r)) = -1,4534; Z(1-α/2) /√(n-3) = 1,96/√15 = 0,5061; Zmín = -1,9595; Zmáx = -0,9474.
-- **Límites**: A = (e^(2Zmín) - 1)/(e^(2Zmín) + 1) = -0,961; B = (e^(2Zmáx) - 1)/(e^(2Zmáx) + 1) = -0,7386.
-- **IC para ρ²**: los límites al cuadrado → [0,5455 ; 0,9236].
+- **Coeficiente de determinación**: r² = 0,8035 (80,35% de influencia de la carbonatación en la resistencia al quiebre).
+- **Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = -1,4534; Z(1-α/2)·√(1/(n-3)) = 1,96·√(1/15) = 0,5061; Zρmín = -1,9595; Zρmáx = -0,9474.
+- **Límites**: A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = -0,961; B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = -0,7386.
+- **IC para ρ²**: los límites del IC de ρ al cuadrado → [0,5455 ; 0,9236].
 
-**Conclusión:** x influye en un 80,35% en la explicación de y; con un 95% de confianza la influencia porcentual está entre el 54,55% y el 92,36%.
+**Conclusión:** La carbonatación influye en un 80,35% (aprox.) en la resistencia al quiebre; con un 95% de confianza, la influencia real está entre el 54,55% y el 92,37%: P(0,5455 ≤ ρ² ≤ 0,9237) = 0,95 (límites redondeados hacia afuera; sin redondear: 0,545505 y 0,923617).
 
 **Respuesta de la guía:** r² = 0,8035, indica que la penetración en el hormigón influye, aproximadamente, en un 80,35% en la resistencia al quiebre, se estima que la influencia porcentual se encuentra entre el 54,55% y 92,37%.
 
@@ -9003,12 +9129,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Afirmación sobre el cambio de y por unidad de x: ensayo de β1 contra un valor (caso I / II de la cátedra).
 
-- **Recta**: ŷ = 26,8212 - 0,2938·x; Sb1 = 0,0363; ν = 16.
-- **Hipótesis**: H0: β1 ≥ -0,25  vs  H1: β1 < -0,25  (α = 0,05).
-- **Valor crítico** (planteo a priori): b1c = β1₀ - t(1-α; ν)·Sb1 = -0,25 - 1,7459·0,0363 = -0,3134.
+- **Recta**: ŷ = 26,8212 - 0,2938·x; Sb1 = 0,0363; ν = n - 2 = 16.
+- **Hipótesis**: se quiere probar que por cada mm adicional de carbonatación, la resistencia al quiebre disminuye en más de 0,25 MPa ⇒ va en H1. H0: β1 ≥ -0,25  vs  H1: β1 < -0,25 (β1 en MPa/mm); α = 0,05. Ojo con el signo: «disminuye en más» es MÁS negativo.
+- **Valor crítico** (antes de mirar b1): b1c = β1₀ - t(1-α; ν)·Sb1 = -0,25 - 1,7459·0,0363 = -0,3134 MPa/mm.
 - **Condición de rechazo**: si b1 < -0,3134 ⇒ se rechaza H0. b1 = -0,2938 ⇒ no se rechaza H0.
 
-**Conclusión:** Con α = 0,05, no se puede asegurar que β1 < -0,25 (por cada unidad de x, y cambia menos que -0,25).
+**Conclusión:** Con α = 0,05, b1 = -0,2938 no cae en la zona de rechazo ⇒ no se rechaza H0: no hay evidencia suficiente para asegurar que por cada mm adicional de carbonatación, la resistencia al quiebre disminuye en más de 0,25 MPa.
 
 **Respuesta de la guía:** No se puede asegurar que la resistencia al quiebre disminuya en más de 0,25 Mpa.
 
@@ -9017,9 +9143,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Intervalo de confianza para β1: b1 ± t(1-α/2; n-2)·Sb1.
 
 - **Recta**: ŷ = 26,8212 - 0,2938·x; Sb1 = 0,0363.
-- **IC para β1**: b1 ± t(1-α/2; ν = 16)·Sb1 = -0,2938 ± 2,1199·0,0363 = [-0,3707 ; -0,2168].
+- **IC para β1**: b1 ± t(1-α/2; ν = n - 2 = 16)·Sb1 = -0,2938 ± 2,1199·0,0363 = [-0,3707 ; -0,2168] (con valores negativos, A es el MÁS negativo).
 
-**Conclusión:** Con un 95% de confianza, por cada unidad adicional de x, y cambia entre -0,3707 y -0,2168: P(-0,3707 ≤ β1 ≤ -0,2168) = 0,95.
+**Conclusión:** Con un 95% de confianza, por cada mm adicional de carbonatación, la resistencia al quiebre disminuye entre 0,2167 y 0,3708 MPa: P(-0,3708 ≤ β1 ≤ -0,2167) = 0,95 (β1 en MPa/mm) (límites redondeados hacia afuera; sin redondear: -0,370746 y -0,216756).
 
 **Respuesta de la guía:** Entre (-0,2937) y (-0,3708) Mpa/mm.
 
@@ -9028,10 +9154,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 26,8212 - 0,2938·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 26,8212 + -0,2938·10 = 23,8837.
-- **Intervalo para el valor promedio de y (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,1199; error = 2,4067.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 26,8212 + (-0,2938)·10 = 23,8837.
+- **Intervalo para el valor promedio de y, E(y | x₀) (ley promedio)**: ŷ₀ ± t(1-α/2; ν)·S·√(1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,1199 (ν = n - 2 = 16); error = 2,4067.
 
-**Conclusión:** Con un 95% de confianza, el promedio de y para x₀ = 10 estará entre 21,4769 y 26,2905: P(21,4769 ≤ μy(x₀) ≤ 26,2905) = 0,95 (límites redondeados hacia afuera; sin redondear: 21,476971 y 26,290443).
+**Conclusión:** Con un 95% de confianza, la resistencia al quiebre promedio con la carbonatación en 10 mm estará entre 21,4769 MPa y 26,2905 MPa: P(21,4769 ≤ E(y | x₀ = 10) ≤ 26,2905) = 0,95 (límites redondeados hacia afuera; sin redondear: 21,476971 y 26,290443).
 
 **Respuesta de la guía:** Entre 21,4769 y 26,2905 Mpa.
 
@@ -9040,10 +9166,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 *Qué pide:* Pide un pronóstico de y para x₀: ŷ₀ = b0 + b1·x₀ y su intervalo.
 
 - **Recta**: ŷ = 26,8212 - 0,2938·x.
-- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 26,8212 + -0,2938·10 = 23,8837.
-- **Intervalo para un valor individual de y (intervalo de predicción)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,1199; error = 5,8728.
+- **Estimador puntual**: ŷ₀ = b0 + b1·x₀ = 26,8212 + (-0,2938)·10 = 23,8837.
+- **Intervalo para un valor individual de y (intervalo de predicción o pronóstico)**: ŷ₀ ± t(1-α/2; ν)·S·√(1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)); t(1-α/2; ν) = 2,1199 (ν = n - 2 = 16); error = 5,8728.
 
-**Conclusión:** Con un 95% de confianza, el valor de y para x₀ = 10 estará entre 18,0109 y 29,7565: P(18,0109 ≤ y(x₀) ≤ 29,7565) = 0,95 (límites redondeados hacia afuera; sin redondear: 18,010919 y 29,756495).
+**Conclusión:** Con un 95% de confianza, el valor de la resistencia al quiebre con la carbonatación en 10 mm estará entre 18,0109 MPa y 29,7565 MPa: P(18,0109 ≤ y(x₀ = 10) ≤ 29,7565) = 0,95 (límites redondeados hacia afuera; sin redondear: 18,010919 y 29,756495).
 
 **Respuesta de la guía:** Entre 18,0109 y 29,7565 Mpa.
 
@@ -9081,7 +9207,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelo**: ŷ = -7,3507 + 0,1127·x1 + 0,3490·x2  (n = 13, k = 2, p = 3).
 - **Ajuste**: S² = SCR/(n-p) = 19,1789; S = 4,3794; R² = 0,9485; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,9382.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 92,0256; F(1-α; 2; 10) = 4,1028 ⇒ se rechaza H0: el modelo en forma global es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 92,0256; F(1-α; 2; 10) = 4,1028 ⇒ se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 1,8125):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9092,7 +9218,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Coeficientes de determinación parcial** (aporte de cada variable cuando están las demás): R²(x1) = 0,5904; R²(x2) = 0,7055.
 - **Modelos simples** (para los coeficientes parciales, R²(xi) = (R² - r²sin xi)/(1 - r²sin xi)): ŷ = -10,6112 + 0,2282·x1 (r² = 0,825); ŷ = 2,0325 + 0,5641·x2 (r² = 0,8742).
 
-**Conclusión:** El modelo, en forma global, es adecuado y todas las variables aportan significativamente a la explicación de Y. R² = 0,9485, R² ajustado = 0,9382.
+**Conclusión:** Todas las variables aportan significativamente a la explicación de Y (análisis individual). (Análisis global: F rechaza H0, solo como dato.) R² = 0,9485, R² ajustado = 0,9382.
 
 **Respuesta de la guía:** Análisis de sensibilidad: queda solo el modelo completo y = f(x1; x2) (los demás se descartan por Cp > 5·p). ŷ = −7,3507 + 0,1127·x1 + 0,3490·x2; S = 4,3794; S² = 19,1789; C1 = 0,000046; C2 = 0,0002651; R² = 0,9485; R²Aj = 0,9438; Sb1 = 0,0297; Sb2 = 0,0713. Ensayo global H0) ρ² = 0 (β1 = β2 = 0): F = 92,0874 > F(0,95;2;10) = 4,1028, se rechaza: modelo globalmente adecuado. H0) β1 = 0: t = 3,7969 > t(0,95;10) = 1,8125, se rechaza (X1 aporta). H0) β2 = 0: t = 4,8944 > 1,8125, se rechaza (X2 aporta). El modelo completo es válido y explica el índice de absorción en un 94,38%. Coeficientes de determinación parciales: R²x1 = 0,7055 (calculado con el modelo simple ŷ = −10,6112 + 0,2282·x1): X1 aporta un 70,55% cuando además actúa X2; R²x2 = 0,5904 (con el modelo simple ŷ = 2,0325 + 0,5641·x2): X2 aporta un 59,04% cuando además actúa X1.
 
@@ -9145,7 +9271,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelo**: ŷ = -40,2208 + 2,3931·x1 + 0,6702·x2  (n = 10, k = 2, p = 3).
 - **Ajuste**: S² = SCR/(n-p) = 84,3591; S = 9,1847; R² = 0,9073; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,8808.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 34,246; F(1-α; 2; 7) = 4,7374 ⇒ se rechaza H0: el modelo en forma global es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 34,246; F(1-α; 2; 7) = 4,7374 ⇒ se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 1,8946):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9156,7 +9282,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Coeficientes de determinación parcial** (aporte de cada variable cuando están las demás): R²(x1) = 0,8738; R²(x2) = 0,8877.
 - **Modelos simples** (para los coeficientes parciales, R²(xi) = (R² - r²sin xi)/(1 - r²sin xi)): ŷ = 28,7691 + 1,0671·x1 (r² = 0,1747); ŷ = 41,5915 + 0,3447·x2 (r² = 0,2652).
 
-**Conclusión:** El modelo, en forma global, es adecuado y todas las variables aportan significativamente a la explicación de Y. R² = 0,9073, R² ajustado = 0,8808.
+**Conclusión:** Todas las variables aportan significativamente a la explicación de Y (análisis individual). (Análisis global: F rechaza H0, solo como dato.) R² = 0,9073, R² ajustado = 0,8808.
 
 **Respuesta de la guía:** ŷ = −40,2208 + 2,3931·x1 + 0,6702·x2; el modelo, en forma global, es adecuado; las variables X1 y X2 aportan significativamente un grado de explicación en el estudio de Y.
 
@@ -9166,7 +9292,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelo**: ŷ = -40,2208 + 2,3931·x1 + 0,6702·x2  (n = 10, k = 2, p = 3).
 - **Ajuste**: S² = SCR/(n-p) = 84,3591; S = 9,1847; R² = 0,9073; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,8808.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 34,246; F(1-α; 2; 7) = 4,7374 ⇒ se rechaza H0: el modelo en forma global es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 34,246; F(1-α; 2; 7) = 4,7374 ⇒ se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 1,8946):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9177,7 +9303,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Coeficientes de determinación parcial** (aporte de cada variable cuando están las demás): R²(x1) = 0,8738; R²(x2) = 0,8877.
 - **Modelos simples** (para los coeficientes parciales, R²(xi) = (R² - r²sin xi)/(1 - r²sin xi)): ŷ = 28,7691 + 1,0671·x1 (r² = 0,1747); ŷ = 41,5915 + 0,3447·x2 (r² = 0,2652).
 
-**Conclusión:** El modelo, en forma global, es adecuado y todas las variables aportan significativamente a la explicación de Y. R² = 0,9073, R² ajustado = 0,8808.
+**Conclusión:** Todas las variables aportan significativamente a la explicación de Y (análisis individual). (Análisis global: F rechaza H0, solo como dato.) R² = 0,9073, R² ajustado = 0,8808.
 
 **Respuesta de la guía:** R² = 0,9073 (90,73%), R²Aj = 0,8957 (89,57%), se puede decir que el modelo (en forma global) aporta para la explicación de “Y” el 89,57%; R²x1 = 0,8877 (88,77%), la variable “X1” aporta el 88,77% en la explicación de “Y” cuando está actuando “X2” y R²x2 = 0,8738 (87,38%), la variable “X2” aporta el 87,38% en la explicación de “Y” cuando está actuando “X1”.
 
@@ -9211,7 +9337,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelo**: ŷ = 40,4622 + 0,6470·x1 - 2,3392·x2 + 0,7138·x3  (n = 6, k = 3, p = 4).
 - **Ajuste**: S² = SCR/(n-p) = 7,5881; S = 2,7546; R² = 0,9346; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,8365.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 9,5247; F(1-α; 3; 2) = 19,1643 ⇒ no se rechaza H0: el modelo en forma global no es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 9,5247; F(1-α; 3; 2) = 19,1643 ⇒ no se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 2,92):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9223,7 +9349,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Coeficientes de determinación parcial** (aporte de cada variable cuando están las demás): R²(x1) = 0,6025; R²(x2) = 0,4237; R²(x3) = 0,8768.
 - **Modelos simples** (para los coeficientes parciales, R²(xi) = (R² - r²sin xi)/(1 - r²sin xi)): ŷ = -39,7193 + 0,3482·x1 (r² = 0,4337); ŷ = -95,9057 + 1,7547·x2 (r² = 0,4689); ŷ = -0,6408 + 0,704·x3 (r² = 0,7435).
 
-**Conclusión:** El modelo, en forma global, no es adecuado para explicar Y. R² = 0,9346, R² ajustado = 0,8365.
+**Conclusión:** En el análisis individual solo x3 aporta(n) explicación; x1, x2 no: hay que sacarla(s) del modelo (análisis de sensibilidad / selección de modelos). (Análisis global: F no rechaza H0, solo como dato.) R² = 0,9346, R² ajustado = 0,8365.
 
 **Respuesta de la guía:** ŷ = 40,4622 + 0,647·x1 − 2,3392·x2 + 0,7138·x3, el modelo en forma global no es adecuado para el análisis; según el análisis solamente nos quedamos con el modelo que contiene a la variable x3 (el cual es el modelo más simple y es la variable que aporta significativamente un grado de explicación en el estudio de Y).
 
@@ -9233,7 +9359,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelo completo**: ŷ = 40,4622 + 0,6470·x1 - 2,3392·x2 + 0,7138·x3  (n = 6, k = 3, p = 4).
 - **Ajuste**: S² = SCR/(n-p) = 7,5881; S = 2,7546; R² = 0,9346; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,8365.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 9,5247; F(1-α; 3; 2) = 19,1643 ⇒ no se rechaza H0: el modelo en forma global no es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 9,5247; F(1-α; 3; 2) = 19,1643 ⇒ no se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 2,92):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9244,7 +9370,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelo reducido**: ŷ = -35,6717 + 0,2137·x1 + 0,5873·x3  (n = 6, k = 2, p = 3).
 - **Ajuste**: S² = SCR/(n-p) = 8,7778; S = 2,9627; R² = 0,8865; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,8108.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 11,7151; F(1-α; 2; 3) = 9,5521 ⇒ se rechaza H0: el modelo en forma global es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 11,7151; F(1-α; 2; 3) = 9,5521 ⇒ se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 2,3534):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9329,7 +9455,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Descartados por DET o Cp**: x1; x2; x3; x4; x1, x2; x1, x3; x2, x3; x2, x4; x3, x4; x1, x2, x3; x2, x3, x4.
 - **Modelo elegido (análisis confirmatorio)**: ŷ = 2244,9227 + 28,9250·x1 + 7,6436·x2 + 4,2966·x3 - 37,3538·x4  (n = 30, k = 4, p = 5).
 - **Ajuste**: S² = SCR/(n-p) = 991,169; S = 31,4828; R² = 0,9641; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,9583.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 167,7137; F(1-α; 4; 25) = 2,7587 ⇒ se rechaza H0: el modelo en forma global es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 167,7137; F(1-α; 4; 25) = 2,7587 ⇒ se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 1,7081):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9372,7 +9498,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelo**: ŷ = 32,1281 + 6,9785·x1 - 1,1660·x2  (n = 9, k = 2, p = 3).
 - **Ajuste**: S² = SCR/(n-p) = 1,8156; S = 1,3474; R² = 0,7488; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,6651.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 8,9448; F(1-α; 2; 6) = 5,1433 ⇒ se rechaza H0: el modelo en forma global es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 8,9448; F(1-α; 2; 6) = 5,1433 ⇒ se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 1,9432):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9383,7 +9509,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Coeficientes de determinación parcial** (aporte de cada variable cuando están las demás): R²(x1) = 0,6356; R²(x2) = 0,553.
 - **Modelos simples** (para los coeficientes parciales, R²(xi) = (R² - r²sin xi)/(1 - r²sin xi)): ŷ = 27,1532 + 6,9785·x1 (r² = 0,4381); ŷ = 68,8116 - 1,166·x2 (r² = 0,3107).
 
-**Conclusión:** El modelo, en forma global, es adecuado y todas las variables aportan significativamente a la explicación de Y. R² = 0,7488, R² ajustado = 0,6651.
+**Conclusión:** Todas las variables aportan significativamente a la explicación de Y (análisis individual). (Análisis global: F rechaza H0, solo como dato.) R² = 0,7488, R² ajustado = 0,6651.
 
 **Respuesta de la guía:** El modelo, en forma global, es adecuado; las variables X1 y X2 aportan significativamente un grado de explicación en el estudio de Y, el modelo es: ŷ = 32,1281 + 6,9785·x1 − 1,1660·x2.
 
@@ -9421,7 +9547,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Modelo**: ŷ = -102,7132 + 0,6054·x1 + 8,9236·x2 + 1,4375·x3 + 0,0136·x4  (n = 12, k = 4, p = 5).
 - **Ajuste**: S² = SCR/(n-p) = 242,7156; S = 15,5793; R² = 0,7447; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,5989.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 5,106; F(1-α; 4; 7) = 4,1203 ⇒ se rechaza H0: el modelo en forma global es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 5,106; F(1-α; 4; 7) = 4,1203 ⇒ se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 1,8946):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9434,7 +9560,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Coeficientes de determinación parcial** (aporte de cada variable cuando están las demás): R²(x1) = 0,2778; R²(x2) = 0,2882; R²(x3) = 0,0491; R²(x4) = 0.
 - **Modelos simples** (para los coeficientes parciales, R²(xi) = (R² - r²sin xi)/(1 - r²sin xi)): ŷ = 224,3764 + 0,9525·x1 (r² = 0,5647); ŷ = -90,1607 + 15,1607·x2 (r² = 0,6446); ŷ = 231,4559 + 0,5294·x3 (r² = 0,0024); ŷ = 282,2456 - 0,0352·x4 (r² = 0,0001).
 
-**Conclusión:** El análisis global indica que el modelo sería adecuado, pero ninguna variable aporta explicación en forma individual: hay que hacer el análisis de sensibilidad (selección de modelos). R² = 0,7447, R² ajustado = 0,5989.
+**Conclusión:** Ninguna variable aporta explicación en el análisis individual: el modelo no es adecuado para explicar Y. (Análisis global: F rechaza H0, solo como dato.) R² = 0,7447, R² ajustado = 0,5989.
 
 **Respuesta de la guía:** El análisis global me indica que el modelo en forma completa sería adecuado, pero ninguna de las variables “x” aporta explicación en el estudio de la variable “Y”, por lo cual el modelo completo no es válido.
 
@@ -9465,7 +9591,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Descartados por DET o Cp**: x3; x4; x3, x4.
 - **Modelo elegido (análisis confirmatorio)**: ŷ = -90,1607 + 15,1607·x2  (n = 12, k = 1, p = 2).
 - **Ajuste**: S² = SCR/(n-p) = 236,5768; S = 15,3811; R² = 0,6446; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,609.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 18,1357; F(1-α; 1; 10) = 4,9646 ⇒ se rechaza H0: el modelo en forma global es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 18,1357; F(1-α; 1; 10) = 4,9646 ⇒ se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 1,8125):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |
@@ -9543,7 +9669,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Descartados por DET o Cp**: x1; x2; x3; x4; x1, x2; x1, x3; x1, x4; x2, x3; x2, x4; x1, x2, x3; x1, x2, x3, x4.
 - **Modelo elegido (análisis confirmatorio)**: ŷ = 15,9557 - 0,1827·x3 + 0,1424·x4  (n = 20, k = 2, p = 3).
 - **Ajuste**: S² = SCR/(n-p) = 5,5364; S = 2,353; R² = 0,9325; R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = 0,9245.
-- **Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 117,3541; F(1-α; 2; 17) = 3,5915 ⇒ se rechaza H0: el modelo en forma global es adecuado.
+- **Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = 117,3541; F(1-α; 2; 17) = 3,5915 ⇒ se rechaza H0. El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es el análisis individual.
 - **Análisis individual** (H0: βi = 0; se rechaza si |tc| > t(1-α; n-p) = 1,7396):
 
 | Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |

@@ -8,7 +8,7 @@ acá: los pone siempre el solver.
 Fuente: lo que dijo el profesor en clase (06/08 a 22/10/2026), resumido en `estadistica/REGLAS_PROFESOR.md` y en
 los informes de clase. **El profesor manda sobre la guía y sobre el apunte**; cuando la guía difiere, se sigue al
 profesor y se anota la diferencia. Los ejemplos de los temas III a VI son los que él resolvió en clase; los números
-se verificaron con scipy. La sección de regresión (VII y VIII) es **provisoria**: al 22/10 no se dio en clase.
+se verificaron con scipy. La sección de regresión (VII y VIII) sale de las clases del 29/10 y el 05/11 (VII-13 resuelto en clase).
 
 **Cómo se arma el prompt**: este encabezado no se le pasa a la IA. Cada sección `##` o `###` con una línea
 `<!-- temas: I II ... -->` justo debajo del título solo se incluye en los ejercicios de esos temas (las que no la
@@ -494,9 +494,42 @@ el patrón histórico de ventas haya cambiado».
 ## 10. Regresión (Temas VII y VIII)
 <!-- temas: VII VIII -->
 
-**Provisorio**: al 22/10 el profesor todavía no dio regresión, así que no hay reglas suyas para este tema. Seguí la
-resolución del solver paso a paso, definí x e y con unidades, interpretá los coeficientes en palabras y cerrá cada
-intervalo con su expresión formal. No agregues criterios que no estén en la resolución del solver.
+Reglas del profesor (clase del 05/11/2026). Regresión **simple** entra en el parcial; la múltiple es para el final.
+
+1. **Variables**: «Y = resistencia al quiebre (MPa) → variable explicada; X = profundidad de carbonatación (mm) →
+   variable explicativa». Nunca «variable independiente».
+2. **Procesamiento de los datos** (como el pizarrón): n, Σx, x̄, Σx², Σy, ȳ, Σy², Σxy; b₀ (unidades de Y), b₁ (unidad
+   de Y por unidad de X), r (con el signo de b₁), r², S², S, S_b₁. La recta: ŷ = b₀ + b₁·x.
+3. **Validar siempre, aunque no lo pidan**: H0: ρ = 0 (β₁ = 0); |t_obs| contra t(1 − α; n − 2) (si no dan α, elegirlo y
+   justificarlo); después la fuerza con r² según el uso (0,4 sociología / psicología; 0,6 económico; 0,8 técnico o
+   industrial). Si no es válido, decir que no se lo puede usar para estimar.
+4. **Interpretar en términos del problema, con unidades**: b₁ «por cada mm adicional de profundidad, la resistencia
+   disminuye en promedio 0,2938 MPa»; r² «la profundidad influye en un 80,35 % sobre la resistencia; el resto lo
+   explican la perturbación del entorno u otras variables»; b₀ solo «en teoría», aclarando que el modelo se valida
+   en el entorno observado (x de 8 a 65 mm) y que **β₀ no se estima**.
+5. **Intervalos**: P(A ≤ β₁ ≤ B) = 0,95 con A y B en sus unidades (con negativos, A es el más negativo);
+   P(A ≤ ρ² ≤ B) para la influencia porcentual; P(A ≤ E(y | x₀) ≤ B) para el promedio; P(A ≤ y(x₀) ≤ B) para el
+   pronóstico (intervalo de predicción). Si x₀ está fuera del entorno observado, decir que es extrapolar.
+6. **Ensayo de β₁**: sin bilateral; «disminuye en más de 0,25» ⇒ H1: β₁ < −0,25; b₁c = β₁₀ − t(1 − α)·S_b₁; comparar
+   b₁ contra b₁c.
+7. **Múltiple**: se decide por el análisis individual (t de cada variable); el F global no alcanza.
+
+### Ejemplo VII-13 · Hormigón (resuelto en clase el 05/11)
+<!-- temas: VII -->
+<!-- tipos: recta validacion pronostico ic_coef ic_rho2 ensayo_coef -->
+
+Y = resistencia al quiebre (MPa); X = profundidad de carbonatación (mm). n = 18; Σx = 659; x̄ = 36,6111; Σx² = 28967,5;
+Σy = 289,2; ȳ = 16,0667; Σy² = 5166,36; Σxy = 9165,95; b₀ = 26,8212 MPa; b₁ = −0,2938 MPa/mm; r = −0,8964;
+r² = 0,8035; S² = 6,3857; S = 2,5270; S_b₁ = 0,0363. ŷ = 26,8212 − 0,2938·x.
+Validación: H0: ρ = 0; α = 0,05; |t_obs| = 8,0879 > t(0,95; 16) = 1,7459 ⇒ se rechaza H0: existe relación lineal. Uso
+técnico ⇒ r² ≥ 0,8; r² = 0,8035 ⇒ el modelo se valida (en el entorno observado, 8 a 65 mm).
+Por cada mm adicional de profundidad, la resistencia al quiebre disminuye en promedio 0,2938 MPa.
+P(−0,3708 ≤ β₁ ≤ −0,2167) = 0,95: por cada mm, la resistencia disminuye entre 0,2167 y 0,3708 MPa.
+P(0,5455 ≤ ρ² ≤ 0,9237) = 0,95: la influencia real está entre el 54,55 % y el 92,37 %.
+«¿Disminuye en más de 0,25 MPa?» H0: β₁ ≥ −0,25 vs H1: β₁ < −0,25; b₁c = −0,25 − 1,7459·0,0363 = −0,3134; b₁ = −0,2938
+no es menor ⇒ no se rechaza H0: no hay evidencia suficiente para asegurar que disminuya en más de 0,25 MPa.
+Promedio con 10 mm: P(21,4769 ≤ E(y | x₀ = 10) ≤ 26,2905) = 0,95 (MPa). Un sector con 10 mm (predicción):
+P(18,0109 ≤ y(x₀ = 10) ≤ 29,7565) = 0,95 (MPa).
 
 ## 11. Checklist final
 

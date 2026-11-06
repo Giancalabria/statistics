@@ -9,6 +9,19 @@ from typing import Any, List, Optional
 from .texto import buscar_numeros
 
 
+def _signo(texto: str, n) -> float:
+    """-1 si el número viene con un menos pegado ('-0,25', '−3'), al principio o después de un separador
+    (espacio, ';', '(', '['). '10-20' no es negativo. buscar_numeros devuelve siempre el valor absoluto."""
+    i = n.ini - 1
+    if i >= 0 and texto[i] in "-−–" and (i == 0 or texto[i - 1] in " 	;([|"):
+        return -1.0
+    return 1.0
+
+
+def _numeros(texto: str) -> List[float]:
+    return [_signo(texto, n) * n.valor for n in buscar_numeros(texto)]
+
+
 def a_texto(valor: Any, tipo: str) -> str:
     if valor is None:
         return ""
@@ -40,19 +53,19 @@ def de_texto(texto: str, tipo: str) -> Optional[Any]:
     if tipo == "texto":
         return texto
     if tipo == "tabla":
-        filas = [[n.valor for n in buscar_numeros(linea)] for linea in texto.splitlines()]
+        filas = [_numeros(linea) for linea in texto.splitlines()]
         return [f for f in filas if f] or None
     nums = buscar_numeros(texto)
     if tipo == "lista":
-        return [n.valor for n in nums] or None
+        return _numeros(texto) or None
     if not nums:
         raise ValueError(f"No se entiende el número '{texto}'")
     n = nums[0]
-    valor = n.fraccion if n.pct else n.valor
+    valor = _signo(texto, n) * (n.fraccion if n.pct else n.valor)
     if tipo == "int":
         return int(round(valor))
     return float(valor)
 
 
 def lista_de_texto(texto: str) -> List[float]:
-    return [n.valor for n in buscar_numeros(texto or "")]
+    return _numeros(texto or "")

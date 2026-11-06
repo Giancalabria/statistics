@@ -20,6 +20,7 @@ from solver import wording
 from solver.muestra import resumen_muestra
 
 from .modelo import DESPACHO_EXTRA, TIPOS, Analisis, Inciso
+from .variable import con_unidades, paso_variable
 from .presentacion import agregar_presentacion, siete_pasos
 from . import redondeo
 from .texto import fmt
@@ -1666,6 +1667,11 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
         res.pasos = agregar_presentacion(res.pasos, tema, inc.tipo, dict(d, alpha=alpha), an.criterio, cola)
         res.pasos = [_coma(x) if x.startswith(("**Hipótesis**", "**Región crítica**", "**1 · Planteo")) else x
                      for x in res.pasos]
+        paso = paso_variable(tema, d)
+        if paso and not estado.get("variable_dicha"):   # una vez por problema, como en el pizarrón
+            res.pasos.insert(0, paso)
+            estado["variable_dicha"] = True
+        res.conclusion = con_unidades(res.conclusion, tema, d)
         if inc.tipo == "ensayo" and not d.get("ambos"):
             res.pasos = siete_pasos(res.pasos, float(alpha), res.regla)
     except FaltaDato as e:

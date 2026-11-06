@@ -52,6 +52,12 @@ Si la app muestra **⚠️ sin consenso**, mirar las lecturas: la diferencia ent
 - ¿Cuál es Y (explicada) y cuál X (explicativa)?
 - Promedio → IC de la media de Y; valor puntual → pronóstico (intervalo de predicción).
 - «Máximo / mínimo por cada unidad» → un límite del IC de β₁.
+- **Solo regresión simple entra en el parcial** (múltiple, para el final).
+- ¿Validó el modelo antes de usarlo (aunque no lo pidan)? ¿Se valida para el uso del problema (técnico ⇒ r² ≥ 0,8)? Si no es válido, la pregunta no tiene sentido.
+- ¿Están bien Y, X y sus **unidades** (campos «Y/X en palabras» y «Unidad»)? Las conclusiones las usan.
+- «Promedio» / «toda la estructura» ⇒ E(y | x₀); «un sector» / «un acero» ⇒ predicción.
+- «Disminuye en más de 0,25» ⇒ **β₁₀ = −0,25** y cola izquierda. Revisar el signo en el campo β1₀.
+- ¿x₀ está dentro del entorno observado? Si no, decir que es extrapolar.
 
 ---
 
@@ -76,6 +82,11 @@ Es el más peligroso, porque la app muestra ✅.
 - **Enunciado contradictorio**: en el 2° parcial 23/06/25, Q1 dice «reducir al 20%» y después «se redujo al 30%». Las reglas tomaron 20%; las IA, 30% (lo correcto según la referencia).
 
 **Qué mirar:** el punto 4 (¿de dónde salió α?) y releer el enunciado cuando la app toma un número dudoso.
+
+### 3.3 bis Números negativos escritos en la pantalla
+- Hasta el 05/11, un número negativo escrito a mano en un campo **perdía el signo**: VII-13 d) («disminuye en más de 0,25 MPa», β₁₀ = −0,25) pasaba a +0,25 y la app concluía «se rechaza» con «aumenta en menos de 0,25». *(Corregido; test en `tests/test_clase_051126.py`.)*
+
+**Qué mirar:** si un campo lleva un valor negativo (β₁₀, δ₀, datos), que la conclusión hable del signo correcto.
 
 ### 3.4 Redacciones nuevas que la app no conoce
 Cada examen nuevo trajo una o dos frases que la app no reconocía:

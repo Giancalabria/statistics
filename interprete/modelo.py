@@ -66,6 +66,9 @@ DESPACHO_EXTRA: Dict[tuple, Any] = {}
 # ---------------------------------------------------------------------------
 
 CAMPOS_PLANTEO = {
+    # paso 1 de toda resolución: la variable en palabras, con su unidad (temas I, II y V)
+    "variable": ("Variable X en palabras (paso 1: «peso de un paquete»)", "texto"),
+    "unidad": ("Unidad de X (kg, L, horas, $...)", "texto"),
     # 1 población
     "n": ("Tamaño de muestra n", "int"),
     "xbar": ("Media muestral x̄", "float"),
@@ -115,6 +118,10 @@ CAMPOS_PLANTEO = {
     "y": ("Variable a explicar y (datos)", "lista"),
     "nombre_x": ("Nombre de x", "texto"),
     "nombre_y": ("Nombre de y", "texto"),
+    "var_y": ("Y en palabras (variable explicada)", "texto"),
+    "unidad_y": ("Unidad de Y (MPa, kg/mm², miles de $...)", "texto"),
+    "var_x": ("X en palabras (variable explicativa)", "texto"),
+    "unidad_x": ("Unidad de X (mm, $/kg...)", "texto"),
     "escala_x": ("Escala de x en la tabla (1.000 = 'en miles')", "float"),
     "escala_y": ("Escala de y en la tabla (1.000 = 'en miles')", "float"),
     "xs": ("Variables explicativas (una por renglón)", "tabla"),

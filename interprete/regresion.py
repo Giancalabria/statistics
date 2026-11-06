@@ -171,6 +171,32 @@ def completar_planteo(an: Analisis, t):
         an.datos["nombre_x"] = xs[0][0]
         an.datos["escala_x"] = escala_de(xs[0][0], t.norm)
         an.evidencias.append(Evidencia("x", f"«{xs[0][0]}»", "", "variable explicativa"))
+    # paso 1 del profesor: Y y X en palabras, con su unidad (sale del encabezado de la tabla; se puede corregir)
+    for eje, nombre in (("y", nombres[jy]), ("x", xs[0][0] if len(xs) == 1 else "")):
+        if not nombre:
+            continue
+        palabra, unidad = nombre_unidad(nombre)
+        if palabra:
+            an.datos[f"var_{eje}"] = palabra
+        if unidad:
+            an.datos[f"unidad_{eje}"] = unidad
+            an.evidencias.append(Evidencia(f"unidad_{eje}", unidad, nombre, "unidad del encabezado de la tabla"))
+
+
+def nombre_unidad(nombre: str) -> Tuple[str, str]:
+    """'X = Carbonatación (en mm)' → ('carbonatación', 'mm'); 'Dureza Brinell (en kg/mm²)' → ('dureza Brinell', 'kg/mm²')."""
+    s = " ".join(nombre.split())
+    unidad = ""
+    m = re.search(r"\(([^()]*)\)", s)
+    if m:
+        unidad = re.sub(r"^(medid[oa]s?\s+)?en\s+", "", m.group(1).strip(), flags=re.I).strip()
+        s = (s[:m.start()] + " " + s[m.end():]).strip()
+    s = re.sub(r"^\s*[XxYy]\s*\d*\s*[:=]\s*", "", s).strip(" :=-")
+    if re.fullmatch(r"[XxYy]\s*\d*", s):
+        s = ""
+    if len(s) > 1 and not s[:2].isupper():   # 'Resistencia' → 'resistencia'; 'PBI' queda
+        s = s[0].lower() + s[1:]
+    return s, unidad
 
 
 def _corto(nombre: str, i: int) -> str:
@@ -419,21 +445,101 @@ def _reg(d, modelo=None, origen=None) -> rg.RegresionSimple:
     raise FaltaDato("Faltan los datos (x, y) o las sumatorias")
 
 
+def _el(nombre: str) -> str:
+    """Con artículo: 'carbonatación' → 'la carbonatación', 'consumo' → 'el consumo', 'ventas' → 'las ventas'.
+    'x' / 'y' y siglas (PBI) quedan como están o con 'el'."""
+    if nombre in ("x", "y") or re.match(r"^(el|la|los|las)\b", nombre, re.I):
+        return nombre
+    w = re.findall(r"[A-Za-zÁÉÍÓÚáéíóúñÑ]+", nombre)
+    w = w[0].lower() if w else ""
+    if w in ("área", "agua", "aula", "arma", "hambre", "ala"):
+        return "el " + nombre
+    if w.endswith(("as", "iones", "dades")):
+        return "las " + nombre
+    if w.endswith("s") and len(w) > 3 and not w.endswith(("is", "us")):
+        return "los " + nombre
+    if w.endswith(("a", "ión", "dad", "tud", "ez", "umbre")) and w not in ("día", "mapa", "sistema", "problema", "clima"):
+        return "la " + nombre
+    return "el " + nombre
+
+
+def _pl(nombre: str) -> bool:
+    return _el(nombre).startswith(("los ", "las "))
+
+
+def _v(nombre: str, verbo: str) -> str:
+    """Concordancia: 'las ventas' + 'aumenta' → 'aumentan'."""
+    return verbo + "n" if _pl(nombre) else verbo
+
+
+def _contraer(t: str) -> str:
+    """'de el PBI' → 'del PBI'; 'a el' → 'al'."""
+    return re.sub(r"\b(de|De|a|A) el\b", lambda m: {"de": "del", "De": "Del", "a": "al", "A": "Al"}[m.group(1)], t)
+
+
+def _El(nombre: str) -> str:
+    t = _el(nombre)
+    return t[0].upper() + t[1:]
+
+
+def _vars(d) -> Tuple[str, str, str, str]:
+    """(Y en palabras, unidad de Y, X en palabras, unidad de X). Sin datos: 'y' y 'x'."""
+    ny, uy = d.get("var_y") or "", d.get("unidad_y") or ""
+    nx, ux = d.get("var_x") or "", d.get("unidad_x") or ""
+    if not ny and d.get("nombre_y"):
+        ny, u = nombre_unidad(d["nombre_y"])
+        uy = uy or u
+    if not nx and d.get("nombre_x"):
+        nx, u = nombre_unidad(d["nombre_x"])
+        ux = ux or u
+    return ny or "y", uy, nx or "x", ux
+
+
+def _con(v: str, u: str) -> str:
+    return f"{v} {u}" if u else v
+
+
+def _u_b1(uy: str, ux: str) -> str:
+    return f"{uy}/{ux}" if uy and ux else ""
+
+
+def _por_cada(nx: str, ux: str) -> str:
+    if ux.strip() == "%":   # la variable ya está en %: el cambio es de un PUNTO porcentual, no de un 1% (clase 05/11)
+        return f"por cada punto porcentual adicional de {_el(nx)}"
+    return f"por cada {ux} adicional de {nx}" if ux else f"por cada unidad adicional de {nx}"
+
+
+def _entorno(d, reg) -> Optional[Tuple[float, float]]:
+    """Entorno observado de x (en la escala de la tabla), si están los datos."""
+    xs = d.get("x")
+    if xs and len(xs) == reg.n:
+        return min(xs), max(xs)
+    return None
+
+
 def _pasos_recta(reg: rg.RegresionSimple, res, d):
     yv, xv, desc = rg.TRANSFORMACIONES[reg.modelo]
+    ny, uy, nx, ux = _vars(d)
+    res.pasos.append(f"**Variables**: Y = {ny}" + (f" ({uy})" if uy else "") + " → variable explicada (aleatoria); "
+                     f"X = {nx}" + (f" ({ux})" if ux else "") + " → variable explicativa. Y = f(X).")
     if reg.modelo != "lineal":
         res.pasos.append(f"**Modelo**: {desc}. Se trabaja con Y' = {yv} y X' = {xv}.")
-    res.pasos.append(f"**Sumatorias**: n = {reg.n}; Σx = {fmt(reg.xbar * reg.n, 4)}; Σx² = {fmt(reg.sum_x2, 4)}; "
-                     f"Σy = {fmt(reg.ybar * reg.n, 4)}; Σy² = {fmt(reg.sum_y2, 4)}; Σxy = {fmt(reg.sum_xy, 4)}.")
+    sx, sy = reg.xbar * reg.n, reg.ybar * reg.n
+    res.pasos.append(f"**Procesamiento de los datos**: n = {reg.n}; Σx = {fmt(sx, 4)}; x̄ = {fmt(reg.xbar, 6)}; "
+                     f"Σx² = {fmt(reg.sum_x2, 4)}; Σy = {fmt(sy, 4)}; ȳ = {fmt(reg.ybar, 6)}; Σy² = {fmt(reg.sum_y2, 4)}; "
+                     f"Σxy = {fmt(reg.sum_xy, 4)}.")
+    ub1 = _u_b1(uy, ux) if reg.modelo == "lineal" else ""
     if reg.origen:
-        res.pasos.append(f"**Recta por el origen**: b1 = Σxy / Σx² = {fmt(reg.b1, 4)}.")
+        res.pasos.append(f"**Recta por el origen**: b1 = Σxy / Σx² = {_con(fmt(reg.b1, 6), ub1)}.")
     else:
         res.pasos.append(f"**Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = {fmt(reg.Sxy, 4)}/{fmt(reg.Sxx, 4)} = "
-                         f"{fmt(reg.b1, 4)}; b0 = ȳ - b1·x̄ = {fmt(reg.ybar, 4)} - {fmt(reg.b1, 4)}·{fmt(reg.xbar, 4)} = "
-                         f"{fmt(reg.b0, 4)}.")
-    res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}.")
-    res.pasos.append(f"**Ajuste**: S² = SCR/(n-{2 if not reg.origen else 1}) = {fmt(reg.S2, 4)}; S = {fmt(reg.S, 4)}; "
-                     f"Sb1 = S/√(Σx² - n·x̄²) = {fmt(reg.Sb1, 4)}.")
+                         f"{_con(fmt(reg.b1, 6), ub1)}; b0 = ȳ - b1·x̄ = {fmt(reg.ybar, 4)} - ({fmt(reg.b1, 4)})·"
+                         f"{fmt(reg.xbar, 4)} = {_con(fmt(reg.b0, 6), uy if reg.modelo == 'lineal' else '')}.")
+    res.pasos.append(f"**Recta (modelo estimador)**: {_coma(reg.ecuacion())}.")
+    n_par = 1 if reg.origen else 2
+    formula = "(Σy² - b1·Σxy)" if reg.origen else "(Σy² - b0·Σy - b1·Σxy)"
+    res.pasos.append(f"**Ajuste**: S² = {formula}/(n - {n_par}) = {fmt(reg.S2, 6)}; S = {fmt(reg.S, 6)}; "
+                     f"Sb1 = S/√(Σx² - n·x̄²) = {fmt(reg.Sb1, 6)}; r = {fmt(reg.r, 6)}; r² = {fmt(reg.r2, 6)}.")
     res.numeros += [reg.b0, reg.b1, reg.S, reg.S2, reg.Sb1]
     if reg.modelo in ("loglog", "loglin"):
         res.numeros += [exp(reg.b0)] + ([exp(reg.b1)] if reg.modelo == "loglin" else [])
@@ -447,30 +553,79 @@ def _coma(s: str) -> str:
 
 
 def _interpretar(reg: rg.RegresionSimple, d) -> str:
-    ny, nx = d.get("nombre_y", "y"), d.get("nombre_x", "x")
+    """Interpretación de los estimadores EN TÉRMINOS DEL PROBLEMA, como en clase (05/11)."""
+    ny, uy, nx, ux = _vars(d)
+    sube = "aumenta" if reg.b1 >= 0 else "disminuye"
     if reg.modelo == "loglog":
-        return (f"b1 = {fmt(reg.b1, 4)} es la elasticidad: si «{nx}» aumenta 1%, «{ny}» cambia "
-                f"{fmt(reg.b1, 4)}%.")
+        return (f"b1 = {fmt(reg.b1, 4)} es la elasticidad (modelo de elasticidad constante): si {_el(nx)} {_v(nx, 'aumenta')} un 1%, "
+                f"{_el(ny)} {_v(ny, sube)} un {fmt(abs(reg.b1), 4)}% (cambio porcentual por cambio porcentual).")
     if reg.modelo == "loglin":
-        return (f"Por cada unidad adicional de «{nx}», «{ny}» cambia un {fmt(100 * (exp(reg.b1) - 1), 2)}% "
-                f"(factor e^b1 = {fmt(exp(reg.b1), 4)}).")
-    txt = (f"b1 = {fmt(reg.b1, 4)}: por cada unidad adicional de «{nx}», «{ny}» "
-           f"{'aumenta' if reg.b1 >= 0 else 'disminuye'} en promedio {fmt(abs(reg.b1), 4)} unidades.")
+        return (f"b1·100 = {fmt(100 * reg.b1, 4)}: {_por_cada(nx, ux)}, {_el(ny)} {_v(ny, sube)} aproximadamente un "
+                f"{fmt(abs(100 * reg.b1), 4)}% (cambio porcentual de Y por cambio absoluto de X; exacto: "
+                f"(e^b1 - 1)·100 = {fmt(100 * (exp(reg.b1) - 1), 4)}%).")
+    if reg.modelo == "linlog":
+        return (f"b1/100 = {fmt(reg.b1 / 100, 4)}: si {_el(nx)} {_v(nx, 'aumenta')} un 1%, {_el(ny)} {_v(ny, sube)} {_con(fmt(abs(reg.b1) / 100, 4), uy)} "
+                f"(cambio absoluto de Y por cambio porcentual de X).")
+    if reg.modelo != "lineal":
+        return f"b1 = {fmt(reg.b1, 4)} (modelo {reg.modelo})."
+    txt = (f"b1 = {_con(fmt(reg.b1, 4), _u_b1(uy, ux))} (coeficiente de regresión o contribución marginal): "
+           f"{_por_cada(nx, ux)}, {_el(ny)} {_v(ny, sube)} en promedio {_con(fmt(abs(reg.b1), 4), uy)}.")
     if not reg.origen:
-        txt += f" b0 = {fmt(reg.b0, 4)}: valor estimado de «{ny}» cuando «{nx}» vale 0 (ver si tiene sentido en el problema)."
+        ent = _entorno(d, reg)
+        txt += (f" b0 = {_con(fmt(reg.b0, 4), uy)}: en teoría, sería {_el(ny)} cuando {_el(nx)} {_v(nx, 'vale')} 0"
+                + (f" {ux}" if ux else "") + ", pero no se puede asegurar")
+        if ent:
+            dentro = ent[0] <= 0 <= ent[1]
+            txt += (f": el modelo se valida solo en el entorno observado ({_el(nx)} entre {fmt(ent[0], 4)} y "
+                    f"{_con(fmt(ent[1], 4), ux)})" + ("" if dentro else " y X = 0 queda afuera"))
+        txt += ". Por eso no se estima β0."
     return txt
 
 
-def _validacion(reg, alpha, res):
+def _influencia(reg, d) -> str:
+    ny, _, nx, _ = _vars(d)
+    return (f"r² = {fmt(reg.r2, 4)}: {_el(nx)} {_v(nx, 'influye')} en un {fmt(100 * reg.r2, 2)}% (aprox.) en la explicación de {_el(ny)}; el "
+            f"{fmt(100 * (1 - reg.r2), 2)}% restante lo explican la perturbación del entorno u otras variables que no "
+            f"están en el modelo.")
+
+
+def _validacion(reg, alpha, res, d=None):
+    """Análisis confirmatorio de la cátedra: 1) existencia de la relación (H0: ρ = 0 ⇔ β1 = 0, |t_obs| vs t(1-α; n-2));
+    2) fuerza de la relación (r² según el uso del modelo). Son condiciones necesarias, no suficientes."""
+    d = d or {}
+    ny, _, nx, _ = _vars(d)
     e = rg.ensayo_beta1(reg, alpha, 0.0, "existencia")
-    res.pasos.append(f"**Coeficiente de correlación**: r = Sxy/√(Sxx·Syy) = {fmt(reg.r, 4)}; r² = {fmt(reg.r2, 4)}.")
-    res.pasos.append(f"**1er criterio (existencia de la relación)**: H0: β1 = 0 (ρ = 0)  vs  H1: β1 ≠ 0. "
-                     f"tc = b1/Sb1 = r/√((1-r²)/(n-2)) = {fmt(e.t_c, 4)}; t(1-α; ν = {e.nu}) = {fmt(e.t_critico, 4)}. "
-                     + ("|tc| > t ⇒ se rechaza H0: existe relación lineal." if e.rechaza else
-                        "|tc| ≤ t ⇒ no se rechaza H0: no se puede asegurar que exista relación lineal."))
-    res.pasos.append(f"**2do criterio (fuerza de la relación)**: {rg.validez_por_r2(reg.r2)}.")
+    res.pasos.append(f"**Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 "
+                     f"(β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = {fmt(alpha, 4)}. "
+                     f"|t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = {fmt(abs(e.t_c), 4)}; ν = n - 2 = {e.nu}; "
+                     f"t(1-α; ν) = t({fmt(1 - alpha, 4)}; {e.nu}) = {fmt(e.t_critico, 4)}. CR: si |t_obs| > "
+                     f"{fmt(e.t_critico, 4)} ⇒ se rechaza H0. "
+                     + (f"{fmt(abs(e.t_c), 4)} > {fmt(e.t_critico, 4)} ⇒ se rechaza H0: existe relación lineal entre "
+                        f"{_el(nx)} y {_el(ny)}." if e.rechaza else
+                        f"{fmt(abs(e.t_c), 4)} ≤ {fmt(e.t_critico, 4)} ⇒ no se rechaza H0: no se puede asegurar que "
+                        f"exista relación lineal: el modelo NO es válido."))
+    res.pasos.append(f"**2° fuerza de la relación**: r² = {fmt(reg.r2, 4)} ({fmt(100 * reg.r2, 2)}%). Mínimos orientativos "
+                     f"según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. "
+                     f"{rg.validez_por_r2(reg.r2)}.")
     res.numeros += [reg.r, abs(reg.r), reg.r2, e.t_c, e.t_critico]
     return e
+
+
+def _valido(e, reg) -> bool:
+    return e.rechaza and reg.r2 >= 0.4
+
+
+def _asegurar_validacion(reg, d, alpha, res, estado):
+    """El profesor: «la validación la vas a tener que hacer aunque no te la pida». Si ningún inciso anterior validó
+    esta recta, se valida acá antes de usarla. Si no es válida, la pregunta no tiene sentido."""
+    if estado.get("validada") is not reg:
+        res.pasos.append("**Primero se valida el modelo** (aunque el inciso no lo pida: un modelo no validado no sirve "
+                         "para estimar).")
+        e = _validacion(reg, alpha, res, d)
+        estado["validada"], estado["valido"] = reg, _valido(e, reg)
+    if not estado.get("valido", True):
+        res.avisos.append("El modelo NO es válido: según el profesor, entonces la pregunta no tiene sentido (las cuentas "
+                          "se muestran solo como referencia).")
 
 
 def recta(d, alpha, res, estado):
@@ -478,12 +633,15 @@ def recta(d, alpha, res, estado):
     _pasos_recta(reg, res, d)
     estado["reg"] = reg
     res.resumen = _coma(reg.ecuacion())
-    concl = _interpretar(reg, d)
-    if d.get("validar"):
-        e = _validacion(reg, alpha, res)
-        concl += (" Existe relación lineal" if e.rechaza else " No se puede asegurar que exista relación lineal") + \
-            f" (r = {fmt(reg.r, 4)}; {rg.validez_por_r2(reg.r2)})."
-        res.resumen += f"; r = {fmt(reg.r, 4)}" + ("" if d.get("rho2") else f"; r² = {fmt(reg.r2, 4)}")
+    if d.get("alpha") is None:
+        res.avisos.append("No fijan α para validar el modelo: se eligió α = 0,05 (en el examen, elegirlo y justificarlo).")
+    e = _validacion(reg, alpha, res, d)
+    estado["validada"], estado["valido"] = reg, _valido(e, reg)
+    concl = _interpretar(reg, d) + " " + _influencia(reg, d) + " "
+    v = rg.validez_por_r2(reg.r2)
+    concl += (f"Existe relación lineal y {v[0].lower()}{v[1:]}: el modelo se valida (solo para el entorno observado)."
+              if _valido(e, reg) else "El modelo NO es válido: no se lo puede usar para estimar.")
+    res.resumen += f"; r = {fmt(reg.r, 4)}" + ("" if d.get("rho2") else f"; r² = {fmt(reg.r2, 4)}")
     if d.get("rho2"):
         resumen = res.resumen
         ic_rho2(d, alpha, res, estado)
@@ -495,14 +653,16 @@ def recta(d, alpha, res, estado):
 def validacion(d, alpha, res, estado):
     reg = _reg(d)
     _pasos_recta(reg, res, d)
-    e = _validacion(reg, alpha, res)
+    e = _validacion(reg, alpha, res, d)
     estado["reg"] = reg
+    estado["validada"], estado["valido"] = reg, _valido(e, reg)
+    ny, _, nx, _ = _vars(d)
     res.resumen = f"r = {fmt(reg.r, 4)}; r² = {fmt(reg.r2, 4)}; tc = {fmt(e.t_c, 4)} vs {fmt(e.t_critico, 4)}: " + \
         ("RECHAZA H0 (hay relación)" if e.rechaza else "NO rechaza H0")
-    res.conclusion = ((f"Con α = {fmt(alpha, 4)}, se puede asegurar que existe relación lineal entre las "
-                       f"variables" if e.rechaza else
-                       f"Con α = {fmt(alpha, 4)}, no se puede asegurar que exista relación lineal entre las variables")
-                      + f"; r = {fmt(reg.r, 4)} ({rg.validez_por_r2(reg.r2)}).")
+    res.conclusion = ((f"Con α = {fmt(alpha, 4)}, se puede asegurar que existe relación lineal entre {_el(nx)} y {_el(ny)}"
+                       if e.rechaza else
+                       f"Con α = {fmt(alpha, 4)}, no se puede asegurar que exista relación lineal entre {_el(nx)} y {_el(ny)}")
+                      + f"; r = {fmt(reg.r, 4)}, r² = {fmt(reg.r2, 4)} ({rg.validez_por_r2(reg.r2)}).")
 
 
 def _reg_estado(d, estado):
@@ -518,15 +678,16 @@ def pronostico(d, alpha, res, estado):
         return _pronostico(d, alpha, res, estado)
     # dos pedidos en el inciso: el pronóstico puntual para x0_puntual y el intervalo para x0
     reg = _reg_estado(d, estado)
+    ny, uy, nx, ux = _vars(d)
     yp = reg.predecir(xp)
-    res.pasos.append(f"**Pronóstico puntual** para x = {fmt(xp, 4)}: ŷ = b0 + b1·x = {fmt(reg.b0, 4)} + {fmt(reg.b1, 4)}·"
+    res.pasos.append(f"**Pronóstico puntual** para x = {fmt(xp, 4)}: ŷ = b0 + b1·x = {fmt(reg.b0, 4)} + ({fmt(reg.b1, 4)})·"
                      f"{fmt(xp, 4)} = {fmt(yp, 4)}" + (f" (= {fmt(reg.a_original(yp), 4)} en la escala original)"
                                                        if reg.modelo != "lineal" else "") + ".")
     _pronostico(d, alpha, res, estado)
     res.numeros = [yp, reg.a_original(yp)] + res.numeros
     res.resumen = f"ŷ({fmt(xp)}) = {fmt(reg.a_original(yp), 4)} | x₀ = {fmt(d['x0'])}: {res.resumen}"
-    res.conclusion = (f"El pronóstico puntual para x = {fmt(xp, 4)} es ŷ = {fmt(reg.a_original(yp), 4)}. "
-                      + res.conclusion)
+    res.conclusion = (f"El pronóstico puntual de {_el(ny)} para {_el(nx)} = {_con(fmt(xp, 4), ux)} es "
+                      f"{_con(fmt(reg.a_original(yp), 4), uy)}. " + res.conclusion)
 
 
 def _pronostico(d, alpha, res, estado):
@@ -535,34 +696,44 @@ def _pronostico(d, alpha, res, estado):
     x0 = d.get("x0", estado.get("x0"))
     if x0 is None:
         raise FaltaDato("Falta el valor x₀ para el pronóstico")
+    _asegurar_validacion(reg, d, alpha, res, estado)
+    ny, uy, nx, ux = _vars(d)
     estado["x0"] = x0
     estado["individual"] = d.get("individual", estado.get("individual", True))
     ey = d.get("escala_y", 1.0) if d.get("mostrar_escala_y") else 1.0  # 10^5 m³ → m³; 'millones' se deja así
+    ent = _entorno(d, reg)
+    if ent and not ent[0] <= x0 <= ent[1]:
+        res.avisos.append(f"x₀ = {fmt(x0, 4)} está FUERA del entorno observado ({_el(nx)} entre {fmt(ent[0], 4)} y "
+                          f"{_con(fmt(ent[1], 4), ux)}): es extrapolar. El modelo solo se validó en ese entorno y el error "
+                          "crece mucho al alejarse; decirlo en la respuesta.")
     y0 = reg.predecir(x0)
     res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}.")
-    res.pasos.append(f"**Estimador puntual**: ŷ₀ = b0 + b1·x₀ = {fmt(reg.b0, 4)} + {fmt(reg.b1, 4)}·{fmt(x0, 4)} = {fmt(y0, 4)}"
+    res.pasos.append(f"**Estimador puntual**: ŷ₀ = b0 + b1·x₀ = {fmt(reg.b0, 4)} + ({fmt(reg.b1, 4)})·{fmt(x0, 4)} = {fmt(y0, 4)}"
                      + (f" (= {fmt(reg.a_original(y0), 4)} en la escala original)" if reg.modelo != "lineal" else "")
                      + (f" → {fmt(y0 * ey, 2)} en unidades" if ey != 1 else "") + ".")
     res.numeros += [y0, reg.a_original(y0), y0 * ey]
     if d.get("puntual"):
         res.resumen = f"ŷ₀ = {fmt(y0, 6)}"
-        res.conclusion = f"El pronóstico puntual para x₀ = {fmt(x0, 4)} es ŷ₀ = {fmt(reg.a_original(y0), 6)}."
+        res.conclusion = (f"El pronóstico puntual de {_el(ny)} para {_el(nx)} = {_con(fmt(x0, 4), ux)} es "
+                          f"ŷ₀ = {_con(fmt(reg.a_original(y0), 6), uy)}.")
         return
     individual = estado["individual"]
     cola = d.get("cola", "bilateral")
     f = rg.ic_prediccion if individual else rg.ic_media_y
     ic = f(reg, x0, alpha, cola)
-    que = "un valor individual de y (intervalo de predicción)" if individual else "el valor promedio de y (ley promedio)"
+    que = ("un valor individual de y (intervalo de predicción o pronóstico)" if individual else
+           "el valor promedio de y, E(y | x₀) (ley promedio)")
     raiz = "1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)" if individual else "1/n + (x₀ - x̄)²/(Σx² - n·x̄²)"
     tq = "t(1-α/2; ν)" if cola == "bilateral" else "t(1-α; ν)"
-    res.pasos.append(f"**Intervalo para {que}**: ŷ₀ ± {tq}·S·√({raiz}); {tq} = {fmt(ic.critico, 4)}; "
-                     f"error = {fmt(ic.error, 4)}.")
+    res.pasos.append(f"**Intervalo para {que}**: ŷ₀ ± {tq}·S·√({raiz}); {tq} = {fmt(ic.critico, 4)} (ν = n - 2 = "
+                     f"{reg.nu}); error = {fmt(ic.error, 4)}.")
     A, B = ic.A, ic.B
     lim = [v for v in (A, B) if v is not None]
     res.numeros += lim + [ic.error] + [v * ey for v in lim]
     texto_lim = (f"[{fmt(A, 4)} ; {fmt(B, 4)}]" if cola == "bilateral" else
                  (f"mínimo {fmt(A, 4)}" if cola == "inferior" else f"máximo {fmt(B, 4)}"))
-    if reg.modelo != "lineal" and rg.TRANSFORMACIONES[reg.modelo][0].startswith("ln"):
+    transformada = reg.modelo != "lineal" and rg.TRANSFORMACIONES[reg.modelo][0].startswith("ln")
+    if transformada:
         Ao, Bo = ic.A_orig, ic.B_orig
         res.numeros += [v for v in (Ao, Bo) if v is not None]
         res.pasos.append(f"**Antitransformando** (e^límite): " + (f"[{fmt(Ao, 4)} ; {fmt(Bo, 4)}]" if cola == "bilateral"
@@ -572,76 +743,116 @@ def _pronostico(d, alpha, res, estado):
         res.pasos.append(f"**En unidades**: × {fmt(ey)} → " + " ; ".join(fmt(v * ey, 2) for v in lim) + ".")
     res.resumen = f"ŷ₀ = {fmt(y0, 4)}; {texto_lim}"
     conf = fmt(100 * (1 - alpha), 2)
+    sujeto = f"el valor de {_el(ny)}" if individual else f"{_el(ny)} promedio"
+    simbolo = f"y(x₀ = {fmt(x0, 4)})" if individual else f"E(y | x₀ = {fmt(x0, 4)})"
+    donde = f"con {_el(nx)} en {_con(fmt(x0, 4), ux)}" if nx != "x" else f"para x₀ = {fmt(x0, 4)}"
     if cola == "bilateral":
-        ar, br, nota = redondeo.intervalo(A, B, 4)
-        res.conclusion = (f"Con un {conf}% de confianza, {'el valor de y' if individual else 'el promedio de y'} para x₀ = "
-                          f"{fmt(x0, 4)} estará entre {ar} y {br}: P({ar} ≤ "
-                          f"{'y' if individual else 'μy'}(x₀) ≤ {br}) = {fmt(1 - alpha, 4)}{nota}.")
+        a_, b_ = (ic.A_orig, ic.B_orig) if transformada else (A, B)
+        ar, br, nota = redondeo.intervalo(a_, b_, 4)
+        res.conclusion = (f"Con un {conf}% de confianza, {sujeto} {donde} {_v(ny, 'estará') if not individual else 'estará'} entre {_con(ar, uy)} y "
+                          f"{_con(br, uy)}: P({ar} ≤ {simbolo} ≤ {br}) = {fmt(1 - alpha, 4)}{nota}.")
     else:
         v = A if cola == "inferior" else B
-        res.conclusion = (f"Con un {conf}% de confianza el valor {'mínimo' if cola == 'inferior' else 'máximo'} de y para "
-                          f"x₀ = {fmt(x0, 4)} es {redondeo.cota(v, cola != 'inferior', 4)}" +
+        if transformada:
+            v = ic.A_orig if cola == "inferior" else ic.B_orig
+        res.conclusion = (f"Con un {conf}% de confianza el valor {'mínimo' if cola == 'inferior' else 'máximo'} de "
+                          f"{sujeto} {donde} es {_con(redondeo.cota(v, cola != 'inferior', 4), uy)}" +
                           (f" ({redondeo.cota(v * ey, cola != 'inferior', 2)} en unidades)" if ey != 1 else "") +
                           f" (redondeado hacia {'abajo' if cola == 'inferior' else 'arriba'}; sin redondear {fmt(v, 6)}).")
 
 
 def ic_coef(d, alpha, res, estado):
     reg = _reg_estado(d, estado)
+    _asegurar_validacion(reg, d, alpha, res, estado)
+    ny, uy, nx, ux = _vars(d)
+    ub1 = _u_b1(uy, ux) if reg.modelo == "lineal" else ""
+    conf = fmt(100 * (1 - alpha), 2)
     cola = d.get("cola")
     if cola in ("superior", "inferior"):
         ic = rg.ic_beta1(reg, alpha, cola)
         lim, op = (ic.B, "+") if cola == "superior" else (ic.A, "-")
         signo = "≤" if cola == "superior" else "≥"
+        c = redondeo.cota(lim, cola == "superior", 4)
         res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}.")
         res.pasos.append(f"**Límite {cola} para β1** (unilateral, α entero en una cola): b1 {op} t(1-α; ν = {reg.nu})·Sb1 "
                          f"= {fmt(reg.b1, 4)} {op} {fmt(ic.critico, 4)}·{fmt(reg.Sb1, 4)} = {fmt(lim, 4)}.")
         res.numeros += [reg.b1, lim, ic.error, ic.critico]
         res.resumen = f"β1 {signo} {fmt(lim, 4)}"
-        res.conclusion = (f"Con un {fmt(100 * (1 - alpha), 2)}% de confianza, por cada unidad adicional de x el cambio de y "
-                          f"es como {'máximo' if cola == 'superior' else 'mínimo'} {fmt(lim, 4)}: "
-                          f"P(β1 {signo} {fmt(lim, 4)}) = {fmt(1 - alpha, 4)}.")
+        res.conclusion = (f"Con un {conf}% de confianza, {_por_cada(nx, ux)} el cambio de {_el(ny)} es como "
+                          f"{'máximo' if cola == 'superior' else 'mínimo'} {_con(c, ub1)}: "
+                          f"P(β1 {signo} {c}) = {fmt(1 - alpha, 4)} (sin redondear {fmt(lim, 6)}).")
         return
     ic = rg.ic_beta1(reg, alpha)
     res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}.")
-    res.pasos.append(f"**IC para β1**: b1 ± t(1-α/2; ν = {reg.nu})·Sb1 = {fmt(reg.b1, 4)} ± {fmt(ic.critico, 4)}·"
-                     f"{fmt(reg.Sb1, 4)} = [{fmt(ic.A, 4)} ; {fmt(ic.B, 4)}].")
+    res.pasos.append(f"**IC para β1**: b1 ± t(1-α/2; ν = n - 2 = {reg.nu})·Sb1 = {fmt(reg.b1, 4)} ± {fmt(ic.critico, 4)}·"
+                     f"{fmt(reg.Sb1, 4)} = [{fmt(ic.A, 4)} ; {fmt(ic.B, 4)}]"
+                     + (" (con valores negativos, A es el MÁS negativo)" if ic.B < 0 else "") + ".")
     res.numeros += [reg.b1, ic.A, ic.B, ic.error, ic.critico]
     res.resumen = f"β1 ∈ [{fmt(ic.A, 4)} ; {fmt(ic.B, 4)}]"
-    res.conclusion = (f"Con un {fmt(100 * (1 - alpha), 2)}% de confianza, por cada unidad adicional de x, y cambia entre "
-                      f"{fmt(ic.A, 4)} y {fmt(ic.B, 4)}: P({fmt(ic.A, 4)} ≤ β1 ≤ {fmt(ic.B, 4)}) = {fmt(1 - alpha, 4)}.")
+    ar, br, nota = redondeo.intervalo(ic.A, ic.B, 4)
+    if ic.B < 0:
+        cambio = f"{_el(ny)} {_v(ny, 'disminuye')} entre {redondeo.cota(-ic.B, False, 4)} y {_con(redondeo.cota(-ic.A, True, 4), uy)}"
+    elif ic.A > 0:
+        cambio = f"{_el(ny)} {_v(ny, 'aumenta')} entre {ar} y {_con(br, uy)}"
+    else:
+        cambio = f"{_el(ny)} {_v(ny, 'cambia')} entre {ar} y {_con(br, uy)}"
+    res.conclusion = (f"Con un {conf}% de confianza, {_por_cada(nx, ux)}, {cambio}: P({ar} ≤ β1 ≤ {br}) = "
+                      f"{fmt(1 - alpha, 4)}" + (f" (β1 en {ub1})" if ub1 else "") + f"{nota}.")
 
 
 def _ic_rho(reg, alpha, res):
     ic = rg.ic_rho(reg, alpha)
     z = atanh(reg.r)
-    res.pasos.append(f"**Fisher**: Z = ½·ln((1+r)/(1-r)) = {fmt(z, 4)}; Z(1-α/2) /√(n-3) = {fmt(ic.critico, 4)}/√{reg.n - 3} "
-                     f"= {fmt(ic.error, 4)}; Zmín = {fmt(z - ic.error, 4)}; Zmáx = {fmt(z + ic.error, 4)}.")
-    res.pasos.append(f"**Límites**: A = (e^(2Zmín) - 1)/(e^(2Zmín) + 1) = {fmt(ic.A, 4)}; "
-                     f"B = (e^(2Zmáx) - 1)/(e^(2Zmáx) + 1) = {fmt(ic.B, 4)}.")
+    res.pasos.append(f"**Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = {fmt(z, 4)}; "
+                     f"Z(1-α/2)·√(1/(n-3)) = {fmt(ic.critico, 4)}·√(1/{reg.n - 3}) = {fmt(ic.error, 4)}; "
+                     f"Zρmín = {fmt(z - ic.error, 4)}; Zρmáx = {fmt(z + ic.error, 4)}.")
+    res.pasos.append(f"**Límites**: A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = {fmt(ic.A, 4)}; "
+                     f"B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = {fmt(ic.B, 4)}.")
     res.numeros += [reg.r, z, 2 * z, ic.error, z - ic.error, z + ic.error, ic.A, ic.B]
     return ic
 
 
 def ic_rho(d, alpha, res, estado):
     reg = _reg_estado(d, estado)
-    res.pasos.append(f"**Coeficiente de correlación**: r = {fmt(reg.r, 4)} (n = {reg.n}).")
+    _asegurar_validacion(reg, d, alpha, res, estado)
+    ny, _, nx, _ = _vars(d)
+    res.pasos.append(f"**Coeficiente de correlación**: r = {fmt(reg.r, 4)} (n = {reg.n}); lleva el signo de b1.")
     ic = _ic_rho(reg, alpha, res)
+    ar, br, nota = redondeo.intervalo(ic.A, ic.B, 4)
     res.resumen = f"ρ ∈ [{fmt(ic.A, 4)} ; {fmt(ic.B, 4)}]"
-    res.conclusion = (f"Con un {fmt(100 * (1 - alpha), 2)}% de confianza el coeficiente de correlación poblacional está entre "
-                      f"{fmt(ic.A, 4)} y {fmt(ic.B, 4)}: P({fmt(ic.A, 4)} ≤ ρ ≤ {fmt(ic.B, 4)}) = {fmt(1 - alpha, 4)}.")
+    res.conclusion = (f"Con un {fmt(100 * (1 - alpha), 2)}% de confianza, la fuerza de la relación entre {_el(nx)} y {_el(ny)} "
+                      f"(coeficiente de correlación poblacional) está entre {ar} y {br}: P({ar} ≤ ρ ≤ {br}) = "
+                      f"{fmt(1 - alpha, 4)}{nota}.")
 
 
 def ic_rho2(d, alpha, res, estado):
     reg = _reg_estado(d, estado)
-    res.pasos.append(f"**Coeficiente de determinación**: r² = {fmt(reg.r2, 4)} ({fmt(100 * reg.r2, 2)}% de la variación de y "
-                     f"se explica por x).")
+    if not d.get("rho2"):   # dentro de la recta ya se validó
+        _asegurar_validacion(reg, d, alpha, res, estado)
+    ny, _, nx, _ = _vars(d)
+    res.pasos.append(f"**Coeficiente de determinación**: r² = {fmt(reg.r2, 4)} ({fmt(100 * reg.r2, 2)}% de influencia "
+                     f"de {_el(nx)} en {_el(ny)}).")
     ic = _ic_rho(reg, alpha, res)
     a2, b2 = sorted((ic.A ** 2, ic.B ** 2)) if ic.A * ic.B > 0 else (0.0, max(ic.A ** 2, ic.B ** 2))
-    res.pasos.append(f"**IC para ρ²**: los límites al cuadrado → [{fmt(a2, 4)} ; {fmt(b2, 4)}].")
+    ar, br, nota = redondeo.intervalo(a2, b2, 4)
+    res.pasos.append(f"**IC para ρ²**: los límites del IC de ρ al cuadrado → [{fmt(a2, 4)} ; {fmt(b2, 4)}].")
     res.numeros += [reg.r2, a2, b2, 100 * a2, 100 * b2]
     res.resumen = f"r² = {fmt(reg.r2, 4)}; ρ² ∈ [{fmt(a2, 4)} ; {fmt(b2, 4)}]"
-    res.conclusion = (f"x influye en un {fmt(100 * reg.r2, 2)}% en la explicación de y; con un {fmt(100 * (1 - alpha), 2)}% "
-                      f"de confianza la influencia porcentual está entre el {fmt(100 * a2, 2)}% y el {fmt(100 * b2, 2)}%.")
+    pa, pb = redondeo.cota(100 * a2, False, 2), redondeo.cota(100 * b2, True, 2)
+    res.conclusion = (f"{_El(nx)} {_v(nx, 'influye')} en un {fmt(100 * reg.r2, 2)}% (aprox.) en {_el(ny)}; con un "
+                      f"{fmt(100 * (1 - alpha), 2)}% de confianza, la influencia real está entre el {pa}% y el {pb}%: "
+                      f"P({ar} ≤ ρ² ≤ {br}) = {fmt(1 - alpha, 4)}{nota}.")
+
+
+def _afirmacion_b1(b10: float, tail: str, ny: str, nx: str, ux: str, uy: str) -> str:
+    """'por cada mm adicional de x, y disminuye en más de 0,25 MPa' (lo que se quiere probar, en palabras)."""
+    v = _con(fmt(abs(b10), 4), uy)
+    dis, aum = _v(ny, "disminuye"), _v(ny, "aumenta")
+    if tail == "izquierda":
+        que = f"{dis} en más de {v}" if b10 <= 0 else f"{aum} en menos de {v}"
+    else:
+        que = f"{aum} en más de {v}" if b10 >= 0 else f"{dis} en menos de {v}"
+    return f"{_por_cada(nx, ux)}, {_el(ny)} {que}"
 
 
 def ensayo_coef(d, alpha, res, estado):
@@ -649,22 +860,32 @@ def ensayo_coef(d, alpha, res, estado):
     reg = _reg_estado(d, estado)
     if d.get("beta10") is None:
         raise FaltaDato("Falta el valor de referencia β1₀ de la afirmación")
+    _asegurar_validacion(reg, d, alpha, res, estado)
+    ny, uy, nx, ux = _vars(d)
+    ub1 = _u_b1(uy, ux) if reg.modelo == "lineal" else ""
     b10, tail = d["beta10"], d.get("tail", "derecha")
+    if tail == "bilateral":
+        res.avisos.append("En β1 no hay ensayo bilateral (profesor, 05/11): se prueba que la pendiente es mayor o menor "
+                          "que un valor. Corregí la cola.")
     e = rg.ensayo_beta1(reg, alpha, b10, tail)
-    res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}; ν = {reg.nu}.")
-    res.pasos.append(f"**Hipótesis**: H0: {_coma(e.h0)}  vs  H1: {_coma(e.h1)}  (α = {fmt(alpha, 4)}).")
-    bc = e.b_critico[0]
+    afirmacion = _afirmacion_b1(b10, tail, ny, nx, ux, uy)
+    res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}; ν = n - 2 = {reg.nu}.")
+    res.pasos.append(f"**Hipótesis**: se quiere probar que {afirmacion} ⇒ va en H1. H0: {_coma(e.h0)}  vs  "
+                     f"H1: {_coma(e.h1)}" + (f" (β1 en {ub1})" if ub1 else "") + f"; α = {fmt(alpha, 4)}."
+                     + (" Ojo con el signo: «disminuye en más» es MÁS negativo." if b10 < 0 else ""))
+    bc = e.b_critico[0] if e.b_critico else b10
     signo = "+" if tail == "derecha" else "-"
-    res.pasos.append(f"**Valor crítico** (planteo a priori): b1c = β1₀ {signo} t(1-α; ν)·Sb1 = {fmt(b10, 4)} {signo} "
-                     f"{fmt(e.t_critico, 4)}·{fmt(reg.Sb1, 4)} = {fmt(bc, 4)}.")
+    res.pasos.append(f"**Valor crítico** (antes de mirar b1): b1c = β1₀ {signo} t(1-α; ν)·Sb1 = {fmt(b10, 4)} {signo} "
+                     f"{fmt(e.t_critico, 4)}·{fmt(reg.Sb1, 4)} = {_con(fmt(bc, 4), ub1)}.")
     cond = ">" if tail == "derecha" else "<"
     res.pasos.append(f"**Condición de rechazo**: si b1 {cond} {fmt(bc, 4)} ⇒ se rechaza H0. b1 = {fmt(reg.b1, 4)} ⇒ "
                      + ("se rechaza H0." if e.rechaza else "no se rechaza H0."))
     res.numeros += [reg.b1, bc, e.t_critico, e.t_c, reg.Sb1]
     res.resumen = f"b1 = {fmt(reg.b1, 4)} vs b1c = {fmt(bc, 4)}: " + ("RECHAZA H0" if e.rechaza else "NO rechaza H0")
-    res.conclusion = (f"Con α = {fmt(alpha, 4)}, " + ("se puede" if e.rechaza else "no se puede") +
-                      f" asegurar que {_coma(e.h1)} (por cada unidad de x, y cambia "
-                      f"{'más' if tail == 'derecha' else 'menos'} que {fmt(b10, 4)}).")
+    res.conclusion = (f"Con α = {fmt(alpha, 4)}, b1 = {fmt(reg.b1, 4)} " +
+                      ("cae en la zona de rechazo ⇒ se rechaza H0: se puede asegurar que " if e.rechaza else
+                       "no cae en la zona de rechazo ⇒ no se rechaza H0: no hay evidencia suficiente para asegurar que ")
+                      + afirmacion + ".")
 
 
 def transformado(d, alpha, res, estado):
@@ -674,11 +895,14 @@ def transformado(d, alpha, res, estado):
     _pasos_recta(reg, res, d)
     res.pasos.append(f"**Comparación**: r lineal = {fmt(lin.r, 4)} (r² = {fmt(lin.r2, 4)}); r {modelo} = {fmt(reg.r, 4)} "
                      f"(r² = {fmt(reg.r2, 4)}).")
-    _validacion(reg, alpha, res)
+    e = _validacion(reg, alpha, res, d)
     mejor = reg.r2 > lin.r2
     estado["reg"] = reg
+    estado["validada"], estado["valido"] = reg, _valido(e, reg)
     res.resumen = f"{_coma(reg.ecuacion())}; r = {fmt(reg.r, 4)} vs lineal {fmt(lin.r, 4)}"
-    concl = (f"El modelo {'doble logarítmico' if modelo == 'loglog' else 'logarítmico lineal'} "
+    nombres = {"loglog": "doble logarítmico", "loglin": "logarítmico lineal", "linlog": "lineal logarítmico",
+               "inversa": "inverso"}
+    concl = (f"El modelo {nombres.get(modelo, modelo)} "
              f"{'ajusta mejor' if mejor else 'no ajusta mejor'} que el lineal (r² {fmt(reg.r2, 4)} vs {fmt(lin.r2, 4)}). "
              + _interpretar(reg, d))
     # si antes se pidió un pronóstico, se repite con este modelo
@@ -723,10 +947,11 @@ def _pasos_multiple(reg: rg.RegresionMultiple, alpha, res, titulo="Modelo"):
     res.pasos.append(f"**{titulo}**: {_coma(reg.ecuacion())}  (n = {reg.n}, k = {reg.k}, p = {reg.p}).")
     res.pasos.append(f"**Ajuste**: S² = SCR/(n-p) = {fmt(reg.S2, 4)}; S = {fmt(reg.S, 4)}; R² = {fmt(reg.R2, 4)}; "
                      f"R² ajustado = 1 - (1-R²)·(n-1)/(n-p) = {fmt(reg.R2aj, 4)}.")
-    res.pasos.append(f"**Análisis global** (H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = {fmt(g.F_c, 4)}; "
-                     f"F(1-α; {g.nu1}; {g.nu2}) = {fmt(g.F_critico, 4)} ⇒ "
-                     + ("se rechaza H0: el modelo en forma global es adecuado." if g.rechaza else
-                        "no se rechaza H0: el modelo en forma global no es adecuado."))
+    res.pasos.append(f"**Análisis global** (dato informativo; H0: β1 = ... = βk = 0): Fc = (R²/k)/((1-R²)/(n-p)) = "
+                     f"{fmt(g.F_c, 4)}; F(1-α; {g.nu1}; {g.nu2}) = {fmt(g.F_critico, 4)} ⇒ "
+                     + ("se rechaza H0." if g.rechaza else "no se rechaza H0.")
+                     + " El profesor (05/11): el análisis global «no sirve», no evalúa cada variable; lo que decide es "
+                       "el análisis individual.")
     filas = ["| Variable | bi | Cii | Sbi = S·√Cii | tc = bi/Sbi | ¿aporta? |", "|---|---|---|---|---|---|"]
     for i, e in enumerate(parc):
         filas.append(f"| {e.nombre} | {fmt(e.b, 4)} | {fmt(reg.C[i + 1], 6)} | {fmt(e.Sb, 4)} | {fmt(e.t_c, 4)} | "
@@ -756,14 +981,15 @@ def multiple(d, alpha, res, estado):
     aportan = [e.nombre for e in parc if e.rechaza]
     estado["regm"] = reg
     res.resumen = f"{_coma(reg.ecuacion(4))}; R² = {fmt(reg.R2, 4)}; F {'RECHAZA' if g.rechaza else 'NO rechaza'}"
-    if g.rechaza and len(aportan) == len(parc):
-        concl = "El modelo, en forma global, es adecuado y todas las variables aportan significativamente a la explicación de Y."
-    elif g.rechaza:
-        concl = ("El análisis global indica que el modelo sería adecuado, pero " +
-                 (f"solo {', '.join(aportan)} aporta(n) explicación" if aportan else "ninguna variable aporta explicación")
-                 + " en forma individual: hay que hacer el análisis de sensibilidad (selección de modelos).")
+    no_aportan = [e.nombre for e in parc if not e.rechaza]
+    if not no_aportan:
+        concl = "Todas las variables aportan significativamente a la explicación de Y (análisis individual)."
+    elif aportan:
+        concl = (f"En el análisis individual solo {', '.join(aportan)} aporta(n) explicación; {', '.join(no_aportan)} "
+                 "no: hay que sacarla(s) del modelo (análisis de sensibilidad / selección de modelos).")
     else:
-        concl = "El modelo, en forma global, no es adecuado para explicar Y."
+        concl = "Ninguna variable aporta explicación en el análisis individual: el modelo no es adecuado para explicar Y."
+    concl += f" (Análisis global: F {'rechaza' if g.rechaza else 'no rechaza'} H0, solo como dato.)"
     res.conclusion = concl + f" R² = {fmt(reg.R2, 4)}, R² ajustado = {fmt(reg.R2aj, 4)}."
 
 
@@ -837,11 +1063,22 @@ def submodelo(d, alpha, res, estado):
 
 # ---------------------------------------------------------------- registro
 
+def _envolver(f):
+    """Toda salida de regresión pasa por las contracciones del castellano ('de el PBI' → 'del PBI')."""
+    def g(d, alpha, res, estado):
+        f(d, alpha, res, estado)
+        res.conclusion = _contraer(res.conclusion)
+        res.pasos = [_contraer(x) for x in res.pasos]
+        res.avisos = [_contraer(x) for x in res.avisos]
+    g.__name__ = f.__name__
+    return g
+
+
 for tema in ("regresion", "regresion_multiple"):
     EXTENSIONES[tema] = (completar_planteo, clasificar)
 for tipo, f in (("recta", recta), ("validacion", validacion), ("pronostico", pronostico), ("ic_coef", ic_coef),
                 ("ic_rho", ic_rho), ("ic_rho2", ic_rho2), ("ensayo_coef", ensayo_coef),
                 ("transformado", transformado), ("origen", origen)):
-    DESPACHO_EXTRA[("regresion", tipo)] = f
+    DESPACHO_EXTRA[("regresion", tipo)] = _envolver(f)
 for tipo, f in (("multiple", multiple), ("seleccion", seleccion), ("submodelo", submodelo)):
-    DESPACHO_EXTRA[("regresion_multiple", tipo)] = f
+    DESPACHO_EXTRA[("regresion_multiple", tipo)] = _envolver(f)
