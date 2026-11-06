@@ -68,6 +68,8 @@ Leyenda: ⬜ pendiente · 🟨 en curso · ✅ terminado
 **Errores detectados en las prácticas** (míos al controlar o al redactar):
 - (todavía nada)
 
+**Presentación:** desde el 05/11 la app presenta cada tema como los ejercicios resueltos en clase (tests en `tests/test_presentacion_clase.py`). En las prácticas, completar «Variable en palabras», «Unidad» y «Acción si se rechaza H0» (ver `GUIA_CONTROL.md`, punto 6).
+
 **Errores de la app encontrados:**
 - 05/11: los números negativos escritos en la pantalla perdían el signo (VII-13 d daba «se rechaza»). Corregido.
 

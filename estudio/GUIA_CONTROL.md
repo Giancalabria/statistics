@@ -11,7 +11,8 @@ Para usar en el examen al lado de la app. Las **cuentas** del solver son confiab
 3. **H0 y cola**: ¿quedó en H1 lo que se quiere probar? ¿Criterio pesimista u optimista bien elegido? ¿La igualdad está en H0? ¿Nada bilateral en σ², p ni comparaciones?
 4. **α (y β)**: ¿de dónde salió? Si el inciso no lo dice, la app puede haberlo **heredado de otro inciso**: hay que elegirlo y justificarlo (0,05 estándar). ¿Pide un solo límite («máximo», «mínimo»)? Entonces α entero, no α/2.
 5. **Datos**: ¿tomó los números correctos? n, x̄, S, r, la columna correcta de la tabla, la tabla completa.
-6. **Conclusión**: ¿responde la pregunta en términos del problema? «Se rechaza: puedo asegurar que…» / «No se rechaza: no hay evidencia suficiente para asegurar que…». Nunca «acepto H0».
+6. **Variable, unidad y acción** (sección 3 de la app, siempre visibles): escribir la variable en palabras («consumo de combustible de un auto en el recorrido»; en proporción, lo que se cuenta en plural: «piezas defectuosas»), revisar la unidad y la **acción si se rechaza H0** en infinitivo («lanzar el aditivo», «detener el proceso»). Con eso la app escribe α y β en términos del problema, la RD en lenguaje de planta y la conclusión con la variable y su unidad. La acción la detecta sola cuando el enunciado la dice («probabilidad de … de modificar el sistema»): controlar que tenga sentido.
+7. **Conclusión**: ¿responde la pregunta en términos del problema? «Se rechaza: puedo asegurar que…» / «No se rechaza: no hay evidencia suficiente para asegurar que…». Nunca «acepto H0».
 
 Si la app muestra **⚠️ sin consenso**, mirar las lecturas: la diferencia entre ellas suele señalar justo el punto dudoso. Que diga **✅ consenso** no garantiza que esté bien (ver 3.1).
 

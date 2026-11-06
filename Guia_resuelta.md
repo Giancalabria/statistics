@@ -352,7 +352,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en gramos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 250 supone que cumple; H1: μ < 250 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde rechazar una partida | μ = 250) = 0,05 (error de tipo I); 1 - α = P(no corresponde rechazar una partida | μ = 250) = 0,95.  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 250  vs  H1: μ < 250  (α = 0,05).
 - **Modelos y distribuciones empleados**:  
@@ -361,10 +361,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
-- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 250 - 1,6449·15/√10 = 242,1978. Si x̄ < 242,1978 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 242,19; la decisión se toma con el valor exacto.
-- **Regla de decisión**: Si en una muestra de 10 la media es menor que 242,1978 se rechaza H0.
+- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 250 gramos - 1,6449·15/√10 = 242,1978. Si x̄ < 242,1978 gramos ⇒ se rechaza H0: corresponde rechazar una partida; si no, no corresponde rechazar una partida. Informado como la cátedra (hacia afuera de μ₀): x̄c = 242,19; la decisión se toma con el valor exacto.
+- **Regla de decisión**: Si en una muestra de 10 la media es menor que 242,1978 gramos se rechaza H0: corresponde rechazar una partida; si no, no corresponde rechazar una partida.
 
-**Conclusión:** Si en una muestra de 10 la media es menor que 242,1978 se rechaza H0.
+**Conclusión:** Si en una muestra de 10 la media es menor que 242,1978 gramos se rechaza H0: corresponde rechazar una partida; si no, no corresponde rechazar una partida.
 
 **Respuesta de la guía:** H0) μ ≥ μ0 = 250 g; CR: Si x̄ < x̄c = 242,19 g ⇒ Rechazo H0; RD: Si de una muestra de 10 ovillos el peso promedio, de la misma, es inferior a 242,19 gramos, se rechaza la partida.
 
@@ -392,7 +392,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≥ 4  vs  H1: μ < 4.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 4 supone que cumple; H1: μ < 4 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde rechazarla | μ = 4) = 0,05 (error de tipo I); 1 - α = P(no corresponde rechazarla | μ = 4) = 0,95.  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
@@ -400,12 +400,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 4 - 1,6449·0,15/√5 = 3,8897. Si x̄ < 3,8897 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 3,88; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ < 3,8897, se rechaza H0 → se puede asegurar que μ < 4. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ < 4.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 4 metros - 1,6449·0,15/√5 = 3,8897. Si x̄ < 3,8897 metros ⇒ se rechaza H0: corresponde rechazarla; si no, no corresponde rechazarla. Informado como la cátedra (hacia afuera de μ₀): x̄c = 3,88; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ < 3,8897 metros, se rechaza H0 → corresponde rechazarla. En caso contrario no se rechaza H0 → no corresponde rechazarla.
 - **6 · Cálculos y decisión**: x̄ = 3,904 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0762. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 3,904 metros no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 4. No hay evidencia suficiente para asegurar que μ < 4 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, x̄ = 3,904 metros no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 4. No hay evidencia suficiente para asegurar que μ < 4 (no rechazar H0 no la prueba); por lo tanto, no corresponde rechazarla.
 
 **Respuesta de la guía:** No hay pruebas suficientes para asegurar que la longitud media sea inferior a los 4 metros, por lo cual se considera aceptable la partida.
 
@@ -423,7 +423,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄ ≥ x̄c | μ = 3,85) con Z = (x̄c - μ₁)/(σ/√n) = (3,8896 - 3,85)/0,0671 = 0,5903 → β = 0,2775.
 - **Potencia** 1-β = 0,7225.
 
-**Conclusión:** La probabilidad pedida es β = 0,2775 (potencia 1-β = 0,7225).
+**Conclusión:** La probabilidad pedida es β = 0,2775 (potencia 1-β = 0,7225). En términos del problema: β = P(no corresponde rechazarla | μ = 3,85); 1 - β = P(corresponde rechazarla | μ = 3,85).
 
 **Respuesta de la guía:** β = 0,2775.
 
@@ -451,7 +451,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Procesar la muestra**: n = 5, x̄ = Σxᵢ/n = 3,904, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,1431.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 4 supone que cumple; H1: μ < 4 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 3,85) = 0,1 (error de tipo II).  
+• α = P(corresponde rechazarla | μ = 4) = 0,05 (error de tipo I); 1 - α = P(no corresponde rechazarla | μ = 4) = 0,95; β = P(no corresponde rechazarla | μ = 3,85) = 0,1 (error de tipo II); 1 - β = P(corresponde rechazarla | μ = 3,85) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 4  vs  H1: μ < 4.
 - **Modelos y distribuciones empleados**:  
@@ -459,13 +459,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 4) = α = 0,05 y P(no rechazar H0 | μ = 3,85) = β = 0,1.
+- **Condiciones**: P(corresponde rechazarla | μ = 4) = α = 0,05 y P(no corresponde rechazarla | μ = 3,85) = β = 0,1.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,2816)·0,15/0,15]² = 8,5638 → n = 9.
 - **Condición de rechazo**: x̄c = 3,9178  (con n = 9).
-- **Regla de decisión**: Tomar una muestra de n = 9. Si la media de esa muestra es inferior a 3,9178 (x̄ < x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 9. Si la media de esa muestra es inferior a 3,9178 metros (x̄ < x̄_c) se rechaza H0: corresponde rechazarla; si no, no corresponde rechazarla.
 - Con n = 9: β real = 0,0877, potencia real = 0,9123.
 
-**Conclusión:** Tomar una muestra de n = 9. Si la media de esa muestra es inferior a 3,9178 (x̄ < x̄_c) se rechaza H0. (Respecto de la muestra actual de 5: Δn = 4.)
+**Conclusión:** Tomar una muestra de n = 9. Si la media de esa muestra es inferior a 3,9178 metros (x̄ < x̄_c) se rechaza H0: corresponde rechazarla; si no, no corresponde rechazarla. (Respecto de la muestra actual de 5: Δn = 4.)
 
 **Respuesta de la guía:** 9 tablas.
 
@@ -490,7 +490,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≥ 11,2  vs  H1: μ < 11,2.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 11,2 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 11,2 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde lanzar el producto | μ = 11,2) = 0,05 (error de tipo I); 1 - α = P(no corresponde lanzar el producto | μ = 11,2) = 0,95.  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
@@ -498,12 +498,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 11,2 - 1,6449·1,3/√10 = 10,5238. Si x̄ < 10,5238 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 10,52; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su media x̄. Si x̄ < 10,5238, se rechaza H0 → se puede asegurar que μ < 11,2. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ < 11,2.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 11,2 litros - 1,6449·1,3/√10 = 10,5238. Si x̄ < 10,5238 litros ⇒ se rechaza H0: corresponde lanzar el producto; si no, no corresponde lanzar el producto. Informado como la cátedra (hacia afuera de μ₀): x̄c = 10,52; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su media x̄. Si x̄ < 10,5238 litros, se rechaza H0 → corresponde lanzar el producto. En caso contrario no se rechaza H0 → no corresponde lanzar el producto.
 - **6 · Cálculos y decisión**: x̄ = 10,6 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0722. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 10,6 litros no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 11,2. No hay evidencia suficiente para asegurar que μ < 11,2 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, x̄ = 10,6 litros no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 11,2. No hay evidencia suficiente para asegurar que μ < 11,2 (no rechazar H0 no la prueba); por lo tanto, no corresponde lanzar el producto.
 
 **Respuesta de la guía:** No, no se puede asegurar que el consumo promedio ha disminuido.
 
@@ -520,7 +520,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄ ≥ x̄c | μ = 10,5) con Z = (x̄c - μ₁)/(σ/√n) = (10,5238 - 10,5)/0,4111 = 0,0579 → β = 0,4769.
 - **Potencia** 1-β = 0,5231.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,5231 (β = 0,4769).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,5231 (β = 0,4769). En términos del problema: β = P(no corresponde lanzar el producto | μ = 10,5); 1 - β = P(corresponde lanzar el producto | μ = 10,5).
 
 **Respuesta de la guía:** 1–β = 0,5231.
 
@@ -530,7 +530,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 11,2 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 11,2 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 10,5) = 0,1 (error de tipo II).  
+• α = P(corresponde lanzar el producto | μ = 11,2) = 0,05 (error de tipo I); 1 - α = P(no corresponde lanzar el producto | μ = 11,2) = 0,95; β = P(no corresponde lanzar el producto | μ = 10,5) = 0,1 (error de tipo II); 1 - β = P(corresponde lanzar el producto | μ = 10,5) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 11,2  vs  H1: μ < 11,2.
 - **Modelos y distribuciones empleados**:  
@@ -538,13 +538,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 11,2) = α = 0,05 y P(no rechazar H0 | μ = 10,5) = β = 0,1.
+- **Condiciones**: P(corresponde lanzar el producto | μ = 11,2) = α = 0,05 y P(no corresponde lanzar el producto | μ = 10,5) = β = 0,1.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,2816)·1,3/0,7]² = 29,5365 → n = 30.
 - **Condición de rechazo**: x̄c = 10,8096  (con n = 30).
-- **Regla de decisión**: Tomar una muestra de n = 30. Si la media de esa muestra es inferior a 10,8096 (x̄ < x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 30. Si la media de esa muestra es inferior a 10,8096 litros (x̄ < x̄_c) se rechaza H0: corresponde lanzar el producto; si no, no corresponde lanzar el producto.
 - Con n = 30: β real = 0,096, potencia real = 0,904.
 
-**Conclusión:** Tomar una muestra de n = 30. Si la media de esa muestra es inferior a 10,8096 (x̄ < x̄_c) se rechaza H0. (Respecto de la muestra actual de 10: Δn = 20.)
+**Conclusión:** Tomar una muestra de n = 30. Si la media de esa muestra es inferior a 10,8096 litros (x̄ < x̄_c) se rechaza H0: corresponde lanzar el producto; si no, no corresponde lanzar el producto. (Respecto de la muestra actual de 10: Δn = 20.)
 
 **Respuesta de la guía:** 30 corridas (de igual recorrido).
 
@@ -584,7 +584,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 1  vs  H1: μ > 1.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≤ 1 supone que cumple; H1: μ > 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(corresponde rechazar la partida | μ = 1) = 0,1 (error de tipo I); 1 - α = P(no corresponde rechazar la partida | μ = 1) = 0,9.  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,2816.
@@ -592,12 +592,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 1 + 1,2816·0,1/√10 = 1,0405. Si x̄ > 1,0405 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,05; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su media x̄. Si x̄ > 1,0405, se rechaza H0 → se puede asegurar que μ > 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 1.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 1 watts + 1,2816·0,1/√10 = 1,0405. Si x̄ > 1,0405 watts ⇒ se rechaza H0: corresponde rechazar la partida; si no, no corresponde rechazar la partida. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,05; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su media x̄. Si x̄ > 1,0405 watts, se rechaza H0 → corresponde rechazar la partida. En caso contrario no se rechaza H0 → no corresponde rechazar la partida.
 - **6 · Cálculos y decisión**: x̄ = 1,06 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0289. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,1, x̄ = 1,06 watts cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 1. Se puede asegurar que μ > 1.
+**Conclusión:** Con α = 0,1, x̄ = 1,06 watts cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 1. Se puede asegurar que μ > 1; por lo tanto, corresponde rechazar la partida.
 
 **Respuesta de la guía:** No, se puede asegurar que las pérdidas promedio son mayores que 1 watts.
 
@@ -614,7 +614,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄ ≤ x̄c | μ = 1,05) con Z = (x̄c - μ₁)/(σ/√n) = (1,0406 - 1,05)/0,0316 = -0,2973 → β = 0,3831.
 - **Potencia** 1-β = 0,6169.
 
-**Conclusión:** La probabilidad pedida es β = 0,3831 (potencia 1-β = 0,6169).
+**Conclusión:** La probabilidad pedida es β = 0,3831 (potencia 1-β = 0,6169). En términos del problema: β = P(no corresponde rechazar la partida | μ = 1,05); 1 - β = P(corresponde rechazar la partida | μ = 1,05).
 
 **Respuesta de la guía:** β = 0,3831.
 
@@ -624,7 +624,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≤ 1 supone que cumple; H1: μ > 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); β = P(no rechazar H0 | μ = 1,05) = 0,1 (error de tipo II).  
+• α = P(corresponde rechazar la partida | μ = 1) = 0,1 (error de tipo I); 1 - α = P(no corresponde rechazar la partida | μ = 1) = 0,9; β = P(no corresponde rechazar la partida | μ = 1,05) = 0,1 (error de tipo II); 1 - β = P(corresponde rechazar la partida | μ = 1,05) = 0,9 (potencia).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≤ 1  vs  H1: μ > 1.
 - **Modelos y distribuciones empleados**:  
@@ -632,13 +632,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 1) = α = 0,1 y P(no rechazar H0 | μ = 1,05) = β = 0,1.
+- **Condiciones**: P(corresponde rechazar la partida | μ = 1) = α = 0,1 y P(no corresponde rechazar la partida | μ = 1,05) = β = 0,1.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,2816 + 1,2816)·0,1/0,05]² = 26,278 → n = 27.
 - **Condición de rechazo**: x̄c = 1,0247  (con n = 27).
-- **Regla de decisión**: Tomar una muestra de n = 27. Si la media de esa muestra es superior a 1,0247 (x̄ > x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 27. Si la media de esa muestra es superior a 1,0247 watts (x̄ > x̄_c) se rechaza H0: corresponde rechazar la partida; si no, no corresponde rechazar la partida.
 - Con n = 27: β real = 0,094, potencia real = 0,906.
 
-**Conclusión:** Tomar una muestra de n = 27. Si la media de esa muestra es superior a 1,0247 (x̄ > x̄_c) se rechaza H0. (Respecto de la muestra actual de 10: Δn = 17.)
+**Conclusión:** Tomar una muestra de n = 27. Si la media de esa muestra es superior a 1,0247 watts (x̄ > x̄_c) se rechaza H0: corresponde rechazar la partida; si no, no corresponde rechazar la partida. (Respecto de la muestra actual de 10: Δn = 17.)
 
 **Respuesta de la guía:** 27 medidores.
 
@@ -661,7 +661,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≥ 2  vs  H1: μ < 2.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 2 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 2 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde cambiar sus máquinas registradoras | μ = 2) = 0,05 (error de tipo I); 1 - α = P(no corresponde cambiar sus máquinas registradoras | μ = 2) = 0,95.  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
@@ -669,12 +669,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 2 - 1,6449·1,5/√40 = 1,6099. Si x̄ < 1,6099 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,60; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 40 unidades y se calcula su media x̄. Si x̄ < 1,6099, se rechaza H0 → se puede asegurar que μ < 2. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ < 2.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 2 minutos - 1,6449·1,5/√40 = 1,6099. Si x̄ < 1,6099 minutos ⇒ se rechaza H0: corresponde cambiar sus máquinas registradoras; si no, no corresponde cambiar sus máquinas registradoras. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,60; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 40 unidades y se calcula su media x̄. Si x̄ < 1,6099 minutos, se rechaza H0 → corresponde cambiar sus máquinas registradoras. En caso contrario no se rechaza H0 → no corresponde cambiar sus máquinas registradoras.
 - **6 · Cálculos y decisión**: x̄ = 1,7 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,103. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 1,7 minutos no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 2. No hay evidencia suficiente para asegurar que μ < 2 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, x̄ = 1,7 minutos no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ ≥ 2. No hay evidencia suficiente para asegurar que μ < 2 (no rechazar H0 no la prueba); por lo tanto, no corresponde cambiar sus máquinas registradoras.
 
 **Respuesta de la guía:** No comprar las nuevas máquinas.
 
@@ -691,7 +691,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄ ≥ x̄c | μ = 1,8) con Z = (x̄c - μ₁)/(σ/√n) = (1,6098 - 1,8)/0,2372 = -0,802 → β = 0,7887.
 - **Potencia** 1-β = 0,2113.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,2113 (β = 0,7887).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,2113 (β = 0,7887). En términos del problema: β = P(no corresponde cambiar sus máquinas registradoras | μ = 1,8); 1 - β = P(corresponde cambiar sus máquinas registradoras | μ = 1,8).
 
 **Respuesta de la guía:** 1–β = 0,2113.
 
@@ -714,7 +714,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≥ 200  vs  H1: μ < 200.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 200 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 200 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde introducir una modificación en el proceso tecnológico | μ = 200) = 0,05 (error de tipo I); 1 - α = P(no corresponde introducir una modificación en el proceso tecnológico | μ = 200) = 0,95.  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
@@ -722,12 +722,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 200 - 1,6449·23/√5 = 183,0812. Si x̄ < 183,0812 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 183,08; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ < 183,0812, se rechaza H0 → se puede asegurar que μ < 200. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ < 200.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 200 litros - 1,6449·23/√5 = 183,0812. Si x̄ < 183,0812 litros ⇒ se rechaza H0: corresponde introducir una modificación en el proceso tecnológico; si no, no corresponde introducir una modificación en el proceso tecnológico. Informado como la cátedra (hacia afuera de μ₀): x̄c = 183,08; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ < 183,0812 litros, se rechaza H0 → corresponde introducir una modificación en el proceso tecnológico. En caso contrario no se rechaza H0 → no corresponde introducir una modificación en el proceso tecnológico.
 - **6 · Cálculos y decisión**: x̄ = 180 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0259. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 180 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≥ 200. Se puede asegurar que μ < 200.
+**Conclusión:** Con α = 0,05, x̄ = 180 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≥ 200. Se puede asegurar que μ < 200; por lo tanto, corresponde introducir una modificación en el proceso tecnológico.
 
 **Respuesta de la guía:** Sí, se puede asegurar que el consumo medio es inferior a 200 litros.
 
@@ -765,7 +765,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en litros. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 580 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 580 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 522) = 0,1 (error de tipo II).  
+• α = P(corresponde implementar la modificación | μ = 580) = 0,05 (error de tipo I); 1 - α = P(no corresponde implementar la modificación | μ = 580) = 0,95; β = P(no corresponde implementar la modificación | μ = 522) = 0,1 (error de tipo II); 1 - β = P(corresponde implementar la modificación | μ = 522) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 580  vs  H1: μ < 580.
 - **Modelos y distribuciones empleados**:  
@@ -773,13 +773,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 580) = α = 0,05 y P(no rechazar H0 | μ = 522) = β = 0,1.
+- **Condiciones**: P(corresponde implementar la modificación | μ = 580) = α = 0,05 y P(no corresponde implementar la modificación | μ = 522) = β = 0,1.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,2816)·72/58]² = 13,1971 → n = 14.
 - **Condición de rechazo**: x̄c = 548,3484  (con n = 14).
-- **Regla de decisión**: Tomar una muestra de n = 14. Si la media de esa muestra es inferior a 548,3484 (x̄ < x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 14. Si la media de esa muestra es inferior a 548,3484 litros (x̄ < x̄_c) se rechaza H0: corresponde implementar la modificación; si no, no corresponde implementar la modificación.
 - Con n = 14: β real = 0,0855, potencia real = 0,9145.
 
-**Conclusión:** Tomar una muestra de n = 14. Si la media de esa muestra es inferior a 548,3484 (x̄ < x̄_c) se rechaza H0.
+**Conclusión:** Tomar una muestra de n = 14. Si la media de esa muestra es inferior a 548,3484 litros (x̄ < x̄_c) se rechaza H0: corresponde implementar la modificación; si no, no corresponde implementar la modificación.
 
 **Respuesta de la guía:** (Criterio Pesimista) H0) μ ≥ μ0 = 580 litros; n = 14 días; CR: Si x̄ < x̄c = 548,34 litros ⇒ Rechazo H0; RD: Si de una muestra de n = 14 días de observación el consumo promedio es inferior a 548,34 litros, se implementará la modificación.
 
@@ -798,7 +798,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Se toman valores de μ del lado de H1 (cola izquierda), con n = 14 y α = 0,05; para cada uno se calcula β = P(no rechazar H0 | μ) y la potencia 1-β.
 - En el eje X va el parámetro μ; en el eje Y la probabilidad (β para la curva OC, 1-β para la de potencia). Marcá al menos 3 puntos con sus valores.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,4452 (β = 0,5548).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,4452 (β = 0,5548). En términos del problema: β = P(no corresponde implementar la modificación | μ = 551); 1 - β = P(corresponde implementar la modificación | μ = 551).
 
 **Respuesta de la guía:** 1–β = 0,4452. Procedimiento de construcción de las curvas en problemas 24 y 27.
 
@@ -816,7 +816,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Potencia** 1-β = 0,4452.
 - **Ensayos repetidos** (muestras independientes): P(ninguna de las 2 muestras lo detecte) = β^2 = 0,5548^2 = 0,3078.
 
-**Conclusión:** La probabilidad pedida es P(ninguna de las 2 muestras lo detecte) = β^2 = 0,5548^2 = 0,3078.
+**Conclusión:** La probabilidad pedida es P(ninguna de las 2 muestras lo detecte) = β^2 = 0,5548^2 = 0,3078. En términos del problema: β = P(no corresponde implementar la modificación | μ = 551); 1 - β = P(corresponde implementar la modificación | μ = 551).
 
 **Respuesta de la guía:** β² = 0,3078.
 
@@ -840,7 +840,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≥ 12  vs  H1: μ < 12.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 12 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 12 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde comprar el equipo | μ = 12) = 0,05 (error de tipo I); 1 - α = P(no corresponde comprar el equipo | μ = 12) = 0,95.  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
@@ -848,12 +848,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 12 - 1,6449·2/√25 = 11,3421. Si x̄ < 11,3421 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 11,34; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 25 unidades y se calcula su media x̄. Si x̄ < 11,3421, se rechaza H0 → se puede asegurar que μ < 12. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ < 12.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 1,6449·σ/√n = 12 minutos - 1,6449·2/√25 = 11,3421. Si x̄ < 11,3421 minutos ⇒ se rechaza H0: corresponde comprar el equipo; si no, no corresponde comprar el equipo. Informado como la cátedra (hacia afuera de μ₀): x̄c = 11,34; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 25 unidades y se calcula su media x̄. Si x̄ < 11,3421 minutos, se rechaza H0 → corresponde comprar el equipo. En caso contrario no se rechaza H0 → no corresponde comprar el equipo.
 - **6 · Cálculos y decisión**: x̄ = 10,8 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0013. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,05, x̄ = 10,8 minutos cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≥ 12. Se puede asegurar que μ < 12.
+**Conclusión:** Con α = 0,05, x̄ = 10,8 minutos cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≥ 12. Se puede asegurar que μ < 12; por lo tanto, corresponde comprar el equipo.
 
 **Respuesta de la guía:** Sí, se puede asegurar que el equipo requiere en promedio menos de 12 minutos de preparación.
 
@@ -870,7 +870,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄ ≥ x̄c | μ = 11) con Z = (x̄c - μ₁)/(σ/√n) = (11,342 - 11)/0,4 = 0,855 → β = 0,1963.
 - **Potencia** 1-β = 0,8037.
 
-**Conclusión:** La probabilidad pedida es β = 0,1963 (potencia 1-β = 0,8037).
+**Conclusión:** La probabilidad pedida es β = 0,1963 (potencia 1-β = 0,8037). En términos del problema: β = P(no corresponde comprar el equipo | μ = 11); 1 - β = P(corresponde comprar el equipo | μ = 11).
 
 **Respuesta de la guía:** β = 0,1963.
 
@@ -880,7 +880,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 12 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 12 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 11) = 0,1 (error de tipo II).  
+• α = P(corresponde comprar el equipo | μ = 12) = 0,05 (error de tipo I); 1 - α = P(no corresponde comprar el equipo | μ = 12) = 0,95; β = P(no corresponde comprar el equipo | μ = 11) = 0,1 (error de tipo II); 1 - β = P(corresponde comprar el equipo | μ = 11) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 12  vs  H1: μ < 12.
 - **Modelos y distribuciones empleados**:  
@@ -888,13 +888,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 12) = α = 0,05 y P(no rechazar H0 | μ = 11) = β = 0,1.
+- **Condiciones**: P(corresponde comprar el equipo | μ = 12) = α = 0,05 y P(no corresponde comprar el equipo | μ = 11) = β = 0,1.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,2816)·2/1]² = 34,2554 → n = 35.
 - **Condición de rechazo**: x̄c = 11,4439  (con n = 35).
-- **Regla de decisión**: Tomar una muestra de n = 35. Si la media de esa muestra es inferior a 11,4439 (x̄ < x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 35. Si la media de esa muestra es inferior a 11,4439 minutos (x̄ < x̄_c) se rechaza H0: corresponde comprar el equipo; si no, no corresponde comprar el equipo.
 - Con n = 35: β real = 0,0946, potencia real = 0,9054.
 
-**Conclusión:** Tomar una muestra de n = 35. Si la media de esa muestra es inferior a 11,4439 (x̄ < x̄_c) se rechaza H0. (Respecto de la muestra actual de 25: Δn = 10.)
+**Conclusión:** Tomar una muestra de n = 35. Si la media de esa muestra es inferior a 11,4439 minutos (x̄ < x̄_c) se rechaza H0: corresponde comprar el equipo; si no, no corresponde comprar el equipo. (Respecto de la muestra actual de 25: Δn = 10.)
 
 **Respuesta de la guía:** 35 horas.
 
@@ -918,7 +918,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Justificación de H0**:  
 • Es un **sistema de control**: la decisión es entre dos acciones. Rechazar H0 ⇒ se detiene el proceso; no rechazarla ⇒ el proceso sigue.  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 38 supone que cumple; H1: μ < 38 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(error de tipo I) = P(se detiene el proceso | μ = 38) = 0,1; β = P(error de tipo II) = P(el proceso sigue | μ = 37) = 0,05.  
+• α = P(se detiene el proceso | μ = 38) = 0,1 (error de tipo I); 1 - α = P(el proceso sigue | μ = 38) = 0,9; β = P(el proceso sigue | μ = 37) = 0,05 (error de tipo II); 1 - β = P(se detiene el proceso | μ = 37) = 0,95 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 38  vs  H1: μ < 38.
 - **Modelos y distribuciones empleados**:  
@@ -926,14 +926,14 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 38) = α = 0,1 y P(no rechazar H0 | μ = 37) = β = 0,05.
+- **Condiciones**: P(se detiene el proceso | μ = 38) = α = 0,1 y P(el proceso sigue | μ = 37) = β = 0,05.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,2816 + 1,6449)·1,3/1]² = 14,4729 → n = 15.
 - **Condición de rechazo**: x̄c = 37,5698  (con n = 15).
-- **Regla de decisión**: Tomar una muestra de n = 15. Si la media de esa muestra es inferior a 37,5698 (x̄ < x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 15. Si la media de esa muestra es inferior a 37,5698 kg (x̄ < x̄_c) se rechaza H0.
 - **En palabras del problema**: rechazar H0 ⇒ se detiene el proceso. Si en una muestra de 15 la media da menor que 37,5698, se detiene el proceso; si no, el proceso sigue.
 - Con n = 15: β real = 0,0448, potencia real = 0,9552.
 
-**Conclusión:** Tomar una muestra de n = 15. Si la media de esa muestra es inferior a 37,5698 (x̄ < x̄_c) se rechaza H0. Rechazar H0 ⇒ se detiene el proceso.
+**Conclusión:** Tomar una muestra de n = 15. Si la media de esa muestra es inferior a 37,5698 kg (x̄ < x̄_c) se rechaza H0. Rechazar H0 ⇒ se detiene el proceso.
 
 **Respuesta de la guía:** (Criterio Optimista) H0) μ ≥ μ0 = 38 kg/mm²; CR: Si x̄ < x̄c = 37,56 kg/mm² ⇒ Rechazo H0; n = 15 piezas; RD: Si de una muestra de 15 piezas, la resistencia promedio de la misma es inferior a 37,56 kg/mm² se detiene el proceso.
 
@@ -950,7 +950,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄ ≥ x̄c | μ = 37,5) con Z = (x̄c - μ₁)/(σ/√n) = (37,5698 - 37,5)/0,3357 = 0,2079 → β = 0,4176.
 - **Potencia** 1-β = 0,5824.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,5824 (β = 0,4176).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,5824 (β = 0,4176). En términos del problema: β = P(el proceso sigue | μ = 37,5); 1 - β = P(se detiene el proceso | μ = 37,5).
 
 **Respuesta de la guía:** 1–β = 0,5824.
 
@@ -992,7 +992,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 80 supone que cumple; H1: μ < 80 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 75) = 0,1 (error de tipo II).  
+• α = P(corresponde detenerlo y revisarlo | μ = 80) = 0,05 (error de tipo I); 1 - α = P(no corresponde detenerlo y revisarlo | μ = 80) = 0,95; β = P(no corresponde detenerlo y revisarlo | μ = 75) = 0,1 (error de tipo II); 1 - β = P(corresponde detenerlo y revisarlo | μ = 75) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 80  vs  H1: μ < 80.
 - **Modelos y distribuciones empleados**:  
@@ -1000,13 +1000,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 80) = α = 0,05 y P(no rechazar H0 | μ = 75) = β = 0,1.
+- **Condiciones**: P(corresponde detenerlo y revisarlo | μ = 80) = α = 0,05 y P(no corresponde detenerlo y revisarlo | μ = 75) = β = 0,1.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,2816)·6/5]² = 12,3319 → n = 13.
 - **Condición de rechazo**: x̄c = 77,2628  (con n = 13).
-- **Regla de decisión**: Tomar una muestra de n = 13. Si la media de esa muestra es inferior a 77,2628 (x̄ < x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 13. Si la media de esa muestra es inferior a 77,2628 (x̄ < x̄_c) se rechaza H0: corresponde detenerlo y revisarlo; si no, no corresponde detenerlo y revisarlo.
 - Con n = 13: β real = 0,087, potencia real = 0,913.
 
-**Conclusión:** Tomar una muestra de n = 13. Si la media de esa muestra es inferior a 77,2628 (x̄ < x̄_c) se rechaza H0.
+**Conclusión:** Tomar una muestra de n = 13. Si la media de esa muestra es inferior a 77,2628 (x̄ < x̄_c) se rechaza H0: corresponde detenerlo y revisarlo; si no, no corresponde detenerlo y revisarlo.
 
 **Respuesta de la guía:** (Criterio Optimista) H0) μ ≥ μ0 = 80%; CR: Si x̄ < x̄c = 77,26% ⇒ Rechazo H0; RD: Si de una muestra de 13 observaciones el rendimiento promedio es menor que 77,26% se detiene el proceso.
 
@@ -1023,7 +1023,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄ ≥ x̄c | μ = 76) con Z = (x̄c - μ₁)/(σ/√n) = (77,2627 - 76)/1,6641 = 0,7588 → β = 0,224.
 - **Potencia** 1-β = 0,776.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,776 (β = 0,224).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,776 (β = 0,224). En términos del problema: β = P(no corresponde detenerlo y revisarlo | μ = 76); 1 - β = P(corresponde detenerlo y revisarlo | μ = 76).
 
 **Respuesta de la guía:** 1–β = 0,776.
 
@@ -1049,7 +1049,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 80 supone que cumple; H1: μ < 80 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 76) = 0,1 (error de tipo II).  
+• α = P(corresponde detenerlo y revisarlo | μ = 80) = 0,05 (error de tipo I); 1 - α = P(no corresponde detenerlo y revisarlo | μ = 80) = 0,95; β = P(no corresponde detenerlo y revisarlo | μ = 76) = 0,1 (error de tipo II); 1 - β = P(corresponde detenerlo y revisarlo | μ = 76) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 80  vs  H1: μ < 80.
 - **Modelos y distribuciones empleados**:  
@@ -1057,13 +1057,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 80) = α = 0,05 y P(no rechazar H0 | μ = 76) = β = 0,1.
+- **Condiciones**: P(corresponde detenerlo y revisarlo | μ = 80) = α = 0,05 y P(no corresponde detenerlo y revisarlo | μ = 76) = β = 0,1.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,2816)·6/4]² = 19,2687 → n = 20.
 - **Condición de rechazo**: x̄c = 77,7932  (con n = 20).
-- **Regla de decisión**: Tomar una muestra de n = 20. Si la media de esa muestra es inferior a 77,7932 (x̄ < x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 20. Si la media de esa muestra es inferior a 77,7932 (x̄ < x̄_c) se rechaza H0: corresponde detenerlo y revisarlo; si no, no corresponde detenerlo y revisarlo.
 - Con n = 20: β real = 0,0907, potencia real = 0,9093.
 
-**Conclusión:** Tomar una muestra de n = 20. Si la media de esa muestra es inferior a 77,7932 (x̄ < x̄_c) se rechaza H0.
+**Conclusión:** Tomar una muestra de n = 20. Si la media de esa muestra es inferior a 77,7932 (x̄ < x̄_c) se rechaza H0: corresponde detenerlo y revisarlo; si no, no corresponde detenerlo y revisarlo.
 
 **Respuesta de la guía:** Detener el proceso y revisarlo.
 
@@ -1085,7 +1085,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 280 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 280 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 290) = 0,15 (error de tipo II).  
+• α = P(corresponde implementar el nuevo método | μ = 280) = 0,05 (error de tipo I); 1 - α = P(no corresponde implementar el nuevo método | μ = 280) = 0,95; β = P(no corresponde implementar el nuevo método | μ = 290) = 0,15 (error de tipo II); 1 - β = P(corresponde implementar el nuevo método | μ = 290) = 0,85 (potencia).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≤ 280  vs  H1: μ > 280.
 - **Modelos y distribuciones empleados**:  
@@ -1093,13 +1093,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 280) = α = 0,05 y P(no rechazar H0 | μ = 290) = β = 0,15.
+- **Condiciones**: P(corresponde implementar el nuevo método | μ = 280) = α = 0,05 y P(no corresponde implementar el nuevo método | μ = 290) = β = 0,15.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,0364)·20/10]² = 28,7572 → n = 29.
 - **Condición de rechazo**: x̄c = 286,1088  (con n = 29).
-- **Regla de decisión**: Tomar una muestra de n = 29. Si la media de esa muestra es superior a 286,1088 (x̄ > x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 29. Si la media de esa muestra es superior a 286,1088 kg (x̄ > x̄_c) se rechaza H0: corresponde implementar el nuevo método; si no, no corresponde implementar el nuevo método.
 - Con n = 29: β real = 0,1474, potencia real = 0,8526.
 
-**Conclusión:** Tomar una muestra de n = 29. Si la media de esa muestra es superior a 286,1088 (x̄ > x̄_c) se rechaza H0.
+**Conclusión:** Tomar una muestra de n = 29. Si la media de esa muestra es superior a 286,1088 kg (x̄ > x̄_c) se rechaza H0: corresponde implementar el nuevo método; si no, no corresponde implementar el nuevo método.
 
 **Respuesta de la guía:** (Criterio Pesimista) H0) μ ≤ μ0 = 280 kg; CR: Si x̄ > x̄c = 286,11 kg ⇒ Rechazo H0; RD: Si de una muestra de 29 observaciones la resistencia promedio es mayor que 286,11 kg se implementa el nuevo método de fabricación.
 
@@ -1116,7 +1116,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄ ≤ x̄c | μ = 285) con Z = (x̄c - μ₁)/(σ/√n) = (286,1089 - 285)/3,7139 = 0,2986 → β = 0,6174.
 - **Potencia** 1-β = 0,3826.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,3826 (β = 0,6174).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,3826 (β = 0,6174). En términos del problema: β = P(no corresponde implementar el nuevo método | μ = 285); 1 - β = P(corresponde implementar el nuevo método | μ = 285).
 
 **Respuesta de la guía:** 1–β = 0,3826.
 
@@ -1138,7 +1138,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 1.250 supone que cumple; H1: μ < 1.250 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 1.100) = 0,1 (error de tipo II).  
+• α = P(corresponde rechazar una partida | μ = 1.250) = 0,05 (error de tipo I); 1 - α = P(no corresponde rechazar una partida | μ = 1.250) = 0,95; β = P(no corresponde rechazar una partida | μ = 1.100) = 0,1 (error de tipo II); 1 - β = P(corresponde rechazar una partida | μ = 1.100) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 1250  vs  H1: μ < 1250.
 - **Modelos y distribuciones empleados**:  
@@ -1146,13 +1146,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 1.250) = α = 0,05 y P(no rechazar H0 | μ = 1.100) = β = 0,1.
+- **Condiciones**: P(corresponde rechazar una partida | μ = 1.250) = α = 0,05 y P(no corresponde rechazar una partida | μ = 1.100) = β = 0,1.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,2816)·180/150]² = 12,3319 → n = 13.
 - **Condición de rechazo**: x̄c = 1.167,8839  (con n = 13).
-- **Regla de decisión**: Tomar una muestra de n = 13. Si la media de esa muestra es inferior a 1167,8839 (x̄ < x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 13. Si la media de esa muestra es inferior a 1167,8839 kg (x̄ < x̄_c) se rechaza H0: corresponde rechazar una partida; si no, no corresponde rechazar una partida.
 - Con n = 13: β real = 0,087, potencia real = 0,913.
 
-**Conclusión:** Tomar una muestra de n = 13. Si la media de esa muestra es inferior a 1167,8839 (x̄ < x̄_c) se rechaza H0.
+**Conclusión:** Tomar una muestra de n = 13. Si la media de esa muestra es inferior a 1167,8839 kg (x̄ < x̄_c) se rechaza H0: corresponde rechazar una partida; si no, no corresponde rechazar una partida.
 
 **Respuesta de la guía:** (Criterio Optimista) H0) μ ≥ μ0 = 1.250 kg; CR: Si x̄ < x̄c = 1.167,88 kg ⇒ Rechazo H0; RD: Si de una muestra de 13 unidades la resistencia promedio es menor que 1.167,88 kg se rechaza la partida.
 
@@ -1169,7 +1169,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄ ≥ x̄c | μ = 1.200) con Z = (x̄c - μ₁)/(σ/√n) = (1.167,8839 - 1.200)/49,923 = -0,6433 → β = 0,74.
 - **Potencia** 1-β = 0,26.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,26 (β = 0,74).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,26 (β = 0,74). En términos del problema: β = P(no corresponde rechazar una partida | μ = 1.200); 1 - β = P(corresponde rechazar una partida | μ = 1.200).
 
 **Respuesta de la guía:** 1–β = 0,26.
 
@@ -1191,7 +1191,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 4,5 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 4,5 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 4,7) = 0,01 (error de tipo II).  
+• α = P(corresponde adoptar el aditivo | μ = 4,5) = 0,05 (error de tipo I); 1 - α = P(no corresponde adoptar el aditivo | μ = 4,5) = 0,95; β = P(no corresponde adoptar el aditivo | μ = 4,7) = 0,01 (error de tipo II); 1 - β = P(corresponde adoptar el aditivo | μ = 4,7) = 0,99 (potencia).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≤ 4,5  vs  H1: μ > 4,5.
 - **Modelos y distribuciones empleados**:  
@@ -1199,13 +1199,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 4,5) = α = 0,05 y P(no rechazar H0 | μ = 4,7) = β = 0,01.
+- **Condiciones**: P(corresponde adoptar el aditivo | μ = 4,5) = α = 0,05 y P(no corresponde adoptar el aditivo | μ = 4,7) = β = 0,01.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 2,3263)·0,3/0,2]² = 35,4835 → n = 36.
 - **Condición de rechazo**: x̄c = 4,5822  (con n = 36).
-- **Regla de decisión**: Tomar una muestra de n = 36. Si la media de esa muestra es superior a 4,5822 (x̄ > x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 36. Si la media de esa muestra es superior a 4,5822 kg (x̄ > x̄_c) se rechaza H0: corresponde adoptar el aditivo; si no, no corresponde adoptar el aditivo.
 - Con n = 36: β real = 0,0093, potencia real = 0,9907.
 
-**Conclusión:** Tomar una muestra de n = 36. Si la media de esa muestra es superior a 4,5822 (x̄ > x̄_c) se rechaza H0.
+**Conclusión:** Tomar una muestra de n = 36. Si la media de esa muestra es superior a 4,5822 kg (x̄ > x̄_c) se rechaza H0: corresponde adoptar el aditivo; si no, no corresponde adoptar el aditivo.
 
 **Respuesta de la guía:** (Criterio Pesimista) H0) μ ≤ μ0 = 4,5 kg; n = 36 muestras; CR: Si x̄ > x̄c = 4,59 kg ⇒ Rechazo H0; RD: Si de una muestra de 36 observaciones la resistencia promedio es mayor que 4,59 kg se adopta el aditivo.
 
@@ -1246,7 +1246,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≥ 250  vs  H1: μ < 250.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≥ 250 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ < 250 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,99.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 2,3263.
@@ -1254,8 +1255,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 2,3263·σ/√n = 250 - 2,3263·30/√6 = 221,5082. Si x̄ < 221,5082 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 221,50; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 6 unidades y se calcula su media x̄. Si x̄ < 221,5082, se rechaza H0 → se puede asegurar que μ < 250. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ < 250.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ - 2,3263·σ/√n = 250 U$s por mes - 2,3263·30/√6 = 221,5082. Si x̄ < 221,5082 U$s por mes ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 221,50; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 6 unidades y se calcula su media x̄. Si x̄ < 221,5082 U$s por mes, se rechaza H0 → se puede asegurar que μ < 250. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ < 250.
 - **6 · Cálculos y decisión**: x̄ = 232 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0708. La decisión se toma comparando x̄ con x̄c.
 
@@ -1300,7 +1301,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **— Alternativa 1 —**
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 30 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 30 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); β = P(no rechazar H0 | μ = 27) = 0,05 (error de tipo II).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9; β = P(no rechazar H0 | μ = 27) = 0,05 (error de tipo II); 1 - β = P(rechazar H0 | μ = 27) = 0,95 (potencia).  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 30  vs  H1: μ < 30.
 - **Modelos y distribuciones empleados**:  
@@ -1311,17 +1313,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Condiciones**: P(rechazar H0 | μ = 30) = α = 0,1 y P(no rechazar H0 | μ = 27) = β = 0,05.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,2816 + 1,6449)·5,5/3]² = 28,784 → n = 29.
 - **Condición de rechazo**: x̄c = 28,6911  (con n = 29).
-- **Regla de decisión**: Tomar una muestra de n = 29. Si la media de esa muestra es inferior a 28,6911 (x̄ < x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 29. Si la media de esa muestra es inferior a 28,6911 horas (x̄ < x̄_c) se rechaza H0.
 - Con n = 29: β real = 0,0489, potencia real = 0,9511.
 - **— Alternativa 2 —**
 - **Hipótesis**: H0: μ ≤ 30  vs  H1: μ > 30.
 - **Condiciones**: P(rechazar H0 | μ = 30) = α = 0,05 y P(no rechazar H0 | μ = 32) = β = 0,1.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,2816)·5,5/2]² = 64,7641 → n = 65.
 - **Condición de rechazo**: x̄c = 31,1221  (con n = 65).
-- **Regla de decisión**: Tomar una muestra de n = 65. Si la media de esa muestra es superior a 31,1221 (x̄ > x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 65. Si la media de esa muestra es superior a 31,1221 horas (x̄ > x̄_c) se rechaza H0.
 - Con n = 65: β real = 0,0991, potencia real = 0,9009.
 
-**Conclusión:** Alternativa 1: Tomar una muestra de n = 29. Si la media de esa muestra es inferior a 28,6911 (x̄ < x̄_c) se rechaza H0. Alternativa 2: Tomar una muestra de n = 65. Si la media de esa muestra es superior a 31,1221 (x̄ > x̄_c) se rechaza H0.
+**Conclusión:** Alternativa 1: Tomar una muestra de n = 29. Si la media de esa muestra es inferior a 28,6911 horas (x̄ < x̄_c) se rechaza H0. Alternativa 2: Tomar una muestra de n = 65. Si la media de esa muestra es superior a 31,1221 horas (x̄ > x̄_c) se rechaza H0.
 
 **Respuesta de la guía:** Alternativa 1: (Criterio Optimista) H0) μ ≥ μ0 = 30 hs; CR: Si x̄ < x̄c = 28,69 hs ⇒ Rechazo H0; RD: Si de una muestra de 29 pilas la duración promedio es menor que 28,69 hs no concretar la operación. Alternativa 2: (Criterio Pesimista) H0) μ ≤ μ0 = 30 hs; CR: Si x̄ > x̄c = 31,13 hs ⇒ Rechazo H0; RD: Si de una muestra de 65 pilas la duración promedio es mayor que 31,13 hs concretar la operación.
 
@@ -1346,7 +1348,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en kg. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 25 supone que cumple; H1: μ < 25 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 25  vs  H1: μ < 25  (α = 0,05).
 - **Modelos y distribuciones empleados**:  
@@ -1355,11 +1358,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
-- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 25 - 1,6449·2,2/√10 = 23,8557. Si x̄ < 23,8557 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 23,85; la decisión se toma con el valor exacto.
-- **Regla de decisión**: Si en una muestra de 10 la media es menor que 23,8557 se rechaza H0.
+- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 25 kg - 1,6449·2,2/√10 = 23,8557. Si x̄ < 23,8557 kg ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 23,85; la decisión se toma con el valor exacto.
+- **Regla de decisión**: Si en una muestra de 10 la media es menor que 23,8557 kg se rechaza H0.
 - **Media alternativa** (la que se detecta con 1-β = 0,99): μ₁ = x̄c - Z(1-β)·σ/√n = 23,8557 - 2,3263·2,2/√10 = 22,2372.
 
-**Conclusión:** Si en una muestra de 10 la media es menor que 23,8557 se rechaza H0. La media alternativa definida por β = 0,01 es μ₁ = 22,2372.
+**Conclusión:** Si en una muestra de 10 la media es menor que 23,8557 kg se rechaza H0. La media alternativa definida por β = 0,01 es μ₁ = 22,2372.
 
 **Respuesta de la guía:** x̄c = 23,86 kg.
 
@@ -1369,7 +1372,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≥ 25 supone que cumple; H1: μ < 25 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≥ 25  vs  H1: μ < 25  (α = 0,05).
 - **Modelos y distribuciones empleados**:  
@@ -1378,11 +1382,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
-- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 25 - 1,6449·2,2/√10 = 23,8557. Si x̄ < 23,8557 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 23,85; la decisión se toma con el valor exacto.
-- **Regla de decisión**: Si en una muestra de 10 la media es menor que 23,8557 se rechaza H0.
+- **Condición de rechazo**: x̄c = μ₀ - 1,6449·σ/√n = 25 kg - 1,6449·2,2/√10 = 23,8557. Si x̄ < 23,8557 kg ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 23,85; la decisión se toma con el valor exacto.
+- **Regla de decisión**: Si en una muestra de 10 la media es menor que 23,8557 kg se rechaza H0.
 - **Media alternativa** (la que se detecta con 1-β = 0,99): μ₁ = x̄c - Z(1-β)·σ/√n = 23,8557 - 2,3263·2,2/√10 = 22,2372.
 
-**Conclusión:** Si en una muestra de 10 la media es menor que 23,8557 se rechaza H0. La media alternativa definida por β = 0,01 es μ₁ = 22,2372.
+**Conclusión:** Si en una muestra de 10 la media es menor que 23,8557 kg se rechaza H0. La media alternativa definida por β = 0,01 es μ₁ = 22,2372.
 
 **Respuesta de la guía:** μ1 = 22,23 kg.
 
@@ -1420,7 +1424,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 10.000.000 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 10.000.000 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | μ = 11.000.000) = 0,85 (error de tipo II).  
+• α = P(corresponde fabricar una serie de prototipos y someterlos | μ = 10.000.000) = 0,05 (error de tipo I); 1 - α = P(no corresponde fabricar una serie de prototipos y someterlos | μ = 10.000.000) = 0,95; β = P(no corresponde fabricar una serie de prototipos y someterlos | μ = 11.000.000) = 0,85 (error de tipo II); 1 - β = P(corresponde fabricar una serie de prototipos y someterlos | μ = 11.000.000) = 0,15 (potencia).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≤ 10000000  vs  H1: μ > 10000000.
 - **Modelos y distribuciones empleados**:  
@@ -1428,13 +1432,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 10.000.000) = α = 0,05 y P(no rechazar H0 | μ = 11.000.000) = β = 0,85.
+- **Condiciones**: P(corresponde fabricar una serie de prototipos y someterlos | μ = 10.000.000) = α = 0,05 y P(no corresponde fabricar una serie de prototipos y someterlos | μ = 11.000.000) = β = 0,85.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + -1,0364)·2.300.000/1.000.000]² = 1,9582 → n = 2.
 - **Condición de rechazo**: x̄c = 12.675.100,4535  (con n = 2).
-- **Regla de decisión**: Tomar una muestra de n = 2. Si la media de esa muestra es superior a 12675100,4535 (x̄ > x̄_c) se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 2. Si la media de esa muestra es superior a 12675100,4535 (x̄ > x̄_c) se rechaza H0: corresponde fabricar una serie de prototipos y someterlos; si no, no corresponde fabricar una serie de prototipos y someterlos.
 - Con n = 2: β real = 0,8485, potencia real = 0,1515.
 
-**Conclusión:** Tomar una muestra de n = 2. Si la media de esa muestra es superior a 12675100,4535 (x̄ > x̄_c) se rechaza H0.
+**Conclusión:** Tomar una muestra de n = 2. Si la media de esa muestra es superior a 12675100,4535 (x̄ > x̄_c) se rechaza H0: corresponde fabricar una serie de prototipos y someterlos; si no, no corresponde fabricar una serie de prototipos y someterlos.
 
 **Respuesta de la guía:** (Criterio Pesimista) H0) μ ≤ μ0 = 10 millones de contactos; α = 0,05; n = 2; CR: Si x̄ > x̄c = 12,67510045 millones de contactos ⇒ Rechazo H0; RD: se realizará una prueba con 2 prototipos del nuevo modelo de contactor y se calculará el promedio de sus duraciones, si este promedio supera los 12.675.100,45 contactos, se adoptará el nuevo modelo.
 
@@ -1485,7 +1489,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 128000  vs  H1: μ > 128000.
 - **Justificación de H0**:  
 • H1: μ > 128.000 recoge lo que el enunciado quiere probar; H0: μ ≤ 128.000 es el complemento y lleva la igualdad (el valor de referencia 128.000).  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,2816.
@@ -1493,8 +1498,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 128.000 + 1,2816·12.500/√4 = 136.009,6973. Si x̄ > 136.009,6973 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 136.009,70; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 4 unidades y se calcula su media x̄. Si x̄ > 136,009,6973, se rechaza H0 → se puede asegurar que μ > 128000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 128000.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 128.000 U$s + 1,2816·12.500/√4 = 136.009,6973. Si x̄ > 136.009,6973 U$s ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 136.009,70; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 4 unidades y se calcula su media x̄. Si x̄ > 136,009 U$s,6973, se rechaza H0 → se puede asegurar que μ > 128000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 128000.
 - **6 · Cálculos y decisión**: x̄ = 135.000 → no cae en la zona de rechazo.
 - **Equivalente en valores brutos**: la media bruta debería superar x̄c bruto = 141.009,7 (se obtuvo 140.000).
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,1314. La decisión se toma comparando x̄ con x̄c.
@@ -1529,7 +1534,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 128000  vs  H1: μ > 128000.
 - **Justificación de H0**:  
 • H1: μ > 128.000 recoge lo que el enunciado quiere probar; H0: μ ≤ 128.000 es el complemento y lleva la igualdad (el valor de referencia 128.000).  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,2816.
@@ -1537,8 +1543,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 128.000 + 1,2816·12.500/√4 = 136.009,6973. Si x̄ > 136.009,6973 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 136.009,70; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 4 unidades y se calcula su media x̄. Si x̄ > 136,009,6973, se rechaza H0 → se puede asegurar que μ > 128000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 128000.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,2816·σ/√n = 128.000 U$s + 1,2816·12.500/√4 = 136.009,6973. Si x̄ > 136.009,6973 U$s ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 136.009,70; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 4 unidades y se calcula su media x̄. Si x̄ > 136,009 U$s,6973, se rechaza H0 → se puede asegurar que μ > 128000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 128000.
 - **6 · Cálculos y decisión**: x̄ = 137.200 → cae en la zona de rechazo.
 - **Con μ₁ = 145.000**: β = 0,0752, potencia 1-β = 0,9248.
 - **Equivalente en valores brutos**: la media bruta debería superar x̄c bruto = 138.785,41 (se obtuvo 140.000).
@@ -1580,7 +1586,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en cm. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ = 11,5 supone que cumple; H1: μ ≠ 11,5 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); β = P(no rechazar H0 | μ = 11,4) = 0,05 (error de tipo II).  
+• α = P(corresponde revisar el proceso | μ = 11,5) = 0,1 (error de tipo I); 1 - α = P(no corresponde revisar el proceso | μ = 11,5) = 0,9; β = P(no corresponde revisar el proceso | μ = 11,4) = 0,05 (error de tipo II); 1 - β = P(corresponde revisar el proceso | μ = 11,4) = 0,95 (potencia).  
 • El ensayo es bilateral (sin dirección): la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ = 11,5  vs  H1: μ ≠ 11,5.
 - **Modelos y distribuciones empleados**:  
@@ -1588,13 +1594,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
-- **Condiciones**: P(rechazar H0 | μ = 11,5) = α = 0,1 y P(no rechazar H0 | μ = 11,4) = β = 0,05.
+- **Condiciones**: P(corresponde revisar el proceso | μ = 11,5) = α = 0,1 y P(no corresponde revisar el proceso | μ = 11,4) = β = 0,05.
 - **Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [(1,6449 + 1,6449)·0,1/0,1]² = 10,8222 → n = 11.
 - **Condición de rechazo**: x̄c = 11,4504 ; 11,5496  (con n = 11).
-- **Regla de decisión**: Tomar una muestra de n = 11. Si la media muestral cae fuera del intervalo [11,4504, 11,5496] se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 11. Si la media muestral cae fuera del intervalo [11,4504, 11,5496] se rechaza H0: corresponde revisar el proceso; si no, no corresponde revisar el proceso.
 - Con n = 11: β real = 0,0473, potencia real = 0,9527.
 
-**Conclusión:** Tomar una muestra de n = 11. Si la media muestral cae fuera del intervalo [11,4504, 11,5496] se rechaza H0.
+**Conclusión:** Tomar una muestra de n = 11. Si la media muestral cae fuera del intervalo [11,4504, 11,5496] se rechaza H0: corresponde revisar el proceso; si no, no corresponde revisar el proceso.
 
 **Respuesta de la guía:** n = 11 piezas.
 
@@ -1604,7 +1610,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ = 11,5 supone que cumple; H1: μ ≠ 11,5 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(corresponde revisar el proceso | μ = 11,5) = 0,1 (error de tipo I); 1 - α = P(no corresponde revisar el proceso | μ = 11,5) = 0,9.  
 • El ensayo es bilateral (sin dirección): la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ = 11,5  vs  H1: μ ≠ 11,5  (α = 0,1).
 - **Modelos y distribuciones empleados**:  
@@ -1613,11 +1619,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = 1,6449.
-- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,6449·σ/√n = 11,5 ∓ 1,6449·0,1/√11 = 11,4504 ; 11,5496. Si x̄ < 11,4504 o x̄ > 11,5496 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 11,45 ; 11,55.
+- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,6449·σ/√n = 11,5 ∓ 1,6449·0,1/√11 = 11,4504 ; 11,5496. Si x̄ < 11,4504 cm o x̄ > 11,5496 ⇒ se rechaza H0: corresponde revisar el proceso; si no, no corresponde revisar el proceso. Informados como la cátedra (hacia afuera): 11,45 ; 11,55.
 - **Con μ₁ = 11,4**: β = 0,0473, potencia 1-β = 0,9527.
-- **Regla de decisión**: Si en una muestra de 11 la media cae fuera de [11,4504 ; 11,5496] se rechaza H0.
+- **Regla de decisión**: Si en una muestra de 11 la media cae fuera de [11,4504 ; 11,5496] se rechaza H0: corresponde revisar el proceso; si no, no corresponde revisar el proceso.
 
-**Conclusión:** Si en una muestra de 11 la media cae fuera de [11,4504 ; 11,5496] se rechaza H0.
+**Conclusión:** Si en una muestra de 11 la media cae fuera de [11,4504 ; 11,5496] se rechaza H0: corresponde revisar el proceso; si no, no corresponde revisar el proceso.
 
 **Respuesta de la guía:** LIC = x̄c1 = 11,45 cm y LSC = x̄c2 = 11,55 cm.
 
@@ -1634,7 +1640,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(x̄c₁ ≤ x̄ ≤ x̄c₂ | μ = 11,46) = Φ((11,5496 - 11,46)/0,0302) - Φ((11,4504 - 11,46)/0,0302) = 0,6234.
 - **Potencia** 1-β = 0,3766.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,3766 (β = 0,6234).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,3766 (β = 0,6234). En términos del problema: β = P(no corresponde revisar el proceso | μ = 11,46); 1 - β = P(corresponde revisar el proceso | μ = 11,46).
 
 **Respuesta de la guía:** 1–β = 0,3766.
 
@@ -1676,7 +1682,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ = 2  vs  H1: μ ≠ 2.
 - **Justificación de H0**:  
 • H1: μ ≠ 2 recoge lo que el enunciado quiere probar; H0: μ = 2 es el complemento y lleva la igualdad (el valor de referencia 2).  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es bilateral (sin dirección): la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = 1,6449.
@@ -1684,8 +1691,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c₁;x̄c₂ = μ₀ ∓ 1,6449·σ/√n = 2 ∓ 1,6449·0,1/√10 = 1,948 ; 2,052. Si x̄ < 1,948 o x̄ > 2,052 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 1,94 ; 2,06.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su media x̄. Si x̄ < 1,948 o x̄ > 2,052, se rechaza H0 → se puede asegurar que μ ≠ 2. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ ≠ 2.
+- **4 · Condición de rechazo (CR)**: x̄c₁;x̄c₂ = μ₀ ∓ 1,6449·σ/√n = 2 ∓ 1,6449·0,1/√10 = 1,948 ; 2,052. Si x̄ < 1,948 cm o x̄ > 2,052 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 1,94 ; 2,06.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 10 unidades y se calcula su media x̄. Si x̄ < 1,948 cm o x̄ > 2,052, se rechaza H0 → se puede asegurar que μ ≠ 2. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ ≠ 2.
 - **6 · Cálculos y decisión**: x̄ = 2,04 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,2059. La decisión se toma comparando x̄ con x̄c.
 
@@ -1716,7 +1723,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • H1: μ ≠ 2 recoge lo que el enunciado quiere probar; H0: μ = 2 es el complemento y lleva la igualdad (el valor de referencia 2).  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); β = P(no rechazar H0 | μ = 1,95) = 0,2 (error de tipo II).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9; β = P(no rechazar H0 | μ = 1,95) = 0,2 (error de tipo II); 1 - β = P(rechazar H0 | μ = 1,95) = 0,8 (potencia).  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es bilateral (sin dirección): la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ = 2  vs  H1: μ ≠ 2.
 - **Modelos y distribuciones empleados**:  
@@ -1784,15 +1792,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 700000  vs  H1: μ > 700000.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 700.000 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 700.000 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,99.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student, ν = número de grados de libertad = 4. t(1-α) = 3,7469.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 3,7469·S/√n = 700.000 + 3,7469·82.460,2935/√5 = 838.177,544. Si x̄ > 838.177,544 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 838.177,55; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ > 838,177,544, se rechaza H0 → se puede asegurar que μ > 700000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 700000.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 3,7469·S/√n = 700.000 unidades + 3,7469·82.460,2935/√5 = 838.177,544. Si x̄ > 838.177,544 unidades ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 838.177,55; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ > 838,177 unidades,544, se rechaza H0 → se puede asegurar que μ > 700000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 700000.
 - **6 · Cálculos y decisión**: x̄ = 743.200 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,1532. La decisión se toma comparando x̄ con x̄c.
 
@@ -1848,7 +1857,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en unidades por hora. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 100 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 100 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde instalar el nuevo dispositivo | μ = 100) = 0,05 (error de tipo I); 1 - α = P(no corresponde instalar el nuevo dispositivo | μ = 100) = 0,95.  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ ≤ 100  vs  H1: μ > 100  (α = 0,05).
 - **Modelos y distribuciones empleados**:  
@@ -1857,11 +1866,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
-- **Condición de rechazo**: x̄c = μ₀ + 1,6449·σ/√n = 100 + 1,6449·10/√50 = 102,3262. Si x̄ > 102,3262 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 102,33; la decisión se toma con el valor exacto.
-- **Regla de decisión**: Si en una muestra de 50 la media es mayor que 102,3262 se rechaza H0.
+- **Condición de rechazo**: x̄c = μ₀ + 1,6449·σ/√n = 100 unidades por hora + 1,6449·10/√50 = 102,3262. Si x̄ > 102,3262 unidades por hora ⇒ se rechaza H0: corresponde instalar el nuevo dispositivo; si no, no corresponde instalar el nuevo dispositivo. Informado como la cátedra (hacia afuera de μ₀): x̄c = 102,33; la decisión se toma con el valor exacto.
+- **Regla de decisión**: Si en una muestra de 50 la media es mayor que 102,3262 unidades por hora se rechaza H0: corresponde instalar el nuevo dispositivo; si no, no corresponde instalar el nuevo dispositivo.
 - **Media alternativa** (la que se detecta con 1-β = 0,9): μ₁ = x̄c + Z(1-β)·σ/√n = 102,3262 + 1,2816·10/√50 = 104,1386.
 
-**Conclusión:** Si en una muestra de 50 la media es mayor que 102,3262 se rechaza H0. La media alternativa definida por β = 0,1 es μ₁ = 104,1386.
+**Conclusión:** Si en una muestra de 50 la media es mayor que 102,3262 unidades por hora se rechaza H0: corresponde instalar el nuevo dispositivo; si no, no corresponde instalar el nuevo dispositivo. La media alternativa definida por β = 0,1 es μ₁ = 104,1386.
 
 **Respuesta de la guía:** H0) μ ≤ μ0 = 110 unidades. Se toma la decisión de instalar el nuevo dispositivo, se puede asegurar que la producción por hora promedio aumenta.
 
@@ -1885,15 +1894,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 100  vs  H1: μ > 100.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 100 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 100 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student, ν = número de grados de libertad = 15. t(1-α) = 1,3406.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,3406·S/√n = 100 + 1,3406·18/√16 = 106,0327. Si x̄ > 106,0327 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 106,04; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 16 unidades y se calcula su media x̄. Si x̄ > 106,0327, se rechaza H0 → se puede asegurar que μ > 100. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 100.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,3406·S/√n = 100 litros + 1,3406·18/√16 = 106,0327. Si x̄ > 106,0327 litros ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 106,04; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 16 unidades y se calcula su media x̄. Si x̄ > 106,0327 litros, se rechaza H0 → se puede asegurar que μ > 100. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 100.
 - **6 · Cálculos y decisión**: x̄ = 114 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0036. La decisión se toma comparando x̄ con x̄c.
 
@@ -1950,15 +1960,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 1000  vs  H1: μ > 1000.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 1.000 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 1.000 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,99.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student, ν = número de grados de libertad = 99. t(1-α) = 2,3646.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,3646·S/√n = 1.000 + 2,3646·923/√100 = 1.218,2531. Si x̄ > 1.218,2531 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1.218,26; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 100 unidades y se calcula su media x̄. Si x̄ > 1,218,2531, se rechaza H0 → se puede asegurar que μ > 1000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 1000.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,3646·S/√n = 1.000 U$s + 2,3646·923/√100 = 1.218,2531. Si x̄ > 1.218,2531 U$s ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1.218,26; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 100 unidades y se calcula su media x̄. Si x̄ > 1,218 U$s,2531, se rechaza H0 → se puede asegurar que μ > 1000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 1000.
 - **6 · Cálculos y decisión**: x̄ = 1.100 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,1406. La decisión se toma comparando x̄ con x̄c.
 
@@ -2017,19 +2028,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 250  vs  H1: μ > 250.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≤ 250 supone que cumple; H1: μ > 250 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I).  
+• α = P(corresponde detener y revisar la máquina | μ = 250) = 0,01 (error de tipo I); 1 - α = P(no corresponde detener y revisar la máquina | μ = 250) = 0,99.  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student, ν = número de grados de libertad = 19. t(1-α) = 2,5395.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,5395·S/√n = 250 + 2,5395·15/√20 = 258,5177. Si x̄ > 258,5177 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 258,52; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 20 unidades y se calcula su media x̄. Si x̄ > 258,5177, se rechaza H0 → se puede asegurar que μ > 250. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 250.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,5395·S/√n = 250 gramos + 2,5395·15/√20 = 258,5177. Si x̄ > 258,5177 gramos ⇒ se rechaza H0: corresponde detener y revisar la máquina; si no, no corresponde detener y revisar la máquina. Informado como la cátedra (hacia afuera de μ₀): x̄c = 258,52; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 20 unidades y se calcula su media x̄. Si x̄ > 258,5177 gramos, se rechaza H0 → corresponde detener y revisar la máquina. En caso contrario no se rechaza H0 → no corresponde detener y revisar la máquina.
 - **6 · Cálculos y decisión**: x̄ = 280 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0. La decisión se toma comparando x̄ con x̄c.
 
-**Conclusión:** Con α = 0,01, x̄ = 280 gramos cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 250. Se puede asegurar que μ > 250.
+**Conclusión:** Con α = 0,01, x̄ = 280 gramos cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ ≤ 250. Se puede asegurar que μ > 250; por lo tanto, corresponde detener y revisar la máquina.
 
 **Respuesta de la guía:** Sí, se pudo asegurar que la máquina estaba fuera de control.
 
@@ -2091,7 +2102,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 10,25  vs  H1: μ > 10,25.
 - **Justificación de H0**:  
 • H1: μ > 10,25 recoge lo que el enunciado quiere probar; H0: μ ≤ 10,25 es el complemento y lleva la igualdad (el valor de referencia 10,25).  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α) = 1,6449.
@@ -2099,8 +2111,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6449·σ/√n = 10,25 + 1,6449·0,65/√75 = 10,3735. Si x̄ > 10,3735 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 10,38; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 75 unidades y se calcula su media x̄. Si x̄ > 10,3735, se rechaza H0 → se puede asegurar que μ > 10,25. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 10,25.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6449·σ/√n = 10,25 minutos + 1,6449·0,65/√75 = 10,3735. Si x̄ > 10,3735 minutos ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 10,38; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 75 unidades y se calcula su media x̄. Si x̄ > 10,3735 minutos, se rechaza H0 → se puede asegurar que μ > 10,25. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 10,25.
 - **6 · Cálculos y decisión**: x̄ = 10,362 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0678. La decisión se toma comparando x̄ con x̄c.
 
@@ -2116,15 +2128,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 10,25  vs  H1: μ > 10,25.
 - **Justificación de H0**:  
 • H1: μ > 10,25 recoge lo que el enunciado quiere probar; H0: μ ≤ 10,25 es el complemento y lleva la igualdad (el valor de referencia 10,25).  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student, ν = número de grados de libertad = 74. t(1-α) = 1,6657.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6657·S/√n = 10,25 + 1,6657·0,3716/√75 = 10,3215. Si x̄ > 10,3215 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 10,33; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 75 unidades y se calcula su media x̄. Si x̄ > 10,3215, se rechaza H0 → se puede asegurar que μ > 10,25. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 10,25.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6657·S/√n = 10,25 minutos + 1,6657·0,3716/√75 = 10,3215. Si x̄ > 10,3215 minutos ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 10,33; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 75 unidades y se calcula su media x̄. Si x̄ > 10,3215 minutos, se rechaza H0 → se puede asegurar que μ > 10,25. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 10,25.
 - **6 · Cálculos y decisión**: x̄ = 10,362 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0055. La decisión se toma comparando x̄ con x̄c.
 
@@ -2155,7 +2168,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 45  vs  H1: μ > 45.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 45 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 45 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Población finita** (N = 1.200): factor √((N-n)/N) = 0,9849 → σ·factor = 7,8791. (Es el factor del apunte y del profesor; «algunos autores ponen sobre N − 1. El uno mucho no hace»: daría 0,9853.)
@@ -2164,8 +2178,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La variable X se supone Normal: X ~ N(μ; σ²) (no vale la regla «n ≥ 30»: el profesor la descarta).  
 • Por la reproductividad de la Normal, la media muestral también es Normal: x̄ ~ N(μ; σ²/n). Como la población es finita (N = 1.200) y se muestrea sin reposición, el error estándar lleva el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no hace»).  
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6449·σ/√n = 45 + 1,6449·7,8791/√36 = 47,16. Si x̄ > 47,16 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 47,16; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 36 unidades y se calcula su media x̄. Si x̄ > 47,16, se rechaza H0 → se puede asegurar que μ > 45. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 45.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,6449·σ/√n = 45 Kg + 1,6449·7,8791/√36 = 47,16. Si x̄ > 47,16 Kg ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 47,16; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 36 unidades y se calcula su media x̄. Si x̄ > 47,16 Kg, se rechaza H0 → se puede asegurar que μ > 45. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 45.
 - **6 · Cálculos y decisión**: x̄ = 47 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0639. La decisión se toma comparando x̄ con x̄c.
 
@@ -2239,7 +2253,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en segundos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ = 360 supone que cumple; H1: μ ≠ 360 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es bilateral (sin dirección): la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ = 360  vs  H1: μ ≠ 360  (α = 0,05).
 - **Modelos y distribuciones empleados**:  
@@ -2248,7 +2263,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = 1,96.
-- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,96·σ/√n = 360 ∓ 1,96·50/√80 = 349,0435 ; 370,9565. Si x̄ < 349,0435 o x̄ > 370,9565 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 349,04 ; 370,96.
+- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,96·σ/√n = 360 ∓ 1,96·50/√80 = 349,0435 ; 370,9565. Si x̄ < 349,0435 segundos o x̄ > 370,9565 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 349,04 ; 370,96.
 - **Regla de decisión**: Si en una muestra de 80 la media cae fuera de [349,0435 ; 370,9565] se rechaza H0.
 
 **Conclusión:** Si en una muestra de 80 la media cae fuera de [349,0435 ; 370,9565] se rechaza H0.
@@ -2292,7 +2307,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 1  vs  H1: μ > 1.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ ≤ 1 supone que cumple; H1: μ > 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Población finita** (N = 1.400): factor √((N-n)/N) = 0,9968 → σ·factor = 0,1495. (Es el factor del apunte y del profesor; «algunos autores ponen sobre N − 1. El uno mucho no hace»: daría 0,9971.)
@@ -2300,8 +2316,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».) Como la población es finita (N = 1.400) y se muestrea sin reposición, el error estándar lleva el factor de corrección por finitud √((N-n)/N) (algunos autores usan N − 1: «el uno mucho no hace»).
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,3968·S/√n = 1 + 1,3968·0,1495/√9 = 1,0696. Si x̄ > 1,0696 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,07; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 9 unidades y se calcula su media x̄. Si x̄ > 1,0696, se rechaza H0 → se puede asegurar que μ > 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 1.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,3968·S/√n = 1 kg + 1,3968·0,1495/√9 = 1,0696. Si x̄ > 1,0696 kg ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 1,07; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 9 unidades y se calcula su media x̄. Si x̄ > 1,0696 kg, se rechaza H0 → se puede asegurar que μ > 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 1.
 - **6 · Cálculos y decisión**: x̄ = 1,1 → cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,0399. La decisión se toma comparando x̄ con x̄c.
 
@@ -2385,7 +2401,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Procesar la muestra**: n = 12, x̄ = Σxᵢ/n = 5,1333, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,4313.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: μ = 5 supone que cumple; H1: μ ≠ 5 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es bilateral (sin dirección): la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: μ = 5  vs  H1: μ ≠ 5  (α = 0,05).
 - **Modelos y distribuciones empleados**:  
@@ -2394,7 +2411,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Al estandarizar, Z = (x̄ - μ)/(σ/√n), se divide por un PARÁMETRO (σ es una constante): una normal dividida por una constante sigue siendo normal → Z ~ N(0; 1). (No es «uso Z porque conozco σ».)  
 • Para β y la potencia se usa la misma distribución de x̄ pero centrada en el valor alternativo μ₁: β = P(x̄ en la zona de no rechazo | μ = μ₁).
 - **Distribución**: x̄ es normal y al estandarizar se divide por el parámetro σ (una constante): sigue siendo normal → Z. Z(1-α/2) = 1,96.
-- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,96·σ/√n = 5 ∓ 1,96·0,5/√5 = 4,5617 ; 5,4383. Si x̄ < 4,5617 o x̄ > 5,4383 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 4,56 ; 5,44.
+- **Condición de rechazo**: x̄c₁;x̄c₂ = μ₀ ∓ 1,96·σ/√n = 5 ∓ 1,96·0,5/√5 = 4,5617 ; 5,4383. Si x̄ < 4,5617 ppm o x̄ > 5,4383 ⇒ se rechaza H0. Informados como la cátedra (hacia afuera): 4,56 ; 5,44.
 - **Regla de decisión**: Si en una muestra de 5 la media cae fuera de [4,5617 ; 5,4383] se rechaza H0.
 - **Control de cada período** (cada valor es la media de una muestra de 5): 1: 5,2, 2: 4,9, 3: 5,5 ✗, 4: 5,4, 5: 4,8, 6: 4,6, 7: 5,5 ✗, 8: 4,7, 9: 5,1, 10: 4,5 ✗, 11: 5,8 ✗, 12: 5,6 ✗.
 
@@ -2460,7 +2477,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 95% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
-- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en cm. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 12, x̄ = Σxᵢ/n = 3, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,0234.
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
@@ -2745,7 +2762,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la varianza σ² / el desvío σ con un 90% de confianza mediante un intervalo de confianza. Se usa χ² con ν = n-1 (el intervalo NO es simétrico).
 
-- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, ⟨unidad⟩. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en milímetros. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Procesar la muestra**: n = 12, x̄ = Σxᵢ/n = 12,275, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,3864.
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
@@ -2766,7 +2783,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: σ² ≤ 0,09  vs  H1: σ² > 0,09.
 - **Justificación de H0**:  
 • H1: σ > 0,3 recoge lo que el enunciado quiere probar; H0: σ ≤ 0,3 es el complemento y lleva la igualdad (el valor de referencia 0,3).  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² con ν = 11.
@@ -2808,7 +2826,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Procesar la muestra**: n = 12, x̄ = Σxᵢ/n = 12,275, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,3864.
 - **Justificación de H0**:  
 • H1: σ > 0,3 recoge lo que el enunciado quiere probar; H0: σ ≤ 0,3 es el complemento y lleva la igualdad (el valor de referencia 0,3).  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | σ = 0,3317) = 0,05 (error de tipo II).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95; β = P(no rechazar H0 | σ = 0,3317) = 0,05 (error de tipo II); 1 - β = P(rechazar H0 | σ = 0,3317) = 0,95 (potencia).  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: σ² ≤ 0,09  vs  H1: σ² > 0,09.
 - **Modelos y distribuciones empleados**:  
@@ -2816,8 +2835,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.  
 • Para β / potencia se usa que (n-1)·S²/σ₁² ~ χ²(n-1) cuando el desvío verdadero es σ₁.
 - Se busca el menor n tal que con α = 0,05 se tenga β ≤ 0,05 cuando σ = 0,3317: n = 540 (S²c = 0,0992, Sc = 0,315, β real = 0,0498).
+- **Regla de decisión**: se toma una muestra de n = 540 y se calcula su desvío S. Si S > 0,315, se rechaza H0 → se puede asegurar que σ² > 0,09. En caso contrario → no hay evidencia suficiente para asegurar que σ² > 0,09.
 
-**Conclusión:** El tamaño de muestra necesario es n = 540. Como la muestra actual es de 12, hay que tomar Δn = 540 - 12 = 528 más.
+**Conclusión:** El tamaño de muestra necesario es n = 540 (Sc = 0,315). Como la muestra actual es de 12, hay que tomar Δn = 540 - 12 = 528 más.
 
 **Respuesta de la guía:** n = 540 láminas en total, o sea, 528 láminas más.
 
@@ -2842,7 +2862,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: σ² ≤ 225  vs  H1: σ² > 225.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: σ ≤ 15 supone que cumple; H1: σ > 15 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² con ν = 9.
@@ -2882,7 +2903,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: σ ≤ 15 supone que cumple; H1: σ > 15 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | σ = 16) = 0,1 (error de tipo II).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95; β = P(no rechazar H0 | σ = 16) = 0,1 (error de tipo II); 1 - β = P(rechazar H0 | σ = 16) = 0,9 (potencia).  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: σ² ≤ 225  vs  H1: σ² > 225.
 - **Modelos y distribuciones empleados**:  
@@ -2890,8 +2912,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.  
 • Para β / potencia se usa que (n-1)·S²/σ₁² ~ χ²(n-1) cuando el desvío verdadero es σ₁.
 - Se busca el menor n tal que con α = 0,05 se tenga β ≤ 0,1 cuando σ = 16: n = 1025 (S²c = 241,60191, Sc = 15,5435, β real = 0,0998).
+- **Regla de decisión**: se toma una muestra de n = 1025 y se calcula su desvío S. Si S > 15,5435, se rechaza H0 → se puede asegurar que σ² > 225. En caso contrario → no hay evidencia suficiente para asegurar que σ² > 225.
 
-**Conclusión:** El tamaño de muestra necesario es n = 1025. Como la muestra actual es de 10, hay que tomar Δn = 1025 - 10 = 1015 más.
+**Conclusión:** El tamaño de muestra necesario es n = 1025 (Sc = 15,55). Como la muestra actual es de 10, hay que tomar Δn = 1025 - 10 = 1015 más.
 
 **Respuesta de la guía:** n = 1.025 envases en total, o sea 1.015 envases más (R = 1,137; a = 33,9220; ν = 1.023,29).
 
@@ -2941,19 +2964,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: σ² ≥ 225  vs  H1: σ² < 225.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: σ ≥ 15 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: σ < 15 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde comprar una nueva máquina dosificadora | σ = 15) = 0,05 (error de tipo I); 1 - α = P(no corresponde comprar una nueva máquina dosificadora | σ = 15) = 0,95.  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² con ν = 19.
 - **Modelos y distribuciones empleados**:  
 • La variable X debe ser Normal: X ~ N(μ; σ²). Es un supuesto necesario (el modelo χ² no es robusto si X no es Normal).  
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.
-- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 225·χ²/19 = 119,80673 (Sc = 10,9456). Si S² < S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 10,94.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 20 unidades y se calcula su desvío S. Si S < 10,9456, se rechaza H0 → se puede asegurar que σ² < 225. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que σ² < 225.
+- **4 · Condición de rechazo (CR)**: S²c = σ₀²·χ²/ν = 225·χ²/19 = 119,80673 (Sc = 10,9456). Si S² < S²c ⇒ se rechaza H0: corresponde comprar una nueva máquina dosificadora; si no, no corresponde comprar una nueva máquina dosificadora. Informado (hacia afuera): Sc = 10,94.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 20 unidades y se calcula su desvío S. Si S < 10,9456, se rechaza H0 → corresponde comprar una nueva máquina dosificadora. En caso contrario no se rechaza H0 → no corresponde comprar una nueva máquina dosificadora.
 - **6 · Cálculos y decisión**: S² = 156,25 (S = 12,5) → no cae en la zona de rechazo.
 - Dato informativo (la guía a veces lo informa; el profesor decide con S contra Sc): forma equivalente estandarizada ν·S²/σ₀² = 13,1944 y χ² de tabla = 10,117.
 
-**Conclusión:** Con α = 0,05, S = 12,5 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: σ² ≥ 225. No hay evidencia suficiente para asegurar que σ² < 225 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, S = 12,5 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: σ² ≥ 225. No hay evidencia suficiente para asegurar que σ² < 225 (no rechazar H0 no la prueba); por lo tanto, no corresponde comprar una nueva máquina dosificadora.
 
 **Respuesta de la guía:** No, porque no se puede asegurar que el desvío sea menor que 15 cm³.
 
@@ -2994,7 +3017,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: σ² ≤ 400  vs  H1: σ² > 400.
 - **Justificación de H0**:  
 • H1: σ > 20 recoge lo que el enunciado quiere probar; H0: σ ≤ 20 es el complemento y lleva la igualdad (el valor de referencia 20).  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² con ν = 19.
@@ -3044,7 +3068,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X = ⟨qué se mide, en palabras⟩, en gramos. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: σ ≤ 5 supone que cumple; H1: σ > 5 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde detener el proceso | σ = 5) = 0,05 (error de tipo I); 1 - α = P(no corresponde detener el proceso | σ = 5) = 0,95.  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: σ² ≤ 25  vs  H1: σ² > 25  (α = 0,05).
 - **Modelos y distribuciones empleados**:  
@@ -3052,10 +3076,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.  
 • Para β / potencia se usa que (n-1)·S²/σ₁² ~ χ²(n-1) cuando el desvío verdadero es σ₁.
 - **Distribución**: χ² con ν = 9.
-- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 25·χ²/9 = 46,99716 (Sc = 6,8554). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 6,86.
-- Dato informativo (la guía a veces lo informa; el profesor decide con S contra Sc): forma equivalente estandarizada ν·S²/σ₀² = 9 y χ² de tabla = 16,919.
+- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 25·χ²/9 = 46,99716 (Sc = 6,8554). Si S² > S²c ⇒ se rechaza H0: corresponde detener el proceso; si no, no corresponde detener el proceso. Informado (hacia afuera): Sc = 6,86.
+- **Regla de decisión**: Se toma una muestra de n = 10 unidades y se calcula su desvío S. Si S > 6,8554, se rechaza H0 → corresponde detener el proceso. En caso contrario no se rechaza H0 → no corresponde detener el proceso.
 
-**Conclusión:** Valor crítico y condición de rechazo arriba.
+**Conclusión:** Se toma una muestra de n = 10 unidades y se calcula su desvío S. Si S > 6,8554, se rechaza H0 → corresponde detener el proceso. En caso contrario no se rechaza H0 → no corresponde detener el proceso.
 
 **Respuesta de la guía:** Para rechazar la hipótesis y detener el proceso tecnológico, S debe ser mayor que Sc = 6,86 gramos.
 
@@ -3069,11 +3093,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.  
 • Para β / potencia se usa que (n-1)·S²/σ₁² ~ χ²(n-1) cuando el desvío verdadero es σ₁.
 - **Distribución**: χ² con ν = 9.
-- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 25·χ²/9 = 46,99716 (Sc = 6,8554). Si S² > S²c ⇒ se rechaza H0. Informado (hacia afuera): Sc = 6,86.
+- **Condición de rechazo**: S²c = σ₀²·χ²/ν = 25·χ²/9 = 46,99716 (Sc = 6,8554). Si S² > S²c ⇒ se rechaza H0: corresponde detener el proceso; si no, no corresponde detener el proceso. Informado (hacia afuera): Sc = 6,86.
 - **β** = P(no rechazar H0 | σ = 8) = 0,3222.
 - **Potencia** 1-β = 0,6778.
 
-**Conclusión:** La probabilidad pedida es β = 0,3222 (potencia 1-β = 0,6778).
+**Conclusión:** La probabilidad pedida es β = 0,3222 (potencia 1-β = 0,6778). En términos del problema: β = P(no corresponde detener el proceso | σ = 8); 1 - β = P(corresponde detener el proceso | σ = 8).
 
 **Respuesta de la guía:** β = 0.3222.
 
@@ -3083,7 +3107,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: σ ≤ 5 supone que cumple; H1: σ > 5 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | σ = 8) = 0,05 (error de tipo II).  
+• α = P(corresponde detener el proceso | σ = 5) = 0,05 (error de tipo I); 1 - α = P(no corresponde detener el proceso | σ = 5) = 0,95; β = P(no corresponde detener el proceso | σ = 8) = 0,05 (error de tipo II); 1 - β = P(corresponde detener el proceso | σ = 8) = 0,95 (potencia).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: σ² ≤ 25  vs  H1: σ² > 25.
 - **Modelos y distribuciones empleados**:  
@@ -3091,8 +3115,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (n-1)·S²/σ² ~ χ² con ν = n - 1 grados de libertad. La χ² es asimétrica, por eso el intervalo no es simétrico y en un ensayo bilateral hay dos valores críticos distintos.  
 • Para β / potencia se usa que (n-1)·S²/σ₁² ~ χ²(n-1) cuando el desvío verdadero es σ₁.
 - Se busca el menor n tal que con α = 0,05 se tenga β ≤ 0,05 cuando σ = 8: n = 27 (S²c = 37,38956, Sc = 6,1147, β real = 0,0462).
+- **Regla de decisión**: se toma una muestra de n = 27 y se calcula su desvío S. Si S > 6,1147, se rechaza H0 → corresponde detener el proceso. En caso contrario → no corresponde detener el proceso.
 
-**Conclusión:** El tamaño de muestra necesario es n = 27. Como la muestra actual es de 10, hay que tomar Δn = 27 - 10 = 17 más.
+**Conclusión:** El tamaño de muestra necesario es n = 27 (Sc = 6,12). Como la muestra actual es de 10, hay que tomar Δn = 27 - 10 = 17 más.
 
 **Respuesta de la guía:** n = 27 suelas en total, o sea 17 suelas más.
 
@@ -3130,7 +3155,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Procesar la muestra**: n = 9, x̄ = Σxᵢ/n = 1,5333, S = √[Σ(xᵢ - x̄)²/(n-1)] = 0,0235.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 1,5 y σ ≤ 0,015 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 1,5 y σ > 0,015 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Modelos y distribuciones empleados**:  
 • **Para la media**: La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n). Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)  
@@ -3223,6 +3249,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la proporción poblacional p con un 90% de confianza mediante un intervalo de confianza. La cátedra usa el modelo exacto (Beta / F).
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -3276,6 +3303,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la proporción poblacional p con un 95% de confianza mediante un intervalo de confianza. La cátedra usa el modelo exacto (Beta / F).
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -3332,6 +3360,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la proporción poblacional p con un 90% de confianza mediante un intervalo de confianza. La cátedra usa el modelo exacto (Beta / F).
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -3384,6 +3413,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la proporción poblacional p con un 95% de confianza mediante un intervalo de confianza. La cátedra usa el modelo exacto (Beta / F).
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -3412,6 +3442,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la proporción poblacional p con un 95% de confianza mediante un intervalo de confianza. La cátedra usa el modelo exacto (Beta / F).
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -3440,6 +3471,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la proporción poblacional p con un 95% de confianza mediante un intervalo de confianza. La cátedra usa el modelo exacto (Beta / F).
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -3470,10 +3502,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ No existen ensayos bilaterales sobre p (el profesor: «no existe caso bilateral»). Se planteó el unilateral hacia arriba, que es lo que la muestra/enunciado sugiere probar: revisá qué dice el enunciado que se quiere probar (eso va en H1).
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **1 · Planteo de hipótesis**: H0: p ≤ 0,07  vs  H1: p > 0,07.
 - **Justificación de H0**:  
 • H1: p > 0,07 recoge lo que el enunciado quiere probar; H0: p ≤ 0,07 es el complemento y lleva la igualdad (el valor de referencia 0,07).  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: binomial exacto con n = 1000 y p₀ = 0,07.
@@ -3507,6 +3541,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Estimar la proporción poblacional p con un 90% de confianza mediante un intervalo de confianza. La cátedra usa el modelo exacto (Beta / F).
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -3543,7 +3578,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: p ≤ 0,1  vs  H1: p > 0,1.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: p ≤ 0,1 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: p > 0,1 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde cambiar de catálogo | p = 0,1) = 0,05 (error de tipo I); 1 - α = P(no corresponde cambiar de catálogo | p = 0,1) = 0,95.  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: binomial exacto con n = 100 y p₀ = 0,1.
@@ -3552,11 +3587,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El ensayo se resuelve con la Binomial exacta (el valor crítico r_c es un entero, con α real ≤ α). No hay ensayos bilaterales sobre p.
 - **4 · Condición de rechazo (CR)**: r_c es el menor valor con G_b(r_c | n = 100; p₀ = 0,1) ≤ α: G_b(15) = 0,0726 > α y G_b(16) = 0,0399 ≤ α → r_c = 16 (α real = 0,0399 ≤ α = 0,05; el α real nunca puede superar al estipulado). Si r ≥ 16 ⇒ se rechaza H0 (la decisión se toma con r contra r_c, a priori).
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 100 unidades y se cuenta la cantidad r de casos. Si r ≥ 16, se rechaza H0 → se puede asegurar que p > 0,1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que p > 0,1.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 100 unidades y se cuenta la cantidad r de casos. Si r ≥ 16, se rechaza H0 → corresponde cambiar de catálogo. En caso contrario no se rechaza H0 → no corresponde cambiar de catálogo.
 - **6 · Cálculos y decisión**: r = 14 (p̂ = 0,14) no es ≥ r_c = 16 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,1239. El profesor decide con r contra r_c (a priori); el α* «no me gusta».
 
-**Conclusión:** Con α = 0,05, r = 14 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: p ≤ 0,1. No hay evidencia suficiente para asegurar que p > 0,1 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, r = 14 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: p ≤ 0,1. No hay evidencia suficiente para asegurar que p > 0,1 (no rechazar H0 no la prueba); por lo tanto, no corresponde cambiar de catálogo.
 
 **Respuesta de la guía:** No, no se puede asegurar que con el nuevo catálogo el porcentaje de compradores sea superior al 10%.
 
@@ -3574,7 +3609,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(no rechazar H0 | p = 0,12) = F_b(15 | n = 100; p₁ = 0,12) = 0,8586.
 - **Potencia** 1-β = 0,1414.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,1414 (β = 0,8586).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,1414 (β = 0,8586). En términos del problema: β = P(no corresponde cambiar de catálogo | p = 0,12); 1 - β = P(corresponde cambiar de catálogo | p = 0,12).
 
 **Respuesta de la guía:** 1–β = 0,1415.
 
@@ -3595,10 +3630,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la proporción poblacional p: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **1 · Planteo de hipótesis**: H0: p ≤ 0,6  vs  H1: p > 0,6.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: p ≤ 0,6 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: p > 0,6 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(corresponde iniciar la campaña | p = 0,6) = 0,1 (error de tipo I); 1 - α = P(no corresponde iniciar la campaña | p = 0,6) = 0,9.  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: binomial exacto con n = 500 y p₀ = 0,6.
@@ -3607,11 +3643,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El ensayo se resuelve con la Binomial exacta (el valor crítico r_c es un entero, con α real ≤ α). No hay ensayos bilaterales sobre p.
 - **4 · Condición de rechazo (CR)**: r_c es el menor valor con G_b(r_c | n = 500; p₀ = 0,6) ≤ α: G_b(314) = 0,1086 > α y G_b(315) = 0,0924 ≤ α → r_c = 315 (α real = 0,0924 ≤ α = 0,1; el α real nunca puede superar al estipulado). Si r ≥ 315 ⇒ se rechaza H0 (la decisión se toma con r contra r_c, a priori).
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 500 unidades y se cuenta la cantidad r de casos. Si r ≥ 315, se rechaza H0 → se puede asegurar que p > 0,6. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que p > 0,6.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 500 unidades y se cuenta la cantidad r de casos. Si r ≥ 315, se rechaza H0 → corresponde iniciar la campaña. En caso contrario no se rechaza H0 → no corresponde iniciar la campaña.
 - **6 · Cálculos y decisión**: r = 325 (p̂ = 0,65) ≥ r_c = 315 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,0122. El profesor decide con r contra r_c (a priori); el α* «no me gusta».
 
-**Conclusión:** Con α = 0,1, r = 325 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: p ≤ 0,6. Se puede asegurar que p > 0,6.
+**Conclusión:** Con α = 0,1, r = 325 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: p ≤ 0,6. Se puede asegurar que p > 0,6; por lo tanto, corresponde iniciar la campaña.
 
 **Respuesta de la guía:** Sí, se puede afirmar que el porcentaje de televidentes es superior al 60% y se aconseja iniciar la campaña.
 
@@ -3629,7 +3665,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(no rechazar H0 | p = 0,66) = F_b(314 | n = 500; p₁ = 0,66) = 0,0724.
 - **Potencia** 1-β = 0,9276.
 
-**Conclusión:** La probabilidad pedida es β = 0,0724 (potencia 1-β = 0,9276).
+**Conclusión:** La probabilidad pedida es β = 0,0724 (potencia 1-β = 0,9276). En términos del problema: β = P(no corresponde iniciar la campaña | p = 0,66); 1 - β = P(corresponde iniciar la campaña | p = 0,66).
 
 **Respuesta de la guía:** β = 0,0724.
 
@@ -3647,7 +3683,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(no rechazar H0 | p = 0,68) = F_b(314 | n = 500; p₁ = 0,68) = 0,0078.
 - **Potencia** 1-β = 0,9922.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,9922 (β = 0,0078).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,9922 (β = 0,0078). En términos del problema: β = P(no corresponde iniciar la campaña | p = 0,68); 1 - β = P(corresponde iniciar la campaña | p = 0,68).
 
 **Respuesta de la guía:** 1–β = 0,9922.
 
@@ -3682,9 +3718,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • H1: p > 0,05 recoge lo que el enunciado quiere probar; H0: p ≤ 0,05 es el complemento y lleva la igualdad (el valor de referencia 0,05).  
-• α = P(rechazar H0 | H0 cierta) = 0,2 (error de tipo I); β = P(no rechazar H0 | p = 0,07) = 0,1 (error de tipo II).  
+• α = P(rechazar H0 | H0 cierta) = 0,2 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,8; β = P(no rechazar H0 | p = 0,07) = 0,1 (error de tipo II); 1 - β = P(rechazar H0 | p = 0,07) = 0,9 (potencia).  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,05  vs  H1: p > 0,05.
 - **Modelos y distribuciones empleados**:  
@@ -3735,7 +3773,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: p ≤ 0,05  vs  H1: p > 0,05.
 - **Justificación de H0**:  
 • H1: p > 0,05 recoge lo que el enunciado quiere probar; H0: p ≤ 0,05 es el complemento y lleva la igualdad (el valor de referencia 0,05).  
-• α = P(rechazar H0 | H0 cierta) = 0,2 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,2 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,8.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,2 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: binomial exacto con n = 638 y p₀ = 0,05.
@@ -3787,18 +3826,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ 0,12 supone que cumple; H1: p > 0,12 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(corresponde detenerlo y revisarlo | p = 0,12) = 0,05 (error de tipo I); 1 - α = P(no corresponde detenerlo y revisarlo | p = 0,12) = 0,95.  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,12  vs  H1: p > 0,12.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El plan exacto sale de la Binomial (el menor n con G ≤ α y F ≤ β). Las aproximaciones normal o de Poisson solo sirven para calcular n y se justifican con el n RESULTANTE (normal si n·p₀ > 10 y n·(1-p₀) > 10; Poisson si p₀ ≤ 0,005; si no, criterio de Mermoz).
-- **Condición de rechazo**: r_c es el menor valor con G_b(r_c | n = 50; p₀ = 0,12) ≤ α: G_b(10) = 0,0708 > α y G_b(11) = 0,0325 ≤ α → r_c = 11 (α real = 0,0325 ≤ α = 0,05; el α real nunca puede superar al estipulado). Si r ≥ 11 ⇒ se rechaza H0.
+- **Condición de rechazo**: r_c es el menor valor con G_b(r_c | n = 50; p₀ = 0,12) ≤ α: G_b(10) = 0,0708 > α y G_b(11) = 0,0325 ≤ α → r_c = 11 (α real = 0,0325 ≤ α = 0,05; el α real nunca puede superar al estipulado). Si r ≥ 11 ⇒ se rechaza H0: corresponde detenerlo y revisarlo; si no, no corresponde detenerlo y revisarlo.
 
-**Conclusión:** Si en la muestra de 50 se encuentran r ≥ 11, se rechaza H0.
+**Conclusión:** Si en la muestra de 50 se encuentran r ≥ 11, se rechaza H0: corresponde detenerlo y revisarlo; si no, no corresponde detenerlo y revisarlo.
 
 **Respuesta de la guía:** Por lo menos 11 defectuosas.
 
@@ -3816,7 +3856,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **β** = P(no rechazar H0 | p = 0,14) = F_b(10 | n = 50; p₁ = 0,14) = 0,9176.
 - **Potencia** 1-β = 0,0824.
 
-**Conclusión:** La probabilidad pedida es β = 0,9176 (potencia 1-β = 0,0824).
+**Conclusión:** La probabilidad pedida es β = 0,9176 (potencia 1-β = 0,0824). En términos del problema: β = P(no corresponde detenerlo y revisarlo | p = 0,14); 1 - β = P(corresponde detenerlo y revisarlo | p = 0,14).
 
 **Respuesta de la guía:** β = 0,9176. Ver procedimiento de construcción de la curva en el problema 12.
 
@@ -3826,16 +3866,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ 0,12 supone que cumple; H1: p > 0,12 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | p = 0,14) = 0,5 (error de tipo II).  
+• α = P(corresponde detenerlo y revisarlo | p = 0,12) = 0,05 (error de tipo I); 1 - α = P(no corresponde detenerlo y revisarlo | p = 0,12) = 0,95; β = P(no corresponde detenerlo y revisarlo | p = 0,14) = 0,5 (error de tipo II); 1 - β = P(corresponde detenerlo y revisarlo | p = 0,14) = 0,5 (potencia).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,12  vs  H1: p > 0,12.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El plan exacto sale de la Binomial (el menor n con G ≤ α y F ≤ β). Las aproximaciones normal o de Poisson solo sirven para calcular n y se justifican con el n RESULTANTE (normal si n·p₀ > 10 y n·(1-p₀) > 10; Poisson si p₀ ≤ 0,005; si no, criterio de Mermoz).
-- **Condiciones**: P(rechazar | p₀ = 0,12) ≤ α = 0,05 y P(no rechazar | p₁ = 0,14) ≤ β = 0,5.
+- **Condiciones**: P(corresponde detenerlo y revisarlo | p₀ = 0,12) ≤ α = 0,05 y P(no corresponde detenerlo y revisarlo | p₁ = 0,14) ≤ β = 0,5.
 - **Plan (binomial exacto, se itera n)**: n = 755, r_c = 106. α real = 0,0499, β real = 0,4967.
-- **Regla de decisión**: Tomar una muestra de n = 755. Si se encuentran r ≥ 106 casos, se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 755. Si se encuentran r ≥ 106 casos, se rechaza H0: corresponde detenerlo y revisarlo; si no, no corresponde detenerlo y revisarlo.
 - **Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 715; con ese n el binomial da r_c = 101 (α real = 0,0478, β real = 0,5223). Criterio de aproximación con el n resultante: n·p = 715·0,12 = 85,8 y n·(1 − p) = 629,2 (los dos > 10); p = 0,12 > 0,005 → aproximación normal.
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
 
@@ -3847,7 +3887,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Por aproximación de Poisson** (Ecuación de García): R = p₁/p₀ = 1,1667; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 16,4204; ν = 2/9·(a + √(a² + 1))² = 240,1142; c = ⌊ν/2⌋ = 120 → g.l. = 2c = 240; n = máx[χ²(α; 240)/(2p₀) ; χ²(1-β; 240)/(2p₁)] = máx[854,7308 ; 854,7631] → n = 855; r_c = c + 1 = 121. Criterio de aproximación con el n resultante: n·p = 855·0,12 = 102,6 y n·(1 − p) = 752,4 (los dos > 10); p = 0,12 > 0,005 → aproximación normal. ⚠️ Con el n resultante el criterio NO habilita Poisson: este n no es una respuesta válida (el profesor, sobre III-11c: el 855 por Poisson es incorrecto porque el criterio se aplicó con el n inicial).
 
-**Conclusión:** Tomar una muestra de n = 755. Si se encuentran r ≥ 106 casos, se rechaza H0. (Por aproximación normal, justificada con el n resultante: n = 715 y r_c = 101.)
+**Conclusión:** Tomar una muestra de n = 755. Si se encuentran r ≥ 106 casos, se rechaza H0: corresponde detenerlo y revisarlo; si no, no corresponde detenerlo y revisarlo. (Por aproximación normal, justificada con el n resultante: n = 715 y r_c = 101.)
 
 **Respuesta de la guía:** n = 755 piezas, o n = 715 piezas (por aproximación normal), o n= 855 piezas (por aproximación de Poisson). En este caso la aproximación de Poisson no es correcta, la cual sería adecuada si n = 50.
 
@@ -3869,18 +3909,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ 0,11 supone que cumple; H1: p > 0,11 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | p = 0,16) = 0,01 (error de tipo II).  
+• α = P(corresponde rechazar la partida | p = 0,11) = 0,05 (error de tipo I); 1 - α = P(no corresponde rechazar la partida | p = 0,11) = 0,95; β = P(no corresponde rechazar la partida | p = 0,16) = 0,01 (error de tipo II); 1 - β = P(corresponde rechazar la partida | p = 0,16) = 0,99 (potencia).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,11  vs  H1: p > 0,11.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El plan exacto sale de la Binomial (el menor n con G ≤ α y F ≤ β). Las aproximaciones normal o de Poisson solo sirven para calcular n y se justifican con el n RESULTANTE (normal si n·p₀ > 10 y n·(1-p₀) > 10; Poisson si p₀ ≤ 0,005; si no, criterio de Mermoz).
-- **Condiciones**: P(rechazar | p₀ = 0,11) ≤ α = 0,05 y P(no rechazar | p₁ = 0,16) ≤ β = 0,01.
+- **Condiciones**: P(corresponde rechazar la partida | p₀ = 0,11) ≤ α = 0,05 y P(no corresponde rechazar la partida | p₁ = 0,16) ≤ β = 0,01.
 - **Plan (binomial exacto, se itera n)**: n = 739, r_c = 96. α real = 0,0499, β real = 0,0098.
-- **Regla de decisión**: Tomar una muestra de n = 739. Si se encuentran r ≥ 96 casos, se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 739. Si se encuentran r ≥ 96 casos, se rechaza H0: corresponde rechazar la partida; si no, no corresponde rechazar la partida.
 - **Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 749; con ese n el binomial da r_c = 98 (α real = 0,0413, β real = 0,0114). Criterio de aproximación con el n resultante: n·p = 749·0,11 = 82,39 y n·(1 − p) = 666,61 (los dos > 10); p = 0,11 > 0,005 → aproximación normal.
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
 
@@ -3892,7 +3933,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Por aproximación de Poisson** (Ecuación de García): R = p₁/p₀ = 1,4545; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 15,7481; ν = 2/9·(a + √(a² + 1))² = 220,8907; c = ⌊ν/2⌋ = 110 → g.l. = 2c = 220; n = máx[χ²(α; 220)/(2p₀) ; χ²(1-β; 220)/(2p₁)] = máx[848,5051 ; 849,1164] → n = 850; r_c = c + 1 = 111. Criterio de aproximación con el n resultante: n·p = 850·0,11 = 93,5 y n·(1 − p) = 756,5 (los dos > 10); p = 0,11 > 0,005 → aproximación normal. ⚠️ Con el n resultante el criterio NO habilita Poisson: este n no es una respuesta válida (el profesor, sobre III-11c: el 855 por Poisson es incorrecto porque el criterio se aplicó con el n inicial).
 
-**Conclusión:** Tomar una muestra de n = 739. Si se encuentran r ≥ 96 casos, se rechaza H0. (Por aproximación normal, justificada con el n resultante: n = 749 y r_c = 98.)
+**Conclusión:** Tomar una muestra de n = 739. Si se encuentran r ≥ 96 casos, se rechaza H0: corresponde rechazar la partida; si no, no corresponde rechazar la partida. (Por aproximación normal, justificada con el n resultante: n = 749 y r_c = 98.)
 
 **Respuesta de la guía:** H0) p ≤ p0 = 0,11. n = 739 piezas y rc = 96 defectuosas (α = 0,0499; β = 0,0098); o n = 749 piezas y rc = 98 defectuosas (por aproximación normal).
 
@@ -3911,7 +3952,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Potencia** 1-β = 0,7996.
 - **Con el plan por aproximación normal** (n = 749, r_c = 98): 1-β = 0,7794, β = 0,2206.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,7996 (β = 0,2004).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,7996 (β = 0,2004). En términos del problema: β = P(no corresponde rechazar la partida | p = 0,14); 1 - β = P(corresponde rechazar la partida | p = 0,14).
 
 **Respuesta de la guía:** 1–β = 0,7996 (β = 0,2004); con los datos de la aproximación normal: 1–β = 0,7793 (β = 0,2207).
 
@@ -3955,9 +3996,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ 0,05 supone que cumple; H1: p > 0,05 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
@@ -3977,7 +4020,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ 0,05 supone que cumple; H1: p > 0,05 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
@@ -4013,18 +4057,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: p ≥ 0,14 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: p < 0,14 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I); β = P(no rechazar H0 | p = 0,1) = 0,05 (error de tipo II).  
+• α = P(corresponde cambiar la materia prima | p = 0,14) = 0,01 (error de tipo I); 1 - α = P(no corresponde cambiar la materia prima | p = 0,14) = 0,99; β = P(no corresponde cambiar la materia prima | p = 0,1) = 0,05 (error de tipo II); 1 - β = P(corresponde cambiar la materia prima | p = 0,1) = 0,95 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≥ 0,14  vs  H1: p < 0,14.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El plan exacto sale de la Binomial (el menor n con G ≤ α y F ≤ β). Las aproximaciones normal o de Poisson solo sirven para calcular n y se justifican con el n RESULTANTE (normal si n·p₀ > 10 y n·(1-p₀) > 10; Poisson si p₀ ≤ 0,005; si no, criterio de Mermoz).
-- **Condiciones**: P(rechazar | p₀ = 0,14) ≤ α = 0,01 y P(no rechazar | p₁ = 0,1) ≤ β = 0,05.
+- **Condiciones**: P(corresponde cambiar la materia prima | p₀ = 0,14) ≤ α = 0,01 y P(no corresponde cambiar la materia prima | p₁ = 0,1) ≤ β = 0,05.
 - **Plan (binomial exacto, se itera n)**: n = 1043, r_c = 120. α real = 0,01, β real = 0,0495.
-- **Regla de decisión**: Tomar una muestra de n = 1043. Si se encuentran r ≤ 120 casos, se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 1043. Si se encuentran r ≤ 120 casos, se rechaza H0: corresponde cambiar la materia prima; si no, no corresponde cambiar la materia prima.
 - **Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 1058; con ese n el binomial da r_c = 121 (α real = 0,0079, β real = 0,056). Criterio de aproximación con el n resultante: n·p = 1058·0,14 = 148,12 y n·(1 − p) = 909,88 (los dos > 10); p = 0,14 > 0,005 → aproximación normal.
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
 
@@ -4036,7 +4081,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Por aproximación de Poisson** (Ecuación de García): R = p₀/p₁ = 1,4; a = [Z(1-α) + Z(1-β)·∛R]/[2(∛R - 1)] = 17,5519; ν = 2/9·(a + √(a² + 1))² = 274,2828; r_c = ⌈(ν-2)/2⌉ = 137 → g.l. = 2r_c + 2 = 276; n = máx[χ²(1-α; 276)/(2p₀) ; χ²(β; 276)/(2p₁)] = máx[1.191,3525 ; 1.192,6233] → n = 1193. Criterio de aproximación con el n resultante: n·p = 1193·0,14 = 167,02 y n·(1 − p) = 1025,98 (los dos > 10); p = 0,14 > 0,005 → aproximación normal. ⚠️ Con el n resultante el criterio NO habilita Poisson: este n no es una respuesta válida (el profesor, sobre III-11c: el 855 por Poisson es incorrecto porque el criterio se aplicó con el n inicial).
 
-**Conclusión:** Tomar una muestra de n = 1043. Si se encuentran r ≤ 120 casos, se rechaza H0. (Por aproximación normal, justificada con el n resultante: n = 1058 y r_c = 121.)
+**Conclusión:** Tomar una muestra de n = 1043. Si se encuentran r ≤ 120 casos, se rechaza H0: corresponde cambiar la materia prima; si no, no corresponde cambiar la materia prima. (Por aproximación normal, justificada con el n resultante: n = 1058 y r_c = 121.)
 
 **Respuesta de la guía:** (Criterio pesimista) H0) p ≥ p0 = 0,14, n = 1.043 piezas o n = 1.058 piezas (por aproximación normal); CR: Si r ≤ rc = 120 defectuosas rechazo la H0 o Si r ≤ rc = 121 defectuosas rechazo la H0 (por aproximación normal); RD: Si de una muestra de 1.043 piezas hay 120 defectuosas o menos se cambia la materia prima o Si de una muestra de 1.058 piezas hay 121 defectuosas o menos se cambia la materia prima (por aproximación normal).
 
@@ -4055,7 +4100,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Potencia** 1-β = 0,332.
 - **Con el plan por aproximación normal** (n = 1058, r_c = 121): 1-β = 0,3058, β = 0,6942.
 
-**Conclusión:** La probabilidad pedida es β = 0,668 (potencia 1-β = 0,332).
+**Conclusión:** La probabilidad pedida es β = 0,668 (potencia 1-β = 0,332). En términos del problema: β = P(no corresponde cambiar la materia prima | p = 0,12); 1 - β = P(corresponde cambiar la materia prima | p = 0,12).
 
 **Respuesta de la guía:** β = 0,6680, o β = 0,6942 (por aproximación normal). Ver procedimiento de construcción de la curva en el problema 12.
 
@@ -4077,10 +4122,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la proporción poblacional p: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **1 · Planteo de hipótesis**: H0: p ≤ 0,7  vs  H1: p > 0,7.
 - **Justificación de H0**:  
 • H1: p > 0,7 recoge lo que el enunciado quiere probar; H0: p ≤ 0,7 es el complemento y lleva la igualdad (el valor de referencia 0,7).  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: binomial exacto con n = 30 y p₀ = 0,7.
@@ -4103,7 +4150,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • H1: p > 0,7 recoge lo que el enunciado quiere probar; H0: p ≤ 0,7 es el complemento y lleva la igualdad (el valor de referencia 0,7).  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,7  vs  H1: p > 0,7.
 - **Modelos y distribuciones empleados**:  
@@ -4199,18 +4247,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: p ≤ 0,12 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: p > 0,12 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I); β = P(no rechazar H0 | p = 0,15) = 0,1 (error de tipo II).  
+• α = P(corresponde efectuar otra campaña | p = 0,12) = 0,01 (error de tipo I); 1 - α = P(no corresponde efectuar otra campaña | p = 0,12) = 0,99; β = P(no corresponde efectuar otra campaña | p = 0,15) = 0,1 (error de tipo II); 1 - β = P(corresponde efectuar otra campaña | p = 0,15) = 0,9 (potencia).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,12  vs  H1: p > 0,12.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El plan exacto sale de la Binomial (el menor n con G ≤ α y F ≤ β). Las aproximaciones normal o de Poisson solo sirven para calcular n y se justifican con el n RESULTANTE (normal si n·p₀ > 10 y n·(1-p₀) > 10; Poisson si p₀ ≤ 0,005; si no, criterio de Mermoz).
-- **Condiciones**: P(rechazar | p₀ = 0,12) ≤ α = 0,01 y P(no rechazar | p₁ = 0,15) ≤ β = 0,1.
+- **Condiciones**: P(corresponde efectuar otra campaña | p₀ = 0,12) ≤ α = 0,01 y P(no corresponde efectuar otra campaña | p₁ = 0,15) ≤ β = 0,1.
 - **Plan (binomial exacto, se itera n)**: n = 1675, r_c = 233. α real = 0,01, β real = 0,0988.
-- **Regla de decisión**: Tomar una muestra de n = 1675. Si se encuentran r ≥ 233 casos, se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 1675. Si se encuentran r ≥ 233 casos, se rechaza H0: corresponde efectuar otra campaña; si no, no corresponde efectuar otra campaña.
 - **Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 1637; con ese n el binomial da r_c = 229 (α real = 0,0083, β real = 0,1183). Criterio de aproximación con el n resultante: n·p = 1637·0,12 = 196,44 y n·(1 − p) = 1440,56 (los dos > 10); p = 0,12 > 0,005 → aproximación normal.
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
 
@@ -4222,7 +4271,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Por aproximación de Poisson** (Ecuación de García): R = p₁/p₀ = 1,25; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 24,5251; ν = 2/9·(a + √(a² + 1))² = 535,0959; c = ⌊ν/2⌋ = 267 → g.l. = 2c = 534; n = máx[χ²(α; 534)/(2p₀) ; χ²(1-β; 534)/(2p₁)] = máx[1.920,5296 ; 1.920,9544] → n = 1921; r_c = c + 1 = 268. Criterio de aproximación con el n resultante: n·p = 1921·0,12 = 230,52 y n·(1 − p) = 1690,48 (los dos > 10); p = 0,12 > 0,005 → aproximación normal. ⚠️ Con el n resultante el criterio NO habilita Poisson: este n no es una respuesta válida (el profesor, sobre III-11c: el 855 por Poisson es incorrecto porque el criterio se aplicó con el n inicial).
 
-**Conclusión:** Tomar una muestra de n = 1675. Si se encuentran r ≥ 233 casos, se rechaza H0. (Por aproximación normal, justificada con el n resultante: n = 1637 y r_c = 229.)
+**Conclusión:** Tomar una muestra de n = 1675. Si se encuentran r ≥ 233 casos, se rechaza H0: corresponde efectuar otra campaña; si no, no corresponde efectuar otra campaña. (Por aproximación normal, justificada con el n resultante: n = 1637 y r_c = 229.)
 
 **Respuesta de la guía:** (Criterio pesimista) H0) p ≤ p0 = 0,12; CR: Si r ≥ rc = 233 éxitos se rechaza la H0 o r ≥ rc = 229 éxitos (por aproximación normal); RD: Si de una muestra de 1.675 encuestados por lo menos 233 se encuentran interesados, se concluye que la campaña ha sido efectiva o Si de una muestra de 1.637 encuestados por lo menos 228 se encuentran interesados se concluye que la campaña ha sido efectiva (por aproximación normal).
 
@@ -4243,7 +4292,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Potencia** 1-β = 0,5527.
 - **Con el plan por aproximación normal** (n = 1637, r_c = 229): 1-β = 0,5159, β = 0,4841.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,5527 (β = 0,4473).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,5527 (β = 0,4473). En términos del problema: β = P(no corresponde efectuar otra campaña | p = 0,14); 1 - β = P(corresponde efectuar otra campaña | p = 0,14).
 
 **Respuesta de la guía:** 1–β = 0,5527, o 1–β = 0,5443 (por aproximación normal).
 
@@ -4255,16 +4304,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: p ≤ 0,12 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: p > 0,12 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I); β = P(no rechazar H0 | p = 0,14) = 0,1 (error de tipo II).  
+• α = P(corresponde efectuar otra campaña | p = 0,12) = 0,01 (error de tipo I); 1 - α = P(no corresponde efectuar otra campaña | p = 0,12) = 0,99; β = P(no corresponde efectuar otra campaña | p = 0,14) = 0,1 (error de tipo II); 1 - β = P(corresponde efectuar otra campaña | p = 0,14) = 0,9 (potencia).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,12  vs  H1: p > 0,12.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El plan exacto sale de la Binomial (el menor n con G ≤ α y F ≤ β). Las aproximaciones normal o de Poisson solo sirven para calcular n y se justifican con el n RESULTANTE (normal si n·p₀ > 10 y n·(1-p₀) > 10; Poisson si p₀ ≤ 0,005; si no, criterio de Mermoz).
-- **Condiciones**: P(rechazar | p₀ = 0,12) ≤ α = 0,01 y P(no rechazar | p₁ = 0,14) ≤ β = 0,1.
+- **Condiciones**: P(corresponde efectuar otra campaña | p₀ = 0,12) ≤ α = 0,01 y P(no corresponde efectuar otra campaña | p₁ = 0,14) ≤ β = 0,1.
 - **Plan (binomial exacto, se itera n)**: n = 3660, r_c = 486. α real = 0,01, β real = 0,0994.
-- **Regla de decisión**: Tomar una muestra de n = 3660. Si se encuentran r ≥ 486 casos, se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 3660. Si se encuentran r ≥ 486 casos, se rechaza H0: corresponde efectuar otra campaña; si no, no corresponde efectuar otra campaña.
 - **Plan «más próximo a las premisas»** (el que suele informar la guía): entre los planes que cumplen α y β con r_c = 486 o 487, el de menor |α_real - α| + |β_real - β| es n = 3667, r_c = 487 (α real = 0,00983, β real = 0,09974). Los dos planes son válidos: el de n mínimo es el más barato.
 - **Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 3604; con ese n el binomial da r_c = 479 (α real = 0,0099, β real = 0,1048). Criterio de aproximación con el n resultante: n·p = 3604·0,12 = 432,48 y n·(1 − p) = 3171,52 (los dos > 10); p = 0,12 > 0,005 → aproximación normal.
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
@@ -4277,7 +4326,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Por aproximación de Poisson** (Ecuación de García): R = p₁/p₀ = 1,1667; a = [Z(1-β) + Z(1-α)·∛R]/[2(∛R - 1)] = 35,3765; ν = 2/9·(a + √(a² + 1))² = 1.112,8828; c = ⌊ν/2⌋ = 556 → g.l. = 2c = 1112; n = máx[χ²(α; 1112)/(2p₀) ; χ²(1-β; 1112)/(2p₁)] = máx[4.188,5022 ; 4.188,7469] → n = 4189; r_c = c + 1 = 557. Criterio de aproximación con el n resultante: n·p = 4189·0,12 = 502,68 y n·(1 − p) = 3686,32 (los dos > 10); p = 0,12 > 0,005 → aproximación normal. ⚠️ Con el n resultante el criterio NO habilita Poisson: este n no es una respuesta válida (el profesor, sobre III-11c: el 855 por Poisson es incorrecto porque el criterio se aplicó con el n inicial).
 
-**Conclusión:** Tomar una muestra de n = 3660. Si se encuentran r ≥ 486 casos, se rechaza H0. (Plan más próximo a las premisas: n = 3667 y r_c = 487.) (Por aproximación normal, justificada con el n resultante: n = 3604 y r_c = 479.)
+**Conclusión:** Tomar una muestra de n = 3660. Si se encuentran r ≥ 486 casos, se rechaza H0: corresponde efectuar otra campaña; si no, no corresponde efectuar otra campaña. (Plan más próximo a las premisas: n = 3667 y r_c = 487.) (Por aproximación normal, justificada con el n resultante: n = 3604 y r_c = 479.)
 
 **Respuesta de la guía:** n = 3.667, RD: Si de una muestra de 3.667 encuestados por lo menos 487 se encuentran interesados, se concluye que la campaña ha sido efectiva o Si de una muestra de 3.604 encuestados por lo menos 479 se encuentran interesados se concluye que la campaña ha sido efectiva (por aproximación normal).
 
@@ -4311,18 +4360,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: p ≥ 0,041 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: p < 0,041 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); β = P(no rechazar H0 | p = 0,025) = 0,5 (error de tipo II).  
+• α = P(corresponde cambiar de aleación | p = 0,041) = 0,1 (error de tipo I); 1 - α = P(no corresponde cambiar de aleación | p = 0,041) = 0,9; β = P(no corresponde cambiar de aleación | p = 0,025) = 0,5 (error de tipo II); 1 - β = P(corresponde cambiar de aleación | p = 0,025) = 0,5 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≥ 0,041  vs  H1: p < 0,041.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El plan exacto sale de la Binomial (el menor n con G ≤ α y F ≤ β). Las aproximaciones normal o de Poisson solo sirven para calcular n y se justifican con el n RESULTANTE (normal si n·p₀ > 10 y n·(1-p₀) > 10; Poisson si p₀ ≤ 0,005; si no, criterio de Mermoz).
-- **Condiciones**: P(rechazar | p₀ = 0,041) ≤ α = 0,1 y P(no rechazar | p₁ = 0,025) ≤ β = 0,5.
+- **Condiciones**: P(corresponde cambiar de aleación | p₀ = 0,041) ≤ α = 0,1 y P(no corresponde cambiar de aleación | p₁ = 0,025) ≤ β = 0,5.
 - **Plan (binomial exacto, se itera n)**: n = 225, r_c = 5. α real = 0,0979, β real = 0,4937.
-- **Regla de decisión**: Tomar una muestra de n = 225. Si se encuentran r ≤ 5 casos, se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 225. Si se encuentran r ≤ 5 casos, se rechaza H0: corresponde cambiar de aleación; si no, no corresponde cambiar de aleación.
 - **Plan «más próximo a las premisas»** (el que suele informar la guía): entre los planes que cumplen α y β con r_c = 5 o 6, el de menor |α_real - α| + |β_real - β| es n = 226, r_c = 5 (α real = 0,09572, β real = 0,49799). Los dos planes son válidos: el de n mínimo es el más barato.
 - **Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 253; con ese n el binomial da r_c = 5 (α real = 0,0508, β real = 0,6076). Criterio de aproximación con el n resultante: n·p = 253·0,041 = 10,373 y n·(1 − p) = 242,627 (los dos > 10); p = 0,041 > 0,005 → aproximación normal.
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
@@ -4335,7 +4385,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Por aproximación de Poisson** (Ecuación de García): R = p₀/p₁ = 1,64; a = [Z(1-α) + Z(1-β)·∛R]/[2(∛R - 1)] = 3,5743; ν = 2/9·(a + √(a² + 1))² = 11,7963; r_c = ⌈(ν-2)/2⌉ = 5 → g.l. = 2r_c + 2 = 12; n = máx[χ²(1-α; 12)/(2p₀) ; χ²(β; 12)/(2p₁)] = máx[226,2116 ; 226,8064] → n = 227. Criterio de aproximación con el n resultante: n·p = 227·0,041 = 9,307 y n·(1 − p) = 217,693 (no son los dos > 10); p = 0,041 > 0,005 → no se cumple ninguna, así que decide el criterio de Mermoz: n₀ = 0,23·(1 − p)²/p³ = 3069,12; n = 227 ≤ n₀ → aproximación de Poisson.
 
-**Conclusión:** Tomar una muestra de n = 225. Si se encuentran r ≤ 5 casos, se rechaza H0. (Plan más próximo a las premisas: n = 226 y r_c = 5.) (Por aproximación normal, justificada con el n resultante: n = 253 y r_c = 5.) (Por aproximación de Poisson, justificada con el n resultante: n = 227 y r_c = 5.)
+**Conclusión:** Tomar una muestra de n = 225. Si se encuentran r ≤ 5 casos, se rechaza H0: corresponde cambiar de aleación; si no, no corresponde cambiar de aleación. (Plan más próximo a las premisas: n = 226 y r_c = 5.) (Por aproximación normal, justificada con el n resultante: n = 253 y r_c = 5.) (Por aproximación de Poisson, justificada con el n resultante: n = 227 y r_c = 5.)
 
 **Respuesta de la guía:** (Criterio pesimista) H0) p ≥ p0 = 0,041; n = 226 piezas o n = 253 piezas (por aproximación Normal), debería ser más apropiada la aproximación de Poisson que da n = 227; RD: Si en una muestra de 226 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación o RD: Si en una muestra de 253 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación (por aproximación Normal) o RD: Si en una muestra de 227 piezas se encuentran 5 o menos defectuosas, se rechaza la hipótesis y se adopta la nueva aleación (por aproximación de Poisson).
 
@@ -4356,18 +4406,19 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: p ≥ 0,06 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: p < 0,06 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I); β = P(no rechazar H0 | p = 0,04) = 0,1 (error de tipo II).  
+• α = P(corresponde adoptar la nueva fórmula | p = 0,06) = 0,01 (error de tipo I); 1 - α = P(no corresponde adoptar la nueva fórmula | p = 0,06) = 0,99; β = P(no corresponde adoptar la nueva fórmula | p = 0,04) = 0,1 (error de tipo II); 1 - β = P(corresponde adoptar la nueva fórmula | p = 0,04) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≥ 0,06  vs  H1: p < 0,06.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
 • El plan exacto sale de la Binomial (el menor n con G ≤ α y F ≤ β). Las aproximaciones normal o de Poisson solo sirven para calcular n y se justifican con el n RESULTANTE (normal si n·p₀ > 10 y n·(1-p₀) > 10; Poisson si p₀ ≤ 0,005; si no, criterio de Mermoz).
-- **Condiciones**: P(rechazar | p₀ = 0,06) ≤ α = 0,01 y P(no rechazar | p₁ = 0,04) ≤ β = 0,1.
+- **Condiciones**: P(corresponde adoptar la nueva fórmula | p₀ = 0,06) ≤ α = 0,01 y P(no corresponde adoptar la nueva fórmula | p₁ = 0,04) ≤ β = 0,1.
 - **Plan (binomial exacto, se itera n)**: n = 1561, r_c = 72. α real = 0,01, β real = 0,099.
-- **Regla de decisión**: Tomar una muestra de n = 1561. Si se encuentran r ≤ 72 casos, se rechaza H0.
+- **Regla de decisión**: Tomar una muestra de n = 1561. Si se encuentran r ≤ 72 casos, se rechaza H0: corresponde adoptar la nueva fórmula; si no, no corresponde adoptar la nueva fórmula.
 - **Plan «más próximo a las premisas»** (el que suele informar la guía): entre los planes que cumplen α y β con r_c = 72 o 73, el de menor |α_real - α| + |β_real - β| es n = 1562, r_c = 72 (α real = 0,00982, β real = 0,09992). Los dos planes son válidos: el de n mínimo es el más barato.
 - **Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → n = 1615; con ese n el binomial da r_c = 74 (α real = 0,0077, β real = 0,1062). Criterio de aproximación con el n resultante: n·p = 1615·0,06 = 96,9 y n·(1 − p) = 1518,1 (los dos > 10); p = 0,06 > 0,005 → aproximación normal.
 - **Otros planes válidos**: para cada r_c, todos los n del rango cumplen α y β (uno de los riesgos baja y el otro sube con n). La app informa el menor n; la guía a veces da el mayor del rango o usa el r_c siguiente.
@@ -4380,7 +4431,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Por aproximación de Poisson** (Ecuación de García): R = p₀/p₁ = 1,5; a = [Z(1-α) + Z(1-β)·∛R]/[2(∛R - 1)] = 13,1064; ν = 2/9·(a + √(a² + 1))² = 153,1348; r_c = ⌈(ν-2)/2⌉ = 76 → g.l. = 2r_c + 2 = 154; n = máx[χ²(1-α; 154)/(2p₀) ; χ²(β; 154)/(2p₁)] = máx[1.647,8483 ; 1.649,7558] → n = 1650. Criterio de aproximación con el n resultante: n·p = 1650·0,06 = 99 y n·(1 − p) = 1551 (los dos > 10); p = 0,06 > 0,005 → aproximación normal. ⚠️ Con el n resultante el criterio NO habilita Poisson: este n no es una respuesta válida (el profesor, sobre III-11c: el 855 por Poisson es incorrecto porque el criterio se aplicó con el n inicial).
 
-**Conclusión:** Tomar una muestra de n = 1561. Si se encuentran r ≤ 72 casos, se rechaza H0. (Plan más próximo a las premisas: n = 1562 y r_c = 72.) (Por aproximación normal, justificada con el n resultante: n = 1615 y r_c = 74.)
+**Conclusión:** Tomar una muestra de n = 1561. Si se encuentran r ≤ 72 casos, se rechaza H0: corresponde adoptar la nueva fórmula; si no, no corresponde adoptar la nueva fórmula. (Plan más próximo a las premisas: n = 1562 y r_c = 72.) (Por aproximación normal, justificada con el n resultante: n = 1615 y r_c = 74.)
 
 **Respuesta de la guía:** (Criterio pesimista) H0) p ≥ p0 = 0,06; n = 1.585 unidades o n = 1.615 unidades (por aproximación normal); rc = 73 o menos defectuosos o 74 o menos defectuosos (por aproximación normal).
 
@@ -4399,7 +4450,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Potencia** 1-β = 0,2629.
 - **Con el plan por aproximación normal** (n = 1615, r_c = 74): 1-β = 0,2403, β = 0,7597.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,2629 (β = 0,7371).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,2629 (β = 0,7371). En términos del problema: β = P(no corresponde adoptar la nueva fórmula | p = 0,05); 1 - β = P(corresponde adoptar la nueva fórmula | p = 0,05).
 
 **Respuesta de la guía:** 1–β = 0,2569 o 1–β = 0,2403 (por aproximación Normal). Ver procedimiento de construcción de la curva en el problema 12.
 
@@ -4420,10 +4471,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la proporción poblacional p: H1 con signo '>'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **1 · Planteo de hipótesis**: H0: p ≤ 1/37  vs  H1: p > 1/37.
 - **Justificación de H0**:  
 • H1: p > 1/37 recoge lo que el enunciado quiere probar; H0: p ≤ 1/37 es el complemento y lleva la igualdad (el valor de referencia 1/37).  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: binomial exacto con n = 1000 y p₀ = 1/37.
@@ -4474,9 +4527,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ p₀ supone que cumple; H1: p > p₀ es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
@@ -4505,6 +4560,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Calcular el tamaño de muestra (completá el error e o la reducción pedida).
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -4522,7 +4578,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ 0,01 supone que cumple; H1: p > 0,01 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
@@ -4552,9 +4609,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ 0,015 supone que cumple; H1: p > 0,015 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | p = 0,04) = 0,1 (error de tipo II).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95; β = P(no rechazar H0 | p = 0,04) = 0,1 (error de tipo II); 1 - β = P(rechazar H0 | p = 0,04) = 0,9 (potencia).  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,015  vs  H1: p > 0,015.
 - **Modelos y distribuciones empleados**:  
@@ -4585,7 +4644,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ 0,02 supone que cumple; H1: p > 0,02 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,15 (error de tipo I); β = P(no rechazar H0 | p = 0,05) = 0,1 (error de tipo II).  
+• α = P(rechazar H0 | H0 cierta) = 0,15 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,85; β = P(no rechazar H0 | p = 0,05) = 0,1 (error de tipo II); 1 - β = P(rechazar H0 | p = 0,05) = 0,9 (potencia).  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,02  vs  H1: p > 0,02.
 - **Modelos y distribuciones empleados**:  
@@ -4625,6 +4685,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Calcular la potencia 1-β = P(rechazar H0 | H0 falsa) para el valor alternativo del parámetro, con la región crítica del ensayo.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -4652,6 +4713,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Calcular β = P(no rechazar H0 | H0 falsa) para el valor alternativo del parámetro, con la región crítica del ensayo.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Modelos y distribuciones empleados**:  
 • Cada unidad es una prueba de Bernoulli (cumple / no cumple) con probabilidad p, independientes entre sí.  
 • La cantidad de casos r en una muestra de n sigue una Binomial: r ~ B(n; p).  
@@ -4694,10 +4756,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Decidir con un ensayo de hipótesis sobre la proporción poblacional p: H1 con signo '<'. Se compara el valor muestral con el valor crítico y se redacta 'se rechaza / no se rechaza H0'.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **1 · Planteo de hipótesis**: H0: p ≥ 0,05  vs  H1: p < 0,05.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: p ≥ 0,05 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: p < 0,05 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: binomial exacto con n = 160 y p₀ = 0,05.
@@ -4728,9 +4792,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Diseñar el ensayo: plantear H0 (según el criterio), hallar n y el valor crítico que cumplen las dos condiciones (α y β) y escribir la regla de decisión.
 
+- **Variable** (paso 1): r = cantidad de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la muestra (cada unidad es o no es uno de ellos); p = proporción de ⟨qué se cuenta, p. ej. «piezas defectuosas»⟩ en la población. _Completá «Variable en palabras» con lo que se cuenta (en plural) y queda en la regla de decisión y en la conclusión._
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: p ≤ 0,01 supone que cumple; H1: p > 0,01 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I); β = P(no rechazar H0 | p = 0,02) = 0,05 (error de tipo II).  
+• α = P(rechazar H0 | H0 cierta) = 0,01 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,99; β = P(no rechazar H0 | p = 0,02) = 0,05 (error de tipo II); 1 - β = P(rechazar H0 | p = 0,02) = 0,95 (potencia).  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: p ≤ 0,01  vs  H1: p > 0,01.
 - **Modelos y distribuciones empleados**:  
@@ -4783,7 +4849,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **IC para φ = σ(Muestra 2)/σ(Muestra 1)** (raíz de los límites): [0,9476 ; 2,2164]. Inversa σ(Muestra 1)/σ(Muestra 2): [0,4512 ; 1,0552].
 - **Relación entre límites** B/A: 5,4704 para las varianzas y 2,3389 para los desvíos.
 
-**Conclusión:** Con un 90% de confianza: P(0,8980 ≤ σ²(Muestra 2)/σ²(Muestra 1) ≤ 4,9127) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,898031 y 4,912605).
+**Conclusión:** Con un 90% de confianza: P(0,8980 ≤ σ²(Muestra 2)/σ²(Muestra 1) ≤ 4,9127) = 0,9. La varianza de Muestra 2 es como mínimo un 10,2% menor y como máximo un 391,27% mayor que la de Muestra 1. Relación inversa: P(0,2035 ≤ σ²(Muestra 1)/σ²(Muestra 2) ≤ 1,1136) = 0,9: La varianza de Muestra 1 es como mínimo un 79,65% menor y como máximo un 11,36% mayor que la de Muestra 2. (límites redondeados hacia afuera; sin redondear: 0,898031 y 4,912605).
 
 **Respuesta de la guía:** Entre 0,2035 y 1,1136 décimas de mm², para la relación (σ1/σ2)², o Entre 0,8980 y 4,9127 décimas de mm², para la relación (σ2/σ1)².
 
@@ -4814,7 +4880,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **IC para φ = σ(Muestra 2)/σ(Muestra 1)** (raíz de los límites): [0,9476 ; 2,2164]. Inversa σ(Muestra 1)/σ(Muestra 2): [0,4512 ; 1,0552].
 - **Relación entre límites** B/A: 5,4704 para las varianzas y 2,3389 para los desvíos.
 
-**Conclusión:** Con un 90% de confianza: P(0,9476 ≤ σ(Muestra 2)/σ(Muestra 1) ≤ 2,2165) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,947645 y 2,21644).
+**Conclusión:** Con un 90% de confianza: P(0,9476 ≤ σ(Muestra 2)/σ(Muestra 1) ≤ 2,2165) = 0,9. El desvío de Muestra 2 es como mínimo un 5,24% menor y como máximo un 121,65% mayor que el de Muestra 1. Relación inversa: P(0,4511 ≤ σ(Muestra 1)/σ(Muestra 2) ≤ 1,0553) = 0,9: El desvío de Muestra 1 es como mínimo un 54,89% menor y como máximo un 5,53% mayor que el de Muestra 2. (límites redondeados hacia afuera; sin redondear: 0,947645 y 2,21644).
 
 **Respuesta de la guía:** Entre 0,4511 y 1,0553 décimas de mm (para la relación σ1/σ2); o Entre 0,9476 y 2,2165 décimas de mm (para la relación σ2/σ1).
 
@@ -4857,7 +4923,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: φ = σ(P)/σ(A) ≥ 0,8  vs  H1: φ = σ(P)/σ(A) < 0,8.  En varianzas: φ₀² = 0,64.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: φ = σ(P)/σ(A) ≥ 0,8 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: φ = σ(P)/σ(A) < 0,8 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(corresponde cambiar la composición química | φ = σ(P)/σ(A) = 0,8) = 0,1 (error de tipo I); 1 - α = P(no corresponde cambiar la composición química | φ = σ(P)/σ(A) = 0,8) = 0,9.  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: j² = S²(P)/S²(A); bajo H0, j²/φ₀² ~ F(ν₁ = n(P) - 1 = 12; ν₂ = n(A) - 1 = 20).
@@ -4865,11 +4931,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las dos variables se suponen Normales y las muestras independientes (supuesto necesario: la F no es robusta si X no es Normal).  
 • Entonces (S₁²/σ₁²)/(S₂²/σ₂²) ~ F de Snedecor con ν₁ = n₁-1 (numerador) y ν₂ = n₂-1 (denominador). Con φ = σ₁/σ₂ y j² = S₁²/S₂²: j²/φ² ~ F(ν₁; ν₂). La F es asimétrica: el IC no es simétrico y F(α; ν₁; ν₂) = 1/F(1-α; ν₂; ν₁).  
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².
-- **4 · Condición de rechazo (CR)**: j²c = φ₀²·F(0,1; 12; 20) = 0,64·0,4855 = 0,3107 (jc = 0,5574). Si j² < 0,3107 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la relación j² = S²(P)/S²(A) con las muestras de 13 y 21. Si j² < 0,3107, se rechaza H0 → se puede asegurar que φ = σ(P)/σ(A) < 0,8. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(P)/σ(A) < 0,8.
+- **4 · Condición de rechazo (CR)**: j²c = φ₀²·F(0,1; 12; 20) = 0,64·0,4855 = 0,3107 (jc = 0,5574). Si J < 0,5574 (j² < 0,3107) ⇒ se rechaza H0: corresponde cambiar la composición química; si no, no corresponde cambiar la composición química.
+- **5 · Regla de decisión (RD)**: Se calcula la relación J = S(P)/S(A) con las muestras de 13 y 21. Si J < 0,5574 (j² < 0,3107), se rechaza H0 → corresponde cambiar la composición química. En caso contrario no se rechaza H0 → no corresponde cambiar la composición química.
 - **6 · Cálculos y decisión** (el estimador contra el valor crítico): J = S(P)/S(A) = 0,06/0,084 = 0,7143 (J² = 0,5102) contra Jc = √0,3107 = 0,5574 → no cae en la zona de rechazo.
 
-**Conclusión:** Con α = 0,1, J = 0,7143 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: φ = σ(P)/σ(A) ≥ 0,8. No hay evidencia suficiente para asegurar que φ = σ(P)/σ(A) < 0,8 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,1, J = 0,7143 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: φ = σ(P)/σ(A) ≥ 0,8. No hay evidencia suficiente para asegurar que φ = σ(P)/σ(A) < 0,8 (el desvío de P es menor que 0,8 veces el de A: se reduce en más de un 20%) (no rechazar H0 no la prueba); por lo tanto, no corresponde cambiar la composición química.
 
 **Respuesta de la guía:** H0: σP ≥ 0,8·σA; para φ = σP/σA, H0: φ ≥ φ0 = 0,8. jc = 0,5574 (j²c = 0,3107); j = SP/SA = 0,7143 (j² = 0,5102). No se rechaza la H0: no se aconseja el cambio de composición química, porque no se puede probar que la aleación propuesta disminuya el desvío en más de un 20% respecto de la aleación actual.
 
@@ -4884,11 +4950,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².  
 • Para β / potencia se usa que j²/φ₁² ~ F(ν₁; ν₂) cuando la relación verdadera es φ₁.
 - **Estadístico**: j² = S²(P)/S²(A); bajo H0, j²/φ₀² ~ F(ν₁ = n(P) - 1 = 12; ν₂ = n(A) - 1 = 20).
-- **Condición de rechazo**: j²c = φ₀²·F(0,1; 12; 20) = 0,64·0,4855 = 0,3107 (jc = 0,5574). Si j² < 0,3107 ⇒ se rechaza H0.
+- **Condición de rechazo**: j²c = φ₀²·F(0,1; 12; 20) = 0,64·0,4855 = 0,3107 (jc = 0,5574). Si J < 0,5574 (j² < 0,3107) ⇒ se rechaza H0: corresponde cambiar la composición química; si no, no corresponde cambiar la composición química.
 - **Si φ = φ₁ = 0,7** (φ₁² = 0,49), j²/φ₁² ~ F(12; 20). P(rechazar H0) = P(F(12; 20) < j²c/φ₁²) = P(F < 0,3107/0,49 = 0,6341) = 0,2103.
 - **Potencia** 1-β = 0,2103.
 
-**Conclusión:** La probabilidad pedida es β = 0,7897 (potencia 1-β = 0,2103).
+**Conclusión:** La probabilidad pedida es β = 0,7897 (potencia 1-β = 0,2103). En términos del problema: β = P(no corresponde cambiar la composición química | φ = 0,7); 1 - β = P(corresponde cambiar la composición química | φ = 0,7).
 
 **Respuesta de la guía:** β = 0,7897 (para φ1 = 0,70).
 
@@ -4898,7 +4964,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: φ = σ(P)/σ(A) ≥ 0,8 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: φ = σ(P)/σ(A) < 0,8 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); β = P(no rechazar H0 | φ = σ(P)/σ(A) = 0,7) = 0,05 (error de tipo II).  
+• α = P(corresponde cambiar la composición química | φ = σ(P)/σ(A) = 0,8) = 0,1 (error de tipo I); 1 - α = P(no corresponde cambiar la composición química | φ = σ(P)/σ(A) = 0,8) = 0,9; β = P(no corresponde cambiar la composición química | φ = σ(P)/σ(A) = 0,7) = 0,05 (error de tipo II); 1 - β = P(corresponde cambiar la composición química | φ = σ(P)/σ(A) = 0,7) = 0,95 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: φ = σ(P)/σ(A) ≥ 0,8  vs  H1: φ = σ(P)/σ(A) < 0,8.
 - **Modelos y distribuciones empleados**:  
@@ -4906,13 +4972,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (S₁²/σ₁²)/(S₂²/σ₂²) ~ F de Snedecor con ν₁ = n₁-1 (numerador) y ν₂ = n₂-1 (denominador). Con φ = σ₁/σ₂ y j² = S₁²/S₂²: j²/φ² ~ F(ν₁; ν₂). La F es asimétrica: el IC no es simétrico y F(α; ν₁; ν₂) = 1/F(1-α; ν₂; ν₁).  
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².  
 • Para β / potencia se usa que j²/φ₁² ~ F(ν₁; ν₂) cuando la relación verdadera es φ₁.
-- **Condiciones**: P(rechazar H0 | φ = 0,8) = α = 0,1 y P(no rechazar H0 | φ = 0,7) = β = 0,05.
+- **Condiciones**: P(corresponde cambiar la composición química | φ = 0,8) = α = 0,1 y P(no corresponde cambiar la composición química | φ = 0,7) = β = 0,05.
 - **Tamaño de muestra** (n₁ = n₂ = n, ν₁ = ν₂ = n - 1): hay que cumplir R = φ₀²/φ₁² = 0,64/0,49 = 1,3061 ≥ F(1-α; ν; ν)·F(1-β; ν; ν). Iterando sobre F: n = 483 (ν = 482).
-- **Condición de rechazo**: j²c = φ₀²·F(0,1; 482; 482) = 0,5694 (jc = 0,7546). Si j² < 0,5694 ⇒ se rechaza H0.
-- **Regla de decisión**: Si en 483 muestras de cada grupo la relación j = S(P)/S(A) es menor que 0,7546, se rechaza H0 → se puede asegurar que φ = σ(P)/σ(A) < 0,8. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(P)/σ(A) < 0,8.
+- **Condición de rechazo**: j²c = φ₀²·F(0,1; 482; 482) = 0,5694 (jc = 0,7546). Si j² < 0,5694 ⇒ se rechaza H0: corresponde cambiar la composición química; si no, no corresponde cambiar la composición química.
+- **Regla de decisión**: Si en 483 muestras de cada grupo la relación j = S(P)/S(A) es menor que 0,7546, se rechaza H0 → corresponde cambiar la composición química. En caso contrario no se rechaza H0 → no corresponde cambiar la composición química.
 - Con n = 483: β real = 0,0497, potencia real = 0,9503.
 
-**Conclusión:** ν = 482: n = 483 en cada muestra (P y A). Si en 483 muestras de cada grupo la relación j = S(P)/S(A) es menor que 0,7546, se rechaza H0 → se puede asegurar que φ = σ(P)/σ(A) < 0,8. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(P)/σ(A) < 0,8. (Hoy hay 13 de P y 21 de A: Δn = 470 y 462.)
+**Conclusión:** ν = 482: n = 483 en cada muestra (P y A). Si en 483 muestras de cada grupo la relación j = S(P)/S(A) es menor que 0,7546, se rechaza H0 → corresponde cambiar la composición química. En caso contrario no se rechaza H0 → no corresponde cambiar la composición química. (Hoy hay 13 de P y 21 de A: Δn = 470 y 462.)
 
 **Respuesta de la guía:** ν = 482 ⇒ n = nP = nA = 483 piezas de cada aleación.
 
@@ -4928,7 +4994,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **IC para φ = σ(P)/σ(A)** (raíz de los límites): [0,4733 ; 1,1392]. Inversa σ(A)/σ(P): [0,8778 ; 2,1128].
 - **Relación entre límites** B/A: 5,7932 para las varianzas y 2,4069 para los desvíos.
 
-**Conclusión:** Con un 90% de confianza: P(0,4732 ≤ σ(P)/σ(A) ≤ 1,1392) = 0,9 (límites redondeados hacia afuera; sin redondear: 0,473298 y 1,139188).
+**Conclusión:** Con un 90% de confianza: P(0,4732 ≤ σ(P)/σ(A) ≤ 1,1392) = 0,9. El desvío de P es como mínimo un 52,68% menor y como máximo un 13,92% mayor que el de A. Relación inversa: P(0,8778 ≤ σ(A)/σ(P) ≤ 2,1129) = 0,9: El desvío de A es como mínimo un 12,22% menor y como máximo un 111,29% mayor que el de P. (límites redondeados hacia afuera; sin redondear: 0,473298 y 1,139188).
 
 **Respuesta de la guía:** Entre 0,4732 y 1,1392 (para la relación φ = σP/σA).
 
@@ -4987,7 +5053,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: φ = σ(Casablanca)/σ(La Providencia) ≤ 1  vs  H1: φ = σ(Casablanca)/σ(La Providencia) > 1.  En varianzas: φ₀² = 1.
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: φ = σ(Casablanca)/σ(La Providencia) ≤ 1 supone que cumple; H1: φ = σ(Casablanca)/σ(La Providencia) > 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: j² = S²(Casablanca)/S²(La Providencia); bajo H0, j²/φ₀² ~ F(ν₁ = n(Casablanca) - 1 = 49; ν₂ = n(La Providencia) - 1 = 49).
@@ -4995,11 +5062,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las dos variables se suponen Normales y las muestras independientes (supuesto necesario: la F no es robusta si X no es Normal).  
 • Entonces (S₁²/σ₁²)/(S₂²/σ₂²) ~ F de Snedecor con ν₁ = n₁-1 (numerador) y ν₂ = n₂-1 (denominador). Con φ = σ₁/σ₂ y j² = S₁²/S₂²: j²/φ² ~ F(ν₁; ν₂). La F es asimétrica: el IC no es simétrico y F(α; ν₁; ν₂) = 1/F(1-α; ν₂; ν₁).  
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².
-- **4 · Condición de rechazo (CR)**: j²c = φ₀²·F(0,95; 49; 49) = 1·1,6073 = 1,6073 (jc = 1,2678). Si j² > 1,6073 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la relación j² = S²(Casablanca)/S²(La Providencia) con las muestras de 50 y 50. Si j² > 1,6073, se rechaza H0 → se puede asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1.
+- **4 · Condición de rechazo (CR)**: j²c = φ₀²·F(0,95; 49; 49) = 1·1,6073 = 1,6073 (jc = 1,2678). Si J > 1,2678 (j² > 1,6073) ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la relación J = S(Casablanca)/S(La Providencia) con las muestras de 50 y 50. Si J > 1,2678 (j² > 1,6073), se rechaza H0 → se puede asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1 (el desvío de Casablanca es mayor que el de La Providencia). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1 (el desvío de Casablanca es mayor que el de La Providencia).
 - **6 · Cálculos y decisión** (el estimador contra el valor crítico): J = S(Casablanca)/S(La Providencia) = 18/12 = 1,5 (J² = 2,25) contra Jc = √1,6073 = 1,2678 → cae en la zona de rechazo.
 
-**Conclusión:** Con α = 0,05, J = 1,5 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: φ = σ(Casablanca)/σ(La Providencia) ≤ 1. Se puede asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1.
+**Conclusión:** Con α = 0,05, J = 1,5 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: φ = σ(Casablanca)/σ(La Providencia) ≤ 1. Se puede asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1 (el desvío de Casablanca es mayor que el de La Providencia).
 
 **Respuesta de la guía:** Si, se puede asegurar que los desvíos difieren (en Casablanca el desvío es mayor que en La Providencia).
 
@@ -5014,7 +5081,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².  
 • Para β / potencia se usa que j²/φ₁² ~ F(ν₁; ν₂) cuando la relación verdadera es φ₁.
 - **Estadístico**: j² = S²(Casablanca)/S²(La Providencia); bajo H0, j²/φ₀² ~ F(ν₁ = n(Casablanca) - 1 = 49; ν₂ = n(La Providencia) - 1 = 49).
-- **Condición de rechazo**: j²c = φ₀²·F(0,95; 49; 49) = 1·1,6073 = 1,6073 (jc = 1,2678). Si j² > 1,6073 ⇒ se rechaza H0.
+- **Condición de rechazo**: j²c = φ₀²·F(0,95; 49; 49) = 1·1,6073 = 1,6073 (jc = 1,2678). Si J > 1,2678 (j² > 1,6073) ⇒ se rechaza H0.
 - **Si φ = φ₁ = 1,2** (φ₁² = 1,44), j²/φ₁² ~ F(49; 49). P(rechazar H0) = P(F(49; 49) > j²c/φ₁²) = P(F > 1,6073/1,44 = 1,1162) = 0,351.
 - **Potencia** 1-β = 0,351.
 
@@ -5028,7 +5095,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio optimista**: se controla algo que en principio cumple (proceso, lote, especificación). H0: φ = σ(Casablanca)/σ(La Providencia) ≤ 1 supone que cumple; H1: φ = σ(Casablanca)/σ(La Providencia) > 1 es el incumplimiento que se quiere detectar. Se lo da por bueno salvo evidencia en contra.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | φ = σ(Casablanca)/σ(La Providencia) = 1,2) = 0,1 (error de tipo II).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95; β = P(no rechazar H0 | φ = σ(Casablanca)/σ(La Providencia) = 1,2) = 0,1 (error de tipo II); 1 - β = P(rechazar H0 | φ = σ(Casablanca)/σ(La Providencia) = 1,2) = 0,9 (potencia).  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: φ = σ(Casablanca)/σ(La Providencia) ≤ 1  vs  H1: φ = σ(Casablanca)/σ(La Providencia) > 1.
 - **Modelos y distribuciones empleados**:  
@@ -5042,7 +5110,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Regla de decisión**: Si en 260 muestras de cada grupo la relación j = S(Casablanca)/S(La Providencia) es mayor que 1,1078, se rechaza H0 → se puede asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1.
 - Con n = 260: β real = 0,0995, potencia real = 0,9005.
 
-**Conclusión:** ν = 259: n = 260 en cada muestra (Casablanca y La Providencia). Si en 260 muestras de cada grupo la relación j = S(Casablanca)/S(La Providencia) es mayor que 1,1078, se rechaza H0 → se puede asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1. Respecto de las 50 anteriores: Δn = 210 más en cada una.
+**Conclusión:** ν = 259: n = 260 en cada muestra (Casablanca y La Providencia). Si en 260 muestras de cada grupo la relación j = S(Casablanca)/S(La Providencia) es mayor que 1,1078, se rechaza H0 → se puede asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1 (el desvío de Casablanca es mayor que el de La Providencia). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(Casablanca)/σ(La Providencia) > 1 (el desvío de Casablanca es mayor que el de La Providencia). Respecto de las 50 anteriores: Δn = 210 más en cada una.
 
 **Respuesta de la guía:** n = 260 animales terminados en cada establecimiento.
 
@@ -5058,7 +5126,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **IC para φ = σ(Casablanca)/σ(La Providencia)** (raíz de los límites): [1,1832 ; 1,9017]. Inversa σ(La Providencia)/σ(Casablanca): [0,5258 ; 0,8452].
 - **Relación entre límites** B/A: 2,5834 para las varianzas y 1,6073 para los desvíos.
 
-**Conclusión:** Con un 90% de confianza: P(1,1831 ≤ σ(Casablanca)/σ(La Providencia) ≤ 1,9017) = 0,9 (límites redondeados hacia afuera; sin redondear: 1,183162 y 1,901684). El desvío de Casablanca es mayor que el de La Providencia entre un 18,32% y un 90,17%.
+**Conclusión:** Con un 90% de confianza: P(1,1831 ≤ σ(Casablanca)/σ(La Providencia) ≤ 1,9017) = 0,9. El desvío de Casablanca es mayor que el de La Providencia entre un 18,31% y un 90,17%. Relación inversa: P(0,5258 ≤ σ(La Providencia)/σ(Casablanca) ≤ 0,8452) = 0,9: El desvío de La Providencia es menor que el de Casablanca entre un 15,48% y un 47,42%. (límites redondeados hacia afuera; sin redondear: 1,183162 y 1,901684).
 
 **Respuesta de la guía:** Entre 1,1831 y 1,9017 (para la relación σCa/σLP); quiere decir que el desvío de Casablanca puede ser mayor que el de La Providencia entre un 18,31% y un 90,17%.
 
@@ -5099,7 +5167,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: φ = σ(reacondicionadas)/σ(sin reacondicionar) ≥ 0,88  vs  H1: φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88.  En varianzas: φ₀² = 0,7744.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: φ = σ(reacondicionadas)/σ(sin reacondicionar) ≥ 0,88 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(corresponde reacondicionar a nuevo las hiladoras | φ = σ(reacondicionadas)/σ(sin reacondicionar) = 0,88) = 0,1 (error de tipo I); 1 - α = P(no corresponde reacondicionar a nuevo las hiladoras | φ = σ(reacondicionadas)/σ(sin reacondicionar) = 0,88) = 0,9.  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: j² = S²(reacondicionadas)/S²(sin reacondicionar); bajo H0, j²/φ₀² ~ F(ν₁ = n(reacondicionadas) - 1 = 3; ν₂ = n(sin reacondicionar) - 1 = 15).
@@ -5107,11 +5175,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las dos variables se suponen Normales y las muestras independientes (supuesto necesario: la F no es robusta si X no es Normal).  
 • Entonces (S₁²/σ₁²)/(S₂²/σ₂²) ~ F de Snedecor con ν₁ = n₁-1 (numerador) y ν₂ = n₂-1 (denominador). Con φ = σ₁/σ₂ y j² = S₁²/S₂²: j²/φ² ~ F(ν₁; ν₂). La F es asimétrica: el IC no es simétrico y F(α; ν₁; ν₂) = 1/F(1-α; ν₂; ν₁).  
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².
-- **4 · Condición de rechazo (CR)**: j²c = φ₀²·F(0,1; 3; 15) = 0,7744·0,1923 = 0,1489 (jc = 0,3859). Si j² < 0,1489 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la relación j² = S²(reacondicionadas)/S²(sin reacondicionar) con las muestras de 4 y 16. Si j² < 0,1489, se rechaza H0 → se puede asegurar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88.
+- **4 · Condición de rechazo (CR)**: j²c = φ₀²·F(0,1; 3; 15) = 0,7744·0,1923 = 0,1489 (jc = 0,3859). Si J < 0,3859 (j² < 0,1489) ⇒ se rechaza H0: corresponde reacondicionar a nuevo las hiladoras; si no, no corresponde reacondicionar a nuevo las hiladoras.
+- **5 · Regla de decisión (RD)**: Se calcula la relación J = S(reacondicionadas)/S(sin reacondicionar) con las muestras de 4 y 16. Si J < 0,3859 (j² < 0,1489), se rechaza H0 → corresponde reacondicionar a nuevo las hiladoras. En caso contrario no se rechaza H0 → no corresponde reacondicionar a nuevo las hiladoras.
 - **6 · Cálculos y decisión** (el estimador contra el valor crítico): J = S(reacondicionadas)/S(sin reacondicionar) = 132/354 = 0,3729 (J² = 0,139) contra Jc = √0,1489 = 0,3859 → cae en la zona de rechazo.
 
-**Conclusión:** Con α = 0,1, J = 0,3729 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: φ = σ(reacondicionadas)/σ(sin reacondicionar) ≥ 0,88. Se puede asegurar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88.
+**Conclusión:** Con α = 0,1, J = 0,3729 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: φ = σ(reacondicionadas)/σ(sin reacondicionar) ≥ 0,88. Se puede asegurar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88 (el desvío de reacondicionadas es menor que 0,88 veces el de sin reacondicionar: se reduce en más de un 12%); por lo tanto, corresponde reacondicionar a nuevo las hiladoras.
 
 **Respuesta de la guía:** Si, se puede asegurar que hay una reducción de más del 12% (las máquinas reacondicionadas tienen un desvío estándar un 12% menor que el desvío de las máquinas sin reacondicionar).
 
@@ -5126,11 +5194,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².  
 • Para β / potencia se usa que j²/φ₁² ~ F(ν₁; ν₂) cuando la relación verdadera es φ₁.
 - **Estadístico**: j² = S²(reacondicionadas)/S²(sin reacondicionar); bajo H0, j²/φ₀² ~ F(ν₁ = n(reacondicionadas) - 1 = 3; ν₂ = n(sin reacondicionar) - 1 = 15).
-- **Condición de rechazo**: j²c = φ₀²·F(0,1; 3; 15) = 0,7744·0,1923 = 0,1489 (jc = 0,3859). Si j² < 0,1489 ⇒ se rechaza H0.
+- **Condición de rechazo**: j²c = φ₀²·F(0,1; 3; 15) = 0,7744·0,1923 = 0,1489 (jc = 0,3859). Si J < 0,3859 (j² < 0,1489) ⇒ se rechaza H0: corresponde reacondicionar a nuevo las hiladoras; si no, no corresponde reacondicionar a nuevo las hiladoras.
 - **Si φ = φ₁ = 0,7** (φ₁² = 0,49), j²/φ₁² ~ F(3; 15). P(rechazar H0) = P(F(3; 15) < j²c/φ₁²) = P(F < 0,1489/0,49 = 0,3039) = 0,1779.
 - **Potencia** 1-β = 0,1779.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,1779 (β = 0,8221).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,1779 (β = 0,8221). En términos del problema: β = P(no corresponde reacondicionar a nuevo las hiladoras | φ = 0,7); 1 - β = P(corresponde reacondicionar a nuevo las hiladoras | φ = 0,7).
 
 **Respuesta de la guía:** 1−β = 0,1779.
 
@@ -5140,7 +5208,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: φ = σ(reacondicionadas)/σ(sin reacondicionar) ≥ 0,88 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); β = P(no rechazar H0 | φ = σ(reacondicionadas)/σ(sin reacondicionar) = 0,7) = 0,1 (error de tipo II).  
+• α = P(corresponde reacondicionar a nuevo las hiladoras | φ = σ(reacondicionadas)/σ(sin reacondicionar) = 0,88) = 0,1 (error de tipo I); 1 - α = P(no corresponde reacondicionar a nuevo las hiladoras | φ = σ(reacondicionadas)/σ(sin reacondicionar) = 0,88) = 0,9; β = P(no corresponde reacondicionar a nuevo las hiladoras | φ = σ(reacondicionadas)/σ(sin reacondicionar) = 0,7) = 0,1 (error de tipo II); 1 - β = P(corresponde reacondicionar a nuevo las hiladoras | φ = σ(reacondicionadas)/σ(sin reacondicionar) = 0,7) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: φ = σ(reacondicionadas)/σ(sin reacondicionar) ≥ 0,88  vs  H1: φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88.
 - **Modelos y distribuciones empleados**:  
@@ -5148,13 +5216,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (S₁²/σ₁²)/(S₂²/σ₂²) ~ F de Snedecor con ν₁ = n₁-1 (numerador) y ν₂ = n₂-1 (denominador). Con φ = σ₁/σ₂ y j² = S₁²/S₂²: j²/φ² ~ F(ν₁; ν₂). La F es asimétrica: el IC no es simétrico y F(α; ν₁; ν₂) = 1/F(1-α; ν₂; ν₁).  
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².  
 • Para β / potencia se usa que j²/φ₁² ~ F(ν₁; ν₂) cuando la relación verdadera es φ₁.
-- **Condiciones**: P(rechazar H0 | φ = 0,88) = α = 0,1 y P(no rechazar H0 | φ = 0,7) = β = 0,1.
+- **Condiciones**: P(corresponde reacondicionar a nuevo las hiladoras | φ = 0,88) = α = 0,1 y P(no corresponde reacondicionar a nuevo las hiladoras | φ = 0,7) = β = 0,1.
 - **Tamaño de muestra** (n₁ = n₂ = n, ν₁ = ν₂ = n - 1): hay que cumplir R = φ₀²/φ₁² = 0,7744/0,49 = 1,5804 ≥ F(1-α; ν; ν)·F(1-β; ν; ν). Iterando sobre F: n = 128 (ν = 127).
-- **Condición de rechazo**: j²c = φ₀²·F(0,1; 127; 127) = 0,6164 (jc = 0,7851). Si j² < 0,6164 ⇒ se rechaza H0.
-- **Regla de decisión**: Si en 128 muestras de cada grupo la relación j = S(reacondicionadas)/S(sin reacondicionar) es menor que 0,7851, se rechaza H0 → se puede asegurar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88.
+- **Condición de rechazo**: j²c = φ₀²·F(0,1; 127; 127) = 0,6164 (jc = 0,7851). Si j² < 0,6164 ⇒ se rechaza H0: corresponde reacondicionar a nuevo las hiladoras; si no, no corresponde reacondicionar a nuevo las hiladoras.
+- **Regla de decisión**: Si en 128 muestras de cada grupo la relación j = S(reacondicionadas)/S(sin reacondicionar) es menor que 0,7851, se rechaza H0 → corresponde reacondicionar a nuevo las hiladoras. En caso contrario no se rechaza H0 → no corresponde reacondicionar a nuevo las hiladoras.
 - Con n = 128: β real = 0,0986, potencia real = 0,9014.
 
-**Conclusión:** ν = 127: n = 128 en cada muestra (reacondicionadas y sin reacondicionar). Si en 128 muestras de cada grupo la relación j = S(reacondicionadas)/S(sin reacondicionar) es menor que 0,7851, se rechaza H0 → se puede asegurar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(reacondicionadas)/σ(sin reacondicionar) < 0,88. (Hoy hay 4 de reacondicionadas y 16 de sin reacondicionar: Δn = 124 y 112.)
+**Conclusión:** ν = 127: n = 128 en cada muestra (reacondicionadas y sin reacondicionar). Si en 128 muestras de cada grupo la relación j = S(reacondicionadas)/S(sin reacondicionar) es menor que 0,7851, se rechaza H0 → corresponde reacondicionar a nuevo las hiladoras. En caso contrario no se rechaza H0 → no corresponde reacondicionar a nuevo las hiladoras. (Hoy hay 4 de reacondicionadas y 16 de sin reacondicionar: Δn = 124 y 112.)
 
 **Respuesta de la guía:** n = 128 máquinas reacondicionadas y 128 máquinas sin reacondicionamiento.
 
@@ -5177,7 +5245,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = con aditivo, población 2 = sin aditivo. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: φ = σ(con aditivo)/σ(sin aditivo) ≥ 1 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: φ = σ(con aditivo)/σ(sin aditivo) < 1 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | φ = σ(con aditivo)/σ(sin aditivo) = 0,7) = 0,01 (error de tipo II).  
+• α = P(corresponde adoptar el aditivo | φ = σ(con aditivo)/σ(sin aditivo) = 1) = 0,05 (error de tipo I); 1 - α = P(no corresponde adoptar el aditivo | φ = σ(con aditivo)/σ(sin aditivo) = 1) = 0,95; β = P(no corresponde adoptar el aditivo | φ = σ(con aditivo)/σ(sin aditivo) = 0,7) = 0,01 (error de tipo II); 1 - β = P(corresponde adoptar el aditivo | φ = σ(con aditivo)/σ(sin aditivo) = 0,7) = 0,99 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: φ = σ(con aditivo)/σ(sin aditivo) ≥ 1  vs  H1: φ = σ(con aditivo)/σ(sin aditivo) < 1.
 - **Modelos y distribuciones empleados**:  
@@ -5185,13 +5253,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (S₁²/σ₁²)/(S₂²/σ₂²) ~ F de Snedecor con ν₁ = n₁-1 (numerador) y ν₂ = n₂-1 (denominador). Con φ = σ₁/σ₂ y j² = S₁²/S₂²: j²/φ² ~ F(ν₁; ν₂). La F es asimétrica: el IC no es simétrico y F(α; ν₁; ν₂) = 1/F(1-α; ν₂; ν₁).  
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².  
 • Para β / potencia se usa que j²/φ₁² ~ F(ν₁; ν₂) cuando la relación verdadera es φ₁.
-- **Condiciones**: P(rechazar H0 | φ = 1) = α = 0,05 y P(no rechazar H0 | φ = 0,7) = β = 0,01.
+- **Condiciones**: P(corresponde adoptar el aditivo | φ = 1) = α = 0,05 y P(no corresponde adoptar el aditivo | φ = 0,7) = β = 0,01.
 - **Tamaño de muestra** (n₁ = n₂ = n, ν₁ = ν₂ = n - 1): hay que cumplir R = φ₀²/φ₁² = 1/0,49 = 2,0408 ≥ F(1-α; ν; ν)·F(1-β; ν; ν). Iterando sobre F: n = 127 (ν = 126).
-- **Condición de rechazo**: j²c = φ₀²·F(0,05; 126; 126) = 0,7451 (jc = 0,8632). Si j² < 0,7451 ⇒ se rechaza H0.
-- **Regla de decisión**: Si en 127 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8632, se rechaza H0 → se puede asegurar que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(con aditivo)/σ(sin aditivo) < 1.
+- **Condición de rechazo**: j²c = φ₀²·F(0,05; 126; 126) = 0,7451 (jc = 0,8632). Si j² < 0,7451 ⇒ se rechaza H0: corresponde adoptar el aditivo; si no, no corresponde adoptar el aditivo.
+- **Regla de decisión**: Si en 127 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8632, se rechaza H0 → corresponde adoptar el aditivo. En caso contrario no se rechaza H0 → no corresponde adoptar el aditivo.
 - Con n = 127: β real = 0,0097, potencia real = 0,9903.
 
-**Conclusión:** ν = 126: n = 127 en cada muestra (con aditivo y sin aditivo). Si en 127 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8632, se rechaza H0 → se puede asegurar que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(con aditivo)/σ(sin aditivo) < 1.
+**Conclusión:** ν = 126: n = 127 en cada muestra (con aditivo y sin aditivo). Si en 127 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8632, se rechaza H0 → corresponde adoptar el aditivo. En caso contrario no se rechaza H0 → no corresponde adoptar el aditivo.
 
 **Respuesta de la guía:** H0: σCA ≥ σSA, para la relación φ = σCA/σSA, H0: φ ≥ φ0 = 1, nCA = 127 muestras de látex con aditivo y nCA = 127 muestras de látex sin aditivo. CR: Si j < jc = 0,8632 ⇒ Rechazo la H0. RD: Si en 127 muestras de cada fórmula de látex, la relación j = σCA/σSA es menor que 0,8632, se rechaza la H0 y se adopta el aditivo en la fórmula del látex.
 
@@ -5206,11 +5274,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².  
 • Para β / potencia se usa que j²/φ₁² ~ F(ν₁; ν₂) cuando la relación verdadera es φ₁.
 - **Estadístico**: j² = S²(con aditivo)/S²(sin aditivo); bajo H0, j²/φ₀² ~ F(ν₁ = n(con aditivo) - 1 = 126; ν₂ = n(sin aditivo) - 1 = 126).
-- **Condición de rechazo**: j²c = φ₀²·F(0,05; 126; 126) = 1·0,7451 = 0,7451 (jc = 0,8632). Si j² < 0,7451 ⇒ se rechaza H0.
+- **Condición de rechazo**: j²c = φ₀²·F(0,05; 126; 126) = 1·0,7451 = 0,7451 (jc = 0,8632). Si J < 0,8632 (j² < 0,7451) ⇒ se rechaza H0: corresponde adoptar el aditivo; si no, no corresponde adoptar el aditivo.
 - **Si φ = φ₁ = 0,8** (φ₁² = 0,64), j²/φ₁² ~ F(126; 126). P(rechazar H0) = P(F(126; 126) < j²c/φ₁²) = P(F < 0,7451/0,64 = 1,1643) = 0,8028.
 - **Potencia** 1-β = 0,8028.
 
-**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,8028 (β = 0,1972).
+**Conclusión:** La probabilidad pedida es la potencia 1-β = 0,8028 (β = 0,1972). En términos del problema: β = P(no corresponde adoptar el aditivo | φ = 0,8); 1 - β = P(corresponde adoptar el aditivo | φ = 0,8).
 
 **Respuesta de la guía:** 1−β = 0,1972.
 
@@ -5220,7 +5288,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: φ = σ(con aditivo)/σ(sin aditivo) ≥ 1 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: φ = σ(con aditivo)/σ(sin aditivo) < 1 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); β = P(no rechazar H0 | φ = σ(con aditivo)/σ(sin aditivo) = 0,8) = 0,1 (error de tipo II).  
+• α = P(corresponde adoptar el aditivo | φ = σ(con aditivo)/σ(sin aditivo) = 1) = 0,05 (error de tipo I); 1 - α = P(no corresponde adoptar el aditivo | φ = σ(con aditivo)/σ(sin aditivo) = 1) = 0,95; β = P(no corresponde adoptar el aditivo | φ = σ(con aditivo)/σ(sin aditivo) = 0,8) = 0,1 (error de tipo II); 1 - β = P(corresponde adoptar el aditivo | φ = σ(con aditivo)/σ(sin aditivo) = 0,8) = 0,9 (potencia).  
 • El ensayo es unilateral a la izquierda: la zona de rechazo está donde apunta H1.
 - **Hipótesis**: H0: φ = σ(con aditivo)/σ(sin aditivo) ≥ 1  vs  H1: φ = σ(con aditivo)/σ(sin aditivo) < 1.
 - **Modelos y distribuciones empleados**:  
@@ -5228,13 +5296,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Entonces (S₁²/σ₁²)/(S₂²/σ₂²) ~ F de Snedecor con ν₁ = n₁-1 (numerador) y ν₂ = n₂-1 (denominador). Con φ = σ₁/σ₂ y j² = S₁²/S₂²: j²/φ² ~ F(ν₁; ν₂). La F es asimétrica: el IC no es simétrico y F(α; ν₁; ν₂) = 1/F(1-α; ν₂; ν₁).  
 • En el ensayo, bajo H0 (φ = φ₀) el valor crítico de j² es φ₀²·F; si φ₀ ≠ 1 (p. ej. 'reducir el desvío un 12%' → φ₀ = 0,88) el fractil se multiplica por φ₀².  
 • Para β / potencia se usa que j²/φ₁² ~ F(ν₁; ν₂) cuando la relación verdadera es φ₁.
-- **Condiciones**: P(rechazar H0 | φ = 1) = α = 0,05 y P(no rechazar H0 | φ = 0,8) = β = 0,1.
+- **Condiciones**: P(corresponde adoptar el aditivo | φ = 1) = α = 0,05 y P(no corresponde adoptar el aditivo | φ = 0,8) = β = 0,1.
 - **Tamaño de muestra** (n₁ = n₂ = n, ν₁ = ν₂ = n - 1): hay que cumplir R = φ₀²/φ₁² = 1/0,64 = 1,5625 ≥ F(1-α; ν; ν)·F(1-β; ν; ν). Iterando sobre F: n = 174 (ν = 173).
-- **Condición de rechazo**: j²c = φ₀²·F(0,05; 173; 173) = 0,7782 (jc = 0,8821). Si j² < 0,7782 ⇒ se rechaza H0.
-- **Regla de decisión**: Si en 174 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8821, se rechaza H0 → se puede asegurar que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(con aditivo)/σ(sin aditivo) < 1.
+- **Condición de rechazo**: j²c = φ₀²·F(0,05; 173; 173) = 0,7782 (jc = 0,8821). Si j² < 0,7782 ⇒ se rechaza H0: corresponde adoptar el aditivo; si no, no corresponde adoptar el aditivo.
+- **Regla de decisión**: Si en 174 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8821, se rechaza H0 → corresponde adoptar el aditivo. En caso contrario no se rechaza H0 → no corresponde adoptar el aditivo.
 - Con n = 174: β real = 0,0998, potencia real = 0,9002.
 
-**Conclusión:** ν = 173: n = 174 en cada muestra (con aditivo y sin aditivo). Si en 174 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8821, se rechaza H0 → se puede asegurar que φ = σ(con aditivo)/σ(sin aditivo) < 1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que φ = σ(con aditivo)/σ(sin aditivo) < 1. Respecto de las 127 anteriores: Δn = 47 más en cada una.
+**Conclusión:** ν = 173: n = 174 en cada muestra (con aditivo y sin aditivo). Si en 174 muestras de cada grupo la relación j = S(con aditivo)/S(sin aditivo) es menor que 0,8821, se rechaza H0 → corresponde adoptar el aditivo. En caso contrario no se rechaza H0 → no corresponde adoptar el aditivo. Respecto de las 127 anteriores: Δn = 47 más en cada una.
 
 **Respuesta de la guía:** nCA = nSA = 174 muestras, o sea 47 muestras más de cada fórmula del látex.
 
@@ -5274,11 +5342,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **4 · Condición de rechazo (CR)**: d_c = δ₀ - t·σ(d) = -1,0064. Si d < -1,0064 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d < -1,0064, se rechaza H0 → se puede asegurar que δ = μ(Proceso Nuevo) - μ(Proceso Viejo) < 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Proceso Nuevo) - μ(Proceso Viejo) < 0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d < -1,0064, se rechaza H0 → se puede asegurar que δ = μ(Proceso Nuevo) - μ(Proceso Viejo) < 0 (la media de Proceso Nuevo es menor que la media de Proceso Viejo). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Proceso Nuevo) - μ(Proceso Viejo) < 0 (la media de Proceso Nuevo es menor que la media de Proceso Viejo).
 - **6 · Cálculos y decisión**: d = -3,75 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,01, d = -3,75 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Proceso Nuevo) - μ(Proceso Viejo) ≥ 0. Se puede asegurar que δ = μ(Proceso Nuevo) - μ(Proceso Viejo) < 0.
+**Conclusión:** Con α = 0,01, d = -3,75 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Proceso Nuevo) - μ(Proceso Viejo) ≥ 0. Se puede asegurar que δ = μ(Proceso Nuevo) - μ(Proceso Viejo) < 0 (la media de Proceso Nuevo es menor que la media de Proceso Viejo).
 
 **Respuesta de la guía:** Desvíos: H0: σN ≤ σV (φ = σN/σV, H0: φ ≤ φ0 = 1), jc = 1,4923 (j²c = 2,2269), j = 1,0359 (j² = 1,0732): no se rechaza, se suponen desvíos iguales; Sa = 0,9828 p.p.b., ν = 22. Medias: H0: μN ≥ μV (δ = μN − μV, H0: δ ≥ δ0 = 0), dc = −1,0064 p.p.b., d = 1,5 − 5,25 = −3,75 p.p.b. Se rechaza la hipótesis: se puede asegurar que el proceso nuevo ha minimizado la formación de NDMA.
 
@@ -5294,7 +5362,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 0,982807; ν = n₁ + n₂ - 2 = 22.
 - **IC para δ = μ(Proceso Nuevo) - μ(Proceso Viejo)** (t con Sa (desvíos iguales)): d = -3,75; e = t(0,95; 22)·σ(d) = 1,7171·0,401229 = 0,689.
 
-**Conclusión:** P(-4,44 ≤ μ(Proceso Nuevo) - μ(Proceso Viejo) ≤ -3,06) = 0,9 (e = 0,689). Para μ(Proceso Viejo) - μ(Proceso Nuevo): entre 3,06 y 4,44. Límites redondeados hacia afuera; sin redondear: -4,438968 y -3,061032.
+**Conclusión:** Con un 90% de confianza, la diferencia entre la media de Proceso Nuevo y la de Proceso Viejo está entre -4,4390 y -3,0610: P(-4,4390 ≤ μ(Proceso Nuevo) - μ(Proceso Viejo) ≤ -3,0610) = 0,9 (e = 0,689). Para μ(Proceso Viejo) - μ(Proceso Nuevo): entre 3,0610 y 4,4390. Límites redondeados hacia afuera; sin redondear: -4,438968 y -3,061032.
 
 **Respuesta de la guía:** Entre 3,06 y 4,44 partes por billón (δ = μV − μN; 3,75 ± 0,6890), con un error de muestreo e = 0,6890 p.p.b.
 
@@ -5358,12 +5426,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,9384. Si d > 0,9384 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,9384, se rechaza H0 → se puede asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,9384, se rechaza H0 → se puede asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0 (la media de Ración “B” es mayor que la media de Ración “A”). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0 (la media de Ración “B” es mayor que la media de Ración “A”).
 - **6 · Cálculos y decisión**: d = 0,75 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,089. La decisión se toma comparando el estimador con el valor crítico.
 - **Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que μ(Ración “B”), el de mayor media muestral, supera a μ(Ración “A”).
 
-**Conclusión:** Con α = 0,05, d = 0,75 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Ración “B”) - μ(Ración “A”) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 0,75 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Ración “B”) - μ(Ración “A”) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0 (la media de Ración “B” es mayor que la media de Ración “A”) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No, no se puede asegurar que la ración “B” aumente el crecimiento promedio de los potrillos respecto de la ración “A”.
 
@@ -5381,11 +5449,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 1,2104. Si d > 1,2104 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 1,2104, se rechaza H0 → se puede asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0,5. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0,5.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 1,2104, se rechaza H0 → se puede asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0,5 (la media de Ración “B” supera a la media de Ración “A” en más de 0,5). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0,5 (la media de Ración “B” supera a la media de Ración “A” en más de 0,5).
 - **6 · Cálculos y decisión**: d = 0,75 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,3198. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,1, d = 0,75 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Ración “B”) - μ(Ración “A”) ≤ 0,5. No hay evidencia suficiente para asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0,5 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,1, d = 0,75 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Ración “B”) - μ(Ración “A”) ≤ 0,5. No hay evidencia suficiente para asegurar que δ = μ(Ración “B”) - μ(Ración “A”) > 0,5 (la media de Ración “B” supera a la media de Ración “A” en más de 0,5) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** H0: μB ≤ μA + 0,5 cm; o H0: δ ≤ 0,5 cm, para δ = μB − μA y α = 0,10.
 
@@ -5418,12 +5486,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 194,4494. Si d > 194,4494 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 194,4494, se rechaza H0 → se puede asegurar que δ = μ(reacondicionadas) - μ(sin reacondicionar) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(reacondicionadas) - μ(sin reacondicionar) > 0.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 194,4494 metros. Si d > 194,4494 metros ⇒ se rechaza H0: corresponde reacondicionar a nuevo las hiladoras; si no, no corresponde reacondicionar a nuevo las hiladoras.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 194,4494 metros, se rechaza H0 → corresponde reacondicionar a nuevo las hiladoras. En caso contrario no se rechaza H0 → no corresponde reacondicionar a nuevo las hiladoras.
 - **6 · Cálculos y decisión**: d = 262 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,0162. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 262 metros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(reacondicionadas) - μ(sin reacondicionar) ≤ 0. Se puede asegurar que δ = μ(reacondicionadas) - μ(sin reacondicionar) > 0.
+**Conclusión:** Con α = 0,05, d = 262 metros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(reacondicionadas) - μ(sin reacondicionar) ≤ 0. Se puede asegurar que δ = μ(reacondicionadas) - μ(sin reacondicionar) > 0 (la media de reacondicionadas es mayor que la media sin reacondicionar); por lo tanto, corresponde reacondicionar a nuevo las hiladoras.
 
 **Respuesta de la guía:** Desvíos: H0: σSR ≤ σCR (φ = σSR/σCR, H0: φ ≤ φ0 = 1), jc = 2,2804 (j²c = 5,2003), j = 2,6818 (j² = 7,1922): se rechaza, los desvíos son distintos (Welch, νaw = 14,2641 → 14). Medias: H0: μCR ≤ μSR (δ = μCR − μSR, H0: δ ≤ δ0 = 0), dc = 194,4494 m, d = 1.470 − 1.208 = 262 m. Se rechaza la hipótesis: las máquinas reacondicionadas tienen una producción promedio mayor; se aconseja el reacondicionamiento de todas las máquinas.
 
@@ -5439,7 +5507,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - ν de Aspin-Welch = (S₁²/n₁ + S₂²/n₂)²/[(S₁²/n₁)²/(n₁-1) + (S₂²/n₂)²/(n₂-1)] = 14,2641 → ν = 14.
 - **IC para δ = μ(reacondicionadas) - μ(sin reacondicionar)** (t de Welch (desvíos distintos)): d = 262; e = t(0,95; 14)·σ(d) = 1,7613·110,400408 = 194,4494.
 
-**Conclusión:** P(67,55 ≤ μ(reacondicionadas) - μ(sin reacondicionar) ≤ 456,45) = 0,9 (e = 194,4494). Para μ(sin reacondicionar) - μ(reacondicionadas): entre -456,45 metros y -67,55 metros. Límites redondeados hacia afuera; sin redondear: 67,550643 y 456,449357.
+**Conclusión:** Con un 90% de confianza, la diferencia entre la media de reacondicionadas y la de sin reacondicionar está entre 67,5506 metros y 456,4494 metros: P(67,5506 ≤ μ(reacondicionadas) - μ(sin reacondicionar) ≤ 456,4494) = 0,9 (e = 194,4494). Para μ(sin reacondicionar) - μ(reacondicionadas): entre -456,4494 y -67,5506. Límites redondeados hacia afuera; sin redondear: 67,550643 y 456,449357.
 
 **Respuesta de la guía:** Entre 67,55 metros y 456,45 metros (δ = μCR − μSR; 262 ± 194,4482), con un error de muestreo e = 194,4482.
 
@@ -5514,12 +5582,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ - t·σ(d) = -0,9696. Si d < -0,9696 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d < -0,9696, se rechaza H0 → se puede asegurar que δ = μ(con aditivo) - μ(sin aditivo) < -0,5. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(con aditivo) - μ(sin aditivo) < -0,5.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ - t·σ(d) = -0,9696 litros. Si d < -0,9696 litros ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d < -0,9696 litros, se rechaza H0 → se puede asegurar que δ = μ(con aditivo) - μ(sin aditivo) < -0,5 (la media con aditivo supera a la media sin aditivo en menos de -0,5 litros). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(con aditivo) - μ(sin aditivo) < -0,5 (la media con aditivo supera a la media sin aditivo en menos de -0,5 litros).
 - **6 · Cálculos y decisión**: d = -1,05 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,0286. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = -1,05 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(con aditivo) - μ(sin aditivo) ≥ -0,5. Se puede asegurar que δ = μ(con aditivo) - μ(sin aditivo) < -0,5.
+**Conclusión:** Con α = 0,05, d = -1,05 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(con aditivo) - μ(sin aditivo) ≥ -0,5. Se puede asegurar que δ = μ(con aditivo) - μ(sin aditivo) < -0,5 (la media con aditivo supera a la media sin aditivo en menos de -0,5 litros).
 
 **Respuesta de la guía:** Se puede asegurar que el aditivo reduce el consumo de combustible en más de 0,5 litros.
 
@@ -5536,12 +5604,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ - t·σ(d) = -0,4467. Si d < -0,4467 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d < -0,4467, se rechaza H0 → se puede asegurar que μ(con aditivo) < 0,9·μ(sin aditivo). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ(con aditivo) < 0,9·μ(sin aditivo).
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ - t·σ(d) = -0,4467 litros. Si d < -0,4467 litros ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d < -0,4467 litros, se rechaza H0 → se puede asegurar que μ(con aditivo) < 0,9·μ(sin aditivo) (la media con aditivo es menor que 0,9 veces la media sin aditivo). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ(con aditivo) < 0,9·μ(sin aditivo) (la media con aditivo es menor que 0,9 veces la media sin aditivo).
 - **6 · Cálculos y decisión**: d = -0,525 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,0283. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = -0,525 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ(con aditivo) ≥ 0,9·μ(sin aditivo) (δ* = μ(con aditivo) - 0,9·μ(sin aditivo) ≥ 0). Se puede asegurar que μ(con aditivo) < 0,9·μ(sin aditivo).
+**Conclusión:** Con α = 0,05, d = -0,525 litros cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: μ(con aditivo) ≥ 0,9·μ(sin aditivo) (δ* = μ(con aditivo) - 0,9·μ(sin aditivo) ≥ 0). Se puede asegurar que μ(con aditivo) < 0,9·μ(sin aditivo) (la media con aditivo es menor que 0,9 veces la media sin aditivo).
 
 **Respuesta de la guía:** Se puede asegurar que el aditivo reduce el consumo de combustible en más del 10%.
 
@@ -5577,12 +5645,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 1,9346. Si d > 1,9346 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 1,9346, se rechaza H0 → se puede asegurar que δ = μ(Variedad “B”) - μ(Variedad “A”) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Variedad “B”) - μ(Variedad “A”) > 0.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 1,9346 kg. Si d > 1,9346 kg ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 1,9346 kg, se rechaza H0 → se puede asegurar que δ = μ(Variedad “B”) - μ(Variedad “A”) > 0 (la media de Variedad “B” es mayor que la media de Variedad “A”). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Variedad “B”) - μ(Variedad “A”) > 0 (la media de Variedad “B” es mayor que la media de Variedad “A”).
 - **6 · Cálculos y decisión**: d = 1,2 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,1502. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 1,2 kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Variedad “B”) - μ(Variedad “A”) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Variedad “B”) - μ(Variedad “A”) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 1,2 kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Variedad “B”) - μ(Variedad “A”) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Variedad “B”) - μ(Variedad “A”) > 0 (la media de Variedad “B” es mayor que la media de Variedad “A”) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que la variedad “B” sea más efectiva para el engorde promedio de los novillos que la variedad “A”.
 
@@ -5598,7 +5666,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 3,114482; ν = n₁ + n₂ - 2 = 28.
 - **Límite para δ = μ(Variedad “B”) - μ(Variedad “A”)** (t con Sa (desvíos iguales)): d = 1,2; e = t(0,95; 28)·σ(d) = 1,7011·1,137248 = 1,9346.
 
-**Conclusión:** Con un 95% de confianza, μ(Variedad “B”) - μ(Variedad “A”) ≥ -0,735: la diferencia mínima garantizada para Variedad “B” es -0,735 kg (redondeada hacia abajo; sin redondear -0,734608).
+**Conclusión:** Con un 95% de confianza, μ(Variedad “B”) - μ(Variedad “A”) ≥ -0,7347: la diferencia mínima garantizada para Variedad “B” es -0,7347 kg (redondeada hacia abajo; sin redondear -0,734608).
 
 **Respuesta de la guía:** (− 0,73) kg, se estima que la variedad “A” puede engordar más que la “B” en 0,73 kg.
 
@@ -5644,11 +5712,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,1389. Si d > 0,1389 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,1389, se rechaza H0 → se puede asegurar que δ = μ(Máquina “B”) - μ(Máquina “A”) > 0,1. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Máquina “B”) - μ(Máquina “A”) > 0,1.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,1389, se rechaza H0 → se puede asegurar que δ = μ(Máquina “B”) - μ(Máquina “A”) > 0,1 (la media de Máquina “B” supera a la media de Máquina “A” en más de 0,1). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Máquina “B”) - μ(Máquina “A”) > 0,1 (la media de Máquina “B” supera a la media de Máquina “A” en más de 0,1).
 - **6 · Cálculos y decisión**: d = 0,4 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 0,4 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Máquina “B”) - μ(Máquina “A”) ≤ 0,1. Se puede asegurar que δ = μ(Máquina “B”) - μ(Máquina “A”) > 0,1.
+**Conclusión:** Con α = 0,05, d = 0,4 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Máquina “B”) - μ(Máquina “A”) ≤ 0,1. Se puede asegurar que δ = μ(Máquina “B”) - μ(Máquina “A”) > 0,1 (la media de Máquina “B” supera a la media de Máquina “A” en más de 0,1).
 
 **Respuesta de la guía:** Desvíos: H0: σB ≤ σA (φ = σB/σA), jc = 1,1462 (j²c = 1,3137), j = 1,0605 (j² = 1,1248): no se rechaza, se amalgama Sa = 0,157723 miles de km, ν = 178. H0: μB ≤ μA + 0,100 (δ0 = 0,100), dc = 0,1389 miles de km, d = 1,93 − 1,53 = 0,40 miles de km. Se rechaza la hipótesis: se puede asegurar que la máquina “B” produce en promedio 100 km más que la máquina “A”.
 
@@ -5668,11 +5736,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,0438. Si d > 0,0438 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,0438, se rechaza H0 → se puede asegurar que μ(Máquina “B”) > 1,24·μ(Máquina “A”). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ(Máquina “B”) > 1,24·μ(Máquina “A”).
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,0438, se rechaza H0 → se puede asegurar que μ(Máquina “B”) > 1,24·μ(Máquina “A”) (la media de Máquina “B” supera a la media de Máquina “A” en más de un 24%). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ(Máquina “B”) > 1,24·μ(Máquina “A”) (la media de Máquina “B” supera a la media de Máquina “A” en más de un 24%).
 - **6 · Cálculos y decisión**: d = 0,0328 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,1086. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 0,0328 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(Máquina “B”) ≤ 1,24·μ(Máquina “A”) (δ* = μ(Máquina “B”) - 1,24·μ(Máquina “A”) ≤ 0). No hay evidencia suficiente para asegurar que μ(Máquina “B”) > 1,24·μ(Máquina “A”) (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 0,0328 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(Máquina “B”) ≤ 1,24·μ(Máquina “A”) (δ* = μ(Máquina “B”) - 1,24·μ(Máquina “A”) ≤ 0). No hay evidencia suficiente para asegurar que μ(Máquina “B”) > 1,24·μ(Máquina “A”) (la media de Máquina “B” supera a la media de Máquina “A” en más de un 24%) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** H0: μB ≤ 1,24·μA (δ* = μB − 1,24·μA ≤ 0), d*c = 0,0438 miles de km, d* = 1,93 − 1,24·1,53 = 0,0328 miles de km. No se rechaza: no se puede asegurar que la máquina “B” produzca en promedio un 24% más que la máquina “A”.
 
@@ -5688,7 +5756,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 0,157723; ν = n₁ + n₂ - 2 = 178.
 - **Límite para δ = μ(Máquina “B”) - μ(Máquina “A”)** (t con Sa (desvíos iguales)): d = 0,4; e = t(0,95; 178)·σ(d) = 1,6535·0,023512 = 0,0389.
 
-**Conclusión:** Con un 95% de confianza, μ(Máquina “B”) - μ(Máquina “A”) ≥ 0,361: la diferencia mínima garantizada para Máquina “B” es 0,361 (redondeada hacia abajo; sin redondear 0,361124).
+**Conclusión:** Con un 95% de confianza, μ(Máquina “B”) - μ(Máquina “A”) ≥ 0,3611: la diferencia mínima garantizada para Máquina “B” es 0,3611 (redondeada hacia abajo; sin redondear 0,361124).
 
 **Respuesta de la guía:** A = 0,361124 miles de km: la diferencia mínima es 0,361124 miles de km (361,12 km) con 95% de confianza.
 
@@ -5741,7 +5809,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Variedad Actual (A), población 2 = Variedad Nueva (N). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en S; población 1 = Variedad Actual (A), población 2 = Variedad Nueva (N). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: μ(Variedad Nueva (N)) ≤ 1,1·μ(Variedad Actual (A)) (δ* = μ(Variedad Nueva (N)) - 1,1·μ(Variedad Actual (A)) ≤ 0)  vs  H1: μ(Variedad Nueva (N)) > 1,1·μ(Variedad Actual (A)).
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Variedad Actual (A)) > S(Variedad Nueva (N)), lo único que se puede sospechar es σ(Variedad Actual (A)) > σ(Variedad Nueva (N)) → unilateral, H0: φ = σ(Variedad Actual (A))/σ(Variedad Nueva (N)) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 9; ν₂ = 9) = √2,4403 = 1,5622; J = S(Variedad Actual (A))/S(Variedad Nueva (N)) = 1,1399 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5751,12 +5819,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 1,2499. Si d > 1,2499 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 1,2499, se rechaza H0 → se puede asegurar que μ(Variedad Nueva (N)) > 1,1·μ(Variedad Actual (A)). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ(Variedad Nueva (N)) > 1,1·μ(Variedad Actual (A)).
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 1,2499 S. Si d > 1,2499 S ⇒ se rechaza H0: corresponde lanzar el nuevo producto al mercado; si no, no corresponde lanzar el nuevo producto al mercado.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 1,2499 S, se rechaza H0 → corresponde lanzar el nuevo producto al mercado. En caso contrario no se rechaza H0 → no corresponde lanzar el nuevo producto al mercado.
 - **6 · Cálculos y decisión**: d = 0,38 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,3022. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 0,38 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(Variedad Nueva (N)) ≤ 1,1·μ(Variedad Actual (A)) (δ* = μ(Variedad Nueva (N)) - 1,1·μ(Variedad Actual (A)) ≤ 0). No hay evidencia suficiente para asegurar que μ(Variedad Nueva (N)) > 1,1·μ(Variedad Actual (A)) (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 0,38 S no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(Variedad Nueva (N)) ≤ 1,1·μ(Variedad Actual (A)) (δ* = μ(Variedad Nueva (N)) - 1,1·μ(Variedad Actual (A)) ≤ 0). No hay evidencia suficiente para asegurar que μ(Variedad Nueva (N)) > 1,1·μ(Variedad Actual (A)) (no rechazar H0 no la prueba); por lo tanto, no corresponde lanzar el nuevo producto al mercado.
 
 **Respuesta de la guía:** H0: μN ≤ 1,10·μA; o H0: δ* ≤ 0, no se recomienda el uso de la nueva variedad de maíz, no se puede asegurar que la variedad nueva supere a la actual en más de un 10%.
 
@@ -5787,12 +5855,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,9711. Si d > 0,9711 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,9711, se rechaza H0 → se puede asegurar que δ = μ(con aditivo) - μ(sin aditivo) > 0,45. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(con aditivo) - μ(sin aditivo) > 0,45.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,9711 kg. Si d > 0,9711 kg ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,9711 kg, se rechaza H0 → se puede asegurar que δ = μ(con aditivo) - μ(sin aditivo) > 0,45 (la media con aditivo supera a la media sin aditivo en más de 0,45 kg). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(con aditivo) - μ(sin aditivo) > 0,45 (la media con aditivo supera a la media sin aditivo en más de 0,45 kg).
 - **6 · Cálculos y decisión**: d = 0,9 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,0773. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 0,9 kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(con aditivo) - μ(sin aditivo) ≤ 0,45. No hay evidencia suficiente para asegurar que δ = μ(con aditivo) - μ(sin aditivo) > 0,45 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 0,9 kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(con aditivo) - μ(sin aditivo) ≤ 0,45. No hay evidencia suficiente para asegurar que δ = μ(con aditivo) - μ(sin aditivo) > 0,45 (la media con aditivo supera a la media sin aditivo en más de 0,45 kg) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el aditivo aumente la resistencia en 0,45 kg como mínimo.
 
@@ -5808,7 +5876,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 1,237689; ν = n₁ + n₂ - 2 = 80.
 - **Límite para δ = μ(con aditivo) - μ(sin aditivo)** (t con Sa (desvíos iguales)): d = 0,9; e = t(0,95; 80)·σ(d) = 1,6641·0,313144 = 0,5211.
 
-**Conclusión:** Con un 95% de confianza, μ(con aditivo) - μ(sin aditivo) ≥ 0,378: la diferencia mínima garantizada para con aditivo es 0,378 kg (redondeada hacia abajo; sin redondear 0,378889).
+**Conclusión:** Con un 95% de confianza, μ(con aditivo) - μ(sin aditivo) ≥ 0,3788: la diferencia mínima garantizada para con aditivo es 0,3788 kg (redondeada hacia abajo; sin redondear 0,378889).
 
 **Respuesta de la guía:** 0,3788 kg, el aditivo puede aumentar la resistencia del látex en 0,3788 kg.
 
@@ -5825,12 +5893,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,5349. Si d > 0,5349 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,5349, se rechaza H0 → se puede asegurar que μ(con aditivo) > 1,1·μ(sin aditivo). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ(con aditivo) > 1,1·μ(sin aditivo).
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,5349 kg. Si d > 0,5349 kg ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,5349 kg, se rechaza H0 → se puede asegurar que μ(con aditivo) > 1,1·μ(sin aditivo) (la media con aditivo supera a la media sin aditivo en más de un 10%). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ(con aditivo) > 1,1·μ(sin aditivo) (la media con aditivo supera a la media sin aditivo en más de un 10%).
 - **6 · Cálculos y decisión**: d = 0,14 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,3322. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 0,14 kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(con aditivo) ≤ 1,1·μ(sin aditivo) (δ* = μ(con aditivo) - 1,1·μ(sin aditivo) ≤ 0). No hay evidencia suficiente para asegurar que μ(con aditivo) > 1,1·μ(sin aditivo) (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 0,14 kg no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(con aditivo) ≤ 1,1·μ(sin aditivo) (δ* = μ(con aditivo) - 1,1·μ(sin aditivo) ≤ 0). No hay evidencia suficiente para asegurar que μ(con aditivo) > 1,1·μ(sin aditivo) (la media con aditivo supera a la media sin aditivo en más de un 10%) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el aditivo aumente la resistencia en un 10% como mínimo.
 
@@ -5873,7 +5941,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = John Deere (JD), población 2 = Vasalli (V). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en V; población 1 = John Deere (JD), población 2 = Vasalli (V). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(John Deere (JD)) - μ(Vasalli (V)) ≤ 0  vs  H1: δ = μ(John Deere (JD)) - μ(Vasalli (V)) > 0.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Vasalli (V)) > S(John Deere (JD)), lo único que se puede sospechar es σ(Vasalli (V)) > σ(John Deere (JD)) → unilateral, H0: φ = σ(Vasalli (V))/σ(John Deere (JD)) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 4; ν₂ = 4) = √4,1072 = 2,0266; J = S(Vasalli (V))/S(John Deere (JD)) = 1,3913 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -5883,13 +5951,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,4997. Si d > 0,4997 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,4997, se rechaza H0 → se puede asegurar que δ = μ(John Deere (JD)) - μ(Vasalli (V)) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(John Deere (JD)) - μ(Vasalli (V)) > 0.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,4997 V. Si d > 0,4997 V ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,4997 V, se rechaza H0 → se puede asegurar que δ = μ(John Deere (JD)) - μ(Vasalli (V)) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(John Deere (JD)) - μ(Vasalli (V)) > 0.
 - **6 · Cálculos y decisión**: d = 0,26 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,2441. La decisión se toma comparando el estimador con el valor crítico.
 - **Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que μ(John Deere (JD)), el de mayor media muestral, supera a μ(Vasalli (V)).
 
-**Conclusión:** Con α = 0,1, d = 0,26 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(John Deere (JD)) - μ(Vasalli (V)) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(John Deere (JD)) - μ(Vasalli (V)) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,1, d = 0,26 V no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(John Deere (JD)) - μ(Vasalli (V)) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(John Deere (JD)) - μ(Vasalli (V)) > 0 (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que los volúmenes promedio cosechados sean diferentes, por lo cual se consideran iguales.
 
@@ -5905,7 +5973,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = 0,565685; ν = n₁ + n₂ - 2 = 8.
 - **IC para δ = μ(John Deere (JD)) - μ(Vasalli (V))** (t con Sa (desvíos iguales)): d = 0,26; e = t(0,9; 8)·σ(d) = 1,3968·0,357771 = 0,4997.
 
-**Conclusión:** P(-0,240 ≤ μ(John Deere (JD)) - μ(Vasalli (V)) ≤ 0,760) = 0,8 (e = 0,4997). Para μ(Vasalli (V)) - μ(John Deere (JD)): entre -0,760 y 0,240. Límites redondeados hacia afuera; sin redondear: -0,23974 y 0,75974.
+**Conclusión:** Con un 80% de confianza, la diferencia entre la media de John Deere (JD) y la de Vasalli (V) está entre -0,2398 V y 0,7598 V: P(-0,2398 ≤ μ(John Deere (JD)) - μ(Vasalli (V)) ≤ 0,7598) = 0,8 (e = 0,4997). Para μ(Vasalli (V)) - μ(John Deere (JD)): entre -0,7598 y 0,2398. Límites redondeados hacia afuera; sin redondear: -0,23974 y 0,75974.
 
 **Respuesta de la guía:** Entre (−0,2397) y 0,7598 Tn/día (para δ = μJD − μV), se puede esperar como mínimo que John Deere coseche en promedio 0,2397 Tn/día menos que Vasalli o como máximo coseche en promedio 0,7598 Tn/día más.
 
@@ -5935,12 +6003,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 103.161,2303. Si d > 103.161,2303 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 103,161,2303, se rechaza H0 → se puede asegurar que δ = μ(con la campaña) - μ(sin la campaña) > 50,000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(con la campaña) - μ(sin la campaña) > 50,000.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 103.161,2303 unidades. Si d > 103.161,2303 unidades ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 103,161 unidades,2303, se rechaza H0 → se puede asegurar que δ = μ(con la campaña) - μ(sin la campaña) > 50,000 (la media con la campaña supera a la media sin la campaña en más de 50,000 unidades). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(con la campaña) - μ(sin la campaña) > 50,000 (la media con la campaña supera a la media sin la campaña en más de 50,000 unidades).
 - **6 · Cálculos y decisión**: d = 72.000 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,239. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 72,000 unidades no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(con la campaña) - μ(sin la campaña) ≤ 50,000. No hay evidencia suficiente para asegurar que δ = μ(con la campaña) - μ(sin la campaña) > 50,000 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 72,000 unidades no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(con la campaña) - μ(sin la campaña) ≤ 50,000. No hay evidencia suficiente para asegurar que δ = μ(con la campaña) - μ(sin la campaña) > 50,000 (la media con la campaña supera a la media sin la campaña en más de 50,000 unidades) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que la campaña haya incrementado las ventas en 50.000 unidades por lo menos.
 
@@ -5957,12 +6025,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 54.538,8624. Si d > 54.538,8624 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 54,538,8624, se rechaza H0 → se puede asegurar que μ(con la campaña) > 1,1·μ(sin la campaña). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ(con la campaña) > 1,1·μ(sin la campaña).
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 54.538,8624 unidades. Si d > 54.538,8624 unidades ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 54,538 unidades,8624, se rechaza H0 → se puede asegurar que μ(con la campaña) > 1,1·μ(sin la campaña) (la media con la campaña supera a la media sin la campaña en más de un 10%). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ(con la campaña) > 1,1·μ(sin la campaña) (la media con la campaña supera a la media sin la campaña en más de un 10%).
 - **6 · Cálculos y decisión**: d = 15.000 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,3178. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 15,000 unidades no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(con la campaña) ≤ 1,1·μ(sin la campaña) (δ* = μ(con la campaña) - 1,1·μ(sin la campaña) ≤ 0). No hay evidencia suficiente para asegurar que μ(con la campaña) > 1,1·μ(sin la campaña) (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 15,000 unidades no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: μ(con la campaña) ≤ 1,1·μ(sin la campaña) (δ* = μ(con la campaña) - 1,1·μ(sin la campaña) ≤ 0). No hay evidencia suficiente para asegurar que μ(con la campaña) > 1,1·μ(sin la campaña) (la media con la campaña supera a la media sin la campaña en más de un 10%) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No puedo asegurar que la campaña haya incrementado las ventas en un 10% por lo menos.
 
@@ -5973,15 +6041,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 580000  vs  H1: μ > 580000.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 580.000 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 580.000 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,05 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,95.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student, ν = número de grados de libertad = 3. t(1-α) = 2,3534.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,3534·S/√n = 580.000 + 2,3534·73.000/√4 = 665.897,7654. Si x̄ > 665.897,7654 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 665.897,77; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 4 unidades y se calcula su media x̄. Si x̄ > 665,897,7654, se rechaza H0 → se puede asegurar que μ > 580000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 580000.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 2,3534·S/√n = 580.000 unidades + 2,3534·73.000/√4 = 665.897,7654. Si x̄ > 665.897,7654 unidades ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 665.897,77; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 4 unidades y se calcula su media x̄. Si x̄ > 665,897 unidades,7654, se rechaza H0 → se puede asegurar que μ > 580000. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 580000.
 - **6 · Cálculos y decisión**: x̄ = 642.000 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,094. La decisión se toma comparando x̄ con x̄c.
 
@@ -6014,12 +6083,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 2,6394. Si d > 2,6394 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 2,6394, se rechaza H0 → se puede asegurar que δ = μ(nuevo producto) - μ(producto tradicional) > 0,2. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(nuevo producto) - μ(producto tradicional) > 0,2.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 2,6394 quintales. Si d > 2,6394 quintales ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 2,6394 quintales, se rechaza H0 → se puede asegurar que δ = μ(nuevo producto) - μ(producto tradicional) > 0,2 (la media de nuevo producto supera a la media de producto tradicional en más de 0,2 quintales). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(nuevo producto) - μ(producto tradicional) > 0,2 (la media de nuevo producto supera a la media de producto tradicional en más de 0,2 quintales).
 - **6 · Cálculos y decisión**: d = 0,5 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,4339. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,1, d = 0,5 quintales no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(nuevo producto) - μ(producto tradicional) ≤ 0,2. No hay evidencia suficiente para asegurar que δ = μ(nuevo producto) - μ(producto tradicional) > 0,2 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,1, d = 0,5 quintales no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(nuevo producto) - μ(producto tradicional) ≤ 0,2. No hay evidencia suficiente para asegurar que δ = μ(nuevo producto) - μ(producto tradicional) > 0,2 (la media de nuevo producto supera a la media de producto tradicional en más de 0,2 quintales) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el nuevo plaguicida mejore el rendimiento en 0,2 quintales como mínimo.
 
@@ -6030,15 +6099,16 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **1 · Planteo de hipótesis**: H0: μ ≤ 19,5  vs  H1: μ > 19,5.
 - **Justificación de H0**:  
 • **Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). H0: μ ≤ 19,5 supone lo desfavorable y solo se la rechaza con evidencia fuerte; H1: μ > 19,5 es la situación favorable que habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.  
-• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I).  
+• α = P(rechazar H0 | H0 cierta) = 0,1 (error de tipo I); 1 - α = P(no rechazar H0 | H0 cierta) = 0,9.  
+• Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se rechaza H0» (p. ej. «modificar el sistema»).  
 • El ensayo es unilateral a la derecha: la zona de rechazo está donde apunta H1.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: al estandarizar x̄ se divide por S, que es una variable aleatoria (raíz de una χ²/ν): queda una t de Student, ν = número de grados de libertad = 4. t(1-α) = 1,5332.
 - **Modelos y distribuciones empleados**:  
 • La variable X se supone Normal: X ~ N(μ; σ²), así que x̄ ~ N(μ; σ²/n).  
 • Al estandarizar con el desvío muestral, t = (x̄ - μ)/(S/√n), se divide por S, que es una VARIABLE ALEATORIA (la raíz de una χ² dividida por ν): una normal dividida por la raíz de una χ²/ν es una t de Student con ν = n - 1 grados de libertad, sea cual sea n. (No es «uso t porque no conozco σ».)
-- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,5332·S/√n = 19,5 + 1,5332·2,5/√5 = 21,2142. Si x̄ > 21,2142 ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 21,22; la decisión se toma con el valor exacto.
-- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ > 21,2142, se rechaza H0 → se puede asegurar que μ > 19,5. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 19,5.
+- **4 · Condición de rechazo (CR)**: x̄c = μ₀ + 1,5332·S/√n = 19,5 quintales + 1,5332·2,5/√5 = 21,2142. Si x̄ > 21,2142 quintales ⇒ se rechaza H0. Informado como la cátedra (hacia afuera de μ₀): x̄c = 21,22; la decisión se toma con el valor exacto.
+- **5 · Regla de decisión (RD)**: Se toma una muestra de n = 5 unidades y se calcula su media x̄. Si x̄ > 21,2142 quintales, se rechaza H0 → se puede asegurar que μ > 19,5. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que μ > 19,5.
 - **6 · Cálculos y decisión**: x̄ = 20 → no cae en la zona de rechazo.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = P(obtener un x̄ tan extremo | H0) = 0,3389. La decisión se toma comparando x̄ con x̄c.
 
@@ -6066,7 +6136,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Variedad “A”, población 2 = Variedad “B”. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): d = ⟨qué se mide, en palabras⟩ con Variedad “A” − ⟨qué se mide, en palabras⟩ con Variedad “B”, en una misma unidad experimental, en quintales por parcela. Δ = μ(Variedad “A”) − μ(Variedad “B”). Son **apareadas** porque cada unidad se mide con los dos tratamientos (no porque los n sean iguales). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Variedad “A”) - μ(Variedad “B”) ≤ 2  vs  H1: δ = μ(Variedad “A”) - μ(Variedad “B”) > 2.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Variedad “A”) - x(Variedad “B”) → d̄ = 5,75, S_d = 5,12, n = 8 pares (ν = 7); σ(d̄) = S_d/√n = 1,8102.
@@ -6074,11 +6144,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 5,4295. Si d > 5,4295 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre los pares. Si d > 5,4295, se rechaza H0 → se puede asegurar que δ = μ(Variedad “A”) - μ(Variedad “B”) > 2. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Variedad “A”) - μ(Variedad “B”) > 2.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 5,4295 quintales por parcela. Si d > 5,4295 quintales por parcela ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre los pares. Si d > 5,4295 quintales por parcela, se rechaza H0 → se puede asegurar que δ = μ(Variedad “A”) - μ(Variedad “B”) > 2 (la media de Variedad “A” supera a la media de Variedad “B” en más de 2 quintales por parcela). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Variedad “A”) - μ(Variedad “B”) > 2 (la media de Variedad “A” supera a la media de Variedad “B” en más de 2 quintales por parcela).
 - **6 · Cálculos y decisión**: d = 5,75 → se rechaza H0.
 
-**Conclusión:** Con α = 0,05, d = 5,75 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Variedad “A”) - μ(Variedad “B”) ≤ 2. Se puede asegurar que δ = μ(Variedad “A”) - μ(Variedad “B”) > 2.
+**Conclusión:** Con α = 0,05, d = 5,75 quintales por parcela cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Variedad “A”) - μ(Variedad “B”) ≤ 2. Se puede asegurar que δ = μ(Variedad “A”) - μ(Variedad “B”) > 2 (la media de Variedad “A” supera a la media de Variedad “B” en más de 2 quintales por parcela).
 
 **Respuesta de la guía:** Se puede asegurar que la producción de la Variedad “A” es mayor que la de la Variedad “B” en más de 2 quintales por parcela.
 
@@ -6092,7 +6162,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **Muestras apareadas**: dᵢ = x(Variedad “A”) - x(Variedad “B”) → d̄ = 5,75, S_d = 5,12, n = 8 pares (ν = 7); e = t(0,95; 7)·S_d/√n = 3,4295.
 
-**Conclusión:** P(2,32 ≤ μ(Variedad “A”) - μ(Variedad “B”) ≤ 9,18) = 0,9 (e = 3,4295). Para μ(Variedad “B”) - μ(Variedad “A”): entre -9,18 y -2,32. Límites redondeados hacia afuera; sin redondear: 2,320454 y 9,179546.
+**Conclusión:** Con un 90% de confianza, la diferencia entre la media de Variedad “A” y la de Variedad “B” está entre 2,3204 quintales por parcela y 9,1796 quintales por parcela: P(2,3204 ≤ μ(Variedad “A”) - μ(Variedad “B”) ≤ 9,1796) = 0,9 (e = 3,4295). Para μ(Variedad “B”) - μ(Variedad “A”): entre -9,1796 y -2,3204. Límites redondeados hacia afuera; sin redondear: 2,320454 y 9,179546.
 
 **Respuesta de la guía:** Entre 2,32 y 9,18 quintales por parcela (para δ = μA − μB), con la variedad “A” se obtiene una producción mínima de 2,32 quintales por parcela mayor que la variedad “B” y de 9,18 quintales por parcela como máximo.
 
@@ -6120,7 +6190,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Método Propuesto, población 2 = Método Clásico. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): d = ⟨qué se mide, en palabras⟩ con Método Propuesto − ⟨qué se mide, en palabras⟩ con Método Clásico, en una misma unidad experimental, ⟨unidad⟩. Δ = μ(Método Propuesto) − μ(Método Clásico). Son **apareadas** porque cada unidad se mide con los dos tratamientos (no porque los n sean iguales). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Método Clásico) - μ(Método Propuesto) ≤ 0  vs  H1: δ = μ(Método Clásico) - μ(Método Propuesto) > 0.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Método Clásico) - x(Método Propuesto) → d̄ = 0,5714, S_d = 0,7564, n = 14 pares (ν = 13); σ(d̄) = S_d/√n = 0,2022.
@@ -6129,11 +6199,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,5358. Si d > 0,5358 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre los pares. Si d > 0,5358, se rechaza H0 → se puede asegurar que δ = μ(Método Clásico) - μ(Método Propuesto) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Método Clásico) - μ(Método Propuesto) > 0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre los pares. Si d > 0,5358, se rechaza H0 → se puede asegurar que δ = μ(Método Clásico) - μ(Método Propuesto) > 0 (la media de Método Clásico es mayor que la media de Método Propuesto). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Método Clásico) - μ(Método Propuesto) > 0 (la media de Método Clásico es mayor que la media de Método Propuesto).
 - **6 · Cálculos y decisión**: d = 0,5714 → se rechaza H0.
 - **Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que μ(Método Clásico), el de mayor media muestral, supera a μ(Método Propuesto).
 
-**Conclusión:** Con α = 0,01, d = 0,5714 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Método Clásico) - μ(Método Propuesto) ≤ 0. Se puede asegurar que δ = μ(Método Clásico) - μ(Método Propuesto) > 0.
+**Conclusión:** Con α = 0,01, d = 0,5714 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Método Clásico) - μ(Método Propuesto) ≤ 0. Se puede asegurar que δ = μ(Método Clásico) - μ(Método Propuesto) > 0 (la media de Método Clásico es mayor que la media de Método Propuesto).
 
 **Respuesta de la guía:** No, porque se puede asegurar que el método propuesto presenta diferencias significativas en las mediciones respecto del método clásico.
 
@@ -6158,7 +6228,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Zapato sin tratar, población 2 = Zapato tratado. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): d = ⟨qué se mide, en palabras⟩ con Zapato sin tratar − ⟨qué se mide, en palabras⟩ con Zapato tratado, en una misma unidad experimental, ⟨unidad⟩. Δ = μ(Zapato sin tratar) − μ(Zapato tratado). Son **apareadas** porque cada unidad se mide con los dos tratamientos (no porque los n sean iguales). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Zapato tratado) - μ(Zapato sin tratar) ≤ 0  vs  H1: δ = μ(Zapato tratado) - μ(Zapato sin tratar) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Zapato tratado) - x(Zapato sin tratar) → d̄ = 1, S_d = 1,6036, n = 8 pares (ν = 7); σ(d̄) = S_d/√n = 0,5669.
@@ -6167,10 +6237,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 1,0741. Si d > 1,0741 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre los pares. Si d > 1,0741, se rechaza H0 → se puede asegurar que δ = μ(Zapato tratado) - μ(Zapato sin tratar) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Zapato tratado) - μ(Zapato sin tratar) > 0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre los pares. Si d > 1,0741, se rechaza H0 → se puede asegurar que δ = μ(Zapato tratado) - μ(Zapato sin tratar) > 0 (la media de Zapato tratado es mayor que la media de Zapato sin tratar). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Zapato tratado) - μ(Zapato sin tratar) > 0 (la media de Zapato tratado es mayor que la media de Zapato sin tratar).
 - **6 · Cálculos y decisión**: d = 1 → no se rechaza H0.
 
-**Conclusión:** Con α = 0,05, d = 1 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Zapato tratado) - μ(Zapato sin tratar) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Zapato tratado) - μ(Zapato sin tratar) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 1 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Zapato tratado) - μ(Zapato sin tratar) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Zapato tratado) - μ(Zapato sin tratar) > 0 (la media de Zapato tratado es mayor que la media de Zapato sin tratar) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No, no se puede asegurar que la tinta especial aumente la duración del cuero en el calzado.
 
@@ -6198,13 +6268,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 3,5568. Si d > 3,5568 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 3,5568, se rechaza H0 → se puede asegurar que δ = μ(Muestra 1) - μ(Muestra 2) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Muestra 1) - μ(Muestra 2) > 0.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 3,5568 piezas por hora. Si d > 3,5568 piezas por hora ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 3,5568 piezas por hora, se rechaza H0 → se puede asegurar que δ = μ(Muestra 1) - μ(Muestra 2) > 0 (la media de Muestra 1 es mayor que la media de Muestra 2). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Muestra 1) - μ(Muestra 2) > 0 (la media de Muestra 1 es mayor que la media de Muestra 2).
 - **6 · Cálculos y decisión**: d = 1,1 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,2217. La decisión se toma comparando el estimador con el valor crítico.
 - **Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que μ(Muestra 1), el de mayor media muestral, supera a μ(Muestra 2).
 
-**Conclusión:** Con α = 0,01, d = 1,1 piezas por hora no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Muestra 1) - μ(Muestra 2) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Muestra 1) - μ(Muestra 2) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,01, d = 1,1 piezas por hora no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Muestra 1) - μ(Muestra 2) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Muestra 1) - μ(Muestra 2) > 0 (la media de Muestra 1 es mayor que la media de Muestra 2) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el alto nivel sonoro influya sobre los tiempos de producción.
 
@@ -6227,7 +6297,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Sin acelerante, población 2 = Con acelerante. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en grados; población 1 = Sin acelerante, población 2 = Con acelerante. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Con acelerante) - μ(Sin acelerante) ≤ 0  vs  H1: δ = μ(Con acelerante) - μ(Sin acelerante) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: **ensayo auxiliar** de desvíos (test F previo; no es parte del problema): como S(Con acelerante) > S(Sin acelerante), lo único que se puede sospechar es σ(Con acelerante) > σ(Sin acelerante) → unilateral, H0: φ = σ(Con acelerante)/σ(Sin acelerante) ≤ 1, con un α propio y grande α = 0,1 (no el del problema: si no se rechaza se quiere poder suponerlos iguales). Jc = √F(0,9; ν₁ = 4; ν₂ = 9) = √2,6927 = 1,6409; J = S(Con acelerante)/S(Sin acelerante) = 1,5695 → J ≤ Jc: no se rechaza H0 → no hay evidencia de que los desvíos difieran: se suponen IGUALES y se amalgaman (Sa).
@@ -6237,12 +6307,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 2,3265. Si d > 2,3265 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 2,3265, se rechaza H0 → se puede asegurar que δ = μ(Con acelerante) - μ(Sin acelerante) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Con acelerante) - μ(Sin acelerante) > 0.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 2,3265 grados. Si d > 2,3265 grados ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 2,3265 grados, se rechaza H0 → se puede asegurar que δ = μ(Con acelerante) - μ(Sin acelerante) > 0 (la media Con acelerante es mayor que la media Sin acelerante). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Con acelerante) - μ(Sin acelerante) > 0 (la media Con acelerante es mayor que la media Sin acelerante).
 - **6 · Cálculos y decisión**: d = 1,29 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,172. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,05, d = 1,29 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Con acelerante) - μ(Sin acelerante) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Con acelerante) - μ(Sin acelerante) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 1,29 grados no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Con acelerante) - μ(Sin acelerante) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Con acelerante) - μ(Sin acelerante) > 0 (la media Con acelerante es mayor que la media Sin acelerante) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que el acelerante aumente la dureza promedio del material plástico.
 
@@ -6269,7 +6339,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Proceso Actual (A), población 2 = Proceso Propuesto (P). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): d = ⟨qué se mide, en palabras⟩ con Proceso Actual (A) − ⟨qué se mide, en palabras⟩ con Proceso Propuesto (P), en una misma unidad experimental, ⟨unidad⟩. Δ = μ(Proceso Actual (A)) − μ(Proceso Propuesto (P)). Son **apareadas** porque cada unidad se mide con los dos tratamientos (no porque los n sean iguales). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Proceso Actual (A)) - μ(Proceso Propuesto (P)) ≤ 2  vs  H1: δ = μ(Proceso Actual (A)) - μ(Proceso Propuesto (P)) > 2.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Proceso Actual (A)) - x(Proceso Propuesto (P)) → d̄ = 4,75, S_d = 3,6936, n = 8 pares (ν = 7); σ(d̄) = S_d/√n = 1,3059.
@@ -6295,7 +6365,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **Muestras apareadas**: dᵢ = x(Proceso Actual (A)) - x(Proceso Propuesto (P)) → d̄ = 4,75, S_d = 3,6936, n = 8 pares (ν = 7); e = t(0,95; 7)·S_d/√n = 2,4741.
 
-**Conclusión:** P(2,27 ≤ μ(Proceso Actual (A)) - μ(Proceso Propuesto (P)) ≤ 7,23) = 0,9 (e = 2,4741). Para μ(Proceso Propuesto (P)) - μ(Proceso Actual (A)): entre -7,23 y -2,27. Límites redondeados hacia afuera; sin redondear: 2,275883 y 7,224117.
+**Conclusión:** Con un 90% de confianza, la diferencia entre la media de Proceso Actual (A) y la de Proceso Propuesto (P) está entre 2,2758 y 7,2242: P(2,2758 ≤ μ(Proceso Actual (A)) - μ(Proceso Propuesto (P)) ≤ 7,2242) = 0,9 (e = 2,4741). Para μ(Proceso Propuesto (P)) - μ(Proceso Actual (A)): entre -7,2242 y -2,2758. Límites redondeados hacia afuera; sin redondear: 2,275883 y 7,224117.
 
 **Respuesta de la guía:** Entre 2,27' y 7,23' (δ = μA − μP; 4,75 ± 2,4741), con un error de muestreo e = 2,4741 minutos.
 
@@ -6349,7 +6419,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Con albúmina humana, población 2 = Sin albúmina humana. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): d = ⟨qué se mide, en palabras⟩ con Con albúmina humana − ⟨qué se mide, en palabras⟩ con Sin albúmina humana, en una misma unidad experimental, en días. Δ = μ(Con albúmina humana) − μ(Sin albúmina humana). Son **apareadas** porque cada unidad se mide con los dos tratamientos (no porque los n sean iguales). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Sin albúmina humana) - μ(Con albúmina humana) ≤ 0  vs  H1: δ = μ(Sin albúmina humana) - μ(Con albúmina humana) > 0.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: muestras apareadas, dᵢ = x(Sin albúmina humana) - x(Con albúmina humana) → d̄ = 0,1306, S_d = 0,1501, n = 6 pares (ν = 5); σ(d̄) = S_d/√n = 0,0613.
@@ -6357,12 +6427,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,2061. Si d > 0,2061 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre los pares. Si d > 0,2061, se rechaza H0 → se puede asegurar que δ = μ(Sin albúmina humana) - μ(Con albúmina humana) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Sin albúmina humana) - μ(Con albúmina humana) > 0.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,2061 días. Si d > 0,2061 días ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre los pares. Si d > 0,2061 días, se rechaza H0 → se puede asegurar que δ = μ(Sin albúmina humana) - μ(Con albúmina humana) > 0 (la media Sin albúmina humana es mayor que la media Con albúmina humana). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Sin albúmina humana) - μ(Con albúmina humana) > 0 (la media Sin albúmina humana es mayor que la media Con albúmina humana).
 - **6 · Cálculos y decisión**: d = 0,1306 → no se rechaza H0.
 - **Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que μ(Sin albúmina humana), el de mayor media muestral, supera a μ(Con albúmina humana).
 
-**Conclusión:** Con α = 0,01, d = 0,1306 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Sin albúmina humana) - μ(Con albúmina humana) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Sin albúmina humana) - μ(Con albúmina humana) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,01, d = 0,1306 días no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Sin albúmina humana) - μ(Con albúmina humana) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Sin albúmina humana) - μ(Con albúmina humana) > 0 (la media Sin albúmina humana es mayor que la media Con albúmina humana) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que existan diferencias significativas en la velocidad de degradación de la proteína.
 
@@ -6392,7 +6462,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = 4 ºC Sin albúmina, población 2 = 4 ºC Con albúmina. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): d = ⟨qué se mide, en palabras⟩ con 4 ºC Sin albúmina − ⟨qué se mide, en palabras⟩ con 4 ºC Con albúmina, en una misma unidad experimental, ⟨unidad⟩. Δ = μ(4 ºC Sin albúmina) − μ(4 ºC Con albúmina). Son **apareadas** porque cada unidad se mide con los dos tratamientos (no porque los n sean iguales). _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **Modelos y distribuciones empleados**:  
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
@@ -6422,7 +6492,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **6 · Cálculos y decisión**: d = 0,5286 → no se rechaza H0.
 - **Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que μ(−70 ºC Con albúmina), el de mayor media muestral, supera a μ(−70 ºC Sin albúmina).
 
-**Conclusión:** 1) 4 ºC Sin albúmina vs 4 ºC Con albúmina: Con α = 0,05, d = 0,0371 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(4 ºC Sin albúmina) - μ(4 ºC Con albúmina) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(4 ºC Sin albúmina) - μ(4 ºC Con albúmina) > 0 (no rechazar H0 no la prueba). 2) −20 ºC Sin albúmina vs −20 ºC Con albúmina: Con α = 0,05, d = 0,4314 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(−20 ºC Con albúmina) - μ(−20 ºC Sin albúmina) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(−20 ºC Con albúmina) - μ(−20 ºC Sin albúmina) > 0 (no rechazar H0 no la prueba). 3) −70 ºC Sin albúmina vs −70 ºC Con albúmina: Con α = 0,05, d = 0,5286 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(−70 ºC Con albúmina) - μ(−70 ºC Sin albúmina) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(−70 ºC Con albúmina) - μ(−70 ºC Sin albúmina) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** 1) 4 ºC Sin albúmina vs 4 ºC Con albúmina: Con α = 0,05, d = 0,0371 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(4 ºC Sin albúmina) - μ(4 ºC Con albúmina) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(4 ºC Sin albúmina) - μ(4 ºC Con albúmina) > 0 (la media de 4 ºC Sin albúmina es mayor que la media de 4 ºC Con albúmina) (no rechazar H0 no la prueba). 2) −20 ºC Sin albúmina vs −20 ºC Con albúmina: Con α = 0,05, d = 0,4314 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(−20 ºC Con albúmina) - μ(−20 ºC Sin albúmina) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(−20 ºC Con albúmina) - μ(−20 ºC Sin albúmina) > 0 (la media de −20 ºC Con albúmina es mayor que la media de −20 ºC Sin albúmina) (no rechazar H0 no la prueba). 3) −70 ºC Sin albúmina vs −70 ºC Con albúmina: Con α = 0,05, d = 0,5286 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(−70 ºC Con albúmina) - μ(−70 ºC Sin albúmina) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(−70 ºC Con albúmina) - μ(−70 ºC Sin albúmina) > 0 (la media de −70 ºC Con albúmina es mayor que la media de −70 ºC Sin albúmina) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** No se puede asegurar que existan diferencias en la actividad biológica con presencia y sin presencia de albúmina en las pruebas realizadas a distintas temperaturas: a 4 ºC, a -20 ºC y a -70 ºC,
 
@@ -6454,11 +6524,11 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,0254. Si d > 0,0254 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,0254, se rechaza H0 → se puede asegurar que δ = μ(tratadas) - μ(sin tratar) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(tratadas) - μ(sin tratar) > 0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,0254, se rechaza H0 → se puede asegurar que δ = μ(tratadas) - μ(sin tratar) > 0 (la media de tratadas es mayor que la media sin tratar). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(tratadas) - μ(sin tratar) > 0 (la media de tratadas es mayor que la media sin tratar).
 - **6 · Cálculos y decisión**: d = 0,14 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0. La decisión se toma comparando el estimador con el valor crítico.
 
-**Conclusión:** Con α = 0,1, d = 0,14 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(tratadas) - μ(sin tratar) ≤ 0. Se puede asegurar que δ = μ(tratadas) - μ(sin tratar) > 0.
+**Conclusión:** Con α = 0,1, d = 0,14 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(tratadas) - μ(sin tratar) ≤ 0. Se puede asegurar que δ = μ(tratadas) - μ(sin tratar) > 0 (la media de tratadas es mayor que la media sin tratar).
 
 **Respuesta de la guía:** Si, se puede asegurar que la aplicación del tratamiento en la plantación aumenta el rinde de la caña de azúcar.
 
@@ -6505,7 +6575,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Pide tomar una decisión sobre una afirmación: ensayo de hipótesis.
 
-- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, ⟨unidad⟩; población 1 = Máquina “A”, población 2 = Máquina “B”. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
+- **Variable** (paso 1): X₁ y X₂ = ⟨qué se mide, en palabras⟩, en cm; población 1 = Máquina “A”, población 2 = Máquina “B”. _El profesor exige definirla antes de escribir un número (p. ej. «X: peso de un paquete, en gramos»); completala en «Variable X en palabras» y queda en las conclusiones._
 - **1 · Planteo de hipótesis**: H0: δ = μ(Máquina “A”) - μ(Máquina “B”) ≤ 0  vs  H1: δ = μ(Máquina “A”) - μ(Máquina “B”) > 0.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: ¿valen los desvíos afirmados? H0: σ ≤ σ₀ (χ², α = 0,05). Máquina “A”: Sc = σ₀·√(χ²(0,95; 9)/9) = 0,0206 vs S = 0,0303 → se rechaza: σ no es 0,015. Máquina “B”: Sc = 0,0247 vs S = 0,0255 → se rechaza: σ no es 0,018.
@@ -6517,13 +6587,13 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Las poblaciones se suponen Normales. Son apareadas solo si se mide el mismo individuo o la misma unidad experimental (no porque los n sean iguales): se trabaja con las diferencias dᵢ (d̄, S_D, t con ν = n-1).  
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
-- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,0217. Si d > 0,0217 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,0217, se rechaza H0 → se puede asegurar que δ = μ(Máquina “A”) - μ(Máquina “B”) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Máquina “A”) - μ(Máquina “B”) > 0.
+- **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,0217 cm. Si d > 0,0217 cm ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,0217 cm, se rechaza H0 → se puede asegurar que δ = μ(Máquina “A”) - μ(Máquina “B”) > 0 (la media de Máquina “A” es mayor que la media de Máquina “B”). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Máquina “A”) - μ(Máquina “B”) > 0 (la media de Máquina “A” es mayor que la media de Máquina “B”).
 - **6 · Cálculos y decisión**: d = 0,01 → no se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,2174. La decisión se toma comparando el estimador con el valor crítico.
 - **Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que μ(Máquina “A”), el de mayor media muestral, supera a μ(Máquina “B”).
 
-**Conclusión:** Con α = 0,05, d = 0,01 no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Máquina “A”) - μ(Máquina “B”) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Máquina “A”) - μ(Máquina “B”) > 0 (no rechazar H0 no la prueba).
+**Conclusión:** Con α = 0,05, d = 0,01 cm no cae en la zona de rechazo ⇒ no se rechaza la hipótesis nula H0: δ = μ(Máquina “A”) - μ(Máquina “B”) ≤ 0. No hay evidencia suficiente para asegurar que δ = μ(Máquina “A”) - μ(Máquina “B”) > 0 (la media de Máquina “A” es mayor que la media de Máquina “B”) (no rechazar H0 no la prueba).
 
 **Respuesta de la guía:** Desvíos conocidos: H0: σA ≤ σA0 = 0,015 cm³, Sc = 0,0206 cm³, SA = 0,0303: se rechaza (el desvío estipulado no es correcto para “A”); H0: σB ≤ σB0 = 0,018 cm³, Sc = 0,0247 cm³, SB = 0,0255: se rechaza (no es correcto para “B”). Igualdad de desvíos: H0: σA ≤ σB (φ = σA/σB), jc = 1,5622 (j²c = 2,4403), j = 1,1875 (j² = 1,4103): no se rechaza, Sa = 0,028 cm³, ν = 18. Medias: H0: μA ≤ μB (δ = μA − μB, δ0 = 0), dc = 0,0217 cm³, d = 16,015 − 16,005 = 0,01 cm³: no se rechaza, se considera que ambas máquinas llenan las botellas con el mismo volumen neto. El departamento de control de calidad está en lo cierto respecto del llenado del volumen neto de ambas máquinas y no está en lo cierto respecto de los desvíos estándares de ambas máquinas.
 
@@ -6565,6 +6635,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩ (cada unidad cae en una categoría). _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis** (prueba de consistencia —homogeneidad—, se comparan niveles o porcentajes de varios grupos): H0: p₁ = p₂ para cada categoría (Desocupados, Sub-ocupados y Ocupados), siendo pᵢ su proporción en cada grupo (1 = Área 1, 2 = Área 2)  vs  H1: en al menos una categoría las pᵢ son distintas. Al rechazar: alguno es distinto (no «todos son distintos»).
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (3-1)(2-1) = 2 grados de libertad; χ²crítico(1-α; 2) = 5,9915.
@@ -6638,6 +6709,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩ (cada unidad cae en una categoría). _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis** (prueba de consistencia —homogeneidad—, se comparan niveles o porcentajes de varios grupos): H0: p₁ = p₂, siendo pᵢ la proporción de «Repuestos (fallas)» en cada método (1 = A, 2 = B)  vs  H1: p₁ ≠ p₂. Al rechazar: alguno es distinto (no «todos son distintos»).
 - **2 · Nivel de significación**: α = 0,02 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (2-1)(2-1) = 1 grado de libertad; χ²crítico(1-α; 1) = 5,4119.
@@ -6700,6 +6772,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩ (cada unidad cae en una categoría). _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis** (prueba de consistencia —homogeneidad—, se comparan niveles o porcentajes de varios grupos): H0: p₁ = p₂, siendo pᵢ la proporción de «Defectuosos» en cada proveedor (1 = Nuevo, 2 = Habitual)  vs  H1: p₁ ≠ p₂. Al rechazar: alguno es distinto (no «todos son distintos»).
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (2-1)(2-1) = 1 grado de libertad; χ²crítico(1-α; 1) = 6,6349.
@@ -6764,6 +6837,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩ (cada unidad cae en una categoría). _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis** (prueba de consistencia —homogeneidad—, se comparan niveles o porcentajes de varios grupos): H0: p₁ = p₂ = p₃ = p₄ para cada categoría (Elongación baja, Elongación media y Elongación alta), siendo pᵢ su proporción en cada planta (1 = Planta 1, 2 = Planta 2, 3 = Planta 3, 4 = Planta 4)  vs  H1: en al menos una categoría las pᵢ son distintas. Al rechazar: alguno es distinto (no «todos son distintos»).
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (4-1)(3-1) = 6 grados de libertad; χ²crítico(1-α; 6) = 12,5916.
@@ -6834,6 +6908,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩ (cada unidad cae en una categoría). _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis** (prueba de consistencia —homogeneidad—, se comparan niveles o porcentajes de varios grupos): H0: p₁ = p₂ = p₃ = p₄, siendo pᵢ la proporción de «Defectuosas» en cada semana (1 = Semana 1, 2 = Semana 2, 3 = Semana 3, 4 = Semana 4)  vs  H1: al menos una pᵢ es distinta. Al rechazar: alguno es distinto (no «todos son distintos»).
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (4-1)(2-1) = 3 grados de libertad; χ²crítico(1-α; 3) = 7,8147.
@@ -6901,6 +6976,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩ (cada unidad cae en una categoría). _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis** (prueba de consistencia —homogeneidad—, se comparan niveles o porcentajes de varios grupos): H0: p₁ = p₂ = p₃ para cada categoría (Primera calidad, Segunda calidad y Defectuosas), siendo pᵢ su proporción en cada turno (1 = Mañana, 2 = Tarde, 3 = Noche)  vs  H1: en al menos una categoría las pᵢ son distintas. Al rechazar: alguno es distinto (no «todos son distintos»).
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (3-1)(3-1) = 4 grados de libertad; χ²crítico(1-α; 4) = 13,2767.
@@ -6966,6 +7042,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩ (cada unidad cae en una categoría). _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis** (prueba de independencia: se pregunta por una asociación): H0: color es independiente de la clasificación en Con reclamo y Sin reclamo; equivale a p₁ = p₂ = p₃ = p₄, siendo pᵢ la proporción con reclamo en cada color (1 = Blanco, 2 = Azul, 3 = Rojo, 4 = Verde)  vs  H1: hay asociación entre las dos clasificaciones. No rechazar H0 no prueba la independencia.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (4-1)(2-1) = 3 grados de libertad; χ²crítico(1-α; 3) = 7,8147.
@@ -7034,6 +7111,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩ (cada unidad cae en una categoría). _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis** (prueba de independencia: se pregunta por una asociación): H0: preferencia es independiente de la clasificación en A, B, C, D y E; equivale a p₁ = p₂ = … = p₅, siendo pᵢ la proporción de «Empresa» en cada grupo (1 = A, 2 = B, 3 = C, 4 = D, 5 = E)  vs  H1: hay asociación entre las dos clasificaciones. No rechazar H0 no prueba la independencia.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (2-1)(5-1) = 4 grados de libertad; χ²crítico(1-α; 4) = 9,4877.
@@ -7097,6 +7175,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Es un contraste χ²: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩ (cada unidad cae en una categoría). _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis** (prueba de independencia: se pregunta por una asociación): H0: local es independiente de la clasificación en Neutro, Lavanda, Deportivo y Fresh; equivale a p₁ = p₂ = p₃ para cada categoría (Neutro, Lavanda, Deportivo y Fresh), siendo pᵢ su proporción en cada local (1 = Local 1, 2 = Local 2, 3 = Local 3)  vs  H1: hay asociación entre las dos clasificaciones. No rechazar H0 no prueba la independencia.
 - **2 · Nivel de significación**: α = 0,1 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **3 · Estadístico de prueba**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = (3-1)(4-1) = 6 grados de libertad; χ²crítico(1-α; 6) = 10,6446.
@@ -7172,6 +7251,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo Uniforme discreto: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **— Modelo Uniforme discreto —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Uniforme discreto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
@@ -7221,6 +7301,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo Uniforme discreto: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **— Modelo Uniforme discreto —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Uniforme discreto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
@@ -7268,6 +7349,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo Uniforme discreto: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **— Modelo Uniforme discreto —**
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Uniforme discreto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
@@ -7313,6 +7395,7 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 *Qué pide:* Bondad de ajuste χ² al modelo propuesto: se compara χ² calculado contra el crítico.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **1 · Planteo de hipótesis**: H0: las proporciones de cada categoría son las del modelo propuesto (24": 0,4; 36": 0,4; 40": 0,2)  vs  H1: al menos una difiere.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas**: bajo H0, Feᵢ = N·pᵢ con N = 200.
@@ -7366,7 +7449,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 6 clases efectivas.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **— Modelo Normal —**
+- **Estimación** (marcas de clase): x̄ = 49,4333, S = 9,942.
+- **Parámetros del modelo**: μ = 49,4333 (estimado), σ = 9,942 (estimado).
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Normal  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
@@ -7399,8 +7485,6 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
 • La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
-- **Estimación** (marcas de clase): x̄ = 49,4333, S = 9,942.
-- **Parámetros del modelo**: μ = 49,4333 (estimado), σ = 9,942 (estimado).
 - **4 · Condición de rechazo (CR)**: si χ² > 7,8147 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 7,8147, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 9,6097 > 7,8147 ⇒ se rechaza H0: la variable NO sigue el modelo Normal.
@@ -7438,7 +7522,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 7 clases efectivas.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **— Modelo Gumbel del mínimo —**
+- **Estimación** (marcas de clase): x̄ = 45,6818, S = 24,3257.
+- **Parámetros del modelo**: β = 18,9667 (estimado), θ (modo) = 56,6297 (estimado).
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Gumbel del mínimo  vs  H1: no lo sigue.  α = 0,01.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
@@ -7472,8 +7559,6 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
 • La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
-- **Estimación** (marcas de clase): x̄ = 45,6818, S = 24,3257.
-- **Parámetros del modelo**: β = 18,9667 (estimado), θ (modo) = 56,6297 (estimado).
 - **4 · Condición de rechazo (CR)**: si χ² > 13,2767 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 13,2767, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 68,5632 > 13,2767 ⇒ se rechaza H0: la variable NO sigue el modelo Gumbel del mínimo.
@@ -7490,10 +7575,9 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 > ⚠️ Se amalgamaron clases con Fe < 5: de 8 a 7 clases efectivas.
 
 - **— Modelo Gumbel del máximo —**
-- **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Gumbel del máximo  vs  H1: no lo sigue.  α = 0,01.
-- **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Weibull  vs  H1: no lo sigue.  α = 0,01.
 - **Estimación** (marcas de clase): x̄ = 45,6818, S = 24,3257.
-- **Parámetros del modelo**: w (forma) = 1,9592 (estimado), β = 51,5243 (estimado).
+- **Parámetros del modelo**: β = 18,9667 (estimado), θ (modo) = 34,7339 (estimado).
+- **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Gumbel del máximo  vs  H1: no lo sigue.  α = 0,01.
 - **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
@@ -7523,6 +7607,17 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | **Total** | **143** | **1** | **143** | **χ² = 10,8569** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 10,8569; ν = clases efectivas - 1 - p = 7 - 1 - 2 = 4; χ²(1-α; ν) = 13,2767.
+- **Modelos y distribuciones empleados**:  
+• El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
+• La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
+- **4 · Condición de rechazo (CR)**: si χ² > 13,2767 ⇒ se rechaza H0.
+- **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 13,2767, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
+- **6 · Cálculos y decisión**: χ² = 10,8569 ≤ 13,2767 ⇒ no se rechaza H0: el modelo Gumbel del máximo es un buen candidato.
+- **— Modelo Weibull —**
+- **Estimación** (marcas de clase): x̄ = 45,6818, S = 24,3257.
+- **Parámetros del modelo**: w (forma) = 1,9592 (estimado), β = 51,5243 (estimado).
+- **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Weibull  vs  H1: no lo sigue.  α = 0,01.
+- **2 · Nivel de significación**: α = 0,01 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
 
 | Clase | Fo | P | Fe |
@@ -7550,16 +7645,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 | **Total** | **143** | **1** | **143** | **χ² = 8,3167** |
 
 - **3 · Estadístico de prueba**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = 8,3167; ν = clases efectivas - 1 - p = 7 - 1 - 2 = 4; χ²(1-α; ν) = 13,2767.
-- **Modelos y distribuciones empleados**:  
-• El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
-• La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
-- **Estimación** (marcas de clase): x̄ = 45,6818, S = 24,3257.
-- **Parámetros del modelo**: β = 18,9667 (estimado), θ (modo) = 34,7339 (estimado).
-- **4 · Condición de rechazo (CR)**: si χ² > 13,2767 ⇒ se rechaza H0.
 - **4 · Condición de rechazo (CR)**: si χ² > 13,2767 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 13,2767, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
-- **6 · Cálculos y decisión**: χ² = 10,8569 ≤ 13,2767 ⇒ no se rechaza H0: el modelo Gumbel del máximo es un buen candidato.
-- **— Modelo Weibull —**
 - **6 · Cálculos y decisión**: χ² = 8,3167 ≤ 13,2767 ⇒ no se rechaza H0: el modelo Weibull es un buen candidato.
 
 **Conclusión:** Con α = 0,01 no se rechaza H0: no hay evidencia suficiente para asegurar que la variable no siga el modelo Gumbel del máximo; el modelo Gumbel del máximo es un buen candidato. Con α = 0,01 no se rechaza H0: no hay evidencia suficiente para asegurar que la variable no siga el modelo Weibull; el modelo Weibull es un buen candidato. El que mejor ajusta es el modelo Weibull (menor χ² relativo al crítico: 0,626).
@@ -7599,7 +7686,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 > ⚠️ Se completó el dominio al final con la clase «≥ 11» (O = 0, probabilidad acumulada G(11) = 0.0011), no la puntual.
 > ⚠️ Se amalgamaron clases con Fe < 5: de 12 a 10 clases efectivas.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **— Modelo Poisson —**
+- **Estimación** (marcas de clase): x̄ = 3,5263.
+- **Parámetros del modelo**: m = 3,5263 (estimado).
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Poisson  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
@@ -7639,8 +7729,6 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
 • La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
-- **Estimación** (marcas de clase): x̄ = 3,5263.
-- **Parámetros del modelo**: m = 3,5263 (estimado).
 - **4 · Condición de rechazo (CR)**: si χ² > 15,5073 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 15,5073, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 9,4346 ≤ 15,5073 ⇒ no se rechaza H0: el modelo Poisson es un buen candidato.
@@ -7677,7 +7765,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ Se amalgamaron clases con Fe < 5: de 8 a 6 clases efectivas.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **— Modelo Log-Normal —**
+- **Estimación** (marcas de clase): x̄ = 221, S = 160,8343.
+- **Parámetros del modelo**: m = 5,1856 (estimado), D = 0,6519 (estimado).
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Log-Normal  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
@@ -7709,8 +7800,6 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
 • La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
-- **Estimación** (marcas de clase): x̄ = 221, S = 160,8343.
-- **Parámetros del modelo**: m = 5,1856 (estimado), D = 0,6519 (estimado).
 - **4 · Condición de rechazo (CR)**: si χ² > 7,8147 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 7,8147, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 3,2125 ≤ 7,8147 ⇒ no se rechaza H0: el modelo Log-Normal es un buen candidato.
@@ -7750,7 +7839,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ Se amalgamaron clases con Fe < 5: de 11 a 10 clases efectivas.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **— Modelo Pareto —**
+- **Estimación** (marcas de clase): x̄ = 929,4393, S = 739,3517.
+- **Parámetros del modelo**: θ (mínimo) = 400 (estimado), b = 1,7555 (estimado).
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Pareto  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
@@ -7789,8 +7881,6 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
 • La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
-- **Estimación** (marcas de clase): x̄ = 929,4393, S = 739,3517.
-- **Parámetros del modelo**: θ (mínimo) = 400 (estimado), b = 1,7555 (estimado).
 - **4 · Condición de rechazo (CR)**: si χ² > 14,0671 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 14,0671, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 9,1192 ≤ 14,0671 ⇒ no se rechaza H0: el modelo Pareto es un buen candidato.
@@ -7828,7 +7918,10 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 
 > ⚠️ Se amalgamaron clases con Fe < 5: de 9 a 8 clases efectivas.
 
+- **Variable** (paso 1): ⟨qué se observa en cada unidad, en palabras: p. ej. «número que sale en una tirada», «nivel de calidad de una pieza según el turno»⟩. _Completala en «Variable en palabras» y queda en la conclusión._
 - **— Modelo Weibull —**
+- **Estimación** (marcas de clase): x̄ = 122,32, S = 62,5271.
+- **Parámetros del modelo**: w (forma) = 2,0503 (estimado), β = 138,0754 (estimado).
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Weibull  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
@@ -7863,8 +7956,6 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
 • La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
-- **Estimación** (marcas de clase): x̄ = 122,32, S = 62,5271.
-- **Parámetros del modelo**: w (forma) = 2,0503 (estimado), β = 138,0754 (estimado).
 - **4 · Condición de rechazo (CR)**: si χ² > 11,0705 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 11,0705, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 6,2061 ≤ 11,0705 ⇒ no se rechaza H0: el modelo Weibull es un buen candidato.
@@ -7919,12 +8010,12 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 • Si son independientes y los desvíos son desconocidos, primero un ensayo auxiliar F (unilateral, la varianza muestral mayor sospechada mayor, con α propio = 0,10): si no se rechaza, t con Sa amalgamado (ν = n₁ + n₂ - 2); si se rechaza, t de Welch (ν truncado).  
 • En comparaciones no hay ensayos bilaterales, y con t no se calculan β ni n.
 - **4 · Condición de rechazo (CR)**: d_c = δ₀ + t·σ(d) = 0,6442. Si d > 0,6442 ⇒ se rechaza H0.
-- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,6442, se rechaza H0 → se puede asegurar que δ = μ(Marca B) - μ(Marca A) > 0. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Marca B) - μ(Marca A) > 0.
+- **5 · Regla de decisión (RD)**: Se calcula la diferencia d entre las medias muestrales. Si d > 0,6442, se rechaza H0 → se puede asegurar que δ = μ(Marca B) - μ(Marca A) > 0 (la media de Marca B es mayor que la media de Marca A). En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que δ = μ(Marca B) - μ(Marca A) > 0 (la media de Marca B es mayor que la media de Marca A).
 - **6 · Cálculos y decisión**: d = 0,7154 → se rechaza H0.
 - Dato informativo (no es criterio de decisión): valor a posteriori α* = 0,034. La decisión se toma comparando el estimador con el valor crítico.
 - **Orientación**: el enunciado no da dirección («¿difieren?»), pero en comparaciones no existen ensayos bilaterales: la muestra orienta el ensayo y lo único que se puede intentar probar es que μ(Marca B), el de mayor media muestral, supera a μ(Marca A).
 
-**Conclusión:** Con α = 0,05, d = 0,7154 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Marca B) - μ(Marca A) ≤ 0. Se puede asegurar que δ = μ(Marca B) - μ(Marca A) > 0.
+**Conclusión:** Con α = 0,05, d = 0,7154 cae en la zona de rechazo ⇒ se rechaza la hipótesis nula H0: δ = μ(Marca B) - μ(Marca A) ≤ 0. Se puede asegurar que δ = μ(Marca B) - μ(Marca A) > 0 (la media de Marca B es mayor que la media de Marca A).
 
 **Respuesta de la guía:** a) nA = 113; x̄A = 19,0531 miles de horas; SA = 3,2892; nB = 203; x̄B = 19,7685; SB = 3,3479. Comparación de desvíos (H0: σB ≤ σA, α = 10%): jc = 1,1157 (jc² = 1,2448); j = 1,0179 (j² = 1,036): no se rechaza, se suponen desvíos iguales. Sa = 3,3271 miles de horas; ν = 314. H0) μB ≤ μA, α = 5%: dc = 0,6442 miles de horas; d = 0,7154 miles de horas. Se rechaza: se puede asegurar que la marca “B” tiene una mayor duración que la marca “A”, entonces se elegiría la marca “B”.
 
@@ -7937,6 +8028,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 > ⚠️ Se amalgamaron clases con Fe < 5: de 11 a 6 clases efectivas.
 
 - **— Modelo Normal —**
+- **Estimación** (marcas de clase): x̄ = 19,0531, S = 3,2892.
+- **Parámetros del modelo**: μ = 20 (dado), σ = 2,5 (dado).
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Normal con μ = 20 (dado), σ = 2,5 (dado)  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
@@ -7971,8 +8064,6 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
 • La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
-- **Estimación** (marcas de clase): x̄ = 19,0531, S = 3,2892.
-- **Parámetros del modelo**: μ = 20 (dado), σ = 2,5 (dado).
 - **4 · Condición de rechazo (CR)**: si χ² > 11,0705 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 11,0705, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 39,2176 > 11,0705 ⇒ se rechaza H0: la variable NO sigue el modelo Normal.
@@ -7991,6 +8082,8 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 > ⚠️ Se amalgamaron clases con Fe < 5: de 11 a 7 clases efectivas.
 
 - **— Modelo Normal —**
+- **Estimación** (marcas de clase): x̄ = 19,0531, S = 3,2892.
+- **Parámetros del modelo**: μ = 19,0531 (estimado), σ = 3,2892 (estimado).
 - **1 · Planteo de hipótesis**: H0: lo observado se ajusta al modelo Normal  vs  H1: no lo sigue.  α = 0,05.
 - **2 · Nivel de significación**: α = 0,05 — riesgo máximo de cometer un error de tipo I (rechazar H0 siendo cierta).
 - **Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con clases de Fo = 0 y probabilidad acumulada):
@@ -8026,8 +8119,6 @@ Generado con `python herramientas/generar_resueltos.py` a partir de `datos/guia_
 - **Modelos y distribuciones empleados**:  
 • El estadístico Σ(Fo - Fe)²/Fe sigue aproximadamente una χ² con ν = clases efectivas - 1 - (parámetros estimados con la muestra).  
 • La aproximación exige N ≥ 60 y Fe ≥ 5 en cada clase (si no, se amalgaman clases). Si el modelo tiene un dominio más amplio, se completa con clases de O = 0 y probabilidad ACUMULADA (F o G), no puntual.
-- **Estimación** (marcas de clase): x̄ = 19,0531, S = 3,2892.
-- **Parámetros del modelo**: μ = 19,0531 (estimado), σ = 3,2892 (estimado).
 - **4 · Condición de rechazo (CR)**: si χ² > 9,4877 ⇒ se rechaza H0.
 - **5 · Regla de decisión (RD)**: Se calcula χ² con las frecuencias observadas y las esperadas del modelo. Si χ² > 9,4877, se rechaza H0 → se puede asegurar que la variable no sigue el modelo. En caso contrario no se rechaza H0 → no hay evidencia suficiente para asegurar que la variable no sigue el modelo.
 - **6 · Cálculos y decisión**: χ² = 2,13 ≤ 9,4877 ⇒ no se rechaza H0: el modelo Normal es un buen candidato.
