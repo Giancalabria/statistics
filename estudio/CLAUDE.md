@@ -1,6 +1,6 @@
 # Estadística Aplicada: estudio para el 2° parcial
 
-Carpeta `estudio/` del repo del solver, para preparar el **2° parcial de Estadística Aplicada (UADE)**, que es el que hay que aprobar. Docente: Ing. Sergio Aníbal Dopazo (cátedra Dopazo–García). El plan y el estado de avance están en [PLAN.md](PLAN.md); las reglas del profesor, en [REGLAS_PROFESOR.md](REGLAS_PROFESOR.md); qué controlar del planteo de la app, en [GUIA_CONTROL.md](GUIA_CONTROL.md).
+Carpeta `estudio/` del repo del solver, para preparar el **2° parcial de Estadística Aplicada (UADE)**, que es el que hay que aprobar. Docente: Ing. Sergio Aníbal Dopazo (cátedra Dopazo–García). El plan y el estado de avance están en [PLAN.md](PLAN.md); las reglas del profesor, en [REGLAS_PROFESOR.md](REGLAS_PROFESOR.md); qué controlar del planteo de la app, en [GUIA_CONTROL.md](GUIA_CONTROL.md); la teoría conceptual (qué representa cada símbolo), en [TEORIA.md](TEORIA.md).
 
 ## Prioridad de las fuentes
 
