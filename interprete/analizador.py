@@ -1274,7 +1274,35 @@ def _nombres_grupos(t: Texto, posiciones: Dict[str, Numero], ventanas: Dict[int,
         letras.append(m.group(1).upper() if m else None)
     if all(letras) and letras[0] != letras[1]:
         return letras[0], letras[1]
+    # 'una muestra de 28 varones adultos mayores, … para 26 adultos jóvenes, …': el grupo que sigue al n (R3)
+    grupos = []
+    for j in (1, 2):
+        n = posiciones.get(f"n{j}")
+        if n is None:
+            return None
+        m = re.match(r"\s*((?:[a-zñ]{3,}\s?){1,4})", t.norm[n.fin:n.fin + 60])
+        if not m:
+            return None
+        palabras = []
+        for p in m.group(1).split():
+            if p in _CORTE_GRUPO:
+                break
+            palabras.append(p)
+        if not palabras or palabras[0] in _NO_GRUPO:
+            return None
+        ini = n.fin + m.start(1)
+        grupos.append(t.texto[ini:ini + len(" ".join(palabras))])
+    if normalizar(grupos[0]) != normalizar(grupos[1]):
+        return grupos[0], grupos[1]
     return None
+
+
+# palabras donde termina el nombre del grupo, y comienzos que no son un grupo (unidades, 'cada uno', tiempo)
+_CORTE_GRUPO = {"la", "el", "los", "las", "se", "fue", "fueron", "dio", "dieron", "resulto", "resultaron", "tuvo",
+                "tuvieron", "tiene", "tienen", "presento", "presentaron", "arrojo", "arrojaron", "con", "y", "que",
+                "cuya", "cuyo", "cuyas", "cuyos", "donde", "para", "por", "en"}
+_NO_GRUPO = {"cada", "por", "de", "del", "mas", "menos", "unidades", "dias", "horas", "minutos", "segundos", "meses",
+             "anos", "semanas", "veces", "grados", "por", "mm", "cm", "kg", "gramos", "litros", "metros"}
 
 
 def _intercambiar_muestras(an: Analisis):

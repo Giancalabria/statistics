@@ -116,6 +116,23 @@ def corregir_incisos_de_ajuste(an: Analisis) -> List[str]:
     return cambiados
 
 
+_PARES = (("n1", "n2"), ("xbar1", "xbar2"), ("s1", "s2"), ("nombre1", "nombre2"), ("datos1", "datos2"))
+
+
+def _orden_invertido(reglas: dict, ia: dict) -> bool:
+    """¿Las reglas tienen la muestra 1 de la IA como muestra 2 (y al revés)? Se mira n, x̄ y S."""
+    hay = False
+    for a, b in _PARES[:3]:
+        r1, r2, i1, i2 = reglas.get(a), reglas.get(b), ia.get(a), ia.get(b)
+        if None in (r1, r2, i1, i2) or r1 == r2:
+            continue
+        if r1 == i2 and r2 == i1:
+            hay = True
+        elif r1 == i1 and r2 == i2:
+            return False
+    return hay
+
+
 def completar_con_reglas(an: Analisis, planteo: str, lista: List[Tuple[str, str]], tablas=None) -> List[str]:
     """La IA decide QUÉ pide cada inciso (tema, tipo, valores con trampa); las reglas, con ese tema forzado, completan
     lo que la IA dejó vacío: los datos que salen de la tabla (n, x̄, S, frecuencias) y las opciones del mismo tipo de
@@ -129,6 +146,11 @@ def completar_con_reglas(an: Analisis, planteo: str, lista: List[Tuple[str, str]
         except Exception:      # las reglas son solo un complemento: si fallan, queda lo de la IA
             continue
         datos = dict(reglas.datos)
+        if _orden_invertido(datos, an.datos):
+            # las reglas ordenaron las muestras al revés que la IA (en varianzas va arriba la de mayor S): sin esto, los
+            # NOMBRES de las reglas quedaban pegados a los datos de la IA («σ(Muestra 2)/σ(Muestra 1)» con J = S1/S2, R3)
+            for a, b in _PARES:
+                datos[a], datos[b] = datos.get(b), datos.get(a)
         if tema == "proporcion":
             datos.pop("datos", None)                  # en p, los números de una tabla no son una muestra de valores
         if any("se asume α = 0,05" in a for a in reglas.avisos):

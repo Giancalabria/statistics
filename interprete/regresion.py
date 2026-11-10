@@ -492,6 +492,12 @@ def _vars(d) -> Tuple[str, str, str, str]:
     if not nx and d.get("nombre_x"):
         nx, u = nombre_unidad(d["nombre_x"])
         ux = ux or u
+    if not (uy and ux):
+        # «(ambas medidas en miles de lbs./pulg2)»: la misma unidad para las dos variables (R4)
+        m = re.search(r"\b(?:ambas|las dos)(?: variables)? (?:medidas|expresadas|en) (?:en )?([^);:]{2,40}?)\s*(?:[);:]|\.\s|$)",
+                      d.get("_texto") or "")
+        if m:
+            uy, ux = uy or m.group(1).strip(), ux or m.group(1).strip()
     return ny or "y", uy, nx or "x", ux
 
 
@@ -500,13 +506,20 @@ def _con(v: str, u: str) -> str:
 
 
 def _u_b1(uy: str, ux: str) -> str:
+    if uy and uy == ux:     # misma unidad: «miles de lbs./pulg² por cada mil lbs./pulg²» (no «miles/miles»)
+        return f"{uy} por {_una(ux)}"
     return f"{uy}/{ux}" if uy and ux else ""
+
+
+def _una(u: str) -> str:
+    """«miles de lbs./pulg2» → «cada mil lbs./pulg2»; «MPa» → «cada MPa»."""
+    return "cada " + re.sub(r"^miles de\s+", "mil ", u)
 
 
 def _por_cada(nx: str, ux: str) -> str:
     if ux.strip() == "%":   # la variable ya está en %: el cambio es de un PUNTO porcentual, no de un 1% (clase 05/11)
         return f"por cada punto porcentual adicional de {_el(nx)}"
-    return f"por cada {ux} adicional de {nx}" if ux else f"por cada unidad adicional de {nx}"
+    return f"por {_una(ux)} adicional de {nx}" if ux else f"por cada unidad adicional de {nx}"
 
 
 def _entorno(d, reg) -> Optional[Tuple[float, float]]:
@@ -576,7 +589,7 @@ def _interpretar(reg: rg.RegresionSimple, d) -> str:
                 + (f" {ux}" if ux else "") + ", pero no se puede asegurar")
         if ent:
             dentro = ent[0] <= 0 <= ent[1]
-            txt += (f": el modelo se valida solo en el entorno observado ({_el(nx)} entre {fmt(ent[0], 4)} y "
+            txt += (f": el modelo vale solo en el entorno observado ({_el(nx)} entre {fmt(ent[0], 4)} y "
                     f"{_con(fmt(ent[1], 4), ux)})" + ("" if dentro else " y X = 0 queda afuera"))
         txt += ". Por eso no se estima β0."
     return txt
@@ -589,14 +602,70 @@ def _influencia(reg, d) -> str:
             f"están en el modelo.")
 
 
+# Uso del modelo → mínimo orientativo de r² (profesor, 05/11: «orientativos, no taxativos»). Se deduce del enunciado.
+USOS = (
+    ("técnico o industrial", 0.8,
+     r"\b(acero|varillas?|aleacion|metal|materiales?|rotura|traccion|elastic|dureza|resistencia (a la|al|del|de la)|"
+     r"mpa|kg/cm|pulg|soldadura|maquinas?|motor|horno|temperatura|presion|voltaje|tension electrica|piezas?|"
+     r"hormigon|concreto|proceso (productivo|industrial|de fabricacion)|planta|fabrica|produccion|rendimiento del|"
+     r"desgaste|corrosion|viscosidad|caudal|potencia|combustible|quimic|reactor|catalizador|fosfato|decapado)"),
+    ("económico", 0.6,
+     r"\b(ventas|precios?|ingresos?|demanda|oferta|pbi|gastos?|publicidad|costos?|salarios?|sueldos?|consumo|"
+     r"inflacion|economi|mercado|empresa[s]? de|ganancias?|utilidad|inversion|dolares?|pesos|\$)"),
+    ("sociología o psicología", 0.4,
+     r"\b(encuestas?|actitud|satisfaccion|ansiedad|estres|opinion|alumnos|estudiantes|rendimiento academico|"
+     r"psicolog|sociolog|conducta|autoestima|motivacion|test de aptitud)"),
+)
+
+
+def uso_del_modelo(d) -> Optional[Tuple[str, float, str]]:
+    """(uso, r² mínimo, palabra del enunciado que lo indica) o None si no se reconoce o es ambiguo."""
+    norm = normalizar(" ".join(str(d.get(k) or "") for k in ("_texto", "nombre_y", "nombre_x", "unidad_y", "unidad_x")))
+    hallados = []
+    for nombre, minimo, patron in USOS:
+        m = [x.group(0).strip() for x in re.finditer(patron, norm)]
+        if m:
+            hallados.append((len(m), nombre, minimo, ", ".join(dict.fromkeys(m[:3]))))
+    if not hallados:
+        return None
+    hallados.sort(reverse=True)
+    if len(hallados) > 1 and hallados[0][0] == hallados[1][0]:
+        return None
+    _, nombre, minimo, palabra = hallados[0]
+    return nombre, minimo, palabra
+
+
+def _minimo_r2(d) -> float:
+    u = uso_del_modelo(d or {})
+    return u[1] if u else 0.4
+
+
+def _fuerza_txt(reg, d) -> str:
+    """La fuerza de la relación juzgada con el mínimo del USO del problema (si se reconoce)."""
+    u = uso_del_modelo(d or {})
+    if not u:
+        return (f"{rg.validez_por_r2(reg.r2)}. ⚠️ No se reconoció el uso del modelo: decidí vos cuál es (técnico ⇒ 0,8; "
+                f"económico ⇒ 0,6; social ⇒ 0,4) y si r² alcanza.")
+    nombre, minimo, palabra = u
+    if reg.r2 >= minimo:
+        return (f"Es un problema de uso {nombre} («{palabra}» en el enunciado): mínimo orientativo r² ≥ "
+                f"{fmt(minimo, 1)}. r² = {fmt(reg.r2, 4)} ≥ {fmt(minimo, 1)} ⇒ la relación es lo bastante fuerte para "
+                f"este uso")
+    return (f"Es un problema de uso {nombre} («{palabra}» en el enunciado): mínimo orientativo r² ≥ {fmt(minimo, 1)}. "
+            f"r² = {fmt(reg.r2, 4)} < {fmt(minimo, 1)} ⇒ la relación NO es lo bastante fuerte para este uso: el modelo "
+            f"NO se valida (el mínimo es orientativo, no taxativo: si el uso fuera otro, revisalo)")
+
+
 def _validacion(reg, alpha, res, d=None):
     """Análisis confirmatorio de la cátedra: 1) existencia de la relación (H0: ρ = 0 ⇔ β1 = 0, |t_obs| vs t(1-α; n-2));
     2) fuerza de la relación (r² según el uso del modelo). Son condiciones necesarias, no suficientes."""
     d = d or {}
     ny, _, nx, _ = _vars(d)
     e = rg.ensayo_beta1(reg, alpha, 0.0, "existencia")
+    elegido = (" (el enunciado no lo fija: se elige y se justifica antes de ver los datos, p. ej. «α = 0,05: no hay "
+               "una decisión costosa que pida un riesgo más chico»)") if d.get("alpha_elegido") else ""
     res.pasos.append(f"**Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 "
-                     f"(β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = {fmt(alpha, 4)}. "
+                     f"(β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = {fmt(alpha, 4)}{elegido}. "
                      f"|t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = {fmt(abs(e.t_c), 4)}; ν = n - 2 = {e.nu}; "
                      f"t(1-α; ν) = t({fmt(1 - alpha, 4)}; {e.nu}) = {fmt(e.t_critico, 4)}. CR: si |t_obs| > "
                      f"{fmt(e.t_critico, 4)} ⇒ se rechaza H0. "
@@ -606,24 +675,41 @@ def _validacion(reg, alpha, res, d=None):
                         f"exista relación lineal: el modelo NO es válido."))
     res.pasos.append(f"**2° fuerza de la relación**: r² = {fmt(reg.r2, 4)} ({fmt(100 * reg.r2, 2)}%). Mínimos orientativos "
                      f"según el uso: 0,4 sociología o psicología; 0,6 económico; 0,8 técnico o industrial. "
-                     f"{rg.validez_por_r2(reg.r2)}.")
+                     f"{_fuerza_txt(reg, d)}.")
     res.numeros += [reg.r, abs(reg.r), reg.r2, e.t_c, e.t_critico]
     return e
 
 
-def _valido(e, reg) -> bool:
-    return e.rechaza and reg.r2 >= 0.4
+def _valido(e, reg, d=None) -> bool:
+    return e.rechaza and reg.r2 >= _minimo_r2(d)
 
 
-def _asegurar_validacion(reg, d, alpha, res, estado):
+def _veredicto(e, reg, d) -> str:
+    """La conclusión de la validación: existencia + fuerza según el uso."""
+    if not e.rechaza:
+        return "El modelo NO es válido (no se puede asegurar que exista relación lineal): no se lo puede usar para estimar."
+    u = uso_del_modelo(d or {})
+    if _valido(e, reg, d):
+        return ("Existe relación lineal y " + (f"r² = {fmt(reg.r2, 4)} ≥ {fmt(u[1], 1)} (uso {u[0]})" if u else
+                                                 rg.validez_por_r2(reg.r2)) +
+                ": el modelo se valida (solo para el entorno observado).")
+    return (f"Existe relación lineal, pero r² = {fmt(reg.r2, 4)} < {fmt(u[1], 1)}, el mínimo orientativo para un uso "
+            f"{u[0]}: el modelo NO se valida para este uso, así que las estimaciones que se hagan con él no tienen "
+            f"sentido (según el profesor). Las cuentas se muestran solo como referencia.")
+
+
+def _asegurar_validacion(reg, d, alpha, res, estado, medida: bool = False):
     """El profesor: «la validación la vas a tener que hacer aunque no te la pida». Si ningún inciso anterior validó
     esta recta, se valida acá antes de usarla. Si no es válida, la pregunta no tiene sentido."""
     if estado.get("validada") is not reg:
         res.pasos.append("**Primero se valida el modelo** (aunque el inciso no lo pida: un modelo no validado no sirve "
                          "para estimar).")
         e = _validacion(reg, alpha, res, d)
-        estado["validada"], estado["valido"] = reg, _valido(e, reg)
-    if not estado.get("valido", True):
+        estado["validada"], estado["valido"] = reg, _valido(e, reg, d)
+    if not estado.get("valido", True) and medida:
+        res.avisos.append("El modelo NO se valida, pero r² igual se informa: es la medida de la fuerza de la relación (la "
+                          "que no alcanza el mínimo del uso). Decilo en la respuesta.")
+    elif not estado.get("valido", True):
         res.avisos.append("El modelo NO es válido: según el profesor, entonces la pregunta no tiene sentido (las cuentas "
                           "se muestran solo como referencia).")
 
@@ -636,11 +722,9 @@ def recta(d, alpha, res, estado):
     if d.get("alpha") is None:
         res.avisos.append("No fijan α para validar el modelo: se eligió α = 0,05 (en el examen, elegirlo y justificarlo).")
     e = _validacion(reg, alpha, res, d)
-    estado["validada"], estado["valido"] = reg, _valido(e, reg)
+    estado["validada"], estado["valido"] = reg, _valido(e, reg, d)
     concl = _interpretar(reg, d) + " " + _influencia(reg, d) + " "
-    v = rg.validez_por_r2(reg.r2)
-    concl += (f"Existe relación lineal y {v[0].lower()}{v[1:]}: el modelo se valida (solo para el entorno observado)."
-              if _valido(e, reg) else "El modelo NO es válido: no se lo puede usar para estimar.")
+    concl += _veredicto(e, reg, d)
     res.resumen += f"; r = {fmt(reg.r, 4)}" + ("" if d.get("rho2") else f"; r² = {fmt(reg.r2, 4)}")
     if d.get("rho2"):
         resumen = res.resumen
@@ -655,14 +739,15 @@ def validacion(d, alpha, res, estado):
     _pasos_recta(reg, res, d)
     e = _validacion(reg, alpha, res, d)
     estado["reg"] = reg
-    estado["validada"], estado["valido"] = reg, _valido(e, reg)
+    estado["validada"], estado["valido"] = reg, _valido(e, reg, d)
     ny, _, nx, _ = _vars(d)
     res.resumen = f"r = {fmt(reg.r, 4)}; r² = {fmt(reg.r2, 4)}; tc = {fmt(e.t_c, 4)} vs {fmt(e.t_critico, 4)}: " + \
         ("RECHAZA H0 (hay relación)" if e.rechaza else "NO rechaza H0")
     res.conclusion = ((f"Con α = {fmt(alpha, 4)}, se puede asegurar que existe relación lineal entre {_el(nx)} y {_el(ny)}"
                        if e.rechaza else
                        f"Con α = {fmt(alpha, 4)}, no se puede asegurar que exista relación lineal entre {_el(nx)} y {_el(ny)}")
-                      + f"; r = {fmt(reg.r, 4)}, r² = {fmt(reg.r2, 4)} ({rg.validez_por_r2(reg.r2)}).")
+                      + f"; r = {fmt(reg.r, 4)}, r² = {fmt(reg.r2, 4)}. " + _veredicto(e, reg, d)
+                      + " " + _interpretar(reg, d) + " " + _influencia(reg, d))
 
 
 def _reg_estado(d, estado):
@@ -828,7 +913,7 @@ def ic_rho(d, alpha, res, estado):
 def ic_rho2(d, alpha, res, estado):
     reg = _reg_estado(d, estado)
     if not d.get("rho2"):   # dentro de la recta ya se validó
-        _asegurar_validacion(reg, d, alpha, res, estado)
+        _asegurar_validacion(reg, d, alpha, res, estado, medida=True)
     ny, _, nx, _ = _vars(d)
     res.pasos.append(f"**Coeficiente de determinación**: r² = {fmt(reg.r2, 4)} ({fmt(100 * reg.r2, 2)}% de influencia "
                      f"de {_el(nx)} en {_el(ny)}).")
@@ -898,7 +983,7 @@ def transformado(d, alpha, res, estado):
     e = _validacion(reg, alpha, res, d)
     mejor = reg.r2 > lin.r2
     estado["reg"] = reg
-    estado["validada"], estado["valido"] = reg, _valido(e, reg)
+    estado["validada"], estado["valido"] = reg, _valido(e, reg, d)
     res.resumen = f"{_coma(reg.ecuacion())}; r = {fmt(reg.r, 4)} vs lineal {fmt(lin.r, 4)}"
     nombres = {"loglog": "doble logarítmico", "loglin": "logarítmico lineal", "linlog": "lineal logarítmico",
                "inversa": "inverso"}

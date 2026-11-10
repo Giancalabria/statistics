@@ -79,15 +79,90 @@ def test_R1_ley_de_poisson_con_tabla_valor_frecuencia():
     assert "12,5916" in r.resumen        # dominio completo (≤ 4 y ≥ 17), λ estimado: ν = 8 - 1 - 1 = 6
 
 
+def test_R1_presentacion_como_exige_el_profesor():
+    """Práctica del 09/11: α elegido y justificado, x̄ con su origen, ajuste demasiado perfecto, N < 60 en la
+    conclusión y, como son llegadas por minuto, «sigue el modelo Poisson» (proceso físico), no el condicional."""
+    an, (r,) = _res("R1")
+    texto = "\n".join(r.pasos)
+    assert "El enunciado no lo fija: se elige y se justifica" in texto
+    assert "Σ xᵢ·Foᵢ / N = 526/50 = 10,52" in texto
+    assert "χ²(0,05; 6) = 1,6354: no hay sospecha" in texto
+    assert "| ≤ 4 a 6 | 3 | 0,1006 | 5,0306 |" in texto           # Fe con 4 decimales
+    assert "se puede afirmar que la variable sigue el modelo Poisson con m = 10,52" in r.conclusion
+    assert "Si además" not in r.conclusion and "N = 50 < 60" in r.conclusion
+
+
+def test_R1_sin_llegadas_por_unidad_de_tiempo_lo_decide_el_alumno():
+    e = EJ["R1"]
+    an = analizar(e["planteo"].replace("vehículos particulares que llegan a una estación de peaje",
+                                       "piezas que fallan en una inspección")
+                  .replace("la llegada de vehículos/minuto a la estación de peajes", "la cantidad de fallas"),
+                  None, tablas=e["tablas"])
+    (r,) = resolver(an)
+    assert "Para concluir hay que mirar el proceso físico del modelo Poisson" in r.conclusion
+
+
 def test_R3_solo_desvios_es_comparacion_de_varianzas_y_la_muestra_orienta():
     an, (r,) = _res("R3")
     assert an.tema == "dos_varianzas" and (an.datos["n1"], an.datos["n2"]) == (26, 28)
     assert "J = 1,6008" in r.resumen and "RECHAZA" in r.resumen and "NO" not in r.resumen
 
 
+def test_R3_presentacion_como_exige_el_profesor():
+    """Práctica del 09/11: nombres de los grupos, H0 justificada con lo que pide el enunciado (no con un criterio
+    genérico) y la conclusión sobre la VARIANZA, que es lo que pregunta."""
+    an, (r,) = _res("R3")
+    assert (an.datos["nombre1"], an.datos["nombre2"]) == ("adultos jóvenes", "varones adultos mayores")
+    texto = "\n".join(r.pasos)
+    assert "El enunciado dice qué se quiere probar** («Confirman estos datos la conclusión del \"paper\" citado»)" in texto
+    assert "criterio pesimista: hay" not in texto.lower()
+    assert "la varianza de adultos jóvenes es mayor que la de varones adultos mayores" in r.conclusion
+    assert "Normales y las muestras independientes" in texto      # la distribución justificada
+
+
+def test_R3_accion_escrita_como_oracion():
+    """«Acción si se rechaza H0» escrita como oración: no queda «corresponde Se confirma…»."""
+    an = analizar(EJ["R3"]["planteo"], None)
+    an.datos["accion"] = "Se confirma la conclusión del paper"
+    (r,) = resolver(an)
+    todo = "\n".join(r.pasos) + r.conclusion
+    assert "corresponde Se" not in todo and "corresponde se" not in todo
+    assert "se confirma la conclusión del paper" in r.conclusion
+
+
+def test_R3_nombres_de_las_reglas_siguen_a_los_datos_de_la_ia():
+    """La IA puso mayores como muestra 1; las reglas, jóvenes (mayor S arriba). Los nombres de las reglas no pueden
+    quedar pegados a los datos de la IA al revés (antes: «σ(Muestra 2)/σ(Muestra 1)» con J = 52,6/84,2)."""
+    from asistente.interpretar import completar_con_reglas
+    from interprete.modelo import Analisis, Inciso
+    planteo = EJ["R3"]["planteo"]
+    ia = Analisis(planteo, tema="dos_varianzas",
+                  datos={"alpha": 0.01, "n1": 28, "s1": 52.6, "n2": 26, "s2": 84.2, "phi0": 1.0},
+                  incisos=[Inciso("única", "¿Confirman estos datos…?", tipo="ensayo", params={"tail": "izquierda"})])
+    completar_con_reglas(ia, planteo, [])
+    assert (ia.datos["nombre1"], ia.datos["nombre2"]) == ("varones adultos mayores", "adultos jóvenes")
+    (r,) = resolver(ia)
+    assert "σ(varones adultos mayores)/σ(adultos jóvenes) ≥ 1" in r.resumen and "J = 0,6247" in r.resumen
+
+
 def test_R4_validacion_y_determinacion():
     an, (a, b) = _res("R4")
     assert "r = 0,8721" in a.resumen and "0,7606" in b.resumen
+
+
+def test_R4_uso_tecnico_exige_r2_08_y_el_modelo_no_se_valida():
+    """Práctica del 09/11: varillas de acero = uso técnico ⇒ r² ≥ 0,8 (profesor, 05/11). r² = 0,7606: hay relación
+    lineal pero el modelo NO se valida (antes decía «válido para econometría»)."""
+    an, (a, b) = _res("R4")
+    texto = "\n".join(a.pasos)
+    assert "uso técnico o industrial" in texto and "r² = 0,7606 < 0,8" in texto
+    assert "NO se valida" in a.conclusion and "econometría" not in a.conclusion
+    assert "el enunciado no lo fija" in texto                     # α elegido y justificado
+    assert any("r² igual se informa" in x for x in b.avisos)      # b) pide r²: se informa igual
+    # interpretación en términos del problema, con la unidad de «ambas medidas en miles de lbs./pulg2»
+    assert "por cada mil lbs./pulg2 adicional de límite elástico, la resistencia a la rotura aumenta en promedio " \
+           "0,8773 miles de lbs./pulg2" in a.conclusion
+    assert "entre 45,25 y 65 miles de lbs./pulg2" in a.conclusion and "no se estima β0" in a.conclusion
 
 
 def test_F1_tabla_resumen_de_dos_grupos():

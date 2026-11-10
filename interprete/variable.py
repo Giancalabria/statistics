@@ -214,7 +214,11 @@ def acciones(d: Dict):
     """(qué pasa si se rechaza H0, si no) o None. Las del sistema de control mandan; si no, la del campo «accion»."""
     if d.get("accion_rechazo"):
         return d["accion_rechazo"], d.get("accion_no_rechazo") or "no se toma esa decisión"
-    acc = (d.get("accion") or "").strip()
+    acc = re.sub(r"^(no\s+)?corresponde\s+", "", (d.get("accion") or "").strip().rstrip("."), flags=re.I)
+    if re.match(r"se\s", acc, re.I):
+        # escrita como oración («Se confirma la conclusión del paper»): «se confirma…» / «no se confirma…»
+        acc = acc[0].lower() + acc[1:]
+        return acc, f"no {acc}"
     if acc:
         return f"corresponde {acc}", f"no corresponde {acc}"
     return None
@@ -249,10 +253,14 @@ def _h_palabras(a: str, b: str, op: str, h: str) -> str:
     return f"{_la_media(a)} es {'mayor' if op == '>' else 'menor'} que {h} veces {_la_media(b)}"
 
 
-def _phi_palabras(m) -> str:
-    """'φ = σ(A)/σ(B) < 0,88' → '… (el desvío de A es menor que 0,88 veces el de B: se reduce en más de un 12%)'."""
+def _phi_palabras(m, varianza: bool = False) -> str:
+    """'φ = σ(A)/σ(B) < 0,88' → '… (el desvío de A es menor que 0,88 veces el de B: se reduce en más de un 12%)'.
+    Con φ₀ = 1, si el enunciado pregunta por la VARIANZA la conclusión habla de la varianza (es lo mismo: σA < σB ⇔
+    σA² < σB²); con φ₀ ≠ 1 sigue hablando del desvío, porque el % es sobre el desvío."""
     a, b, op, v = m.group(1), m.group(2), m.group(3), float(m.group(4).replace(".", "").replace(",", "."))
-    if abs(v - 1) < 1e-12:
+    if abs(v - 1) < 1e-12 and varianza:
+        txt = f"la varianza de {a} es {'menor' if op == '<' else 'mayor'} que la de {b}"
+    elif abs(v - 1) < 1e-12:
         txt = f"el desvío de {a} es {'menor' if op == '<' else 'mayor'} que el de {b}"
     elif op == "<" and v < 1:
         txt = f"el desvío de {a} es menor que {m.group(4)} veces el de {b}: se reduce en más de un {fmt((1 - v) * 100, 2)}%"
@@ -272,7 +280,8 @@ def h1_en_palabras(texto: str, tema: str, d: Dict) -> str:
         return re.sub(r"(?<=asegurar que )μ\(([^)]+)\) ([<>]) " + _NUM + r"·μ\(([^)]+)\)",
                       lambda m: f"{m.group(0)} ({_h_palabras(m.group(1), m.group(4), m.group(2), m.group(3))})", texto)
     if tema == "dos_varianzas" and texto:
-        return re.sub(r"(?<=asegurar que )φ = σ\(([^)]+)\)/σ\(([^)]+)\) ([<>]) " + _NUM, _phi_palabras, texto)
+        return re.sub(r"(?<=asegurar que )φ = σ\(([^)]+)\)/σ\(([^)]+)\) ([<>]) " + _NUM,
+                      lambda m: _phi_palabras(m, bool(d.get("habla_varianza"))), texto)
     var = (d.get("variable") or "").strip()
     if not var or not texto:
         return texto

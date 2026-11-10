@@ -15,9 +15,11 @@ En el examen **el solver resuelve y yo controlo**. No voy a hacer cuentas a mano
 Lo que hay que entrenar:
 1. **Controlar el planteo** que muestra la app con la guía de control, y corregirlo cuando está mal.
 2. **Pasarlo a la hoja** como lo corrige el profesor: H0 justificada en palabras, distribución justificada, 4 decimales, conclusión en términos del problema, «no se rechaza» (nunca «se acepta»). Ver [REGLAS_PROFESOR.md](REGLAS_PROFESOR.md).
-3. **El circuito completo con tiempo**: cargar → controlar → corregir → escribir, para 4 problemas en 120 minutos.
+3. **Mejorar la app con cada práctica**: lo que la resolución no dice como lo exige el profesor se corrige en el solver, así la respuesta sale completa.
 
 La teoría se estudia **solo en lo conceptual**: cuándo se usa cada test, cómo se plantea H0, qué significa el resultado. Cada vez que la app se equivoca en una práctica, se anota el caso en la guía de control.
+
+**Ajuste del 09/11:** las prácticas **no se cronometran**. No hago el examen de corrido: cargo cada problema, preguntamos lo que no entiendo y mejoramos la app (resolución y redacción de la IA) hasta que la respuesta salga como la exige el profesor.
 
 **Ajuste del 02/11:** en el examen Q copié lo de la app sin detectar ningún error, porque no sabía qué tenía que dar el planteo. Desde ahora cada tema empieza con **planteo a ciegas**: leo el enunciado y escribo **yo, sin la app**, el tema, el parámetro, p₀/p₁ (o δ₀), α y β, H0/H1 y la cola (2-3 minutos por problema). Recién después lo cargo en la app y comparo. Si no coinciden, alguno de los dos está mal, y eso es lo que se entrena.
 
@@ -26,10 +28,10 @@ La teoría se estudia **solo en lo conceptual**: cuándo se usa cada test, cómo
 ## Cómo es una sesión de práctica
 
 1. Claude me da un examen real (o un problema de la guía) **sin la resolución**.
-2. Lo cargo en la app (*Interpretar un enunciado* → 🗳️ Interpretar), con el reloj corriendo.
+2. Lo cargo en la app (*Interpretar un enunciado* → 🗳️ Interpretar).
 3. Controlo cada inciso con [GUIA_CONTROL.md](GUIA_CONTROL.md) y corrijo lo que esté mal.
 4. Escribo la respuesta como la entregaría.
-5. Claude la compara con la referencia y con `REGLAS_PROFESOR.md`: qué se me escapó del planteo, qué falta en la redacción y cuánto tardé.
+5. Claude la compara con la referencia y con `REGLAS_PROFESOR.md`: qué se me escapó del planteo y qué falta en la redacción. Lo que falta en la resolución de la app se mejora en el solver.
 6. Lo que la app hizo mal (y si lo detecté o no) se anota en la guía de control y en **Errores detectados** abajo. Si es un error general de la app, se corrige el solver.
 
 Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `python herramientas/evaluar_examenes.py --ia` antes de tocar nada).
@@ -40,7 +42,7 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 
 > Actualizar al final de cada sesión.
 
-**Última actualización:** 05/11/2026 (clase 14 procesada: `informes/informe_clase_14.md`). Antes, 31/10: plan reemplazado por el enfoque «el solver resuelve, yo controlo». El plan anterior (resolver en papel) quedó en `informes/plan_anterior_31-10.md`, con los valores de los ejercicios hechos en clase.
+**Última actualización:** 09/11/2026 (examen R en curso; prácticas sin cronómetro, mejorando la app). Antes, 05/11/2026 (clase 14 procesada: `informes/informe_clase_14.md`). Antes, 31/10: plan reemplazado por el enfoque «el solver resuelve, yo controlo». El plan anterior (resolver en papel) quedó en `informes/plan_anterior_31-10.md`, con los valores de los ejercicios hechos en clase.
 
 | Fecha | Qué | Estado |
 |---|---|---|
@@ -50,15 +52,15 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 | Mar 03/11 | Examen 3: final 12/12/2024 (F) + teoría mínima de regresión | ⬜ |
 | Mié 04/11 | Examen 4: final 15/12/25 (P) | ⬜ |
 | **Jue 05/11** | Clase (validación de regresión). Procesarla: reglas nuevas a `REGLAS_PROFESOR.md`, solver y guía de control | ✅ Reglas en §10, solver de regresión con la presentación del pizarrón, paso «Variable» con unidad en todos los temas, error de los negativos corregido |
-| Vie 06/11 | Examen 5: 2° parcial 10/11/25 (T) con el circuito completo y cronómetro | ⬜ |
+| Vie 06/11 | Examen 5: 2° parcial 10/11/25 (T) | ⬜ |
 | Sáb 07/11 | Temas que no salieron en los exámenes: apareadas (V-12 a V-21) | ⬜ |
 | Dom 08/11 | χ² de consistencia e independencia (VI-1 a VI-9) | ⬜ |
-| Lun 09/11 | Diseño de p con α y β (III-16, III-22) y varianzas (IV-1, IV-4) | ⬜ |
+| **Lun 09/11** | Examen R (recuperatorio 2024): problemas 1 (Poisson) y 2 (varianzas) corregidos y la app mejorada; 3 (regresión) revisado: la app daba por válido un modelo técnico con r² = 0,76 (corregido). Diseño de p (III-16, III-22) pasa a otro día | ✅ |
 | Mar 10/11 | Problema combinado tipo VI-20 y bondad de ajuste continua (VI-15, VI-18) | ⬜ |
 | Mié 11/11 | Regresión simple con validación: VII-12 en la app (VII-13 ya se hizo en clase; comparar con el informe 14) | ⬜ |
 | **Jue 12/11** | Clase. Procesarla como la del 05/11 | ⬜ |
 | Vie 13/11 | Lo nuevo de la clase del 12/11 | ⬜ |
-| Sáb 14/11 | **Simulacro 1**: examen armado por Claude con problemas que la app no vio, 120 minutos | ⬜ |
+| Sáb 14/11 | **Simulacro 1**: examen armado por Claude con problemas que la app no vio | ⬜ |
 | Dom 15/11 | Corregir el simulacro; repasar los errores no detectados | ⬜ |
 | Lun 16/11 | **Simulacro 2** | ⬜ |
 | Mar 17/11 | Corregir; repasar la guía de control completa | ⬜ |
@@ -68,6 +70,9 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 Leyenda: ⬜ pendiente · 🟨 en curso · ✅ terminado
 
 **Errores detectados en las prácticas** (míos al controlar o al redactar):
+- 09/11, examen R, problema 1: copié la redacción de la IA con la tabla **mezclada** (la clase «≤ 4» suelta y además dentro de «≤ 4 a 6»: 9 clases con ν de 8), H0 con «sigue», α sin justificar, sin N < 60 y la conclusión en condicional. *(App mejorada: α elegido justificado, x̄ con su origen, Fe con 4 decimales, ajuste demasiado perfecto, N < 60 en la conclusión, Poisson de llegadas por unidad de tiempo ⇒ «sigue»; la IA que redacta copia solo la tabla amalgamada.)*
+- 09/11, examen R, problema 3: no detecté que la app juzgó r² = 0,7606 como «válido para econometría» en un problema técnico (varillas de acero ⇒ r² ≥ 0,8 ⇒ el modelo no se valida). Faltó interpretar b1 y b0 en términos del problema. *(App corregida: ver `GUIA_CONTROL.md` §3.4 quater.)*
+- 09/11, examen R, problema 2: la variable como «la distribución de ferritina», H0 con una justificación genérica (criterio pesimista), conclusión sobre el desvío cuando preguntaba por la varianza, «corresponde Se confirma…». *(App corregida: ver `GUIA_CONTROL.md` §3.4 ter.)*
 - 02/11, examen Q, problema 1: no detecté que la app tomó **p₀ = 0,20** (era 0,40, el del paréntesis), **β = 0,10** (era 0,01: potencia 0,99) y **H1 con «>»** para una reducción. La pista era el «−83 habitantes más» del inciso c. Q1 sigue fallando en la app: se corrige a mano.
 - 02/11, examen Q, problema 2: lo di por bueno, pero los números venían del **chat de explicación**, que los inventó (SB > SA, t = 0,371). Los números se copian solo del panel del solver. *(App corregida: 2b y 2c, y el chat ahora resuelve siempre por consenso.)*
 

@@ -21,9 +21,9 @@ from solver.muestra import resumen_muestra
 
 from .modelo import DESPACHO_EXTRA, TIPOS, Analisis, Inciso
 from .variable import acciones, con_unidades, h1_en_palabras, paso_variable, rd_en_palabras
-from .presentacion import agregar_presentacion, siete_pasos
+from .presentacion import agregar_presentacion, que_pide_probar, siete_pasos
 from . import redondeo
-from .texto import fmt
+from .texto import fmt, normalizar
 
 
 @dataclass
@@ -1671,7 +1671,13 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
         return res
     try:
         d = _datos(an, inc, estado)
+        texto_total = f"{an.planteo} {inc.texto}"
+        d["_texto"] = texto_total           # el enunciado, para los textos que dependen del contexto (proceso físico)
         alpha = d.get("alpha")
+        alpha_elegido = d.get("alpha") == 0.05 and any("se asume α = 0,05" in a for a in an.avisos) \
+            and "alpha" not in inc.params
+        if alpha_elegido:
+            d["alpha_elegido"] = True
         if alpha is None and tema.startswith("regresion"):
             alpha = 0.05
             if inc.tipo not in ("recta", "origen") and not d.get("puntual"):
@@ -1697,6 +1703,10 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
             f(d, float(alpha), res, estado)
         # la cola efectiva: la que fijó este inciso (un diseño la corrige según μ₁) o la del inciso
         cola = estado.get("tail") if estado.get("tail") != cola_previa else (d.get("tail") or estado.get("tail"))
+        if not d.get("control") and (pide := que_pide_probar(texto_total)):
+            d["pide_probar"] = pide
+        if tema == "dos_varianzas" and re.search(r"varianza", normalizar(texto_total)):
+            d["habla_varianza"] = True      # la conclusión habla de la varianza (lo que pregunta el enunciado)
         res.pasos = agregar_presentacion(res.pasos, tema, inc.tipo, dict(d, alpha=alpha), an.criterio, cola)
         res.pasos = [_coma(x) if x.startswith(("**Hipótesis**", "**Región crítica**", "**1 · Planteo")) else x
                      for x in res.pasos]
@@ -1706,6 +1716,8 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
             estado["variable_dicha"] = True
         res.conclusion = h1_en_palabras(rd_en_palabras(con_unidades(res.conclusion, tema, d), tema, d), tema, d)
         res.regla = h1_en_palabras(rd_en_palabras(res.regla, tema, d), tema, d)
+        if tema == "chi_ajuste":
+            res.regla = con_unidades(res.regla, tema, d)
         res.pasos = [rd_en_palabras(x, tema, d) if x.startswith(("**Regla de decisión**", "**5 · Regla",
                                                                   "**Condición de rechazo**", "**4 · Condición"))
                      else x for x in res.pasos]
@@ -1716,7 +1728,8 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
         if inc.tipo == "beta" and acc and "β" in res.conclusion:
             res.conclusion += _beta_en_palabras(d, tema, acc)
         if inc.tipo == "ensayo" and not d.get("ambos"):
-            res.pasos = siete_pasos(res.pasos, float(alpha), res.regla)
+            res.pasos = siete_pasos(res.pasos, float(alpha), res.regla,
+                                    elegido=alpha_elegido or any("no fija el riesgo α" in a for a in res.avisos))
     except FaltaDato as e:
         res.errores.append(str(e))
         res.resumen = "faltan datos"

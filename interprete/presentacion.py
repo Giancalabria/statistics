@@ -25,6 +25,25 @@ def _v(x) -> str:
     return fmt(x, 4) if isinstance(x, (int, float)) else str(x)
 
 
+# El enunciado dice qué se quiere probar: regla 1 del profesor (eso va en H1; el criterio pesimista / optimista se usa
+# solo si el enunciado no lo dice). Solo frases sin ambigüedad: «¿puede afirmarse…?» queda afuera (en los controles de
+# rutina convive con el criterio optimista).
+_PIDE_PROBAR = re.compile(
+    r"(?:¿\s*)?\b(?:confirman?|confirmar|corroboran?|corroborar|respaldan?|avalan?)\b[^.?;]{0,80}"
+    r"|\bse (?:quiere|desea|pretende|busca) (?:probar|demostrar|verificar|comprobar)\b[^.?;]{0,80}"
+    r"|\b(?:quiere|quieren|desea|desean|pretende|pretenden) (?:probar|demostrar)\b[^.?;]{0,80}")
+
+
+def que_pide_probar(texto: str) -> Optional[str]:
+    """La frase del enunciado que dice qué se quiere probar (texto original, para citarla) o None."""
+    from .texto import normalizar
+    m = _PIDE_PROBAR.search(normalizar(texto or ""))
+    if not m:
+        return None
+    frase = re.split(r"\s+(?:a|con|para) (?:un |una )?(?:nivel|riesgo|significaci|confianza|α)", texto[m.start():m.end()])[0]
+    return frase.strip(" ¿?,")
+
+
 # ---------------------------------------------------------------------------
 # a) Justificación de H0
 # ---------------------------------------------------------------------------
@@ -56,7 +75,12 @@ def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: 
         si, no = d.get("accion_rechazo", "se detiene el proceso"), d.get("accion_no_rechazo", "el proceso sigue")
         lineas.append(f"Es un **sistema de control**: la decisión es entre dos acciones. Rechazar H0 ⇒ {si}; "
                       f"no rechazarla ⇒ {no}.")
-    if criterio == "pesimista":
+    if d.get("pide_probar"):
+        lineas.append(f"**El enunciado dice qué se quiere probar** («{d['pide_probar']}»): eso va en {h1}. {h0} es el "
+                      f"complemento y lleva la igualdad (el valor de referencia {v0}). Así el error grave (afirmarlo "
+                      f"sin que sea cierto) queda acotado por α. (Regla del profesor: primero lo que pide el enunciado; "
+                      f"el criterio pesimista / optimista solo si el enunciado no lo dice.)")
+    elif criterio == "pesimista":
         lineas.append(f"**Criterio pesimista**: hay una decisión costosa en juego (compra, inversión, cambio). {h0} supone "
                       f"lo desfavorable y solo se la rechaza con evidencia fuerte; {h1} es la situación favorable que "
                       f"habilita la decisión. Así el error grave (decidir sin que se justifique) queda acotado por α.")
@@ -219,7 +243,7 @@ PASOS_ENSAYO = {
 }
 
 
-def siete_pasos(pasos: List[str], alpha: float, regla: str = "") -> List[str]:
+def siete_pasos(pasos: List[str], alpha: float, regla: str = "", elegido: bool = False) -> List[str]:
     """Ordena y numera los pasos de un ensayo como pide la cátedra:
     1 hipótesis, 2 nivel de significación, 3 estadístico, 4 condición de rechazo,
     5 regla de decisión (en lenguaje llano, ANTES de los cálculos), 6 cálculos.
@@ -234,7 +258,7 @@ def siete_pasos(pasos: List[str], alpha: float, regla: str = "") -> List[str]:
         salida = list(pasos[:cortes[0]])
         for k, i in enumerate(cortes):
             bloque = pasos[i:cortes[k + 1] if k + 1 < len(cortes) else len(pasos)]
-            salida += [bloque[0]] + siete_pasos(bloque[1:], alpha, regla)
+            salida += [bloque[0]] + siete_pasos(bloque[1:], alpha, regla, elegido)
         return salida
     items = []
     actual = 0
@@ -249,7 +273,10 @@ def siete_pasos(pasos: List[str], alpha: float, regla: str = "") -> List[str]:
                 break
         items.append((actual, p))
     items.append((2, f"**2 · Nivel de significación**: α = {fmt(alpha, 4)} — riesgo máximo de cometer un error de "
-                     f"tipo I (rechazar H0 siendo cierta)."))
+                     f"tipo I (rechazar H0 siendo cierta)."
+                     + (" **El enunciado no lo fija: se elige y se justifica antes de ver los datos** (p. ej. «α = "
+                        f"{fmt(alpha, 4)}: no hay una decisión costosa que pida un riesgo más chico; es el riesgo "
+                        "habitual del profesor»). Una vez fijado, α no se toca." if elegido else "")))
     if regla:
         items.append((5, f"**5 · Regla de decisión (RD)**: {regla}"))
     items.sort(key=lambda x: x[0])  # estable: dentro de cada paso se mantiene el orden original

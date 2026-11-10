@@ -81,7 +81,8 @@ Si muestra **⚠️ las 2 IA contra las reglas**, la app eligió lo de las IA, p
 - «Aumento de 3 puntos» = 0,12 → 0,15.
 
 ### Comparación de varianzas o desvíos (Tema IV)
-- **Frases**: «variabilidad», «dispersión», «homogeneidad», «desvío» de dos grupos.
+- **Frases**: «variabilidad», «dispersión», «homogeneidad», «desvío» de dos grupos. «¿Confirman los datos la conclusión de…?» → esa conclusión va en H1.
+- ¿Pregunta por **varianza** o por **desvío**? Usar el mismo parámetro de punta a punta: ψ² y J² si es varianza; φ y J si es desvío. La decisión es la misma, pero la conclusión tiene que hablar de lo que pregunta el enunciado.
 - ψ² = σA²/σB²; la muestra orienta (si SB > SA, solo se puede intentar probar σB > σA).
 - Con desvíos, φ va al cuadrado. «Reducir el desvío un 12%» → H0: φ ≥ 0,88. En n para desvíos, R = R'².
 - IC interpretado en %.
@@ -99,6 +100,29 @@ Si muestra **⚠️ las 2 IA contra las reglas**, la app eligió lo de las IA, p
 - E ≥ 5 (amalgamar), esperados con decimales, ν = clases efectivas − 1 − parámetros estimados.
 - Completar el dominio con clases **nuevas** con O = 0 y probabilidad acumulada.
 - No rechazar en continuas → «es un buen candidato». Mejor ajuste = menor χ².
+- N < 60 → anotarlo como limitación («la aproximación χ² es dudosa»).
+
+#### ¿«Sigue el modelo» o «es un buen candidato»? (bondad de ajuste)
+
+La app no lo decide: deja la conclusión en condicional. Lo decido yo así:
+
+| Resultado del test | Tipo de modelo | ¿Se cumple el proceso físico? | Conclusión |
+|---|---|---|---|
+| Se rechaza H0 | cualquiera | — | «Puedo asegurar que la variable **no sigue** el modelo X» |
+| No se rechaza | **continuo** (normal, exponencial, gamma, Weibull, Gumbel, lognormal…) | no se pregunta | «El modelo X **es un buen candidato**» (puede haber otro que ajuste mejor) |
+| No se rechaza | **discreto** (Poisson, binomial…) | **sí, todas las condiciones** | «La variable **sigue** el modelo X con [parámetro y unidad]» |
+| No se rechaza | discreto | no, o el enunciado no da para afirmarlo | «El modelo X **es un buen candidato**» |
+
+**Condiciones del proceso físico** (revisar una por una con el enunciado y escribirlas en la conclusión):
+
+| Modelo | Condiciones | Ejemplos donde se cumple | Señales de que NO se cumple |
+|---|---|---|---|
+| **Poisson** (conteo de sucesos en un intervalo) | 1) sucesos **puntuales** (cada uno ocupa un instante o un punto); 2) en un **medio continuo** (tiempo, longitud, área, volumen); 3) **independientes**: lo que pasa en un intervalo no influye en otro; 4) ocurren **al azar**, no programados; 5) **tasa media constante** en el período observado | autos que llegan a un peaje por minuto; autos rojos que pasan por una avenida en una hora; reclamos diarios a una fábrica; clientes por día en un comercio; fallas a lo largo de un rollo de cable; bacterias en un volumen de agua | llegadas en grupos o pelotones (semáforo antes, colectivos); turnos o citas programadas; la tasa cambia (hora pico mezclada con hora valle); un suceso provoca otros (contagios, fallas en cadena) |
+| **Binomial** (cuántos «éxitos» en n ensayos) | 1) cada ensayo tiene **dos resultados** (bueno/defectuoso); 2) **p constante** en todos los ensayos; 3) ensayos **independientes**; 4) **n fijo**; 5) población **infinita** (proceso de fabricación) o extracción **con reposición** | defectuosas en muestras de n = 30 piezas de una línea de producción continua; bolillas con reposición | población **finita sin reposición** (es **hipergeométrica**, no binomial); p cambia entre lotes, máquinas o turnos; n distinto en cada muestra |
+
+**Cómo se redacta** (Poisson, si se cumple): «Con α = 0,05 no se rechaza H0. Como la llegada de vehículos es un proceso de Poisson (sucesos puntuales, independientes y al azar en el tiempo, con tasa constante), puedo afirmar que la cantidad de vehículos por minuto sigue una Poisson con m = 10,52 veh/min».
+
+Fuentes: clases del 06/08 y del 22/10 (Poisson de la guía: «se cumple el proceso ⇒ sigue»), apunte de χ², pp. 98 y 100.
 
 ### Regresión (Tema VII)
 - **Frases**: «recta», «modelo lineal», «asociación lineal», «por cada unidad de X» (β₁, contribución marginal), «influencia porcentual» (r², coeficiente de determinación).
@@ -154,6 +178,28 @@ Todas quedaron corregidas, pero en el parcial va a haber frases nuevas. Cuando l
 - En Q2 (práctica del 02/11), la explicación de la IA escribió x̄A = 10,61, x̄B = 10,67, SB > SA, d = 0,06 y t = 0,371. El solver da x̄A = 10,6957, SA = 0,2903, x̄B = 10,7972, SB = 0,2758 (**SA > SB**, así que el F es σA/σB), d = 0,1015 y t = 1,3785. La conclusión coincidió de casualidad. Además repitió el «no lo resuelve» del inciso c aunque las reglas lo resolvieron.
 
 **Qué mirar:** los números se copian **solo del panel del solver**. La explicación sirve para la redacción, no para los valores.
+
+### 3.4 ter La justificación de H0 es un texto genérico
+- En R3 (práctica del 09/11, varianzas de ferritina), la app justificó H0 con el criterio pesimista y escribió «la decisión implica una posible modificación en el diagnóstico». El enunciado no dice nada de eso. La justificación correcta es la regla 1: el enunciado dice qué se quiere probar («¿confirman estos datos la conclusión del paper?»), así que la afirmación del paper va en H1. Además, la muestra orienta: S mayores < S jóvenes. La dirección y los números estaban bien.
+- La **justificación de la distribución** sí la escribe, en «Modelos y distribuciones empleados» (poblaciones normales y muestras independientes ⇒ J²/ψ² ~ F(n₁−1; n₂−1)). Hay que copiarla: en la práctica quedó afuera.
+- En el consenso, las tres lecturas rechazaban H0 y eran equivalentes, pero se veían distintas:
+  - **reglas**: «σ(Muestra 2)/σ(Muestra 1) ≤ 1», con los jóvenes arriba porque va arriba el S mayor. Es lo mismo que mayores/jóvenes ≥ 1, pero sin los nombres de los grupos;
+  - **IA con ejemplos**: rótulo «σ(Muestra 2)/σ(Muestra 1)» con J = 52,6/84,2. Era un error de la app: tomaba los nombres de las reglas y los pegaba a los datos de la IA, que estaban en el orden inverso.
+- *(Corregido el 09/11:*
+  - *las reglas leen el grupo que sigue al n («28 varones adultos mayores», «26 adultos jóvenes»);*
+  - *los nombres siguen a los datos de cada lectura;*
+  - *si el enunciado dice qué se quiere probar («confirman», «se quiere probar», «se desea verificar»), la justificación de H0 lo cita (regla 1) en vez del criterio genérico, en ensayos de una población y de varianzas;*
+  - *si el enunciado pregunta por la varianza, la conclusión habla de la varianza;*
+  - *«Acción si se rechaza H0» escrita como oración ya no queda «corresponde Se confirma…».*
+  *Tests en `tests/test_examenes_2024.py`.)*
+
+**Qué mirar:** la justificación de H0 se reescribe siempre con el enunciado, no se copia. La regla 1 va primero: si el enunciado dice qué se quiere probar, eso va en H1. El criterio pesimista u optimista se usa solo si el enunciado no lo dice.
+
+### 3.4 quater La fuerza de la relación sin mirar el uso del problema
+- En R4 (práctica del 09/11, varillas de acero), la app escribió «r² = 0,7606 ≥ 0,6: válido para econometría» y dio el modelo por válido. Es un problema **técnico** (resistencia de materiales): el mínimo es **r² ≥ 0,8**, así que hay relación lineal pero el modelo **no se valida**.
+- *(Corregido el 09/11: la app deduce el uso del enunciado (acero, rotura, temperatura, fábrica ⇒ técnico; ventas, precio, PBI ⇒ económico; encuestas, actitud ⇒ social), juzga r² con ese mínimo y lo dice. Si no reconoce el uso, avisa para que lo decidas vos. Test en `tests/test_examenes_2024.py`.)*
+
+**Qué mirar:** ¿el uso que tomó la app es el del problema? El mínimo es orientativo: si el problema es de otro campo, se cambia el criterio y se justifica.
 
 ### 3.5 Diferencias a propósito con la guía (la app sigue al profesor)
 | Ejercicio | Guía | App | Por qué |

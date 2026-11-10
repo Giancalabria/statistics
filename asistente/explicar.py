@@ -19,7 +19,17 @@ from . import cliente, contexto
 # contradice al profesor en el factor de finitud.
 APUNTES = ("profesor", "control", "convenciones", "teoria", "tutorial", "ejemplo")
 
-SISTEMA_EXPLICAR = """Sos un profesor de Estadística Aplicada (UADE, cátedra Dopazo - García) que ayuda a un \
+# lo que la IA hacía mal al redactar la respuesta para entregar (práctica del 09/11, R1): cambiaba H0, mezclaba la tabla
+# de esperados con la amalgamada y borraba avisos. Va en el sistema de «Explicar» y en el pedido del Asistente.
+COPIA_FIEL = ("La respuesta para entregar va COMPLETA, con todos los pasos de la resolución en orden (variable, H0 y "
+              "H1 con su justificación, α, estadístico y su distribución, CR, RD, cálculos y decisión, conclusión), no "
+              "solo la conclusión. Copia FIEL la resolución: la misma H0 (en bondad de ajuste, «lo observado se "
+              "ajusta al modelo X», no «sigue»), la misma decisión y la conclusión del solver sin volverla condicional. "
+              "Si hay una tabla antes y otra después de amalgamar, copiá SOLO la amalgamada (la de los aportes y el χ²), "
+              "sin agregarle filas. No borres los avisos que cambian la redacción: α elegido (justificalo), N < 60, "
+              "ajuste demasiado perfecto.")
+
+SISTEMA_EXPLICAR = f"""Sos un profesor de Estadística Aplicada (UADE, cátedra Dopazo - García) que ayuda a un \
 alumno a entender y redactar la resolución de un ejercicio. Respondé en español rioplatense, claro y ordenado.
 
 Reglas estrictas:
@@ -35,6 +45,7 @@ una variable aleatoria. Nunca «uso Z porque conozco σ».
 - No hay ensayos bilaterales sobre p, σ², σ ni en comparaciones. No se decide con el valor a posteriori α*. \
 La estimación de p es siempre exacta (nunca por la normal). Con t no se calculan β ni n.
 - Usá coma decimal (2,5) como en el examen.
+- {COPIA_FIEL}
 """
 
 SISTEMA_PREGUNTA = """Sos un profesor de Estadística Aplicada (UADE, cátedra Dopazo - García). Respondé las \

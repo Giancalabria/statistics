@@ -102,11 +102,11 @@ if tipo_contraste.startswith("Ajuste a un modelo"):
             st.write("**Parámetros:** " + ", ".join(f"{k} = {v:.5g}" + (" (estimado)" if k in r.estimados else "")
                                                     for k, v in r.parametros.items() if isinstance(v, (int, float))))
             st.write("**Tabla del modelo**")
-            st.dataframe(pd.DataFrame([{"Clase": c.etiqueta, "Fo": c.fo, "P": round(c.prob, 5), "Fe": round(c.fe, 3)}
+            st.dataframe(pd.DataFrame([{"Clase": c.etiqueta, "Fo": c.fo, "P": round(c.prob, 5), "Fe": round(c.fe, 4)}
                                        for c in r.tabla]), hide_index=True)
             if len(r.tabla_final) < len(r.tabla):
                 st.write("**Después de amalgamar (Fe ≥ 5)**")
-                st.dataframe(pd.DataFrame([{"Clase": c.etiqueta, "Fo": c.fo, "Fe": round(c.fe, 3)}
+                st.dataframe(pd.DataFrame([{"Clase": c.etiqueta, "Fo": c.fo, "Fe": round(c.fe, 4)}
                                            for c in r.tabla_final]), hide_index=True)
             res = chi.ChiSquareResult(chi2_calc=r.chi2_calc, df=r.df, chi2_critico=r.chi2_critico, rejects_h0=r.rechaza)
             st.caption(f"ν = k - 1 - p = {len(r.tabla_final)} - 1 - {len(r.estimados)} = {r.df}")

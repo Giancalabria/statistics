@@ -43,7 +43,7 @@ Si hay una contradicción que no está clara, preguntarle al usuario antes de de
 ## Cómo trabajar conmigo
 
 - **Practicamos con exámenes reales**, no resolviendo en papel. En cada sesión: darme el examen sin la resolución; yo lo cargo en la app, controlo el planteo con `GUIA_CONTROL.md` y escribo la respuesta como la entregaría.
-- Corregir mi respuesta contra la referencia y `REGLAS_PROFESOR.md`: qué error de la app se me escapó, qué falta en la redacción (H0 justificada, distribución justificada, 4 decimales, conclusión en términos del problema, probabilidades nunca en %) y cuánto tardé.
+- Corregir mi respuesta contra la referencia y `REGLAS_PROFESOR.md`: qué error de la app se me escapó, qué falta en la redacción (H0 justificada, distribución justificada, 4 decimales, conclusión en términos del problema, probabilidades nunca en %). Sin cronómetro: lo que falta en la resolución de la app se mejora en el solver.
 - Explicar la teoría **solo en lo conceptual** (cuándo se usa cada test, cómo se plantea H0, qué significa el resultado), no las cuentas a mano.
 - Cada error real de la app que aparezca: agregarlo a `GUIA_CONTROL.md` (sección 3) y, si es general, corregir el solver.
 - Al terminar una sesión, **actualizar la sección «Estado actual» de `PLAN.md`**: marcar lo hecho, anotar errores detectados y la fecha.

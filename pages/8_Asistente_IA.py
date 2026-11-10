@@ -6,6 +6,7 @@ import streamlit as st
 from asistente import cliente
 from asistente.explicar import (SISTEMA_LIBRE, enunciado_texto, leer_adjunto, numeros_sin_respaldo, parece_enunciado,
                                 resolucion_texto, resolver_por_consenso, responder)
+from asistente.explicar import COPIA_FIEL
 from asistente.ui import configuracion, descartar, en_curso, lanzar, recoger, seguir
 
 PAGINA = "pages/8_Asistente_IA.py"
@@ -14,7 +15,7 @@ PEDIDO_ENUNCIADO = (
     "Te pegué este enunciado y la app ya lo resolvió por consenso (te paso la resolución). Para cada inciso: en una o "
     "dos líneas por qué se eligió ese camino (distribución, H0, cola), y después la respuesta como la entregaría en "
     "el examen. Usá SOLO los números de la resolución: no recalcules ni agregues valores. Si un inciso no tiene "
-    "consenso o quedó sin calcular, decilo al principio de ese inciso.\n\n")
+    "consenso o quedó sin calcular, decilo al principio de ese inciso. " + COPIA_FIEL + "\n\n")
 
 st.title("🤖 Asistente (IA local)")
 st.caption("Pegá un **enunciado** y la app lo resuelve (🗳️ consenso: reglas + 2 lecturas de IA); hacé una "

@@ -461,9 +461,19 @@ def chi_ajuste_modelos(d, alpha, res, estado):
         res.pasos.append(f"**Hipótesis**: H0: lo observado se ajusta al modelo {nombre}"
                          + (" con " + params if not r.estimados and params else "")
                          + f"  vs  H1: no lo sigue.  α = {fmt(alpha, 4)}.")
-        if r.media is not None:
+        if r.media is not None and m in aj.DISCRETOS and m != "uniforme":
+            N = sum(obs)
+            suma = sum(x * f for x, f in zip(vals, obs))
+            res.pasos.append(f"**Estimación** (con los valores de la variable): x̄ = Σ xᵢ·Foᵢ / N = {fmt(suma, 4)}/"
+                             f"{fmt(N)} = {fmt(r.media, 4)}"
+                             + (f", S = {fmt(r.desvio, 4)}" if r.desvio else "")
+                             + (". Los parámetros estimados con la muestra restan grados de libertad (uno por cada uno)."
+                                if r.estimados else "."))
+        elif r.media is not None:
             res.pasos.append(f"**Estimación** (marcas de clase): x̄ = {fmt(r.media, 4)}"
-                             + (f", S = {fmt(r.desvio, 4)}" if r.desvio else "") + ".")
+                             + (f", S = {fmt(r.desvio, 4)}" if r.desvio else "")
+                             + (". Los parámetros estimados con la muestra restan grados de libertad (uno por cada uno)."
+                                if r.estimados else "."))
         if params:
             res.pasos.append(f"**Parámetros del modelo**: {params}.")
         amalgamado = len(r.tabla_final) < len(r.tabla)
@@ -478,8 +488,11 @@ def chi_ajuste_modelos(d, alpha, res, estado):
         res.pasos.append(f"**Condición de rechazo**: si χ² > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0.")
         res.pasos.append("**Decisión**: " + (f"χ² = {fmt(r.chi2_calc, 4)} > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0: "
                                              f"la variable NO sigue el modelo {nombre}." if r.rechaza else
-                                             f"χ² = {fmt(r.chi2_calc, 4)} ≤ {fmt(r.chi2_critico, 4)} ⇒ no se rechaza H0: "
-                                             f"el modelo {nombre} es un buen candidato."))
+                                             f"χ² = {fmt(r.chi2_calc, 4)} ≤ {fmt(r.chi2_critico, 4)} ⇒ no se rechaza H0"
+                                             + (" (si sigue el modelo o es solo un buen candidato lo decide el proceso "
+                                                "físico: ver la conclusión)." if m in aj.DISCRETOS and m != "uniforme"
+                                                else f": el modelo {nombre} es un buen candidato."))
+                         + _demasiado_perfecto(r))
         res.avisos += r.avisos
         res.numeros += [r.chi2_calc, r.chi2_critico, float(r.df)] + [v for v in r.parametros.values()
                                                                     if isinstance(v, float)]
@@ -493,11 +506,12 @@ def chi_ajuste_modelos(d, alpha, res, estado):
             concl.append(f"Con α = {fmt(alpha, 4)} se rechaza H0: se puede asegurar que la variable no sigue el modelo "
                          f"{nombre}.")
         elif r.modelo in aj.DISCRETOS and r.modelo != "uniforme":
-            # tres situaciones de las discretas (profesor, 22/10)
-            concl.append(f"Con α = {fmt(alpha, 4)} no se rechaza H0. Si además se cumple el proceso físico del modelo "
-                         f"{nombre} (p. ej. Poisson: sucesos puntuales e independientes en un medio continuo), se puede "
-                         f"afirmar que la variable sigue el modelo {nombre}; si no se cumple, el modelo {nombre} es un "
-                         "buen candidato.")
+            concl.append(_conclusion_discreta(r, alpha, d.get("_texto") or "", (d.get("unidad") or "").strip()))
+            if "Además se cumple el proceso físico" in concl[-1]:
+                res.avisos.append(f"La app afirmó el proceso de Poisson (es un conteo de sucesos por unidad de tiempo o "
+                                  f"de longitud). Controlá que el enunciado no diga nada que lo rompa: llegadas en "
+                                  f"grupos, sucesos programados, una tasa que cambia en el período. Si lo dice, el "
+                                  f"modelo es solo un buen candidato.")
         else:
             concl.append(f"Con α = {fmt(alpha, 4)} no se rechaza H0: no hay evidencia suficiente para asegurar que la "
                          f"variable no siga el modelo {nombre}; el modelo {nombre} es un buen candidato.")
@@ -506,9 +520,65 @@ def chi_ajuste_modelos(d, alpha, res, estado):
         mejor = min(no_rech, key=lambda r: r.chi2_calc / r.chi2_critico)
         concl.append(f"El que mejor ajusta es el modelo {aj.NOMBRES[mejor.modelo]} (menor χ² relativo al crítico: "
                      f"{fmt(mejor.chi2_calc / mejor.chi2_critico, 3)}).")
+    chicos = [a for a in res.avisos if re.match(r"N = [\d.]+ < 60", a)]
+    if chicos:
+        N = chicos[0].split(" < ")[0].replace("N = ", "")
+        concl.append(f"La muestra es chica (N = {N} < 60): la aproximación χ² es dudosa y la conclusión es aproximada.")
     res.conclusion = _coma(" ".join(concl))
     res.regla = _regla(d, "calcula χ² con las frecuencias observadas y las esperadas del modelo",
                        f"χ² > {fmt(resultados[0].chi2_critico, 4)}", "la variable no sigue el modelo")
+
+
+def _demasiado_perfecto(r: aj.AjusteResult) -> str:
+    """Control del profesor: si χ²obs < χ²(α; ν) se sospecha de los DATOS (cocinados), no del modelo."""
+    from scipy.stats import chi2
+    if r.df < 1:
+        return ""
+    bajo = float(chi2.ppf(r.alpha, r.df))
+    if r.chi2_calc < bajo:
+        return (f" ⚠️ **Ajuste demasiado perfecto**: χ² = {fmt(r.chi2_calc, 4)} < χ²(α; ν) = {fmt(bajo, 4)}: se sospecha "
+                f"de los datos (pueden estar «cocinados»), no del modelo.")
+    return (f" Control de ajuste demasiado perfecto: χ² = {fmt(r.chi2_calc, 4)} > χ²(α; ν) = χ²({fmt(r.alpha, 4)}; "
+            f"{r.df}) = {fmt(bajo, 4)}: no hay sospecha sobre los datos.")
+
+
+# Proceso físico de cada modelo discreto (profesor, 06/08 y 22/10; apunte de χ², pp. 98 y 100)
+PROCESO = {
+    "poisson": "sucesos puntuales, en un medio continuo (tiempo, longitud, área o volumen), independientes, que ocurren "
+               "al azar y con una tasa media constante",
+    "binomial": "n ensayos fijos con dos resultados posibles (cumple / no cumple), independientes, con p constante y "
+                "población infinita (proceso de fabricación) o extracción con reposición",
+}
+# conteos de llegadas / sucesos por unidad de tiempo o de longitud: el proceso de Poisson clásico
+_SUCESOS = (r"\b(llega|llegan|llegada|llegadas|arriba|arriban|arribo|arribos|ingresa|ingresan|entran|pasan|reclamos?|"
+            r"llamadas?|accidentes?|fallas?|defectos?|imperfecciones|averias?|roturas?|clientes|vehiculos|autos|"
+            r"pedidos|consultas|errores|bacterias|particulas)\b")
+_CONTINUO = (r"(/\s*|\bpor\s+|\bcada\s+|\ben\s+(un|una)\s+)(minuto|min\b|hora|hs?\b|dia|jornada|turno|semana|mes|"
+             r"ano|metro|m\b|km|kilometro|cm|m2|metro cuadrado|litro|rollo|pagina|hoja|plancha|superficie)")
+# lo que rompe el proceso de Poisson (llegadas en grupo, sucesos programados, tasa que cambia, contagio)
+_ROMPE = (r"(semaforo|en grupos?|en pelotones|pelotones|turnos? (programad|asignad)|programad|citas?\b|con turno|"
+          r"contagi|en cadena|hora pico|horas pico|distintos horarios)")
+
+
+def _conclusion_discreta(r: aj.AjusteResult, alpha: float, texto: str, unidad: str = "") -> str:
+    """Las tres situaciones de las discretas (profesor, 22/10): se rechaza ⇒ no sigue; no se rechaza y se cumple el
+    proceso físico ⇒ SIGUE el modelo; no se cumple ⇒ buen candidato. Con un conteo de llegadas / sucesos por unidad
+    de tiempo o de longitud sin nada que lo rompa, la app afirma el proceso de Poisson (como los ejemplos de clase);
+    si no, deja las condiciones para que el alumno lo decida."""
+    nombre = aj.NOMBRES[r.modelo]
+    params = ", ".join(f"{k} = {fmt(v, 4)}" for k, v in r.parametros.items() if isinstance(v, (int, float))
+                       and k not in ("k",))
+    con = f" con {params}" + (f" {unidad}" if unidad and len(r.parametros) == 1 else "") if params else ""
+    base = f"Con α = {fmt(alpha, 4)} no se rechaza H0."
+    norm = normalizar(texto)
+    if r.modelo == "poisson" and re.search(_SUCESOS, norm) and re.search(_CONTINUO, norm) and not re.search(_ROMPE, norm):
+        return (f"{base} Además se cumple el proceso físico de Poisson: lo que se cuenta son {PROCESO['poisson']}. "
+                f"Por lo tanto se puede afirmar que la variable sigue el modelo {nombre}{con}.")
+    proceso = PROCESO.get(r.modelo)
+    return (f"{base} Para concluir hay que mirar el proceso físico del modelo {nombre}"
+            + (f" ({proceso})" if proceso else "") + f": si se cumple, se puede afirmar que la variable sigue el modelo "
+            f"{nombre}{con}; si no se cumple (o el enunciado no da para afirmarlo), el modelo {nombre} es un buen "
+            f"candidato. Decidilo con la tabla «¿Sigue el modelo o es un buen candidato?» de la guía de control.")
 
 
 def _tabla_md(tabla, aportes: bool = False) -> str:
@@ -516,14 +586,14 @@ def _tabla_md(tabla, aportes: bool = False) -> str:
     if not aportes:
         lineas = ["| Clase | Fo | P | Fe |", "|---|---|---|---|"]
         for c in tabla:
-            lineas.append(f"| {c.etiqueta} | {fmt(c.fo)} | {fmt(c.prob, 4)} | {fmt(c.fe, 3)} |")
+            lineas.append(f"| {c.etiqueta} | {fmt(c.fo)} | {fmt(c.prob, 4)} | {fmt(c.fe, 4)} |")
         return "\n".join(lineas)
     lineas = ["| Clase | Fo | P | Fe | (Fo - Fe)²/Fe |", "|---|---|---|---|---|"]
     for c in tabla:
-        lineas.append(f"| {c.etiqueta} | {fmt(c.fo)} | {fmt(c.prob, 4)} | {fmt(c.fe, 3)} | "
+        lineas.append(f"| {c.etiqueta} | {fmt(c.fo)} | {fmt(c.prob, 4)} | {fmt(c.fe, 4)} | "
                       f"{fmt((c.fo - c.fe) ** 2 / c.fe, 4)} |")
     lineas.append(f"| **Total** | **{fmt(sum(c.fo for c in tabla))}** | **{fmt(sum(c.prob for c in tabla), 4)}** | "
-                  f"**{fmt(sum(c.fe for c in tabla), 3)}** | "
+                  f"**{fmt(sum(c.fe for c in tabla), 4)}** | "
                   f"**χ² = {fmt(sum((c.fo - c.fe) ** 2 / c.fe for c in tabla), 4)}** |")
     return "\n".join(lineas)
 
