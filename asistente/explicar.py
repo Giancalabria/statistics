@@ -22,8 +22,8 @@ APUNTES = ("profesor", "control", "convenciones", "teoria", "tutorial", "ejemplo
 # lo que la IA hacía mal al redactar la respuesta para entregar (práctica del 09/11, R1): cambiaba H0, mezclaba la tabla
 # de esperados con la amalgamada y borraba avisos. Va en el sistema de «Explicar» y en el pedido del Asistente.
 COPIA_FIEL = ("La respuesta para entregar va COMPLETA, con todos los pasos de la resolución en orden (variable, H0 y "
-              "H1 con su justificación, α, estadístico y su distribución, CR, RD, cálculos y decisión, conclusión), no "
-              "solo la conclusión. Copia FIEL la resolución: la misma H0 (en bondad de ajuste, «lo observado se "
+              "H1 con su justificación, α, estadístico y su distribución, CR, RD, cálculos y decisión, conclusión, y la "
+              "«Interpretación en términos del problema» con sus unidades si la resolución la tiene), no solo la conclusión. Copia FIEL la resolución: la misma H0 (en bondad de ajuste, «lo observado se "
               "ajusta al modelo X», no «sigue»), la misma decisión y la conclusión del solver sin volverla condicional. "
               "Si hay una tabla antes y otra después de amalgamar, copiá SOLO la amalgamada (la de los aportes y el χ²), "
               "sin agregarle filas. No borres los avisos que cambian la redacción: α elegido (justificalo), N < 60, "

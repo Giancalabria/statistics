@@ -743,6 +743,7 @@ def validacion(d, alpha, res, estado):
     ny, _, nx, _ = _vars(d)
     res.resumen = f"r = {fmt(reg.r, 4)}; r² = {fmt(reg.r2, 4)}; tc = {fmt(e.t_c, 4)} vs {fmt(e.t_critico, 4)}: " + \
         ("RECHAZA H0 (hay relación)" if e.rechaza else "NO rechaza H0")
+    res.pasos.append(f"**Interpretación en términos del problema**: {_interpretar(reg, d)} {_influencia(reg, d)}")
     res.conclusion = ((f"Con α = {fmt(alpha, 4)}, se puede asegurar que existe relación lineal entre {_el(nx)} y {_el(ny)}"
                        if e.rechaza else
                        f"Con α = {fmt(alpha, 4)}, no se puede asegurar que exista relación lineal entre {_el(nx)} y {_el(ny)}")
@@ -891,8 +892,8 @@ def _ic_rho(reg, alpha, res):
     res.pasos.append(f"**Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = {fmt(z, 4)}; "
                      f"Z(1-α/2)·√(1/(n-3)) = {fmt(ic.critico, 4)}·√(1/{reg.n - 3}) = {fmt(ic.error, 4)}; "
                      f"Zρmín = {fmt(z - ic.error, 4)}; Zρmáx = {fmt(z + ic.error, 4)}.")
-    res.pasos.append(f"**Límites**: A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = {fmt(ic.A, 4)}; "
-                     f"B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = {fmt(ic.B, 4)}.")
+    res.pasos.append(f"**Límites del IC de ρ** (todavía no de ρ²): A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = "
+                     f"{fmt(ic.A, 4)}; B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = {fmt(ic.B, 4)}.")
     res.numeros += [reg.r, z, 2 * z, ic.error, z - ic.error, z + ic.error, ic.A, ic.B]
     return ic
 
@@ -920,13 +921,18 @@ def ic_rho2(d, alpha, res, estado):
     ic = _ic_rho(reg, alpha, res)
     a2, b2 = sorted((ic.A ** 2, ic.B ** 2)) if ic.A * ic.B > 0 else (0.0, max(ic.A ** 2, ic.B ** 2))
     ar, br, nota = redondeo.intervalo(a2, b2, 4)
-    res.pasos.append(f"**IC para ρ²**: los límites del IC de ρ al cuadrado → [{fmt(a2, 4)} ; {fmt(b2, 4)}].")
+    res.pasos.append(f"**IC para ρ²**: los límites del IC de ρ al cuadrado → [{fmt(a2, 4)} ; {fmt(b2, 4)}]"
+                     + (f" (el IC de ρ incluye el 0, así que el mínimo de ρ² es 0; el máximo es "
+                        f"{fmt(max(abs(ic.A), abs(ic.B)), 4)}² = {fmt(b2, 4)})" if ic.A * ic.B <= 0 else "") + ".")
     res.numeros += [reg.r2, a2, b2, 100 * a2, 100 * b2]
     res.resumen = f"r² = {fmt(reg.r2, 4)}; ρ² ∈ [{fmt(a2, 4)} ; {fmt(b2, 4)}]"
     pa, pb = redondeo.cota(100 * a2, False, 2), redondeo.cota(100 * b2, True, 2)
     res.conclusion = (f"{_El(nx)} {_v(nx, 'influye')} en un {fmt(100 * reg.r2, 2)}% (aprox.) en {_el(ny)}; con un "
                       f"{fmt(100 * (1 - alpha), 2)}% de confianza, la influencia real está entre el {pa}% y el {pb}%: "
-                      f"P({ar} ≤ ρ² ≤ {br}) = {fmt(1 - alpha, 4)}{nota}.")
+                      f"P({ar} ≤ ρ² ≤ {br}) = {fmt(1 - alpha, 4)}{nota}."
+                      + (" Ese r² no alcanza el mínimo del uso del problema: el modelo no se valida, y r² se informa "
+                         "como la medida de la fuerza de la relación." if not estado.get("valido", True) else "")
+                      + (f" El intervalo es muy ancho porque hay pocos datos (n = {reg.n})." if reg.n < 10 else ""))
 
 
 def _afirmacion_b1(b10: float, tail: str, ny: str, nx: str, ux: str, uy: str) -> str:
