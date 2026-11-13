@@ -39,7 +39,8 @@ def test_vii13_como_en_el_pizarron():
     a, b, c, d, e, f, g = res
     texto_a = " ".join(a.pasos)
     # procesamiento, validación (|t_obs| = 8,0879 vs t(0,95;16) = 1,7459) y r² para uso técnico
-    assert "x̄ = 36,611111" in texto_a and "Sb1 = S/√(Σx² - n·x̄²) = 0,03632" in texto_a
+    assert "x̄ = Σx/n = 659/18 = 36,611111" in texto_a and "Sb1 = S/√(Σx² - n·x̄²) = " in texto_a
+    assert "= 0,03632" in texto_a
     assert "|t_obs|" in texto_a and "8,0879" in texto_a and "1,7459" in texto_a
     # interpretación en términos del problema, con unidades, y β0 solo «en teoría» (entorno 8 a 65 mm)
     assert "por cada mm adicional de carbonatación, la resistencia al quiebre disminuye en promedio 0,2938 MPa" in a.conclusion

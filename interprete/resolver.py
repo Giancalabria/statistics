@@ -97,10 +97,19 @@ def _regla(d: Dict, que: str, cond: str, h1: str) -> str:
 
 
 def _coma(texto: str) -> str:
-    """Los textos del solver usan punto decimal ('37.5698'): se pasan a coma."""
+    """Los textos del solver usan punto decimal ('37.5698'): se pasan a coma.
+
+    Los números que ya vienen en formato argentino, con punto de miles ('103.161,2303', '50.000'), no se tocan:
+    antes quedaban '103,161,2303' y la unidad se metía en el medio (V-10, I-25)."""
     import re
-    texto = re.sub(r"(\d)\.(\d)", r"\1,\2", texto)
-    return re.sub(r"(\d),0(?![\d,])", r"\1", texto)  # 500,0 -> 500
+    arg = re.compile(r"(?<![\d.,])[1-9]\d{0,2}(?:\.\d{3})+(?:,\d+)?(?!\d|\.\d)")
+    partes, ult = [], 0
+    for m in arg.finditer(texto):
+        partes.append(re.sub(r"(\d)\.(\d)", r"\1,\2", texto[ult:m.start()]))
+        partes.append(m.group(0))
+        ult = m.end()
+    partes.append(re.sub(r"(\d)\.(\d)", r"\1,\2", texto[ult:]))
+    return re.sub(r"(\d),0(?![\d,])", r"\1", "".join(partes))  # 500,0 -> 500
 
 
 def _cv(v) -> str:
@@ -502,6 +511,9 @@ def media_diseno(d, alpha, res: Resultado, estado):
         res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}.")
         res.pasos.append(f"**Condiciones**: P(rechazar H0 | μ = {fmt(mu0, 4)}) = α = {fmt(alpha, 4)} y "
                          f"P(no rechazar H0 | μ = {fmt(mu1, 4)}) = β = {fmt(beta, 4)}.")
+        pa = 1 - alpha / 2 if tail == "bilateral" else 1 - alpha
+        res.pasos.append(f"**Fractiles** (tabla normal): Z_α = Z({fmt(pa, 4)}) = {fmt(r.z_alpha, 4)}; "
+                         f"Z_β = Z({fmt(1 - beta, 4)}) = {fmt(r.z_beta, 4)}.")
         res.pasos.append(f"**Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [({fmt(r.z_alpha, 4)} + {fmt(r.z_beta, 4)})·"
                          f"{fmt(s, 4)}/{fmt(abs(mu0 - mu1), 4)}]² = {fmt(r.n_exacto, 4)} → n = {r.n}.")
         if d.get("sigma_conocido", True):
@@ -516,14 +528,23 @@ def media_diseno(d, alpha, res: Resultado, estado):
             res.pasos.append(f"**En palabras del problema**: rechazar H0 ⇒ {si}. Si en una muestra de {r.n} la "
                              f"media da {'menor' if tail == 'izquierda' else 'mayor'} que {_cv(r.critical_value)}, {si}; "
                              f"si no, {no}.")
-        res.pasos.append(f"Con n = {r.n}: β real = {fmt(r.beta_real, 4)}, potencia real = {fmt(r.potencia_real, 4)}.")
+        if d.get("sigma_conocido", True) and tail != "bilateral":
+            xc = r.critical_value
+            zr = (xc - mu1) / (s / sqrt(r.n))
+            lado = "≥" if tail == "izquierda" else "≤"
+            res.pasos.append(f"**β real** (con n = {r.n}): β = P(x̄ {lado} x̄c | μ = {fmt(mu1, 4)}) = P(Z {lado} "
+                             f"(x̄c - μ₁)/(σ/√n)) = P(Z {lado} ({fmt(xc, 4)} - {fmt(mu1, 4)})/({fmt(s, 4)}/√{r.n})) = "
+                             f"P(Z {lado} {fmt(zr, 4)}) = {fmt(r.beta_real, 4)}; potencia real 1 - β = "
+                             f"{fmt(r.potencia_real, 4)}.")
+        else:
+            res.pasos.append(f"Con n = {r.n}: β real = {fmt(r.beta_real, 4)}, potencia real = {fmt(r.potencia_real, 4)}.")
         res.conclusion = _coma(r.regla_decision)
         if d.get("control"):
             res.conclusion += f" Rechazar H0 ⇒ {d.get('accion_rechazo', 'se detiene el proceso')}."
         n_act = d.get("n") if "n" in d and d.get("n") and not estado.get("n_es_diseno") else None
         res.numeros = [r.n] + (list(r.critical_value) if isinstance(r.critical_value, tuple) else [r.critical_value]) + [mu0]
         if n_act and r.n > int(n_act):
-            res.conclusion += f" (Respecto de la muestra actual de {int(n_act)}: Δn = {r.n - int(n_act)}.)"
+            res.conclusion += f" (Respecto de la muestra actual de {int(n_act)}: Δn = {r.n} - {int(n_act)} = {r.n - int(n_act)}.)"
             res.numeros.append(r.n - int(n_act))
         res.resumen = f"n = {r.n}; x̄c = {_cv(r.critical_value)}"
         estado.update(n=r.n, tail=tail, xc=r.critical_value, n_es_diseno=True)
@@ -796,6 +817,7 @@ def prop_ic(d, alpha, res: Resultado, estado):
     estado["e_actual"] = (r.b - r.a) / 2
     if r.a > 0:
         estado["r_prop"] = r.b / r.a
+    estado["ic_prop"] = (r.a, r.b)
     if d.get("cota"):
         _cierre_cota(d, r.a, r.b, alpha_orig, "p", res, 4)
         res.numeros += [x * 100 for x in res.numeros]
@@ -883,7 +905,9 @@ def prop_n(d, alpha, res: Resultado, estado):
         if r_new <= 1:
             raise FaltaDato("La relación pedida queda ≤ 1: revisá la reducción")
         e = p_hat * (r_new - 1) / (r_new + 1)
-        res.pasos.append(f"**Relación entre límites**: R = B/A = {fmt(r_act, 5)} → R' = R·(1 - {fmt(d['reduccion'], 4)}) = "
+        ab = estado.get("ic_prop")
+        rr = f"{fmt(ab[1], 6)}/{fmt(ab[0], 6)} = " if ab else ""
+        res.pasos.append(f"**Relación entre límites**: R = B/A = {rr}{fmt(r_act, 5)} → R' = R·(1 - {fmt(d['reduccion'], 4)}) = "
                          f"{fmt(r_new, 5)}. Con la aproximación normal (p̂ + e)/(p̂ - e) = R' → e = p̂·(R' - 1)/(R' + 1) = "
                          f"{fmt(e, 6)}.")
         extra = [r_act, r_new]
@@ -895,14 +919,20 @@ def prop_n(d, alpha, res: Resultado, estado):
         if e_act is None:
             raise FaltaDato("Falta el error actual para aplicar la reducción")
         e = e_act * (1 - d["reduccion"])
+        if estado.get("ic_prop"):
+            a_, b_ = estado["ic_prop"]
+            res.pasos.append(f"**Error actual** (del intervalo exacto): e = (B - A)/2 = ({fmt(b_, 6)} - {fmt(a_, 6)})/2 = "
+                             f"{fmt(e_act, 6)}.")
         res.pasos.append(f"**Error buscado**: e = {fmt(e_act, 6)}·(1 - {fmt(d['reduccion'], 4)}) = {fmt(e, 6)}.")
         extra = [e_act, e]
     if e is None:
         raise FaltaDato("Falta el error admitido e")
     r = ic.n_proporcion(p_hat, e, alpha)
     z = dist.z_two_tailed(alpha)
-    res.pasos.append(f"**Fórmula** (aprox. normal): n = Z²·p̂(1-p̂)/e² + 1 = {fmt(z, 4)}²·{fmt(p_hat, 4)}·{fmt(1 - p_hat, 4)}/"
-                     f"{fmt(e, 4)}² + 1 → n = {r.n}.")
+    n_ex = z ** 2 * p_hat * (1 - p_hat) / e ** 2 + 1
+    res.pasos.append(f"**Fórmula** (aprox. normal; Z(1-α/2) = Z({fmt(1 - alpha / 2, 4)}) = {fmt(z, 4)}): "
+                     f"n = Z²·p̂(1-p̂)/e² + 1 = {fmt(z, 4)}²·{fmt(p_hat, 4)}·{fmt(1 - p_hat, 4)}/"
+                     f"{fmt(e, 4)}² + 1 = {fmt(n_ex, 4)} → n = {r.n}.")
     if 0 < p_hat < 1:
         crit = criterio_aproximacion(r.n, p_hat)
         res.pasos.append(f"**Justificación de la aproximación**: {crit.texto}")
@@ -914,7 +944,7 @@ def prop_n(d, alpha, res: Resultado, estado):
     delta = None
     if d.get("n"):
         delta = max(0, r.n - int(d["n"]))
-        res.conclusion += f" Respecto de la muestra de {int(d['n'])}: Δn = {delta}."
+        res.conclusion += f" Respecto de la muestra de {int(d['n'])}: Δn = {r.n} - {int(d['n'])} = {delta}."
         res.numeros.append(delta)
     res.numeros += extra
     res.resumen = f"n = {r.n}"
@@ -1062,7 +1092,8 @@ def _plan_dado(d, alpha, res: Resultado, estado):
         partes.append(f"AQL = {fmt(aql, 6)}")
     if p1 is not None:
         pot = hyp._prob_rechazo_binomial(n, rc, p1, tail)
-        res.pasos.append(f"**Con p₁ = {fmt(p1, 4)}**: β = P(no rechazar) = {fmt(1 - pot, 4)}; potencia = {fmt(pot, 4)}.")
+        res.pasos.append(f"**Con p₁ = {fmt(p1, 4)}**: β = P(no rechazar) = P(r {'<' if op == '≥' else '>'} {rc} | n = {n}; "
+                         f"p₁ = {fmt(p1, 4)}) = {fmt(1 - pot, 4)}; potencia = 1 - β = {fmt(pot, 4)}.")
         numeros += [1 - pot, pot]
         partes.append(f"β = {fmt(1 - pot, 4)}")
         n_p = estado.get("n_poisson")
@@ -1095,8 +1126,16 @@ def prop_diseno(d, alpha, res: Resultado, estado):
         res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}.")
         res.pasos.append(f"**Condiciones**: P(rechazar | p₀ = {hyp.p_txt(p0).replace('.', ',')}) ≤ α = {fmt(alpha, 4)} y "
                          f"P(no rechazar | p₁ = {fmt(p1, 4)}) ≤ β = {fmt(beta, 4)}.")
-        res.pasos.append(f"**Plan (binomial exacto, se itera n)**: n = {r.n}, r_c = {r.rc}. α real = {fmt(r.alpha_real, 4)}, "
-                         f"β real = {fmt(r.beta_real, 4)}.")
+        q0, q1 = hyp.p_txt(p0).replace('.', ','), fmt(p1, 4)
+        if r.tail == "izquierda":
+            ga = f"F_b({r.rc} | n = {r.n}; p₀ = {q0})"
+            gb = f"G_b({r.rc + 1} | n = {r.n}; p₁ = {q1})"
+        else:
+            ga = f"G_b({r.rc} | n = {r.n}; p₀ = {q0})"
+            gb = f"F_b({r.rc - 1} | n = {r.n}; p₁ = {q1})"
+        res.pasos.append(f"**Plan (binomial exacto, se itera n)**: el menor n con un r_c que cumple las dos condiciones es "
+                         f"n = {r.n}, r_c = {r.rc}: α real = {ga} = {fmt(r.alpha_real, 4)} ≤ {fmt(alpha, 4)} y "
+                         f"β real = {gb} = {fmt(r.beta_real, 4)} ≤ {fmt(beta, 4)}.")
         res.pasos.append(f"**Regla de decisión**: {r.regla_decision}")
         res.conclusion = r.regla_decision
         res.numeros = [r.n, r.rc]
@@ -1122,7 +1161,8 @@ def prop_diseno(d, alpha, res: Resultado, estado):
             vale = cn.elegida == "normal"
             za, zb = dist.z_one_tailed(alpha), dist.z_one_tailed(beta)
             n_ex = ((za * sqrt(p0 * (1 - p0)) + zb * sqrt(p1 * (1 - p1))) / abs(p1 - p0)) ** 2
-            res.pasos.append(f"**Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² = "
+            res.pasos.append(f"**Por aproximación normal**: Z(1-α) = Z({fmt(1 - alpha, 4)}) = {fmt(za, 4)}, "
+                             f"Z(1-β) = Z({fmt(1 - beta, 4)}) = {fmt(zb, 4)}; n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² = "
                              f"[({fmt(za, 4)}·√({fmt(p0, 4)}·{fmt(1 - p0, 4)}) + {fmt(zb, 4)}·√({fmt(p1, 4)}·"
                              f"{fmt(1 - p1, 4)}))/{fmt(abs(p1 - p0), 4)}]² = {fmt(n_ex, 4)} → "
                              f"n = {rn.n}; con ese n el binomial da r_c = {rn.rc} (α real = {fmt(rn.alpha_real, 4)}, "
@@ -1376,16 +1416,19 @@ def dos_var_diseno(d, alpha, res: Resultado, estado):
              f"{'menor' if r.tail == 'izquierda' else 'mayor'} que {fmt(sqrt(r.j2_c), 4)}, se rechaza H0 → {si}. "
              f"En caso contrario no se rechaza H0 → {no}.")
     res.pasos.append(f"**Regla de decisión**: {_coma(regla)}")
-    res.pasos.append(f"Con n = {r.n}: β real = {fmt(r.beta_real, 4)}, potencia real = {fmt(r.potencia_real, 4)}.")
+    lado = "≥" if r.tail == "izquierda" else "≤"
+    res.pasos.append(f"**β real** (con n = {r.n}): β = P(j² {lado} j²c | φ = {fmt(phi1, 4)}) = P(F({nu}; {nu}) {lado} "
+                     f"j²c/φ₁²) = P(F {lado} {fmt(r.j2_c, 4)}/{fmt(phi1 ** 2, 4)} = {fmt(r.j2_c / phi1 ** 2, 4)}) = "
+                     f"{fmt(r.beta_real, 4)}; potencia real 1 - β = {fmt(r.potencia_real, 4)}.")
     res.conclusion = f"ν = {nu}: n = {r.n} en cada muestra ({a} y {b}). " + _coma(regla)
     res.numeros = [r.n, sqrt(r.j2_c), r.j2_c, nu]
     previo = estado.get("n_relacion")
     if previo and r.n > int(previo):
-        res.conclusion += f" Respecto de las {int(previo)} anteriores: Δn = {r.n - int(previo)} más en cada una."
+        res.conclusion += f" Respecto de las {int(previo)} anteriores: Δn = {r.n} - {int(previo)} = {r.n - int(previo)} más en cada una."
         res.numeros.append(r.n - int(previo))
     elif d.get("n1") and d.get("n2"):
-        res.conclusion += (f" (Hoy hay {int(d['n1'])} de {a} y {int(d['n2'])} de {b}: Δn = {max(0, r.n - int(d['n1']))} y "
-                           f"{max(0, r.n - int(d['n2']))}.)")
+        res.conclusion += (f" (Hoy hay {int(d['n1'])} de {a} y {int(d['n2'])} de {b}: Δn = {r.n} - {int(d['n1'])} = "
+                           f"{max(0, r.n - int(d['n1']))} y {r.n} - {int(d['n2'])} = {max(0, r.n - int(d['n2']))}.)")
     res.resumen = f"n = {r.n}; jc = {fmt(sqrt(r.j2_c), 4)}"
     estado.update(n_relacion=r.n, tail=r.tail)
 
@@ -1395,12 +1438,18 @@ def _interp_relacion(que: str, a: str, b: str, lo: float, hi: float) -> str:
     que la de B». Con los límites ya redondeados hacia afuera (4 decimales)."""
     lo, hi = redondeo.abajo(lo, 4), redondeo.arriba(hi, 4)
     art = "el" if que == "el desvío" else "la"
+    L, H = fmt(lo, 4), fmt(hi, 4)
     if lo >= 1:
-        return f"{que.capitalize()} de {a} es mayor que {art} de {b} entre un {fmt((lo - 1) * 100, 2)}% y un {fmt((hi - 1) * 100, 2)}%."
+        return (f"{que.capitalize()} de {a} es mayor que {art} de {b} entre un {fmt((lo - 1) * 100, 2)}% y un "
+                f"{fmt((hi - 1) * 100, 2)}% (({L} - 1)·100 = {fmt((lo - 1) * 100, 2)} y ({H} - 1)·100 = "
+                f"{fmt((hi - 1) * 100, 2)}).")
     if hi <= 1:
-        return f"{que.capitalize()} de {a} es menor que {art} de {b} entre un {fmt((1 - hi) * 100, 2)}% y un {fmt((1 - lo) * 100, 2)}%."
+        return (f"{que.capitalize()} de {a} es menor que {art} de {b} entre un {fmt((1 - hi) * 100, 2)}% y un "
+                f"{fmt((1 - lo) * 100, 2)}% ((1 - {H})·100 = {fmt((1 - hi) * 100, 2)} y (1 - {L})·100 = "
+                f"{fmt((1 - lo) * 100, 2)}).")
     return (f"{que.capitalize()} de {a} es como mínimo un {fmt((1 - lo) * 100, 2)}% menor y como máximo un "
-            f"{fmt((hi - 1) * 100, 2)}% mayor que {art} de {b}.")
+            f"{fmt((hi - 1) * 100, 2)}% mayor que {art} de {b} ((1 - {L})·100 = {fmt((1 - lo) * 100, 2)} y "
+            f"({H} - 1)·100 = {fmt((hi - 1) * 100, 2)}).")
 
 
 def dos_var_ic(d, alpha, res: Resultado, estado):
@@ -1413,12 +1462,16 @@ def dos_var_ic(d, alpha, res: Resultado, estado):
     res.pasos.append(f"**Modelo**: (S²₁/σ²₁)/(S²₂/σ²₂) ~ F(ν₁ = {df1}; ν₂ = {df2}); F({fmt(alpha / 2, 4)}) = {fmt(f_lo, 4)}, "
                      f"F({fmt(1 - alpha / 2, 4)}) = {fmt(f_hi, 4)}.")
     res.pasos.append(f"**IC para φ² = σ²({a})/σ²({b})**: j²/F(1-α/2) ; j²/F(α/2) = {fmt(rd.point_estimate, 4)}/{fmt(f_hi, 4)} ; "
-                     f"{fmt(rd.point_estimate, 4)}/{fmt(f_lo, 4)} = [{fmt(rd.a, 4)} ; {fmt(rd.b, 4)}]. "
-                     f"Inversa σ²({b})/σ²({a}): [{fmt(ri.a, 4)} ; {fmt(ri.b, 4)}].")
-    res.pasos.append(f"**IC para φ = σ({a})/σ({b})** (raíz de los límites): [{fmt(sqrt(rd.a), 4)} ; {fmt(sqrt(rd.b), 4)}]. "
-                     f"Inversa σ({b})/σ({a}): [{fmt(sqrt(ri.a), 4)} ; {fmt(sqrt(ri.b), 4)}].")
+                     f"{fmt(rd.point_estimate, 4)}/{fmt(f_lo, 4)} = [{fmt(rd.a, 4)} ; {fmt(rd.b, 4)}], con "
+                     f"j² = S²({a})/S²({b}) = {fmt(rd.point_estimate, 4)}. "
+                     f"Inversa σ²({b})/σ²({a}) = [1/B ; 1/A] = [1/{fmt(rd.b, 4)} ; 1/{fmt(rd.a, 4)}] = "
+                     f"[{fmt(ri.a, 4)} ; {fmt(ri.b, 4)}].")
+    res.pasos.append(f"**IC para φ = σ({a})/σ({b})** (raíz de los límites): [√{fmt(rd.a, 4)} ; √{fmt(rd.b, 4)}] = "
+                     f"[{fmt(sqrt(rd.a), 4)} ; {fmt(sqrt(rd.b), 4)}]. Inversa σ({b})/σ({a}): [√{fmt(ri.a, 4)} ; "
+                     f"√{fmt(ri.b, 4)}] = [{fmt(sqrt(ri.a), 4)} ; {fmt(sqrt(ri.b), 4)}].")
     r_var, r_sig = rd.b / rd.a, sqrt(rd.b / rd.a)
-    res.pasos.append(f"**Relación entre límites** B/A: {fmt(r_var, 4)} para las varianzas y {fmt(r_sig, 4)} para los desvíos.")
+    res.pasos.append(f"**Relación entre límites**: B/A = {fmt(rd.b, 4)}/{fmt(rd.a, 4)} = {fmt(r_var, 4)} para las "
+                     f"varianzas y √{fmt(r_var, 4)} = {fmt(r_sig, 4)} para los desvíos.")
     estado.update(rel_varianzas=r_var, rel_desvios=r_sig, sobre=sobre)
     lo, hi = (sqrt(rd.a), sqrt(rd.b)) if sobre == "desvios" else (rd.a, rd.b)
     par = f"σ({a})/σ({b})" if sobre == "desvios" else f"σ²({a})/σ²({b})"
@@ -1469,7 +1522,8 @@ def dos_var_n(d, alpha, res: Resultado, estado):
     res.conclusion = f"Se necesitan n = {r.n} unidades en cada muestra (ν = {nu})."
     res.numeros = [r.n, nu]
     if d.get("n1") and d.get("n2"):
-        res.conclusion += f" (Hoy hay {int(d['n1'])} y {int(d['n2'])}: Δn = {max(0, r.n - int(d['n1']))} y {max(0, r.n - int(d['n2']))}.)"
+        res.conclusion += (f" (Hoy hay {int(d['n1'])} y {int(d['n2'])}: Δn = {r.n} - {int(d['n1'])} = "
+                           f"{max(0, r.n - int(d['n1']))} y {r.n} - {int(d['n2'])} = {max(0, r.n - int(d['n2']))}.)")
     res.resumen = f"n = {r.n}"
 
 

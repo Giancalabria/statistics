@@ -19,6 +19,8 @@ from interprete.modelo import TEMAS, TIPOS, Analisis
 from interprete.resolver import Resultado
 
 from . import cliente
+from interprete.origen import sin_origen
+
 from .explicar import enunciado_texto, numeros_sin_respaldo, resolucion_texto
 
 ESTILO = Path(__file__).resolve().parent.parent / "ESTILO_CATEDRA.md"
@@ -53,7 +55,8 @@ de acción en palabras para quien decide.
 enunciado.
 11. Español rioplatense, coma decimal (2,5), unidades del enunciado. Sin introducción ni comentarios finales: solo \
 la resolución.
-12. El FORMATO de abajo es material de referencia: describe cómo tiene que quedar la resolución y trae ejemplos de \
+12. De dónde sale cada número (el profesor: «un resultado sin desarrollo lo sacaste de la galera»): ningún número aparece solo. Al principio de cada inciso, «**Datos**:» con los valores del enunciado que se usan, con símbolo y unidad. Cada valor calculado se escribe como en la resolución del solver: fórmula con símbolos = fórmula con los valores reemplazados = resultado («e = t(0,95; 7)·S_D/√n = 1,8946·5,12/√8 = 3,4295»). Los fractiles de tabla con su argumento («Z(0,95) = 1,6449», «F(0,05; 12; 24) = 0,3991»). Las iteraciones (tamaño de muestra con t o F) se copian vuelta por vuelta. Un valor de un inciso anterior se cita: «(del inciso a)». Nunca un resultado suelto («β = 0,4769», «n = 755», «Δn = 20») si la resolución del solver trae la cuenta: copiala. No desarrolles el álgebra.
+13. El FORMATO de abajo es material de referencia: describe cómo tiene que quedar la resolución y trae ejemplos de \
 OTROS ejercicios. No lo copies, no repitas sus títulos, sus reglas ni sus ejemplos: escribí solo la resolución de \
 este ejercicio.
 
@@ -262,4 +265,9 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
     dudosos = numeros_sin_respaldo(texto, fuentes)
     out.append(Control(not dudosos, "Todos los números salen del enunciado o del solver" if not dudosos else
                        "Números que no salen del enunciado ni del solver: " + ", ".join(dudosos)))
+    # los que sí son del solver pero aparecen sueltos, sin la fórmula ni el dato de donde salen («de la galera»)
+    sueltos = [x for x in sin_origen(texto, enunciado_texto(an)) if x not in dudosos]
+    out.append(Control(not sueltos, "Cada número calculado muestra su fórmula con los valores reemplazados" if not sueltos
+                       else "Números sin su cuenta (escribí fórmula = valores reemplazados = resultado, o el fractil con "
+                            "su argumento, como en la resolución del solver): " + ", ".join(sueltos[:12])))
     return out

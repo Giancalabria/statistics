@@ -133,4 +133,8 @@ asistente/
   arman las reglas (verificado contra la guía). Así el modelo aprende el formato y las convenciones.
 - **Tema forzado**: si la IA identifica otro tema, se vuelven a correr las reglas con ese tema
   (`analizar(..., tema=...)`), y queda el análisis que resuelve más incisos.
+- **Nada «de la galera»** (13/11): la redacción tiene que mostrar de dónde sale cada número (dato, fractil con su
+  argumento, o fórmula = valores reemplazados = resultado). El solver ya lo escribe así (`herramientas/
+  auditar_origen.py` lo audita sobre la guía), el prompt de `redactar.py` lo exige (regla 12) y el checklist
+  marca «Números sin su cuenta» con `interprete/origen.py`; esa falla vuelve en la segunda vuelta de corrección.
 - Los tests (`tests/test_asistente.py`) reemplazan el modelo por respuestas fijas: no hace falta Ollama.

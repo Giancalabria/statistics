@@ -26,6 +26,13 @@ De los ejemplos (`### Ejemplo …`) se manda **uno solo**: el que más comparte 
   Ej.: «X: consumo de combustible de un vehículo en una corrida, expresado en litros (L).»
 - **Probabilidades siempre entre 0 y 1, nunca en %**: α = 0,05, β = 0,4769, 1 − β = 0,5231, P(…) = 0,90. Se admite
   «95 % de confianza», y una proporción en % solo si el enunciado pide un «porcentaje».
+- **Nada sale «de la galera»** (profesor: «un resultado sin desarrollo lo sacaste de la galera»). Cada número tiene
+  que tener un origen a la vista: es un **dato** del enunciado (se presenta al principio: «Datos: n = 10, x̄ = 246 g,
+  σ = 15 g»), un **valor de tabla** con su argumento («t(0,95; 7) = 1,8946», «F(0,05; 12; 24) = 0,3991»), o el
+  **resultado de una fórmula escrita con los valores reemplazados**: «e = Z(0,95)·σ/√n = 1,6449·15/√10 = 7,8022».
+  Un número de un inciso anterior se cita («R = 5,4704, del inciso a»). Nunca un resultado suelto («β = 0,4769»,
+  «n = 755», «Δn = 20»): β = P(Z ≥ 0,0579) = 0,4769; Δn = 30 − 10 = 20. No hace falta desarrollar el álgebra ni
+  cada suma: alcanza con fórmula → reemplazo → resultado, y las iteraciones de n con su ν y su fractil.
 - **Mínimo 4 decimales** en todo el desarrollo y en los fractiles (Z(0,95) = 1,6449). Los periódicos como fracción
   (1/37, no 0,027). El resultado final se expresa según la variable, con unidades.
 - **Notación**: P = probabilidad puntual, F = acumulada izquierda, G = acumulada derecha, Φ = F de la normal
@@ -235,8 +242,10 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
 4. **a)** G_b(10 | 50; 0,12) = 0,0708 > 0,05 y G_b(11 | 50; 0,12) = 0,0325 ≤ 0,05 ⇒ **rc = 11**. CR: r ≥ 11.
    RD: «Se revisan 50 piezas; si hay 11 o más defectuosas, se detiene el proceso y se revisa; si no, sigue.»
 5. **b)** β = P(no detener | p = 0,14) = F_b(10 | 50; 0,14) = **0,9176**.
-6. **c)** β = 0,50 en p₁ = 0,14 con α = 0,05 fijo: exacto **n = 755** (rc = 106). Normal: Z(0,50) = 0 ⇒
-   n = [1,6449·√(0,12·0,88)/0,02]² = 714,2635 ⇒ **715**; verificación con el n resultante: 715·0,12 = 85,8 > 10 y
+6. **c)** β = 0,50 en p₁ = 0,14 con α = 0,05 fijo: exacto **n = 755** (rc = 106), porque es el menor n con
+   α real = G_b(106 | 755; 0,12) = 0,0499 ≤ 0,05 y β real = F_b(105 | 755; 0,14) = 0,4967 ≤ 0,50. Normal:
+   Z(1 − α) = Z(0,95) = 1,6449 y Z(1 − β) = Z(0,50) = 0 ⇒
+   n = [(Z(1 − α)·√(p₀q₀) + Z(1 − β)·√(p₁q₁))/(p₁ − p₀)]² = [1,6449·√(0,12·0,88)/0,02]² = 714,2635 ⇒ **715**; verificación con el n resultante: 715·0,12 = 85,8 > 10 y
    715·0,88 = 629,2 > 10, y p₀ = 0,12 > 0,005 ⇒ corresponde la normal. (La guía también da 855 por Poisson: es
    incorrecto, el criterio se aplicó con n = 50.)
 
@@ -254,7 +263,9 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
 2. **H0: p ≤ 0,12** (la campaña no fue efectiva) · H1: p > 0,12. Pesimista: se quiere probar que fue efectiva, y
    hacer otra campaña sin efecto es lo grave (aunque la campaña fuera barata).
 3. α = 0,01 = P(hacer otra campaña | p ≤ 0,12); β = 0,10 = P(no hacerla | p = 0,15) (3 puntos: 0,12 → 0,15).
-4. **n**: exacto **n = 1675, rc = 233**. Normal: n = [(2,3263·√(0,12·0,88) + 1,2816·√(0,15·0,85))/0,03]² =
+4. **n**: exacto **n = 1675, rc = 233** (el menor n con α real = G_b(233 | 1675; 0,12) = 0,01 ≤ 0,01 y
+   β real = F_b(232 | 1675; 0,15) = 0,0988 ≤ 0,10). Normal: Z(0,99) = 2,3263 y Z(0,90) = 1,2816 ⇒
+   n = [(Z(1 − α)·√(p₀q₀) + Z(1 − β)·√(p₁q₁))/(p₁ − p₀)]² = [(2,3263·√(0,12·0,88) + 1,2816·√(0,15·0,85))/0,03]² =
    1636,4156 ⇒ **1637**; 1637·0,12 = 196,44 > 10 y 1637·0,88 = 1440,56 > 10 ⇒ normal válida.
 5. Con n = 1637: G_b(228 | 1637; 0,12) = 0,0101 > 0,01 y G_b(229) = 0,0083 ⇒ **rc = 229**. CR: r ≥ 229.
    RD: «Si en 1637 encuestados hay 229 o más interesados, se inicia una nueva campaña; si no, no.» (La guía pone
@@ -304,13 +315,17 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
 > mitad. c) Ídem a) para los desvíos. d) Ídem b) para los desvíos.»
 
 1. **Variable**: diámetro de una pieza, en décimas de mm, en el torno A y en el B. Se elige ψ² = σA²/σB².
-2. **a)** J² = 3,6²/5,4² = 4/9 = 0,4444; ν₁ = 12, ν₂ = 24; F(0,95; 12; 24) = 2,1834 y F(0,05; 12; 24) = 0,3991.
-   A = **0,2035**, B = **1,1136**: P(0,2035 ≤ σA²/σB² ≤ 1,1136) = 0,90. «La varianza de A es como mínimo un
-   79,65 % menor y como máximo un 11,36 % mayor que la de B.»
-3. **b)** R = B/A = 5,4704; objetivo R/2 = 2,7352 ⇒ iterando, **ν = 44 ⇒ n = 45 piezas por torno** (32 más en A y
-   20 más en B).
-4. **c)** A' = √A = **0,4511**, B' = √B = **1,0553**: P(0,4511 ≤ σA/σB ≤ 1,0553) = 0,90.
-5. **d)** R' = 2,3389; objetivo R'/2 = 1,1694 ⇒ **R = R'² = 1,3676** ⇒ **ν = 443 ⇒ n = 444 por torno**.
+2. **a)** J² = S²A/S²B = 3,6²/5,4² = 4/9 = 0,4444; ν₁ = nA − 1 = 12, ν₂ = nB − 1 = 24; F(0,95; 12; 24) = 2,1834 y
+   F(0,05; 12; 24) = 0,3991. A = J²/F(0,95; 12; 24) = 0,4444/2,1834 = **0,2035** y
+   B = J²/F(0,05; 12; 24) = 0,4444/0,3991 = **1,1136**: P(0,2035 ≤ σA²/σB² ≤ 1,1136) = 0,90. «La varianza de A es
+   como mínimo un 79,65 % menor y como máximo un 11,36 % mayor que la de B» ((1 − 0,2035)·100 = 79,65 y
+   (1,1136 − 1)·100 = 11,36).
+3. **b)** R = B/A = 1,113547/0,203558 = 5,4704; objetivo R/2 = 2,7352. Iteración con nA = nB = n (ν = n − 1):
+   ν = 43: F(0,95; 43; 43)/F(0,05; 43; 43) = 1,6607/0,6021 = 2,7581 > 2,7352; ν = 44: 1,6509/0,6057 = 2,7256 ≤
+   2,7352 ⇒ **ν = 44 ⇒ n = ν + 1 = 45 piezas por torno** (45 − 13 = 32 más en A y 45 − 25 = 20 más en B).
+4. **c)** A' = √A = √0,2035 = **0,4511**, B' = √B = √1,1136 = **1,0553**: P(0,4511 ≤ σA/σB ≤ 1,0553) = 0,90.
+5. **d)** R' = B'/A' = 1,0553/0,4511 = 2,3389; objetivo R'/2 = 1,1694 ⇒ **R = R'² = 1,1694² = 1,3676**. Iterando:
+   ν = 442 da 1,3679 > 1,3676 y ν = 443 da 1,3674 ≤ 1,3676 ⇒ **ν = 443 ⇒ n = 444 por torno**.
 
 ### Ejemplo IV-4 · Hiladoras, ensayo sobre desvíos (resuelto en clase)
 <!-- temas: IV -->
@@ -327,10 +342,12 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
 3. α = 0,10 = P(reacondicionar | no se reduce el 12 %). ν₁ = 3, ν₂ = 15.
 4. F(0,10; 3; 15) = 0,1923 ⇒ **Jc = √(0,88²·0,1923) = 0,3859**. CR: J < 0,3859. RD: «Si el desvío de las
    reacondicionadas dividido el de las sin reacondicionar da menos de 0,3859, se reacondicionan las hiladoras.»
-5. **Estimador**: J = 132/354 = **0,3729** < 0,3859 ⇒ **se rechaza H0**: «puedo asegurar que el reacondicionamiento
-   reduce el desvío en más de un 12 %».
-6. **b)** φ₁ = 0,70: 0,88²/0,7²·0,1923 = 0,3039; 1 − β = F_F(0,3039; 3; 15) = **0,1779** (β = 0,8221).
-   Para 1 − β = 0,90: R = (0,88/0,7)² = 1,5804 ⇒ ν = 127 ⇒ **n = 128 por tipo**.
+5. **Estimador**: J = SCR/SSR = 132/354 = **0,3729** < 0,3859 ⇒ **se rechaza H0**: «puedo asegurar que el
+   reacondicionamiento reduce el desvío en más de un 12 %».
+6. **b)** φ₁ = 0,70: J²c/φ₁² = 0,88²/0,7²·0,1923 = 0,3039; 1 − β = P(F(3; 15) ≤ 0,3039) = **0,1779**
+   (β = 1 − 0,1779 = 0,8221).
+   Para 1 − β = 0,90: R = (φ₀/φ₁)² = (0,88/0,7)² = 1,5804 ≥ F(0,90; ν; ν)·F(0,90; ν; ν). Iterando: ν = 126 da
+   1,2574·1,2574 = 1,5810 > 1,5804 y ν = 127 da 1,2563·1,2563 = 1,5782 ≤ 1,5804 ⇒ ν = 127 ⇒ **n = 128 por tipo**.
 
 ## 8. Tema V · Comparación de medias
 <!-- temas: V -->
@@ -365,13 +382,15 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
    · H1: > 0,45. Dc = 0,45 + 1,6641·1,2377·√(1/21 + 1/61) = **0,9711 kg**. CR: D > 0,9711.
    D = 8,5 − 7,6 = 0,9 kg < 0,9711 ⇒ **no se rechaza H0**: «no hay evidencia suficiente para asegurar que el
    aditivo aumente la resistencia media en 0,45 kg o más».
-4. **b)** Un solo límite ⇒ t(0,95): A = 0,9 − 1,6641·1,2377·0,2530 = **0,3788 kg**. P(0,3788 kg ≤ μCA − μSA) = 0,95.
+4. **b)** Un solo límite ⇒ t(0,95; 80) = 1,6641: A = D − t·Sa·√(1/n₁ + 1/n₂) = 0,9 − 1,6641·1,2377·0,2530 =
+   **0,3788 kg** (√(1/21 + 1/61) = 0,2530). P(0,3788 kg ≤ μCA − μSA) = 0,95.
 5. **c)** **H0: μCA − 1,10·μSA ≤ 0** · H1: > 0. h = 1,10 multiplica a μSA ⇒ h² va con nSA:
    D*c = 1,6641·1,2377·√(1/21 + 1,21/61) = **0,5349 kg**. D* = 8,5 − 1,10·7,6 = **0,14 kg** < 0,5349 ⇒ no se
    rechaza H0.
-6. **d)** Inecuación en h: 8,5 − 7,6h > 1,6641·1,2377·√(1/21 + h²/61). Al elevar al cuadrado: raíces 1,0490 y
-   1,1906. Verificación en la original: con h = 1,1906 el lado izquierdo da −0,5483 (no sirve) ⇒ **h = 1,0490**:
-   «con 95 % de confianza, el aditivo aumenta la resistencia media como mínimo un 4,90 %».
+6. **d)** Inecuación en h: 8,5 − 7,6h > 1,6641·1,2377·√(1/21 + h²/61). Al elevar al cuadrado:
+   57,6905·h² − 129,2·h + 72,048 = 0 ⇒ raíces 1,0490 y 1,1906. Verificación en la original: con h = 1,1906 el lado
+   izquierdo da 8,5 − 7,6·1,1906 = −0,5483 (no sirve) ⇒ **h = 1,0490**: «con 95 % de confianza, el aditivo aumenta
+   la resistencia media como mínimo un 4,90 %» ((1,0490 − 1)·100 = 4,90).
 
 ### Ejemplo V-12 · Trigo, muestras apareadas (resuelto en clase)
 <!-- temas: V -->
@@ -384,11 +403,13 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
 1. **Variable**: d = producción de A − producción de B en una misma finca, en quintales por parcela.
    **Apareadas**: las dos variedades se plantan en la misma finca (misma unidad experimental), no porque los n
    sean iguales. Δ = μA − μB.
-2. d = 6, 8, −2, 2, 7, 11, 1, 13 ⇒ d̄ = **5,75**, S_D = **5,1200**, ν = 7.
+2. dᵢ = Aᵢ − Bᵢ = 6, 8, −2, 2, 7, 11, 1, 13 ⇒ d̄ = Σdᵢ/n = 46/8 = **5,75**,
+   S_D = √[Σ(dᵢ − d̄)²/(n − 1)] = **5,1200**, ν = n − 1 = 7; σ(d̄) = S_D/√n = 5,12/√8 = 1,8102.
 3. **a)** El enunciado pide asegurar «más de 2» ⇒ **H0: Δ ≤ 2** · H1: Δ > 2; α = 0,05; t(0,95; 7) = 1,8946.
-   D̄c = 2 + 1,8946·5,1200/√8 = **5,4295**. CR: d̄ > 5,4295. d̄ = 5,75 > 5,4295 ⇒ **se rechaza H0**: «puedo
-   asegurar que la variedad A produce más de 2 quintales por parcela más que la B».
-4. **b)** P(2,3204 ≤ Δ ≤ 9,1796) = 0,90 (quintales por parcela).
+   D̄c = Δ₀ + t(0,95; 7)·S_D/√n = 2 + 1,8946·5,1200/√8 = **5,4295**. CR: d̄ > 5,4295. d̄ = 5,75 > 5,4295 ⇒ **se
+   rechaza H0**: «puedo asegurar que la variedad A produce más de 2 quintales por parcela más que la B».
+4. **b)** e = t(0,95; 7)·S_D/√n = 1,8946·1,8102 = 3,4295; A; B = d̄ ∓ e = 5,75 ∓ 3,4295 = 2,3205 ; 9,1795 ⇒
+   redondeados hacia afuera: P(2,3204 ≤ Δ ≤ 9,1796) = 0,90 (quintales por parcela).
 
 ## 9. Tema VI
 <!-- temas: VI -->
@@ -431,10 +452,11 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
    consistencia.
 2. **H0**: p₁ª,M = p₁ª,T = p₁ª,N; p₂ª,M = p₂ª,T = p₂ª,N; p_def,M = p_def,T = p_def,N · H1: algún nivel difiere.
 3. α = 0,01; ν = (3 − 1)(3 − 1) = 4; χ²(0,99; 4) = 13,2767. CR: χ² > 13,2767.
-4. p̂ globales: 0,8529 / 0,0971 / 0,05. Esperados (M, T, N): 1ª 426,47 / 682,35 / 341,18; 2ª 48,53 / 77,65 /
-   38,82; def. 25 / 40 / 20.
-5. χ² = **38,9843** > 13,2767 ⇒ **se rechaza H0**: «puedo asegurar que en algún turno el nivel de calidad es
-   distinto».
+4. p̂ globales = total de la categoría / N: 1450/1700 = 0,8529; 165/1700 = 0,0971; 85/1700 = 0,05.
+   Esperados Eᵢⱼ = (total fila · total columna)/N, por ejemplo E(Mañana; 1ª) = 500·1450/1700 = 426,47. Todos
+   (M, T, N): 1ª 426,47 / 682,35 / 341,18; 2ª 48,53 / 77,65 / 38,82; def. 25 / 40 / 20.
+5. χ² = Σ(Oᵢⱼ − Eᵢⱼ)²/Eᵢⱼ (tabla de aportes; p. ej. (450 − 426,47)²/426,47 = 1,2982) = **38,9843** > 13,2767 ⇒
+   **se rechaza H0**: «puedo asegurar que en algún turno el nivel de calidad es distinto».
 
 ### Ejemplo VI-7 · Independencia, color y fallas (resuelto en clase)
 <!-- temas: VI -->
@@ -446,9 +468,11 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
 1. **Variable**: estado de un auto (con o sin falla de pintura) y su color. Pide «asociación» ⇒ independencia.
 2. **H0**: las fallas de pintura son independientes del color · H1: hay asociación.
 3. α = 0,05; ν = (2 − 1)(4 − 1) = 3; χ²(0,95; 3) = 7,8147. CR: χ² > 7,8147.
-4. Observados con falla: 90 / 90 / 75 / 45; sin falla: 460 / 360 / 405 / 275. Esperados con falla: 91,67 / 75 /
-   80 / 53,33; sin falla: 458,33 / 375 / 400 / 266,67.
-5. χ² = **5,5739** ≤ 7,8147 ⇒ **no se rechaza H0**: «no hay evidencia suficiente para asegurar que exista asociación
+4. Observados con falla (30 %·300 = 90, 30 %·300 = 90, 25 %·300 = 75, 15 %·300 = 45): 90 / 90 / 75 / 45; sin
+   falla (producción − con falla): 460 / 360 / 405 / 275. Esperados Eᵢⱼ = (total fila · total columna)/N, p. ej.
+   E(blanco; con falla) = 550·300/1800 = 91,67. Con falla: 91,67 / 75 / 80 / 53,33; sin falla: 458,33 / 375 /
+   400 / 266,67.
+5. χ² = Σ(O − E)²/E = **5,5739** ≤ 7,8147 ⇒ **no se rechaza H0**: «no hay evidencia suficiente para asegurar que exista asociación
    entre el color y las fallas de pintura».
 
 ### Ejemplo VI-10 · Bondad de ajuste, dado (resuelto en clase)
@@ -461,7 +485,8 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
 1. **Variable**: número que sale en una tirada (1 a 6). **H0**: lo observado se ajusta al modelo uniforme
    (pᵢ = 1/6) · H1: no se ajusta.
 2. α = 0,05; Eᵢ = 60·1/6 = 10; ν = 6 − 1 − 0 = 5; χ²(0,95; 5) = 11,0705. CR: χ² > 11,0705.
-3. χ² = **11,8** > 11,0705 ⇒ **se rechaza H0**: «puedo asegurar que el dado no sigue el modelo uniforme: está
+3. χ² = Σ(Oᵢ − Eᵢ)²/Eᵢ = [(14 − 10)² + (6 − 10)² + (6 − 10)² + (13 − 10)² + (16 − 10)² + (5 − 10)²]/10 =
+   118/10 = **11,8** > 11,0705 ⇒ **se rechaza H0**: «puedo asegurar que el dado no sigue el modelo uniforme: está
    cargado». (Además 11,8 > χ²(0,05; 5) = 1,1455: no es un ajuste demasiado perfecto.)
 
 ### Ejemplo VI-13 · Bondad de ajuste a un patrón histórico (resuelto en clase)
@@ -471,8 +496,9 @@ probabilidad (entre 0 y 1), con una frase que la interprete. β no es 1 − α.
 > «Históricamente: 40 % de 24", 40 % de 36" y 20 % de 40". Muestra de 200 ventas: 85, 65 y 50. ¿Hubo cambios
 > respecto del patrón histórico, con riesgo del 5 %?»
 
-**H0**: las ventas se ajustan al patrón histórico (0,40 / 0,40 / 0,20). Eᵢ = 80 / 80 / 40; ν = 3 − 1 − 0 = 2;
-χ²(0,95; 2) = 5,9915. χ² = **5,625** ≤ 5,9915 ⇒ **no se rechaza H0**: «no hay evidencia suficiente para asegurar que
+**H0**: las ventas se ajustan al patrón histórico (0,40 / 0,40 / 0,20). Eᵢ = N·pᵢ = 200·0,40 = 80 / 200·0,40 = 80 /
+200·0,20 = 40; ν = 3 − 1 − 0 = 2; χ²(0,95; 2) = 5,9915. χ² = (85 − 80)²/80 + (65 − 80)²/80 + (50 − 40)²/40 =
+0,3125 + 2,8125 + 2,5 = **5,625** ≤ 5,9915 ⇒ **no se rechaza H0**: «no hay evidencia suficiente para asegurar que
 el patrón histórico de ventas haya cambiado».
 
 ### Ejemplo VI-16 · Bondad de ajuste a Poisson (resuelto en clase)
@@ -483,9 +509,9 @@ el patrón histórico de ventas haya cambiado».
 > 145, 131, 101, 61, 27, 9, 1, 1. ¿Se pueden asegurar las premisas?»
 
 1. **Variable**: cantidad de reclamos en un día. **H0**: lo observado se ajusta al modelo de Poisson · H1: no.
-2. m̂ = x̄ = **3,5263** (un parámetro estimado). Se completa el dominio con la clase «11 o más» (O = 0) con
-   probabilidad **G(11) = 0,0011**, no la puntual.
-3. Esperados: 20,12 / 70,94 / 125,09 / 147,03 / 129,62 / 91,42 / 53,73 / 27,07 / 11,93 / 4,67 / 1,65 / 0,74.
+2. m̂ = x̄ = Σrᵢ·Foᵢ/N = 2412/684 = **3,5263** (un parámetro estimado). Se completa el dominio con la clase «11 o
+   más» (O = 0) con probabilidad **G(11) = 0,0011**, no la puntual.
+3. Esperados Eᵢ = N·P(r = i | m = 3,5263), p. ej. E(0) = 684·e^(−3,5263) = 20,12: 20,12 / 70,94 / 125,09 / 147,03 / 129,62 / 91,42 / 53,73 / 27,07 / 11,93 / 4,67 / 1,65 / 0,74.
    Como 4,67, 1,65 y 0,74 < 5, se amalgaman 9, 10 y «11 o más»: O = 2, E = 7,06.
 4. 10 clases efectivas ⇒ ν = 10 − 1 − 1 = 8; χ²(0,95; 8) = 15,5073. χ² = **9,4346** ≤ 15,5073 ⇒ **no se
    rechaza H0**. Como los reclamos son acontecimientos puntuales en un medio continuo (el proceso físico de
@@ -518,15 +544,20 @@ Reglas del profesor (clase del 05/11/2026). Regresión **simple** entra en el pa
 <!-- temas: VII -->
 <!-- tipos: recta validacion pronostico ic_coef ic_rho2 ensayo_coef -->
 
-Y = resistencia al quiebre (MPa); X = profundidad de carbonatación (mm). n = 18; Σx = 659; x̄ = 36,6111; Σx² = 28967,5;
-Σy = 289,2; ȳ = 16,0667; Σy² = 5166,36; Σxy = 9165,95; b₀ = 26,8212 MPa; b₁ = −0,2938 MPa/mm; r = −0,8964;
-r² = 0,8035; S² = 6,3857; S = 2,5270; S_b₁ = 0,0363. ŷ = 26,8212 − 0,2938·x.
-Validación: H0: ρ = 0; α = 0,05; |t_obs| = 8,0879 > t(0,95; 16) = 1,7459 ⇒ se rechaza H0: existe relación lineal. Uso
-técnico ⇒ r² ≥ 0,8; r² = 0,8035 ⇒ el modelo se valida (en el entorno observado, 8 a 65 mm).
+Y = resistencia al quiebre (MPa); X = profundidad de carbonatación (mm). n = 18; Σx = 659; x̄ = Σx/n = 659/18 = 36,6111;
+Σx² = 28967,5; Σy = 289,2; ȳ = 289,2/18 = 16,0667; Σy² = 5166,36; Σxy = 9165,95.
+Sxy = Σxy − n·x̄·ȳ = −1421,9833; Sxx = Σx² − n·x̄² = 4840,7778; Syy = Σy² − n·ȳ² = 519,88.
+b₁ = Sxy/Sxx = −1421,9833/4840,7778 = −0,2938 MPa/mm; b₀ = ȳ − b₁·x̄ = 16,0667 − (−0,2938)·36,6111 = 26,8212 MPa;
+r = Sxy/√(Sxx·Syy) = −1421,9833/√(4840,7778·519,88) = −0,8964; r² = (−0,8964)² = 0,8035;
+S² = (Σy² − b₀·Σy − b₁·Σxy)/(n − 2) = 6,3857; S = √6,3857 = 2,5270; S_b₁ = S/√Sxx = 2,5270/√4840,7778 = 0,0363.
+ŷ = 26,8212 − 0,2938·x.
+Validación: H0: ρ = 0; α = 0,05; |t_obs| = |b₁|/S_b₁ = 0,2938/0,0363 = 8,0879 > t(0,95; 16) = 1,7459 ⇒ se rechaza H0:
+existe relación lineal. Uso técnico ⇒ r² ≥ 0,8; r² = 0,8035 ⇒ el modelo se valida (en el entorno observado, 8 a 65
+mm).
 Por cada mm adicional de profundidad, la resistencia al quiebre disminuye en promedio 0,2938 MPa.
 P(−0,3708 ≤ β₁ ≤ −0,2167) = 0,95: por cada mm, la resistencia disminuye entre 0,2167 y 0,3708 MPa.
 P(0,5455 ≤ ρ² ≤ 0,9237) = 0,95: la influencia real está entre el 54,55 % y el 92,37 %.
-«¿Disminuye en más de 0,25 MPa?» H0: β₁ ≥ −0,25 vs H1: β₁ < −0,25; b₁c = −0,25 − 1,7459·0,0363 = −0,3134; b₁ = −0,2938
+«¿Disminuye en más de 0,25 MPa?» H0: β₁ ≥ −0,25 vs H1: β₁ < −0,25; b₁c = β₁₀ − t(0,95; 16)·S_b₁ = −0,25 − 1,7459·0,0363 = −0,3134; b₁ = −0,2938
 no es menor ⇒ no se rechaza H0: no hay evidencia suficiente para asegurar que disminuya en más de 0,25 MPa.
 Promedio con 10 mm: P(21,4769 ≤ E(y | x₀ = 10) ≤ 26,2905) = 0,95 (MPa). Un sector con 10 mm (predicción):
 P(18,0109 ≤ y(x₀ = 10) ≤ 29,7565) = 0,95 (MPa).
@@ -539,6 +570,7 @@ P(18,0109 ≤ y(x₀ = 10) ≤ 29,7565) = 0,95 (MPa).
 - [ ] ¿Están la **CR** y la **RD** en lenguaje de planta?
 - [ ] ¿No aparece «Acepto H0» ni se da H0 por probada?
 - [ ] ¿La conclusión está en el contexto del enunciado?
+- [ ] ¿Cada número sale de un dato, de una tabla (con su argumento) o de una fórmula con los valores reemplazados?
 
 ### 11.1 Checklist de los temas con parámetros
 <!-- temas: I II III IV V VII VIII -->

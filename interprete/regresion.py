@@ -538,9 +538,14 @@ def _pasos_recta(reg: rg.RegresionSimple, res, d):
     if reg.modelo != "lineal":
         res.pasos.append(f"**Modelo**: {desc}. Se trabaja con Y' = {yv} y X' = {xv}.")
     sx, sy = reg.xbar * reg.n, reg.ybar * reg.n
-    res.pasos.append(f"**Procesamiento de los datos**: n = {reg.n}; Σx = {fmt(sx, 4)}; x̄ = {fmt(reg.xbar, 6)}; "
-                     f"Σx² = {fmt(reg.sum_x2, 4)}; Σy = {fmt(sy, 4)}; ȳ = {fmt(reg.ybar, 6)}; Σy² = {fmt(reg.sum_y2, 4)}; "
-                     f"Σxy = {fmt(reg.sum_xy, 4)}.")
+    res.pasos.append(f"**Procesamiento de los datos**: n = {reg.n}; Σx = {fmt(sx, 4)}; x̄ = Σx/n = {fmt(sx, 4)}/{reg.n} = "
+                     f"{fmt(reg.xbar, 6)}; Σx² = {fmt(reg.sum_x2, 4)}; Σy = {fmt(sy, 4)}; ȳ = Σy/n = {fmt(sy, 4)}/{reg.n} = "
+                     f"{fmt(reg.ybar, 6)}; Σy² = {fmt(reg.sum_y2, 4)}; Σxy = {fmt(reg.sum_xy, 4)}.")
+    syy = reg.sum_y2 - reg.n * reg.ybar ** 2
+    res.pasos.append(f"**Sumas de cuadrados**: Sxy = Σxy - n·x̄·ȳ = {fmt(reg.sum_xy, 4)} - {reg.n}·{fmt(reg.xbar, 6)}·"
+                     f"{fmt(reg.ybar, 6)} = {fmt(reg.Sxy, 4)}; Sxx = Σx² - n·x̄² = {fmt(reg.sum_x2, 4)} - {reg.n}·"
+                     f"{fmt(reg.xbar, 6)}² = {fmt(reg.Sxx, 4)}; Syy = Σy² - n·ȳ² = {fmt(reg.sum_y2, 4)} - {reg.n}·"
+                     f"{fmt(reg.ybar, 6)}² = {fmt(syy, 4)}.")
     ub1 = _u_b1(uy, ux) if reg.modelo == "lineal" else ""
     if reg.origen:
         res.pasos.append(f"**Recta por el origen**: b1 = Σxy / Σx² = {_con(fmt(reg.b1, 6), ub1)}.")
@@ -551,14 +556,22 @@ def _pasos_recta(reg: rg.RegresionSimple, res, d):
     res.pasos.append(f"**Recta (modelo estimador)**: {_coma(reg.ecuacion())}.")
     n_par = 1 if reg.origen else 2
     formula = "(Σy² - b1·Σxy)" if reg.origen else "(Σy² - b0·Σy - b1·Σxy)"
-    res.pasos.append(f"**Ajuste**: S² = {formula}/(n - {n_par}) = {fmt(reg.S2, 6)}; S = {fmt(reg.S, 6)}; "
-                     f"Sb1 = S/√(Σx² - n·x̄²) = {fmt(reg.Sb1, 6)}; r = {fmt(reg.r, 6)}; r² = {fmt(reg.r2, 6)}.")
+    syy = reg.sum_y2 - reg.n * reg.ybar ** 2
+    r_txt = f"r = {fmt(reg.r, 6)}"
+    if reg.Sxx > 0 and syy > 0 and abs(reg.Sxy / sqrt(reg.Sxx * syy) - reg.r) < 1e-9:
+        r_txt = (f"r = (Σxy - n·x̄·ȳ)/√[(Σx² - n·x̄²)·(Σy² - n·ȳ²)] = {fmt(reg.Sxy, 4)}/√({fmt(reg.Sxx, 4)}·"
+                 f"{fmt(syy, 4)}) = {fmt(reg.r, 6)}")
+    res.pasos.append(f"**Ajuste**: S² = {formula}/(n - {n_par}) = {fmt(reg.S2, 6)}; S = √S² = {fmt(reg.S, 6)}; "
+                     f"Sb1 = S/√(Σx² - n·x̄²) = {fmt(reg.S, 6)}/√{fmt(reg.Sxx, 4)} = {fmt(reg.Sb1, 6)}; {r_txt}; "
+                     f"r² = ({fmt(reg.r, 6)})² = {fmt(reg.r2, 6)}.")
     res.numeros += [reg.b0, reg.b1, reg.S, reg.S2, reg.Sb1]
     if reg.modelo in ("loglog", "loglin"):
         res.numeros += [exp(reg.b0)] + ([exp(reg.b1)] if reg.modelo == "loglin" else [])
         forma = (f"y = {fmt(exp(reg.b0), 4)}·x^{fmt(reg.b1, 4)}" if reg.modelo == "loglog"
                  else f"y = {fmt(exp(reg.b0), 4)}·{fmt(exp(reg.b1), 4)}^x")
-        res.pasos.append(f"**Volviendo a la escala original**: {forma}.")
+        cuentas = f"e^b0 = e^{fmt(reg.b0, 6)} = {fmt(exp(reg.b0), 4)}" + (
+            f"; e^b1 = e^{fmt(reg.b1, 6)} = {fmt(exp(reg.b1), 4)}" if reg.modelo == "loglin" else "")
+        res.pasos.append(f"**Volviendo a la escala original** ({cuentas}): {forma}.")
 
 
 def _coma(s: str) -> str:
@@ -666,7 +679,8 @@ def _validacion(reg, alpha, res, d=None):
                "una decisión costosa que pida un riesgo más chico»)") if d.get("alpha_elegido") else ""
     res.pasos.append(f"**Validación del modelo (análisis confirmatorio)**, 1° existencia de la relación: H0: ρ = 0 "
                      f"(β1 = 0, no hay relación lineal)  vs  H1: ρ ≠ 0; α = {fmt(alpha, 4)}{elegido}. "
-                     f"|t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = {fmt(abs(e.t_c), 4)}; ν = n - 2 = {e.nu}; "
+                     f"|t_obs| = |r|/√((1 - r²)/(n - 2)) = |b1|/Sb1 = {fmt(abs(reg.b1), 6)}/{fmt(reg.Sb1, 6)} = "
+                     f"{fmt(abs(e.t_c), 4)}; ν = n - 2 = {e.nu}; "
                      f"t(1-α; ν) = t({fmt(1 - alpha, 4)}; {e.nu}) = {fmt(e.t_critico, 4)}. CR: si |t_obs| > "
                      f"{fmt(e.t_critico, 4)} ⇒ se rechaza H0. "
                      + (f"{fmt(abs(e.t_c), 4)} > {fmt(e.t_critico, 4)} ⇒ se rechaza H0: existe relación lineal entre "
@@ -818,6 +832,10 @@ def _pronostico(d, alpha, res, estado):
                      f"{fmt(reg.xbar, 6)})²/{fmt(reg.Sxx, 4)}) = {fmt(ic.error, 4)}.")
     if cola == "bilateral" and A is not None and B is not None:
         res.pasos.append(f"**Límites**: ŷ₀ ∓ error = {fmt(y0, 4)} ∓ {fmt(ic.error, 4)} = {fmt(A, 4)} ; {fmt(B, 4)}.")
+    elif A is not None and B is None:
+        res.pasos.append(f"**Límite inferior**: ŷ₀ - error = {fmt(y0, 4)} - {fmt(ic.error, 4)} = {fmt(A, 4)}.")
+    elif B is not None and A is None:
+        res.pasos.append(f"**Límite superior**: ŷ₀ + error = {fmt(y0, 4)} + {fmt(ic.error, 4)} = {fmt(B, 4)}.")
     A, B = ic.A, ic.B
     lim = [v for v in (A, B) if v is not None]
     res.numeros += lim + [ic.error] + [v * ey for v in lim]
@@ -827,11 +845,15 @@ def _pronostico(d, alpha, res, estado):
     if transformada:
         Ao, Bo = ic.A_orig, ic.B_orig
         res.numeros += [v for v in (Ao, Bo) if v is not None]
-        res.pasos.append(f"**Antitransformando** (e^límite): " + (f"[{fmt(Ao, 4)} ; {fmt(Bo, 4)}]" if cola == "bilateral"
-                                                                   else fmt(Ao if Ao is not None else Bo, 4)) + ".")
+        if cola == "bilateral":
+            anti = f"[e^{fmt(A, 4)} ; e^{fmt(B, 4)}] = [{fmt(Ao, 4)} ; {fmt(Bo, 4)}]"
+        else:
+            v, vo = (A, Ao) if Ao is not None else (B, Bo)
+            anti = f"e^{fmt(v, 4)} = {fmt(vo, 4)}"
+        res.pasos.append(f"**Antitransformando** (e^límite): {anti}.")
         texto_lim += " → " + (f"[{fmt(Ao, 4)} ; {fmt(Bo, 4)}]" if cola == "bilateral" else fmt(Ao if Ao is not None else Bo, 4))
     if ey != 1:
-        res.pasos.append(f"**En unidades**: × {fmt(ey)} → " + " ; ".join(fmt(v * ey, 2) for v in lim) + ".")
+        res.pasos.append(f"**En unidades**: " + " ; ".join(f"{fmt(v, 4)}·{fmt(ey)} = {fmt(v * ey, 2)}" for v in lim) + ".")
     res.resumen = f"ŷ₀ = {fmt(y0, 4)}; {texto_lim}"
     conf = fmt(100 * (1 - alpha), 2)
     sujeto = f"el valor de {_el(ny)}" if individual else f"{_el(ny)} promedio"
@@ -896,7 +918,8 @@ def _ic_rho(reg, alpha, res):
     z = atanh(reg.r)
     res.pasos.append(f"**Fisher** (r no es normal si ρ ≠ 0): Zρ = ½·ln((1+r)/(1-r)) = {fmt(z, 4)}; "
                      f"Z(1-α/2)·√(1/(n-3)) = {fmt(ic.critico, 4)}·√(1/{reg.n - 3}) = {fmt(ic.error, 4)}; "
-                     f"Zρmín = {fmt(z - ic.error, 4)}; Zρmáx = {fmt(z + ic.error, 4)}.")
+                     f"Zρmín = Zρ - {fmt(ic.error, 4)} = {fmt(z, 4)} - {fmt(ic.error, 4)} = {fmt(z - ic.error, 4)}; "
+                     f"Zρmáx = {fmt(z, 4)} + {fmt(ic.error, 4)} = {fmt(z + ic.error, 4)}.")
     res.pasos.append(f"**Límites del IC de ρ** (todavía no de ρ²): A = (e^(2Zρmín) - 1)/(e^(2Zρmín) + 1) = "
                      f"{fmt(ic.A, 4)}; B = (e^(2Zρmáx) - 1)/(e^(2Zρmáx) + 1) = {fmt(ic.B, 4)}.")
     res.numeros += [reg.r, z, 2 * z, ic.error, z - ic.error, z + ic.error, ic.A, ic.B]

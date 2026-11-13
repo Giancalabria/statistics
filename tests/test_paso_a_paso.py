@@ -97,3 +97,87 @@ def test_consenso_pasa_excluir_a_las_dos_ia(monkeypatch):
     ej = resolver_guia.__globals__["GUIA"]["V-12"]
     cons.consenso(ej["planteo"], [(i["letra"], i["texto"]) for i in ej["incisos"]], ej["tablas"], excluir=["V-12"])
     assert vistos == [("V-12",), ("V-12",)]
+
+
+# ---------------------------------------------------------------------------
+# De dónde sale cada número (13/11/2026): nada «de la galera», temas del 2° parcial
+# ---------------------------------------------------------------------------
+
+def test_plan_exacto_de_p_con_alfa_y_beta_reales_de_la_binomial():
+    _, res = resolver_guia("III-11")
+    t = _pasos(res[2])
+    assert "α real = G_b(106 | n = 755; p₀ = 0,12) = 0,0499 ≤ 0,05" in t
+    assert "β real = F_b(105 | n = 755; p₁ = 0,14) = 0,4967 ≤ 0,5" in t
+    assert "Z(1-α) = Z(0,95) = 1,6449, Z(1-β) = Z(0,5) = 0" in t
+
+
+def test_dos_varianzas_inversa_raiz_relacion_y_beta_real():
+    _, res = resolver_guia("IV-1")
+    t = _pasos(res[0])
+    assert "[1/B ; 1/A]" in t and "B/A = " in t and "√0,898" in t
+    assert "Δn = 45 - 25 = 20 y 45 - 13 = 32" in res[1].conclusion
+    _, res = resolver_guia("IV-2")
+    assert "P(F(482; 482) ≥ j²c/φ₁²) = P(F ≥ 0,5694/0,49 = 1,1621) = 0,0497" in _pasos(res[2])
+
+
+def test_n_de_dos_medias_muestra_cada_iteracion():
+    _, res = resolver_guia("V-1")
+    t = _pasos(res[2])
+    assert "con n = 30: ν = 2·30 - 2 = 58, t(0,95; 58) = 1,6716" in t and "Se repite ⇒ n = 45" in t
+    assert "faltan 45 - 12 = 33" in res[2].conclusion
+
+
+def test_bondad_de_ajuste_con_momentos_a_la_vista():
+    _, res = resolver_guia("VI-15")
+    t = _pasos(res[0])
+    assert "x̄ = Σ mᵢ·Foᵢ / N = 6.532,5/143 = 45,6818" in t
+    assert "β = S·√6/π = 24,3257·√6/π = 18,9667" in t
+
+
+def test_regresion_sumas_de_cuadrados_y_r():
+    _, res = resolver_guia("VII-13")
+    t = _pasos(res[0])
+    assert "Sxx = Σx² - n·x̄² = 28.967,5 - 18·36,611111² = 4.840,7778" in t
+    assert "r² = (-0,896366)² = 0,803472" in t and "|b1|/Sb1 = 0,293751/0,03632 = 8,0879" in t
+
+
+def test_numeros_con_punto_de_miles_no_se_rompen():
+    """V-10: «d > 103,161 unidades,2303» (el _coma pasaba los puntos de miles a coma y la unidad caía en el medio)."""
+    from interprete.resolver import _coma
+    assert _coma("Si d > 103.161,2303, se rechaza. H0: δ ≤ 50.000. x = 37.5698") == \
+        "Si d > 103.161,2303, se rechaza. H0: δ ≤ 50.000. x = 37,5698"
+    _, res = resolver_guia("V-10")
+    assert "Si d > 103.161,2303 unidades," in res[0].regla and "50,000" not in res[0].conclusion
+
+
+def test_detector_de_numeros_sin_origen():
+    from interprete.origen import sin_origen
+    assert sin_origen("β = 0,4769.", "") == ["0,4769"]                          # resultado suelto
+    assert sin_origen("β = P(Z ≥ 0,0579) = 0,4769.", "0,0579") == []            # con su cuenta
+    assert sin_origen("t(0,95; 7) = 1,8946; d_c = δ₀ + t(0,95; 7)·σ(d) = 2 + 1,8946·1,81 = 5,4295.", "2 1,81") == []
+    assert sin_origen("F(0,95; 4; 18) = 2,9277.", "") == []                     # los argumentos son ν
+    assert sin_origen("= [0,898 ; 4,9126]. Inversa: [0,2036 ; 1,1135].", "") == ["0,2036", "1,1135"]
+    assert sin_origen("A ; B = 5,75 ∓ 3,4295 = 2,3205 ; 9,1795", "5,75 3,4295") == []
+    assert sin_origen("n = 45 (del inciso a).", "", previos=[45.0]) == []
+
+
+def test_el_solver_casi_no_deja_numeros_sin_origen_en_el_parcial():
+    """Auditoría sobre la guía, temas III a VII (herramientas/auditar_origen.py): al 13/11 quedan 31/192 incisos con
+    algún número marcado, casi todos enteros de listas de datos o fracciones; antes eran 154."""
+    from asistente.explicar import enunciado_texto
+    from interprete.origen import resultados, sin_origen
+    guia = resolver_guia.__globals__["GUIA"]
+    con, total = 0, 0
+    for eid in guia:
+        if not eid.split("-")[0] in ("III", "IV", "V", "VI", "VII"):
+            continue
+        an, res = resolver_guia(eid)
+        previos = []
+        for r in res:
+            if r.errores:
+                continue
+            total += 1
+            texto = "\n".join(r.pasos) + "\n" + r.conclusion
+            con += bool(sin_origen(texto, enunciado_texto(an), previos=previos))
+            previos += resultados(texto)
+    assert con <= 35, f"{con}/{total}"

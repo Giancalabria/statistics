@@ -633,7 +633,7 @@ def _ensayo_simple(d, alpha, res: Resultado, estado):
         res.numeros += [rs.xbar, rs.s, rs.n - 1]
         res.pasos.append(f"**Modelo**: muestras apareadas, dᵢ = x({a}) - {'' if h == 1 else fmt(h, 4) + '·'}x({b}) = "
                          f"{'; '.join(fmt(x, 4) for x in dif)} → "
-                         f"d̄ = Σdᵢ/n = {fmt(rs.xbar, 4)}, S_d = √[Σ(dᵢ - d̄)²/(n-1)] = {fmt(rs.s, 4)}, n = {rs.n} pares (ν = {rs.n - 1}); "
+                         f"d̄ = Σdᵢ/n = {fmt(rs.xbar * rs.n, 4)}/{rs.n} = {fmt(rs.xbar, 4)}, S_d = √[Σ(dᵢ - d̄)²/(n-1)] = {fmt(rs.s, 4)}, n = {rs.n} pares (ν = {rs.n - 1}); "
                          f"σ(d̄) = S_d/√n = {fmt(se, 4)}.")
     else:
         r = two.ensayo_dos_medias(d["xbar1"], c["s1"], int(d["n1"]), d["xbar2"], c["s2"], int(d["n2"]), alpha,
@@ -828,7 +828,7 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
         lo, hi, e, rs = _cota_apareada(dif, alpha, cota)
         estado["s_d"] = rs.s
         res.pasos.append(f"**Muestras apareadas**: dᵢ = x({a}) - x({b}) = {'; '.join(fmt(x, 4) for x in dif)} → "
-                         f"d̄ = {fmt(rs.xbar, 4)}, S_d = {fmt(rs.s, 4)}, "
+                         f"d̄ = Σdᵢ/n = {fmt(rs.xbar * rs.n, 4)}/{rs.n} = {fmt(rs.xbar, 4)}, S_d = √[Σ(dᵢ - d̄)²/(n-1)] = {fmt(rs.s, 4)}, "
                          f"n = {rs.n} pares (ν = {rs.n - 1}); e = t({fmt(1 - (alpha if cota else alpha / 2), 4)}; "
                          f"{rs.n - 1})·S_d/√n = {fmt(e / (rs.s / sqrt(rs.n)), 4)}·{fmt(rs.s, 4)}/√{rs.n} = {fmt(e, 4)}.")
         centro = rs.xbar
@@ -867,6 +867,25 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
         res.resumen = f"IC δ: [{fmt(lo, 4)} ; {fmt(hi, 4)}]"
 
 
+def _iteraciones(alpha: float, historial: List[int], n0: int, nu_de, cuenta, formula: str, nu_txt) -> str:
+    """Cada vuelta de la iteración con su ν, su fractil y la cuenta («mostrar las iteraciones», profesor)."""
+    filas, n = [], n0
+    for sig in historial:
+        nu = nu_de(n)
+        t = dist.t_two_tailed(alpha, nu)
+        filas.append(f"con n = {n}: ν = {nu_txt(n)} = {nu}, t({fmt(1 - alpha / 2, 4)}; {nu}) = {fmt(t, 4)} → "
+                     f"{formula} = {cuenta(t)} → n = {sig}")
+        n = sig
+    return "; ".join(filas)
+
+
+def _fin_iteracion(r) -> str:
+    h = r.converged_values
+    if len(h) >= 2 and h[-1] == h[-2]:
+        return f"Se repite ⇒ n = {r.n}"
+    return f"Oscila entre {h[-2]} y {h[-1]}: se toma el menor n que ya alcanza ⇒ n = {r.n}"
+
+
 def dos_medias_n(d, alpha, res: Resultado, estado):
     e = d.get("e")
     if e is None and d.get("reduccion") is not None:
@@ -884,13 +903,30 @@ def dos_medias_n(d, alpha, res: Resultado, estado):
         s_d = estado.get("s_d") or resumen_muestra([x - y for x, y in zip(c["l1"], c["l2"])]).s
         r = two.n_media_apareada_para_error(s_d, e, alpha)
         bases = [len(c["l1"])]
-        res.pasos.append(f"Apareadas: n = [t(1-α/2; n-1)·S_d/e]², iterando: n = {r.n} pares {r.converged_values}.")
+        it = _iteraciones(alpha, r.converged_values, 100, lambda n: n - 1,
+                          lambda t: f"({fmt(t, 4)}·{fmt(s_d, 4)}/{fmt(e, 4)})² = {fmt((t * s_d / e) ** 2, 4)}",
+                          "(t·S_d/e)²", lambda n: f"{n} - 1")
+        res.pasos.append(f"**Iteración** (apareadas, n = [t(1-α/2; n-1)·S_d/e]², se arranca con n = 100): {it}. "
+                         + _fin_iteracion(r) + " pares.")
     else:
         r = two.n_dos_medias_para_error(c["s1"], c["s2"], e, alpha, metodo=c["metodo"])
         bases = [int(d["n1"]), int(d["n2"])]
         nu = {"pooled": "ν = 2n - 2", "welch": "ν de Welch con n₁ = n₂ = n", "z": "Z"}[c["metodo"]]
-        res.pasos.append(f"Con n₁ = n₂ = n: e = fractil·√((S₁² + S₂²)/n) ({nu}); iterando: n = {r.n} "
-                         f"{r.converged_values}.")
+        suma = c["s1"] ** 2 + c["s2"] ** 2
+        if c["metodo"] == "z":
+            z = dist.z_two_tailed(alpha)
+            res.pasos.append(f"Con n₁ = n₂ = n: n = Z²·(σ₁² + σ₂²)/e² = {fmt(z, 4)}²·({fmt(c['s1'], 4)}² + "
+                             f"{fmt(c['s2'], 4)}²)/{fmt(e, 4)}² = {fmt(z * z * suma / e ** 2, 4)} → n = {r.n}.")
+        else:
+            nu_de = (lambda n: 2 * n - 2) if c["metodo"] == "pooled" else                 (lambda n: max(1, int(two.nu_welch_iguales(c["s1"], c["s2"], n))))
+            it = _iteraciones(alpha, r.converged_values, 30, nu_de,
+                              lambda t: f"{fmt(t, 4)}²·{fmt(suma, 4)}/{fmt(e, 4)}² = {fmt(t * t * suma / e ** 2, 4)}",
+                              "t²·(S₁² + S₂²)/e²",
+                              (lambda n: f"2·{n} - 2") if c["metodo"] == "pooled" else
+                              (lambda n: f"⌊({n} - 1)·(S₁² + S₂²)²/(S₁⁴ + S₂⁴)⌋"))
+            res.pasos.append(f"Con n₁ = n₂ = n: e = t·√((S₁² + S₂²)/n) ⇒ n = t²·(S₁² + S₂²)/e² ({nu}), con "
+                             f"S₁² + S₂² = {fmt(c['s1'], 4)}² + {fmt(c['s2'], 4)}² = {fmt(suma, 4)}.")
+            res.pasos.append(f"**Iteración** (se arranca con n = 30): {it}. " + _fin_iteracion(r) + ".")
     deltas = []
     for base in bases:
         dn = max(0, r.n - base)
@@ -898,10 +934,10 @@ def dos_medias_n(d, alpha, res: Resultado, estado):
             deltas.append(dn)
     res.numeros = [r.n] + deltas + res.numeros
     if len(bases) == 2:
-        extra = (f" Hoy hay {bases[0]} de {a} y {bases[1]} de {b}: faltan {max(0, r.n - bases[0])} y "
-                 f"{max(0, r.n - bases[1])} más.")
+        extra = (f" Hoy hay {bases[0]} de {a} y {bases[1]} de {b}: faltan {r.n} - {bases[0]} = {max(0, r.n - bases[0])} y "
+                 f"{r.n} - {bases[1]} = {max(0, r.n - bases[1])} más.")
     else:
-        extra = f" Hoy hay {bases[0]} pares: faltan {max(0, r.n - bases[0])} más."
+        extra = f" Hoy hay {bases[0]} pares: faltan {r.n} - {bases[0]} = {max(0, r.n - bases[0])} más."
     res.conclusion = f"Se necesitan n = {r.n} en cada muestra (e = {fmt(e, 4)})." + extra
     res.resumen = f"n = {r.n}"
 

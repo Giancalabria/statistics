@@ -126,3 +126,16 @@ def test_expresion_formal_con_parentesis_y_cotas_de_un_limite():
         assert red._FORMAL.search(bien), bien
     for mal in ("P(h = 1,0490 ⇒ μ ≥ 1,0490·μ) = 0,95", "P(rechazar H0) = 0,21", "P(F < 0,6341) = 0,2103"):
         assert not red._FORMAL.search(mal), mal
+
+
+def test_el_checklist_marca_resultados_sin_su_cuenta():
+    an, res, fuentes = _resuelto(PROP)
+    suelto = ("### única) Intervalo\nX: atributo de cada pieza (1 = defectuosa, 0 = buena). n = 10, r = 1.\n"
+              "A = 0,0051 y B = 0,3942.\nP(0,0051 ≤ p ≤ 0,3942) = 0,90.")
+    fallas = " | ".join(_fallas(suelto, an, res, fuentes))
+    assert "Números sin su cuenta" in fallas and "0,0051" in fallas
+    con_cuenta = ("### única) Intervalo\nX: atributo de cada pieza (1 = defectuosa, 0 = buena). n = 10, r = 1.\n"
+                  "F(0,95; 20; 2) = 19,4458 y F(0,95; 4; 18) = 2,9277.\n"
+                  "A = 1/[1 + (10/1)·19,4458] = 0,0051 y B = 1/[1 + 9/(2·2,9277)] = 0,3942.\n"
+                  "P(0,0051 ≤ p ≤ 0,3942) = 0,90.")
+    assert not any("sin su cuenta" in f for f in _fallas(con_cuenta, an, res, fuentes))

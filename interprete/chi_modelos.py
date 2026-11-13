@@ -424,6 +424,49 @@ def _params_txt(r: aj.AjusteResult) -> str:
                      for k, v in r.parametros.items() if isinstance(v, (int, float)) and k not in ("k",))
 
 
+def _cuentas_parametros(modelo: str, r: aj.AjusteResult) -> str:
+    """De dónde sale cada parámetro estimado por momentos (con x̄ y S de las marcas de clase)."""
+    from math import log, pi, sqrt, gamma as G
+    m, s, p = r.media, r.desvio, r.parametros
+    X, S = fmt(m, 4), fmt(s, 4) if s else ""
+    c = []
+    if modelo == "normal":
+        c += ["μ = x̄ = " + X] if "mu" in r.estimados else []
+        c += ["σ = S = " + S] if "sigma" in r.estimados else []
+    elif modelo == "lognormal" and s:
+        d2 = log(1 + (s / m) ** 2)
+        c.append(f"D² = ln(1 + (S/x̄)²) = ln(1 + ({S}/{X})²) = {fmt(d2, 4)}")
+        if "m" in r.estimados:
+            c.append(f"m = ln(x̄) - D²/2 = ln({X}) - {fmt(d2, 4)}/2 = {fmt(p['m'], 4)}")
+        if "D" in r.estimados:
+            c.append(f"D = √{fmt(d2, 4)} = {fmt(p['D'], 4)}")
+    elif modelo == "exponencial" and "lambda" in r.estimados:
+        c.append(f"λ = 1/x̄ = 1/{X} = {fmt(p['lambda'], 6)}")
+    elif modelo == "gamma" and s:
+        c += [f"r = (x̄/S)² = ({X}/{S})² = {fmt(p['r'], 4)}"] if "r" in r.estimados else []
+        c += [f"λ = x̄/S² = {X}/{S}² = {fmt(p['lambda'], 6)}"] if "lambda" in r.estimados else []
+    elif modelo == "weibull" and s:
+        if "w" in r.estimados:
+            c.append(f"CV = S/x̄ = {S}/{X} = {fmt(s / m, 4)} → forma w = {fmt(p['w'], 4)} (la que da ese CV)")
+        if "beta" in r.estimados:
+            c.append(f"β = x̄/Γ(1 + 1/w) = {X}/Γ(1 + 1/{fmt(p['w'], 4)}) = {X}/{fmt(G(1 + 1 / p['w']), 4)} = "
+                     f"{fmt(p['beta'], 4)}")
+    elif modelo in ("gumbel_max", "gumbel_min") and s:
+        if "beta" in r.estimados:
+            c.append(f"β = S·√6/π = {S}·√6/π = {fmt(p['beta'], 4)}")
+        if "u" in r.estimados:
+            sg = "-" if modelo == "gumbel_max" else "+"
+            c.append(f"θ (modo) = x̄ {sg} 0,5772·β = {X} {sg} 0,5772·{fmt(p['beta'], 4)} = {fmt(p['u'], 4)}")
+    elif modelo == "pareto" and "b" in r.estimados:
+        c.append(f"b = x̄/(x̄ - θ) = {X}/({X} - {fmt(p['alpha'], 4)}) = {fmt(p['b'], 4)} (θ = límite inferior de la "
+                 "primera clase)")
+    elif modelo == "poisson" and "m" in r.estimados:
+        c.append(f"m = x̄ = {X}")
+    elif modelo == "binomial" and "p" in r.estimados:
+        c.append(f"p = x̄/n = {X}/{fmt(p['n'])} = {fmt(p['p'], 4)}")
+    return "; ".join(c)
+
+
 def chi_ajuste_modelos(d, alpha, res, estado):
     from .resolver import FaltaDato, _coma, _regla
     obs = d.get("observados")
@@ -470,12 +513,20 @@ def chi_ajuste_modelos(d, alpha, res, estado):
                              + (". Los parámetros estimados con la muestra restan grados de libertad (uno por cada uno)."
                                 if r.estimados else "."))
         elif r.media is not None:
-            res.pasos.append(f"**Estimación** (marcas de clase): x̄ = {fmt(r.media, 4)}"
-                             + (f", S = {fmt(r.desvio, 4)}" if r.desvio else "")
+            marcas = [(a + b) / 2 for a, b in lim]
+            N = sum(obs)
+            sx = sum(x * f for x, f in zip(marcas, obs))
+            ss = sum(f * (x - r.media) ** 2 for x, f in zip(marcas, obs))
+            res.pasos.append(f"**Estimación** (marcas de clase mᵢ = (lᵢ + lₛ)/2 = "
+                             f"{'; '.join(fmt(x, 4) for x in marcas)}): x̄ = Σ mᵢ·Foᵢ / N = {fmt(sx, 4)}/{fmt(N)} = "
+                             f"{fmt(r.media, 4)}"
+                             + (f", S = √[Σ(mᵢ - x̄)²·Foᵢ/(N - 1)] = √({fmt(ss, 4)}/{fmt(N - 1)}) = {fmt(r.desvio, 4)}"
+                                if r.desvio else "")
                              + (". Los parámetros estimados con la muestra restan grados de libertad (uno por cada uno)."
                                 if r.estimados else "."))
         if params:
-            res.pasos.append(f"**Parámetros del modelo**: {params}.")
+            cuentas = _cuentas_parametros(m, r) if r.estimados else ""
+            res.pasos.append(f"**Parámetros del modelo**: {params}." + (f" Por momentos: {cuentas}." if cuentas else ""))
         amalgamado = len(r.tabla_final) < len(r.tabla)
         res.pasos.append("**Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con "
                          "clases de Fo = 0 y probabilidad acumulada):\n\n" + _tabla_md(r.tabla, aportes=not amalgamado))
