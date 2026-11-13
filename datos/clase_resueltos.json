@@ -367,9 +367,9 @@
     ]
    ],
    "profesor": [
-    "Se estudia A/B. J² = 3,6²/5,4² = 0,4444; F(0,95; 12; 24) = 2,1834 y F(0,05; 12; 24) = 0,3991. A = J²/F(0,95) = 0,2036, B = J²/F(0,05) = 1,1135. R = B/A = 5,470. «σA² como mínimo 79,65% menor y como máximo 11,37% mayor que σB²».",
+    "Se estudia A/B. J² = 3,6²/5,4² = 0,4444; F(0,95; 12; 24) = 2,1834 y F(0,05; 12; 24) = 0,3991. A = J²/F(0,95) = 0,2035, B = J²/F(0,05) = 1,1136 (redondeados hacia afuera, como en clase; sin redondear 0,203558 y 1,113547). R = B/A = 5,470. «σA² como mínimo 79,65% menor y como máximo 11,37% mayor que σB²».",
     "n iguales para R/2 = 2,7354: iterando F(0,95; ν; ν)/F(0,05; ν; ν) ≤ 2,7354 ⇒ ν = 44 ⇒ n = 45 por torno (32 más en A y 20 más en B).",
-    "Desvíos: J = 0,6667; A' = √0,2036 = 0,4512, B' = √1,1135 = 1,0552, R' = 2,339.",
+    "Desvíos: J = 0,6667; A' = √A = 0,4511, B' = √B = 1,0553 (hacia afuera), R' = 2,339.",
     "R'/2 = 1,1695 ⇒ R = 1,3677 ⇒ ν = 443 ⇒ n = 444 (431 más en A y 419 más en B)."
    ]
   },
@@ -520,7 +520,7 @@
     ]
    ],
    "profesor": [
-    "χ² de independencia con tabla 2×4 (con falla / sin falla por color): observados con falla 90 / 90 / 75 / 45 (porcentajes de los 300 reclamos), sin falla 460 / 360 / 405 / 275 (producción menos reclamos). H0: el porcentaje de fallas es independiente del color; α = 0,05. Esperados con falla 91,67 / 75 / 80 / 53,33. χ² = 5,5739, ν = 3, χ²c = 7,8147 ⇒ no se rechaza."
+    "χ² de independencia con tabla 2×4 (con falla / sin falla por color): observados con falla 90 / 90 / 75 / 45 (porcentajes de los 300 reclamos), sin falla 460 / 360 / 405 / 275 (producción menos reclamos). H0: el porcentaje de fallas es independiente del color; α = 0,05. Esperados con falla 91,67 / 75 / 80 / 53,33. χ² = 5,5739 (prof.: 5,5735, con los esperados redondeados a 2 decimales), ν = 3, χ²c = 7,8147 ⇒ no se rechaza."
    ]
   },
   {

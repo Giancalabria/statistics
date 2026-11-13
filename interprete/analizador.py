@@ -1352,6 +1352,7 @@ def extraer_relacion_desvios(an: Analisis, t: Texto, posiciones: Dict[str, Numer
     elif an.datos.get("s1") and an.datos.get("s2"):
         if an.datos["s2"] > an.datos["s1"]:
             _intercambiar_muestras(an)
+            an.datos["_intercambiado"] = True   # si al final solo se estima, se vuelve al orden del enunciado
         an.datos["orden"] = "mayor"
         an.razones_tema.append(f"φ = σ({an.datos['nombre1']})/σ({an.datos['nombre2']}): sin un grupo 'nuevo', va arriba el "
                                "de mayor desvío muestral (j² ≥ 1).")
@@ -3122,6 +3123,17 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
         inc.que_pide = razon if tema_inc in EXTENSIONES else explicar(inc, an)
         previo.update(inc.params)
         an.incisos.append(inc)
+
+    if an.tema == "dos_varianzas" and an.datos.pop("_intercambiado", False) and an.incisos and \
+            all(i.tipo in ("ic", "n") for i in an.incisos):
+        # solo se estima (IV-1): sin ensayo la muestra no orienta nada y se respeta el orden del enunciado, como el
+        # profesor (01/10: «siempre eligen la primera», S1/S2 con F(n₁ - 1; n₂ - 1)). Dar vuelta las muestras
+        # confundía la redacción de la IA, que veía S1/S2 en el enunciado y F(n₂ - 1; n₁ - 1) en la resolución.
+        _intercambiar_muestras(an)
+        an.datos["orden"] = "enunciado"
+        an.razones_tema = [r for r in an.razones_tema if "mayor desvío muestral" not in r] + [
+            f"φ = σ({an.datos['nombre1']})/σ({an.datos['nombre2']}): solo se pide estimar y el enunciado no dice qué "
+            "relación; se toma la del orden del enunciado (se puede elegir la otra, diciendo cuál)."]
 
     if an.tema in ("media", "varianza", "proporcion") and not _en_alternativa:
         separar_alternativas(an)

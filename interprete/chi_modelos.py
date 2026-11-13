@@ -467,6 +467,27 @@ def _cuentas_parametros(modelo: str, r: aj.AjusteResult) -> str:
     return "; ".join(c)
 
 
+def _probabilidades_txt(modelo: str, r: aj.AjusteResult, limites) -> str:
+    """Con qué F se calculan las probabilidades de la tabla, con un ejemplo (el profesor lo muestra en el pizarrón)."""
+    p = r.parametros
+    f = {"normal": "Φ((x - μ)/σ)", "lognormal": "Φ((ln x - m)/D)", "exponencial": "1 - e^(-λ·x)",
+         "weibull": "1 - e^(-(x/β)^w)", "gumbel_max": "e^(-e^(-(x - θ)/β))", "gumbel_min": "1 - e^(-e^((x - θ)/β))",
+         "pareto": "1 - (θ/x)^b", "uniforme_continua": "(x - a)/(b - a)"}.get(modelo)
+    if not f or not limites:
+        return ""
+    F = aj._cdf(modelo, p)
+    x = limites[0][0] if F(limites[0][0]) > 1e-6 else limites[0][1]
+    reemplazo = {"weibull": f"1 - e^(-({fmt(x, 4)}/{fmt(p.get('beta'), 4)})^{fmt(p.get('w'), 4)})",
+                 "gumbel_max": f"e^(-e^(-({fmt(x, 4)} - {fmt(p.get('u'), 4)})/{fmt(p.get('beta'), 4)}))",
+                 "gumbel_min": f"1 - e^(-e^(({fmt(x, 4)} - {fmt(p.get('u'), 4)})/{fmt(p.get('beta'), 4)}))",
+                 "normal": f"Φ(({fmt(x, 4)} - {fmt(p.get('mu'), 4)})/{fmt(p.get('sigma'), 4)})",
+                 "exponencial": f"1 - e^(-{fmt(p.get('lambda'), 6)}·{fmt(x, 4)})"}.get(modelo)
+    ej = f"F({fmt(x, 4)}) = {reemplazo} = {fmt(F(x), 4)}" if reemplazo else f"F({fmt(x, 4)}) = {fmt(F(x), 4)}"
+    return (f"**Probabilidad de cada clase** (variable continua: siempre por intervalos, la puntual es 0): "
+            f"P(lᵢ < X ≤ lₛ) = F(lₛ) - F(lᵢ), con F(x) = {f}; la primera clase lleva F y la última G = 1 - F "
+            f"(se completa el dominio). Por ejemplo, {ej}.")
+
+
 def chi_ajuste_modelos(d, alpha, res, estado):
     from .resolver import FaltaDato, _coma, _regla
     obs = d.get("observados")
@@ -528,12 +549,34 @@ def chi_ajuste_modelos(d, alpha, res, estado):
             cuentas = _cuentas_parametros(m, r) if r.estimados else ""
             res.pasos.append(f"**Parámetros del modelo**: {params}." + (f" Por momentos: {cuentas}." if cuentas else ""))
         amalgamado = len(r.tabla_final) < len(r.tabla)
+        if m not in aj.DISCRETOS:
+            prob = _probabilidades_txt(m, r, lim)
+            if prob:
+                res.pasos.append(prob)
+        elif m in ("poisson", "binomial") and r.parametros:
+            from math import comb, exp, factorial
+            v0 = int(vals[0]) if vals else 0
+            if m == "poisson":
+                lam = r.parametros["m"]
+                ej = f"P({v0}) = e^(-{fmt(lam, 4)})·{fmt(lam, 4)}^{v0}/{v0}! = {fmt(exp(-lam) * lam ** v0 / factorial(v0), 4)}"
+                f = "P(r) = e^(-m)·m^r/r!"
+            else:
+                n_, p_ = int(r.parametros["n"]), r.parametros["p"]
+                ej = (f"P({v0}) = C({n_}; {v0})·{fmt(p_, 4)}^{v0}·{fmt(1 - p_, 4)}^{n_ - v0} = "
+                      f"{fmt(comb(n_, v0) * p_ ** v0 * (1 - p_) ** (n_ - v0), 4)}")
+                f = "P(r) = C(n; r)·p^r·(1 - p)^(n - r)"
+            res.pasos.append(f"**Probabilidad de cada valor**: {f} (puntual en los valores observados); la clase que "
+                             f"completa el dominio lleva la acumulada (G al final, F al principio), nunca la puntual. "
+                             f"Por ejemplo, {ej}.")
         res.pasos.append("**Frecuencias esperadas** Feᵢ = N·P(clase i) (se completa el dominio del modelo con "
                          "clases de Fo = 0 y probabilidad acumulada):\n\n" + _tabla_md(r.tabla, aportes=not amalgamado))
         if amalgamado:
             res.pasos.append("**Amalgamado** (Fe < 5 se une con la clase vecina):\n\n" +
                              _tabla_md(r.tabla_final, aportes=True))
         k = len(r.tabla_final)
+        from .resolver import _condiciones_chi
+        cond = _condiciones_chi(sum(obs), [c.fe for c in r.tabla_final])
+        res.pasos.append(cond.replace(" ⇒", " (después de amalgamar) ⇒", 1) if amalgamado else cond)
         res.pasos.append(f"**Estadístico**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ = {fmt(r.chi2_calc, 4)}; ν = clases efectivas - 1 - p = "
                          f"{k} - 1 - {len(r.estimados)} = {r.df}; χ²(1-α; ν) = {fmt(r.chi2_critico, 4)}.")
         res.pasos.append(f"**Condición de rechazo**: si χ² > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0.")

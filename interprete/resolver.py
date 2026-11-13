@@ -1165,8 +1165,9 @@ def prop_diseno(d, alpha, res: Resultado, estado):
                              f"Z(1-β) = Z({fmt(1 - beta, 4)}) = {fmt(zb, 4)}; n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² = "
                              f"[({fmt(za, 4)}·√({fmt(p0, 4)}·{fmt(1 - p0, 4)}) + {fmt(zb, 4)}·√({fmt(p1, 4)}·"
                              f"{fmt(1 - p1, 4)}))/{fmt(abs(p1 - p0), 4)}]² = {fmt(n_ex, 4)} → "
-                             f"n = {rn.n}; con ese n el binomial da r_c = {rn.rc} (α real = {fmt(rn.alpha_real, 4)}, "
-                             f"β real = {fmt(rn.beta_real, 4)}). {cn.texto}" +
+                             f"n = {rn.n}. {cn.texto} Con ese n, como en clase: "
+                             f"{_eleccion_rc(rn.n, p0, alpha, r.tail, rn.rc)} β real = {fmt(rn.beta_real, 4)}. "
+                             f"CR: r {'≥' if r.tail != 'izquierda' else '≤'} {rn.rc}." +
                              ("" if vale else " ⚠️ Con el n resultante el criterio NO habilita la normal: no usar este n "
                                               "como respuesta."))
             if vale:
@@ -1628,6 +1629,16 @@ def _ejemplo_esperado(tabla, filas, cols, esperada, total) -> str:
         return ""
 
 
+def _condiciones_chi(total: float, esperados: Sequence[float]) -> str:
+    """El profesor verifica las condiciones de la aproximación con los números del problema, no solo las enuncia."""
+    menor = min(esperados)
+    ok_n, ok_e = total >= 60, menor >= 5
+    return (f"**Condiciones de la aproximación χ²**: N = {fmt(total)} {'≥' if ok_n else '<'} 60 y el menor esperado es "
+            f"{fmt(menor, 4)} {'≥' if ok_e else '<'} 5" +
+            (" ⇒ se puede usar el contraste χ²." if ok_n and ok_e else
+             " ⇒ NO se cumple: hay que amalgamar categorías vecinas (o el contraste no es aplicable)."))
+
+
 def chi_cont(d, alpha, res: Resultado, estado):
     tabla = [list(map(float, f)) for f in _req(d, "tabla")[0]]
     r = chi.tabla_contingencia(tabla, alpha)
@@ -1638,10 +1649,11 @@ def chi_cont(d, alpha, res: Resultado, estado):
     esquina = d.get("tabla_nombre_filas") or ""
     res.pasos.append(hip)
     res.pasos.append(f"**Estadístico**: χ² = Σ (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ, con ν = (f-1)(c-1) = ({nf}-1)({nc}-1) = "
-                     f"{_grados(r.df)}; χ²crítico(1-α; {r.df}) = {fmt(r.chi2_critico, 4)}.")
+                     f"{_grados(r.df)}; χ²(1-α; ν) = χ²({fmt(1 - alpha, 4)}; {r.df}) = {fmt(r.chi2_critico, 4)}.")
     res.pasos.append(f"**Condición de rechazo**: si χ² > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0.")
     aportes = [[(o - e) ** 2 / e for o, e in zip(fo, fe)] for fo, fe in zip(tabla, r.expected_table)]
     total = sum(map(sum, tabla))
+    res.pasos.append(_condiciones_chi(total, [e for fila in r.expected_table for e in fila]))
     res.pasos.append(
         "**Decisión**: frecuencias observadas Oᵢⱼ, esperadas bajo H0 Eᵢⱼ y aporte de cada celda al χ².\n\n"
         + _md_contingencia("Frecuencias observadas Oᵢⱼ", esquina, filas, cols, tabla, 4) + "\n\n"
@@ -1683,8 +1695,9 @@ def chi_ajuste(d, alpha, res: Resultado, estado):
     else:
         res.pasos.append("**Hipótesis**: H0: los datos siguen el modelo propuesto  vs  H1: no lo siguen.")
     res.pasos.append(f"**Estadístico**: χ² = Σ (Foᵢ - Feᵢ)²/Feᵢ, con ν = k - 1 - p = {len(obs)} - 1 - {p} = {_grados(r.df)}; "
-                     f"χ²crítico = {fmt(r.chi2_critico, 4)}.")
+                     f"χ²(1-α; ν) = χ²({fmt(1 - alpha, 4)}; {r.df}) = {fmt(r.chi2_critico, 4)}.")
     res.pasos.append(f"**Condición de rechazo**: si χ² > {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0.")
+    res.pasos.append(_condiciones_chi(sum(obs), esp))
     cab = ["Categoría", "Foᵢ"] + (["pᵢ"] if props and len(props) == len(obs) else []) + ["Feᵢ", "(Foᵢ - Feᵢ)²/Feᵢ"]
     cuerpo = []
     for i, (fo, fe) in enumerate(zip(obs, esp)):
@@ -1837,6 +1850,11 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
         cola = estado.get("tail") if estado.get("tail") != cola_previa else (d.get("tail") or estado.get("tail"))
         if not d.get("control") and (pide := que_pide_probar(texto_total)):
             d["pide_probar"] = pide
+        elif tema == "dos_medias" and inc.tipo == "ensayo" and (
+                m := re.search(r"¿?\s*(?:se puede |podr[ií]a |puede )?asegurar\w*[^.?]{0,240}?(?=[.?]|$)",
+                               inc.texto or "", re.I)):
+            # en comparaciones la pregunta dice qué se quiere asegurar (V-8, V-12): eso va en H1 (profesor)
+            d["pide_probar"] = m.group(0).strip(" ¿?,")
         if tema == "dos_varianzas" and re.search(r"varianza", normalizar(texto_total)):
             d["habla_varianza"] = True      # la conclusión habla de la varianza (lo que pregunta el enunciado)
         res.pasos = agregar_presentacion(res.pasos, tema, inc.tipo, dict(d, alpha=alpha), an.criterio, cola)

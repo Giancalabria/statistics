@@ -50,6 +50,8 @@ def parse_num(crudo: str) -> float:
     crudo = crudo.strip()
     if "/" in crudo:
         a, b = crudo.split("/")
+        if float(b) == 0:          # «m^0/0!» no es una fracción (buscar_numeros descarta los ValueError)
+            raise ValueError(f"fracción con denominador 0: {crudo}")
         return float(a) / float(b)
     if "," in crudo:
         return float(crudo.replace(".", "").replace(",", "."))

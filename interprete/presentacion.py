@@ -48,7 +48,22 @@ def que_pide_probar(texto: str) -> Optional[str]:
 # a) Justificación de H0
 # ---------------------------------------------------------------------------
 
+def _justificar_dos_medias(d: Dict) -> Optional[tuple]:
+    """(h0, h1, condición «en el borde de H0», valor de referencia) desde el planteo que ya armó el solver."""
+    h = d.get("_hip")
+    if not h:
+        return None
+    h0, h1 = h
+    borde = re.sub(r"\s*\(.*?\)\s*", " ", h0.replace("H0: ", "")).strip()
+    borde = re.sub(r"[≤≥]", "=", borde)
+    m = re.findall(r"[≤≥]\s*(-?[\d.,]+)", h0)
+    return h0, h1, borde, (m[-1] if m else "δ₀")
+
+
 def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: Optional[str]) -> Optional[str]:
+    if tema == "dos_medias" and tipo in ("ensayo", "diseno") and _justificar_dos_medias(d):
+        h0, h1, borde, v0 = _justificar_dos_medias(d)
+        return _lineas_justificacion(tema, tipo, d, criterio, tail, h0, h1, v0, borde)
     if tema not in PARAM or tipo not in ("ensayo", "diseno") or tail not in SIGNO:
         return None
     sim, nombre = PARAM[tema]
@@ -70,6 +85,11 @@ def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: 
         m0, s0 = _v(d["mu0"]), _v(d["sigma0"])
         h0 = f"H0: μ {OPUESTO[tail]} {m0} y σ {OPUESTO[tail]} {s0}"
         h1 = f"H1: μ {SIGNO[tail]} {m0} y σ {SIGNO[tail]} {s0}"
+    alt = d.get(ALT[tema])
+    return _lineas_justificacion(tema, tipo, d, criterio, tail, h0, h1, v0, f"{sim} = {v0}", alt, sim)
+
+
+def _lineas_justificacion(tema, tipo, d, criterio, tail, h0, h1, v0, borde, alt=None, sim="") -> str:
     lineas: List[str] = []
     if d.get("control"):
         si, no = d.get("accion_rechazo", "se detiene el proceso"), d.get("accion_no_rechazo", "el proceso sigue")
@@ -92,13 +112,12 @@ def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: 
         lineas.append(f"{h1} recoge lo que el enunciado quiere probar; {h0} es el complemento y lleva la igualdad "
                       f"(el valor de referencia {v0}).")
     alpha, beta = d.get("alpha"), d.get("beta")
-    alt = d.get(ALT[tema])
     # las 4 probabilidades en términos del problema (profesor): α = P(acción | H0), 1-α, β = P(no acción | μ₁), 1-β
     from .variable import acciones
     acc = acciones(d)
     si, no = acc if acc else ("rechazar H0", "no rechazar H0")
     if alpha is not None:
-        cond0 = f"{sim} = {v0}" if acc else "H0 cierta"
+        cond0 = borde if acc else "H0 cierta"
         txt = (f"α = P({si} | {cond0}) = {_v(alpha)} (error de tipo I); "
                f"1 - α = P({no} | {cond0}) = {_v(1 - alpha)}")
         if beta is not None and alt is not None and (tipo == "diseno" or d.get("control")):
@@ -109,8 +128,9 @@ def justificar_h0(tema: str, tipo: str, d: Dict, criterio: Optional[str], tail: 
             lineas.append("Para escribir las probabilidades y la RD en términos del problema, completá «Acción si se "
                           "rechaza H0» (p. ej. «modificar el sistema»).")
     cola = {"derecha": "unilateral a la derecha", "izquierda": "unilateral a la izquierda",
-            "bilateral": "bilateral (sin dirección)"}[tail]
-    lineas.append(f"El ensayo es {cola}: la zona de rechazo está donde apunta H1.")
+            "bilateral": "bilateral (sin dirección)"}.get(tail)
+    if cola is not None:
+        lineas.append(f"El ensayo es {cola}: la zona de rechazo está donde apunta H1.")
     return "**Justificación de H0**:  \n" + "  \n".join("• " + x for x in lineas)
 
 
@@ -237,6 +257,8 @@ PASOS_ENSAYO = {
     "**Modelos y distribuciones empleados**": (3.5, None),  # después de la línea del estadístico
     "**Población finita**": (3, None),
     "**Frecuencias esperadas**": (3, None),
+    "**Probabilidad de cada": (2.9, None),        # con qué F se calculan las P de la tabla (antes de los Fe)
+    "**Condiciones de la aproximación χ²**": (3.1, None),
     "**Condición de rechazo**": (4, "**4 · Condición de rechazo (CR)**"),
     "**Valor crítico**": (4, "**4 · Condición de rechazo (CR)**"),
     "**Decisión**": (6, "**6 · Cálculos y decisión**"),
@@ -287,6 +309,10 @@ def agregar_presentacion(pasos: List[str], tema: str, tipo: str, d: Dict, criter
                          tail: Optional[str]) -> List[str]:
     """Inserta la justificación antes de las hipótesis y los modelos después (o al principio si no hay)."""
     pasos = list(pasos)
+    if tema == "dos_medias":   # H0 y H1 tal como las planteó el solver (con nombres, h y δ₀)
+        hip = next((p for p in pasos if p.startswith("**Hipótesis**") and " vs " in p), None)
+        m = re.search(r"(H0: .*?)\s+vs\s+(H1: .*?)\.?$", hip.split("\n")[0]) if hip else None
+        d = dict(d, _hip=(m.group(1), re.sub(r"\s*\(α = [^)]*\)", "", m.group(2)))) if m else d
     just = justificar_h0(tema, tipo, d, criterio, tail)
     dist = explicar_distribuciones(tema, tipo, d)
     i_hip = next((i for i, p in enumerate(pasos) if p.startswith("**Hipótesis**")), None)

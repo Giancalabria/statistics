@@ -114,8 +114,10 @@ def test_plan_exacto_de_p_con_alfa_y_beta_reales_de_la_binomial():
 def test_dos_varianzas_inversa_raiz_relacion_y_beta_real():
     _, res = resolver_guia("IV-1")
     t = _pasos(res[0])
-    assert "[1/B ; 1/A]" in t and "B/A = " in t and "√0,898" in t
-    assert "Δn = 45 - 25 = 20 y 45 - 13 = 32" in res[1].conclusion
+    assert "[1/B ; 1/A]" in t and "B/A = " in t and "√0,2036" in t
+    # solo se estima: el orden del enunciado (S1/S2, F(12; 24)), como el profesor el 01/10
+    assert "F(ν₁ = 12; ν₂ = 24)" in t and "P(0,2035 ≤ σ²(Muestra 1)/σ²(Muestra 2) ≤ 1,1136)" in res[0].conclusion
+    assert "Δn = 45 - 13 = 32 y 45 - 25 = 20" in res[1].conclusion
     _, res = resolver_guia("IV-2")
     assert "P(F(482; 482) ≥ j²c/φ₁²) = P(F ≥ 0,5694/0,49 = 1,1621) = 0,0497" in _pasos(res[2])
 
@@ -181,3 +183,51 @@ def test_el_solver_casi_no_deja_numeros_sin_origen_en_el_parcial():
             con += bool(sin_origen(texto, enunciado_texto(an), previos=previos))
             previos += resultados(texto)
     assert con <= 35, f"{con}/{total}"
+
+
+# ---------------------------------------------------------------------------
+# Paso a paso como en el pizarrón (revisado contra las grabaciones de clase, 13/11/2026)
+# ---------------------------------------------------------------------------
+
+def test_normal_de_p_muestra_los_dos_candidatos_a_rc_como_en_clase():
+    """III-16 (24/09): con n = 1637, G_b(228) = 0,0101 > 0,01 no sirve y G_b(229) = 0,0083 ⇒ rc = 229."""
+    _, res = resolver_guia("III-16")
+    t = _pasos(res[0])
+    assert "G_b(228) = 0,0101 > α y G_b(229) = 0,0083 ≤ α → r_c = 229" in t and "CR: r ≥ 229" in t
+
+
+def test_comparacion_de_medias_justifica_h0_con_lo_que_pide_el_enunciado():
+    """V-12 y V-8 (15/10): «se puede asegurar que A produce más de 2…» ⇒ eso va en H1."""
+    for eid in ("V-12", "V-8"):
+        _, res = resolver_guia(eid)
+        just = next(p for p in res[0].pasos if p.startswith("**Justificación de H0**"))
+        assert "El enunciado dice qué se quiere probar" in just and "(α =" not in just
+
+
+def test_chi_verifica_las_condiciones_con_los_numeros():
+    _, (r,) = resolver_guia("VI-6")
+    assert "N = 1.700 ≥ 60 y el menor esperado es 20 ≥ 5" in _pasos(r)
+    assert "χ²(1-α; ν) = χ²(0,99; 4) = 13,2767" in _pasos(r)
+
+
+def test_bondad_de_ajuste_muestra_la_f_del_modelo_con_un_ejemplo():
+    """VI-15 (29/10): F(0) = 0,0492 en la Gumbel del mínimo; VI-16: P(0) = e^(-m) = 0,0294 en Poisson."""
+    _, res = resolver_guia("VI-15")
+    assert "F(0) = 1 - e^(-e^((0 - 56,6297)/18,9667)) = 0,0492" in _pasos(res[0])
+    assert "F(15) = 1 - e^(-(15/51,5243)^1,9592) = 0,0853" in _pasos(res[1])
+    _, res = resolver_guia("VI-16")
+    assert "P(0) = e^(-3,5263)·3,5263^0/0! = 0,0294" in _pasos(res[0])
+
+
+def test_checklist_marca_pasos_salteados_y_h0_sin_justificar():
+    from asistente.explicar import enunciado_texto, resolucion_texto
+    from asistente.redactar import controlar, problemas
+    an, res = resolver_guia("VI-15")
+    fuentes = enunciado_texto(an) + "\n" + resolucion_texto(an, res)
+    resumida = ("### a) Ensayo\nX: duración de una herramienta, en horas. H0: se ajusta a Gumbel del mínimo. "
+                "χ² = 68,5632 > χ²(0,99; 4) = 13,2767 ⇒ se rechaza H0.")
+    assert any(f.startswith("Saltea pasos") and "estimación" in f for f in problemas(controlar(resumida, an, fuentes, res)))
+    an, res = resolver_guia("III-11")
+    fuentes = enunciado_texto(an) + "\n" + resolucion_texto(an, res)
+    sin_criterio = "### a) Diseño\nr: cantidad de defectuosas. H0: p ≤ 0,12 vs H1: p > 0,12. CR: r ≥ 11. RD: …"
+    assert any(f.startswith("No justifica la H0") for f in problemas(controlar(sin_criterio, an, fuentes, res)))

@@ -56,7 +56,8 @@ enunciado.
 11. Español rioplatense, coma decimal (2,5), unidades del enunciado. Sin introducción ni comentarios finales: solo \
 la resolución.
 12. De dónde sale cada número (el profesor: «un resultado sin desarrollo lo sacaste de la galera»): ningún número aparece solo. Al principio de cada inciso, «**Datos**:» con los valores del enunciado que se usan, con símbolo y unidad. Cada valor calculado se escribe como en la resolución del solver: fórmula con símbolos = fórmula con los valores reemplazados = resultado («e = t(0,95; 7)·S_D/√n = 1,8946·5,12/√8 = 3,4295»). Los fractiles de tabla con su argumento («Z(0,95) = 1,6449», «F(0,05; 12; 24) = 0,3991»). Las iteraciones (tamaño de muestra con t o F) se copian vuelta por vuelta. Un valor de un inciso anterior se cita: «(del inciso a)». Nunca un resultado suelto («β = 0,4769», «n = 755», «Δn = 20») si la resolución del solver trae la cuenta: copiala. No desarrolles el álgebra.
-13. El FORMATO de abajo es material de referencia: describe cómo tiene que quedar la resolución y trae ejemplos de \
+13. No resumas: escribí TODOS los pasos de la resolución del solver, en su orden. En particular, nunca saltees la estimación de parámetros (x̄, S y los parámetros del modelo por momentos), la aproximación normal con su verificación y su r_c, las iteraciones, ni el procesamiento de los datos: son los pasos que el profesor corrige. Lo único que podés dejar afuera es lo marcado con ⚠️ como no válido y la tabla de «Otros planes válidos».
+14. El FORMATO de abajo es material de referencia: describe cómo tiene que quedar la resolución y trae ejemplos de \
 OTROS ejercicios. No lo copies, no repitas sus títulos, sus reglas ni sus ejemplos: escribí solo la resolución de \
 este ejercicio.
 
@@ -75,11 +76,12 @@ def estilo() -> str:
         return ""
 
 
-def estilo_para(tema: Optional[str], tipos: Optional[Sequence[str]] = None) -> str:
+def estilo_para(tema: Optional[str], tipos: Optional[Sequence[str]] = None, excluir: Sequence[str] = ()) -> str:
     """ESTILO_CATEDRA.md sin el encabezado y sin las secciones (## / ###) marcadas para otros temas.
 
     Con `tipos` (los tipos de inciso del ejercicio) va un solo ejemplo, el que más comparte con el ejercicio según su
-    línea `<!-- tipos: -->`: con varios el modelo local se confunde y copia números de otros ejercicios."""
+    línea `<!-- tipos: -->`: con varios el modelo local se confunde y copia números de otros ejercicios.
+    `excluir`: ids de la guía cuyo ejemplo no se manda (para medir a ciegas un ejercicio resuelto en clase)."""
     texto = estilo()
     if "\n## " not in texto:
         return texto
@@ -93,6 +95,10 @@ def estilo_para(tema: Optional[str], tipos: Optional[Sequence[str]] = None) -> s
         if saltar_nivel is not None and nivel > saltar_nivel:
             continue                      # subsección de una sección que no va
         saltar_nivel = None
+        titulo = parte.split("\n", 1)[0]
+        if nivel >= 3 and any(re.search(rf"\b{re.escape(x)}\b(?![\d-])", titulo) for x in excluir):
+            saltar_nivel = nivel
+            continue
         m = _RE_TEMAS.search(parte.split("\n\n", 1)[0])
         if m and romano and romano not in m.group(1).split():
             saltar_nivel = nivel
@@ -141,7 +147,7 @@ def _sin_numeracion(texto: str) -> str:
     return re.sub(r"\*\*\d+(?:[.,]\d+)? · ", "**", texto)
 
 
-def mensajes(an: Analisis, resultados: Sequence[Resultado], pedido: str = ""):
+def mensajes(an: Analisis, resultados: Sequence[Resultado], pedido: str = "", excluir: Sequence[str] = ()):
     primero = "### Resolución" if len(an.incisos) == 1 and an.incisos[0].letra == "única" else \
         f"### {an.incisos[0].letra}) …" if an.incisos else "### Resolución"
     usuario = (f"ENUNCIADO:\n{enunciado_texto(an)}\n\nDATOS DEL EJERCICIO:\n{datos_del_ejercicio(an)}\n\n"
@@ -149,22 +155,22 @@ def mensajes(an: Analisis, resultados: Sequence[Resultado], pedido: str = ""):
                + (f"PEDIDO: {pedido.strip()}" if pedido.strip() else
                   "PEDIDO: escribí la resolución completa, paso a paso, como en el examen.")
                + f"\nTu respuesta empieza directamente con «{primero}».")
-    return [{"role": "system", "content": SISTEMA + estilo_para(an.tema, [i.tipo for i in an.incisos])}, {"role": "user", "content": usuario}]
+    return [{"role": "system", "content": SISTEMA + estilo_para(an.tema, [i.tipo for i in an.incisos], excluir)}, {"role": "user", "content": usuario}]
 
 
 def redactar(an: Analisis, resultados: Sequence[Resultado], pedido: str = "", modelo: Optional[str] = None,
-             pensar: bool = False) -> Tuple[Iterator[str], str]:
+             pensar: bool = False, excluir: Sequence[str] = ()) -> Tuple[Iterator[str], str]:
     """(trozos de la redacción, fuentes para verificar los números)."""
     fuentes = enunciado_texto(an) + "\n" + resolucion_texto(an, resultados)
-    trozos = cliente.chat(mensajes(an, resultados, pedido), modelo=modelo, stream=True, pensar=pensar,
+    trozos = cliente.chat(mensajes(an, resultados, pedido, excluir), modelo=modelo, stream=True, pensar=pensar,
                           temperatura=0.2)
     return trozos, fuentes
 
 
 def corregir(an: Analisis, resultados: Sequence[Resultado], texto: str, problemas: Sequence[str], pedido: str = "",
-             modelo: Optional[str] = None, pensar: bool = False) -> Iterator[str]:
+             modelo: Optional[str] = None, pensar: bool = False, excluir: Sequence[str] = ()) -> Iterator[str]:
     """Segunda vuelta: se le devuelve lo que falló del checklist para que reescriba la resolución."""
-    msgs = mensajes(an, resultados, pedido) + [
+    msgs = mensajes(an, resultados, pedido, excluir) + [
         {"role": "assistant", "content": texto},
         {"role": "user", "content": "Tu redacción no cumple estos puntos del checklist de la cátedra:\n"
                                     + "\n".join(f"- {p}" for p in problemas)
@@ -217,6 +223,36 @@ def _limites(res: Resultado) -> List[str]:
     return re.findall(r"-?\d[\d.]*,\d+", " ".join(re.findall(r"\[([^\]]+)\]", res.resumen or "")))
 
 
+# pasos del solver que la IA tiende a resumir y el profesor espera ver (título del paso → nombre para el aviso)
+PASOS_CLAVE = {"Estimación": "estimación de parámetros", "Parámetros del modelo": "parámetros del modelo",
+               "Por aproximación normal": "aproximación normal", "Plan (binomial exacto": "plan exacto",
+               "Iteración": "iteración de n", "Sumas de cuadrados": "sumas de cuadrados", "Fisher": "Fisher",
+               "Procesar la muestra": "procesamiento de la muestra", "Procesamiento de los datos": "procesamiento",
+               "Inecuación en h": "inecuación en h", "Muestras apareadas": "diferencias apareadas",
+               "Test F auxiliar": "test F auxiliar"}
+
+
+def pasos_omitidos(texto: str, resultados: Sequence[Resultado]) -> List[str]:
+    """Pasos clave del solver cuyo resultado no aparece en la redacción (la IA los resumió)."""
+    from interprete.origen import resultados as valores_de
+    from interprete.texto import buscar_numeros
+    escritos = [abs(n.valor) for n in buscar_numeros(texto)]
+    faltan = []
+    for res in resultados:
+        for paso in res.pasos:
+            m = re.match(r"\*\*([^*]+)\*\*", paso)
+            if not m or "⚠️" in paso:
+                continue
+            nombre = next((v for k, v in PASOS_CLAVE.items() if m.group(1).startswith(k)), None)
+            if not nombre:
+                continue
+            valores = [abs(v) for v in valores_de(paso) if not (float(v).is_integer() and abs(v) <= 10)]
+            hallados = sum(any(abs(v - w) <= abs(v) * 2e-4 + 1e-9 for w in escritos) for v in set(valores))
+            if valores and hallados < min(2, len(set(valores))):
+                faltan.append(f"{nombre} ({res.titulo.split(')')[0]})")
+    return list(dict.fromkeys(faltan))
+
+
 def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resultado] = ()) -> List[Control]:
     out: List[Control] = []
     secciones = _secciones(texto)
@@ -265,6 +301,15 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
     dudosos = numeros_sin_respaldo(texto, fuentes)
     out.append(Control(not dudosos, "Todos los números salen del enunciado o del solver" if not dudosos else
                        "Números que no salen del enunciado ni del solver: " + ", ".join(dudosos)))
+    omitidos = pasos_omitidos(texto, resultados)
+    out.append(Control(not omitidos, "No saltea pasos de la resolución del solver" if not omitidos else
+                       "Saltea pasos de la resolución del solver (copialos con sus cuentas): " + "; ".join(omitidos)))
+    if an.criterio and any(i.tipo in ("ensayo", "diseno") for i in an.incisos) and             _TEMA_ROMANO.get(an.tema) in ("I", "II", "III", "IV", "V"):
+        # vale el criterio o, como pide el profesor primero, «lo que el enunciado quiere probar va en H1»
+        hay = re.search(r"pesimista|optimista|(?:pide|quiere|busca|desea)\w*\s+(?:probar|asegurar|demostrar)|va en H1",
+                        texto, re.IGNORECASE)
+        out.append(Control(bool(hay), f"Justifica la H0 con el criterio {an.criterio}" if hay else
+                           f"No justifica la H0 con el criterio {an.criterio} (el profesor lo pide en palabras)"))
     # los que sí son del solver pero aparecen sueltos, sin la fórmula ni el dato de donde salen («de la galera»)
     sueltos = [x for x in sin_origen(texto, enunciado_texto(an)) if x not in dudosos]
     out.append(Control(not sueltos, "Cada número calculado muestra su fórmula con los valores reemplazados" if not sueltos
