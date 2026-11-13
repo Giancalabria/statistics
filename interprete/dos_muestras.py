@@ -864,7 +864,7 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
                           f"{b} está entre {la} y {lb}: " + _p(f"μ({a}) - μ({b})", lo, hi, alpha, 4) + f" (e = {fmt(e, 4)}). Para μ({b}) - μ({a}): entre "
                           f"{ia} y {ib}. Límites redondeados hacia afuera; sin redondear: {fmt(lo, 6)} y {fmt(hi, 6)}.")
         res.numeros += [lo, hi, e, -hi, -lo]
-        res.resumen = f"IC δ: [{fmt(lo, 4)} ; {fmt(hi, 4)}]"
+        res.resumen = f"IC δ: [{la} ; {lb}]"      # hacia afuera, como la conclusión (lo controla el checklist)
 
 
 def _iteraciones(alpha: float, historial: List[int], n0: int, nu_de, cuenta, formula: str, nu_txt) -> str:
