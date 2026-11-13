@@ -180,6 +180,11 @@ def votar(lecturas: List[Lectura]) -> List[IncisoConsenso]:
 
 def consenso(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = None) -> Consenso:
     t0 = time.time()
+    if not tablas:
+        # la tabla pegada dentro del planteo: que las IA la reciban armada y no hagan cuentas con ella (2° parcial
+        # 10/11/25, 1a: la IA por tema «resumió» la tabla de clases con n = 120/100 y x̄ inventados)
+        from interprete.tablas import buscar_tablas
+        tablas = buscar_tablas(planteo)[:1] or None
     lecturas = [_leer(f, planteo, incisos, tablas, modelo) for f in FUENTES]
     return Consenso(lecturas, votar(lecturas), time.time() - t0)
 

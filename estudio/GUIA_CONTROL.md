@@ -156,7 +156,7 @@ Es el más peligroso, porque la app muestra ✅.
 **Qué mirar:** el punto 1 (¿el tema de **cada** inciso es el suyo?).
 
 ### 3.3 Datos que el enunciado no da y la app completa
-- **α no dicho**: en el 2° parcial 10/11/25, 1c («¿se ajusta a un Modelo Gamma?») no dice el riesgo. La app heredó el 90% de confianza del inciso b → α = 0,10 → χ² = 4,6678 > 4,6052, **rechaza**. Con α = 0,05 (crítico 5,9915) **no rechaza**. El profesor dice: si no lo dan, se elige y se justifica.
+- **α no dicho**: en el 2° parcial 10/11/25, 1c («¿se ajusta a un Modelo Gamma?») no dice el riesgo. La app heredó el 90% de confianza del inciso b → α = 0,10 → χ² = 4,6678 > 4,6052, **rechaza**. Con α = 0,05 (crítico 5,9915) **no rechaza**. El profesor dice: si no lo dan, se elige y se justifica. *(Corregido el 10/11: un inciso de otro tema ya no hereda la confianza de una estimación como riesgo; se elige α = 0,05 y la app pide justificarlo.)*
 - **Enunciado contradictorio**: en el 2° parcial 23/06/25, Q1 dice «reducir al 20%» y después «se redujo al 30%». Las reglas tomaron 20%; las IA, 30% (lo correcto según la referencia).
 
 **Qué mirar:** el punto 4 (¿de dónde salió α?) y releer el enunciado cuando la app toma un número dudoso.
@@ -194,6 +194,13 @@ Todas quedaron corregidas, pero en el parcial va a haber frases nuevas. Cuando l
   *Tests en `tests/test_examenes_2024.py`.)*
 
 **Qué mirar:** la justificación de H0 se reescribe siempre con el enunciado, no se copia. La regla 1 va primero: si el enunciado dice qué se quiere probar, eso va en H1. El criterio pesimista u optimista se usa solo si el enunciado no lo dice.
+
+### 3.4 quinquies La tabla pegada dentro del planteo
+- En T1 (práctica del 10/11), la tabla de clases quedó pegada en «Planteo». Las reglas la leyeron bien, pero las IA no la recibieron armada: la IA por tema «resumió» la tabla con n = 120/100, x̄ = 26,5/27,5 y S = 6,86 **inventados** y puso a B primero (dc = 1,5404). Las tres lecturas daban cosas distintas, y elegí la equivocada.
+- Además, las dos IA arrastraron α = 0,10 del «NC del 90%» del inciso b al ajuste Gamma del c, y le ganaban a las reglas.
+- *(Corregido el 10/11: el consenso busca la tabla dentro del planteo y se la pasa armada a las IA; lo que se calcula de la tabla lo pisan las reglas; el α de una estimación no pasa a un inciso de otro tema. Las tres coinciden. Tests en `tests/test_parcial_101125.py`.)*
+
+**Qué mirar:** cuando las lecturas no coinciden, **no elegir a ojo**. Mirar n₁ + n₂ (sumar las columnas de la tabla), quién va primero según el enunciado y de dónde salió α. La lectura con los n que no cierran está mal.
 
 ### 3.4 quater La fuerza de la relación sin mirar el uso del problema
 - En R4 (práctica del 09/11, varillas de acero), la app escribió «r² = 0,7606 ≥ 0,6: válido para econometría» y dio el modelo por válido. Es un problema **técnico** (resistencia de materiales): el mínimo es **r² ≥ 0,8**, así que hay relación lineal pero el modelo **no se valida**.

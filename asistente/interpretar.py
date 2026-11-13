@@ -133,6 +133,26 @@ def _orden_invertido(reglas: dict, ia: dict) -> bool:
     return hay
 
 
+_RE_ALPHA = re.compile(r"(riesgo|significaci|confianza|\bnc\b|α|alfa|error (de )?tipo)", re.I)
+
+
+def _alpha_de_otra_estimacion(an: Analisis) -> List[str]:
+    """La IA arrastra la confianza de un IC («NC del 90%» → α = 0,10) a un inciso de OTRO tema que no dice el riesgo
+    (2° parcial 10/11/25, 1c: el ajuste Gamma rechazaba con α = 0,10). Como en las reglas: ese α se saca y se elige
+    0,05 con justificación."""
+    from interprete.texto import normalizar
+    sacadas = []
+    previo = None
+    for inc in an.incisos:
+        tema = inc.params.get("tema") or an.tema
+        if previo is not None and previo[1] == "ic" and tema != previo[0] and "alpha" in inc.params \
+                and not _RE_ALPHA.search(normalizar(inc.texto or "")) and not _RE_ALPHA.search(normalizar(an.planteo or "")):
+            inc.params.pop("alpha")
+            sacadas.append(f"{inc.letra}) alpha (heredado de una estimación)")
+        previo = (tema, inc.tipo)
+    return sacadas
+
+
 def completar_con_reglas(an: Analisis, planteo: str, lista: List[Tuple[str, str]], tablas=None) -> List[str]:
     """La IA decide QUÉ pide cada inciso (tema, tipo, valores con trampa); las reglas, con ese tema forzado, completan
     lo que la IA dejó vacío: los datos que salen de la tabla (n, x̄, S, frecuencias) y las opciones del mismo tipo de
@@ -168,7 +188,8 @@ def completar_con_reglas(an: Analisis, planteo: str, lista: List[Tuple[str, str]
             for k, v in extra.items():
                 if v is None:
                     continue
-                if (k in CALCULADAS and (an.tablas or reglas.datos.get("datos") or reglas.datos.get("datos1"))) or \
+                if (k in CALCULADAS and (an.tablas or reglas.tablas or reglas.datos.get("datos")
+                                         or reglas.datos.get("datos1"))) or \
                         (k in ("n", "xbar", "desvio") and isinstance(reglas.datos.get("datos"), list) and tema != "proporcion"):
                     # cuentas sobre la tabla / la lista de datos: la IA no calcula (se equivoca en la aritmética)
                     destino = inc.params if propio or k in inc.params else an.datos
@@ -191,6 +212,7 @@ def completar_con_reglas(an: Analisis, planteo: str, lista: List[Tuple[str, str]
                         for dic in (inc.params, an.datos if not propio else {}):
                             if dic.pop(k, None) is not None:
                                 agregadas.append(f"{k} (calculado de los datos)")
+    agregadas += _alpha_de_otra_estimacion(an)
     return list(dict.fromkeys(agregadas))
 
 

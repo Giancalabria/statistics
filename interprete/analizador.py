@@ -3052,7 +3052,7 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
 
     lista = _expandir_idem(lista)
     previo: Dict = {}
-    tema_previo = an.tema
+    tema_previo, tipo_previo = an.tema, None
     diseno_previo: Optional[Inciso] = None
     for letra, texto_inc in lista:
         inc = Inciso(letra=letra, texto=texto_inc)
@@ -3101,8 +3101,11 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
         # herencia: lo que no se dice en el inciso vale lo del inciso anterior (α, cola, μ₁...);
         # si el inciso es de otro parámetro, solo se hereda α
         tema_inc = inc.params.get("tema", an.tema)
+        # a un inciso de OTRO tema solo pasa el riesgo de un ensayo: la confianza de una estimación («NC del 90%»)
+        # no es el riesgo de otro test (2° parcial 10/11/25, 1c: el ajuste Gamma heredaba α = 0,10 del IC del inciso b
+        # y rechazaba; sin α dado se elige y se justifica)
         heredables = ("alpha", "tail", "mu1", "sigma1", "p1", "prob", "mu0", "sigma0", "p0", "phi1", "sobre") \
-            if tema_inc == tema_previo else ("alpha",)
+            if tema_inc == tema_previo else (("alpha",) if tipo_previo != "ic" else ())
         for k in heredables:
             if k not in inc.params and k in previo and not (k == "tail" and inc.tipo in ("ensayo", "diseno")):
                 inc.params[k] = previo[k]
@@ -3113,7 +3116,7 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
             inc.razones.append("Se ensaya con el plan diseñado en el inciso anterior (misma H0 y misma cola).")
         if inc.tipo == "diseno":
             diseno_previo = inc
-        tema_previo = tema_inc
+        tema_previo, tipo_previo = tema_inc, inc.tipo
         if inc.tipo == "diseno" and "beta" not in inc.params and "beta" in an.datos:
             inc.params["beta"] = an.datos["beta"]
         inc.que_pide = razon if tema_inc in EXTENSIONES else explicar(inc, an)
