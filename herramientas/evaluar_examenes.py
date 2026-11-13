@@ -5,7 +5,7 @@
     python herramientas/evaluar_examenes.py --ia --modelo qwen3:8b   # con otro modelo (por defecto, el de la app)
 
 Cada inciso tiene una referencia calculada aparte (scipy): un texto que tiene que aparecer en el resumen, ["n", valor]
-(un número del resumen con tolerancia de redondeo) o ["d", "rechaza" | "no_rechaza"]. Los incisos ambiguos
+(un número del resumen con tolerancia de redondeo), ["d", "rechaza" | "no_rechaza"] o ["alguno", [v1, v2]]. Los incisos ambiguos
 (esperado = null) no se puntúan. Para medir sin sesgo, un examen nuevo se evalúa ANTES de corregir nada mirándolo.
 """
 
@@ -33,9 +33,16 @@ def cumple(resultado, esperado) -> bool:
         elif e[0] == "d":
             if _decision(resultado) != e[1]:
                 return False
-        elif not any(abs(x - abs(e[1])) <= max(6e-4, 6e-4 * abs(e[1])) for x in numeros):
+        elif e[0] == "alguno":                   # vale cualquiera (p. ej. el plan exacto o el de la normal)
+            if not any(_tiene(numeros, v) for v in e[1]):
+                return False
+        elif not _tiene(numeros, e[1]):
             return False
     return True
+
+
+def _tiene(numeros, valor) -> bool:
+    return any(abs(x - abs(valor)) <= max(6e-4, 6e-4 * abs(valor)) for x in numeros)
 
 
 def main():

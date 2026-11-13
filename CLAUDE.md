@@ -13,6 +13,8 @@ streamlit run app.py                              # la app (o ./levantar.sh)
 python -m pytest -q                               # tests
 python herramientas/evaluar_guia.py               # la guía completa (532/536 al 31/10)
 python herramientas/evaluar_examenes.py [--ia]    # exámenes reales; --ia = consenso (Ollama abierto)
+python herramientas/evaluar_clase.py [--reglas]   # ejercicios resueltos en clase, a ciegas (datos/clase_resueltos.json)
+python herramientas/optimizar_prompts.py <variante> guia|validacion   # variantes de prompt (afinar con guía, validar fuera)
 ```
 
 En Windows: `python -X utf8` (o `PYTHONUTF8=1`).

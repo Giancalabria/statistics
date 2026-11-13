@@ -42,7 +42,7 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 
 > Actualizar al final de cada sesión.
 
-**Última actualización:** 09/11/2026 (examen R en curso; prácticas sin cronómetro, mejorando la app). Antes, 05/11/2026 (clase 14 procesada: `informes/informe_clase_14.md`). Antes, 31/10: plan reemplazado por el enfoque «el solver resuelve, yo controlo». El plan anterior (resolver en papel) quedó en `informes/plan_anterior_31-10.md`, con los valores de los ejercicios hechos en clase.
+**Última actualización:** 11/11/2026 (banco de ejercicios de clase a ciegas y paso a paso con números reemplazados). Antes, 09/11/2026 (examen R en curso; prácticas sin cronómetro, mejorando la app). Antes, 05/11/2026 (clase 14 procesada: `informes/informe_clase_14.md`). Antes, 31/10: plan reemplazado por el enfoque «el solver resuelve, yo controlo». El plan anterior (resolver en papel) quedó en `informes/plan_anterior_31-10.md`, con los valores de los ejercicios hechos en clase.
 
 | Fecha | Qué | Estado |
 |---|---|---|
@@ -57,7 +57,7 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 | Dom 08/11 | χ² de consistencia e independencia (VI-1 a VI-9) | ⬜ |
 | **Lun 09/11** | Examen R (recuperatorio 2024): problemas 1 (Poisson) y 2 (varianzas) corregidos y la app mejorada; 3 (regresión) revisado: la app daba por válido un modelo técnico con r² = 0,76 (corregido). Diseño de p (III-16, III-22) pasa a otro día | ✅ |
 | Mar 10/11 | Problema combinado tipo VI-20 y bondad de ajuste continua (VI-15, VI-18) | ⬜ |
-| Mié 11/11 | Regresión simple con validación: VII-12 en la app (VII-13 ya se hizo en clase; comparar con el informe 14) | ⬜ |
+| Mié 11/11 | Regresión simple con validación: VII-12 en la app (VII-13 ya se hizo en clase; comparar con el informe 14) | ⬜ VII-12 pendiente. Hecho en cambio: Ollama en la GPU de la PC (3 en paralelo); banco de los 24 ejercicios de clase con prueba a ciegas (`evaluar_clase.py`: app 54/56); paso a paso con fórmula y números reemplazados en varianza, dos varianzas, dos medias, apareadas, diseño, p normal, χ² y pronóstico; «Parecidos resueltos por el profesor» en la página 5; prompts de la IA afinados sin sesgo (sin persona; consenso 34/35 en exámenes) |
 | **Jue 12/11** | Clase. Procesarla como la del 05/11 | ⬜ |
 | Vie 13/11 | Lo nuevo de la clase del 12/11 | ⬜ |
 | Sáb 14/11 | **Simulacro 1**: examen armado por Claude con problemas que la app no vio | ⬜ |
@@ -132,4 +132,5 @@ Si consigo más exámenes (sobre todo 2° parciales corregidos), son lo más val
 | Clase 15/10 (V-8, apareadas, inicio de χ²) | `fef55656` | medias, apareadas, χ² |
 | Clase 22/10 (χ²) | `7bf95c9c` | χ² |
 | Clase 29/10 (χ² continuas, VI-15, inicio de regresión) | `434667af` | ajuste, regresión |
+| Clase 05/11 (validación de regresión, VII-13) | `a6806e52` | regresión |
 | Clases 06/08 a 10/09 (1° parcial) | `490c7079` … `27fda49a` | reglas |

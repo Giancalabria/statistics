@@ -69,7 +69,7 @@ def test_II_8_laminas():
     """Clase: S²c = 0,16098; n = 540 (528 más), con García. La unidad está dicha en palabras («en milímetros»)."""
     an, (a, b, c, d) = _resolver("II-8")
     assert an.datos["unidad"] == "milímetros"
-    assert "S²c = σ₀²·χ²/ν = 0,09·χ²/11 = 0,16098" in _todo(b)
+    assert "S²c = σ₀²·χ²(0,95; ν)/ν = 0,09·19,6751/11 = 0,16098" in _todo(b)
     assert "n = 540" in d.conclusion and "Δn = 540 - 12 = 528" in d.conclusion
 
 
@@ -163,7 +163,7 @@ def test_V_8_latex():
     c) D*c = 0,5349, D* = 0,14; d) como mínimo un 4,90 %."""
     an, (a, b, c, dd) = _resolver("V-8")
     assert an.datos["unidad"] == "kg"
-    assert "d_c = δ₀ + t·σ(d) = 0,9711 kg" in _todo(a)
+    assert "d_c = δ₀ + t(0,95; 80)·σ(d) = 0,45 + 1,6641·0,313144 = 0,9711 kg" in _todo(a)
     assert "d = 0,9 kg no cae en la zona de rechazo" in a.conclusion
     assert "la media con aditivo supera a la media sin aditivo en más de 0,45 kg" in a.conclusion
     assert "0,3788 kg" in b.conclusion

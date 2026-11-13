@@ -27,9 +27,8 @@ from interprete.tablas import a_texto
 from . import cliente
 from .esquema import CAMPOS_INC, a_dict, catalogo_texto, desde_dict
 
-SISTEMA = """Sos un asistente que INTERPRETA enunciados de Estadística Aplicada (UADE, cátedra Dopazo - García) y \
-los traduce a un JSON que después resuelve un programa. Vos NO calculás nada: solo leés el enunciado y anotás \
-qué tema es, qué datos da y qué pide cada inciso.
+SISTEMA = """Traducí el enunciado de Estadística a un JSON (tema, datos, qué pide cada inciso). No calcules nada: un \
+programa resuelve después.
 
 Reglas:
 - Usá EXACTAMENTE las claves del catálogo. Poné solo lo que el enunciado dice (no inventes datos ni calcules).
@@ -54,6 +53,8 @@ FORMATO = "json"
 # qwen3.5:9b el 04/11: más de 3.400 tokens sin cerrar el JSON) se corta a ~1 min en lugar de seguir varios minutos.
 MAX_TOKENS_JSON = 1500
 MAX_EJEMPLO = 3000
+# ejercicios parecidos de la guía que se le muestran como ejemplo (enunciado → JSON)
+N_EJEMPLOS = 2
 
 
 # ---------------------------------------------------------------------------
@@ -232,8 +233,9 @@ class _Ejemplo:
 def ejemplos(texto: str, k: int = 2, excluir: Sequence[str] = ()) -> List[_Ejemplo]:
     """Ejercicios parecidos de la guía con el JSON que arman las reglas (verificado contra la guía):
     le muestran al modelo el formato y las convenciones con casos reales."""
+    from .clase import priorizar
     salida = []
-    for _, ej in buscador.buscar(texto, k=8):
+    for _, ej in priorizar(buscador.buscar(texto, k=12)):     # los resueltos en clase, primero
         if ej["id"] in excluir:
             continue
         if ej["incisos"] and ej["incisos"][0]["letra"] == "única":
@@ -251,8 +253,9 @@ def ejemplos(texto: str, k: int = 2, excluir: Sequence[str] = ()) -> List[_Ejemp
 
 
 def mensajes(planteo: str, lista: List[Tuple[str, str]], borrador: Optional[Analisis] = None,
-             excluir: Sequence[str] = (), n_ejemplos: int = 2) -> List[Dict[str, str]]:
+             excluir: Sequence[str] = (), n_ejemplos: Optional[int] = None) -> List[Dict[str, str]]:
     enunciado = _enunciado(planteo, lista)
+    n_ejemplos = N_EJEMPLOS if n_ejemplos is None else n_ejemplos
     msgs = [{"role": "system", "content": SISTEMA}]
     for ej in ejemplos(enunciado, n_ejemplos, excluir):
         msgs.append({"role": "user", "content": f"ENUNCIADO:\n{ej.enunciado}"})

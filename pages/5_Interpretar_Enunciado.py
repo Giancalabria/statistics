@@ -364,6 +364,18 @@ with st.expander("📚 Ejercicios parecidos de la guía"):
                 st.markdown(f"> {c}")
         st.divider()
 
+with st.expander("👨‍🏫 Parecidos resueltos por el profesor en clase (para usar de base)"):
+    from asistente.clase import parecidos as parecidos_clase
+    st.caption("Cómo los planteó el profesor (datos/clase_resueltos.json). Sirven para comparar el planteo: H0, "
+               "distribución, qué se reemplaza en cada fórmula. Los números son de ESE ejercicio, no del tuyo.")
+    for ent, ej in parecidos_clase(an.planteo + " " + " ".join(i.texto for i in an.incisos), k=2, tema=tema):
+        st.markdown(f"**{ej['id']}** (clase del {ent['clase']}) · {ej['enunciado'][:400]}"
+                    f"{'…' if len(ej['enunciado']) > 400 else ''}")
+        letras = [i["letra"] for i in ej["incisos"]]
+        for letra, nota in zip(letras, ent["profesor"]):
+            st.markdown(f"- **{letra})** {nota}")
+        st.divider()
+
 # ---------------------------------------------------------------------------
 # 6) Calcular
 # ---------------------------------------------------------------------------

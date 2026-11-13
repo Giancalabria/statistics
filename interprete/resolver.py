@@ -504,7 +504,12 @@ def media_diseno(d, alpha, res: Resultado, estado):
                          f"P(no rechazar H0 | μ = {fmt(mu1, 4)}) = β = {fmt(beta, 4)}.")
         res.pasos.append(f"**Tamaño de muestra**: n = [(Z_α + Z_β)·σ/(μ₀ - μ₁)]² = [({fmt(r.z_alpha, 4)} + {fmt(r.z_beta, 4)})·"
                          f"{fmt(s, 4)}/{fmt(abs(mu0 - mu1), 4)}]² = {fmt(r.n_exacto, 4)} → n = {r.n}.")
-        res.pasos.append(f"**Condición de rechazo**: x̄c = {_cv(r.critical_value)}  (con n = {r.n}).")
+        if d.get("sigma_conocido", True):
+            sg = {"izquierda": "-", "derecha": "+", "bilateral": "∓"}[tail]
+            res.pasos.append(f"**Condición de rechazo**: x̄c = μ₀ {sg} Z_α·σ/√n = {fmt(mu0, 6)} {sg} {fmt(r.z_alpha, 4)}·"
+                             f"{fmt(s, 6)}/√{r.n} = {_cv(r.critical_value)}  (con n = {r.n}).")
+        else:
+            res.pasos.append(f"**Condición de rechazo**: x̄c = {_cv(r.critical_value)}  (con n = {r.n}).")
         res.pasos.append(f"**Regla de decisión**: {_coma(r.regla_decision)}")
         if d.get("control"):
             si, no = d.get("accion_rechazo", "se detiene el proceso"), d.get("accion_no_rechazo", "el proceso sigue")
@@ -668,7 +673,10 @@ def varianza_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
                          f"{fmt(sqrt(c2), 4)}). Si S² cae fuera ⇒ se rechaza H0. Informados (hacia afuera): Sc = "
                          f"{redondeo.critico((sqrt(c1), sqrt(c2)), tail)}.")
     else:
-        res.pasos.append(f"**Condición de rechazo**: S²c = σ₀²·χ²/ν = {fmt(s0 ** 2, 5)}·χ²/{n - 1} = {fmt(r.critical_value, 5)} "
+        chi_c = (n - 1) * r.critical_value / s0 ** 2          # el valor de tabla que usó el solver
+        prob = 1 - alpha if tail == "derecha" else alpha
+        res.pasos.append(f"**Condición de rechazo**: S²c = σ₀²·χ²({fmt(prob, 4)}; ν)/ν = {fmt(s0 ** 2, 5)}·"
+                         f"{fmt(chi_c, 4)}/{n - 1} = {fmt(r.critical_value, 5)} "
                          f"(Sc = {fmt(sqrt(r.critical_value), 4)}). Si S² {_signo(tail)} S²c ⇒ se rechaza H0. Informado (hacia afuera): "
                          f"Sc = {redondeo.critico(sqrt(r.critical_value), tail)}.")
     estado["tail"] = tail
@@ -677,7 +685,14 @@ def varianza_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
     if beta_modo:
         if r.beta is None:
             raise FaltaDato("Falta el desvío alternativo σ₁")
-        res.pasos.append(f"**β** = P(no rechazar H0 | σ = {fmt(s1, 4)}) = {fmt(r.beta, 4)}.")
+        if isinstance(r.critical_value, tuple):
+            res.pasos.append(f"**β** = P(no rechazar H0 | σ = {fmt(s1, 4)}) = {fmt(r.beta, 4)}.")
+        else:
+            arg = (n - 1) * r.critical_value / s1 ** 2
+            lado = "≤" if tail == "derecha" else "≥"
+            res.pasos.append(f"**β** = P(no rechazar H0 | σ = {fmt(s1, 4)}) = P(S² {lado} S²c | σ₁² = {fmt(s1 ** 2, 5)}) = "
+                             f"P(χ²(ν = {n - 1}) {lado} ν·S²c/σ₁²) = P(χ² {lado} {n - 1}·{fmt(r.critical_value, 5)}/"
+                             f"{fmt(s1 ** 2, 5)} = {fmt(arg, 4)}) = {fmt(r.beta, 4)}.")
         _cierre_beta(d, r.beta, r.power, res)
         return
     res.pasos.append(f"**Decisión**: S² = {fmt(s ** 2, 5)} (S = {fmt(s, 4)}) → " +
@@ -699,6 +714,31 @@ def varianza_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
                   ("RECHAZA H0" if r.rejects_h0 else "NO rechaza H0")
 
 
+def _beta_varianza(s0: float, s1: float, alpha: float, n: int, tail: str) -> Tuple[float, float, float]:
+    """(χ² de tabla, S²c, β) con n unidades: la misma cuenta que `hyp.n_varianza_para_potencia`."""
+    nu = n - 1
+    chi_c = dist.chi2_one_tailed(alpha, nu) if tail == "derecha" else dist.chi2_value(alpha, nu)
+    s2c = s0 ** 2 * chi_c / nu
+    acum = dist.chi2_cdf(nu * s2c / s1 ** 2, nu)
+    return chi_c, s2c, (acum if tail == "derecha" else 1 - acum)
+
+
+def _iteracion_varianza(s0: float, s1: float, alpha: float, beta: float, n: int, tail: str) -> str:
+    """El paso a paso de la búsqueda de n: la cuenta con el n hallado y con el anterior (que no alcanza)."""
+    lado, prob = ("≤", 1 - alpha) if tail == "derecha" else ("≥", alpha)
+    filas = []
+    for m in (n - 1, n):
+        if m < 2:
+            continue
+        chi_c, s2c, b = _beta_varianza(s0, s1, alpha, m, tail)
+        cumple = "≤" if b <= beta else ">"
+        filas.append(f"con n = {m} (ν = {m - 1}): S²c = {fmt(s0 ** 2, 5)}·χ²({fmt(prob, 4)}; {m - 1})/{m - 1} = "
+                     f"{fmt(s0 ** 2, 5)}·{fmt(chi_c, 4)}/{m - 1} = {fmt(s2c, 5)}; β = P(χ² {lado} {m - 1}·{fmt(s2c, 5)}/"
+                     f"{fmt(s1 ** 2, 5)} = {fmt((m - 1) * s2c / s1 ** 2, 4)}) = {fmt(b, 4)} {cumple} {fmt(beta, 4)}")
+    return ("**Iteración** (R = σ₁²/σ₀² = " + f"{fmt(s1 ** 2, 5)}/{fmt(s0 ** 2, 5)} = {fmt(s1 ** 2 / s0 ** 2, 4)}): "
+            + "; ".join(filas) + f" ⇒ n = {n}.")
+
+
 def varianza_diseno(d, alpha, res: Resultado, estado):
     s0 = _req(d, "sigma0")[0]
     s1, beta = d.get("sigma1"), d.get("beta")
@@ -707,6 +747,7 @@ def varianza_diseno(d, alpha, res: Resultado, estado):
         res.pasos.append(f"**Hipótesis**: H0: {r.h0_text}  vs  H1: {r.h1_text}.")
         res.pasos.append(f"Se busca el menor n tal que con α = {fmt(alpha, 4)} se tenga β ≤ {fmt(beta, 4)} cuando σ = {fmt(s1, 4)}: "
                          f"n = {r.n} (S²c = {fmt(r.s2_c, 5)}, Sc = {fmt(sqrt(r.s2_c), 4)}, β real = {fmt(r.beta_real, 4)}).")
+        res.pasos.append(_iteracion_varianza(s0, s1, alpha, beta, r.n, r.tail))
         sc = sqrt(r.s2_c)
         si, no = _acciones(d, _coma(r.h1_text))
         res.pasos.append(f"**Regla de decisión**: se toma una muestra de n = {r.n} y se calcula su desvío S. Si S > "
@@ -1079,7 +1120,11 @@ def prop_diseno(d, alpha, res: Resultado, estado):
         if rn is not None:
             cn = criterio_aproximacion(rn.n, p0)
             vale = cn.elegida == "normal"
-            res.pasos.append(f"**Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² → "
+            za, zb = dist.z_one_tailed(alpha), dist.z_one_tailed(beta)
+            n_ex = ((za * sqrt(p0 * (1 - p0)) + zb * sqrt(p1 * (1 - p1))) / abs(p1 - p0)) ** 2
+            res.pasos.append(f"**Por aproximación normal**: n = [(Z(1-α)·√(p₀q₀) + Z(1-β)·√(p₁q₁))/(p₁ - p₀)]² = "
+                             f"[({fmt(za, 4)}·√({fmt(p0, 4)}·{fmt(1 - p0, 4)}) + {fmt(zb, 4)}·√({fmt(p1, 4)}·"
+                             f"{fmt(1 - p1, 4)}))/{fmt(abs(p1 - p0), 4)}]² = {fmt(n_ex, 4)} → "
                              f"n = {rn.n}; con ese n el binomial da r_c = {rn.rc} (α real = {fmt(rn.alpha_real, 4)}, "
                              f"β real = {fmt(rn.beta_real, 4)}). {cn.texto}" +
                              ("" if vale else " ⚠️ Con el n resultante el criterio NO habilita la normal: no usar este n "
@@ -1313,8 +1358,18 @@ def dos_var_diseno(d, alpha, res: Resultado, estado):
     res.pasos.append(f"**Tamaño de muestra** (n₁ = n₂ = n, ν₁ = ν₂ = n - 1): hay que cumplir R = φ₀²/φ₁² = "
                      f"{fmt(phi0 ** 2, 4)}/{fmt(phi1 ** 2, 4)} = {fmt(max(phi0, phi1) ** 2 / min(phi0, phi1) ** 2, 4)} ≥ "
                      f"F(1-α; ν; ν)·F(1-β; ν; ν). Iterando sobre F: n = {r.n} (ν = {nu}).")
+    R = max(phi0, phi1) ** 2 / min(phi0, phi1) ** 2
+    filas = []
+    for v in (nu - 1, nu):
+        if v < 1:
+            continue
+        fa, fb = dist.f_value(1 - alpha, v, v), dist.f_value(1 - beta, v, v)
+        filas.append(f"ν = {v}: F({fmt(1 - alpha, 4)}; {v}; {v})·F({fmt(1 - beta, 4)}; {v}; {v}) = {fmt(fa, 4)}·"
+                     f"{fmt(fb, 4)} = {fmt(fa * fb, 4)} {'≤' if fa * fb <= R else '>'} {fmt(R, 4)}")
+    res.pasos.append("**Iteración**: " + "; ".join(filas) + f" ⇒ ν = {nu}, n = ν + 1 = {r.n}.")
     p = alpha if r.tail == "izquierda" else 1 - alpha
-    res.pasos.append(f"**Condición de rechazo**: j²c = φ₀²·F({fmt(p, 4)}; {nu}; {nu}) = {fmt(r.j2_c, 4)} "
+    res.pasos.append(f"**Condición de rechazo**: j²c = φ₀²·F({fmt(p, 4)}; {nu}; {nu}) = {fmt(phi0 ** 2, 4)}·"
+                     f"{fmt(dist.f_value(p, nu, nu), 4)} = {fmt(r.j2_c, 4)} "
                      f"(jc = {fmt(sqrt(r.j2_c), 4)}). Si j² {_signo(r.tail)} {fmt(r.j2_c, 4)} ⇒ se rechaza H0.")
     si, no = _acciones(d, _coma(h1))
     regla = (f"Si en {r.n} muestras de cada grupo la relación j = S({a})/S({b}) es "
@@ -1401,6 +1456,16 @@ def dos_var_n(d, alpha, res: Resultado, estado):
     formula = "F(1-α/2; ν; ν)/F(α/2; ν; ν)" if sobre == "varianzas" else "√[F(1-α/2; ν; ν)/F(α/2; ν; ν)]"
     res.pasos.append(f"Con n₁ = n₂ = n la relación entre límites ya no depende de los desvíos: B/A = {formula}. "
                      f"Iterando sobre F: n = {r.n} (ν = {nu}) da B/A = {fmt(r.r_logrado, 4)} ≤ {fmt(rel, 4)}.")
+    filas = []
+    for v in (nu - 1, nu):
+        if v < 1:
+            continue
+        fa, fb = dist.f_value(1 - alpha / 2, v, v), dist.f_value(alpha / 2, v, v)
+        ba = fa / fb if sobre == "varianzas" else sqrt(fa / fb)
+        filas.append(f"ν = {v}: F({fmt(1 - alpha / 2, 4)}; {v}; {v}) = {fmt(fa, 4)}, F({fmt(alpha / 2, 4)}; {v}; {v}) = "
+                     f"{fmt(fb, 4)} ⇒ B/A = {'' if sobre == 'varianzas' else '√'}({fmt(fa, 4)}/{fmt(fb, 4)}) = "
+                     f"{fmt(ba, 4)} {'≤' if ba <= rel else '>'} {fmt(rel, 4)}")
+    res.pasos.append("**Iteración**: " + "; ".join(filas) + f" ⇒ ν = {nu}, n = ν + 1 = {r.n}.")
     res.conclusion = f"Se necesitan n = {r.n} unidades en cada muestra (ν = {nu})."
     res.numeros = [r.n, nu]
     if d.get("n1") and d.get("n2"):
@@ -1497,6 +1562,18 @@ def _grados(nu: int) -> str:
     return f"{nu} grado{'' if nu == 1 else 's'} de libertad"
 
 
+def _ejemplo_esperado(tabla, filas, cols, esperada, total) -> str:
+    """Una celda calculada a mano, para que se vea de dónde salen las Eᵢⱼ."""
+    try:
+        f1 = sum(tabla[0])
+        c1 = sum(fila[0] for fila in tabla)
+        e = esperada[0][0]
+        return (f"Por ejemplo, E({filas[0]}; {cols[0]}) = {fmt(f1)}·{fmt(c1)}/{fmt(total)} = {fmt(e, 4)}; su aporte es "
+                f"({fmt(tabla[0][0])} - {fmt(e, 4)})²/{fmt(e, 4)} = {fmt((tabla[0][0] - e) ** 2 / e, 4)}.")
+    except (IndexError, TypeError, ZeroDivisionError):
+        return ""
+
+
 def chi_cont(d, alpha, res: Resultado, estado):
     tabla = [list(map(float, f)) for f in _req(d, "tabla")[0]]
     r = chi.tabla_contingencia(tabla, alpha)
@@ -1516,6 +1593,7 @@ def chi_cont(d, alpha, res: Resultado, estado):
         + _md_contingencia("Frecuencias observadas Oᵢⱼ", esquina, filas, cols, tabla, 4) + "\n\n"
         + _md_contingencia(f"Frecuencias esperadas Eᵢⱼ = (total fila i · total columna j) / {fmt(total)}", esquina,
                            filas, cols, r.expected_table, 4) + "\n\n"
+        + _ejemplo_esperado(tabla, filas, cols, r.expected_table, total) + "\n\n"
         + _md_contingencia("Aportes (Oᵢⱼ - Eᵢⱼ)²/Eᵢⱼ", esquina, filas, cols, aportes, 4,
                            total_general=f"χ² = {fmt(r.chi2_calc, 4)}") + "\n\n"
         + (f"χ² = {fmt(r.chi2_calc, 4)} > χ²c = {fmt(r.chi2_critico, 4)} ⇒ se rechaza H0." if r.rejects_h0 else

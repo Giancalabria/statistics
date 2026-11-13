@@ -15,11 +15,12 @@ exámenes del 2° parcial (30 incisos): consenso 29/30 y ~130 s por problema; co
 """
 
 import copy
+from concurrent.futures import ThreadPoolExecutor
 import re
 import time
 from collections import Counter
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Sequence
 
 from interprete.analizador import analizar, explicar
 from interprete.modelo import Analisis, Inciso
@@ -109,14 +110,14 @@ def _que_pide(an: Analisis, inc: Inciso) -> str:
         return inc.que_pide or ""
 
 
-def _leer(fuente: str, planteo: str, incisos, tablas, modelo) -> Lectura:
+def _leer(fuente: str, planteo: str, incisos, tablas, modelo, excluir: Sequence[str] = ()) -> Lectura:
     t0 = time.time()
     lec = Lectura(fuente)
     try:
         if fuente == "reglas":
             lec.analisis = analizar(planteo, incisos, tablas=tablas)
         elif fuente in ("ia", "ia_tema"):
-            an, _ = (pedir_ia if fuente == "ia" else pedir_ia_tema)(planteo, incisos, tablas, modelo)
+            an, _ = (pedir_ia if fuente == "ia" else pedir_ia_tema)(planteo, incisos, tablas, modelo, excluir=excluir)
             pl, lista = lista_incisos(planteo, incisos)
             completar_con_reglas(an, pl, lista, an.tablas or None)
             lec.analisis = an
@@ -178,14 +179,18 @@ def votar(lecturas: List[Lectura]) -> List[IncisoConsenso]:
     return salida
 
 
-def consenso(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = None) -> Consenso:
+def consenso(planteo: str, incisos=None, tablas=None, modelo: Optional[str] = None,
+             excluir: Sequence[str] = ()) -> Consenso:
+    """`excluir`: ids de la guía que la IA no puede recibir como ejemplo (para medir a ciegas un ejercicio de la guía)."""
     t0 = time.time()
     if not tablas:
         # la tabla pegada dentro del planteo: que las IA la reciban armada y no hagan cuentas con ella (2° parcial
         # 10/11/25, 1a: la IA por tema «resumió» la tabla de clases con n = 120/100 y x̄ inventados)
         from interprete.tablas import buscar_tablas
         tablas = buscar_tablas(planteo)[:1] or None
-    lecturas = [_leer(f, planteo, incisos, tablas, modelo) for f in FUENTES]
+    # las dos lecturas de IA van a la vez (Ollama con OLLAMA_NUM_PARALLEL ≥ 2 las atiende juntas; si no, hace fila)
+    with ThreadPoolExecutor(max_workers=len(FUENTES)) as pool:
+        lecturas = list(pool.map(lambda f: _leer(f, planteo, incisos, tablas, modelo, excluir), FUENTES))
     return Consenso(lecturas, votar(lecturas), time.time() - t0)
 
 

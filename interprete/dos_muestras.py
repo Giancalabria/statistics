@@ -558,12 +558,24 @@ def _plantear(d: Dict, alpha: float, res: Resultado) -> Dict:
     err = two.error_dos_medias(s1, n1, s2, n2, metodo)
     if metodo == "pooled":
         res.numeros += [err.s_a, err.df]
-        res.pasos.append(f"Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = {fmt(err.s_a, 6)}; ν = n₁ + n₂ - 2 = {err.df}.")
+        res.pasos.append(f"Sa = √[((n₁-1)S₁² + (n₂-1)S₂²)/(n₁+n₂-2)] = √[({n1 - 1}·{fmt(s1, 6)}² + {n2 - 1}·"
+                         f"{fmt(s2, 6)}²)/{n1 + n2 - 2}] = {fmt(err.s_a, 6)}; ν = n₁ + n₂ - 2 = {err.df}.")
     else:
         res.numeros += [err.df_raw, err.df]
         res.pasos.append(f"ν de Aspin-Welch = (S₁²/n₁ + S₂²/n₂)²/[(S₁²/n₁)²/(n₁-1) + (S₂²/n₂)²/(n₂-1)] = "
                          f"{fmt(err.df_raw, 4)} → ν = {err.df}.")
     return {"metodo": metodo, "s1": s1, "s2": s2}
+
+
+def _se_txt(c: Dict, d: Dict, h: float = 1.0) -> str:
+    """σ(d) con los números reemplazados (para el paso a paso)."""
+    n1, n2 = int(d["n1"]), int(d["n2"])
+    h2 = "" if h == 1 else f"{fmt(h, 4)}²·"
+    if c["metodo"] == "pooled":
+        sa = sqrt(((n1 - 1) * c["s1"] ** 2 + (n2 - 1) * c["s2"] ** 2) / (n1 + n2 - 2))
+        return f"Sa·√(1/n₁ + {h2}1/n₂) = {fmt(sa, 6)}·√(1/{n1} + {h2}1/{n2})"
+    nombre = "σ" if c["metodo"] == "z" else "S"
+    return (f"√({nombre}₁²/n₁ + {h2}{nombre}₂²/n₂) = √({fmt(c['s1'], 6)}²/{n1} + {h2}{fmt(c['s2'], 6)}²/{n2})")
 
 
 def _txt_metodo(c: Dict) -> str:
@@ -619,16 +631,19 @@ def _ensayo_simple(d, alpha, res: Resultado, estado):
         r = two.ensayo_media_apareada(dif, delta0, alpha, tail=tail)
         se, obs = rs.s / sqrt(rs.n), rs.xbar
         res.numeros += [rs.xbar, rs.s, rs.n - 1]
-        res.pasos.append(f"**Modelo**: muestras apareadas, dᵢ = x({a}) - {'' if h == 1 else fmt(h, 4) + '·'}x({b}) → "
-                         f"d̄ = {fmt(rs.xbar, 4)}, S_d = {fmt(rs.s, 4)}, n = {rs.n} pares (ν = {rs.n - 1}); "
+        res.pasos.append(f"**Modelo**: muestras apareadas, dᵢ = x({a}) - {'' if h == 1 else fmt(h, 4) + '·'}x({b}) = "
+                         f"{'; '.join(fmt(x, 4) for x in dif)} → "
+                         f"d̄ = Σdᵢ/n = {fmt(rs.xbar, 4)}, S_d = √[Σ(dᵢ - d̄)²/(n-1)] = {fmt(rs.s, 4)}, n = {rs.n} pares (ν = {rs.n - 1}); "
                          f"σ(d̄) = S_d/√n = {fmt(se, 4)}.")
     else:
         r = two.ensayo_dos_medias(d["xbar1"], c["s1"], int(d["n1"]), d["xbar2"], c["s2"], int(d["n2"]), alpha,
                                   tail=tail, delta0=delta0, h=h, metodo=c["metodo"])
         se, obs = r.se, r.observed_value
         res.pasos.append(f"Diferencia observada ({_txt_metodo(c)}): d{'*' if h != 1 else ''} = x̄({a}) - "
-                         f"{'' if h == 1 else fmt(h, 4) + '·'}x̄({b}) = {fmt(obs, 4)}; σ(d{'*' if h != 1 else ''}) = "
-                         f"{fmt(se, 6)}" + (f", ν = {r.df}" if r.df else "") + ".")
+                         f"{'' if h == 1 else fmt(h, 4) + '·'}x̄({b}) = {fmt(d['xbar1'], 6)} - "
+                         f"{'' if h == 1 else fmt(h, 4) + '·'}{fmt(d['xbar2'], 6)} = {fmt(obs, 4)}; "
+                         f"σ(d{'*' if h != 1 else ''}) = {_se_txt(c, d, h)} = {fmt(se, 6)}"
+                         + (f", ν = {r.df}" if r.df else "") + ".")
     s0, s1 = {"derecha": ("≤", ">"), "izquierda": ("≥", "<"), "bilateral": ("=", "≠")}[tail]
     if h == 1:
         h0, h1 = f"{param} {s0} {fmt(delta0, 6)}", f"{param} {s1} {fmt(delta0, 6)}"
@@ -641,9 +656,13 @@ def _ensayo_simple(d, alpha, res: Resultado, estado):
         cond = f"d < {fmt(crit[0], 4)} o d > {fmt(crit[1], 4)}"
     else:
         cond = f"d {_signo(tail)} {fmt(crit, 4)}"
-    q = "z" if c["metodo"] == "z" else "t"
-    res.pasos.append(f"**Condición de rechazo**: d_c = δ₀ {'∓' if tail == 'bilateral' else '+' if tail == 'derecha' else '-'} "
-                     f"{q}·σ(d) = {_cv(crit)}. Si {cond} ⇒ se rechaza H0.")
+    nu = (rs.n - 1) if c["metodo"] == "apareadas" else r.df
+    pr = 1 - (alpha / 2 if tail == "bilateral" else alpha)
+    q = f"Z({fmt(pr, 4)})" if c["metodo"] == "z" else f"t({fmt(pr, 4)}; {nu})"
+    fr = abs(((crit[1] if isinstance(crit, tuple) else crit) - delta0) / se) if se else 0.0   # el fractil usado
+    sg = '∓' if tail == 'bilateral' else '+' if tail == 'derecha' else '-'
+    res.pasos.append(f"**Condición de rechazo**: d_c = δ₀ {sg} {q}·σ(d) = {fmt(delta0, 6)} {sg} {fmt(fr, 4)}·"
+                     f"{fmt(se, 6)} = {_cv(crit)}. Si {cond} ⇒ se rechaza H0.")
     res.pasos.append(f"**Decisión**: d = {fmt(obs, 4)} → " + ("se rechaza H0." if r.rejects_h0 else "no se rechaza H0."))
     if r.p_value is not None:
         res.pasos.append(f"Dato informativo (no es criterio de decisión): valor a posteriori α* = {fmt(r.p_value, 4)}. "
@@ -808,9 +827,10 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
         dif = [x - y for x, y in zip(c["l1"], c["l2"])]
         lo, hi, e, rs = _cota_apareada(dif, alpha, cota)
         estado["s_d"] = rs.s
-        res.pasos.append(f"**Muestras apareadas**: dᵢ = x({a}) - x({b}) → d̄ = {fmt(rs.xbar, 4)}, S_d = {fmt(rs.s, 4)}, "
+        res.pasos.append(f"**Muestras apareadas**: dᵢ = x({a}) - x({b}) = {'; '.join(fmt(x, 4) for x in dif)} → "
+                         f"d̄ = {fmt(rs.xbar, 4)}, S_d = {fmt(rs.s, 4)}, "
                          f"n = {rs.n} pares (ν = {rs.n - 1}); e = t({fmt(1 - (alpha if cota else alpha / 2), 4)}; "
-                         f"{rs.n - 1})·S_d/√n = {fmt(e, 4)}.")
+                         f"{rs.n - 1})·S_d/√n = {fmt(e / (rs.s / sqrt(rs.n)), 4)}·{fmt(rs.s, 4)}/√{rs.n} = {fmt(e, 4)}.")
         centro = rs.xbar
     else:
         r = two.ic_dos_medias(d["xbar1"], c["s1"], int(d["n1"]), d["xbar2"], c["s2"], int(d["n2"]), alpha,
@@ -821,6 +841,10 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
                          f"d = {fmt(centro, 4)}; e = {q}·σ(d) = {fmt(r.critical_value, 4)}·{fmt(e / r.critical_value, 6)} = "
                          f"{fmt(e, 4)}.")
     estado.update(e_actual=e, metodo=c["metodo"], alpha_ic=alpha)
+    res.pasos.append("**Límites** (sin redondear; el redondeo hacia afuera va en la conclusión): " +
+                     (f"A = d - e = {fmt(centro, 6)} - {fmt(e, 6)} = {fmt(lo, 6)}" if cota == "inf" else
+                      f"B = d + e = {fmt(centro, 6)} + {fmt(e, 6)} = {fmt(hi, 6)}" if cota == "sup" else
+                      f"A; B = d ∓ e = {fmt(centro, 6)} ∓ {fmt(e, 6)} = {fmt(lo, 6)} ; {fmt(hi, 6)}") + ".")
     if cota == "inf":
         c = redondeo.cota(lo, False, 4)   # diferencias: 4 decimales, como en clase (V-8b: 0,3788)
         res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) - μ({b}) ≥ {c}: la diferencia "

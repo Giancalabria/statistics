@@ -811,8 +811,13 @@ def _pronostico(d, alpha, res, estado):
            "el valor promedio de y, E(y | x₀) (ley promedio)")
     raiz = "1 + 1/n + (x₀ - x̄)²/(Σx² - n·x̄²)" if individual else "1/n + (x₀ - x̄)²/(Σx² - n·x̄²)"
     tq = "t(1-α/2; ν)" if cola == "bilateral" else "t(1-α; ν)"
+    A, B = ic.A, ic.B
+    uno = "1 + " if individual else ""
     res.pasos.append(f"**Intervalo para {que}**: ŷ₀ ± {tq}·S·√({raiz}); {tq} = {fmt(ic.critico, 4)} (ν = n - 2 = "
-                     f"{reg.nu}); error = {fmt(ic.error, 4)}.")
+                     f"{reg.nu}); error = {fmt(ic.critico, 4)}·{fmt(reg.S, 6)}·√({uno}1/{reg.n} + ({fmt(x0, 4)} - "
+                     f"{fmt(reg.xbar, 6)})²/{fmt(reg.Sxx, 4)}) = {fmt(ic.error, 4)}.")
+    if cola == "bilateral" and A is not None and B is not None:
+        res.pasos.append(f"**Límites**: ŷ₀ ∓ error = {fmt(y0, 4)} ∓ {fmt(ic.error, 4)} = {fmt(A, 4)} ; {fmt(B, 4)}.")
     A, B = ic.A, ic.B
     lim = [v for v in (A, B) if v is not None]
     res.numeros += lim + [ic.error] + [v * ey for v in lim]

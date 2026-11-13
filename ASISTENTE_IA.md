@@ -63,6 +63,16 @@ Sin modo razonamiento: se sacó de la pantalla porque tardaba minutos por pedido
 - `OLLAMA_HOST`: dónde corre Ollama (por defecto `http://localhost:11434`).
 - `ASISTENTE_MODELO`: modelo por defecto (`qwen3:8b`).
 - `ASISTENTE_NUM_CTX`: contexto en tokens que se le pide al modelo (16384; el prompt de interpretación usa ~4000 y el de redacción de los temas del 2° parcial, hasta ~10.000 más la respuesta).
+- `ASISTENTE_FACTOR_CLASE`: cuánto se prefieren los ejercicios resueltos por el profesor en clase (`datos/clase_resueltos.json`) como ejemplos de la IA (1,25; 1 = como cualquier ejercicio de la guía). Medido el 11/11: con 1,25 el consenso queda igual en los exámenes reales (33/35) y Q1 a/b pasan de una lectura a consenso; con 1,6 la IA sola empeora en los exámenes (29 → 24/35).
+- `OLLAMA_NUM_PARALLEL` (de Ollama, no de la app): cuántas consultas atiende a la vez. El consenso pide las dos lecturas de IA juntas, así que con 2 o más tarda la mitad. En la PC con Windows (RX 9070 XT, 16 GB) quedó en 3 como variable de usuario: 3 consultas tardan lo mismo que 1 (~98 tokens/s, 100 % GPU). Se aplica al reiniciar Ollama.
+
+### Afinar los prompts sin sesgar (`herramientas/optimizar_prompts.py`)
+
+Se afina SOLO con la guía (cada ejercicio excluido de sus ejemplos) y se valida al final con exámenes reales + enunciados raros, que no se miran para afinar. Solo cambios genéricos; la base se corre dos veces para medir el ruido. 11/11: se sacó la persona («Sos un asistente… cátedra Dopazo») de los dos prompts (igual o mejor en guía y validación). Sacar las claves por tema mejoraba la guía pero empeoraba la validación (−4): descartado por sobreajuste. 1 o 3 ejemplos: peor o mixto (quedan 2). Con el cambio: consenso 34/35 en exámenes, 54/56 en el banco de clase, 0 consensos equivocados.
+
+### Ejercicios de clase (prueba a ciegas)
+
+`python -X utf8 herramientas/evaluar_clase.py [--reglas] [--hilos 3] [--solo V-8 IV-4]` corre el consenso sobre los 24 ejercicios que resolvió el profesor (`datos/clase_resueltos.json`) sin darle a la IA ese mismo ejercicio como ejemplo, y compara número y decisión con el pizarrón; el informe (H0 de la app al lado del planteo del profesor) queda en `herramientas/tmp/evaluar_clase.md`. Las reglas se ajustaron con la guía, así que ahí no son ciegas: lo que mide algo nuevo es la IA. 11/11: app 52/56 sin priorizar los de clase y 54/56 con 1,25 (IA con ejemplos 44/56, IA por tema 37/56, ningún consenso equivocado). En la página 5, «👨‍🏫 Parecidos resueltos por el profesor en clase» muestra los dos más parecidos del mismo tema con su planteo.
 
 ## Antes del examen
 

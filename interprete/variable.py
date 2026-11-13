@@ -315,7 +315,8 @@ def rd_en_palabras(texto: str, tema: str, d: Dict) -> str:
         u = d["unidad"].strip()
         texto = re.sub(r"\b((?:Si|si) (?:x̄|d̄|d\*?|D\*?|D̄) [<>] )" + _NUM + r"(?! ?" + re.escape(u) + ")",
                        lambda m: f"{m.group(1)}{m.group(2)} {u}", texto)
-        texto = re.sub(r"(\b(?:d_c|x̄c|D̄c|Dc) = [^.;]*?= )" + _NUM + r"(?=[.;\s]|$)(?! ?" + re.escape(u) + ")",
+        # el «;» dentro de t(0,95; 80) no corta la cuenta
+        texto = re.sub(r"(\b(?:d_c|x̄c|D̄c|Dc) = (?:\([^)]*\)|[^.;])*= )" + _NUM + r"(?=[.;\s]|$)(?! ?" + re.escape(u) + ")",
                        lambda m: f"{m.group(1)}{m.group(2)} {u}", texto, count=1)
     if tema == "media" and (d.get("unidad") or "").strip():
         u = d["unidad"].strip()

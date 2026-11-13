@@ -1,0 +1,772 @@
+{
+ "_info": "Ejercicios resueltos por el profesor (Ing. Dopazo) en clase. El enunciado sale de datos/guia_ejercicios.json (campo 'guia'); la referencia, de estudio/informes/ (números verificados con scipy). 'esperado' usa el formato de evaluar_examenes: texto que aparece en el resumen, [\"n\", valor], [\"d\", \"rechaza\"|\"no_rechaza\"] o [\"alguno\", [v1, v2]] (vale cualquiera: por ejemplo plan exacto o normal). null = no se puntúa. 'profesor' es cómo lo planteó en clase, por inciso: se muestra como referencia y es la base que puede usar la IA (nunca para el ejercicio que se evalúa).",
+ "ejercicios": [
+  {
+   "guia": "I-8",
+   "clase": "27/08",
+   "fuente": "informe_clases_1_6.md",
+   "esperado": [
+    [
+     [
+      "n",
+      242.1978
+     ]
+    ]
+   ],
+   "profesor": [
+    "Control de recepción, criterio optimista (proveedor habitual): H0: μ ≥ 250 g vs H1: μ < 250 g. α = 0,05 = «probabilidad máxima de rechazar una partida que cumple». σ = 15 g conocido (registros históricos) ⇒ Normal (z). x̄c = μ0 − z(0,95)·σ/√n = 250 − 1,6449·15/√10 = 242,19 g. CR: x̄ < 242,19 g. RD: si el peso promedio de 10 ovillos es menor que 242,19 g se rechaza la partida."
+   ]
+  },
+  {
+   "guia": "I-10",
+   "clase": "27/08",
+   "fuente": "informe_clases_1_6.md",
+   "esperado": [
+    [
+     [
+      "n",
+      10.5238
+     ],
+     [
+      "d",
+      "no_rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      0.5231
+     ]
+    ],
+    [
+     [
+      "n",
+      30
+     ]
+    ],
+    null
+   ],
+   "profesor": [
+    "Criterio pesimista (se lanza solo si se prueba la reducción): H0: μ ≥ 11,2 L (el aditivo no reduce el consumo) vs H1: μ < 11,2 L. α = 0,05 = «riesgo de lanzar cuando no produce el efecto». σ = 1,3 L poblacional ⇒ z. x̄c = 11,2 − 1,6449·1,3/√10 = 10,52 L. CR: x̄ < 10,52. x̄ = 10,6 no es menor ⇒ no se rechaza H0: no es concluyente, «con esta muestra no se puede probar que el consumo medio se haya reducido».",
+    "Probabilidad de lanzar con μ1 = 10,5 = potencia: z = (10,5238 − 10,5)/(1,3/√10) = 0,0579 ⇒ 1−β = P(z < 0,0579) = 0,5231 (β = 0,4769).",
+    "n para 1−β = 0,90: n = [(z(0,95) + z(0,90))·σ/(μ0 − μ1)]² = [(1,6449 + 1,2816)·1,3/0,7]² = 29,54 ⇒ n = 30 corridas (20 más).",
+    "Gráfico: no se puntúa."
+   ]
+  },
+  {
+   "guia": "I-26",
+   "clase": "03/09",
+   "fuente": "informe_clases_1_6.md",
+   "esperado": [
+    [
+     [
+      "n",
+      11
+     ]
+    ],
+    [
+     [
+      "n",
+      11.4504
+     ],
+     [
+      "n",
+      11.5496
+     ]
+    ],
+    [
+     [
+      "n",
+      0.3766
+     ]
+    ]
+   ],
+   "profesor": [
+    "Control de proceso, bilateral: H0: μ = 11,5 cm vs H1: μ ≠ 11,5 cm. α = 0,10 («revisar equivocadamente»), β = 0,05 en μ1 = 11,4. n = [(z(0,95) + z(0,95))·σ/δ]² = [(1,6449 + 1,6449)·0,1/0,1]² = 10,82 ⇒ n = 11 piezas.",
+    "Límites de control: 11,5 ± 1,6449·0,1/√11 ⇒ 11,45 y 11,55 cm. CR: x̄ < 11,45 o x̄ > 11,55. RD: parar el proceso y revisarlo.",
+    "Con μ = 11,46: β = Φ(2,9716) − Φ(−0,3183) = 0,6234 ⇒ 1−β = 0,3766."
+   ]
+  },
+  {
+   "guia": "I-33",
+   "clase": "03/09",
+   "fuente": "informe_clases_1_6.md",
+   "esperado": [
+    [
+     [
+      "n",
+      10.3735
+     ],
+     [
+      "d",
+      "no_rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      10.3215
+     ],
+     [
+      "d",
+      "rechaza"
+     ]
+    ]
+   ],
+   "profesor": [
+    "Datos agrupados: n = 75, x̄ = 10,362 min (marcas de clase). H0: μ ≤ 10,25 vs H1: μ > 10,25 (lo que se quiere asegurar va en H1); α = 0,05. Con σ = 0,65 ⇒ z: x̄c = 10,25 + 1,6449·0,65/√75 = 10,37. 10,362 < 10,37 ⇒ no se rechaza: «No tengo pruebas para asegurar que…».",
+    "Sin σ: S ≈ 0,37 de la muestra ⇒ t con ν = 74: x̄c = 10,25 + t(0,95; 74)·S/√75 = 10,32. 10,362 > 10,32 ⇒ se rechaza: «Puedo asegurar que…». La misma muestra da conclusiones distintas según la información disponible."
+   ]
+  },
+  {
+   "guia": "II-8",
+   "clase": "10/09",
+   "fuente": "informe_clases_1_6.md",
+   "esperado": [
+    [
+     [
+      "n",
+      0.0834
+     ],
+     [
+      "n",
+      0.3591
+     ]
+    ],
+    [
+     [
+      "alguno",
+      [
+       0.16098,
+       0.4012
+      ]
+     ],
+     [
+      "d",
+      "no_rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      0.1373
+     ]
+    ],
+    [
+     [
+      "n",
+      540
+     ]
+    ]
+   ],
+   "profesor": [
+    "x̄ = 12,275, S² = 0,14932 mm², ν = 11. Intervalo con χ²: P(ν·S²/χ²(0,95; 11) ≤ σ² ≤ ν·S²/χ²(0,05; 11)) = P(0,0834 ≤ σ² ≤ 0,3591) = 0,90.",
+    "H0: σ² ≤ 0,09 mm² (sale de la pregunta: «no es aceptable una varianza mayor») vs H1: σ² > 0,09; α = 0,05. S²c = σ0²·χ²(0,95; 11)/ν = 0,09·19,6751/11 = 0,16098 mm². 0,1493 ≤ 0,161 ⇒ no se rechaza: «No puedo asegurar que la varianza sea mayor a 0,09 mm²».",
+    "Con σ1² = 0,11: β = F_χ²(ν·S²c/σ1²; 11) = F_χ²(16,0978; 11) = 0,8627 ⇒ 1−β ≈ 0,1373 (la guía da 0,1375).",
+    "Para 1−β = 0,95: R = σ1²/σ0² = 1,2222; iterando ν = 539 ⇒ n = 540, es decir 528 más."
+   ]
+  },
+  {
+   "guia": "II-12",
+   "clase": "10/09",
+   "fuente": "informe_clases_1_6.md",
+   "esperado": [
+    [
+     [
+      "n",
+      6.8554
+     ]
+    ],
+    [
+     [
+      "n",
+      0.3222
+     ]
+    ],
+    [
+     [
+      "n",
+      27
+     ]
+    ]
+   ],
+   "profesor": [
+    "Control, optimista: H0: σ ≤ 5 g vs H1: σ > 5 g; α = 0,05 («detener indebidamente»); n = 10, ν = 9. S²c = 25·χ²(0,95; 9)/9 = 25·16,919/9 = 47,0 ⇒ Sc = 6,86 g. CR: S > 6,86 g. No hay muestra, así que no se decide.",
+    "Con σ = 8: β = F_χ²(9·6,86²/64; 9) = F_χ²(6,618; 9) = 0,3222.",
+    "Para β = 0,05: R = 64/25 = 2,56; iterando ν = 26 ⇒ n = 27, es decir 17 más."
+   ]
+  },
+  {
+   "guia": "III-3",
+   "clase": "17/09",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      0.0051
+     ],
+     [
+      "n",
+      0.3942
+     ]
+    ],
+    [
+     [
+      "n",
+      0.2057
+     ]
+    ]
+   ],
+   "profesor": [
+    "p̂ = 0,10, n chico ⇒ intervalo exacto con F. A = 1/[1 + (n−r+1)/r·F(0,95; 20; 2)], F = 19,4458 ⇒ A = 0,0051. B con F(0,95; 4; 18) = 2,9277 ⇒ B = 0,3942. Error muestral (B−A)/2 = 0,1945.",
+    "r = 0 ⇒ A = 0 y B = 1/[1 + 10/F(0,90; 2; 20)] = 0,2057, con α SIN dividir (F = 2,5893). La guía da 0,2589 con α/2: «lo hicieron con alfa sobre 2 y está mal»."
+   ]
+  },
+  {
+   "guia": "III-11",
+   "clase": "17/09",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      11
+     ]
+    ],
+    [
+     [
+      "n",
+      0.9176
+     ]
+    ],
+    [
+     [
+      "alguno",
+      [
+       755,
+       715
+      ]
+     ]
+    ]
+   ],
+   "profesor": [
+    "Control, criterio optimista: H0: p ≤ 0,12 vs H1: p > 0,12; α = 0,05. Binomial exacta: G_b(10 | 50; 0,12) = 0,0708 > 0,05 y G_b(11) = 0,0325 ⇒ rc = 11 (CR: r ≥ 11).",
+    "p1 = 0,14: β = F_b(10 | 50; 0,14) = 0,9176.",
+    "β = 0,50 en p1 = 0,14 sin tocar α: exacto n = 755, rc = 106; normal n = [1,6449·√(0,12·0,88)/0,02]² = 714,26 ⇒ 715 (verificación 85,8 y 629,2 > 10). Poisson (n = 855) es incorrecto."
+   ]
+  },
+  {
+   "guia": "III-16",
+   "clase": "24/09",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "alguno",
+      [
+       1675,
+       1637
+      ]
+     ]
+    ],
+    [
+     [
+      "alguno",
+      [
+       0.5159,
+       0.5527
+      ]
+     ]
+    ],
+    null,
+    null
+   ],
+   "profesor": [
+    "Criterio pesimista (se repite la campaña solo si se prueba que funcionó): H0: p ≤ 0,12 vs H1: p > 0,12; α = 0,01; «aumento de 3 puntos» ⇒ p1 = 0,15 con β = 0,10. Exacto n = 1675, rc = 233. Normal: n = [(2,3263·√(0,12·0,88) + 1,2816·√(0,15·0,85))/0,03]² = 1636,4 ⇒ 1637 (1637·0,12 = 196,44 > 10); con n = 1637, rc = 229. RD: «si en 1637 encuentro 229 o más interesados, inicio una nueva campaña».",
+    "p = 0,14 («dos puntos»): β = F_b(228 | 1637; 0,14) = 0,4841 ⇒ 1−β = 0,5159. Con el plan exacto (1675; 233): β = 0,4473.",
+    "Quedó planteado y no se resolvió en clase.",
+    "Gráfico: no se puntúa."
+   ]
+  },
+  {
+   "guia": "III-19",
+   "clase": "01/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      37
+     ],
+     [
+      "d",
+      "rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      0.9788
+     ]
+    ]
+   ],
+   "profesor": [
+    "H0: p ≤ 1/37 vs H1: p > 1/37 (lo que dice la denuncia va en H1). α no dado ⇒ 0,05, justificado por la imparcialidad del perito. G(36 | 1000; 1/37) = 0,05401 y G(37) = 0,03717 ⇒ rc = 37. r = 42 ≥ 37 ⇒ se rechaza: «la denuncia tiene fundamento estadístico».",
+    "p = 0,05: β = F_b(36 | 1000; 0,05) ⇒ 1−β = 0,9788 (la guía da 0,9789)."
+   ]
+  },
+  {
+   "guia": "IV-1",
+   "clase": "01/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "alguno",
+      [
+       0.2036,
+       0.898
+      ]
+     ],
+     [
+      "alguno",
+      [
+       1.1135,
+       4.9126
+      ]
+     ]
+    ],
+    [
+     [
+      "n",
+      45
+     ]
+    ],
+    [
+     [
+      "alguno",
+      [
+       0.4512,
+       0.9476
+      ]
+     ],
+     [
+      "alguno",
+      [
+       1.0552,
+       2.2164
+      ]
+     ]
+    ],
+    [
+     [
+      "n",
+      444
+     ]
+    ]
+   ],
+   "profesor": [
+    "Se estudia A/B. J² = 3,6²/5,4² = 0,4444; F(0,95; 12; 24) = 2,1834 y F(0,05; 12; 24) = 0,3991. A = J²/F(0,95) = 0,2036, B = J²/F(0,05) = 1,1135. R = B/A = 5,470. «σA² como mínimo 79,65% menor y como máximo 11,37% mayor que σB²».",
+    "n iguales para R/2 = 2,7354: iterando F(0,95; ν; ν)/F(0,05; ν; ν) ≤ 2,7354 ⇒ ν = 44 ⇒ n = 45 por torno (32 más en A y 20 más en B).",
+    "Desvíos: J = 0,6667; A' = √0,2036 = 0,4512, B' = √1,1135 = 1,0552, R' = 2,339.",
+    "R'/2 = 1,1695 ⇒ R = 1,3677 ⇒ ν = 443 ⇒ n = 444 (431 más en A y 419 más en B)."
+   ]
+  },
+  {
+   "guia": "IV-4",
+   "clase": "08/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      0.3859
+     ],
+     [
+      "d",
+      "rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      0.1779
+     ]
+    ],
+    [
+     [
+      "n",
+      128
+     ]
+    ]
+   ],
+   "profesor": [
+    "Se reacondiciona solo si se asegura la reducción ⇒ va en H1. φ = σCR/σSR. H0: φ ≥ 0,88 vs H1: φ < 0,88; α = 0,10; ν1 = 3, ν2 = 15. F(0,10; 3; 15) = 0,1923 ⇒ Jc = √(0,88²·0,1923) = 0,3859. J = 132/354 = 0,3729 < Jc ⇒ se rechaza: conviene reacondicionar.",
+    "φ1 = 0,7: argumento 0,88²/0,7²·0,1923 = 0,3039; F_F = 0,1779 ⇒ β = 0,8221 y 1−β = 0,1779.",
+    "1−β = 0,90: R = (0,88/0,7)² = 1,5804; iterando ν = 127 ⇒ n = 128 por tipo (124 más CR y 112 más SR)."
+   ]
+  },
+  {
+   "guia": "V-8",
+   "clase": "08/10 y 15/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      0.9711
+     ],
+     [
+      "d",
+      "no_rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      0.3788
+     ]
+    ],
+    [
+     [
+      "n",
+      0.5349
+     ],
+     [
+      "d",
+      "no_rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      1.049
+     ]
+    ]
+   ],
+   "profesor": [
+    "Test F auxiliar (unilateral, α propio 0,10): se sospecha σSA > σCA ⇒ H0: σSA/σCA ≤ 1; Jc = √F(0,90; 60; 20) = √1,6768 = 1,2949; J = 1,25/1,2 = 1,0417 ⇒ no se rechaza ⇒ desvíos iguales ⇒ Sa amalgamado = 1,2377 kg, ν = 80, t(0,95; 80) = 1,6641. Ensayo: lo que se quiere asegurar va en H1 ⇒ H0: μCA − μSA ≤ 0,45 vs H1: > 0,45. Dc = 0,45 + 1,6641·1,2377·√(1/21 + 1/61) = 0,9711. D = 0,9 ⇒ no se rechaza.",
+    "Diferencia MÍNIMA al 95% ⇒ un solo límite con t(0,95): A = 0,9 − 1,6641·1,2377·√(1/21 + 1/61) = 0,3788 kg. Coherente con a): 0,3788 < 0,45.",
+    "Aumento del 10%: H0: μCA ≤ 1,10·μSA ⇒ D* = x̄CA − 1,1·x̄SA. D*c = 1,6641·1,2377·√(1/21 + 1,1²/61) = 0,5349; D* = 8,5 − 1,1·7,6 = 0,14 ⇒ no se rechaza.",
+    "Inecuación 8,5 − 7,6h > 1,6641·1,2377·√(1/21 + h²/61): raíces 1,0490 y 1,1906; h = 1,1906 deja el lado izquierdo negativo ⇒ no sirve. h = 1,0490 ⇒ incremento mínimo 4,90%."
+   ]
+  },
+  {
+   "guia": "V-12",
+   "clase": "15/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      5.4295
+     ],
+     [
+      "d",
+      "rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      2.3205
+     ],
+     [
+      "n",
+      9.1795
+     ]
+    ]
+   ],
+   "profesor": [
+    "Apareadas: la unidad experimental es la parcela de cada finca (ambas variedades en la misma finca). d = 6, 8, −2, 2, 7, 11, 1, 13 ⇒ d̄ = 5,75, S_D = 5,12. H0: Δ ≤ 2 vs H1: Δ > 2; α = 0,05; t(0,95; 7) = 1,8946 ⇒ D̄c = 2 + 1,8946·5,12/√8 = 5,4295. 5,75 > 5,4295 ⇒ se rechaza.",
+    "IC 90% para A−B: 5,75 ± 1,8946·5,12/√8 ⇒ 2,32 ≤ Δ ≤ 9,18 quintales por parcela."
+   ]
+  },
+  {
+   "guia": "VI-6",
+   "clase": "22/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      38.9843
+     ],
+     [
+      "d",
+      "rechaza"
+     ]
+    ]
+   ],
+   "profesor": [
+    "χ² de consistencia (homogeneidad): H0: los niveles de calidad son iguales en los tres turnos vs H1: algún nivel es diferente; α = 0,01. p̂ globales 0,8529 / 0,0971 / 0,05. Esperados = n_turno·p̂: 1ª 426,47 / 682,35 / 341,18; 2ª 48,53 / 77,65 / 38,82; defectuosas 25 / 40 / 20. χ² = Σ(O−E)²/E = 38,98; ν = (3−1)(3−1) = 4; χ²(0,99; 4) = 13,2767 ⇒ se rechaza: «algún nivel de calidad es diferente»."
+   ]
+  },
+  {
+   "guia": "VI-7",
+   "clase": "22/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      5.5739
+     ],
+     [
+      "d",
+      "no_rechaza"
+     ]
+    ]
+   ],
+   "profesor": [
+    "χ² de independencia con tabla 2×4 (con falla / sin falla por color): observados con falla 90 / 90 / 75 / 45 (porcentajes de los 300 reclamos), sin falla 460 / 360 / 405 / 275 (producción menos reclamos). H0: el porcentaje de fallas es independiente del color; α = 0,05. Esperados con falla 91,67 / 75 / 80 / 53,33. χ² = 5,5739, ν = 3, χ²c = 7,8147 ⇒ no se rechaza."
+   ]
+  },
+  {
+   "guia": "VI-10",
+   "clase": "22/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      11.8
+     ],
+     [
+      "d",
+      "rechaza"
+     ]
+    ]
+   ],
+   "profesor": [
+    "Bondad de ajuste a la uniforme: H0: lo observado se ajusta al modelo uniforme (dado equilibrado), E = 60/6 = 10 por cara; α = 0,05. χ² = 11,8; ν = 6 − 1 = 5; χ²(0,95; 5) = 11,0705 ⇒ se rechaza: el dado está cargado. Cota inferior para «demasiado perfecto»: χ²(0,05; 5) = 1,1455."
+   ]
+  },
+  {
+   "guia": "VI-13",
+   "clase": "22/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      5.625
+     ],
+     [
+      "d",
+      "no_rechaza"
+     ]
+    ]
+   ],
+   "profesor": [
+    "Bondad de ajuste al patrón histórico 40/40/20: H0: las ventas se ajustan al patrón histórico; α = 0,05. Esperados 80 / 80 / 40. χ² = 5,625; ν = 2; χ²c = 5,9915 ⇒ no se rechaza: el patrón histórico se mantiene."
+   ]
+  },
+  {
+   "guia": "VI-15",
+   "clase": "29/10",
+   "fuente": "informe_clase_13.md",
+   "esperado": [
+    [
+     [
+      "n",
+      68.5632
+     ],
+     [
+      "d",
+      "rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      10.8569
+     ],
+     [
+      "n",
+      8.3167
+     ]
+    ]
+   ],
+   "profesor": [
+    "x̄ = 45,6818 h, S = 24,3257 h con las marcas de clase; N = 143; α = 0,01. Gumbel del mínimo con β = 18,9667 h y θ = 56,6297 h (por momentos). Se agrega la clase ≤ 0 (Fe 7,04) y ≥ 105; se unen las 3 últimas ⇒ 7 clases. χ² = 68,5632 (prof.: 68,55), ν = 7 − 1 − 2 = 4, χ²(0,99; 4) = 13,2767 ⇒ se rechaza.",
+    "Gumbel del máximo: β = 18,9667, θ = 34,7339; χ² = 10,8569 (prof.: 10,8398) < 13,2767 ⇒ buen candidato. Weibull: ω = 1,9592, β = 51,52 h; χ² = 8,3167 (prof.: 8,3318) ⇒ buen candidato y el mejor (menor χ²)."
+   ]
+  },
+  {
+   "guia": "VI-16",
+   "clase": "22/10",
+   "fuente": "informe_clases_7_12.md",
+   "esperado": [
+    [
+     [
+      "n",
+      9.4346
+     ],
+     [
+      "d",
+      "no_rechaza"
+     ]
+    ]
+   ],
+   "profesor": [
+    "Bondad de ajuste a Poisson: m̂ = Σr·f/N = 3,5263 (parámetro estimado ⇒ se resta 1 grado de libertad). Se agrega la clase «11 o más» (Fo 0, P = 0,0011). Se amalgaman 9, 10 y ≥ 11 (O = 2, E = 7,06) porque E < 5. χ² = 9,4346; 10 clases ⇒ ν = 10 − 1 − 1 = 8; χ²(0,95; 8) = 15,5073 ⇒ no se rechaza. Como el proceso es Poisson por hipótesis, se puede afirmar que sigue el modelo."
+   ]
+  },
+  {
+   "guia": "VII-13",
+   "clase": "05/11",
+   "fuente": "informe_clase_14.md",
+   "esperado": [
+    [
+     [
+      "n",
+      26.8212
+     ],
+     [
+      "n",
+      0.2938
+     ]
+    ],
+    null,
+    [
+     [
+      "n",
+      0.5455
+     ],
+     [
+      "n",
+      0.9237
+     ]
+    ],
+    [
+     [
+      "n",
+      0.3134
+     ],
+     [
+      "d",
+      "no_rechaza"
+     ]
+    ],
+    [
+     [
+      "n",
+      0.3708
+     ],
+     [
+      "n",
+      0.2167
+     ]
+    ],
+    [
+     [
+      "n",
+      21.4769
+     ],
+     [
+      "n",
+      26.2905
+     ]
+    ],
+    [
+     [
+      "n",
+      18.0109
+     ],
+     [
+      "n",
+      29.7565
+     ]
+    ]
+   ],
+   "profesor": [
+    "n = 18; x̄ = 36,61; ȳ = 16,06. b1 = −0,293751 MPa/mm, b0 = 26,821217 MPa ⇒ ŷ = 26,82 − 0,29x. r = −0,8964, R² = 0,8035. Validación: H0: ρ = 0 (β1 = 0), α = 0,05; |t_obs| = 8,0879 > t(0,95; 16) = 1,7459 ⇒ se rechaza; uso técnico ⇒ r² ≥ 0,8 y r² = 0,8035 ⇒ se valida. «Por cada milímetro que aumente la profundidad, la resistencia disminuye en 0,29 MPa». β0 solo «en teoría» (el entorno observado es de 8 a 65 mm).",
+    "Fuerza de la relación: intervalo para ρ (ver c).",
+    "Influencia porcentual = coeficiente de determinación: P(0,5455 ≤ ρ² ≤ 0,9237) = 0,95. «Con 18 datos el error es grande».",
+    "«Disminuye en más de 0,25 MPa» ⇒ más negativo ⇒ H0: β1 ≥ −0,25 vs H1: β1 < −0,25. b1c = −0,25 − 1,7459·0,0363 = −0,3134; b1 = −0,2937 no es menor ⇒ no se rechaza. Error típico: plantearlo con el signo positivo.",
+    "P(−0,3708 ≤ β1 ≤ −0,2167) = 0,95 MPa/mm.",
+    "Promedio con x0 = 10: ŷ0 = 23,8838; entre 21,4769 y 26,2905 MPa.",
+    "Un sector (predicción), x0 = 10: entre 18,01 y 29,76 MPa («al tener en cuenta la perturbación, los límites se amplían»)."
+   ]
+  },
+  {
+   "guia": "I-1",
+   "clase": "1° parcial",
+   "fuente": "informe_clases_1_6.md",
+   "esperado": [
+    [
+     [
+      "n",
+      238.1978
+     ],
+     [
+      "n",
+      253.8022
+     ]
+    ],
+    [
+     [
+      "alguno",
+      [
+       25,
+       15
+      ]
+     ]
+    ]
+   ],
+   "profesor": [
+    "σ = 15 g conocido ⇒ z. e = z(0,95)·15/√10 = 7,8024 ⇒ P(238,19 ≤ μ ≤ 253,81) = 0,90.",
+    "e = 5: n = (1,6449·15/5)² = 24,35 ⇒ 25, es decir 15 más."
+   ]
+  },
+  {
+   "guia": "I-7",
+   "clase": "1° parcial",
+   "fuente": "informe_clases_1_6.md",
+   "esperado": [
+    [
+     [
+      "n",
+      205.1854
+     ],
+     [
+      "n",
+      222.8146
+     ]
+    ]
+   ],
+   "profesor": [
+    "σ desconocido (S² = 456 de la muestra) ⇒ t con ν = 24: t(0,975; 24) = 2,0639; e = 2,0639·√456/√25 = 8,8135 ⇒ P(205,18 ≤ μ ≤ 222,82) = 0,95."
+   ]
+  },
+  {
+   "guia": "II-6",
+   "clase": "1° parcial",
+   "fuente": "informe_clases_1_6.md",
+   "esperado": [
+    [
+     [
+      "n",
+      11.4074
+     ],
+     [
+      "n",
+      21.9086
+     ]
+    ],
+    [
+     [
+      "n",
+      49
+     ]
+    ]
+   ],
+   "profesor": [
+    "χ² con ν = 19: P(√(19·15²/χ²(0,975; 19)) ≤ σ ≤ √(19·15²/χ²(0,025; 19))) = P(11,40 g ≤ σ ≤ 21,91 g) = 0,95.",
+    "Límite superior 50% mayor que el inferior: R' = 1,5 ⇒ R = 2,25; iterando χ²(0,975; ν)/χ²(0,025; ν) ≤ 2,25 ⇒ ν ≈ 48 ⇒ n = 49."
+   ]
+  }
+ ]
+}

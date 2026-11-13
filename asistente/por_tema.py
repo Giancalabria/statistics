@@ -47,6 +47,8 @@ modelo Normal» es chi_ajuste). Clasificá cada inciso por lo que pregunta ESE i
 
 Respondé solo JSON: {"tema": "<tema del planteo>", "incisos": {"a": "<tema>", "b": "<tema>"}}"""
 
+N_EJEMPLOS = 2      # ejemplos del mismo tema que se le muestran
+
 _UNA_POB_INC = ["tail", "alpha", "e", "reduccion", "beta", "prob", "n", "cota"]
 # claves de cada tema: las mismas de esquema.CLAVES_TEMA, pero sin las de los otros temas (allá los incisos aceptan
 # las de 1 y 2 poblaciones en todos los temas, y el prompt crece)
@@ -81,9 +83,8 @@ DATOS = {
 }
 _UNA_O_DOS = {"media", "varianza", "proporcion", "dos_varianzas", "dos_medias"}
 
-COMUNES = """Sos un asistente que INTERPRETA un enunciado de Estadística Aplicada (UADE, cátedra Dopazo – García) y lo \
-traduce a un JSON que resuelve un programa. NO calculás nada: anotás el tema, los datos que da el enunciado y qué pide \
-cada inciso.
+COMUNES = """Traducí el enunciado de Estadística a un JSON (tema, datos, qué pide cada inciso). No calcules nada: un \
+programa resuelve después.
 
 Reglas:
 - Usá EXACTAMENTE las claves de abajo y poné solo lo que el enunciado dice (no inventes ni calcules; no pongas 0, \
@@ -161,7 +162,8 @@ def ejemplos_tema(texto: str, tema: str, k: int = 2, excluir: Sequence[str] = ()
     """Ejercicios parecidos de la guía, solo del MISMO tema, con el JSON que arman las reglas (verificado)."""
     romano = buscador.TEMA_A_GUIA.get(tema)
     salida = []
-    for _, ej in buscador.buscar(texto, k=20, tema=tema):
+    from .clase import priorizar
+    for _, ej in priorizar(buscador.buscar(texto, k=20, tema=tema)):     # los resueltos en clase, primero
         if ej["id"] in excluir or (romano and ej["tema"] != romano):
             continue
         if ej["incisos"] and ej["incisos"][0]["letra"] == "única":
@@ -203,7 +205,7 @@ def pedir_ia_tema(planteo: str, incisos=None, tablas=None, modelo: Optional[str]
     if tema not in DATOS:
         tema = "media"
     msgs = [{"role": "system", "content": sistema_para(tema, list(cl["incisos"].values()))}]
-    for e_txt, e_js in ejemplos_tema(enun, tema, 2, excluir):
+    for e_txt, e_js in ejemplos_tema(enun, tema, N_EJEMPLOS, excluir):
         msgs += [{"role": "user", "content": f"ENUNCIADO:\n{e_txt}"}, {"role": "assistant", "content": e_js}]
     msgs.append({"role": "user", "content": f"ENUNCIADO:\n{enun}"})
     d = _parsear(cliente.chat(msgs, modelo=modelo, formato="json", temperatura=0, max_tokens=MAX_TOKENS_JSON))
