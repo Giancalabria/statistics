@@ -3,6 +3,7 @@
     python herramientas/evaluar_examenes.py            # solo reglas (instantáneo)
     python herramientas/evaluar_examenes.py --ia       # consenso: reglas + 2 lecturas de IA (necesita Ollama)
     python herramientas/evaluar_examenes.py --ia --modelo qwen3:8b   # con otro modelo (por defecto, el de la app)
+    python herramientas/evaluar_examenes.py --archivo ejercicios_nuevos.json   # otro banco de datos/
 
 Cada inciso tiene una referencia calculada aparte (scipy): un texto que tiene que aparecer en el resumen, ["n", valor]
 (un número del resumen con tolerancia de redondeo), ["d", "rechaza" | "no_rechaza"] o ["alguno", [v1, v2]]. Los incisos ambiguos
@@ -48,7 +49,7 @@ def _tiene(numeros, valor) -> bool:
 def main():
     con_ia = "--ia" in sys.argv
     modelo = sys.argv[sys.argv.index("--modelo") + 1] if "--modelo" in sys.argv else None
-    examenes = json.loads((RAIZ / "datos" / "examenes_reales.json").read_text(encoding="utf-8"))
+    examenes = json.loads((RAIZ / "datos" / (sys.argv[sys.argv.index("--archivo") + 1] if "--archivo" in sys.argv else "examenes_reales.json")).read_text(encoding="utf-8"))
     if con_ia:
         from asistente.consenso import consenso
     tot = {"incisos": 0, "reglas": 0, "ia": 0, "ia_tema": 0, "ia_razonada": 0, "consenso": 0, "consenso_mal": 0,

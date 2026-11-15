@@ -281,7 +281,15 @@ def _dos_estructural(norm: str, listas: List[ListaDatos]) -> bool:
     dispersiones = len(re.findall(r"(desvio|desviacion|varianza)[^0-9.;]{0,30}(?!\d+(?:,\d+)?\s*%)\d", norm))
     tamanos = len(re.findall(r"(se (midieron|tomaron|pesaron|eligieron|seleccionaron|ensayaron|probaron|analizaron|"
                              r"controlaron|inspeccionaron|revisaron)|muestras? (aleatoria )?de) \d", norm))
-    if dispersiones >= 2 and tamanos >= 2 and medias == 0:
+    # o dos tamaños del mismo tipo de unidad: '... de 16 rollos del proveedor Norte ... y de 21 rollos del Sur'
+    # (no la unidad de medida: 'el desvío ... de 5 gramos ... que el desvío es de 8 gramos' son dos valores de σ)
+    de_medida = set(re.findall(r"(?:desvio|desviacion|varianza)[^0-9.;]{0,30}\d[\d.,]*\s*([a-z]{3,}s)\b", norm))
+    por_unidad = {}
+    for num, unidad in re.findall(r"(?<![\d,.])(\d+) ([a-z]{3,}s)\b", norm):
+        if unidad not in de_medida:
+            por_unidad.setdefault(unidad, set()).add(num)
+    mismo_tipo = any(len(v) >= 2 for v in por_unidad.values())
+    if dispersiones >= 2 and (tamanos >= 2 or mismo_tipo) and medias == 0:
         return True
     # dos conteos de casos sobre dos muestras: 'se revisaron 500 conos y 75 resultaron defectuosos; ... se revisaron 250'
     distintos = len(set(re.findall(r"(?:se (?:revisaron|inspeccionaron|controlaron|tomaron|eligieron|seleccionaron|"
@@ -1009,8 +1017,8 @@ def p0_de_referencia(an: Analisis, t_total: Texto):
 def _etiqueta_limpia(etq: str) -> str:
     """'…partes por billón de NDMA: Proceso Viejo' → 'Proceso Viejo' (lo que sigue al último ':')."""
     etq = re.sub(r"[\s:]+$", "", etq)
-    etq = re.split(r"[:;]", etq)[-1]
-    return etq[-40:].strip(" ,.()")
+    etq = re.split(r"[:;\n]", etq)[-1]
+    return " ".join(etq[-40:].split()).strip(" ,.()")
 
 
 def _apareadas(an: Analisis, t: Texto, l1: List[float], l2: List[float], pista: Optional[bool], origen: str):
@@ -2555,6 +2563,17 @@ def extraer_p_diseno(an: Analisis, t: Texto):
         elif p0 is None and not alternativo:
             t.usar(i)
             _set(an, "p0", n.fraccion, t, n, "proporción de referencia / actual (p₀)")
+    # sin palabra que lo marque («un lote con un 10% de defectuosos sea rechazado por lo menos el 90% de las veces»):
+    # con p₀, α y β ya leídos, el único porcentaje libre distinto de p₀ es el valor alternativo
+    p0 = an.datos.get("p0")
+    if p0 is not None and "p1" not in an.datos and an.datos.get("alpha") is not None and an.datos.get("beta") is not None:
+        libres = [(i, n) for i, n in t.libres() if n.pct and abs(n.fraccion - p0) > 1e-9
+                  and not _hay(r"(probabilidad|riesgo|confianza|seguridad|significacion)" + _R + r"{0,20}$", t.antes(n, 60))]
+        if len({round(n.fraccion, 10) for _, n in libres}) == 1:
+            i, n = libres[0]
+            t.usar(i)
+            _set(an, "p1", n.fraccion, t, n, "valor alternativo de la proporción (p₁): el único porcentaje que queda "
+                                                "fuera de p₀, α y β")
 
 
 # ---------------------------------------------------------------------------

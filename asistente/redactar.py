@@ -318,7 +318,7 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
             hay_rd = bool(re.search(r"\bRD\b|regla de decisi[oó]n", sec, re.IGNORECASE))
             if inc.tipo in ("validacion", "ensayo_coef"):
                 # en regresión el profesor escribe la CR y decide, sin una RD aparte (VII-13 del 05/11)
-                out.append(Control(hay_cr or bool(re.search(r"b1c|t\(1-α|se rechaza", sec)),
+                out.append(Control(hay_cr or bool(re.search(r"b1c|t\(1-α|\bse rechaza", sec)),
                                    f"{nombre}: condición de rechazo"))
             else:
                 out.append(Control(hay_cr and hay_rd, f"{nombre}: condición de rechazo y regla de decisión"))

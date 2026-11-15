@@ -50,7 +50,7 @@ def main():
     args = sys.argv[1:]
     solo = [a for a in args[args.index("--solo") + 1:] if not a.startswith("--")] if "--solo" in args else []
     modos = [("partes", por_partes)] if "--solo-partes" in args else [("completa", completa), ("partes", por_partes)]
-    examenes = json.loads((RAIZ / "datos" / "examenes_reales.json").read_text(encoding="utf-8"))
+    examenes = json.loads((RAIZ / "datos" / (sys.argv[sys.argv.index("--archivo") + 1] if "--archivo" in sys.argv else "examenes_reales.json")).read_text(encoding="utf-8"))
     examenes = [e for e in examenes if (e["id"] in solo if solo else e["id"] not in PRIMER_PARCIAL)]
     filas, detalle = [], []
     tot = {m: {"fallas": 0, "inventados": 0, "seg": 0.0} for m, _ in modos}

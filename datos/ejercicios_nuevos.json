@@ -1,0 +1,444 @@
+[
+ {
+  "id": "N1",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "Una cadena de farmacias solo lanzará una línea propia de productos genéricos si más del 30% de sus clientes estaría dispuesto a comprarla. En una encuesta a 150 clientes elegidos al azar, 56 respondieron que la comprarían.",
+  "incisos": [
+   [
+    "a",
+    "Con un nivel de significación de 0,05, ¿alcanzan los resultados para lanzar la línea?"
+   ],
+   [
+    "b",
+    "Con una confianza del 90%, ¿entre qué valores se encuentra la proporción de clientes que NO comprarían la línea?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ],
+    [
+     "n",
+     55
+    ]
+   ],
+   [
+    [
+     "n",
+     0.5569
+    ],
+    [
+     "n",
+     0.6926
+    ]
+   ]
+  ],
+  "nota": "a) pesimista: H0 p ≤ 0,30, r_c = 55; b) complemento r = 94"
+ },
+ {
+  "id": "N2",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "Dos proveedores entregan rollos de film para envasar. Se midió el espesor (en micrones) de 16 rollos del proveedor Norte, con un desvío estándar de 2,8 micrones, y de 21 rollos del proveedor Sur, con un desvío estándar de 1,9 micrones. Compras solo pasará a trabajar con el proveedor Sur si se demuestra que su espesor es más regular que el del proveedor Norte.",
+  "incisos": [
+   [
+    "a",
+    "Con un riesgo del 5%, ¿qué decisión debería tomar Compras?"
+   ],
+   [
+    "b",
+    "Estimar, con un nivel de confianza del 95%, el cociente entre la varianza del espesor del proveedor Norte y la del proveedor Sur."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     0.844
+    ],
+    [
+     "n",
+     5.9851
+    ]
+   ]
+  ],
+  "nota": "a) H1: σ(Norte) > σ(Sur); j² = 2.1717 vs F = 2.2033"
+ },
+ {
+  "id": "N3",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "Para evaluar un curso de capacitación, se registró el tiempo (en minutos) que tardan los mismos ocho operarios en armar un tablero antes y después de hacer el curso:\nAntes: 12,4 - 10,8 - 13,1 - 11,6 - 12,9 - 14,2 - 11,1 - 12,7\nDespués: 10,9 - 10,1 - 11,2 - 10,4 - 11,5 - 12,3 - 10,6 - 11,0",
+  "incisos": [
+   [
+    "a",
+    "¿Hay evidencia, al 5%, de que el curso reduce el tiempo medio de armado en más de 1 minuto?"
+   ],
+   [
+    "b",
+    "¿Cuál es la reducción mínima del tiempo medio que se puede garantizar con un 95% de confianza?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     0.9992
+    ]
+   ]
+  ],
+  "nota": "apareadas: d̄ = 1.35, S_d = 0.5237, d_c = 1.3508"
+ },
+ {
+  "id": "N4",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "Las lámparas LED de la marca Y, que la empresa usa hoy, duraron en promedio 1.050 horas, con un desvío de 95 horas, en un ensayo con 35 lámparas. En las mismas condiciones, 40 lámparas de la marca X duraron en promedio 1.250 horas con un desvío de 110 horas. El proveedor de la marca X asegura que sus lámparas duran más de un 15% más que las de la marca Y.",
+  "incisos": [
+   [
+    "a",
+    "Con un nivel de significación del 1%, ¿puede aceptarse lo que asegura el proveedor?"
+   ],
+   [
+    "b",
+    "Con un 99% de confianza, ¿en qué porcentaje mínimo supera la duración media de la marca X a la de la marca Y?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    "1,15·μ",
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     1.1324
+    ]
+   ]
+  ],
+  "nota": "a) H1: μX > 1,15·μY; d* = 42.5 vs 61.5567 (ν = 73); b) h mínimo"
+ },
+ {
+  "id": "N5",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "Una empresa encuestó a 230 empleados sobre su conformidad con el nuevo sistema de turnos rotativos y registró el turno en el que trabaja cada uno:",
+  "incisos": [
+   [
+    "a",
+    "¿Depende el grado de conformidad del turno en el que se trabaja? Usar un riesgo del 5%."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Turno",
+     "Conforme",
+     "Indiferente",
+     "Disconforme"
+    ],
+    "filas": [
+     [
+      "Mañana",
+      38,
+      22,
+      15
+     ],
+     [
+      "Tarde",
+      30,
+      28,
+      22
+     ],
+     [
+      "Noche",
+      17,
+      25,
+      33
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     15.8085
+    ],
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ],
+  "nota": "χ² = 15.8085, ν = 4"
+ },
+ {
+  "id": "N6",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "En una central de emergencias se contó la cantidad de llamadas recibidas en 100 intervalos de un minuto elegidos al azar:",
+  "incisos": [
+   [
+    "a",
+    "¿Es razonable suponer que la cantidad de llamadas por minuto se distribuye según la ley de Poisson? Tomar α = 0,05."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Llamadas por minuto",
+     "Cantidad de intervalos"
+    ],
+    "filas": [
+     [
+      "0",
+      18
+     ],
+     [
+      "1",
+      34
+     ],
+     [
+      "2",
+      30
+     ],
+     [
+      "3",
+      12
+     ],
+     [
+      "4",
+      4
+     ],
+     [
+      "5 o más",
+      2
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ]
+  ],
+  "nota": "λ = 1.56; χ² = 1.6161 (amalgamado 5 clases), ν = 3"
+ },
+ {
+  "id": "N7",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "Un ingeniero de producción sospecha que la velocidad de corte (en m/min) influye en el desgaste del filo de la herramienta (en mm) al cabo de una jornada. Registró los siguientes valores:",
+  "incisos": [
+   [
+    "a",
+    "Ajustar el modelo lineal, interpretar los coeficientes en términos del problema y decidir si el modelo es válido."
+   ],
+   [
+    "b",
+    "Si mañana se trabaja una jornada a 210 m/min, ¿entre qué valores se espera el desgaste de esa herramienta? (95% de confianza)"
+   ],
+   [
+    "c",
+    "¿Se puede afirmar, al 5%, que por cada m/min adicional el desgaste aumenta en más de 0,0015 mm?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Velocidad de corte (m/min)",
+     "Desgaste (mm)"
+    ],
+    "filas": [
+     [
+      120,
+      0.21
+     ],
+     [
+      140,
+      0.26
+     ],
+     [
+      160,
+      0.3
+     ],
+     [
+      180,
+      0.37
+     ],
+     [
+      200,
+      0.4
+     ],
+     [
+      220,
+      0.47
+     ],
+     [
+      240,
+      0.5
+     ],
+     [
+      260,
+      0.58
+     ]
+    ],
+    "variable_y": "Desgaste (mm)"
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     0.0026
+    ],
+    [
+     "n",
+     0.993
+    ]
+   ],
+   [
+    [
+     "n",
+     0.4078
+    ],
+    [
+     "n",
+     0.4678
+    ]
+   ],
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ],
+  "nota": "b1 = 0.0026, r² = 0.993; b) predicción individual; c) b1c = 0.0017"
+ },
+ {
+  "id": "N8",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "Un comprador recibe lotes grandes de conectores. Un lote con a lo sumo un 3% de conectores defectuosos se considera bueno. El comprador quiere que un lote bueno, con un 3% de defectuosos, sea rechazado como mucho el 5% de las veces, y que un lote con un 10% de defectuosos sea rechazado por lo menos el 90% de las veces.",
+  "incisos": [
+   [
+    "a",
+    "Diseñar el plan de muestreo: tamaño de la muestra, condición de rechazo y regla de decisión."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "alguno",
+     [
+      104
+     ]
+    ],
+    [
+     "alguno",
+     [
+      7
+     ]
+    ]
+   ]
+  ],
+  "nota": "optimista: H0 p ≤ 0,03, α = 0,05, β = 0,10 en p = 0,10 → n = 104, r_c = 7"
+ },
+ {
+  "id": "N9",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "Un fabricante de pinturas desarrolló una fórmula nueva y quiere saber si seca más rápido que la actual. Se midió el tiempo de secado (en minutos) en paneles elegidos al azar:\nFórmula nueva: 42 - 45 - 39 - 41 - 44 - 40 - 43 - 38 - 41 - 42\nFórmula actual: 48 - 55 - 44 - 51 - 58 - 46 - 53 - 49 - 60 - 47",
+  "incisos": [
+   [
+    "a",
+    "Con un riesgo del 5%, ¿se puede sostener que la fórmula nueva seca más rápido?"
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza la diferencia entre los tiempos medios de secado de ambas fórmulas."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     5.6125
+    ],
+    [
+     "n",
+     13.5875
+    ]
+   ]
+  ],
+  "nota": "Welch si el F aux rechaza: ν = 11; d = 9.6 vs 3.2536"
+ },
+ {
+  "id": "N10",
+  "examen": "Ejercicio nuevo (Claude, 15/11/2026)",
+  "planteo": "La especificación de un proceso de inyección admite como máximo un 4% de piezas con rebabas. En el último control se revisaron 400 piezas y un 6,25% de ellas presentó rebabas.",
+  "incisos": [
+   [
+    "a",
+    "Con un riesgo del 1%, ¿debe detenerse el proceso para ajustarlo?"
+   ],
+   [
+    "b",
+    "Estimar, con un 99% de confianza, el porcentaje de piezas con rebabas que está produciendo el proceso."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     27
+    ]
+   ],
+   [
+    [
+     "n",
+     0.0354
+    ],
+    [
+     "n",
+     0.1004
+    ]
+   ]
+  ],
+  "nota": "optimista: H0 p ≤ 0,04; r = 25, r_c = 27"
+ }
+]

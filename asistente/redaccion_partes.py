@@ -231,6 +231,61 @@ def con_palabras(an: Analisis, palabras: Dict[str, object]) -> Analisis:
     return nuevo
 
 
+_GENERICO = re.compile(r"^(?:muestra|grupo|poblaci[oó]n)?\s*[12]$", re.I)
+_NOMBRE = """Devolvé SOLO un JSON {"nombre": "…"}: cómo se llama en el enunciado el grupo (marca, máquina, proveedor, \
+tratamiento…) al que corresponde el dato indicado, con las palabras del enunciado y sin números (p. ej. «marca Y», \
+«proveedor Sur», «fórmula nueva»)."""
+
+
+def _dato_del_grupo(d: Dict, k: str) -> Optional[Tuple[str, float]]:
+    for clave, nombre in (("xbar", "promedio"), ("s", "desvío"), ("n", "tamaño de muestra")):
+        v = d.get(clave + k)
+        if isinstance(v, (int, float)) and not isinstance(v, bool):
+            return nombre, float(v)
+    return None
+
+
+def nombres_de_grupos(an: Analisis, modelo: Optional[str] = None) -> Tuple[Dict[str, str], List[str]]:
+    """{"nombre1": …, "nombre2": …} cuando las reglas solo encontraron «Muestra 1 / Muestra 2».
+
+    Cada nombre se pide por el dato de su grupo («el grupo cuyo promedio es 1.050») y se valida en código: palabras del
+    enunciado y en la MISMA oración que ese número (así no se cruzan los grupos)."""
+    from interprete.texto import buscar_numeros, fmt, oraciones
+    d = an.datos
+    if not (_GENERICO.match(str(d.get("nombre1") or "1")) and _GENERICO.match(str(d.get("nombre2") or "2"))):
+        return {}, []
+    salida, descartados = {}, []
+    for k in ("1", "2"):
+        dato = _dato_del_grupo(d, k)
+        if not dato:
+            return {}, []
+        que, valor = dato
+        try:
+            js = json.loads(cliente.chat([{"role": "system", "content": _NOMBRE},
+                                          {"role": "user", "content": f"ENUNCIADO:\n{an.planteo}\n\nDato: el {que} es "
+                                                                      f"{fmt(valor)}."}],
+                                         modelo=modelo, formato="json", temperatura=0, max_tokens=60))
+            v = str(js.get("nombre") or "").strip(" .«»\"")
+        except (json.JSONDecodeError, TypeError, AttributeError):
+            v = ""
+        motivo = _frase_ok(v, an.planteo, 6)
+        if not motivo:
+            # el nombre y el número de su grupo tienen que estar en la misma oración
+            junto = False
+            for ini, fin in oraciones(an.planteo):
+                frase = an.planteo[ini:fin]
+                if normalizar(v) in normalizar(frase) and any(abs(n.valor - valor) < 1e-9 for n in buscar_numeros(frase)):
+                    junto = True
+            motivo = None if junto else f"no está en la misma oración que el {que} {fmt(valor)}"
+        if motivo:
+            descartados.append(f"nombre del grupo {k} «{v}»: {motivo}")
+            return {}, descartados
+        salida["nombre" + k] = v
+    if normalizar(salida["nombre1"]) == normalizar(salida["nombre2"]):
+        return {}, descartados + ["nombres de los grupos: los dos iguales"]
+    return salida, descartados
+
+
 # ---------------------------------------------------------------------------
 # 2. Textos por inciso
 # ---------------------------------------------------------------------------
@@ -436,6 +491,10 @@ def redactar_por_partes(an: Analisis, modelo: Optional[str] = None, hilos: int =
     etapa("Palabras del planteo (variable, unidad, acción)")
     palabras, descartados = palabras_del_planteo(an, modelo)
     an2 = con_palabras(an, palabras)
+    nombres, desc = nombres_de_grupos(an2, modelo)
+    descartados += desc
+    an2.datos.update(nombres)
+    palabras.update(nombres)
     resultados = resolver(an2)
     otros, desc = contrarios(an2, resultados, str(palabras.get("variable") or an2.datos.get("variable") or ""), modelo)
     descartados += desc

@@ -155,3 +155,43 @@ def test_afirmar_en_una_comparacion_va_en_h1():
     a = resolver(an)[0]
     just = next(p for p in a.pasos if p.startswith("**Justificación de H0"))
     assert "El enunciado dice qué se quiere probar" in just and "Criterio optimista" not in just
+
+
+def test_los_grupos_sin_nombre_se_nombran_con_el_dato_de_cada_uno(ia, monkeypatch):
+    nombres = {"1.050": "marca Y", "1.250": "marca X"}
+    falsa = IAFalsa({"variable": "duración de una lámpara", "unidad": "horas"}, rechaza=False)
+
+    def chat(mensajes, **kw):
+        if mensajes[0]["content"] is rp._NOMBRE:
+            valor = mensajes[-1]["content"].split("es ")[-1].rstrip(".")
+            return json.dumps({"nombre": nombres.get(valor, "")})
+        return falsa(mensajes, **kw)
+    ia(chat)
+    red = rp.redactar_por_partes(_examen_nuevo("N4"), hilos=1)
+    assert "μ(marca X) ≤ 1,15·μ(marca Y)" in red.texto and "Muestra" not in red.texto
+
+
+def test_un_nombre_cruzado_no_pasa(ia):
+    def chat(mensajes, **kw):
+        if mensajes[0]["content"] is rp._NOMBRE:          # contesta al revés: «marca X» para el promedio de 1.050
+            return json.dumps({"nombre": "marca X" if "1.050" in mensajes[-1]["content"] else "marca Y"})
+        return IAFalsa({"variable": "duración de una lámpara"}, rechaza=False)(mensajes, **kw)
+    ia(chat)
+    red = rp.redactar_por_partes(_examen_nuevo("N4"), hilos=1)
+    assert any("misma oración" in d for d in red.descartados)
+
+
+def _examen_nuevo(ident):
+    ex = next(e for e in json.load(open("datos/ejercicios_nuevos.json", encoding="utf-8")) if e["id"] == ident)
+    return analizar(ex["planteo"], [tuple(i) for i in ex["incisos"]], tablas=ex["tablas"])
+
+
+def test_ejercicios_nuevos_lo_que_se_quiere_probar_nombres_y_r_de_un_porcentaje():
+    n2 = resolver(_examen_nuevo("N2"))[0]
+    just = next(p for p in n2.pasos if p.startswith("**Justificación"))
+    assert "demuestra que su espesor es más regular" in just and "Criterio optimista" not in just
+    n3 = resolver(_examen_nuevo("N3"))[0]
+    assert "μ(Antes) - μ(Después)" in n3.resumen                  # sin el salto de línea del renglón «Antes: …»
+    n10 = resolver(_examen_nuevo("N10"))[1]
+    assert any("r = p̂·n = 0,0625·400 = 25" in p for p in n10.pasos)
+    assert any("1/[1 + ((n − r + 1)/r)·F] = 1/[1 + (376/25)" in p for p in n10.pasos)

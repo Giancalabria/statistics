@@ -154,6 +154,8 @@ def _datos(an: Analisis, inc: Inciso, estado: Dict) -> Dict:
         d["p_hat"] = d["r"] / d["n"]
     if d.get("r") is None and d.get("p_hat") is not None and d.get("n"):
         d["r"] = int(round(d["p_hat"] * d["n"]))
+        # «un 6,25% de las 400 piezas»: el r sale de una cuenta, no de la galera
+        d["_r_origen"] = f"r = p̂·n = {fmt(d['p_hat'], 4)}·{int(d['n'])} = {d['r']}"
     return d
 
 
@@ -806,7 +808,8 @@ def prop_ic(d, alpha, res: Resultado, estado):
         res.pasos.append(f"**Casos**: el enunciado cuenta {int(d['_r_contado'])} casos de lo contrario de lo que se "
                          f"pide estimar" + (f" ({que})" if que else "") + f" → r = n - {int(d['_r_contado'])} = "
                          f"{int(n)} - {int(d['_r_contado'])} = {int(r_)}.")
-    res.pasos.append(f"**Datos**: n = {int(n)}, r = {int(r_)}, p̂ = r/n = {fmt(int(r_) / int(n), 4)}.")
+    res.pasos.append(f"**Datos**: n = {int(n)}, " + (f"{d['_r_origen']}, " if d.get("_r_origen") else f"r = {int(r_)}, ")
+                     + f"p̂ = r/n = {fmt(int(r_) / int(n), 4)}.")
     ra, rb = redondeo.afuera(r.a, r.b, 4)
     res.pasos.append(f"**Modelo exacto** (Beta / F, el que usa la cátedra): A = {fmt(ra, 4)} ; B = {fmt(rb, 4)}.")
     if int(r_) in (0, int(n)) and not d.get("cota"):
@@ -850,14 +853,14 @@ def _pasos_f_proporcion(r: int, n: int, alpha: float, a: float, b: float) -> Lis
         a_f = 1 / (1 + (n - r + 1) / r * f)
         if abs(a_f - a) < 1e-9:
             pasos.append(f"**Límite inferior (A)**: ν₁ = 2(n − r + 1) = {v1}, ν₂ = 2r = {v2}; F({fmt(q, 4)}; {v1}; {v2}) = "
-                         f"{fmt(f, 4)}; A = 1/[1 + ({n - r + 1}/{r})·{fmt(f, 4)}] = {fmt(a, 6)}.")
+                         f"{fmt(f, 4)}; A = 1/[1 + ((n − r + 1)/r)·F] = 1/[1 + ({n - r + 1}/{r})·{fmt(f, 4)}] = {fmt(a, 6)}.")
     if r < n:
         v1, v2 = 2 * (r + 1), 2 * (n - r)
         f = stats.f.ppf(q, v1, v2)
         b_f = 1 / (1 + (n - r) / ((r + 1) * f))
         if abs(b_f - b) < 1e-9:
             pasos.append(f"**Límite superior (B)**: ν₁ = 2(r + 1) = {v1}, ν₂ = 2(n − r) = {v2}; F({fmt(q, 4)}; {v1}; {v2}) = "
-                         f"{fmt(f, 4)}; B = 1/[1 + {n - r}/({r + 1}·{fmt(f, 4)})] = {fmt(b, 6)}.")
+                         f"{fmt(f, 4)}; B = 1/[1 + (n − r)/((r + 1)·F)] = 1/[1 + {n - r}/({r + 1}·{fmt(f, 4)})] = {fmt(b, 6)}.")
     return pasos
 
 
@@ -1057,7 +1060,7 @@ def prop_ensayo(d, alpha, res: Resultado, estado, beta_modo=False):
             res.resumen += f" | normal: 1-β = {fmt(pot_n, 4)}"
         return
     op = "≥" if tail == "derecha" else "≤"
-    res.pasos.append(f"**Decisión**: r = {int(r_)} (p̂ = {fmt(p_obs, 4)}) " +
+    res.pasos.append(f"**Decisión**: {d['_r_origen'] if d.get('_r_origen') else f'r = {int(r_)}'} (p̂ = {fmt(p_obs, 4)}) " +
                      (f"{op} r_c = {r.critical_value} → se rechaza H0." if r.rejects_h0 else
                       f"no es {op} r_c = {r.critical_value} → no se rechaza H0."))
     res.pasos.append(f"Dato informativo (no es criterio de decisión): valor a posteriori α* = {fmt(r.p_value, 4)}. El "
@@ -1810,6 +1813,16 @@ def _beta_en_palabras(d: Dict, tema: str, acc) -> str:
     return f" En términos del problema: β = P({no} | {sim} = {v}); 1 - β = P({si} | {sim} = {v})."
 
 
+# verbos con los que un enunciado dice qué se quiere probar en una comparación (la afirmación va en H1)
+_AFIRMACION = re.compile(r"\b(?:asegur|afirm|demostr|demuestr|comprob|compruebe|sosten|sostien|confirm|verific)\w*"
+                         r"\s+(?:que|si)\b[^.?]{5,240}?(?=[.?]|$)", re.I)
+
+
+def _afirmacion(texto: str):
+    """La frase «… demuestra que el espesor del Sur es más regular» (o None)."""
+    return _AFIRMACION.search(texto or "")
+
+
 def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
     res = Resultado(titulo=f"{inc.letra}) {TITULOS.get(inc.tipo) or TIPOS.get(inc.tipo, 'Sin cálculo')}")
     tema = inc.params.get("tema") or an.tema   # un inciso puede ser de otro parámetro que el planteo
@@ -1857,7 +1870,7 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
             d["pide_probar"] = pide
         elif tema in ("dos_medias", "dos_varianzas") and inc.tipo == "ensayo" and (
                 m := re.search(r"¿?\s*(?:se puede |podr[ií]a |puede )?(?:asegurar|afirmar)\w*[^.?]{0,240}?(?=[.?]|$)",
-                               inc.texto or "", re.I)):
+                               inc.texto or "", re.I) or _afirmacion(texto_total)):
             # en comparaciones la pregunta dice qué se quiere asegurar (V-8, V-12) o afirmar (final 15/12/25, 2a):
             # eso va en H1 (profesor). En una comparación no hay control de rutina con el que se confunda «afirmar»
             d["pide_probar"] = m.group(0).strip(" ¿?,")
