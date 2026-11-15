@@ -152,8 +152,12 @@ asistente/
     IA copia lo que pide el inciso y **otra pregunta independiente** confirma que es lo opuesto; si no, el inciso
     queda sin nombre (con el de todo el problema diría lo contrario);
   - por inciso: el contexto de H0, por qué ese α (si el enunciado no lo fija) y la respuesta a la pregunta. Los
-    números tienen que estar en el enunciado o en la resolución de ese inciso, y en un ensayo otra pregunta confirma
-    que la respuesta dice lo mismo que la decisión del solver. Si algo falla se pide de nuevo con el motivo; si
+    números tienen que estar escritos **tal cual** en el enunciado o en la resolución de ese inciso, con el mismo
+    signo (finales: 55,13 por 55,128 quedaba hacia adentro; «reducción máxima de 0,3747» por un β1 ≤ −0,3747 daba
+    vuelta el sentido; 0,9788 como «97,88 %»), las probabilidades entre 0 y 1, y en un ensayo otra pregunta confirma
+    que la respuesta dice lo mismo que la decisión del solver;
+  - un inciso que cuenta otra cosa que la variable del problema (un complemento, o una proporción dentro de un
+    problema de dos medias: «disyuntores de la Marca B que no cumplen») lleva su propio nombre, sacado del inciso. Si algo falla se pide de nuevo con el motivo; si
     sigue, queda afuera y se avisa (la resolución del solver ya es correcta sin ese texto);
   - el armado saca las notas para el usuario de la app («completá…», citas del profesor, «p. ej.»).
 

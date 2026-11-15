@@ -160,8 +160,9 @@ def _datos(an: Analisis, inc: Inciso, estado: Dict) -> Dict:
 def _paso_resumen(d: Dict, res: Resultado):
     r = d.get("_resumen")
     if r:
-        res.pasos.append(f"**Procesar la muestra**: n = {r.n}, x̄ = Σxᵢ/n = {fmt(r.xbar, 4)}, "
-                         f"S = √[Σ(xᵢ - x̄)²/(n-1)] = {fmt(r.s, 4)}.")
+        ss = r.s ** 2 * (r.n - 1)
+        res.pasos.append(f"**Procesar la muestra**: n = {r.n}, x̄ = Σxᵢ/n = {fmt(r.xbar * r.n, 4)}/{r.n} = "
+                         f"{fmt(r.xbar, 4)}, S = √[Σ(xᵢ - x̄)²/(n-1)] = √({fmt(ss, 4)}/{r.n - 1}) = {fmt(r.s, 4)}.")
 
 
 # ---------------------------------------------------------------------------
@@ -1853,10 +1854,11 @@ def resolver_inciso(an: Analisis, inc: Inciso, estado: Dict) -> Resultado:
         cola = estado.get("tail") if estado.get("tail") != cola_previa else (d.get("tail") or estado.get("tail"))
         if not d.get("control") and (pide := que_pide_probar(texto_total)):
             d["pide_probar"] = pide
-        elif tema == "dos_medias" and inc.tipo == "ensayo" and (
-                m := re.search(r"¿?\s*(?:se puede |podr[ií]a |puede )?asegurar\w*[^.?]{0,240}?(?=[.?]|$)",
+        elif tema in ("dos_medias", "dos_varianzas") and inc.tipo == "ensayo" and (
+                m := re.search(r"¿?\s*(?:se puede |podr[ií]a |puede )?(?:asegurar|afirmar)\w*[^.?]{0,240}?(?=[.?]|$)",
                                inc.texto or "", re.I)):
-            # en comparaciones la pregunta dice qué se quiere asegurar (V-8, V-12): eso va en H1 (profesor)
+            # en comparaciones la pregunta dice qué se quiere asegurar (V-8, V-12) o afirmar (final 15/12/25, 2a):
+            # eso va en H1 (profesor). En una comparación no hay control de rutina con el que se confunda «afirmar»
             d["pide_probar"] = m.group(0).strip(" ¿?,")
         if tema == "dos_varianzas" and re.search(r"varianza", normalizar(texto_total)):
             d["habla_varianza"] = True      # la conclusión habla de la varianza (lo que pregunta el enunciado)

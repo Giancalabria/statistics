@@ -103,8 +103,8 @@ def _pedido_palabras(an: Analisis) -> str:
     ensayo = any(i.tipo in ENSAYOS for i in an.incisos) and an.criterio is not None
     claves = {
         "variable": ("lo que se cuenta, en plural (p. ej. «piezas defectuosas», «clientes que compran»)" if proporcion
-                     else "qué se mide o se observa en UNA unidad, sin números (p. ej. «peso de un paquete», "
-                          "«tiempo de atención de un cliente»)"),
+                     else "qué se mide o se observa en UNA unidad, en singular y sin números (p. ej. «peso de un "
+                          "paquete», «tiempo de atención de un cliente»)"),
         "unidad": "la unidad de medida del enunciado (p. ej. «gramos», «minutos por pieza»); \"\" si no tiene",
     }
     if ensayo:
@@ -114,6 +114,11 @@ def _pedido_palabras(an: Analisis) -> str:
     return (f"ENUNCIADO:\n{an.planteo.strip()}\n" + (f"\nINCISOS:\n{incisos}\n" if incisos else "") +
             f"\nTEMA: {TEMAS.get(an.tema, an.tema)}\n\nDevolvé un JSON con estas claves:\n" +
             "\n".join(f"- \"{k}\": {v}" for k, v in claves.items()))
+
+
+def _sin_espacios(t: str) -> str:
+    """«cm3 /cm2 /s» = «cm3/cm2/s»."""
+    return re.sub(r"\s+", "", normalizar(t))
 
 
 def palabras_del_planteo(an: Analisis, modelo: Optional[str] = None) -> Tuple[Dict[str, object], List[str]]:
@@ -142,14 +147,14 @@ def palabras_del_planteo(an: Analisis, modelo: Optional[str] = None) -> Tuple[Di
     u = str(js.get("unidad") or "").strip().strip(".«»\"")
     if u:
         # la unidad tiene que estar escrita en el enunciado (puede tener números: cm3, m²)
-        if normalizar(u) in normalizar(enunciado) and len(u.split()) <= 4:
+        if _sin_espacios(u) in _sin_espacios(enunciado) and len(u.split()) <= 4:
             salida["unidad"] = u
         else:
             descartados.append(f"unidad «{u}»: no está en el enunciado")
     return salida, descartados
 
 
-_CONTRARIO = """Devolvé SOLO un JSON {"que_pide": "…"}: qué unidades pide estimar o contar el inciso, copiando las palabras del inciso (con «no» si lo tiene), en plural y sin números."""
+_CONTRARIO = """Devolvé SOLO un JSON {"que_pide": "…"}: qué unidades pide estimar o contar el inciso, copiando las palabras del inciso con la condición que las define (p. ej. «piezas que no cumplen la especificación»; con «no» si lo tiene), en plural y sin números."""
 
 
 _OPUESTAS = """¿Las dos frases nombran cosas OPUESTAS (una es lo contrario de la otra, p. ej. «clientes que compran» y \
@@ -167,30 +172,43 @@ def _opuestas(a: str, b: str, modelo: Optional[str]) -> Optional[str]:
         return "no se pudo controlar que sea lo contrario"
 
 
+def _complemento(res: Resultado) -> bool:
+    """El solver detectó que el inciso pide lo contrario de lo que cuenta el enunciado (paso «Casos»)."""
+    return any(p.startswith("**Casos**") for p in res.pasos)
+
+
+def necesita_nombre(an: Analisis, inc, res: Resultado) -> bool:
+    """El inciso cuenta otra cosa que la variable del problema: un complemento, o una proporción dentro de un problema
+    de otro tema («porcentaje de disyuntores que no cumplen» en un problema de tiempos de respuesta)."""
+    return _complemento(res) or ((inc.params.get("tema") or an.tema) == "proporcion" and an.tema != "proporcion")
+
+
 def contrarios(an: Analisis, resultados: Sequence[Resultado], variable: str,
                modelo: Optional[str] = None) -> Tuple[Dict[str, str], List[str]]:
-    """{letra: lo que se cuenta en el inciso} para los incisos en que el solver detectó que se pide el complemento
-    (paso «Casos»: el enunciado cuenta 9 con fallas y el inciso pregunta por las no falladas)."""
+    """{letra: lo que se cuenta en el inciso} para los incisos que cuentan otra cosa que la variable del problema.
+    En un complemento (el enunciado cuenta 9 con fallas y el inciso pregunta por las no falladas), otra pregunta
+    independiente confirma que es lo opuesto de lo que cuenta el enunciado."""
     salida, descartados = {}, []
-    if not variable:
-        return salida, descartados
-    enunciado = enunciado_texto(an)
     for inc, res in zip(an.incisos, resultados):
-        if not any(p.startswith("**Casos**") for p in res.pasos):
+        if not necesita_nombre(an, inc, res):
             continue
+        complemento = _complemento(res)
+        if complemento and not variable:
+            continue
+        pedido = (f"El enunciado cuenta: «{variable}». " if complemento else "") + f"Inciso: «{inc.texto}»"
         try:
             js = json.loads(cliente.chat([{"role": "system", "content": _CONTRARIO},
-                                          {"role": "user", "content": f"El enunciado cuenta: «{variable}». "
-                                                                      f"Inciso: «{inc.texto}»"}],
+                                          {"role": "user", "content": pedido}],
                                          modelo=modelo, formato="json", temperatura=0, max_tokens=60))
             v = str(js.get("que_pide") or "").strip(" .«»\"")
         except (json.JSONDecodeError, TypeError, AttributeError):
             v = ""
-        motivo = _frase_ok(v, enunciado, 8) or ("es lo mismo que cuenta el enunciado"
-                                                 if normalizar(v) == normalizar(variable) else None) \
-            or _opuestas(variable, v, modelo)
+        motivo = _frase_ok(v, inc.texto, 12)          # con las palabras del inciso
+        if not motivo and complemento:
+            motivo = ("es lo mismo que cuenta el enunciado" if normalizar(v) == normalizar(variable) else
+                      _opuestas(variable, v, modelo))
         if motivo:
-            descartados.append(f"lo contrario en {inc.letra}) «{v}»: {motivo}")
+            descartados.append(f"lo que cuenta {inc.letra}) «{v}»: {motivo}")
         else:
             salida[inc.letra.lower()] = v
     return salida, descartados
@@ -202,6 +220,10 @@ def con_palabras(an: Analisis, palabras: Dict[str, object]) -> Analisis:
     for clave in ("variable", "unidad", "accion"):
         if palabras.get(clave) and not nuevo.datos.get(clave):
             nuevo.datos[clave] = palabras[clave]
+    # la unidad que detectó el solver puede quedar corta («Tn» de «3,62 Tn/mm2»): la de la IA la completa
+    u, previa = str(palabras.get("unidad") or ""), str(nuevo.datos.get("unidad") or "")
+    if u and previa and _sin_espacios(u) != _sin_espacios(previa) and _sin_espacios(u).startswith(_sin_espacios(previa)):
+        nuevo.datos["unidad"] = u
     for inc in nuevo.incisos:
         que = (palabras.get("incisos") or {}).get(inc.letra.lower())
         if que and not inc.params.get("variable"):
@@ -265,6 +287,29 @@ def _consistente(texto: str, decision: Optional[bool], modelo: Optional[str]) ->
     return None
 
 
+_MENOS = r"[-−]\s*$"
+
+
+def numeros_literales(texto: str, fuentes: str) -> List[str]:
+    """Números del texto que no están escritos igual en las fuentes: otro redondeo (55,13 por 55,128, que además
+    queda hacia adentro) u otro signo (0,3747 por -0,3747: «reducción máxima» en lugar de «cambio de -0,3747 como
+    máximo»). Los enteros chicos no cuentan."""
+    from interprete.texto import buscar_numeros
+    malos = []
+    for n in buscar_numeros(texto):
+        if n.es_entero and abs(n.valor) <= 10 and not n.pct:
+            continue
+        crudo = n.crudo.replace("%", "").strip()
+        apariciones = [m.start() for m in re.finditer(r"(?<![\d,.])" + re.escape(crudo) + r"(?!\d|,\d)", fuentes)]
+        if not apariciones:
+            malos.append(n.crudo.strip())
+            continue
+        negativo = bool(re.search(_MENOS, texto[max(0, n.ini - 3):n.ini]))
+        if not any(bool(re.search(_MENOS, fuentes[max(0, i - 3):i])) == negativo for i in apariciones):
+            malos.append(("-" if negativo else "") + n.crudo.strip() + " (signo)")
+    return list(dict.fromkeys(malos))
+
+
 def _validar(hueco: str, texto: str, fuentes: str, decision: Optional[bool], modelo) -> Optional[str]:
     if not texto or len(texto) < 15:
         return "vacío"
@@ -272,9 +317,15 @@ def _validar(hueco: str, texto: str, fuentes: str, decision: Optional[bool], mod
         return "demasiado largo (son 1 o 2 oraciones)"
     if re.search(r"\bacept\w*\s+(la\s+)?(h0|h₀|hip[oó]tesis nula)", texto, re.I):
         return "dice «acepta H0»"
-    dudosos = numeros_sin_respaldo(texto, fuentes)
+    dudosos = numeros_sin_respaldo(texto, fuentes) or numeros_literales(texto, fuentes)
     if dudosos:
-        return "números que no están en el enunciado ni en la resolución: " + ", ".join(dudosos)
+        return ("números que no están escritos así en el enunciado ni en la resolución (copialos tal cual, con su "
+                "signo y sus decimales): " + ", ".join(dudosos))
+    from .redactar import _PROB_PORCENTAJE      # la misma regla del profesor que el checklist
+    pct = _PROB_PORCENTAJE.search(texto)
+    if pct:
+        return (f"expresa una probabilidad o un riesgo en %: «{pct.group(0).strip()}» (el profesor los quiere entre "
+                "0 y 1: «α = 0,05»)")
     if hueco == "respuesta":
         return _consistente(texto, decision, modelo)
     return None
@@ -389,8 +440,8 @@ def redactar_por_partes(an: Analisis, modelo: Optional[str] = None, hilos: int =
     otros, desc = contrarios(an2, resultados, str(palabras.get("variable") or an2.datos.get("variable") or ""), modelo)
     descartados += desc
     sin_nombre = [inc for inc, res in zip(an2.incisos, resultados)
-                  if any(p.startswith("**Casos**") for p in res.pasos) and inc.letra.lower() not in otros]
-    for inc in sin_nombre:      # pide lo contrario y no hay un nombre validado: el de todo el problema diría lo opuesto
+                  if necesita_nombre(an2, inc, res) and inc.letra.lower() not in otros]
+    for inc in sin_nombre:      # cuenta otra cosa y no hay un nombre validado: el de todo el problema diría otra cosa
         inc.params["variable"] = ""
     if otros or sin_nombre:
         palabras["incisos"] = otros

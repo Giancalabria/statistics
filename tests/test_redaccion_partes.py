@@ -121,3 +121,37 @@ def test_sin_ia_util_queda_la_resolucion_del_solver(ia):
     red = rp.redactar_por_partes(_examen("T2"), hilos=1)
     assert "⟨qué se cuenta" in red.texto and "⚠️ Quedaron huecos" in red.texto
     assert "r_c = 12" in red.texto
+
+
+def test_numeros_al_pie_de_la_letra_y_con_su_signo():
+    f = "P(55,128 ≤ μ ≤ 56,206) = 0,99; P(β1 ≤ -0,3747) = 0,95; 82,77% con 95% de confianza; Σy = 1.696"
+    assert rp.numeros_literales("entre 55,128 y 56,206", f) == []
+    assert rp.numeros_literales("entre 55,13 y 56,21", f) == ["55,13", "56,21"]       # otro redondeo (hacia adentro)
+    assert rp.numeros_literales("una reducción de 0,3747", f) == ["0,3747 (signo)"]   # da vuelta el sentido
+    assert rp.numeros_literales("un cambio de -0,3747", f) == []
+    assert rp.numeros_literales("el 82,77%, con 95%; 1.696", f) == []
+
+
+def test_la_unidad_de_la_ia_completa_la_que_detecto_el_solver(ia):
+    ia(IAFalsa({"variable": "maleabilidad", "unidad": "Tn/mm2"}, rechaza=False))
+    red = rp.redactar_por_partes(_examen("F3"), hilos=1)
+    assert "X = maleabilidad, en Tn/mm2." in red.texto
+
+
+def test_la_unidad_se_compara_sin_espacios():
+    assert rp._sin_espacios("cm3/cm2/s") in rp._sin_espacios("permeabilidad al aire (cm3 /cm2 /s) de varios tipos")
+
+
+def test_una_proporcion_dentro_de_otro_tema_lleva_su_propio_nombre(ia):
+    ia(IAFalsa({"variable": "tiempo de respuesta", "unidad": "mili-segundos"},
+               que_pide="disyuntores de la Marca B que no cumplen con la especificación", rechaza=True))
+    red = rp.redactar_por_partes(_examen("P2"), hilos=1)
+    assert "porcentaje poblacional de disyuntores de la Marca B que no cumplen" in red.texto
+    assert "porcentaje poblacional de tiempo de respuesta" not in red.texto
+
+
+def test_afirmar_en_una_comparacion_va_en_h1():
+    an = _examen("P2")
+    a = resolver(an)[0]
+    just = next(p for p in a.pasos if p.startswith("**Justificación de H0"))
+    assert "El enunciado dice qué se quiere probar" in just and "Criterio optimista" not in just

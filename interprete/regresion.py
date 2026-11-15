@@ -888,7 +888,8 @@ def ic_coef(d, alpha, res, estado):
         c = redondeo.cota(lim, cola == "superior", 4)
         res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}.")
         res.pasos.append(f"**Límite {cola} para β1** (unilateral, α entero en una cola): b1 {op} t(1-α; ν = {reg.nu})·Sb1 "
-                         f"= {fmt(reg.b1, 4)} {op} {fmt(ic.critico, 4)}·{fmt(reg.Sb1, 4)} = {fmt(lim, 4)}.")
+                         f"= {fmt(reg.b1, 4)} {op} {fmt(ic.critico, 4)}·{fmt(reg.Sb1, 4)} = {fmt(lim, 6)} "
+                         "(sin redondear; el redondeo hacia afuera va en la conclusión).")
         res.numeros += [reg.b1, lim, ic.error, ic.critico]
         res.resumen = f"β1 {signo} {fmt(lim, 4)}"
         res.conclusion = (f"Con un {conf}% de confianza, {_por_cada(nx, ux)} el cambio de {_el(ny)} es como "
@@ -949,7 +950,8 @@ def ic_rho2(d, alpha, res, estado):
     ic = _ic_rho(reg, alpha, res)
     a2, b2 = sorted((ic.A ** 2, ic.B ** 2)) if ic.A * ic.B > 0 else (0.0, max(ic.A ** 2, ic.B ** 2))
     ar, br, nota = redondeo.intervalo(a2, b2, 4)
-    res.pasos.append(f"**IC para ρ²**: los límites del IC de ρ al cuadrado → [{fmt(a2, 4)} ; {fmt(b2, 4)}]"
+    res.pasos.append(f"**IC para ρ²**: los límites del IC de ρ al cuadrado → [{fmt(a2, 6)} ; {fmt(b2, 6)}] (sin "
+                     "redondear; el redondeo hacia afuera va en la conclusión)"
                      + (f" (el IC de ρ incluye el 0, así que el mínimo de ρ² es 0; el máximo es "
                         f"{fmt(max(abs(ic.A), abs(ic.B)), 4)}² = {fmt(b2, 4)})" if ic.A * ic.B <= 0 else "") + ".")
     res.numeros += [reg.r2, a2, b2, 100 * a2, 100 * b2]
