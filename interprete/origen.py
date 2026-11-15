@@ -135,7 +135,8 @@ def _es_resultado(texto: str, ini: int) -> bool:
             k -= 1
         if re.search(r"=\s*(?:máx|mín|max|min)?\s*$", texto[max(0, k - 12):k - 1]):
             return True
-    if re.search(r"=\s*-?[\d.,]+\s*;\s*$", texto[max(0, ini - 40):ini]):   # A ; B = 3,25 ; 5,75
+    # A ; B = 3,25 ; 5,75 (también negativos: = -87,06 ; -81,80) y listas «mᵢ = … = 17,5; 22,5; 27,5»
+    if re.search(r"=\s*(?:[-−]?[\d.,]+\s*;\s*)+[-−]?\s*$", texto[max(0, ini - 160):ini]):
         return True
     t0 = _inicio_tramo(texto, prof, ini)
     tramo = texto[t0:ini].rstrip()

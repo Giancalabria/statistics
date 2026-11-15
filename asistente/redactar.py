@@ -260,6 +260,15 @@ def pasos_omitidos(texto: str, resultados: Sequence[Resultado]) -> List[str]:
     return list(dict.fromkeys(faltan))
 
 
+def _tablas_texto(an: Analisis) -> str:
+    """Las celdas de las tablas del enunciado, como texto: son datos (Fo, x, y), no números «de la galera»."""
+    celdas = []
+    for t in an.tablas or []:
+        for fila in t.get("filas") or []:
+            celdas += [str(c).replace(".", ",") if isinstance(c, float) else str(c) for c in fila]
+    return " ; ".join(celdas)
+
+
 def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resultado] = ()) -> List[Control]:
     out: List[Control] = []
     secciones = _secciones(texto)
@@ -293,7 +302,9 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
         if inc.tipo in INTERVALOS:
             res = resultados[an.incisos.index(inc)] if len(resultados) == len(an.incisos) else None
             cota = res is not None and bool(re.search(r"[≤≥]", res.resumen or "")) and "[" not in (res.resumen or "")
-            out.append(Control(bool(_FORMAL.search(sec)), f"{nombre}: expresión formal " +
+            porcentual = res is not None and (res.resumen or "").startswith("h = ")
+            # la diferencia porcentual garantizada se informa como h y el %, sin P(…) (profesor, V-8d)
+            out.append(Control(porcentual or bool(_FORMAL.search(sec)), f"{nombre}: expresión formal " +
                                ("con un solo límite, P(θ ≤ B) = 1 − α o P(θ ≥ A) = 1 − α (es una cota)" if cota
                                 else "P(A ≤ θ ≤ B) = 1 − α")))
             limites = _limites(res) if res is not None else []
@@ -305,7 +316,12 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
         if inc.tipo in ENSAYOS:
             hay_cr = bool(re.search(r"\bCR\b|condici[oó]n de rechazo", sec, re.IGNORECASE))
             hay_rd = bool(re.search(r"\bRD\b|regla de decisi[oó]n", sec, re.IGNORECASE))
-            out.append(Control(hay_cr and hay_rd, f"{nombre}: condición de rechazo y regla de decisión"))
+            if inc.tipo in ("validacion", "ensayo_coef"):
+                # en regresión el profesor escribe la CR y decide, sin una RD aparte (VII-13 del 05/11)
+                out.append(Control(hay_cr or bool(re.search(r"b1c|t\(1-α|se rechaza", sec)),
+                                   f"{nombre}: condición de rechazo"))
+            else:
+                out.append(Control(hay_cr and hay_rd, f"{nombre}: condición de rechazo y regla de decisión"))
             out.append(Control(bool(re.search(r"H0|H₀", sec)) and bool(re.search(r"H1|H₁", sec)),
                                f"{nombre}: H0 y H1"))
             if inc.tipo == "ensayo":
@@ -324,7 +340,7 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
         out.append(Control(bool(hay), f"Justifica la H0 con el criterio {an.criterio}" if hay else
                            f"No justifica la H0 con el criterio {an.criterio} (el profesor lo pide en palabras)"))
     # los que sí son del solver pero aparecen sueltos, sin la fórmula ni el dato de donde salen («de la galera»)
-    sueltos = [x for x in sin_origen(texto, enunciado_texto(an)) if x not in dudosos]
+    sueltos = [x for x in sin_origen(texto, enunciado_texto(an) + "\n" + _tablas_texto(an)) if x not in dudosos]
     out.append(Control(not sueltos, "Cada número calculado muestra su fórmula con los valores reemplazados" if not sueltos
                        else "Números sin su cuenta (escribí fórmula = valores reemplazados = resultado, o el fractil con "
                             "su argumento, como en la resolución del solver): " + ", ".join(sueltos[:12])))

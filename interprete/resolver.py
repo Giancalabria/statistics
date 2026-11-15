@@ -668,7 +668,8 @@ def varianza_n(d, alpha, res: Resultado, estado):
         raise FaltaDato("Falta la relación entre límites buscada o la reducción pedida")
     res.pasos.append(f"**Relación buscada** R' = B'/A' = {fmt(r.r_sigma_objetivo, 4)} → R = (R')² = {fmt(r.r_var_objetivo, 4)}.")
     res.pasos.append(f"**Ecuación de García**: a = Z(1-α/2)·(R^(1/3)+1)/(2·(R^(1/3)-1)) = {fmt(r.a, 4)}; "
-                     f"ν = (2/9)·(a + √(a²+1))² = {fmt(r.nu, 4)} → ν al entero superior; n = ν + 1 → {r.n}.")
+                     f"ν = (2/9)·(a + √(a²+1))² = {fmt(r.nu, 4)} → ν = {r.n - 1} (entero superior); "
+                     f"n = ν + 1 = {r.n - 1} + 1 = {r.n}.")
     if r.n_exacto:
         res.pasos.append(f"Control por búsqueda exacta en χ²: n = {r.n_exacto} (R' logrado = {fmt(r.r_sigma_logrado, 4)}).")
     res.conclusion = _coma(wording.texto_tamano_muestra_varianza(r, d.get("n")))

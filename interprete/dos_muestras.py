@@ -804,7 +804,12 @@ def _inecuacion_h(x1: float, c: Dict, n1: int, x2: float, n2: int, alpha: float,
     raices = sorted(((-B - raiz(disc)) / (2 * A), (-B + raiz(disc)) / (2 * A)))
     signo = ">" if cota == "inf" else "<"
     lineas = [f"**Inecuación en h**: x̄₁ - h·x̄₂ {signo} {'' if cota == 'inf' else '-'}{err} (h² va en el término de la "
-              f"población que lleva h). Con {fmt(x1, 4)} - {fmt(x2, 4)}·h y fractil {fmt(q, 4)}, al elevar al cuadrado: "
+              f"población que lleva h). Con {fmt(x1, 4)} - {fmt(x2, 4)}·h y el fractil q = {fmt(q, 4)}, al elevar al cuadrado: "
+              f"a·h² + b·h + c = 0, con c₁ = {'Sa²/n₁' if c['metodo'] == 'pooled' else 'σ₁²/n₁'} = {fmt(c1, 6)}, "
+              f"c₂ = {'Sa²/n₂' if c['metodo'] == 'pooled' else 'σ₂²/n₂'} = {fmt(c2, 6)}; "
+              f"a = x̄₂² - q²·c₂ = {fmt(x2, 4)}² - {fmt(q, 4)}²·{fmt(c2, 6)} = {fmt(A, 4)}; "
+              f"b = -2·x̄₁·x̄₂ = -2·{fmt(x1, 4)}·{fmt(x2, 4)} = {fmt(B, 4)}; "
+              f"c = x̄₁² - q²·c₁ = {fmt(x1, 4)}² - {fmt(q, 4)}²·{fmt(c1, 6)} = {fmt(C, 4)}: "
               f"{fmt(A, 4)}·h² {'+' if B >= 0 else '-'} {fmt(abs(B), 4)}·h {'+' if C >= 0 else '-'} {fmt(abs(C), 4)} = 0 → "
               f"raíces h = {redondeo.fijo(raices[0], 4)} y h = {redondeo.fijo(raices[1], 4)}. Verificación en la inecuación original:"]
     for h in raices:

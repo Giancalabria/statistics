@@ -34,7 +34,7 @@ class Numero:
 
 
 # Unidades que pueden venir pegadas al número ('4.6kg', '15cm', '30min').
-UNIDAD_PEGADA = r"(?:kg|grs?|g|mg|cm|mm|km|m|lts?|l|ml|hs|h|min|seg|s|kwh|w)\b"
+UNIDAD_PEGADA = r"(?:kg|grs?|g|mg|cm|mm|km|m|lts?|l|ml|hs|h|min|seg|s|kwh|w|[º°]c?)\b"
 
 # 1.250 | 1.167,88 | 2,5217 | 0.3222 | 15 | 1/37 | 4.6kg
 RE_NUM = re.compile(
