@@ -248,6 +248,7 @@ def explicar_distribuciones(tema: str, tipo: str, d: Dict) -> Optional[str]:
 # prefijo del paso -> (número de paso al que pertenece, título nuevo o None si se deja)
 PASOS_ENSAYO = {
     "**Estimación**": (0.5, None),            # procesar los datos primero (profesor, 29/10)
+    "**Procesar las muestras**": (0.5, None),
     "**Parámetros del modelo**": (0.6, None),
     "**Hipótesis**": (1, "**1 · Planteo de hipótesis**"),
     "**Justificación de H0**": (1.5, None),  # va después del planteo
@@ -319,7 +320,7 @@ def agregar_presentacion(pasos: List[str], tema: str, tipo: str, d: Dict, criter
     if d.get("ambos"):
         i_hip = None  # dos ensayos: se explica una sola vez arriba
     if i_hip is None:
-        inicio = 1 if pasos and pasos[0].startswith("**Procesar la muestra**") else 0
+        inicio = 1 if pasos and pasos[0].startswith("**Procesar la") else 0
         pasos[inicio:inicio] = [x for x in (just, dist) if x]
     else:
         if dist:

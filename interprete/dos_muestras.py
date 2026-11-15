@@ -490,6 +490,8 @@ def _invertir(d: Dict) -> Dict:
     for k in _LADOS:
         v1, v2 = d.get(k + "1"), d.get(k + "2")
         d[k + "1"], d[k + "2"] = v2, v1
+    if d.get("_muestras"):                 # las listas de la tabla de clases van con su nombre
+        d["_muestras"] = tuple(reversed(d["_muestras"]))
     return d
 
 
@@ -503,6 +505,33 @@ def _orientar(d: Dict, tail: Optional[str]) -> Dict:
     return d
 
 
+def _paso_muestras(d: Dict, a: str, b: str) -> Optional[str]:
+    """De dónde salen x̄ y S de cada muestra cuando vienen como datos (o como tabla de clases: marcas × frecuencias)."""
+    partes = []
+    agrupadas = d.get("_muestras") or (None, None)      # tabla de clases de un problema de χ² (T1)
+    for lista, nombre in ((d.get("datos1") or agrupadas[0], a), (d.get("datos2") or agrupadas[1], b)):
+        if not lista or len(lista) < 2:
+            continue
+        xs = [float(x) for x in lista]
+        n = len(xs)
+        m = sum(xs) / n
+        ss = sum((x - m) ** 2 for x in xs)
+        valores = sorted(set(xs))
+        if len(valores) <= n / 2:      # tabla de clases: cada marca mᵢ con su frecuencia Foᵢ
+            fo = [xs.count(v) for v in valores]
+            partes.append(f"{nombre}: mᵢ = {'; '.join(fmt(v, 4) for v in valores)} con Foᵢ = "
+                          f"{'; '.join(str(f) for f in fo)} → n = ΣFoᵢ = {n}, x̄ = Σmᵢ·Foᵢ/n = {fmt(sum(xs), 4)}/{n} = "
+                          f"{fmt(m, 4)}, S = √[Σ(mᵢ - x̄)²·Foᵢ/(n-1)] = √({fmt(ss, 4)}/{n - 1}) = "
+                          f"{fmt(sqrt(ss / (n - 1)), 4)}")
+        else:
+            partes.append(f"{nombre}: n = {n}, x̄ = Σxᵢ/n = {fmt(sum(xs), 4)}/{n} = {fmt(m, 4)}, "
+                          f"S = √[Σ(xᵢ - x̄)²/(n-1)] = √({fmt(ss, 4)}/{n - 1}) = {fmt(sqrt(ss / (n - 1)), 4)}")
+    if not partes:
+        return None
+    agrupado = "marcas de clase mᵢ = (lᵢ + lₛ)/2" if "mᵢ" in partes[0] else "datos"
+    return f"**Procesar las muestras** ({agrupado}): " + "; ".join(partes) + "."
+
+
 def _plantear(d: Dict, alpha: float, res: Resultado) -> Dict:
     """Decide el modelo: apareadas, Z (σ conocidos), pooled o Welch (test F previo al 10%)."""
     a, b = d.get("nombre1") or "1", d.get("nombre2") or "2"
@@ -511,6 +540,9 @@ def _plantear(d: Dict, alpha: float, res: Resultado) -> Dict:
         if not l1 or not l2 or len(l1) != len(l2):
             raise FaltaDato("Para muestras apareadas hacen falta las dos listas de datos, del mismo largo")
         return {"metodo": "apareadas", "l1": list(l1), "l2": list(l2)}
+    proc = _paso_muestras(d, a, b)
+    if proc:
+        res.pasos.append(proc)
     s1, n1, s2, n2 = d.get("s1"), d.get("n1"), d.get("s2"), d.get("n2")
     sig1, sig2 = d.get("sigma_pob1"), d.get("sigma_pob2")
     faltan = [k for k in ("n1", "xbar1", "n2", "xbar2") if d.get(k) in (None, "")]
@@ -652,24 +684,26 @@ def _ensayo_simple(d, alpha, res: Resultado, estado):
         h1 = f"μ({a}) {s1} {fmt(h, 4)}·μ({b})"
     res.pasos.insert(0, f"**Hipótesis**: H0: {h0}  vs  H1: {h1}  (α = {fmt(alpha, 4)}).")
     crit = r.critical_value
+    dn = "d*" if h != 1 else "d"      # con h (δ* = μ₁ - h·μ₂) el estimador es d* = x̄₁ - h·x̄₂
     if isinstance(crit, tuple):
-        cond = f"d < {fmt(crit[0], 4)} o d > {fmt(crit[1], 4)}"
+        cond = f"{dn} < {fmt(crit[0], 4)} o {dn} > {fmt(crit[1], 4)}"
     else:
-        cond = f"d {_signo(tail)} {fmt(crit, 4)}"
+        cond = f"{dn} {_signo(tail)} {fmt(crit, 4)}"
     nu = (rs.n - 1) if c["metodo"] == "apareadas" else r.df
     pr = 1 - (alpha / 2 if tail == "bilateral" else alpha)
     q = f"Z({fmt(pr, 4)})" if c["metodo"] == "z" else f"t({fmt(pr, 4)}; {nu})"
     fr = abs(((crit[1] if isinstance(crit, tuple) else crit) - delta0) / se) if se else 0.0   # el fractil usado
     sg = '∓' if tail == 'bilateral' else '+' if tail == 'derecha' else '-'
-    res.pasos.append(f"**Condición de rechazo**: d_c = δ₀ {sg} {q}·σ(d) = {fmt(delta0, 6)} {sg} {fmt(fr, 4)}·"
+    res.pasos.append(f"**Condición de rechazo**: {dn}_c = δ₀ {sg} {q}·σ({dn}) = {fmt(delta0, 6)} {sg} {fmt(fr, 4)}·"
                      f"{fmt(se, 6)} = {_cv(crit)}. Si {cond} ⇒ se rechaza H0.")
-    res.pasos.append(f"**Decisión**: d = {fmt(obs, 4)} → " + ("se rechaza H0." if r.rejects_h0 else "no se rechaza H0."))
+    res.pasos.append(f"**Decisión**: {dn} = {fmt(obs, 4)} → " + ("se rechaza H0." if r.rejects_h0 else "no se rechaza H0."))
     if r.p_value is not None:
         res.pasos.append(f"Dato informativo (no es criterio de decisión): valor a posteriori α* = {fmt(r.p_value, 4)}. "
                          "La decisión se toma comparando el estimador con el valor crítico.")
     r.h0_text, r.h1_text = h0, h1
-    res.conclusion = _ensayo_txt(r, alpha, f"d = {fmt(obs, 4)}", d)
-    res.regla = _regla(d, f"calcula la diferencia d entre {'las medias muestrales' if c['metodo'] != 'apareadas' else 'los pares'}",
+    res.conclusion = _ensayo_txt(r, alpha, f"{dn} = {fmt(obs, 4)}", d)
+    res.regla = _regla(d, (f"calcula d* = x̄₁ - {fmt(h, 4)}·x̄₂ con" if h != 1 else "calcula la diferencia d entre")
+                       + f" {'las medias muestrales' if c['metodo'] != 'apareadas' else 'los pares'}",
                        cond, h1)
     res.numeros += (list(crit) if isinstance(crit, tuple) else [crit]) + [obs]
     if h != 1:
@@ -847,14 +881,15 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
                       f"A; B = d ∓ e = {fmt(centro, 6)} ∓ {fmt(e, 6)} = {fmt(lo, 6)} ; {fmt(hi, 6)}") + ".")
     if cota == "inf":
         c = redondeo.cota(lo, False, 4)   # diferencias: 4 decimales, como en clase (V-8b: 0,3788)
-        res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) - μ({b}) ≥ {c}: la diferencia "
+        res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) - μ({b}) ≥ {c}: "
+                          f"P(μ({a}) - μ({b}) ≥ {c}) = {fmt(1 - alpha, 4)}; la diferencia "
                           f"mínima garantizada para {a} es {c} (redondeada hacia abajo; sin redondear {fmt(lo, 6)}).")
         res.numeros += [lo, e]
         res.resumen = f"δ ≥ {fmt(lo, 4)}"
     elif cota == "sup":
         c = redondeo.cota(hi, True, 4)
-        res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) - μ({b}) ≤ {c} "
-                          f"(redondeada hacia arriba; sin redondear {fmt(hi, 6)}).")
+        res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) - μ({b}) ≤ {c}: "
+                          f"P(μ({a}) - μ({b}) ≤ {c}) = {fmt(1 - alpha, 4)} (redondeada hacia arriba; sin redondear {fmt(hi, 6)}).")
         res.numeros += [hi, e]
         res.resumen = f"δ ≤ {fmt(hi, 4)}"
     else:

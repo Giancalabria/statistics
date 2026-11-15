@@ -114,6 +114,8 @@ asistente/
   numeros.py      números del enunciado que el planteo no usa (sin IA)
   contexto.py     búsqueda TF-IDF en los apuntes .md
   explicar.py     explicaciones / chat y control de números sin respaldo
+  redactar.py     redacción completa con ESTILO_CATEDRA.md y el checklist de la cátedra
+  redaccion_partes.py  redacción por partes: el solver escribe, la IA llena palabras validadas
   tareas.py       consultas en segundo plano (un hilo por consulta): siguen aunque cambies de página
   ui.py           barra lateral de Streamlit (estado de Ollama y modelo) y seguimiento de tareas
 ```
@@ -137,4 +139,26 @@ asistente/
   argumento, o fórmula = valores reemplazados = resultado). El solver ya lo escribe así (`herramientas/
   auditar_origen.py` lo audita sobre la guía), el prompt de `redactar.py` lo exige (regla 12) y el checklist
   marca «Números sin su cuenta» con `interprete/origen.py`; esa falla vuelve en la segunda vuelta de corrección.
-- Los tests (`tests/test_asistente.py`) reemplazan el modelo por respuestas fijas: no hace falta Ollama.
+- **Redacción por partes** (15/11, `asistente/redaccion_partes.py`): *📝 Redactar como en el examen* sin pedido ya
+  no le da a la IA la resolución para que la reescriba. Al reescribirla entera (≈100 números en un χ²), el modelo de
+  8B copiaba mal algunos aunque tuviera todo el contexto (2° parcial 10/11/25: e = 0,6107 sin el fractil t, una
+  columna de χ² inventada, «Total Fe = 123»). Partirla por inciso achica el texto pero no saca el problema. Ahora
+  **el solver escribe todos los pasos y los números** y la IA solo completa lo que depende del contexto, con
+  llamadas chicas (en paralelo) y cada parte **controlada en código antes de usarla**:
+  - palabras del planteo (JSON): variable, unidad y acción si se rechaza H0. Sin números y con palabras del
+    enunciado de turno (no hay listas de palabras); con ellas se vuelve a correr el solver, que las pone en la
+    variable, la RD y la conclusión;
+  - si el solver detecta que un inciso pide el complemento (contó 9 con fallas, pregunta por las no falladas), la
+    IA copia lo que pide el inciso y **otra pregunta independiente** confirma que es lo opuesto; si no, el inciso
+    queda sin nombre (con el de todo el problema diría lo contrario);
+  - por inciso: el contexto de H0, por qué ese α (si el enunciado no lo fija) y la respuesta a la pregunta. Los
+    números tienen que estar en el enunciado o en la resolución de ese inciso, y en un ensayo otra pregunta confirma
+    que la respuesta dice lo mismo que la decisión del solver. Si algo falla se pide de nuevo con el motivo; si
+    sigue, queda afuera y se avisa (la resolución del solver ya es correcta sin ese texto);
+  - el armado saca las notas para el usuario de la app («completá…», citas del profesor, «p. ej.»).
+
+  Con un pedido libre sigue la redacción completa de `redactar.py`. Comparar las dos:
+  `herramientas/comparar_redaccion_examenes.py` (exámenes reales) y `comparar_redaccion_clase.py --partes`
+  (contra el pizarrón del profesor).
+- Los tests (`tests/test_asistente.py`, `tests/test_redaccion_partes.py`) reemplazan el modelo por respuestas
+  fijas: no hace falta Ollama.

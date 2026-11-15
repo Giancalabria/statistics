@@ -9,6 +9,7 @@ import streamlit as st
 from asistente import cliente as ia_cliente
 from asistente.consenso import NOMBRES as NOMBRES_LECTURA, combinado, consenso
 from asistente.explicar import explicar, numeros_sin_respaldo
+from asistente.redaccion_partes import fuentes as fuentes_partes, redactar_por_partes
 from asistente.redactar import Control, controlar, corregir, problemas, redactar
 from asistente.ui import configuracion as config_ia, descartar, en_curso, lanzar, recoger, seguir
 from interprete import buscador, glosario
@@ -33,7 +34,16 @@ def interpretar_con_ia(t, planteo, incisos_txt, tablas_in, ia_modelo):
 
 
 def redactar_ia(t, nuevo, resultados, pedido, ia_modelo):
-    """Corre en segundo plano: la redacción con el estilo de la cátedra, con una vuelta de corrección si hace falta."""
+    """Corre en segundo plano: la redacción con el estilo de la cátedra.
+
+    Sin pedido: por partes (el solver escribe todos los números y la IA solo las palabras que dependen del contexto,
+    validadas). Con un pedido libre («redactá solo la conclusión del b)»): la IA redacta todo, con el checklist y una
+    vuelta de corrección."""
+    if not pedido.strip():
+        red = redactar_por_partes(nuevo, modelo=ia_modelo, etapa=lambda e: setattr(t, "etapa", e))
+        controles = controlar(red.texto, red.analisis, fuentes_partes(red), red.resultados)
+        controles += [Control(False, f"La IA no completó (se dejó el texto del solver): {d}") for d in red.descartados]
+        return t.escribir(iter([red.texto])), controles
     t.etapa = "Redactando como en el examen"
     trozos, fuentes = redactar(nuevo, resultados, pedido, modelo=ia_modelo)
     texto = t.escribir(trozos)
@@ -474,9 +484,10 @@ if ss.get("resultados") and ia_ok:
     redactando = en_curso("redaccion")
     c_red, c_exp = st.columns(2)
     if c_red.button("📝 Redactar como en el examen", type="primary", disabled=redactando,
-                    help="La resolución completa con el estilo de la cátedra (ESTILO_CATEDRA.md): variable con su "
-                         "unidad, 7 pasos, CR y RD, expresión formal de los intervalos. Los números son los del "
-                         "solver; al final se pasa el checklist."):
+                    help="La resolución completa como en el examen. Sin pedido, el solver escribe todos los pasos "
+                         "y los números, y la IA solo completa lo que depende del contexto (variable, acción, por qué "
+                         "H0, por qué α, respuesta a cada pregunta), cada parte controlada antes de usarla. Con un "
+                         "pedido, la IA redacta todo con ESTILO_CATEDRA.md. Al final se pasa el checklist."):
         nuevo, resultados = ss["resultados"]
         lanzar("redaccion", "Redacción", PAGINA, redactar_ia, nuevo, resultados, pedido, ia_modelo)
         redactando = True

@@ -299,6 +299,16 @@ def _columna_nombrada(cols, norm_inc: str):
     return None
 
 
+def _listas_de_clases(g):
+    """Las dos muestras como listas (cada marca de clase repetida según su frecuencia), o None."""
+    clases = (g.resumen or {}).get("clases")
+    if g.listas and len(g.listas) >= 2:
+        return tuple(g.listas[:2])
+    if clases and len(clases) >= 2:
+        return tuple([m for m, f in pares for _ in range(int(f))] for pares in clases[:2])
+    return None
+
+
 def _inciso_de_otro_tema(inc: Inciso, an: Analisis, norm: str) -> Optional[Tuple[str, str]]:
     """En un problema de χ² con una tabla de frecuencias de varios grupos, un inciso puede pedir comparar las medias de
     los grupos (datos agrupados) o estimar el porcentaje de unidades por debajo / encima de un límite."""
@@ -325,7 +335,8 @@ def _inciso_de_otro_tema(inc: Inciso, an: Analisis, norm: str) -> Optional[Tuple
                     _hay(r"\b(minim[ao]|maxim[ao]) diferencia|\bdiferencias? (porcentual(es)? )?(minim[ao]|maxim[ao])", norm):
                 inc.params.update(tema="dos_medias", apareadas=False,
                                   nombre1=g.nombres[0], n1=r["n"][0], xbar1=r["xbar"][0], s1=r["s"][0],
-                                  nombre2=g.nombres[1], n2=r["n"][1], xbar2=r["xbar"][1], s2=r["s"][1])
+                                  nombre2=g.nombres[1], n2=r["n"][1], xbar2=r["xbar"][1], s2=r["s"][1],
+                              _muestras=_listas_de_clases(g))
                 if _hay(r"maxim[oa]", norm):
                     inc.params["cota"] = "sup"
                 elif _hay(r"minim[oa]", norm):
@@ -344,7 +355,8 @@ def _inciso_de_otro_tema(inc: Inciso, an: Analisis, norm: str) -> Optional[Tuple
             inc.params.update(tema="dos_medias", apareadas=False, tail="derecha", sujeto_por_datos=True,
                               **({} if m_pct else {"delta0": 0.0}),
                               nombre1=g.nombres[0], n1=r["n"][0], xbar1=r["xbar"][0], s1=r["s"][0],
-                              nombre2=g.nombres[1], n2=r["n"][1], xbar2=r["xbar"][1], s2=r["s"][1])
+                              nombre2=g.nombres[1], n2=r["n"][1], xbar2=r["xbar"][1], s2=r["s"][1],
+                              _muestras=_listas_de_clases(g))
             inc.razones.append(f"Compara los grupos de la tabla ({g.origen}): {g.nombres[0]} n = {fmt(r['n'][0])}, "
                                f"x̄ = {fmt(r['xbar'][0], 4)}, S = {fmt(r['s'][0], 4)}; {g.nombres[1]} n = {fmt(r['n'][1])}, "
                                f"x̄ = {fmt(r['xbar'][1], 4)}, S = {fmt(r['s'][1], 4)}. Se elige el de mayor media si se "

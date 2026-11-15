@@ -799,8 +799,11 @@ def prop_ic(d, alpha, res: Resultado, estado):
     r_, n = _req(d, "r", "n")
     r = ic.ic_proporcion_exacto(int(r_), int(n), alpha)
     if d.get("_r_contado") is not None:
-        res.pasos.append(f"**Casos**: se contaron {int(d['_r_contado'])} buenas y se pregunta por las malas → "
-                         f"r = n - {int(d['_r_contado'])} = {int(n)} - {int(d['_r_contado'])} = {int(r_)}.")
+        # el enunciado cuenta lo contrario de lo que pide el inciso (9 con fallas → se estiman las no falladas)
+        que = (d.get("variable") or "").strip()
+        res.pasos.append(f"**Casos**: el enunciado cuenta {int(d['_r_contado'])} casos de lo contrario de lo que se "
+                         f"pide estimar" + (f" ({que})" if que else "") + f" → r = n - {int(d['_r_contado'])} = "
+                         f"{int(n)} - {int(d['_r_contado'])} = {int(r_)}.")
     res.pasos.append(f"**Datos**: n = {int(n)}, r = {int(r_)}, p̂ = r/n = {fmt(int(r_) / int(n), 4)}.")
     ra, rb = redondeo.afuera(r.a, r.b, 4)
     res.pasos.append(f"**Modelo exacto** (Beta / F, el que usa la cátedra): A = {fmt(ra, 4)} ; B = {fmt(rb, 4)}.")

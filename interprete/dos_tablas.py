@@ -127,7 +127,7 @@ def _agrupados(tabla: Tabla) -> Optional[Grupos]:
               and any(c is not None for c in _columna(tabla, j))]
     if not interv:
         return None
-    nombres, ns, medias, desvios = [], [], [], []
+    nombres, ns, medias, desvios, clases = [], [], [], [], []
     for j in range(k):
         if j in interv:
             continue
@@ -146,9 +146,11 @@ def _agrupados(tabla: Tabla) -> Optional[Grupos]:
         ns.append(n)
         medias.append(xbar)
         desvios.append(s)
+        clases.append(pares)            # (marca, frecuencia): para mostrar de dónde salen x̄ y S
     if len(nombres) < 2:
         return None
-    return Grupos(nombres, resumen={"n": ns, "xbar": medias, "s": desvios}, apareadas=False, agrupados=True,
+    return Grupos(nombres, resumen={"n": ns, "xbar": medias, "s": desvios, "clases": clases}, apareadas=False,
+                  agrupados=True,
                   origen="datos agrupados: marcas de clase (punto medio) × frecuencias de cada grupo")
 
 

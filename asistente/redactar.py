@@ -45,8 +45,9 @@ diciendo qué significa para el problema concreto (qué se puede o no se puede a
 lo menciones.
 7. Nunca escribas «acepto H0» ni des H0 por probada: «se rechaza H0» o «no se rechaza H0 (no hay evidencia \
 suficiente para asegurar que…)».
-8. Intervalos: límites exactamente como los informa el solver (ya están redondeados hacia afuera) y expresión formal \
-P(A ≤ θ ≤ B) = 1 − α.
+8. Intervalos: límites exactamente como los informa el solver (ya están redondeados hacia afuera) y la expresión \
+formal que trae el solver: P(A ≤ θ ≤ B) = 1 − α si hay dos límites, o P(θ ≤ B) = 1 − α / P(θ ≥ A) = 1 − α si es \
+una cota («máxima», «mínima»). Nunca conviertas una cota en un intervalo de dos lados.
 9. En cada ensayo y cada diseño escribí dos renglones separados, antes de ver la muestra: «**Condición de rechazo \
 (CR)**: …» con la desigualdad (r ≥ r_c, x̄ > x̄c, J < Jc…) y «**Regla de decisión (RD)**: …» con el curso \
 de acción en palabras para quien decide.
@@ -219,7 +220,13 @@ def _secciones(texto: str) -> dict:
 
 
 def _limites(res: Resultado) -> List[str]:
-    """Límites de un intervalo tal como los informa el solver (redondeados hacia afuera): '[0,5387 ; 0,9002]'."""
+    """Límites de un intervalo tal como los informa el solver (redondeados hacia afuera): '[0,5387 ; 0,9002]'.
+
+    Si la conclusión trae la expresión formal P(A ≤ θ ≤ B), mandan esos (con los decimales de la convención, que pueden
+    ser menos que los del resumen: media con datos de 1 decimal → 3 decimales)."""
+    formales = re.findall(r"P\((-?\d[\d.]*,\d+) ≤ [^≤()]*(?:\([^()]*\)[^≤()]*)* ≤ (-?\d[\d.]*,\d+)\)", res.conclusion or "")
+    if formales:
+        return [x for par in formales for x in par]
     return re.findall(r"-?\d[\d.]*,\d+", " ".join(re.findall(r"\[([^\]]+)\]", res.resumen or "")))
 
 
@@ -258,8 +265,9 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
     secciones = _secciones(texto)
     if len(an.incisos) == 1 and an.incisos[0].letra.lower() not in secciones:
         secciones[an.incisos[0].letra.lower()] = texto          # un solo inciso: no hace falta el título
-    out.append(Control(bool(re.search(r"\b[XYD](?:[₁₂12])?\s*:|definici[oó]n de (la )?variable|\bvariable\**\s*:", texto,
-                                      re.IGNORECASE)), "Define la variable en palabras (X: …)"))
+    out.append(Control(bool(re.search(r"\b[XYD](?:[₁₂12])?\s*:|definici[oó]n de (la )?variable|"
+                                      r"\bvariables?\**(?:\s*\(paso 1\))?\s*:", texto, re.IGNORECASE)),
+                       "Define la variable en palabras (X: …)"))
     if _ACEPTO.search(texto):
         out.append(Control(False, f"Dice «{_ACEPTO.search(texto).group(0)}»: tiene que ser «no se rechaza H0»"))
     m = _PROB_PORCENTAJE.search(texto)
@@ -269,7 +277,9 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
     inventados = sorted(k for k in _secciones(texto) if k not in letras)
     out.append(Control(not inventados, "No agrega incisos que el ejercicio no tiene" if not inventados else
                        f"Agrega incisos que el ejercicio no tiene: {', '.join(x + ')' for x in inventados)}"))
-    if _TEMA_ROMANO.get(an.tema) not in ("I", "II", "III", "IV", "V"):
+    # el criterio vale en los incisos de los temas I a V aunque el problema sea de otro (dos medias dentro de un χ²)
+    con_criterio = [i for i in an.incisos if _TEMA_ROMANO.get(i.params.get("tema") or an.tema) in ("I", "II", "III", "IV", "V")]
+    if not con_criterio:
         criterio = re.search(r"criterio\s+(pesimista|optimista)", texto, re.IGNORECASE)
         out.append(Control(not criterio, "No usa criterio pesimista / optimista (no corresponde en este tema)"
                            if not criterio else f"Menciona «{criterio.group(0)}», que no corresponde en este tema"))
@@ -281,8 +291,11 @@ def controlar(texto: str, an: Analisis, fuentes: str, resultados: Sequence[Resul
                 out.append(Control(False, f"{nombre}: no encontré su sección («### {inc.letra}) …»)"))
             continue
         if inc.tipo in INTERVALOS:
-            out.append(Control(bool(_FORMAL.search(sec)), f"{nombre}: expresión formal P(A ≤ θ ≤ B) = 1 − α"))
             res = resultados[an.incisos.index(inc)] if len(resultados) == len(an.incisos) else None
+            cota = res is not None and bool(re.search(r"[≤≥]", res.resumen or "")) and "[" not in (res.resumen or "")
+            out.append(Control(bool(_FORMAL.search(sec)), f"{nombre}: expresión formal " +
+                               ("con un solo límite, P(θ ≤ B) = 1 − α o P(θ ≥ A) = 1 − α (es una cota)" if cota
+                                else "P(A ≤ θ ≤ B) = 1 − α")))
             limites = _limites(res) if res is not None else []
             if limites:
                 faltan = [x for x in limites if not re.search(r"(?<![\d,.])" + re.escape(x) + r"(?![\d])", sec)]

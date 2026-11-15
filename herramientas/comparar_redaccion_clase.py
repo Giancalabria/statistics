@@ -3,6 +3,7 @@
     python -X utf8 herramientas/comparar_redaccion_clase.py                 # temas del 2° parcial (III a VII)
     python -X utf8 herramientas/comparar_redaccion_clase.py --solo IV-1 V-12
     python -X utf8 herramientas/comparar_redaccion_clase.py --hilos 3       # en paralelo (Ollama con NUM_PARALLEL ≥ 3)
+    python -X utf8 herramientas/comparar_redaccion_clase.py --partes        # redacción por partes (redaccion_partes.py)
 
 Necesita Ollama. Mide la REDACCIÓN, no la interpretación: el planteo sale de las reglas (como si el alumno ya lo
 hubiera controlado), el solver hace las cuentas y la IA redacta A CIEGAS: el ejemplo de ESTILO_CATEDRA.md de ese
@@ -88,16 +89,23 @@ def secciones(texto: str):
     return out
 
 
-def comparar(ej, guia, modelo=None):
+def comparar(ej, guia, modelo=None, partes=False):
     planteo, incisos, tablas = entrada(guia[ej["guia"]])
     an = analizar(planteo, incisos, tablas=tablas)
     res = resolver(an)
     t0 = time.time()
-    trozos, fuentes = redactar(an, res, modelo=modelo, excluir=[ej["guia"]])
-    texto = "".join(trozos)
-    fallas = problemas(controlar(texto, an, fuentes, res))
-    corregida = False
-    if fallas:
+    if partes:      # el solver escribe y la IA solo llena las palabras (no usa los ejemplos: es a ciegas igual)
+        from asistente.redaccion_partes import fuentes as fuentes_de, redactar_por_partes
+        red = redactar_por_partes(an, modelo=modelo)
+        an, res, texto = red.analisis, red.resultados, red.texto
+        fallas, corregida = problemas(controlar(texto, an, fuentes_de(red), res)), False
+        fallas += [f"(descartado) {x}" for x in red.descartados]
+    else:
+        trozos, fuentes = redactar(an, res, modelo=modelo, excluir=[ej["guia"]])
+        texto = "".join(trozos)
+        fallas = problemas(controlar(texto, an, fuentes, res))
+        corregida = False
+    if fallas and not partes:
         texto2 = "".join(corregir(an, res, texto, fallas, modelo=modelo, excluir=[ej["guia"]]))
         fallas2 = problemas(controlar(texto2, an, fuentes, res))
         if len(fallas2) < len(fallas):
@@ -125,10 +133,11 @@ def main():
     solo = args[args.index("--solo") + 1:] if "--solo" in args else []
     solo = [s for s in solo if not s.startswith("--")]
     hilos = int(args[args.index("--hilos") + 1]) if "--hilos" in args else 1
+    partes = "--partes" in args
     banco, guia = cargar()
     elegidos = [e for e in banco if (e["guia"] in solo if solo else e["guia"].split("-")[0] in TEMAS_PARCIAL)]
     with ThreadPoolExecutor(max_workers=hilos) as pool:
-        resultados = list(pool.map(lambda e: comparar(e, guia), elegidos))
+        resultados = list(pool.map(lambda e: comparar(e, guia, partes=partes), elegidos))
 
     tot_n = tot_h = tot_p = tot_pok = 0
     resumen, detalle = [], []
@@ -156,7 +165,7 @@ def main():
            "", "| Ejercicio | Números | Pasos | Fallas del checklist | Números sin cuenta | Corregida | Tiempo |",
            "|---|---|---|---|---|---|---|"]
     informe = "\n".join(cab + resumen) + "\n" + "\n".join(detalle)
-    salida = RAIZ / "herramientas" / "tmp" / "comparar_redaccion_clase.md"
+    salida = RAIZ / "herramientas" / "tmp" / f"comparar_redaccion_clase{'_partes' if partes else ''}.md"
     salida.parent.mkdir(exist_ok=True)
     salida.write_text(informe, encoding="utf-8")
     print("\n".join(cab + resumen))

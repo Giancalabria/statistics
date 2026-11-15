@@ -218,7 +218,10 @@ def ajuste_continuo(modelo: str, limites: Sequence[Tuple[float, float]], fo: Seq
         # del 29/10): no se estiran las clases observadas. Si la nueva clase da Fe < 5, el amalgamado la une.
         p_ini, p_fin = F(limites[0][0]), 1 - F(limites[-1][1])
         if p_ini > 0:
-            tabla.insert(0, Clase(f"-∞ a {limites[0][0]:g}", 0, p_ini, N * p_ini))
+            # la clase empieza donde empieza el dominio del modelo: 0 si no tiene probabilidad en los negativos
+            # (Gamma, Weibull, exponencial, log-normal), -∞ si la tiene (normal, Gumbel)
+            desde = "0" if F(0) <= 1e-12 and limites[0][0] > 0 else "-∞"
+            tabla.insert(0, Clase(f"{desde} a {limites[0][0]:g}", 0, p_ini, N * p_ini))
         if p_fin > 0:
             tabla.append(Clase(f"{limites[-1][1]:g} a ∞", 0, p_fin, N * p_fin))
     return _contraste(modelo, prm, est, m, s, tabla, alpha, [])
