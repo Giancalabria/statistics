@@ -7,6 +7,7 @@ cambiar de página y el aviso de las consultas a la IA que siguen corriendo en o
 import streamlit as st
 
 import persistencia
+import teoria
 from asistente.ui import aviso_tareas
 
 st.set_page_config(page_title="Solver de Estadística Aplicada", layout="wide")
@@ -34,6 +35,10 @@ paginas = {}
 for seccion in SECCIONES.values():
     for ruta, (titulo, icono) in seccion.items():
         paginas[ruta] = st.Page(ruta, title=titulo, icon=icono, default=not paginas)
-actual = st.navigation({nombre: [paginas[r] for r in seccion] for nombre, seccion in SECCIONES.items()})
+navegacion = {nombre: [paginas[r] for r in seccion] for nombre, seccion in SECCIONES.items()}
+# Teoría: los .md que sirven para resolver (control del planteo, reglas, fórmulas, ejemplos de clase)
+navegacion["Teoría"] = list(teoria.paginas().values())
+paginas.update({p.url_path: p for p in navegacion["Teoría"]})
+actual = st.navigation(navegacion)
 aviso_tareas(next(ruta for ruta, p in paginas.items() if p.url_path == actual.url_path))
 actual.run()
