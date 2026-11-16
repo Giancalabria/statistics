@@ -185,10 +185,19 @@ def en_palabras(hip: str) -> str:
 
 
 def _canon(texto: str, an: Analisis) -> str:
-    """Para comparar hipótesis de dos lecturas: nombres de muestras → [1]/[2], 2.0 → 2, sin espacios."""
-    for k, marca in (("nombre1", "[1]"), ("nombre2", "[2]")):
-        if an.datos.get(k):
-            texto = texto.replace(str(an.datos[k]), marca)
+    """Para comparar hipótesis de dos lecturas: nombres de muestras → una marca del GRUPO, 2.0 → 2, sin espacios.
+    La marca sale de los datos del grupo (x̄ y n), no del orden: dos lecturas pueden numerar los grupos al revés y
+    'μ(vieja) - μ(nueva)' de una no es 'μ(nueva) - μ(vieja)' de la otra aunque las dos sean 'μ([2]) - μ([1])'."""
+    for j in (1, 2):
+        nombre = an.datos.get(f"nombre{j}")
+        if not nombre:
+            continue
+        xbar, n = an.datos.get(f"xbar{j}"), an.datos.get(f"n{j}")
+        lista = an.datos.get(f"datos{j}")
+        if xbar is None and lista:
+            xbar, n = sum(lista) / len(lista), len(lista)
+        marca = f"[x̄={round(float(xbar), 4):g};n={n}]" if xbar is not None else f"[{j}]"
+        texto = texto.replace(f"({nombre})", f"({marca})")
     texto = re.sub(r"(\d+)\.0+\b", r"\1", texto)
     return re.sub(r"\s+", "", texto)
 

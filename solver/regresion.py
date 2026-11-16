@@ -15,6 +15,7 @@ Sigue la teoría de la cátedra (Dopazo, "Teoría de la Regresión y Análisis d
 
 from dataclasses import dataclass, field
 from itertools import combinations
+import math
 from math import atanh, exp, log, sqrt, tanh
 from typing import Dict, List, Optional, Sequence
 
@@ -79,9 +80,12 @@ class RegresionSimple:
         yv, xv, _ = TRANSFORMACIONES[self.modelo]
         signo = "+" if self.b1 >= 0 else "-"
         yv = "ŷ" if yv == "y" else yv.replace("y", "ŷ")
+
+        def d(v):   # un coeficiente chico (b1 = 0,002577) conserva 4 cifras significativas
+            return dec if v == 0 or abs(v) >= 0.01 else max(dec, min(10, 3 - math.floor(math.log10(abs(v)))))
         if self.origen:
-            return f"{yv} = {self.b1:.{dec}f}·{xv}"
-        return f"{yv} = {self.b0:.{dec}f} {signo} {abs(self.b1):.{dec}f}·{xv}"
+            return f"{yv} = {self.b1:.{d(self.b1)}f}·{xv}"
+        return f"{yv} = {self.b0:.{d(self.b0)}f} {signo} {abs(self.b1):.{d(self.b1)}f}·{xv}"
 
 
 def ajustar_simple(x: Sequence[float], y: Sequence[float], modelo: str = "lineal",

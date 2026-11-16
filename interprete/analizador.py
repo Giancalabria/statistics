@@ -311,6 +311,10 @@ def detectar_tema(norm: str, listas: List[ListaDatos], pregunta: str = "") -> Tu
     reg_fuerte = _cuenta(P_REGRESION[:3], norm)
     reg = _cuenta(P_REGRESION, norm)
     s_aj = 2 * _cuenta(P_CHI_AJUSTE, norm)
+    if pregunta and _hay(r"(distribucion|distribuye|distribuyen|\bley|modelo)[a-z ]{0,25}\b(poisson|normal|normalmente|"
+                         r"binomial|exponencial|weibull|gumbel|uniforme|pareto|log-?normal|gamma)\b", normalizar(pregunta)):
+        # lo que se PREGUNTA es si los datos responden a un modelo (no un supuesto del planteo para otro ensayo)
+        s_aj += 2
     s_ct = _cuenta(P_CHI_CONT, norm)
     dos = _cuenta(P_DOS, norm) > 0 or _dos_estructural(norm, listas)
     prop = _cuenta(P_PROPORCION, norm)
@@ -388,6 +392,12 @@ def _alpha_de(t: Texto, i: int, n: Numero) -> Optional[Tuple[float, str]]:
     if not _es_prob(n):
         return None
     a, d = t.antes(n, 45), t.despues(n, 55)
+    # 'Al 1%, ¿tiene razón…?', '¿Hay evidencia, al 5%, de que…?': un porcentaje suelto con «al» (al principio o entre
+    # comas, sin nada que lo califique después) es el nivel con el que se decide
+    if n.pct and _hay(r"(^|[,;(¿]\s*)al\s*$", a) and _hay(r"^\s*([,;?)]|$)", d):
+        if n.fraccion > 0.5:
+            return 1 - n.fraccion, "«al 95%» suelto: nivel de confianza → α = 1 - confianza"
+        return n.fraccion, "«al 5%» suelto: nivel de significación α"
     m_conf = re.search(RE_CONF + "(" + _R + r"{0,32})$", a)
     if (m_conf and not _hay(r"(cuyo|limite|sea )", m_conf.group(2))) or _hay(r"^\s*(de )?" + RE_CONF, d):
         return 1 - n.fraccion, "nivel de confianza → α = 1 - confianza"
@@ -915,7 +925,8 @@ def extraer_proporcion(an: Analisis, t: Texto):
             if _hay(r"(reduc|disminu|aument|increment)[a-z]*( en)?( un| el)?\s*$|±\s*$|error" + _R + r"{0,15}$", a):
                 continue   # 'reducir en un 40% el error', 'error de ± 2%': no es un dato de la muestra
             ref = _hay(r"(actualmente|en la actualidad|se sabe|era del|es del|trabaja|establecido|supera|superior|admite|contrato|"
-                       r"inferior|mayor|menor|maximo|minimo|historic|normales|admitid|debe|se supone|con un|con el catalogo)",
+                       r"inferior|mayor|menor|maximo|minimo|historic|normales|admitid|debe|se supone|con un|con el catalogo|"
+                       r"como mucho|a lo sumo|como poco|sostien|afirm|asegur|garantiz|promet|declar)",
                        ora) and not _hay(r"(muestra|se obtuvo|se ha registrado|se registro|encontr|se detecta|arroj|"
                                          r"registrado)", ora)
             if _hay(r"(supera|superior a|mayor que|menor que|inferior a|no supera|\bmas (de|del)|\bmenos (de|del)|"
@@ -938,6 +949,16 @@ def extraer_proporcion(an: Analisis, t: Texto):
                     _hay(r"se presento $", a):
                 t.usar(i)
                 _set(an, "r", int(n.valor), t, n, "cantidad de casos favorables / defectuosos en la muestra (r)")
+    # coherencia: con r y n leídos, la proporción observada es r/n; un porcentaje que no es r/n no puede ser p̂, es el
+    # valor de referencia ('sostiene que, como mucho, el 8%… revisó 200 y encontró 23')
+    d = an.datos
+    if d.get("r") is not None and d.get("n") and d.get("p_hat") is not None and "p0" not in d and \
+            abs(d["r"] / d["n"] - d["p_hat"]) > 0.5 / d["n"]:
+        d["p0"] = d.pop("p_hat")
+        for e in an.evidencias:
+            if e.clave == "p_hat":
+                e.clave, e.motivo = "p0", ("proporción de referencia (p₀): la observada ya es r/n = "
+                                           f"{d['r']}/{d['n']}, así que este porcentaje es el valor con el que se compara")
 
 
 # Plan de muestreo ya fijado: 'rechazar si se encuentran 9 o más', 'número de aceptación ≤ 2', 'rc = 1'
@@ -1093,11 +1114,12 @@ def _es_n_de_muestra(t: Texto, n: Numero, a: str) -> bool:
     if _hay(r"^\s*" + UNIDADES_N + r"\b", d):
         return True
     # '40 hornadas, media 1,50' / '25 frascos de la línea 1 con una media de 101': la muestra que se describe
-    if _hay(r"^\s*[a-z]{3,}s\b[^.;?]{0,35}\b(media|promedio|medio)\b", t.norm[n.fin:n.fin + 60]):
+    # (o más lejos, sin otro número en el medio: la media descripta es la de esta muestra aunque la frase sea larga)
+    if _hay(r"^\s*[a-z]{3,}s\b([^.;?]{0,35}|[^0-9.;?]{0,70})\b(media|promedio|medio)\b", t.norm[n.fin:n.fin + 90]):
         return True
     # 'para 26 adultos jóvenes, la desviación estándar fue 84,2' (rec 2do 2024); no '1.400 horas con un desvío'
     if _hay(r"\b(para|con|en|de|sobre) (los |las |unos |unas )?$", a) and \
-            _hay(r"^\s*[a-z]{3,}s\b[^.;?]{0,35}\b(desvio|desviacion)\b", t.norm[n.fin:n.fin + 60]):
+            _hay(r"^\s*[a-z]{3,}s\b([^.;?]{0,35}|[^0-9.;?]{0,70})\b(desvio|desviacion)\b", t.norm[n.fin:n.fin + 90]):
         return True
     if _hay(r"^\s*" + TIEMPOS_N + r"\b", d):
         return _hay(r"(ultim[oa]s|durante( el| la| los| las)?|" + VERBOS_N + r")\s*$", a)
@@ -1765,12 +1787,16 @@ def detectar_cola(norm: str, planteo_norm: str, tema: str, datos: dict) -> Tuple
         mas, menos, dist = _cuenta(P_MAS, texto), _cuenta(P_MENOS, texto), _cuenta(P_DISTINTO, texto)
         if _hay(r"limites de control|dentro de que limites|aumentando o disminuyendo|\bdiferente de\b", texto):
             return "bilateral", "Pide límites de control / si difiere del valor nominal (sin dirección) → bilateral."
-        if tema == "media" and datos.get("mu1") is not None and datos.get("mu0") is not None and not \
+        # el valor alternativo (μ₁, p₁, σ₁) es el que está en H1: su lado respecto del de referencia ES la dirección
+        alt, ref0, simb = {"media": ("mu1", "mu0", "μ"), "proporcion": ("p1", "p0", "p"),
+                           "varianza": ("sigma1", "sigma0", "σ")}.get(tema, (None, None, None))
+        if alt and datos.get(alt) is not None and datos.get(ref0) is not None and datos[alt] != datos[ref0] and not \
                 _hay(r"(diferente|distint|difier|desajust|aumentando o disminuyendo|se altera|limites de control)",
                      norm + " " + planteo_norm):
-            if datos["mu1"] < datos["mu0"]:
-                return "izquierda", "La alternativa (μ₁) está por debajo de μ₀ → H1: μ < μ₀ → cola izquierda."
-            return "derecha", "La alternativa (μ₁) está por encima de μ₀ → H1: μ > μ₀ → cola derecha."
+            if datos[alt] < datos[ref0]:
+                return "izquierda", (f"La alternativa ({simb}₁) está por debajo de {simb}₀ → H1: {simb} < {simb}₀ → "
+                                     "cola izquierda.")
+            return "derecha", f"La alternativa ({simb}₁) está por encima de {simb}₀ → H1: {simb} > {simb}₀ → cola derecha."
         if tema == "proporcion" and not (mas or menos) and _hay(r"defectuos", texto) and \
                 _hay(r"(deten|detien|rechaz|revis)", norm + " " + planteo_norm):
             return "derecha", ("Control de la fracción defectuosa: se detiene / rechaza cuando aparecen MUCHAS defectuosas "
@@ -1864,7 +1890,8 @@ def _valor_alternativo(t: Texto, base: Optional[float], tema: str) -> Optional[T
 
 
 def _prob_pedida(norm: str) -> str:
-    if _hay(r"\bno (detect|efectu|concret|inici|deten|implement|cambi|revis|adopt|compr|realic|realiz|modific|lanz|"
+    # (con un pronombre en el medio: 'que el plan no lo detecte')
+    if _hay(r"\bno ((lo|la|los|las|le|les|se) )?(detect|efectu|concret|inici|deten|implement|cambi|revis|adopt|compr|realic|realiz|modific|lanz|"
             r"pauta|explot|recomend|aconsej)[a-z]*\b|"
             r"(no detectar|no efectuar|no concretar|no iniciar|no detener|no implementar|no cambiar|no revisarlo|"
             r"no efectuar el ajuste|aceptar|de que el lote sea aceptado|error de tipo ii|no adoptar|no comprar|"
@@ -2191,7 +2218,7 @@ def extraer_diseno(an: Analisis, t: Texto):
         # valores del parámetro, no probabilidades: 'disminuir dicho porcentaje al 10%', 'porcentaje ... del 6%',
         # 'un 10% superior al actual'
         if _hay(r"(baj|sub|disminu|reduc|aument|increment|llev|lleg)[a-z]*( [a-z]+){0,3} (al|a|en|hasta)\s*$|"
-                r"(porcentaje|proporcion|fraccion|penetracion|presencia|tasa)( [a-z]+){0,3} (al|a|del|de|en|es del|es de)\s*$|"
+                r"(porcentaje|proporcion|fraccion|penetracion|presencia|tasa)( [a-z]+){0,3} (al|a|del|de|en|es del|es de)( el| la)?\s*$|"
                 r"(se detecta|se detecto|se obtuvo|se observ|arroj|result)[a-z ]{0,30}\b(del|de)\s*$|"
                 r"(aql|ltpd|\bp\s*[01₀₁]|\bmu\s*[01₀₁]|μ\s*[01₀₁]?)\s*=\s*$|(σ|desvio|desviacion)[^0-9]{0,20}$", a) or \
                 _hay(r"^\s*(superior|inferior|mayor|menor|mas|menos)\b", d):
@@ -2431,7 +2458,7 @@ def completar_diseno(an: Analisis, t: Texto) -> bool:
 
 # Cortes entre las condiciones de un diseño: 'si ..., probabilidad 0,95; pero si ..., 0,01'
 RE_CORTE_COND = re.compile(r"[.;:?!]\s|\bpero\b|\ben cambio\b|\bmientras\b|\ba su vez\b|\by (en |un |una )?(?=\d)|"
-                           r",\s*y (que )?(?=(si|cuando)\b)|"
+                           r",\s*y (que )?(?=(si|cuando)\b)|,\s*y (?=(se|que)\b)|"
                            r"\d°\s*-|\balternativa \d")
 # Acciones que se toman según la decisión (la de rechazar H0 se deduce de la condición de α)
 RE_ACCION = re.compile(r"\b(no )?(poner en el mercado|lanzar|recomendar|adopt[a-z]*|cambi[a-z]*|concret[a-z]*|"
@@ -2861,6 +2888,35 @@ def reescribir_numeros_palabras(texto: str) -> Tuple[str, List[str]]:
     return "".join(partes) + texto[ult:], notas
 
 
+def tabla_proporciones_texto(texto: str) -> Optional[dict]:
+    """'el 50% … básico, el 30% … estándar y el 20% … premium. … 400 ventas: 228 del básico, 104 del estándar y 68 del
+    premium' → tabla (categoría, proporción esperada %, observadas) para un ajuste χ² a proporciones dadas.
+    Se reconoce por la forma: k ≥ 3 porcentajes que suman 100% y, después, k enteros (que suman el total dicho, si
+    está)."""
+    t = Texto(texto)
+    pcts = [n for n in t.nums if n.pct]
+    k = len(pcts)
+    if k < 3 or abs(sum(n.valor for n in pcts) - 100) > 0.5:
+        return None
+    enteros = [n for n in t.nums if not n.pct and n.es_entero and n.ini > pcts[-1].fin]
+    for j in range(len(enteros) - k + 1):
+        grupo = enteros[j:j + k]
+        total = sum(n.valor for n in grupo)
+        dicho = any(abs(n.valor - total) < 1e-9 for n in enteros[:j])
+        if dicho or j == len(enteros) - k:
+            etiquetas = []
+            for i, n in enumerate(grupo):
+                hasta = grupo[i + 1].ini if i + 1 < k else len(t.texto)
+                e = re.split(r"[,.;]|\s+y\s+", t.texto[n.fin:hasta])[0]
+                e = re.sub(r"^\s*(del|de la|de los|de las|de|en|con|para)\s+", "", e).strip()
+                etiquetas.append(e[:40] or f"Categoría {i + 1}")
+            return {"titulo": "(armada con los datos del enunciado)",
+                    "columnas": ["Categoría", "Proporción esperada (%)", "Observadas"],
+                    "filas": [[e, pc.valor, int(n.valor)] for e, pc, n in zip(etiquetas, pcts, grupo)],
+                    "_origen": "proporciones del texto"}
+    return None
+
+
 def reescribir_frecuencias(planteo: str) -> Tuple[str, List[str]]:
     """Pasa a porcentaje las frecuencias dichas 'N de cada M' / 'N por mil' / 'N ‰' / 'N por ciento', así el resto
     de las reglas las lee como cualquier '2,5%' (p₀, α, p̂...). Devuelve (texto, notas para el usuario).
@@ -2939,6 +2995,7 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
     an = Analisis(planteo=original)
     an.avisos += notas
     an.tablas = list(tablas) if tablas else buscar_tablas(planteo)
+    tabla_props = None if an.tablas else tabla_proporciones_texto(planteo)
     total = planteo if lista[0][0] == "única" else planteo + " " + " ".join(tx for _, tx in lista)
     t_total = Texto(total)
     pregunta = " ".join(tx for _, tx in lista) if lista[0][0] != "única" else pregunta_de(planteo)
@@ -2968,8 +3025,27 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
         an.tema = "regresion"
         an.razones_tema = ["Los datos son una tabla de dos o más variables medidas sobre los mismos casos: "
                            "regresión / correlación."]
+    if not tema and tabla_props and an.tema in ("media", "proporcion"):
+        an.tablas = [tabla_props]
+        an.tema = "chi_ajuste"
+        an.razones_tema = ["El enunciado da los porcentajes que debería tener cada categoría (suman 100%) y lo que se "
+                           "observó en cada una: ajuste χ² a esas proporciones (H0: se cumplen)."]
+        an.avisos.append("Tabla armada con los porcentajes y los conteos del enunciado: " + "; ".join(
+            f"{f[0]}: {fmt(f[1])}% esperado, {f[2]} observadas" for f in tabla_props["filas"]) + ".")
+    if not tema and an.tema in ("media", "varianza") and an.tablas and _cuenta(P_REGRESION, t_total.norm) == 0:
+        # dos columnas de datos crudos de la MISMA variable (previa / posterior, máquina A / B), sin hablar de
+        # relación entre variables: son dos muestras (apareadas si cada fila es una unidad)
+        from .dos_tablas import grupos_de_tablas
+        g = grupos_de_tablas(an.tablas)
+        if g and len(g.listas) == 2 and not g.resumen and not g.agrupados and min(map(len, g.listas)) >= 3 and \
+                not _tabla_de_conteos(an.tablas):   # filas con nombre y conteos por categoría: contingencia
+            an.tema = "dos_varianzas" if an.tema == "varianza" else "dos_medias"
+            an.razones_tema = [f"La tabla trae los datos de dos grupos de la misma variable ({g.nombres[0]} y "
+                               f"{g.nombres[1]}): comparación de {'2 varianzas' if an.tema == 'dos_varianzas' else '2 medias'}"
+                               + (" (cada fila es una misma unidad: apareadas)." if g.apareadas else ".")]
     if not tema and an.tema in ("media", "proporcion") and _tabla_de_conteos(an.tablas) and \
-            _hay(r"(relacionad|depend|asociad|independ|difier|influ|homogene|varia)", t_total.norm):
+            _hay(r"(relacionad|depend|asociad|independ|difier|diferen|distint|influ|homogene|varia|\bmism[oa]s\b|"
+                 r"\bigual(es)?\b)", t_total.norm):
         an.tema = "chi_contingencia"
         an.razones_tema = ["La tabla da conteos de categorías (filas con nombre, columnas de frecuencias) y se pregunta "
                            "si una variable depende de la otra: tabla de contingencia χ²."]

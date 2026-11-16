@@ -1,0 +1,506 @@
+[
+ {
+  "id": "S1",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Un proveedor de envases sostiene que, como mucho, el 8% de sus envases llega con fisuras. Al recibir un embarque, el área de calidad revisó 200 envases tomados al azar y encontró 23 con fisuras.",
+  "incisos": [
+   [
+    "a",
+    "Con α = 0,05, ¿hay motivos para reclamarle al proveedor?"
+   ],
+   [
+    "b",
+    "Con un 95% de confianza, ¿cuál es, como máximo, la proporción de envases con fisuras del embarque?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     24
+    ]
+   ],
+   [
+    [
+     "n",
+     0.159
+    ]
+   ]
+  ],
+  "nota": "a) H1 p > 0,08 (reclamar), r_c = 24; b) cota superior unilateral B = 0.159"
+ },
+ {
+  "id": "S2",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Históricamente, el 20% de los clientes de una financiera paga la cuota con atraso. Se va a probar un sistema de recordatorios por mensaje y se quiere verificar si logra bajar ese porcentaje. Se acepta un riesgo de 0,05 de dar por efectivo el sistema cuando en realidad el porcentaje sigue en el 20%, y se quiere una probabilidad de 0,90 de detectar la mejora si el porcentaje bajara al 10%.",
+  "incisos": [
+   [
+    "a",
+    "Plantear las hipótesis, determinar el tamaño de la muestra, la condición de rechazo y la regla de decisión."
+   ],
+   [
+    "b",
+    "Si con el sistema el porcentaje bajara al 15%, ¿qué probabilidad hay de que el plan no lo detecte?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "alguno",
+     [
+      112
+     ]
+    ],
+    [
+     "alguno",
+     [
+      15
+     ]
+    ]
+   ],
+   [
+    [
+     "n",
+     0.624
+    ]
+   ]
+  ],
+  "nota": "H0 p ≥ 0,20, se rechaza si R ≤ r_c: n = 112, r_c = 15; β(0,15) = 0.624"
+ },
+ {
+  "id": "S3",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se comparan dos métodos de llenado de bidones de 5 litros. Los volúmenes (en litros) obtenidos fueron:\nMétodo manual: 4,92 - 5,10 - 4,85 - 5,15 - 5,03 - 4,88 - 5,12 - 4,95\nMétodo automático: 5,01 - 4,98 - 5,03 - 4,99 - 5,02 - 5,00 - 4,97 - 5,04 - 5,01 - 4,99\nEl jefe de producción sostiene que el método automático llena con menos variabilidad que el manual.",
+  "incisos": [
+   [
+    "a",
+    "Al 1%, ¿tiene razón el jefe de producción?"
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza el cociente entre los desvíos estándar del método manual y del automático."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     2.5412
+    ],
+    [
+     "n",
+     11.4337
+    ]
+   ]
+  ],
+  "nota": "H1 σM > σA: F = 27.1042 vs 5.6129; IC de σM/σA = raíz del IC del cociente de varianzas"
+ },
+ {
+  "id": "S4",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una planta evalúa reemplazar su línea de envasado. En 12 turnos con la línea actual se envasaron en promedio 184 cajas por hora, con un desvío de 9,5 cajas. En 15 turnos con una línea de prueba, el promedio fue de 196 cajas por hora, con un desvío de 11 cajas. La línea nueva solo se compra si envasa, en promedio, más de 5 cajas por hora más que la actual.",
+  "incisos": [
+   [
+    "a",
+    "Con un 5% de riesgo, ¿conviene comprar la línea nueva?"
+   ],
+   [
+    "b",
+    "Con un 95% de confianza, ¿cuál es el aumento mínimo garantizado de la producción media por hora?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     5.1418
+    ]
+   ]
+  ],
+  "nota": "H1 μN − μA > 5; ν = 25; d = 12 vs d_c = 11.8582"
+ },
+ {
+  "id": "S5",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Para medir el efecto de una campaña publicitaria, se registraron las ventas semanales (en miles de pesos) de 10 sucursales en la semana previa y en la semana posterior a la campaña:",
+  "incisos": [
+   [
+    "a",
+    "Al 5%, ¿aumentaron las ventas medias con la campaña?"
+   ],
+   [
+    "b",
+    "Estimar con un 90% de confianza el aumento medio de las ventas semanales por sucursal."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Sucursal",
+     "Semana previa",
+     "Semana posterior"
+    ],
+    "filas": [
+     [
+      1,
+      52.3,
+      55.1
+     ],
+     [
+      2,
+      48.1,
+      49.0
+     ],
+     [
+      3,
+      61.0,
+      64.2
+     ],
+     [
+      4,
+      45.7,
+      47.5
+     ],
+     [
+      5,
+      55.2,
+      56.0
+     ],
+     [
+      6,
+      50.8,
+      53.9
+     ],
+     [
+      7,
+      58.4,
+      59.1
+     ],
+     [
+      8,
+      47.9,
+      50.3
+     ],
+     [
+      9,
+      53.6,
+      55.0
+     ],
+     [
+      10,
+      49.2,
+      48.8
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     0.977
+    ],
+    [
+     "n",
+     2.363
+    ]
+   ]
+  ],
+  "nota": "apareadas: d̄ = 1.67, S_d = 1.1954"
+ },
+ {
+  "id": "S6",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se midió el diámetro (en mm) de 120 ejes torneados en un centro de mecanizado. Los resultados se agruparon así:",
+  "incisos": [
+   [
+    "a",
+    "¿Puede admitirse, con un riesgo del 5%, que el diámetro de los ejes tiene distribución normal?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Diámetro (mm)",
+     "Cantidad de ejes"
+    ],
+    "filas": [
+     [
+      "19,0-19,4",
+      4
+     ],
+     [
+      "19,4-19,8",
+      17
+     ],
+     [
+      "19,8-20,2",
+      21
+     ],
+     [
+      "20,2-20,6",
+      36
+     ],
+     [
+      "20,6-21,0",
+      19
+     ],
+     [
+      "21,0-21,4",
+      17
+     ],
+     [
+      "21,4-21,8",
+      6
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     5.5397
+    ]
+   ]
+  ],
+  "nota": "x̄ = 20.4133, S = 0.5979; 7 clases efectivas, ν = 4; χ² = 5.5397"
+ },
+ {
+  "id": "S7",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Un banco registró el medio de pago que usaron muestras de clientes de tres sucursales:",
+  "incisos": [
+   [
+    "a",
+    "Con un 1% de riesgo, ¿se puede afirmar que los porcentajes de uso de cada medio de pago son los mismos en las tres sucursales?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Sucursal",
+     "Efectivo",
+     "Débito",
+     "Crédito"
+    ],
+    "filas": [
+     [
+      "Centro",
+      60,
+      85,
+      55
+     ],
+     [
+      "Norte",
+      45,
+      70,
+      35
+     ],
+     [
+      "Sur",
+      30,
+      50,
+      70
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     22.1936
+    ],
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ],
+  "nota": "consistencia: χ² = 22.1936, ν = 4"
+ },
+ {
+  "id": "S8",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Según el plan comercial de una empresa de internet, el 50% de las ventas debería corresponder al plan básico, el 30% al plan estándar y el 20% al plan premium. En el último mes se registraron 400 ventas: 228 del plan básico, 104 del estándar y 68 del premium.",
+  "incisos": [
+   [
+    "a",
+    "Con α = 0,05, ¿se está cumpliendo el plan comercial?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "n",
+     7.8533
+    ],
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ],
+  "nota": "proporciones dadas, ν = 2: χ² = 7.8533"
+ },
+ {
+  "id": "S9",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una cadena de electrodomésticos quiere saber si la inversión mensual en publicidad (en miles de pesos) explica las ventas del mes (en millones de pesos). Se tienen los datos de 10 meses:",
+  "incisos": [
+   [
+    "a",
+    "Estimar la recta de regresión, interpretar la pendiente y el coeficiente de determinación, y decidir al 5% si el modelo es válido."
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza las ventas medias de los meses en que se inviertan 32 mil pesos en publicidad."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Publicidad (miles de $)",
+     "Ventas (millones de $)"
+    ],
+    "filas": [
+     [
+      10,
+      2.1
+     ],
+     [
+      15,
+      2.6
+     ],
+     [
+      20,
+      2.9
+     ],
+     [
+      25,
+      3.6
+     ],
+     [
+      30,
+      3.8
+     ],
+     [
+      35,
+      4.5
+     ],
+     [
+      40,
+      4.6
+     ],
+     [
+      45,
+      5.3
+     ],
+     [
+      50,
+      5.5
+     ],
+     [
+      55,
+      6.2
+     ]
+    ],
+    "variable_y": "Ventas (millones de $)"
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     0.0884
+    ],
+    [
+     "n",
+     0.9911
+    ]
+   ],
+   [
+    [
+     "n",
+     3.9677
+    ],
+    [
+     "n",
+     4.164
+    ]
+   ]
+  ],
+  "nota": "b1 = 0.0884, r² = 0.9911; b) IC de la media en x = 32"
+ },
+ {
+  "id": "S10",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una empresa de transporte probó un aditivo para combustible. 14 camiones sin aditivo consumieron en promedio 32,5 litros cada 100 km, con un desvío de 2,1 litros, y 16 camiones con aditivo consumieron en promedio 28,9 litros cada 100 km, con un desvío de 1,8 litros. El fabricante del aditivo afirma que reduce el consumo medio en más de un 5%.",
+  "incisos": [
+   [
+    "a",
+    "Con α = 0,05, ¿se puede aceptar la afirmación del fabricante?"
+   ],
+   [
+    "b",
+    "Con un 95% de confianza, ¿cuál es la reducción porcentual mínima del consumo medio que se puede garantizar?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "alguno",
+     [
+      0.925,
+      0.075,
+      7.5
+     ]
+    ]
+   ]
+  ],
+  "nota": "H1 μC < 0,95·μS; d* = -1.975 vs −1.179 (ν = 28); b) h máx = 0.925 (reducción 0.075)"
+ }
+]

@@ -23,7 +23,7 @@ from . import redondeo
 from .analizador import _hay
 from .modelo import DESPACHO_EXTRA, EXTENSIONES, TIPOS, TIPOS_POR_TEMA, Analisis, Evidencia, Inciso
 from .tablas import columnas_numericas
-from .texto import Numero, buscar_numeros, fmt, normalizar
+from .texto import Numero, buscar_numeros, fmt, fmt_sig, normalizar
 
 TIPOS.update({
     "recta": "Recta de mínimos cuadrados (b0, b1)",
@@ -306,7 +306,7 @@ def _pend_val(inc: Inciso, an: Analisis, norm: str, texto: str) -> Optional[Tupl
         cola = "izquierda"
     expl = (f"por cada {fmt(cant_x)} unidad(es) de x, y {'aumenta' if sube_y else 'disminuye'} "
             f"{fmt(cant_y)}{' (en las unidades de la tabla)' if ey != 1 or ex != 1 else ''}"
-            f"{' ante un descenso de x' if baja_x else ''} → β1₀ = {fmt(b10, 4)}; se quiere probar que la pendiente "
+            f"{' ante un descenso de x' if baja_x else ''} → β1₀ = {fmt_sig(b10)}; se quiere probar que la pendiente "
             f"es {'mayor' if cola == 'derecha' else 'menor'} (H1)"
             + ("" if estricto_mas else " (la afirmación no dice 'más de': se toma igual como lo que hay que probar)"))
     return b10, cola, expl
@@ -351,8 +351,13 @@ def clasificar(inc: Inciso, an: Analisis, norm: str) -> Tuple[str, str]:
     # 'hallar la recta, interpretar ... e investigar la asociación lineal. ¿Qué concepto ... influencia porcentual?'
     # (final 15/12/25): un solo inciso que pide la recta, la validación y r² con su intervalo
     # 'Encuentre un modelo lineal ... Calcule el coeficiente de determinación ... Testee el modelo' (final 2024)
+    # la recta / el modelo como objeto de un verbo en infinitivo o imperativo ('estimar la recta', 'ajuste el modelo
+    # lineal'), no 'usando la recta' ni 'con la recta' (eso es usarla para otra cosa)
     if _hay(r"(hallar|calcular|obtener|determinar) la recta|(encuentre|encontrar|hallar|halle|obtener|obtenga|"
-            r"determinar|determine|ajustar|ajuste) (un|el) modelo (lineal|de regresion)", norm):
+            r"determinar|determine|ajustar|ajuste) (un|el) modelo (lineal|de regresion)|"
+            r"(^|[^a-z])[a-z]{3,}(ar|er|ir|e|a) (la|una) recta( de (regresion|minimos cuadrados))?\b|"
+            r"(^|[^a-z])[a-z]{3,}(ar|er|ir|e|a) (un|el) modelo (lineal|de regresion)", norm) and \
+            not _hay(r"\b(usando|con|segun|mediante|a partir de) (la|una|el|un) (recta|modelo)", norm):
         if _hay(r"(validar|valide|interpret|asociacion lineal|relacion lineal|test|ensay|coeficiente de determinacion)", norm):
             inc.params["validar"] = True
         if pide_rho2:
@@ -551,7 +556,7 @@ def _pasos_recta(reg: rg.RegresionSimple, res, d):
         res.pasos.append(f"**Recta por el origen**: b1 = Σxy / Σx² = {_con(fmt(reg.b1, 6), ub1)}.")
     else:
         res.pasos.append(f"**Estimadores**: b1 = (Σxy - n·x̄·ȳ)/(Σx² - n·x̄²) = {fmt(reg.Sxy, 4)}/{fmt(reg.Sxx, 4)} = "
-                         f"{_con(fmt(reg.b1, 6), ub1)}; b0 = ȳ - b1·x̄ = {fmt(reg.ybar, 4)} - ({fmt(reg.b1, 4)})·"
+                         f"{_con(fmt(reg.b1, 6), ub1)}; b0 = ȳ - b1·x̄ = {fmt(reg.ybar, 4)} - ({fmt_sig(reg.b1)})·"
                          f"{fmt(reg.xbar, 4)} = {_con(fmt(reg.b0, 6), uy if reg.modelo == 'lineal' else '')}.")
     res.pasos.append(f"**Recta (modelo estimador)**: {_coma(reg.ecuacion())}.")
     n_par = 1 if reg.origen else 2
@@ -567,7 +572,7 @@ def _pasos_recta(reg: rg.RegresionSimple, res, d):
     res.numeros += [reg.b0, reg.b1, reg.S, reg.S2, reg.Sb1]
     if reg.modelo in ("loglog", "loglin"):
         res.numeros += [exp(reg.b0)] + ([exp(reg.b1)] if reg.modelo == "loglin" else [])
-        forma = (f"y = {fmt(exp(reg.b0), 4)}·x^{fmt(reg.b1, 4)}" if reg.modelo == "loglog"
+        forma = (f"y = {fmt(exp(reg.b0), 4)}·x^{fmt_sig(reg.b1)}" if reg.modelo == "loglog"
                  else f"y = {fmt(exp(reg.b0), 4)}·{fmt(exp(reg.b1), 4)}^x")
         cuentas = f"e^b0 = e^{fmt(reg.b0, 6)} = {fmt(exp(reg.b0), 4)}" + (
             f"; e^b1 = e^{fmt(reg.b1, 6)} = {fmt(exp(reg.b1), 4)}" if reg.modelo == "loglin" else "")
@@ -583,8 +588,8 @@ def _interpretar(reg: rg.RegresionSimple, d) -> str:
     ny, uy, nx, ux = _vars(d)
     sube = "aumenta" if reg.b1 >= 0 else "disminuye"
     if reg.modelo == "loglog":
-        return (f"b1 = {fmt(reg.b1, 4)} es la elasticidad (modelo de elasticidad constante): si {_el(nx)} {_v(nx, 'aumenta')} un 1%, "
-                f"{_el(ny)} {_v(ny, sube)} un {fmt(abs(reg.b1), 4)}% (cambio porcentual por cambio porcentual).")
+        return (f"b1 = {fmt_sig(reg.b1)} es la elasticidad (modelo de elasticidad constante): si {_el(nx)} {_v(nx, 'aumenta')} un 1%, "
+                f"{_el(ny)} {_v(ny, sube)} un {fmt_sig(abs(reg.b1))}% (cambio porcentual por cambio porcentual).")
     if reg.modelo == "loglin":
         return (f"b1·100 = {fmt(100 * reg.b1, 4)}: {_por_cada(nx, ux)}, {_el(ny)} {_v(ny, sube)} aproximadamente un "
                 f"{fmt(abs(100 * reg.b1), 4)}% (cambio porcentual de Y por cambio absoluto de X; exacto: "
@@ -593,12 +598,12 @@ def _interpretar(reg: rg.RegresionSimple, d) -> str:
         return (f"b1/100 = {fmt(reg.b1 / 100, 4)}: si {_el(nx)} {_v(nx, 'aumenta')} un 1%, {_el(ny)} {_v(ny, sube)} {_con(fmt(abs(reg.b1) / 100, 4), uy)} "
                 f"(cambio absoluto de Y por cambio porcentual de X).")
     if reg.modelo != "lineal":
-        return f"b1 = {fmt(reg.b1, 4)} (modelo {reg.modelo})."
-    txt = (f"b1 = {_con(fmt(reg.b1, 4), _u_b1(uy, ux))} (coeficiente de regresión o contribución marginal): "
-           f"{_por_cada(nx, ux)}, {_el(ny)} {_v(ny, sube)} en promedio {_con(fmt(abs(reg.b1), 4), uy)}.")
+        return f"b1 = {fmt_sig(reg.b1)} (modelo {reg.modelo})."
+    txt = (f"b1 = {_con(fmt_sig(reg.b1), _u_b1(uy, ux))} (coeficiente de regresión o contribución marginal): "
+           f"{_por_cada(nx, ux)}, {_el(ny)} {_v(ny, sube)} en promedio {_con(fmt_sig(abs(reg.b1)), uy)}.")
     if not reg.origen:
         ent = _entorno(d, reg)
-        txt += (f" b0 = {_con(fmt(reg.b0, 4), uy)}: en teoría, sería {_el(ny)} cuando {_el(nx)} {_v(nx, 'vale')} 0"
+        txt += (f" b0 = {_con(fmt_sig(reg.b0), uy)}: en teoría, sería {_el(ny)} cuando {_el(nx)} {_v(nx, 'vale')} 0"
                 + (f" {ux}" if ux else "") + ", pero no se puede asegurar")
         if ent:
             dentro = ent[0] <= 0 <= ent[1]
@@ -780,7 +785,7 @@ def pronostico(d, alpha, res, estado):
     reg = _reg_estado(d, estado)
     ny, uy, nx, ux = _vars(d)
     yp = reg.predecir(xp)
-    res.pasos.append(f"**Pronóstico puntual** para x = {fmt(xp, 4)}: ŷ = b0 + b1·x = {fmt(reg.b0, 4)} + ({fmt(reg.b1, 4)})·"
+    res.pasos.append(f"**Pronóstico puntual** para x = {fmt(xp, 4)}: ŷ = b0 + b1·x = {fmt_sig(reg.b0)} + ({fmt_sig(reg.b1)})·"
                      f"{fmt(xp, 4)} = {fmt(yp, 4)}" + (f" (= {fmt(reg.a_original(yp), 4)} en la escala original)"
                                                        if reg.modelo != "lineal" else "") + ".")
     _pronostico(d, alpha, res, estado)
@@ -808,7 +813,7 @@ def _pronostico(d, alpha, res, estado):
                           "crece mucho al alejarse; decirlo en la respuesta.")
     y0 = reg.predecir(x0)
     res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}.")
-    res.pasos.append(f"**Estimador puntual**: ŷ₀ = b0 + b1·x₀ = {fmt(reg.b0, 4)} + ({fmt(reg.b1, 4)})·{fmt(x0, 4)} = {fmt(y0, 4)}"
+    res.pasos.append(f"**Estimador puntual**: ŷ₀ = b0 + b1·x₀ = {fmt_sig(reg.b0)} + ({fmt_sig(reg.b1)})·{fmt(x0, 4)} = {fmt(y0, 4)}"
                      + (f" (= {fmt(reg.a_original(y0), 4)} en la escala original)" if reg.modelo != "lineal" else "")
                      + (f" → {fmt(y0 * ey, 2)} en unidades" if ey != 1 else "") + ".")
     res.numeros += [y0, reg.a_original(y0), y0 * ey]
@@ -886,9 +891,9 @@ def ic_coef(d, alpha, res, estado):
         lim, op = (ic.B, "+") if cola == "superior" else (ic.A, "-")
         signo = "≤" if cola == "superior" else "≥"
         c = redondeo.cota(lim, cola == "superior", 4)
-        res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}.")
+        res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt_sig(reg.Sb1)}.")
         res.pasos.append(f"**Límite {cola} para β1** (unilateral, α entero en una cola): b1 {op} t(1-α; ν = {reg.nu})·Sb1 "
-                         f"= {fmt(reg.b1, 4)} {op} {fmt(ic.critico, 4)}·{fmt(reg.Sb1, 4)} = {fmt(lim, 6)} "
+                         f"= {fmt_sig(reg.b1)} {op} {fmt(ic.critico, 4)}·{fmt_sig(reg.Sb1)} = {fmt(lim, 6)} "
                          "(sin redondear; el redondeo hacia afuera va en la conclusión).")
         res.numeros += [reg.b1, lim, ic.error, ic.critico]
         res.resumen = f"β1 {signo} {fmt(lim, 4)}"
@@ -897,9 +902,9 @@ def ic_coef(d, alpha, res, estado):
                           f"P(β1 {signo} {c}) = {fmt(1 - alpha, 4)} (sin redondear {fmt(lim, 6)}).")
         return
     ic = rg.ic_beta1(reg, alpha)
-    res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}.")
-    res.pasos.append(f"**IC para β1**: b1 ± t(1-α/2; ν = n - 2 = {reg.nu})·Sb1 = {fmt(reg.b1, 4)} ± {fmt(ic.critico, 4)}·"
-                     f"{fmt(reg.Sb1, 4)} = [{fmt(ic.A, 4)} ; {fmt(ic.B, 4)}]"
+    res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt_sig(reg.Sb1)}.")
+    res.pasos.append(f"**IC para β1**: b1 ± t(1-α/2; ν = n - 2 = {reg.nu})·Sb1 = {fmt_sig(reg.b1)} ± {fmt(ic.critico, 4)}·"
+                     f"{fmt_sig(reg.Sb1)} = [{fmt(ic.A, 4)} ; {fmt(ic.B, 4)}]"
                      + (" (con valores negativos, A es el MÁS negativo)" if ic.B < 0 else "") + ".")
     res.numeros += [reg.b1, ic.A, ic.B, ic.error, ic.critico]
     res.resumen = f"β1 ∈ [{fmt(ic.A, 4)} ; {fmt(ic.B, 4)}]"
@@ -990,20 +995,20 @@ def ensayo_coef(d, alpha, res, estado):
                           "que un valor. Corregí la cola.")
     e = rg.ensayo_beta1(reg, alpha, b10, tail)
     afirmacion = _afirmacion_b1(b10, tail, ny, nx, ux, uy)
-    res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt(reg.Sb1, 4)}; ν = n - 2 = {reg.nu}.")
+    res.pasos.append(f"**Recta**: {_coma(reg.ecuacion())}; Sb1 = {fmt_sig(reg.Sb1)}; ν = n - 2 = {reg.nu}.")
     res.pasos.append(f"**Hipótesis**: se quiere probar que {afirmacion} ⇒ va en H1. H0: {_coma(e.h0)}  vs  "
                      f"H1: {_coma(e.h1)}" + (f" (β1 en {ub1})" if ub1 else "") + f"; α = {fmt(alpha, 4)}."
                      + (" Ojo con el signo: «disminuye en más» es MÁS negativo." if b10 < 0 else ""))
     bc = e.b_critico[0] if e.b_critico else b10
     signo = "+" if tail == "derecha" else "-"
-    res.pasos.append(f"**Valor crítico** (antes de mirar b1): b1c = β1₀ {signo} t(1-α; ν)·Sb1 = {fmt(b10, 4)} {signo} "
-                     f"{fmt(e.t_critico, 4)}·{fmt(reg.Sb1, 4)} = {_con(fmt(bc, 4), ub1)}.")
+    res.pasos.append(f"**Valor crítico** (antes de mirar b1): b1c = β1₀ {signo} t(1-α; ν)·Sb1 = {fmt_sig(b10)} {signo} "
+                     f"{fmt(e.t_critico, 4)}·{fmt_sig(reg.Sb1)} = {_con(fmt_sig(bc), ub1)}.")
     cond = ">" if tail == "derecha" else "<"
-    res.pasos.append(f"**Condición de rechazo**: si b1 {cond} {fmt(bc, 4)} ⇒ se rechaza H0. b1 = {fmt(reg.b1, 4)} ⇒ "
+    res.pasos.append(f"**Condición de rechazo**: si b1 {cond} {fmt_sig(bc)} ⇒ se rechaza H0. b1 = {fmt_sig(reg.b1)} ⇒ "
                      + ("se rechaza H0." if e.rechaza else "no se rechaza H0."))
     res.numeros += [reg.b1, bc, e.t_critico, e.t_c, reg.Sb1]
-    res.resumen = f"b1 = {fmt(reg.b1, 4)} vs b1c = {fmt(bc, 4)}: " + ("RECHAZA H0" if e.rechaza else "NO rechaza H0")
-    res.conclusion = (f"Con α = {fmt(alpha, 4)}, b1 = {fmt(reg.b1, 4)} " +
+    res.resumen = f"b1 = {fmt_sig(reg.b1)} vs b1c = {fmt_sig(bc)}: " + ("RECHAZA H0" if e.rechaza else "NO rechaza H0")
+    res.conclusion = (f"Con α = {fmt(alpha, 4)}, b1 = {fmt_sig(reg.b1)} " +
                       ("cae en la zona de rechazo ⇒ se rechaza H0: se puede asegurar que " if e.rechaza else
                        "no cae en la zona de rechazo ⇒ no se rechaza H0: no hay evidencia suficiente para asegurar que ")
                       + afirmacion + ".")

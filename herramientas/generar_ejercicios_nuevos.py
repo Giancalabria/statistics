@@ -90,12 +90,14 @@ def chi_contingencia(tabla):
     return chi, (len(filas) - 1) * (len(cols) - 1)
 
 
-EJ = []
+TANDAS = {1: ("ejercicios_nuevos.json", "15/11/2026", []), 2: ("ejercicios_nuevos_2.json", "16/11/2026", [])}
+TANDA = 1
 
 
 def ejercicio(ident, planteo, incisos, esperado, tablas=None, nota=""):
-    EJ.append(dict(id=ident, examen="Ejercicio nuevo (Claude, 15/11/2026)", planteo=planteo,
-                   incisos=incisos, tablas=tablas, esperado=esperado, nota=nota))
+    _, fecha, lista = TANDAS[TANDA]
+    lista.append(dict(id=ident, examen=f"Ejercicio nuevo (Claude, {fecha})", planteo=planteo,
+                      incisos=incisos, tablas=tablas, esperado=esperado, nota=nota))
 
 
 # ---------------------------------------------------------------- N1: proporción, decisión costosa + complemento
@@ -279,9 +281,215 @@ ejercicio("N10",
           nota=f"optimista: H0 p ≤ 0,04; r = {r10}, r_c = {rc10}")
 
 
+# ================================================================ TANDA 2 (16/11/2026): escrita sin mirar cómo
+# salió la primera en la app. Variantes que la tanda 1 no tenía: refutar al proveedor + cota superior unilateral,
+# plan sobre p hacia abajo y β en otro p, dos varianzas con datos crudos y cociente de DESVÍOS, diferencia mínima
+# en unidades, apareadas en una tabla, ajuste normal con clases, homogeneidad, proporciones dadas, IC de la media
+# en regresión y una reducción porcentual (h < 1).
+
+TANDA = 2
+
+# ---------------------------------------------------------------- S1: p, refutar lo que sostiene el proveedor + cota superior
+
+n, r = 200, 23
+rc = rc_binomial(n, 0.08, 0.05)
+cota_sup = stats.beta.ppf(0.95, r + 1, n - r)
+ejercicio("S1",
+          "Un proveedor de envases sostiene que, como mucho, el 8% de sus envases llega con fisuras. Al recibir un "
+          "embarque, el área de calidad revisó 200 envases tomados al azar y encontró 23 con fisuras.",
+          [["a", "Con α = 0,05, ¿hay motivos para reclamarle al proveedor?"],
+           ["b", "Con un 95% de confianza, ¿cuál es, como máximo, la proporción de envases con fisuras del embarque?"]],
+          [[["d", "rechaza" if r >= rc else "no_rechaza"], ["n", rc]], [["n", r4(cota_sup)]]],
+          nota=f"a) H1 p > 0,08 (reclamar), r_c = {rc}; b) cota superior unilateral B = {r4(cota_sup)}")
+
+# ---------------------------------------------------------------- S2: plan sobre p hacia abajo, β en otro p
+
+
+def plan_binomial_izq(p0, p1, alpha, beta):
+    """Menor n con r_c (se rechaza si R ≤ r_c) que cumple F(r_c | n; p0) ≤ α y P(R > r_c | n; p1) ≤ β (p1 < p0)."""
+    for n_ in range(1, 5000):
+        rc_ = int(stats.binom.ppf(alpha, n_, p0))
+        while rc_ >= 0 and stats.binom.cdf(rc_, n_, p0) > alpha:
+            rc_ -= 1
+        if rc_ >= 0 and stats.binom.sf(rc_, n_, p1) <= beta:
+            return n_, rc_
+
+
+n2, rc2 = plan_binomial_izq(0.20, 0.10, 0.05, 0.10)
+beta2 = stats.binom.sf(rc2, n2, 0.15)
+ejercicio("S2",
+          "Históricamente, el 20% de los clientes de una financiera paga la cuota con atraso. Se va a probar un sistema "
+          "de recordatorios por mensaje y se quiere verificar si logra bajar ese porcentaje. Se acepta un riesgo de 0,05 "
+          "de dar por efectivo el sistema cuando en realidad el porcentaje sigue en el 20%, y se quiere una "
+          "probabilidad de 0,90 de detectar la mejora si el porcentaje bajara al 10%.",
+          [["a", "Plantear las hipótesis, determinar el tamaño de la muestra, la condición de rechazo y la regla de "
+                 "decisión."],
+           ["b", "Si con el sistema el porcentaje bajara al 15%, ¿qué probabilidad hay de que el plan no lo detecte?"]],
+          [[["alguno", [n2]], ["alguno", [rc2]]], [["n", r4(beta2)]]],
+          nota=f"H0 p ≥ 0,20, se rechaza si R ≤ r_c: n = {n2}, r_c = {rc2}; β(0,15) = {r4(beta2)}")
+
+# ---------------------------------------------------------------- S3: dos varianzas con datos crudos, cociente de desvíos
+
+manual = [4.92, 5.10, 4.85, 5.15, 5.03, 4.88, 5.12, 4.95]
+auto = [5.01, 4.98, 5.03, 4.99, 5.02, 5.00, 4.97, 5.04, 5.01, 4.99]
+_, sM, nM = media_s(manual)
+_, sA, nA = media_s(auto)
+f3 = (sM / sA) ** 2
+fc3 = stats.f.ppf(0.99, nM - 1, nA - 1)
+lo3 = sqrt(f3 / stats.f.ppf(0.975, nM - 1, nA - 1))
+hi3 = sqrt(f3 / stats.f.ppf(0.025, nM - 1, nA - 1))
+ejercicio("S3",
+          "Se comparan dos métodos de llenado de bidones de 5 litros. Los volúmenes (en litros) obtenidos fueron:\n"
+          "Método manual: 4,92 - 5,10 - 4,85 - 5,15 - 5,03 - 4,88 - 5,12 - 4,95\n"
+          "Método automático: 5,01 - 4,98 - 5,03 - 4,99 - 5,02 - 5,00 - 4,97 - 5,04 - 5,01 - 4,99\n"
+          "El jefe de producción sostiene que el método automático llena con menos variabilidad que el manual.",
+          [["a", "Al 1%, ¿tiene razón el jefe de producción?"],
+           ["b", "Estimar con un 95% de confianza el cociente entre los desvíos estándar del método manual y del "
+                 "automático."]],
+          [[["d", "rechaza" if f3 > fc3 else "no_rechaza"]], [["n", r4(lo3)], ["n", r4(hi3)]]],
+          nota=f"H1 σM > σA: F = {r4(f3)} vs {r4(fc3)}; IC de σM/σA = raíz del IC del cociente de varianzas")
+
+# ---------------------------------------------------------------- S4: dos medias, diferencia mínima en unidades
+
+xA, sA4, nA4 = 184, 9.5, 12
+xN, sN4, nN4 = 196, 11, 15
+se4, nu4 = error_dos_medias(sN4, nN4, sA4, nA4)
+dc4 = 5 + stats.t.ppf(0.95, nu4) * se4
+ejercicio("S4",
+          "Una planta evalúa reemplazar su línea de envasado. En 12 turnos con la línea actual se envasaron en promedio "
+          "184 cajas por hora, con un desvío de 9,5 cajas. En 15 turnos con una línea de prueba, el promedio fue de 196 "
+          "cajas por hora, con un desvío de 11 cajas. La línea nueva solo se compra si envasa, en promedio, más de 5 "
+          "cajas por hora más que la actual.",
+          [["a", "Con un 5% de riesgo, ¿conviene comprar la línea nueva?"],
+           ["b", "Con un 95% de confianza, ¿cuál es el aumento mínimo garantizado de la producción media por hora?"]],
+          [[["d", "rechaza" if xN - xA > dc4 else "no_rechaza"]],
+           [["n", r4(xN - xA - stats.t.ppf(0.95, nu4) * se4)]]],
+          nota=f"H1 μN − μA > 5; ν = {nu4}; d = 12 vs d_c = {r4(dc4)}")
+
+# ---------------------------------------------------------------- S5: apareadas en una tabla, IC bilateral
+
+previa = [52.3, 48.1, 61.0, 45.7, 55.2, 50.8, 58.4, 47.9, 53.6, 49.2]
+post = [55.1, 49.0, 64.2, 47.5, 56.0, 53.9, 59.1, 50.3, 55.0, 48.8]
+d5 = [b_ - a_ for a_, b_ in zip(previa, post)]
+dm5, sd5, n5 = media_s(d5)
+t5 = stats.t.ppf(0.95, n5 - 1)
+ejercicio("S5",
+          "Para medir el efecto de una campaña publicitaria, se registraron las ventas semanales (en miles de pesos) de "
+          "10 sucursales en la semana previa y en la semana posterior a la campaña:",
+          [["a", "Al 5%, ¿aumentaron las ventas medias con la campaña?"],
+           ["b", "Estimar con un 90% de confianza el aumento medio de las ventas semanales por sucursal."]],
+          [[["d", "rechaza" if dm5 > t5 * sd5 / sqrt(n5) else "no_rechaza"]],
+           [["n", r4(dm5 - t5 * sd5 / sqrt(n5))], ["n", r4(dm5 + t5 * sd5 / sqrt(n5))]]],
+          tablas=[{"titulo": "", "columnas": ["Sucursal", "Semana previa", "Semana posterior"],
+                   "filas": [[i + 1, a_, b_] for i, (a_, b_) in enumerate(zip(previa, post))]}],
+          nota=f"apareadas: d̄ = {r4(dm5)}, S_d = {r4(sd5)}")
+
+# ---------------------------------------------------------------- S6: ajuste normal con clases (dominio completo)
+
+lim6 = [19.0, 19.4, 19.8, 20.2, 20.6, 21.0, 21.4, 21.8]
+fo6b = [4, 17, 21, 36, 19, 17, 6]
+N6b = sum(fo6b)
+marcas = [(a_ + b_) / 2 for a_, b_ in zip(lim6, lim6[1:])]
+m6 = sum(x * f for x, f in zip(marcas, fo6b)) / N6b
+s6 = sqrt(sum(f * (x - m6) ** 2 for x, f in zip(marcas, fo6b)) / (N6b - 1))
+cortes = [-float("inf")] + lim6 + [float("inf")]
+fo_c = [0] + fo6b + [0]
+fe_c = [N6b * (stats.norm.cdf(b_, m6, s6) - stats.norm.cdf(a_, m6, s6)) for a_, b_ in zip(cortes, cortes[1:])]
+while fe_c[0] < 5:
+    fo_c[:2], fe_c[:2] = [fo_c[0] + fo_c[1]], [fe_c[0] + fe_c[1]]
+while fe_c[-1] < 5:
+    fo_c[-2:], fe_c[-2:] = [fo_c[-2] + fo_c[-1]], [fe_c[-2] + fe_c[-1]]
+chi6b = sum((o - e) ** 2 / e for o, e in zip(fo_c, fe_c))
+nu6b = len(fo_c) - 1 - 2
+ejercicio("S6",
+          "Se midió el diámetro (en mm) de 120 ejes torneados en un centro de mecanizado. Los resultados se agruparon "
+          "así:",
+          [["a", "¿Puede admitirse, con un riesgo del 5%, que el diámetro de los ejes tiene distribución normal?"]],
+          [[["d", "rechaza" if chi6b > stats.chi2.ppf(0.95, nu6b) else "no_rechaza"], ["n", r4(chi6b)]]],
+          tablas=[{"titulo": "", "columnas": ["Diámetro (mm)", "Cantidad de ejes"],
+                   "filas": [[f"{a_:.1f}-{b_:.1f}".replace(".", ","), f]
+                             for a_, b_, f in zip(lim6, lim6[1:], fo6b)]}],
+          nota=f"x̄ = {r4(m6)}, S = {r4(s6)}; {len(fo_c)} clases efectivas, ν = {nu6b}; χ² = {r4(chi6b)}")
+
+# ---------------------------------------------------------------- S7: homogeneidad (consistencia) entre sucursales
+
+tabla7 = [[60, 85, 55], [45, 70, 35], [30, 50, 70]]
+chi7, nu7 = chi_contingencia(tabla7)
+ejercicio("S7",
+          "Un banco registró el medio de pago que usaron muestras de clientes de tres sucursales:",
+          [["a", "Con un 1% de riesgo, ¿se puede afirmar que los porcentajes de uso de cada medio de pago son los mismos "
+                 "en las tres sucursales?"]],
+          [[["n", r4(chi7)], ["d", "rechaza" if chi7 > stats.chi2.ppf(0.99, nu7) else "no_rechaza"]]],
+          tablas=[{"titulo": "", "columnas": ["Sucursal", "Efectivo", "Débito", "Crédito"],
+                   "filas": [["Centro", 60, 85, 55], ["Norte", 45, 70, 35], ["Sur", 30, 50, 70]]}],
+          nota=f"consistencia: χ² = {r4(chi7)}, ν = {nu7}")
+
+# ---------------------------------------------------------------- S8: ajuste a proporciones dadas por un plan
+
+fo8, p8 = [228, 104, 68], [0.50, 0.30, 0.20]
+chi8 = sum((o - 400 * p) ** 2 / (400 * p) for o, p in zip(fo8, p8))
+ejercicio("S8",
+          "Según el plan comercial de una empresa de internet, el 50% de las ventas debería corresponder al plan básico, "
+          "el 30% al plan estándar y el 20% al plan premium. En el último mes se registraron 400 ventas: 228 del plan "
+          "básico, 104 del estándar y 68 del premium.",
+          [["a", "Con α = 0,05, ¿se está cumpliendo el plan comercial?"]],
+          [[["n", r4(chi8)], ["d", "rechaza" if chi8 > stats.chi2.ppf(0.95, 2) else "no_rechaza"]]],
+          nota=f"proporciones dadas, ν = 2: χ² = {r4(chi8)}")
+
+# ---------------------------------------------------------------- S9: regresión (econometría), IC de la media
+
+x9 = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
+y9 = [2.1, 2.6, 2.9, 3.6, 3.8, 4.5, 4.6, 5.3, 5.5, 6.2]
+g9 = regresion(x9, y9)
+y09 = g9["b0"] + g9["b1"] * 32
+em9 = stats.t.ppf(0.975, g9["n"] - 2) * g9["s"] * sqrt(1 / g9["n"] + (32 - g9["mx"]) ** 2 / g9["sxx"])
+ejercicio("S9",
+          "Una cadena de electrodomésticos quiere saber si la inversión mensual en publicidad (en miles de pesos) "
+          "explica las ventas del mes (en millones de pesos). Se tienen los datos de 10 meses:",
+          [["a", "Estimar la recta de regresión, interpretar la pendiente y el coeficiente de determinación, y decidir "
+                 "al 5% si el modelo es válido."],
+           ["b", "Estimar con un 95% de confianza las ventas medias de los meses en que se inviertan 32 mil pesos en "
+                 "publicidad."]],
+          [[["n", r4(g9["b1"])], ["n", r4(g9["r2"])]], [["n", r4(y09 - em9)], ["n", r4(y09 + em9)]]],
+          tablas=[{"titulo": "", "columnas": ["Publicidad (miles de $)", "Ventas (millones de $)"],
+                   "filas": [[x, y] for x, y in zip(x9, y9)], "variable_y": "Ventas (millones de $)"}],
+          nota=f"b1 = {r4(g9['b1'])}, r² = {r4(g9['r2'])}; b) IC de la media en x = 32")
+
+# ---------------------------------------------------------------- S10: dos medias, reducción porcentual (h < 1)
+
+xS, sS10, nS10 = 32.5, 2.1, 14
+xC, sC10, nC10 = 28.9, 1.8, 16
+se10, nu10 = error_dos_medias(sC10, nC10, sS10, nS10, 0.95)
+dstar10 = xC - 0.95 * xS
+
+
+def h_max(alpha):
+    """Mayor h con x̄C − h·x̄S ≤ −t(1−α)·error(h): μC ≤ h·μS con confianza 1 − α."""
+    def g(h):
+        e, v = error_dos_medias(sC10, nC10, sS10, nS10, h)
+        return xC - h * xS + stats.t.ppf(1 - alpha, v) * e
+    return brentq(g, xC / xS, 1.0)
+
+
+h10 = h_max(0.05)
+ejercicio("S10",
+          "Una empresa de transporte probó un aditivo para combustible. 14 camiones sin aditivo consumieron en promedio "
+          "32,5 litros cada 100 km, con un desvío de 2,1 litros, y 16 camiones con aditivo consumieron en promedio 28,9 "
+          "litros cada 100 km, con un desvío de 1,8 litros. El fabricante del aditivo afirma que reduce el consumo medio "
+          "en más de un 5%.",
+          [["a", "Con α = 0,05, ¿se puede aceptar la afirmación del fabricante?"],
+           ["b", "Con un 95% de confianza, ¿cuál es la reducción porcentual mínima del consumo medio que se puede "
+                 "garantizar?"]],
+          [[["d", "rechaza" if dstar10 < -stats.t.ppf(0.95, nu10) * se10 else "no_rechaza"]],
+           [["alguno", [r4(h10), r4(1 - h10), round(100 * (1 - h10), 2)]]]],
+          nota=f"H1 μC < 0,95·μS; d* = {r4(dstar10)} vs −{r4(stats.t.ppf(0.95, nu10) * se10)} (ν = {nu10}); "
+               f"b) h máx = {r4(h10)} (reducción {r4(1 - h10)})")
+
+
 if __name__ == "__main__":
-    salida = RAIZ / "datos" / "ejercicios_nuevos.json"
-    salida.write_text(json.dumps(EJ, ensure_ascii=False, indent=1), encoding="utf-8")
-    for e in EJ:
-        print(e["id"], "|", e["nota"], "|", e["esperado"])
-    print(f"\n{len(EJ)} ejercicios → {salida}")
+    for archivo, _, lista in TANDAS.values():
+        salida = RAIZ / "datos" / archivo
+        salida.write_text(json.dumps(lista, ensure_ascii=False, indent=1), encoding="utf-8")
+        for e in lista:
+            print(e["id"], "|", e["nota"], "|", e["esperado"])
+        print(f"\n{len(lista)} ejercicios → {salida}\n")

@@ -290,6 +290,9 @@ def _menciones(texto: str, an: Analisis, d: Optional[Dict] = None) -> Dict[int, 
 
 
 def _direccion(s: str) -> Optional[str]:
+    # 'reduce el consumo en más de un 5%': 'en más de' mide CUÁNTO; la dirección la da el verbo (como en detectar_cola)
+    if _hay(P_MAS_V.replace(r"|\bmas (de|que)\b", ""), s) or _hay(P_MENOS_V.replace(r"|\bmenos (de|que)\b", ""), s):
+        s = re.sub(r"\b(en|por) (mas|menos) de(l)?\b", " ", s)
     mas, menos = _cuenta(P_MAS_V, s), _cuenta(P_MENOS_V, s)
     if mas > menos:
         return "mas"
@@ -422,6 +425,11 @@ def params_dos_medias(inc: Inciso, an: Analisis, t, previo: Dict):
         p["sujeto"] = sujeto
         inc.razones.append(f"δ = μ({an.datos.get(f'nombre{sujeto}')}) - μ({an.datos.get(f'nombre{3 - sujeto}')}): "
                            f"{an.datos.get(f'nombre{sujeto}')} va primero porque {razon}.")
+    elif inc.tipo != "ensayo" and previo.get("sujeto_por_datos"):
+        # la estimación de la misma comparación sigue el orden del ensayo anterior (el «aumento» que se probó es el
+        # que se estima), no el orden de las columnas
+        p["sujeto_por_datos"] = True
+        inc.razones.append("δ con el mismo orden que el ensayo anterior (hacia donde apuntan las muestras).")
     if inc.tipo in ("ensayo", "diseno"):
         direccion = dr or dr_pl
         if direccion is None and _hay(r"(idem|igual que|misma)", norm) and previo.get("direccion"):
@@ -460,7 +468,11 @@ def params_dos_medias(inc: Inciso, an: Analisis, t, previo: Dict):
         if extra:   # 'Ídem a), si se deseara asegurar un incremento del 10%': manda la condición nueva
             mag = _magnitud(A.Texto(extra.group(1)), an, solo_libres=False)
         mag = mag or _magnitud(t, an)
-        if mag is None and not _hay(r"\d", re.sub(r"\d+\s*%|\bh\s*[01]\b", "", norm)):   # 'Plantear H0' no es un dato
+        sin_riesgo = norm   # el α o la confianza del inciso ('Con α = 0,05, ¿…?') no son la magnitud de la afirmación
+        for i, n in sorted(enumerate(t.nums), key=lambda x: -x[1].ini):
+            if A._alpha_de(t, i, n):
+                sin_riesgo = sin_riesgo[:n.ini] + " " + sin_riesgo[n.fin:]
+        if mag is None and not _hay(r"\d", re.sub(r"\d+\s*%|\bh\s*[01]\b", "", sin_riesgo)):   # 'Plantear H0' no es un dato
             mag = _magnitud(A.Texto(_afirmacion_del_planteo(pl, an)[2]), an, solo_libres=False)
         if mag:
             clase, valor, _ = mag
@@ -471,6 +483,21 @@ def params_dos_medias(inc: Inciso, an: Analisis, t, previo: Dict):
             else:
                 p["delta0"] = valor
                 inc.razones.append(f"Diferencia de referencia |δ₀| = {fmt(valor, 6)}.")
+        if p.get("direccion") == "menos" and not p.get("sujeto") and p.get("sujeto_por_datos") and p.get("delta0"):
+            # sin grupo nombrado ('el curso reduce el tiempo en más de 1 minuto'): el mismo planteo en positivo, el que
+            # da más va primero y H1: δ > δ₀ (no 'δ < -1')
+            p.update(direccion="mas", tail="derecha")
+            inc.razones.append("Una reducción en más de δ₀ es lo mismo que el otro grupo da MÁS en más de δ₀: "
+                               "H1: δ > δ₀, con primero el grupo que da más.")
+        elif p.get("direccion") == "menos" and p.get("sujeto") and p.get("delta0"):
+            # 'el curso reduce el tiempo en más de 1 minuto' ≡ 'antes tarda más de 1 minuto más que después': con un δ₀
+            # se plantea en positivo, δ = μ(el otro) - μ(sujeto) > δ₀, y no con δ₀ negativo. Sin magnitud queda como la
+            # guía (V-1: δ = μ(Nuevo) - μ(Viejo) < 0); con %, invertir cambiaría h por 1/h
+            otro = 3 - int(p["sujeto"])
+            p.update(sujeto=otro, direccion="mas", tail="derecha")
+            inc.razones.append(f"Una reducción de {an.datos.get(f'nombre{3 - otro}')} es lo mismo que "
+                               f"{an.datos.get(f'nombre{otro}')} da MÁS: δ = μ({an.datos.get(f'nombre{otro}')}) - "
+                               f"μ({an.datos.get(f'nombre{3 - otro}')}) y H1: δ > δ₀ (en positivo).")
     if inc.tipo == "ic" and _hay(r"porcentual|porcentaje|por ciento|%\s*(minimo|maximo)", norm) and \
             _hay(r"minim|maxim", norm):
         p["porcentual"] = True
@@ -832,7 +859,8 @@ def _cota_apareada(dif, alpha, cota):
 
 def dos_medias_ic(d, alpha, res: Resultado, estado):
     cota = d.get("cota")
-    d = _orientar(d, None)
+    # sin grupo nombrado pero con el orden heredado del ensayo: el que da más va primero (como en el ensayo)
+    d = _orientar(d, "derecha" if d.get("sujeto_por_datos") and not d.get("sujeto") else None)
     if d.get("porcentual") and cota and not d.get("sujeto") and None not in (d.get("xbar1"), d.get("xbar2")) \
             and d["xbar1"] < d["xbar2"]:
         # 'la mínima diferencia porcentual a esperar' sin decir de quién: el de mayor media va primero (h > 1);
@@ -840,6 +868,12 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
         d = _invertir(d)
     a, b = d.get("nombre1") or "1", d.get("nombre2") or "2"
     c = _plantear(d, alpha, res)
+    reduccion = False
+    if d.get("porcentual") and cota and d.get("sujeto") and d.get("tail") == "izquierda" and \
+            None not in (d.get("xbar1"), d.get("xbar2")) and d["xbar1"] < d["xbar2"]:
+        # 'la reducción porcentual mínima': lo que se acota es la REDUCCIÓN 1 - h, así que la mínima reducción sale
+        # del h MÁXIMO (μ(a) ≤ h·μ(b) con confianza 1 - α); el h mínimo sería la reducción máxima
+        reduccion, cota = True, ("sup" if cota == "inf" else "inf")
     if d.get("porcentual") and cota:
         if c["metodo"] == "apareadas":
             raise FaltaDato("La diferencia porcentual garantizada con muestras apareadas no está implementada")
@@ -855,6 +889,16 @@ def dos_medias_ic(d, alpha, res: Resultado, estado):
         else:
             res.pasos.append(f"Con Welch ν depende de h (h² entra también en ν), así que se resuelve iterando: "
                              f"x̄({a}) - h·x̄({b}) {'=' if cota == 'inf' else '= -'} t(1-α; ν(h))·σ(d*(h)) → h = {fmt(h, 4)}.")
+        if reduccion:
+            res.pasos.append(f"**Reducción** = 1 - h = 1 - {fmt(h, 4)} = {fmt(1 - h, 4)}: como μ({a}) ≤ h·μ({b}), la "
+                             f"media de {a} es por lo menos un {fmt((1 - h) * 100, 2)}% menor que la de {b}.")
+            res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) ≤ {redondeo.fijo(h, 4)}·μ({b}): "
+                              f"la reducción de la media es como mínimo del {redondeo.fijo((1 - h) * 100, 2)}% "
+                              f"(1 - h = {redondeo.fijo(1 - h, 4)}).")
+            res.numeros += [h, 1 - h, (1 - h) * 100]
+            res.resumen = f"h = {fmt(h, 4)} (reducción mínima {fmt((1 - h) * 100, 2)}%)"
+            estado.update(metodo=c["metodo"])
+            return
         res.conclusion = (f"Con un {fmt((1 - alpha) * 100, 2)}% de confianza, μ({a}) es como "
                           f"{'mínimo' if cota == 'inf' else 'máximo'} un "
                           f"{redondeo.fijo((h - 1) * 100, 2)}% {'mayor' if h >= 1 else 'menor'} que μ({b}) (h = {redondeo.fijo(h, 4)}).")

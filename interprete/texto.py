@@ -81,6 +81,16 @@ def fmt(valor: Optional[float], dec: int = 4) -> str:
     return s.rstrip("0").rstrip(",")
 
 
+def fmt_sig(valor: Optional[float], dec: int = 4) -> str:
+    """Como fmt, pero un número chico (b1 = 0,002577, Sb1 = 0,000088) conserva 4 cifras significativas, para que las
+    cuentas que se muestran cierren a mano (con 4 decimales fijos quedarían 0,0026 y 0,0001). Para coeficientes, no
+    para probabilidades (esas van con 4 decimales, como en las tablas)."""
+    if valor is not None and 0 < abs(valor) < 0.01:
+        from math import floor, log10
+        dec = max(dec, min(10, 3 - floor(log10(abs(valor)))))
+    return fmt(valor, dec)
+
+
 # ---------------------------------------------------------------------------
 # Listas de datos crudos (x1 – x2 – x3 ...)
 # ---------------------------------------------------------------------------
