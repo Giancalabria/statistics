@@ -261,6 +261,13 @@ def completar_ajuste(an: Analisis, t):
     mods = modelos_en(t.norm)
     if mods:
         an.datos["modelos"] = mods[:1]
+    elif tf and tf[0] == "valores" and not tf[3] and \
+            all(isinstance(e, str) and not re.search(r"\d", e) for e in an.datos.get("valores_var") or []):
+        # categorías con nombre ('lunes', 'martes'…), sin modelo ni proporciones: lo único que se puede contrastar es
+        # que todas tengan la misma probabilidad (uniforme)
+        an.datos["modelos"] = ["uniforme"]
+        an.evidencias.append(Evidencia("modelos", "uniforme", "", "categorías con nombre sin otro modelo ni "
+                                                                  "proporciones dadas: H0 = todas igual de probables"))
 
 
 def _sin_comillas(s: str) -> str:

@@ -164,6 +164,13 @@ def _resumen(tabla: Tabla) -> Optional[Grupos]:
         for f, tipo in zip(filas, tipos_fila):
             if tipo and tipo not in res:
                 res[tipo] = [_num(c) for c in f[1:1 + k]]
+        if "n" not in res and {"xbar", "s"} <= set(res):
+            # 'Operarios observados | 30 | 28': con x̄ y S ya reconocidos, la fila que queda con enteros ≥ 2 es n
+            for f, tipo in zip(filas, tipos_fila):
+                vals = [_num(c) for c in f[1:1 + k]]
+                if tipo is None and vals and all(v is not None and float(v).is_integer() and v >= 2 for v in vals):
+                    res["n"] = vals
+                    break
         nombres = [nombre_corto(c) for c in cols[1:]]
         if k >= 2 and any(v is not None for vals in res.values() for v in vals):
             return Grupos(nombres, resumen=res, origen="tabla resumen: una columna por grupo (n, x̄, S por fila)")

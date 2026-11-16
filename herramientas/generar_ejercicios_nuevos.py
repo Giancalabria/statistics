@@ -90,7 +90,9 @@ def chi_contingencia(tabla):
     return chi, (len(filas) - 1) * (len(cols) - 1)
 
 
-TANDAS = {1: ("ejercicios_nuevos.json", "15/11/2026", []), 2: ("ejercicios_nuevos_2.json", "16/11/2026", [])}
+TANDAS = {1: ("ejercicios_nuevos.json", "15/11/2026", []), 2: ("ejercicios_nuevos_2.json", "16/11/2026", []),
+          3: ("ejercicios_nuevos_3.json", "16/11/2026", []), 4: ("ejercicios_nuevos_4.json", "16/11/2026", []),
+          5: ("ejercicios_nuevos_5.json", "16/11/2026", [])}
 TANDA = 1
 
 
@@ -486,8 +488,189 @@ ejercicio("S10",
                f"b) h máx = {r4(h10)} (reducción {r4(1 - h10)})")
 
 
+# ---------------------------------------------------------------- helpers de las tandas 3 en adelante
+
+def chi_por_clases(limites, fo, cdf, n_param, abajo):
+    """χ² de ajuste con clases: completa el dominio con clases nuevas de Fo = 0 (abajo solo si el modelo tiene
+    soporte por debajo del primer límite) y amalgama desde los extremos mientras Fe < 5. (χ², ν, clases efectivas)."""
+    N = sum(fo)
+    cortes = ([-float("inf")] if abajo else []) + list(limites) + [float("inf")]
+    o = ([0] if abajo else []) + list(fo) + [0]
+    e = [N * (cdf(b_) - cdf(a_)) for a_, b_ in zip(cortes, cortes[1:])]
+    while e[0] < 5:
+        o[:2], e[:2] = [o[0] + o[1]], [e[0] + e[1]]
+    while e[-1] < 5:
+        o[-2:], e[-2:] = [o[-2] + o[-1]], [e[-2] + e[-1]]
+    return sum((x - y) ** 2 / y for x, y in zip(o, e)), len(o) - 1 - n_param, len(o)
+
+
+def ic_dos_medias(x1, s1, n1, x2, s2, n2, alpha):
+    se, nu = error_dos_medias(s1, n1, s2, n2)
+    t = stats.t.ppf(1 - alpha / 2, nu)
+    return x1 - x2 - t * se, x1 - x2 + t * se
+
+
+# ================================================================ TANDA 3 (16/11/2026)
+# Sin mirar el código de la app: afirmaciones «a lo sumo 1 de cada 20», riesgos del productor y del consumidor,
+# φ₀ ≠ 1 en varianzas, Welch, apareadas por parcela en una tabla, ajuste exponencial, uniforme por día de la semana,
+# contingencia «¿existe relación?», pendiente negativa y «¿hay diferencias?» sin dirección con una tabla resumen.
+
+TANDA = 3
+
+# ---------------------------------------------------------------- U1: «a lo sumo 1 de cada 20» + IC exacto
+n, r = 240, 19
+rc = rc_binomial(n, 0.05, 0.05)
+a, b = ic_exacto(r, n, 0.05)
+ejercicio("U1",
+          "Un servicio técnico asegura que, a lo sumo, 1 de cada 20 equipos reparados vuelve con la misma falla dentro "
+          "del mes. Una asociación de consumidores siguió 240 reparaciones elegidas al azar y 19 equipos volvieron con "
+          "la misma falla.",
+          [["a", "Con un nivel de significación del 5%, ¿los datos contradicen lo que asegura el servicio técnico?"],
+           ["b", "Estimar con un 95% de confianza la proporción de equipos que vuelven con la misma falla."]],
+          [[["d", "rechaza" if r >= rc else "no_rechaza"], ["n", rc]], [["n", r4(a)], ["n", r4(b)]]],
+          nota=f"H0 p ≤ 0,05 (lo que asegura), r_c = {rc}; IC exacto 95%")
+
+# ---------------------------------------------------------------- U2: plan con riesgo del productor y del consumidor
+n2, rc2 = plan_binomial(0.02, 0.08, 0.05, 0.10)
+ejercicio("U2",
+          "Un fabricante de autopartes y su cliente acuerdan un plan de inspección por atributos para los lotes de "
+          "rodamientos. Se acepta un riesgo del productor del 5% para lotes con un 2% de defectuosos y un riesgo del "
+          "consumidor del 10% para lotes con un 8% de defectuosos.",
+          [["a", "Determinar el tamaño de muestra y el número de defectuosos a partir del cual se rechaza el lote. "
+                 "Enunciar la regla de decisión."]],
+          [[["alguno", [n2]], ["alguno", [rc2]]]],
+          nota=f"H0 p ≤ 0,02 (lote bueno), α = 0,05, β = 0,10 en 0,08 → n = {n2}, r_c = {rc2}")
+
+# ---------------------------------------------------------------- U3: dos varianzas con φ₀ = 1,2
+sV, nV, sN3, nN3 = 0.42, 18, 0.25, 15
+j2 = (sV / sN3) ** 2
+fc = 1.2 ** 2 * stats.f.ppf(0.95, nV - 1, nN3 - 1)
+lo = sqrt(j2 / stats.f.ppf(0.95, nV - 1, nN3 - 1))
+hi = sqrt(j2 / stats.f.ppf(0.05, nV - 1, nN3 - 1))
+ejercicio("U3",
+          "Se evalúa reemplazar una rectificadora vieja. En 18 piezas de la máquina vieja el diámetro tuvo un desvío "
+          "estándar de 0,42 mm, y en 15 piezas de la máquina nueva, de 0,25 mm. La gerencia solo aprobará el reemplazo "
+          "si el desvío de la máquina vieja supera en más de un 20% al de la nueva.",
+          [["a", "Con α = 0,05, ¿se aprueba el reemplazo?"],
+           ["b", "Estimar con un 90% de confianza la relación entre el desvío de la máquina vieja y el de la nueva."]],
+          [[["d", "rechaza" if j2 > fc else "no_rechaza"]], [["n", r4(lo)], ["n", r4(hi)]]],
+          nota=f"H0 σV/σN ≤ 1,2: j² = {r4(j2)} vs 1,44·F = {r4(fc)}")
+
+# ---------------------------------------------------------------- U4: dos medias con Welch, cola izquierda
+xA, sA, nA = 8.3, 2.1, 25
+xB, sB, nB = 10.1, 5.4, 20
+se4, nu4 = error_dos_medias(sA, nA, sB, nB)
+lo4, hi4 = ic_dos_medias(xA, sA, nA, xB, sB, nB, 0.05)
+ejercicio("U4",
+          "Una empresa compara dos centros de atención telefónica. En el centro A se midieron 25 llamadas, con un "
+          "tiempo medio de atención de 8,3 minutos y un desvío de 2,1 minutos; en el centro B, 20 llamadas, con una "
+          "media de 10,1 minutos y un desvío de 5,4 minutos.",
+          [["a", "¿Puede afirmarse, con un riesgo del 5%, que en el centro A se atiende más rápido que en el B?"],
+           ["b", "Estimar con un 95% de confianza la diferencia entre los tiempos medios de atención de los dos "
+                 "centros."]],
+          [[["d", "rechaza" if xA - xB < -stats.t.ppf(0.95, nu4) * se4 else "no_rechaza"]],
+           [["n", r4(lo4)], ["n", r4(hi4)]]],
+          nota=f"F aux rechaza → Welch, ν = {nu4}; H1 μA < μB")
+
+# ---------------------------------------------------------------- U5: apareadas por parcela (tabla)
+vA = [48.2, 51.0, 45.6, 53.3, 49.8, 47.1, 50.5, 52.2, 46.9]
+vB = [46.5, 49.8, 45.9, 50.6, 47.2, 46.0, 48.8, 50.1, 45.0]
+d5 = [x - y for x, y in zip(vA, vB)]
+dm5, sd5, n5 = media_s(d5)
+t5 = stats.t.ppf(0.99, n5 - 1)
+ejercicio("U5",
+          "Para comparar dos variedades de trigo, en cada una de 9 parcelas se sembró una mitad con la variedad A y la "
+          "otra mitad con la variedad B. Los rendimientos (en quintales por hectárea) fueron:",
+          [["a", "Con un 1% de significación, ¿rinde más, en promedio, la variedad A?"],
+           ["b", "¿Cuál es la diferencia mínima de rendimiento medio a favor de A que se puede garantizar con un 99% de "
+                 "confianza?"]],
+          [[["d", "rechaza" if dm5 > t5 * sd5 / sqrt(n5) else "no_rechaza"]], [["n", r4(dm5 - t5 * sd5 / sqrt(n5))]]],
+          tablas=[{"titulo": "", "columnas": ["Parcela", "Variedad A", "Variedad B"],
+                   "filas": [[i + 1, x, y] for i, (x, y) in enumerate(zip(vA, vB))]}],
+          nota=f"apareadas: d̄ = {r4(dm5)}, S_d = {r4(sd5)}")
+
+# ---------------------------------------------------------------- U6: ajuste exponencial con clases
+lim6 = [0, 50, 100, 150, 200, 300, 500]
+fo6 = [41, 20, 17, 7, 10, 5]
+m6 = sum((a_ + b_) / 2 * f for a_, b_, f in zip(lim6, lim6[1:], fo6)) / sum(fo6)
+chi6, nu6, k6 = chi_por_clases(lim6, fo6, lambda x: stats.expon.cdf(x, scale=m6), 1, abajo=False)
+ejercicio("U6",
+          "Se registró el tiempo de funcionamiento (en horas) hasta la primera falla de 100 bombas de agua:",
+          [["a", "Con un riesgo del 5%, ¿puede considerarse que el tiempo hasta la primera falla responde a un modelo "
+                 "exponencial?"]],
+          [[["d", "rechaza" if chi6 > stats.chi2.ppf(0.95, nu6) else "no_rechaza"], ["n", r4(chi6)]]],
+          tablas=[{"titulo": "", "columnas": ["Tiempo hasta la falla (horas)", "Cantidad de bombas"],
+                   "filas": [[f"{a_}-{b_}", f] for a_, b_, f in zip(lim6, lim6[1:], fo6)]}],
+          nota=f"x̄ = {r4(m6)} (marcas), λ = 1/x̄; {k6} clases, ν = {nu6}; χ² = {r4(chi6)}")
+
+# ---------------------------------------------------------------- U7: uniforme por día de la semana
+fo7 = [32, 21, 18, 22, 37]
+e7 = sum(fo7) / 5
+chi7 = sum((o - e7) ** 2 / e7 for o in fo7)
+ejercicio("U7",
+          "Un área de seguridad e higiene registró los accidentes leves de los últimos meses según el día hábil en que "
+          "ocurrieron:",
+          [["a", "¿Se puede sostener, al 5%, que los accidentes ocurren con la misma frecuencia todos los días hábiles?"]],
+          [[["n", r4(chi7)], ["d", "rechaza" if chi7 > stats.chi2.ppf(0.95, 4) else "no_rechaza"]]],
+          tablas=[{"titulo": "", "columnas": ["Día", "Accidentes"],
+                   "filas": [["Lunes", 32], ["Martes", 21], ["Miércoles", 18], ["Jueves", 22], ["Viernes", 37]]}],
+          nota=f"uniforme discreta, ν = 4: χ² = {r4(chi7)}")
+
+# ---------------------------------------------------------------- U8: contingencia 2 × 3
+tabla8 = [[25, 15, 10], [18, 22, 30]]
+chi8, nu8 = chi_contingencia(tabla8)
+ejercicio("U8",
+          "En una planta se clasificaron las piezas defectuosas de dos máquinas según el tipo de defecto encontrado:",
+          [["a", "Con un nivel de significación de 0,01, ¿existe relación entre el tipo de defecto y la máquina que "
+                 "produjo la pieza?"]],
+          [[["n", r4(chi8)], ["d", "rechaza" if chi8 > stats.chi2.ppf(0.99, nu8) else "no_rechaza"]]],
+          tablas=[{"titulo": "", "columnas": ["Máquina", "Rayaduras", "Abolladuras", "Fisuras"],
+                   "filas": [["Máquina 1", 25, 15, 10], ["Máquina 2", 18, 22, 30]]}],
+          nota=f"χ² = {r4(chi8)}, ν = {nu8}")
+
+# ---------------------------------------------------------------- U9: regresión con pendiente negativa
+x9 = [10, 12, 14, 16, 18, 20, 22, 24]
+y9 = [182, 178, 166, 160, 151, 147, 136, 131]
+g9 = regresion(x9, y9)
+b1c9 = -2.5 - stats.t.ppf(0.95, g9["n"] - 2) * g9["sb1"]
+y0 = g9["b0"] + g9["b1"] * 15
+em = stats.t.ppf(0.975, g9["n"] - 2) * g9["s"] * sqrt(1 / g9["n"] + (15 - g9["mx"]) ** 2 / g9["sxx"])
+ejercicio("U9",
+          "Una cadena de heladerías probó distintos precios para un mismo producto (en miles de pesos) y registró las "
+          "unidades vendidas por semana en cada caso:",
+          [["a", "Obtener la recta de regresión de las ventas en función del precio, interpretar la pendiente y el "
+                 "coeficiente de determinación."],
+           ["b", "Con un 5% de riesgo, ¿se puede afirmar que por cada mil pesos de aumento del precio las ventas "
+                 "semanales bajan más de 2,5 unidades?"],
+           ["c", "Estimar con un 95% de confianza las ventas semanales medias con un precio de 15 mil pesos."]],
+          [[["n", r4(g9["b1"])], ["n", r4(g9["r2"])]],
+           [["d", "rechaza" if g9["b1"] < b1c9 else "no_rechaza"]],
+           [["n", r4(y0 - em)], ["n", r4(y0 + em)]]],
+          tablas=[{"titulo": "", "columnas": ["Precio (miles de $)", "Unidades vendidas"],
+                   "filas": [[x, y] for x, y in zip(x9, y9)], "variable_y": "Unidades vendidas"}],
+          nota=f"b1 = {r4(g9['b1'])}, r² = {r4(g9['r2'])}; b) H1 β1 < -2,5, b1c = {r4(b1c9)}; c) IC media x = 15")
+
+# ---------------------------------------------------------------- U10: «¿hay diferencias?» con tabla resumen
+xM, sM10, nM10 = 52.4, 4.1, 30
+xNo, sNo, nNo = 49.8, 4.6, 28
+se10b, nu10b = error_dos_medias(sNo, nNo, sM10, nM10)
+lo10, hi10 = ic_dos_medias(xM, sM10, nM10, xNo, sNo, nNo, 0.05)
+ejercicio("U10",
+          "Se registró la producción diaria por operario (en kg) en los dos turnos de una planta de empaque:",
+          [["a", "¿Hay diferencias entre la producción media de ambos turnos? (α = 0,05)"],
+           ["b", "Estimar con un 95% de confianza la diferencia entre las producciones medias."]],
+          [[["d", "rechaza" if xM - xNo > stats.t.ppf(0.95, nu10b) * se10b else "no_rechaza"]],
+           [["n", r4(lo10)], ["n", r4(hi10)]]],
+          tablas=[{"titulo": "", "columnas": ["", "Turno mañana", "Turno noche"],
+                   "filas": [["Operarios observados", 30, 28], ["Producción media (kg)", 52.4, 49.8],
+                             ["Desvío estándar (kg)", 4.1, 4.6]]}],
+          nota=f"sin dirección → unilateral hacia los datos (H1 μM > μN), ν = {nu10b}")
+
+
 if __name__ == "__main__":
     for archivo, _, lista in TANDAS.values():
+        if not lista:
+            continue
         salida = RAIZ / "datos" / archivo
         salida.write_text(json.dumps(lista, ensure_ascii=False, indent=1), encoding="utf-8")
         for e in lista:

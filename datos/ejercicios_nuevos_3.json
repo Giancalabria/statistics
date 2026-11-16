@@ -1,0 +1,543 @@
+[
+ {
+  "id": "U1",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Un servicio técnico asegura que, a lo sumo, 1 de cada 20 equipos reparados vuelve con la misma falla dentro del mes. Una asociación de consumidores siguió 240 reparaciones elegidas al azar y 19 equipos volvieron con la misma falla.",
+  "incisos": [
+   [
+    "a",
+    "Con un nivel de significación del 5%, ¿los datos contradicen lo que asegura el servicio técnico?"
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza la proporción de equipos que vuelven con la misma falla."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ],
+    [
+     "n",
+     19
+    ]
+   ],
+   [
+    [
+     "n",
+     0.0483
+    ],
+    [
+     "n",
+     0.1209
+    ]
+   ]
+  ],
+  "nota": "H0 p ≤ 0,05 (lo que asegura), r_c = 19; IC exacto 95%"
+ },
+ {
+  "id": "U2",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Un fabricante de autopartes y su cliente acuerdan un plan de inspección por atributos para los lotes de rodamientos. Se acepta un riesgo del productor del 5% para lotes con un 2% de defectuosos y un riesgo del consumidor del 10% para lotes con un 8% de defectuosos.",
+  "incisos": [
+   [
+    "a",
+    "Determinar el tamaño de muestra y el número de defectuosos a partir del cual se rechaza el lote. Enunciar la regla de decisión."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "alguno",
+     [
+      98
+     ]
+    ],
+    [
+     "alguno",
+     [
+      5
+     ]
+    ]
+   ]
+  ],
+  "nota": "H0 p ≤ 0,02 (lote bueno), α = 0,05, β = 0,10 en 0,08 → n = 98, r_c = 5"
+ },
+ {
+  "id": "U3",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se evalúa reemplazar una rectificadora vieja. En 18 piezas de la máquina vieja el diámetro tuvo un desvío estándar de 0,42 mm, y en 15 piezas de la máquina nueva, de 0,25 mm. La gerencia solo aprobará el reemplazo si el desvío de la máquina vieja supera en más de un 20% al de la nueva.",
+  "incisos": [
+   [
+    "a",
+    "Con α = 0,05, ¿se aprueba el reemplazo?"
+   ],
+   [
+    "b",
+    "Estimar con un 90% de confianza la relación entre el desvío de la máquina vieja y el de la nueva."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     1.0781
+    ],
+    [
+     "n",
+     2.5638
+    ]
+   ]
+  ],
+  "nota": "H0 σV/σN ≤ 1,2: j² = 2.8224 vs 1,44·F = 3.4966"
+ },
+ {
+  "id": "U4",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una empresa compara dos centros de atención telefónica. En el centro A se midieron 25 llamadas, con un tiempo medio de atención de 8,3 minutos y un desvío de 2,1 minutos; en el centro B, 20 llamadas, con una media de 10,1 minutos y un desvío de 5,4 minutos.",
+  "incisos": [
+   [
+    "a",
+    "¿Puede afirmarse, con un riesgo del 5%, que en el centro A se atiende más rápido que en el B?"
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza la diferencia entre los tiempos medios de atención de los dos centros."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     -4.4446
+    ],
+    [
+     "n",
+     0.8446
+    ]
+   ]
+  ],
+  "nota": "F aux rechaza → Welch, ν = 23; H1 μA < μB"
+ },
+ {
+  "id": "U5",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Para comparar dos variedades de trigo, en cada una de 9 parcelas se sembró una mitad con la variedad A y la otra mitad con la variedad B. Los rendimientos (en quintales por hectárea) fueron:",
+  "incisos": [
+   [
+    "a",
+    "Con un 1% de significación, ¿rinde más, en promedio, la variedad A?"
+   ],
+   [
+    "b",
+    "¿Cuál es la diferencia mínima de rendimiento medio a favor de A que se puede garantizar con un 99% de confianza?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Parcela",
+     "Variedad A",
+     "Variedad B"
+    ],
+    "filas": [
+     [
+      1,
+      48.2,
+      46.5
+     ],
+     [
+      2,
+      51.0,
+      49.8
+     ],
+     [
+      3,
+      45.6,
+      45.9
+     ],
+     [
+      4,
+      53.3,
+      50.6
+     ],
+     [
+      5,
+      49.8,
+      47.2
+     ],
+     [
+      6,
+      47.1,
+      46.0
+     ],
+     [
+      7,
+      50.5,
+      48.8
+     ],
+     [
+      8,
+      52.2,
+      50.1
+     ],
+     [
+      9,
+      46.9,
+      45.0
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     0.7577
+    ]
+   ]
+  ],
+  "nota": "apareadas: d̄ = 1.6333, S_d = 0.9069"
+ },
+ {
+  "id": "U6",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se registró el tiempo de funcionamiento (en horas) hasta la primera falla de 100 bombas de agua:",
+  "incisos": [
+   [
+    "a",
+    "Con un riesgo del 5%, ¿puede considerarse que el tiempo hasta la primera falla responde a un modelo exponencial?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Tiempo hasta la falla (horas)",
+     "Cantidad de bombas"
+    ],
+    "filas": [
+     [
+      "0-50",
+      41
+     ],
+     [
+      "50-100",
+      20
+     ],
+     [
+      "100-150",
+      17
+     ],
+     [
+      "150-200",
+      7
+     ],
+     [
+      "200-300",
+      10
+     ],
+     [
+      "300-500",
+      5
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     1.7659
+    ]
+   ]
+  ],
+  "nota": "x̄ = 103.75 (marcas), λ = 1/x̄; 6 clases, ν = 4; χ² = 1.7659"
+ },
+ {
+  "id": "U7",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Un área de seguridad e higiene registró los accidentes leves de los últimos meses según el día hábil en que ocurrieron:",
+  "incisos": [
+   [
+    "a",
+    "¿Se puede sostener, al 5%, que los accidentes ocurren con la misma frecuencia todos los días hábiles?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Día",
+     "Accidentes"
+    ],
+    "filas": [
+     [
+      "Lunes",
+      32
+     ],
+     [
+      "Martes",
+      21
+     ],
+     [
+      "Miércoles",
+      18
+     ],
+     [
+      "Jueves",
+      22
+     ],
+     [
+      "Viernes",
+      37
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     10.0769
+    ],
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ],
+  "nota": "uniforme discreta, ν = 4: χ² = 10.0769"
+ },
+ {
+  "id": "U8",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "En una planta se clasificaron las piezas defectuosas de dos máquinas según el tipo de defecto encontrado:",
+  "incisos": [
+   [
+    "a",
+    "Con un nivel de significación de 0,01, ¿existe relación entre el tipo de defecto y la máquina que produjo la pieza?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Máquina",
+     "Rayaduras",
+     "Abolladuras",
+     "Fisuras"
+    ],
+    "filas": [
+     [
+      "Máquina 1",
+      25,
+      15,
+      10
+     ],
+     [
+      "Máquina 2",
+      18,
+      22,
+      30
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     9.3914
+    ],
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ],
+  "nota": "χ² = 9.3914, ν = 2"
+ },
+ {
+  "id": "U9",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una cadena de heladerías probó distintos precios para un mismo producto (en miles de pesos) y registró las unidades vendidas por semana en cada caso:",
+  "incisos": [
+   [
+    "a",
+    "Obtener la recta de regresión de las ventas en función del precio, interpretar la pendiente y el coeficiente de determinación."
+   ],
+   [
+    "b",
+    "Con un 5% de riesgo, ¿se puede afirmar que por cada mil pesos de aumento del precio las ventas semanales bajan más de 2,5 unidades?"
+   ],
+   [
+    "c",
+    "Estimar con un 95% de confianza las ventas semanales medias con un precio de 15 mil pesos."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Precio (miles de $)",
+     "Unidades vendidas"
+    ],
+    "filas": [
+     [
+      10,
+      182
+     ],
+     [
+      12,
+      178
+     ],
+     [
+      14,
+      166
+     ],
+     [
+      16,
+      160
+     ],
+     [
+      18,
+      151
+     ],
+     [
+      20,
+      147
+     ],
+     [
+      22,
+      136
+     ],
+     [
+      24,
+      131
+     ]
+    ],
+    "variable_y": "Unidades vendidas"
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     -3.7679
+    ],
+    [
+     "n",
+     0.9913
+    ]
+   ],
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     162.1523
+    ],
+    [
+     "n",
+     165.6691
+    ]
+   ]
+  ],
+  "nota": "b1 = -3.7679, r² = 0.9913; b) H1 β1 < -2,5, b1c = -2.7793; c) IC media x = 15"
+ },
+ {
+  "id": "U10",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se registró la producción diaria por operario (en kg) en los dos turnos de una planta de empaque:",
+  "incisos": [
+   [
+    "a",
+    "¿Hay diferencias entre la producción media de ambos turnos? (α = 0,05)"
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza la diferencia entre las producciones medias."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "",
+     "Turno mañana",
+     "Turno noche"
+    ],
+    "filas": [
+     [
+      "Operarios observados",
+      30,
+      28
+     ],
+     [
+      "Producción media (kg)",
+      52.4,
+      49.8
+     ],
+     [
+      "Desvío estándar (kg)",
+      4.1,
+      4.6
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     0.3111
+    ],
+    [
+     "n",
+     4.8889
+    ]
+   ]
+  ],
+  "nota": "sin dirección → unilateral hacia los datos (H1 μM > μN), ν = 56"
+ }
+]

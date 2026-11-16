@@ -289,6 +289,12 @@ def _dos_estructural(norm: str, listas: List[ListaDatos]) -> bool:
         if unidad not in de_medida:
             por_unidad.setdefault(unidad, set()).add(num)
     mismo_tipo = any(len(v) >= 2 for v in por_unidad.values())
+    if dispersiones == 1 and medias == 0:
+        # el segundo desvío en elipsis ('un desvío de 0,42 mm, y en 15 piezas de la máquina nueva, de 0,25 mm'): sin
+        # medias, otro valor con la MISMA unidad que el desvío nombrado es la dispersión de la otra muestra
+        u = re.search(r"(?:desvio|desviacion|varianza)[^0-9.;]{0,30}\d[\d.,]*\s*([a-z]{1,12})\b", norm)
+        if u and u.group(1) not in ("de", "y", "en", "con", "para", "por"):
+            dispersiones = len(re.findall(r"(?<![\d,.])\d[\d.,]*\s*" + re.escape(u.group(1)) + r"\b", norm))
     if dispersiones >= 2 and (tamanos >= 2 or mismo_tipo) and medias == 0:
         return True
     # dos conteos de casos sobre dos muestras: 'se revisaron 500 conos y 75 resultaron defectuosos; ... se revisaron 250'
@@ -961,6 +967,36 @@ def extraer_proporcion(an: Analisis, t: Texto):
                                            f"{d['r']}/{d['n']}, así que este porcentaje es el valor con el que se compara")
 
 
+def _n_y_r_por_forma(an: Analisis, t: Texto):
+    """Respaldo cuando las palabras no alcanzaron ('siguió 240 reparaciones … 19 equipos volvieron'): en una muestra de
+    una proporción, si faltan n o r y quedan exactamente dos enteros libres seguidos de un sustantivo (cantidades de
+    cosas, no años ni plazos), el mayor es n y el menor es r."""
+    d = an.datos
+    if d.get("n") and d.get("r") is not None:
+        return
+    libres = [(i, n) for i, n in t.libres() if n.es_entero and not n.pct and n.valor >= 1
+              and _hay(r"^\s*[a-z]{3,}", t.despues(n, 20)) and not _hay(r"^\s*(anos?|meses|dias|semanas|horas|"
+                                                                          r"minutos|veces)\b", t.despues(n, 20))
+              and not (1900 <= n.valor <= 2100)]
+    candidatos = [x for x in libres if not (d.get("n") and x[1].valor == d["n"])]
+    if d.get("n") and d.get("r") is None and len(candidatos) == 1 and candidatos[0][1].valor < d["n"]:
+        i, n = candidatos[0]
+        t.usar(i)
+        _set(an, "r", int(n.valor), t, n, "cantidad de casos en la muestra (r): el único otro entero, menor que n")
+    elif not d.get("n") and d.get("r") is None and len(libres) == 2 and libres[0][1].valor != libres[1][1].valor:
+        (i1, n1), (i2, n2) = sorted(libres, key=lambda x: -x[1].valor)
+        t.usar(i1)
+        t.usar(i2)
+        _set(an, "n", int(n1.valor), t, n1, "tamaño de la muestra (n): el mayor de los dos enteros del planteo")
+        _set(an, "r", int(n2.valor), t, n2, "cantidad de casos en la muestra (r): el menor de los dos enteros")
+    elif not d.get("n") and d.get("r") is not None:
+        mayores = [x for x in libres if x[1].valor > d["r"]]
+        if len(mayores) == 1:
+            i, n = mayores[0]
+            t.usar(i)
+            _set(an, "n", int(n.valor), t, n, "tamaño de la muestra (n): el único entero mayor que r")
+
+
 # Plan de muestreo ya fijado: 'rechazar si se encuentran 9 o más', 'número de aceptación ≤ 2', 'rc = 1'
 RE_RC_DADO = [
     (r"\br\s*c\s*=\s*" + RE_PALABRA_NUM + r"\b", 0),
@@ -1137,7 +1173,7 @@ def _paralelo_dos_muestras(an: Analisis, t: Texto, posiciones: Dict[str, Numero]
     def unidad(n: Numero) -> str:
         m = re.match(r"\s*([a-z²³]+\d?(?:\s+por\s+[a-z]+)?)", t.norm[n.fin:n.fin + 30])
         return m.group(1) if m else ""
-    for clave in ("n", "xbar"):
+    for clave in ("n", "xbar", "s"):
         uno = posiciones.get(f"{clave}1")
         if uno is None or f"{clave}2" in an.datos or not unidad(uno):
             continue
@@ -1149,6 +1185,10 @@ def _paralelo_dos_muestras(an: Analisis, t: Texto, posiciones: Dict[str, Numero]
             if clave == "n" and not (n.es_entero and n.valor >= 2):
                 continue
             if clave == "xbar" and _hay(r"(desvio|desviacion|varianza)[^0-9]{0,40}$", t.antes(n, 45)):
+                continue
+            # el desvío de la otra muestra en elipsis ('…de la máquina nueva, de 0,25 mm'): no si es una media
+            if clave == "s" and (an.datos.get("xbar1") is not None or
+                                 _hay(r"(media|promedio|medio)[^0-9]{0,40}$", t.antes(n, 45))):
                 continue
             t.usar(i)
             vistos.add(i)
@@ -1167,7 +1207,18 @@ def _paralelo_dos_muestras(an: Analisis, t: Texto, posiciones: Dict[str, Numero]
             ventana = re.split(r"[.;]\s|,\s*\d", t.norm[base:n.fin + 45])[0]
             m = re.search(r"\b" + RE_RAZON_GRUPO + r"\s+[“\"]?([a-z0-9]{1,3})\b", ventana)
             if not m:
-                return
+                # por la forma: un sustantivo y una letra mayúscula suelta ('el centro A', 'la planta B')
+                cruda = t.texto[base:base + len(ventana)]
+                m = re.search(r"\b[a-záéíóúñ]{3,}\s+[“\"]?[A-Z][0-9]?\b(?![a-záéíóúñ])", cruda)
+                if not m and n is posiciones.get(f"n{j}"):
+                    # el nombre puede estar justo antes del tamaño: 'En el centro A se midieron 25 llamadas'
+                    previo = re.split(r"[.;]\s", t.texto[max(0, base - 60):base])[-1]
+                    m2 = list(re.finditer(r"\b[a-záéíóúñ]{3,}\s+[“\"]?[A-Z][0-9]?\b(?![a-záéíóúñ])", previo))
+                    if m2:
+                        noms.append(m2[-1].group(0).replace("“", "").replace('"', ""))
+                        continue
+                if not m:
+                    return
             noms.append(t.texto[base + m.start():base + m.end()].replace("“", "").replace('"', ""))
         if normalizar(noms[0]) != normalizar(noms[1]):
             an.datos["nombre1"], an.datos["nombre2"] = noms
@@ -1335,6 +1386,25 @@ _NO_GRUPO = {"cada", "por", "de", "del", "mas", "menos", "unidades", "dias", "ho
              "anos", "semanas", "veces", "grados", "por", "mm", "cm", "kg", "gramos", "litros", "metros"}
 
 
+def _sujeto_de_la_comparacion(an: Analisis, frase: str, roles: Dict[int, Optional[str]]) -> Optional[int]:
+    """En la frase que lleva al porcentaje ('… si el desvío de la máquina vieja supera en más de un'), qué grupo se
+    nombra PRIMERO (1 o 2 en el orden actual de an.datos): por su nombre o, si los grupos son «nuevo / referencia»,
+    por esas palabras. None si no nombra ninguno."""
+    pos = {}
+    for j in (1, 2):
+        nombre = normalizar(str(an.datos.get(f"nombre{j}") or ""))
+        patrones = [re.escape(nombre)] if nombre and not re.fullmatch(r"muestra \d", nombre) else []
+        if an.datos.get("orden") == "cambio":
+            patrones.append(RE_NUEVO if j == 1 else RE_REFERENCIA)
+        for p in patrones:
+            m = re.search(r"\b" + p, frase)
+            if m and (j not in pos or m.start() < pos[j]):
+                pos[j] = m.start()
+    if not pos:
+        return None
+    return min(pos, key=pos.get)
+
+
 def _intercambiar_muestras(an: Analisis):
     for a, b in (("n1", "n2"), ("xbar1", "xbar2"), ("s1", "s2"), ("nombre1", "nombre2"), ("datos1", "datos2")):
         v1, v2 = an.datos.get(a), an.datos.get(b)
@@ -1372,8 +1442,12 @@ def extraer_relacion_desvios(an: Analisis, t: Texto, posiciones: Dict[str, Numer
     if con_roles:
         nuevo = 1 if roles.get(1) == "nuevo" or roles.get(2) == "ref" else 2
         if etiquetas and not nombres:
+            # la palabra del enunciado para la referencia ('vieja', 'tradicional') antes que la genérica ('actual')
+            m_ref = re.search(RE_REFERENCIA, t.norm)
+            ref = t.texto[m_ref.start():m_ref.end()].strip() if m_ref and not m_ref.group(0).startswith("sin") \
+                else etiquetas[1]
             an.datos["nombre1" if nuevo == 1 else "nombre2"] = etiquetas[0]
-            an.datos["nombre2" if nuevo == 1 else "nombre1"] = etiquetas[1]
+            an.datos["nombre2" if nuevo == 1 else "nombre1"] = ref
         if nuevo == 2:
             _intercambiar_muestras(an)
         an.datos["orden"] = "cambio"
@@ -1414,6 +1488,15 @@ def extraer_relacion_desvios(an: Analisis, t: Texto, posiciones: Dict[str, Numer
         else:
             _set(an, "phi0", valor, t, n, f"desvío un {fmt(n.valor)}% {'menor' if signo < 0 else 'mayor'} que el de "
                                           f"referencia → φ₀ = {fmt(valor)}", pisar=True)
+            # con un porcentaje, el cociente no se puede dar vuelta (1,2 no es lo mismo que 1/1,2): arriba va el grupo
+            # del que la frase dice que supera / es menor ('el desvío de la máquina vieja supera en más de un 20% al
+            # de la nueva' → φ = σ(vieja)/σ(nueva))
+            sujeto = _sujeto_de_la_comparacion(an, t.antes(n, 160), roles)
+            if sujeto == 2:
+                _intercambiar_muestras(an)
+                an.datos["orden"] = "afirmacion"
+                an.razones_tema.append(f"φ = σ({an.datos['nombre1']})/σ({an.datos['nombre2']}): arriba el grupo del que "
+                                       "habla la afirmación con el porcentaje (el cociente no se puede invertir).")
 
     # probabilidades del planteo: dos (α y β, diseño) o una sola ('0,1 la probabilidad de cambio si ...' → α)
     # (el riesgo α puede haber salido antes con extraer_alpha: 'riesgo máximo del 5% de adoptar...')
@@ -1752,7 +1835,7 @@ def clasificar_inciso(norm: str, tema: str, contexto: str) -> Tuple[str, str]:
     # '¿Debe detenerse la máquina?', '¿Se debe mantener al proveedor?', '¿Se recalibra?': decidir una acción
     if _hay(r"\bdeb(e|en|eria|erian|era|eran) (se |la |lo |el |los |las )?(deten|par[ae]r|recalibr|ajust|rechaz|acept|"
             r"manten|cambi|revis|compr|adopt|lanz|continu|interven|correg|reemplaz|aprob|segui|implement)|"
-            r"^\W*(se )?(detiene|detendra|rechaza|rechazara|acepta|aceptara|recalibra|ajusta|interviene|lanza|lanzara|"
+            r"(^|¿)\W*(se )?(detiene|detendra|rechaza|rechazara|acepta|aceptara|recalibra|ajusta|interviene|lanza|lanzara|"
             r"compra|comprara|adopta|adoptara|implementa|implementara|cambia|mantiene|continua|explota|aprueba)\b|"
             r"\bindicar si\b", norm):
         return "ensayo", "Pide decidir una acción (detener, aceptar, mantener...): ensayo de hipótesis."
@@ -2582,8 +2665,16 @@ def extraer_p_diseno(an: Analisis, t: Texto):
             continue
         if not n.pct:
             continue
-        alternativo = _hay(r"(baj|sub|disminu|reduc|aument|increment|pas)[a-z]*( [a-z]+){0,3} (al|a|hasta)\s*$", a) or \
-            _hay(r"(mal[oa]s|ltpd|equilibrio|riesgo del (comprador|consumidor))", ora)
+        # el riesgo nombrado más cerca ANTES del porcentaje dice de qué lado está: 'riesgo del productor del 5% para
+        # lotes con un 2%' (p₀) y 'riesgo del consumidor del 10% para lotes con un 8%' (p₁), aunque estén en la misma
+        # oración
+        roles = re.findall(r"riesgo del (productor|proveedor|fabricante|vendedor|comprador|consumidor|cliente)",
+                           t.norm[max(0, n.ini - 200):n.ini])
+        if roles:
+            alternativo = roles[-1] in ("comprador", "consumidor", "cliente")
+        else:
+            alternativo = _hay(r"(baj|sub|disminu|reduc|aument|increment|pas)[a-z]*( [a-z]+){0,3} (al|a|hasta)\s*$", a) or \
+                _hay(r"(mal[oa]s|ltpd|equilibrio)", ora)
         if alternativo and p0 is not None and "p1" not in an.datos:
             t.usar(i)
             _set(an, "p1", n.fraccion, t, n, "valor alternativo de la proporción (p₁)")
@@ -2718,6 +2809,19 @@ def _tabla_de_conteos(tablas) -> bool:
         celdas = [c for f in filas for c in f[1:]]
         if len(filas[0]) >= 3 and celdas and all(isinstance(c, (int, float)) and float(c).is_integer() and c >= 0
                                                  for c in celdas):
+            return True
+    return False
+
+
+def tabla_nominal_de_frecuencias(tablas) -> bool:
+    """Categorías CON NOMBRE (no números ni intervalos) y una sola columna de conteos enteros, ≥ 3 filas: 'Lunes 32,
+    Martes 21, …'. Con una variable nominal no hay media que calcular: es una distribución de frecuencias (χ²)."""
+    for tb in tablas or []:
+        filas = [f for f in tb.get("filas") or [] if f and not re.search(r"total", normalizar(str(f[0])))]
+        if len(filas) < 3 or any(len(f) != 2 for f in filas):
+            continue
+        if all(isinstance(f[0], str) and not re.search(r"\d", f[0]) for f in filas) and \
+                all(isinstance(f[1], (int, float)) and float(f[1]).is_integer() and f[1] >= 0 for f in filas):
             return True
     return False
 
@@ -3032,6 +3136,10 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
                            "observó en cada una: ajuste χ² a esas proporciones (H0: se cumplen)."]
         an.avisos.append("Tabla armada con los porcentajes y los conteos del enunciado: " + "; ".join(
             f"{f[0]}: {fmt(f[1])}% esperado, {f[2]} observadas" for f in tabla_props["filas"]) + ".")
+    if not tema and an.tema in ("media", "proporcion") and tabla_nominal_de_frecuencias(an.tablas):
+        an.tema = "chi_ajuste"
+        an.razones_tema = ["La tabla da cuántas veces cayó cada categoría (con nombre, sin valores numéricos): es una "
+                           "distribución de frecuencias y se contrasta con χ² de bondad de ajuste."]
     if not tema and an.tema in ("media", "varianza") and an.tablas and _cuenta(P_REGRESION, t_total.norm) == 0:
         # dos columnas de datos crudos de la MISMA variable (previa / posterior, máquina A / B), sin hablar de
         # relación entre variables: son dos muestras (apareadas si cada fila es una unidad)
@@ -3096,6 +3204,7 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
                 extraer_p_diseno(an, t)
             else:
                 extraer_proporcion(an, t)
+                _n_y_r_por_forma(an, t)
             if plan:
                 riesgos_plan_dado(an, t)
             if "p0" not in an.datos:
@@ -3244,7 +3353,8 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
     if "alpha" not in an.datos and not any("alpha" in i.params for i in an.incisos) :
         an.datos["alpha"] = 0.05
         an.avisos.append("No se encontró el riesgo α ni la confianza: se asume α = 0,05 (revisalo).")
-    if an.tema in TEMAS_VARIABLE and an.criterio in ("pesimista", "optimista") and not an.datos.get("control")             and "accion" not in an.datos:
+    if an.tema in TEMAS_VARIABLE and an.criterio in ("pesimista", "optimista") and not an.datos.get("control") \
+            and "accion" not in an.datos:
         acc = detectar_accion(an.planteo + " " + " ".join(i.texto for i in an.incisos), an.criterio)
         if acc:
             an.datos["accion"] = acc
