@@ -44,7 +44,7 @@ RE_NUEVO_V = (r"(reacondicion|aditivo|acelerante|albumina|tratad[oa]s?\b|tratami
 
 P_MAS_V = (r"(\bmayor(es)?\b|superior|\bsuper[ae]|\bexced|aument|increment|\bmejor|\bmas (de|que)\b|maximiz|efectiv(?!amente)|"
            r"diferencia minima|\b(rinden?|producen?|duran?|venden?|pesan?|es|son) mas\b|\bmas\s*\??\s*$)")
-P_MENOS_V = r"(\bmenor(es)?\b|inferior|disminu|\breduc|\bmenos (de|que)\b|minimiz|\bbaj[ae]n?\b|ahorr|acort)"
+P_MENOS_V = r"(\bmenor(es)?\b|inferior|disminu|\bredu[cj]|\bmenos (de|que)\b|minimiz|\bbaj[ae]n?\b|ahorr|acort)"
 P_BILATERAL_V = (r"(difier|diferente|distint|diferencias? (significativ|en (la|el|los|las))|sin diferencias|influ|"
                  r"\bigual(es)?\b|\bmism[oa] [a-z ]{0,25}(promedio|media|medio|volumen|rendimiento|produccion|duracion)|"
                  r"se modific|(cambio|cambia) (la|el) (media|promedio))")
@@ -502,6 +502,14 @@ def params_dos_medias(inc: Inciso, an: Analisis, t, previo: Dict):
             inc.razones.append(f"Una reducción de {an.datos.get(f'nombre{3 - otro}')} es lo mismo que "
                                f"{an.datos.get(f'nombre{otro}')} da MÁS: δ = μ({an.datos.get(f'nombre{otro}')}) - "
                                f"μ({an.datos.get(f'nombre{3 - otro}')}) y H1: δ > δ₀ (en positivo).")
+    if inc.tipo == "ic" and _hay(r"\b(minim|maxim)[oa]", norm) and p.get("sujeto") and \
+            (p.get("tail") or previo.get("tail")) == "izquierda" and \
+            _hay(r"(reduc|disminu|ahorr|\bbaj)", norm) and not _hay(r"porcentual|porcentaje|por ciento", norm):
+        # 'la reducción mínima garantizada' después de un ensayo 'μ(nuevo) - μ(actual) < 0': la reducción es
+        # μ(actual) - μ(nuevo), así que su mínimo es la cota inferior de ESE δ (no la de μ(nuevo) - μ(actual))
+        p.update(sujeto=3 - int(p["sujeto"]), tail="derecha")
+        inc.razones.append("Se pide una reducción: δ = μ(el que tenía más) - μ(el que reduce), para que la cota sea la "
+                           "de la reducción.")
     if inc.tipo == "ic" and _hay(r"porcentual|porcentaje|por ciento|%\s*(minimo|maximo)", norm) and \
             _hay(r"minim|maxim", norm):
         p["porcentual"] = True

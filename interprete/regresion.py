@@ -369,6 +369,11 @@ def clasificar(inc: Inciso, an: Analisis, norm: str) -> Tuple[str, str]:
         inc.params["cola"] = "superior" if _hay(r"\bmaxim[ao]\b", norm) else "inferior"
         return "ic_coef", ("Pide el cambio máximo / mínimo de y por cada unidad de x (contribución marginal): límite "
                            "de confianza unilateral de β1, b1 ± t(1-α; n-2)·Sb1.")
+    # 'estimar el cambio en los errores medios por cada hora adicional' (sin máximo / mínimo ni x₀): el cambio de y por
+    # unidad de x es β1 → intervalo bilateral
+    if _hay(r"\bpor cada (unidad|[a-z]{1,12}) (de|del|adicional|mas)\b", norm) and \
+            _hay(r"(estim|intervalo|confianza|entre que)", norm) and not _numeros_libres(texto, excl) and not pide_rho2:
+        return "ic_coef", "Pide el cambio de y por cada unidad de x (contribución marginal): IC de β1, b1 ± t(1-α/2; n-2)·Sb1."
     if pide_rho2:
         return "ic_rho2", "Influencia porcentual: r² y su intervalo (los límites del IC de ρ al cuadrado)."
     if _hay(r"(fuerza de la relacion|estime[^.?]{0,40}(dicho )?coeficiente|intervalo[^.?]{0,40}correlacion|"

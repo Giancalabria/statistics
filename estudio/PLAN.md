@@ -62,7 +62,7 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 | Vie 13/11 | Lo nuevo de la clase del 12/11 | ⬜ |
 | Sáb 14/11 | **Simulacro 1**: examen armado por Claude con problemas que la app no vio | ⬜ |
 | Dom 15/11 | Corregir el simulacro; repasar los errores no detectados | ⬜ |
-| Lun 16/11 | **Simulacro 2** | 🟨 En lugar del simulacro: 2ª tanda de 10 ejercicios nuevos medida a ciegas y app corregida (reglas generales); `EJERCICIOS_EXPLICADOS.md` para repasar un ejercicio de cada tema. Simulacro propio (resolverlo yo primero) pendiente. Tandas 3 y 4 a ciegas (consenso 16/17 y 12/16); en la 4 quedan sin corregir W5 (apareadas en listas), W6 (tabla de clases horizontal), W7 (ajuste binomial da error) y W8 (homogeneidad con % y «¿son las mismas?») |
+| Lun 16/11 | **Simulacro 2** | 🟨 En lugar del simulacro: 2ª tanda de 10 ejercicios nuevos medida a ciegas y app corregida (reglas generales); `EJERCICIOS_EXPLICADOS.md` para repasar un ejercicio de cada tema. Simulacro propio (resolverlo yo primero) pendiente. Tandas a ciegas, consenso: 2ª 13/17 (1 equivocado), 3ª 16/17 (0), 4ª 12/16 (1), 5ª 15/16 (1). Después de corregir: las 5 tandas completas con reglas y consenso 15/16 sin equivocados en la 4ª y la 5ª. Lo que queda: en W1a e Y4b la app muestra desacuerdo IA vs reglas y elige la IA; ahí manda la lectura de las reglas |
 | Mar 17/11 | Corregir; repasar la guía de control completa | ⬜ |
 | Mié 18/11 | Compu lista y probada sin wifi (ver abajo). Descansar | ⬜ |
 | **Jue 19/11** | **Parcial** | |

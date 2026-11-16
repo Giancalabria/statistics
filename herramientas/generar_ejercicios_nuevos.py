@@ -31,7 +31,7 @@ def r4(x):
 
 def rc_binomial(n, p0, alpha):
     """Menor r con P(R ≥ r | n, p0) ≤ α (α real ≤ α)."""
-    return next(r for r in range(n + 1) if stats.binom.sf(r - 1, n, p0) <= alpha)
+    return next((r for r in range(n + 1) if stats.binom.sf(r - 1, n, p0) <= alpha), n + 1)
 
 
 def ic_exacto(r, n, alpha):
@@ -820,6 +820,172 @@ ejercicio("W10",
           tablas=[{"titulo": "", "columnas": ["Línea"] + [f"Ciclo {i}" for i in range(1, 7)],
                    "filas": [["Línea 1"] + l1, ["Línea 2"] + l2]}],
           nota=f"H1 μ2 > μ1: d = {r4(m2 - m1)} vs {r4(stats.t.ppf(0.95, nu10w) * se10w)} (ν = {nu10w})")
+
+
+# ================================================================ TANDA 5 (16/11/2026): la última, para medir a ciegas
+# Redacción tipo examen con variantes nuevas: p con cola izquierda y cota máxima, diseño con «revisar sin necesidad»,
+# varianzas con «¿hay diferencias?», listas de distinto largo y reducción mínima, apareadas con δ0 en una tabla,
+# Poisson con «5 o más», independencia 3 × 2, normal con clases «20 – 25», pendiente negativa con IC de β1 y un
+# aumento porcentual mínimo.
+
+TANDA = 5
+
+# ---------------------------------------------------------------- Y1: p con cola izquierda + cota superior
+n, r = 300, 24
+rc = max(k for k in range(n + 1) if stats.binom.cdf(k, n, 0.12) <= 0.05)
+cota = stats.beta.ppf(0.95, r + 1, n - r)
+ejercicio("Y1",
+          "En un hospital, el 12% de los pacientes operados volvía a internarse dentro del mes. Se implementó un nuevo "
+          "protocolo de alta y, de los 300 pacientes operados desde entonces, 24 se volvieron a internar.",
+          [["a", "Con un nivel de significación del 5%, ¿se puede afirmar que el protocolo redujo la proporción de "
+                 "reinternaciones?"],
+           ["b", "Con un 95% de confianza, ¿cuál es la proporción máxima de reinternaciones que cabe esperar con el "
+                 "nuevo protocolo?"]],
+          [[["d", "rechaza" if r <= rc else "no_rechaza"], ["n", rc]], [["n", r4(cota)]]],
+          nota=f"H1 p < 0,12, se rechaza si r ≤ {rc}; cota superior {r4(cota)}")
+
+# ---------------------------------------------------------------- Y2: diseño con «revisar sin necesidad»
+n2, rc2 = plan_binomial(0.04, 0.10, 0.02, 0.05)
+ejercicio("Y2",
+          "Un estudio contable quiere controlar que la proporción de facturas con errores no supere el 4%. Para eso "
+          "revisará una muestra de facturas: acepta una probabilidad de 0,02 de revisar todo el sistema sin necesidad, y "
+          "una probabilidad de 0,05 de no revisarlo si la proporción de facturas con errores fuera del 10%.",
+          [["a", "Plantear las hipótesis y determinar el tamaño de la muestra y la regla de decisión."]],
+          [[["alguno", [n2]], ["alguno", [rc2]]]],
+          nota=f"H0 p ≤ 0,04, α = 0,02, β = 0,05 en 0,10 → n = {n2}, r_c = {rc2}")
+
+# ---------------------------------------------------------------- Y3: varianzas, «¿hay diferencias?» (unilateral por datos)
+s1y, n1y, s2y, n2y = 0.85, 12, 0.48, 10
+f3y = (s1y / s2y) ** 2
+ejercicio("Y3",
+          "Dos laboratorios analizan la concentración de plomo de una misma muestra patrón. El laboratorio 1 hizo 12 "
+          "determinaciones, con un desvío estándar de 0,85 mg/l, y el laboratorio 2 hizo 10, con un desvío estándar de "
+          "0,48 mg/l.",
+          [["a", "¿Hay diferencias en la precisión de los dos laboratorios? Usar α = 0,05."],
+           ["b", "Estimar con un 95% de confianza el cociente entre los desvíos del laboratorio 1 y del laboratorio 2."]],
+          [[["d", "rechaza" if f3y > stats.f.ppf(0.95, n1y - 1, n2y - 1) else "no_rechaza"]],
+           [["n", r4(sqrt(f3y / stats.f.ppf(0.975, n1y - 1, n2y - 1)))],
+            ["n", r4(sqrt(f3y / stats.f.ppf(0.025, n1y - 1, n2y - 1)))]]],
+          nota=f"sin dirección → H1 σ1 > σ2 (el mayor arriba): F = {r4(f3y)}")
+
+# ---------------------------------------------------------------- Y4: listas de distinto largo, reducción mínima
+nuevo = [31, 28, 30, 27, 29, 32, 28]
+actual = [34, 33, 36, 31, 35, 33, 34, 32]
+mN4, sN4y, nN4y = media_s(nuevo)
+mA4, sA4y, nA4y = media_s(actual)
+se4y, nu4y = error_dos_medias(sA4y, nA4y, sN4y, nN4y)
+t4y = stats.t.ppf(0.95, nu4y)
+ejercicio("Y4",
+          "Una imprenta prueba un método nuevo de secado de tinta. Los tiempos de secado (en segundos) fueron:\n"
+          "Método nuevo: 31 - 28 - 30 - 27 - 29 - 32 - 28\n"
+          "Método actual: 34 - 33 - 36 - 31 - 35 - 33 - 34 - 32",
+          [["a", "Con un riesgo del 5%, ¿se puede afirmar que el método nuevo reduce el tiempo medio de secado?"],
+           ["b", "¿Cuál es la reducción mínima del tiempo medio de secado que se puede garantizar con un 95% de "
+                 "confianza?"]],
+          [[["d", "rechaza" if mA4 - mN4 > t4y * se4y else "no_rechaza"]], [["n", r4(mA4 - mN4 - t4y * se4y)]]],
+          nota=f"H1 μN < μA; d = {r4(mA4 - mN4)}, ν = {nu4y}")
+
+# ---------------------------------------------------------------- Y5: apareadas en tabla con δ0
+antes5 = [148, 152, 139, 160, 145, 155, 150, 142, 158, 147]
+desp5 = [140, 145, 136, 149, 139, 146, 143, 138, 150, 141]
+d5y = [a_ - b_ for a_, b_ in zip(antes5, desp5)]
+dm5y, sd5y, n5y = media_s(d5y)
+e5y = stats.t.ppf(0.95, n5y - 1) * sd5y / sqrt(n5y)
+ejercicio("Y5",
+          "Se midió la presión arterial sistólica (en mmHg) de 10 pacientes antes y después de un mes de tratamiento con "
+          "un nuevo medicamento:",
+          [["a", "Con α = 0,05, ¿se puede afirmar que el medicamento baja la presión media en más de 5 mmHg?"],
+           ["b", "Estimar con un 90% de confianza la reducción media de la presión."]],
+          [[["d", "rechaza" if dm5y > 5 + e5y else "no_rechaza"]], [["n", r4(dm5y - e5y)], ["n", r4(dm5y + e5y)]]],
+          tablas=[{"titulo": "", "columnas": ["Paciente", "Antes", "Después"],
+                   "filas": [[i + 1, a_, b_] for i, (a_, b_) in enumerate(zip(antes5, desp5))]}],
+          nota=f"apareadas: d̄ = {r4(dm5y)}, S_d = {r4(sd5y)}; d_c = {r4(5 + e5y)}")
+
+# ---------------------------------------------------------------- Y6: Poisson con «5 o más»
+fo6y = [22, 31, 24, 13, 6, 4]
+m6y = sum(v * f for v, f in enumerate(fo6y)) / sum(fo6y)
+p6y = [stats.poisson.pmf(v, m6y) for v in range(5)] + [stats.poisson.sf(4, m6y)]
+o6, e6 = list(fo6y), [sum(fo6y) * p for p in p6y]
+while e6[-1] < 5:
+    o6[-2:], e6[-2:] = [o6[-2] + o6[-1]], [e6[-2] + e6[-1]]
+chi6y = sum((o - e) ** 2 / e for o, e in zip(o6, e6))
+nu6y = len(o6) - 2
+ejercicio("Y6",
+          "Una fábrica textil registró la cantidad de fallas de tejido encontradas en 100 rollos de tela:",
+          [["a", "¿Puede suponerse, al 5%, que la cantidad de fallas por rollo sigue una distribución de Poisson?"]],
+          [[["d", "rechaza" if chi6y > stats.chi2.ppf(0.95, nu6y) else "no_rechaza"], ["n", r4(chi6y)]]],
+          tablas=[{"titulo": "", "columnas": ["Fallas por rollo", "Cantidad de rollos"],
+                   "filas": [["0", 22], ["1", 31], ["2", 24], ["3", 13], ["4", 6], ["5 o más", 4]]}],
+          nota=f"m = {r4(m6y)} (la clase «5 o más» con 5); {len(o6)} clases, ν = {nu6y}; χ² = {r4(chi6y)}")
+
+# ---------------------------------------------------------------- Y7: independencia 3 × 2
+tabla7y = [[48, 12], [35, 25], [41, 19]]
+chi7y, nu7y = chi_contingencia(tabla7y)
+ejercicio("Y7",
+          "Una cadena de farmacias encuestó a clientes de tres sucursales sobre la atención recibida:",
+          [["a", "Con un riesgo del 5%, ¿la opinión sobre la atención es independiente de la sucursal?"]],
+          [[["n", r4(chi7y)], ["d", "rechaza" if chi7y > stats.chi2.ppf(0.95, nu7y) else "no_rechaza"]]],
+          tablas=[{"titulo": "", "columnas": ["Sucursal", "Satisfecho", "Insatisfecho"],
+                   "filas": [["Centro", 48, 12], ["Norte", 35, 25], ["Oeste", 41, 19]]}],
+          nota=f"χ² = {r4(chi7y)}, ν = {nu7y}")
+
+# ---------------------------------------------------------------- Y8: normal con clases «20 – 25»
+lim8 = [20, 25, 30, 35, 40, 45, 50]
+fo8y = [7, 18, 33, 27, 11, 4]
+marcas8 = [(a_ + b_) / 2 for a_, b_ in zip(lim8, lim8[1:])]
+m8y = sum(x * f for x, f in zip(marcas8, fo8y)) / sum(fo8y)
+s8y = sqrt(sum(f * (x - m8y) ** 2 for x, f in zip(marcas8, fo8y)) / (sum(fo8y) - 1))
+chi8y, nu8y, k8y = chi_por_clases(lim8, fo8y, lambda x: stats.norm.cdf(x, m8y, s8y), 2, abajo=True)
+ejercicio("Y8",
+          "Se registró el tiempo (en minutos) que tardan 100 clientes en completar un trámite en línea:",
+          [["a", "Con α = 0,05, ¿es razonable suponer que el tiempo del trámite tiene distribución normal?"]],
+          [[["d", "rechaza" if chi8y > stats.chi2.ppf(0.95, nu8y) else "no_rechaza"], ["n", r4(chi8y)]]],
+          tablas=[{"titulo": "", "columnas": ["Tiempo (minutos)", "Clientes"],
+                   "filas": [[f"{a_} – {b_}", f] for a_, b_, f in zip(lim8, lim8[1:], fo8y)]}],
+          nota=f"x̄ = {r4(m8y)}, S = {r4(s8y)}; {k8y} clases, ν = {nu8y}; χ² = {r4(chi8y)}")
+
+# ---------------------------------------------------------------- Y9: pendiente negativa, IC de β1
+x9y = [2, 4, 6, 8, 10, 12, 14, 16]
+y9y = [18.5, 16.9, 15.2, 13.8, 13.1, 11.0, 9.8, 8.7]
+g9y = regresion(x9y, y9y)
+tb = stats.t.ppf(0.975, g9y["n"] - 2) * g9y["sb1"]
+ejercicio("Y9",
+          "Una empresa registró, para 8 empleados nuevos, las horas de capacitación recibidas y la cantidad de errores "
+          "cometidos en su primera semana de trabajo:",
+          [["a", "Ajustar la recta de regresión de los errores en función de las horas de capacitación e interpretar la "
+                 "pendiente y el coeficiente de determinación."],
+           ["b", "Estimar con un 95% de confianza el cambio en la cantidad media de errores por cada hora adicional de "
+                 "capacitación."]],
+          [[["n", r4(g9y["b1"])], ["n", r4(g9y["r2"])]], [["n", r4(g9y["b1"] - tb)], ["n", r4(g9y["b1"] + tb)]]],
+          tablas=[{"titulo": "", "columnas": ["Horas de capacitación", "Errores"],
+                   "filas": [[x, y] for x, y in zip(x9y, y9y)], "variable_y": "Errores"}],
+          nota=f"b1 = {r4(g9y['b1'])}, r² = {r4(g9y['r2'])}; IC β1 95%")
+
+# ---------------------------------------------------------------- Y10: aumento porcentual mínimo
+xBy, sBy, nBy = 45.0, 4.2, 25
+xPy, sPy, nPy = 51.3, 4.8, 22
+
+
+def h_min_y(alpha):
+    def g(h):
+        e, v = error_dos_medias(sPy, nPy, sBy, nBy, h)
+        return xPy - h * xBy - stats.t.ppf(1 - alpha, v) * e
+    return brentq(g, 1.0, xPy / xBy)
+
+
+se10y, nu10y = error_dos_medias(sPy, nPy, sBy, nBy, 1.08)
+ejercicio("Y10",
+          "Un fertilizante nuevo promete aumentar el rendimiento del maíz. En 25 parcelas con el fertilizante habitual el "
+          "rendimiento medio fue de 45 quintales por hectárea, con un desvío de 4,2; en 22 parcelas con el fertilizante "
+          "nuevo, el rendimiento medio fue de 51,3 quintales por hectárea, con un desvío de 4,8.",
+          [["a", "Con un riesgo del 5%, ¿se puede afirmar que el fertilizante nuevo aumenta el rendimiento medio en al "
+                 "menos un 8%?"],
+           ["b", "¿Cuál es el aumento porcentual mínimo del rendimiento medio que se puede garantizar con un 95% de "
+                 "confianza?"]],
+          [[["d", "rechaza" if xPy - 1.08 * xBy > stats.t.ppf(0.95, nu10y) * se10y else "no_rechaza"]],
+           [["alguno", [r4(h_min_y(0.05)), round((h_min_y(0.05) - 1) * 100, 2)]]]],
+          nota=f"H1 μP > 1,08·μB; d* = {r4(xPy - 1.08 * xBy)} vs {r4(stats.t.ppf(0.95, nu10y) * se10y)}; "
+               f"h mín = {r4(h_min_y(0.05))}")
 
 
 if __name__ == "__main__":

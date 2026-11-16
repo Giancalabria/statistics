@@ -225,7 +225,7 @@ P_REGRESION = [r"regresion|modelo lineal general|doble logaritmic|modelo logarit
 # Dirección del ensayo
 P_MAS = [r"\bmayor(es)?\b", r"superior", r"\bsupera", r"\bexced", r"aument", r"increment", r"\bmas del?\b", r"por encima", r"\bsub(e|en|io|ieron|a|an|ir|ira|iria|ido)\b",
          r"\bmejor", r"efectiv(?!amente)", r"excesiv"]
-P_MENOS = [r"\bmenor(es)?\b", r"inferior", r"disminu", r"\breduc", r"\bmenos de\b", r"\bbaj[aoe]\b(?! (control|medida|criterio|el|la|los|las|un|una|condiciones|ningun|ese|esa|este|esta|dicho|dicha))"]
+P_MENOS = [r"\bmenor(es)?\b", r"inferior", r"disminu", r"\bredu[cj]",r"\bmenos de\b", r"\bbaj[aoe]\b(?! (control|medida|criterio|el|la|los|las|un|una|condiciones|ningun|ese|esa|este|esta|dicho|dicha))"]
 P_DISTINTO = [r"diferente", r"distint", r"difier", r"modificad", r"\bcambi", r"desajust", r"fuera de control",
               r"bajo control", r"\balter", r"variado", r"significativ"]
 
@@ -295,6 +295,9 @@ def _dos_estructural(norm: str, listas: List[ListaDatos]) -> bool:
         u = re.search(r"(?:desvio|desviacion|varianza)[^0-9.;]{0,30}\d[\d.,]*\s*([a-z]{1,12})\b", norm)
         if u and u.group(1) not in ("de", "y", "en", "con", "para", "por"):
             dispersiones = len(re.findall(r"(?<![\d,.])\d[\d.,]*\s*" + re.escape(u.group(1)) + r"\b", norm))
+    if dispersiones >= 2 and medias == 0 and _hay(r"\b(dos|ambos|ambas) [a-z]{4,}s\b", norm) and \
+            not _hay(r"\b(media|promedio|medio)\b", norm):
+        return True   # 'Dos laboratorios … un desvío de 0,85 … un desvío de 0,48'
     if dispersiones >= 2 and (tamanos >= 2 or mismo_tipo) and medias == 0:
         return True
     # dos conteos de casos sobre dos muestras: 'se revisaron 500 conos y 75 resultaron defectuosos; ... se revisaron 250'
@@ -870,7 +873,8 @@ def extraer_error(t: Texto) -> Optional[Tuple[str, float, Numero]]:
                       (_hay(r"(reduc|disminu)[a-z]*" + _R + r"{0,20}$", a) and _hay(r"^\s*(el|la) (error|relacion|amplitud)", d))):
             t.usar(i)
             return "reduccion", n.fraccion, n
-        if _hay(r"error" + _R + r"{0,40}(de|sea|a|=|no supere|no exceda|no sobrepase|no sea mayor que|no mayor a|"
+        # el error de estimación es singular: 'facturas con errores no supere el 4%' es la proporción, no e
+        if _hay(r"\berror\b" + _R + r"{0,40}(de|sea|a|=|no supere|no exceda|no sobrepase|no sea mayor que|no mayor a|"
                 r"como maximo|a lo sumo|menor que|menor a|inferior a|hasta)( los| las| el| la| de)?\s*(±\s*)?$|±\s*$|"
                 r"reducir el error a\s*$", a) and not _hay(r"tipo", a[-20:]):
             if not (n.pct and not _hay(r"rating|porcentaje|proporci|%", t.oracion(n.ini))) or _hay(r"±\s*$", a):
@@ -955,8 +959,12 @@ def extraer_proporcion(an: Analisis, t: Texto):
                     _hay(r"se presento $", a):
                 t.usar(i)
                 _set(an, "r", int(n.valor), t, n, "cantidad de casos favorables / defectuosos en la muestra (r)")
-    # coherencia: con r y n leídos, la proporción observada es r/n; un porcentaje que no es r/n no puede ser p̂, es el
-    # valor de referencia ('sostiene que, como mucho, el 8%… revisó 200 y encontró 23')
+    _coherencia_p(an)
+
+
+def _coherencia_p(an: Analisis):
+    """Con r y n leídos, la proporción observada es r/n; un porcentaje que no es r/n no puede ser p̂, es el valor de
+    referencia ('sostiene que, como mucho, el 8%… revisó 200 y encontró 23')."""
     d = an.datos
     if d.get("r") is not None and d.get("n") and d.get("p_hat") is not None and "p0" not in d and \
             abs(d["r"] / d["n"] - d["p_hat"]) > 0.5 / d["n"]:
@@ -975,7 +983,7 @@ def _n_y_r_por_forma(an: Analisis, t: Texto):
     if d.get("n") and d.get("r") is not None:
         return
     libres = [(i, n) for i, n in t.libres() if n.es_entero and not n.pct and n.valor >= 1
-              and _hay(r"^\s*[a-z]{3,}", t.despues(n, 20)) and not _hay(r"^\s*(anos?|meses|dias|semanas|horas|"
+              and _hay(r"^\s*[a-z]{2,}", t.despues(n, 20)) and not _hay(r"^\s*(anos?|meses|dias|semanas|horas|"
                                                                           r"minutos|veces)\b", t.despues(n, 20))
               and not (1900 <= n.valor <= 2100)]
     candidatos = [x for x in libres if not (d.get("n") and x[1].valor == d["n"])]
@@ -995,6 +1003,7 @@ def _n_y_r_por_forma(an: Analisis, t: Texto):
             i, n = mayores[0]
             t.usar(i)
             _set(an, "n", int(n.valor), t, n, "tamaño de la muestra (n): el único entero mayor que r")
+    _coherencia_p(an)
 
 
 # Plan de muestreo ya fijado: 'rechazar si se encuentran 9 o más', 'número de aceptación ≤ 2', 'rc = 1'
@@ -1159,8 +1168,13 @@ def _es_n_de_muestra(t: Texto, n: Numero, a: str) -> bool:
     if _hay(r"^\s*[a-z]{3,}s\b([^.;?]{0,35}|[^0-9.;?]{0,70})\b(media|promedio|medio)\b", t.norm[n.fin:n.fin + 90]):
         return True
     # 'para 26 adultos jóvenes, la desviación estándar fue 84,2' (rec 2do 2024); no '1.400 horas con un desvío'
-    if _hay(r"\b(para|con|en|de|sobre) (los |las |unos |unas )?$", a) and \
+    # o después de un verbo en pasado ('el laboratorio 1 hizo 12 determinaciones, con un desvío …')
+    if _hay(r"(\b(para|con|en|de|sobre) (los |las |unos |unas )?|\b[a-z]{2,}(o|aron|ieron)\s)$", a) and \
             _hay(r"^\s*[a-z]{3,}s\b([^.;?]{0,35}|[^0-9.;?]{0,70})\b(desvio|desviacion)\b", t.norm[n.fin:n.fin + 90]):
+        return True
+    # 'el laboratorio 2 hizo 10, con un desvío estándar de 0,48': el entero que presenta el desvío / la media
+    if _hay(r"^\s*,?\s*con (un|una) (desvio|desviacion|media|promedio|varianza)\b", d) and \
+            not _hay(r"(laboratorio|maquina|linea|turno|planta|proceso|grupo|marca|metodo|equipo)\s*$", a):
         return True
     if _hay(r"^\s*" + TIEMPOS_N + r"\b", d):
         return _hay(r"(ultim[oa]s|durante( el| la| los| las)?|" + VERBOS_N + r")\s*$", a)
@@ -1214,11 +1228,11 @@ def _paralelo_dos_muestras(an: Analisis, t: Texto, posiciones: Dict[str, Numero]
             if not m:
                 # por la forma: un sustantivo y una letra mayúscula suelta ('el centro A', 'la planta B')
                 cruda = t.texto[base:base + len(ventana)]
-                m = re.search(r"\b[a-záéíóúñ]{3,}\s+[“\"]?[A-Z][0-9]?\b(?![a-záéíóúñ])", cruda)
+                m = re.search(r"\b[a-záéíóúñ]{3,}\s+[“\"]?(?:[A-Z][0-9]?|[1-9](?![,.]?\d))\b(?![a-záéíóúñ\d])", cruda)
                 if not m and n is posiciones.get(f"n{j}"):
                     # el nombre puede estar justo antes del tamaño: 'En el centro A se midieron 25 llamadas'
                     previo = re.split(r"[.;]\s", t.texto[max(0, base - 60):base])[-1]
-                    m2 = list(re.finditer(r"\b[a-záéíóúñ]{3,}\s+[“\"]?[A-Z][0-9]?\b(?![a-záéíóúñ])", previo))
+                    m2 = list(re.finditer(r"\b[a-záéíóúñ]{3,}\s+[“\"]?(?:[A-Z][0-9]?|[1-9](?![,.]?\d))\b(?![a-záéíóúñ\d])", previo))
                     if m2:
                         noms.append(m2[-1].group(0).replace("“", "").replace('"', ""))
                         continue
@@ -1807,7 +1821,7 @@ def clasificar_inciso(norm: str, tema: str, contexto: str) -> Tuple[str, str]:
         return "ensayo", "Pide tomar una decisión sobre una afirmación: ensayo de hipótesis."
     if _hay(r"¿\s*(y )?(realmente |efectivamente )?(subio|subieron|aumento|aumentaron|disminuyo|disminuyeron|bajo|bajaron|"
             r"mejoro|mejoraron|empeoro|cambio|cambiaron|vario|variaron|se modifico|se redujo|se redujeron|crecio|"
-            r"decrecio|influye|influyen|difiere|difieren|depende|dependen|hay diferencia|es (mayor|menor|distint|diferente)|"
+            r"decrecio|influye|influyen|difiere|difieren|depende|dependen|hay diferencias?|es (mayor|menor|distint|diferente)|"
             r"son (mayores|menores|distint|diferentes)|esta cargad|conviene|alcanza|alcanzan)\b", norm):
         return "ensayo", "Pregunta si el parámetro cambió / difiere: ensayo de hipótesis."
     # '¿el tratamiento aumenta el rinde?', '¿la tinta alarga la duración?': pregunta por sí o por no si hay un efecto

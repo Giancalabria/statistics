@@ -1,0 +1,513 @@
+[
+ {
+  "id": "Y1",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "En un hospital, el 12% de los pacientes operados volvía a internarse dentro del mes. Se implementó un nuevo protocolo de alta y, de los 300 pacientes operados desde entonces, 24 se volvieron a internar.",
+  "incisos": [
+   [
+    "a",
+    "Con un nivel de significación del 5%, ¿se puede afirmar que el protocolo redujo la proporción de reinternaciones?"
+   ],
+   [
+    "b",
+    "Con un 95% de confianza, ¿cuál es la proporción máxima de reinternaciones que cabe esperar con el nuevo protocolo?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ],
+    [
+     "n",
+     26
+    ]
+   ],
+   [
+    [
+     "n",
+     0.1107
+    ]
+   ]
+  ],
+  "nota": "H1 p < 0,12, se rechaza si r ≤ 26; cota superior 0.1107"
+ },
+ {
+  "id": "Y2",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Un estudio contable quiere controlar que la proporción de facturas con errores no supere el 4%. Para eso revisará una muestra de facturas: acepta una probabilidad de 0,02 de revisar todo el sistema sin necesidad, y una probabilidad de 0,05 de no revisarlo si la proporción de facturas con errores fuera del 10%.",
+  "incisos": [
+   [
+    "a",
+    "Plantear las hipótesis y determinar el tamaño de la muestra y la regla de decisión."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "alguno",
+     [
+      239
+     ]
+    ],
+    [
+     "alguno",
+     [
+      17
+     ]
+    ]
+   ]
+  ],
+  "nota": "H0 p ≤ 0,04, α = 0,02, β = 0,05 en 0,10 → n = 239, r_c = 17"
+ },
+ {
+  "id": "Y3",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Dos laboratorios analizan la concentración de plomo de una misma muestra patrón. El laboratorio 1 hizo 12 determinaciones, con un desvío estándar de 0,85 mg/l, y el laboratorio 2 hizo 10, con un desvío estándar de 0,48 mg/l.",
+  "incisos": [
+   [
+    "a",
+    "¿Hay diferencias en la precisión de los dos laboratorios? Usar α = 0,05."
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza el cociente entre los desvíos del laboratorio 1 y del laboratorio 2."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     0.8953
+    ],
+    [
+     "n",
+     3.3543
+    ]
+   ]
+  ],
+  "nota": "sin dirección → H1 σ1 > σ2 (el mayor arriba): F = 3.1359"
+ },
+ {
+  "id": "Y4",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una imprenta prueba un método nuevo de secado de tinta. Los tiempos de secado (en segundos) fueron:\nMétodo nuevo: 31 - 28 - 30 - 27 - 29 - 32 - 28\nMétodo actual: 34 - 33 - 36 - 31 - 35 - 33 - 34 - 32",
+  "incisos": [
+   [
+    "a",
+    "Con un riesgo del 5%, ¿se puede afirmar que el método nuevo reduce el tiempo medio de secado?"
+   ],
+   [
+    "b",
+    "¿Cuál es la reducción mínima del tiempo medio de secado que se puede garantizar con un 95% de confianza?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     2.6591
+    ]
+   ]
+  ],
+  "nota": "H1 μN < μA; d = 4.2143, ν = 13"
+ },
+ {
+  "id": "Y5",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se midió la presión arterial sistólica (en mmHg) de 10 pacientes antes y después de un mes de tratamiento con un nuevo medicamento:",
+  "incisos": [
+   [
+    "a",
+    "Con α = 0,05, ¿se puede afirmar que el medicamento baja la presión media en más de 5 mmHg?"
+   ],
+   [
+    "b",
+    "Estimar con un 90% de confianza la reducción media de la presión."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Paciente",
+     "Antes",
+     "Después"
+    ],
+    "filas": [
+     [
+      1,
+      148,
+      140
+     ],
+     [
+      2,
+      152,
+      145
+     ],
+     [
+      3,
+      139,
+      136
+     ],
+     [
+      4,
+      160,
+      149
+     ],
+     [
+      5,
+      145,
+      139
+     ],
+     [
+      6,
+      155,
+      146
+     ],
+     [
+      7,
+      150,
+      143
+     ],
+     [
+      8,
+      142,
+      138
+     ],
+     [
+      9,
+      158,
+      150
+     ],
+     [
+      10,
+      147,
+      141
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     5.5488
+    ],
+    [
+     "n",
+     8.2512
+    ]
+   ]
+  ],
+  "nota": "apareadas: d̄ = 6.9, S_d = 2.331; d_c = 6.3512"
+ },
+ {
+  "id": "Y6",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una fábrica textil registró la cantidad de fallas de tejido encontradas en 100 rollos de tela:",
+  "incisos": [
+   [
+    "a",
+    "¿Puede suponerse, al 5%, que la cantidad de fallas por rollo sigue una distribución de Poisson?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Fallas por rollo",
+     "Cantidad de rollos"
+    ],
+    "filas": [
+     [
+      "0",
+      22
+     ],
+     [
+      "1",
+      31
+     ],
+     [
+      "2",
+      24
+     ],
+     [
+      "3",
+      13
+     ],
+     [
+      "4",
+      6
+     ],
+     [
+      "5 o más",
+      4
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     0.9208
+    ]
+   ]
+  ],
+  "nota": "m = 1.62 (la clase «5 o más» con 5); 5 clases, ν = 3; χ² = 0.9208"
+ },
+ {
+  "id": "Y7",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una cadena de farmacias encuestó a clientes de tres sucursales sobre la atención recibida:",
+  "incisos": [
+   [
+    "a",
+    "Con un riesgo del 5%, ¿la opinión sobre la atención es independiente de la sucursal?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Sucursal",
+     "Satisfecho",
+     "Insatisfecho"
+    ],
+    "filas": [
+     [
+      "Centro",
+      48,
+      12
+     ],
+     [
+      "Norte",
+      35,
+      25
+     ],
+     [
+      "Oeste",
+      41,
+      19
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     6.5841
+    ],
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ],
+  "nota": "χ² = 6.5841, ν = 2"
+ },
+ {
+  "id": "Y8",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se registró el tiempo (en minutos) que tardan 100 clientes en completar un trámite en línea:",
+  "incisos": [
+   [
+    "a",
+    "Con α = 0,05, ¿es razonable suponer que el tiempo del trámite tiene distribución normal?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Tiempo (minutos)",
+     "Clientes"
+    ],
+    "filas": [
+     [
+      "20 – 25",
+      7
+     ],
+     [
+      "25 – 30",
+      18
+     ],
+     [
+      "30 – 35",
+      33
+     ],
+     [
+      "35 – 40",
+      27
+     ],
+     [
+      "40 – 45",
+      11
+     ],
+     [
+      "45 – 50",
+      4
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     0.1765
+    ]
+   ]
+  ],
+  "nota": "x̄ = 33.95, S = 6.0426; 5 clases, ν = 2; χ² = 0.1765"
+ },
+ {
+  "id": "Y9",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una empresa registró, para 8 empleados nuevos, las horas de capacitación recibidas y la cantidad de errores cometidos en su primera semana de trabajo:",
+  "incisos": [
+   [
+    "a",
+    "Ajustar la recta de regresión de los errores en función de las horas de capacitación e interpretar la pendiente y el coeficiente de determinación."
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza el cambio en la cantidad media de errores por cada hora adicional de capacitación."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Horas de capacitación",
+     "Errores"
+    ],
+    "filas": [
+     [
+      2,
+      18.5
+     ],
+     [
+      4,
+      16.9
+     ],
+     [
+      6,
+      15.2
+     ],
+     [
+      8,
+      13.8
+     ],
+     [
+      10,
+      13.1
+     ],
+     [
+      12,
+      11.0
+     ],
+     [
+      14,
+      9.8
+     ],
+     [
+      16,
+      8.7
+     ]
+    ],
+    "variable_y": "Errores"
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     -0.6988
+    ],
+    [
+     "n",
+     0.9938
+    ]
+   ],
+   [
+    [
+     "n",
+     -0.7541
+    ],
+    [
+     "n",
+     -0.6435
+    ]
+   ]
+  ],
+  "nota": "b1 = -0.6988, r² = 0.9938; IC β1 95%"
+ },
+ {
+  "id": "Y10",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Un fertilizante nuevo promete aumentar el rendimiento del maíz. En 25 parcelas con el fertilizante habitual el rendimiento medio fue de 45 quintales por hectárea, con un desvío de 4,2; en 22 parcelas con el fertilizante nuevo, el rendimiento medio fue de 51,3 quintales por hectárea, con un desvío de 4,8.",
+  "incisos": [
+   [
+    "a",
+    "Con un riesgo del 5%, ¿se puede afirmar que el fertilizante nuevo aumenta el rendimiento medio en al menos un 8%?"
+   ],
+   [
+    "b",
+    "¿Cuál es el aumento porcentual mínimo del rendimiento medio que se puede garantizar con un 95% de confianza?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "alguno",
+     [
+      1.0889,
+      8.89
+     ]
+    ]
+   ]
+  ],
+  "nota": "H1 μP > 1,08·μB; d* = 2.7 vs 2.2886; h mín = 1.0889"
+ }
+]
