@@ -42,7 +42,7 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 
 > Actualizar al final de cada sesión.
 
-**Última actualización:** 11/11/2026 (banco de ejercicios de clase a ciegas y paso a paso con números reemplazados). Antes, 09/11/2026 (examen R en curso; prácticas sin cronómetro, mejorando la app). Antes, 05/11/2026 (clase 14 procesada: `informes/informe_clase_14.md`). Antes, 31/10: plan reemplazado por el enfoque «el solver resuelve, yo controlo». El plan anterior (resolver en papel) quedó en `informes/plan_anterior_31-10.md`, con los valores de los ejercicios hechos en clase.
+**Última actualización:** 16/11/2026 (2ª tanda de ejercicios nuevos tipo examen a ciegas: consenso 13/17 antes de corregir, 17/17 después; y `EJERCICIOS_EXPLICADOS.md`, un ejercicio por tema paso a paso, también en la sección «Teoría» de la app). Antes, 15/11 (1ª tanda de ejercicios nuevos y práctica del examen T). Antes, 11/11/2026 (banco de ejercicios de clase a ciegas y paso a paso con números reemplazados). Antes, 09/11/2026 (examen R en curso; prácticas sin cronómetro, mejorando la app). Antes, 05/11/2026 (clase 14 procesada: `informes/informe_clase_14.md`). Antes, 31/10: plan reemplazado por el enfoque «el solver resuelve, yo controlo». El plan anterior (resolver en papel) quedó en `informes/plan_anterior_31-10.md`, con los valores de los ejercicios hechos en clase.
 
 | Fecha | Qué | Estado |
 |---|---|---|
@@ -62,7 +62,7 @@ Cada examen nuevo sirve además como **prueba a ciegas de la app** (se corre `py
 | Vie 13/11 | Lo nuevo de la clase del 12/11 | ⬜ |
 | Sáb 14/11 | **Simulacro 1**: examen armado por Claude con problemas que la app no vio | ⬜ |
 | Dom 15/11 | Corregir el simulacro; repasar los errores no detectados | ⬜ |
-| Lun 16/11 | **Simulacro 2** | ⬜ |
+| Lun 16/11 | **Simulacro 2** | 🟨 En lugar del simulacro: 2ª tanda de 10 ejercicios nuevos medida a ciegas y app corregida (reglas generales); `EJERCICIOS_EXPLICADOS.md` para repasar un ejercicio de cada tema. Simulacro propio (resolverlo yo primero) pendiente |
 | Mar 17/11 | Corregir; repasar la guía de control completa | ⬜ |
 | Mié 18/11 | Compu lista y probada sin wifi (ver abajo). Descansar | ⬜ |
 | **Jue 19/11** | **Parcial** | |

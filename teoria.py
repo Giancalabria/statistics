@@ -33,6 +33,8 @@ DOCUMENTOS = (
               "Lo que Dopazo exige y penaliza, por tema (sale de las grabaciones de clase)."),
     Documento("estudio/TEORIA.md", "Teoría del 2° parcial", "💡",
               "Qué representa cada letra, la lógica del ensayo y los temas III a VII, con preguntas de control."),
+    Documento("estudio/EJERCICIOS_EXPLICADOS.md", "Ejercicios explicados", "🧭",
+              "Un ejercicio por tema (III a VII) paso a paso: qué se hace, por qué y de dónde sale cada número."),
     Documento("esquema_teorico_examen_estadistica.md", "Fórmulas y esquema teórico", "📐",
               "Fórmulas, distribuciones y casos de cada tema (intervalos, ensayos, dos poblaciones, χ², regresión)."),
     Documento("Guía Definitiva de Planteo y Redacción para Exámenes de Estadística Aplicada.md",
