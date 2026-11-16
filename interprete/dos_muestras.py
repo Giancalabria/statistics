@@ -417,6 +417,10 @@ def params_dos_medias(inc: Inciso, an: Analisis, t, previo: Dict):
         sujeto, razon = min(men, key=men.get), "es el grupo del que el inciso afirma algo"
     elif suj_pl is not None and (dr is None or inc.tipo != "ensayo"):
         sujeto, razon = suj_pl, "es el grupo del que habla la afirmación del planteo"
+    elif inc.tipo != "ensayo" and previo.get("sujeto"):
+        # la estimación de la misma comparación sigue el orden del ensayo anterior ('reduce en al menos 10 g' →
+        # δ = μ(anterior) - μ(nueva); la reducción mínima es la cota de ese mismo δ)
+        sujeto, razon = int(previo["sujeto"]), "es el mismo orden del ensayo anterior"
     elif an.datos.get("sujeto"):
         sujeto, razon = int(an.datos["sujeto"]), "es el grupo con el cambio (nuevo / tratado / con aditivo)"
     else:

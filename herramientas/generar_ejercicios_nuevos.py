@@ -667,6 +667,161 @@ ejercicio("U10",
           nota=f"sin dirección → unilateral hacia los datos (H1 μM > μN), ν = {nu10b}")
 
 
+# ================================================================ TANDA 4 (16/11/2026)
+# Otras formas de dar los datos: «el 18% de los 350», un plan ya fijado, tabla de dos procesos sin índice, «reduce en
+# al menos 10 g», apareadas en listas, tabla de clases HORIZONTAL, ajuste binomial, homogeneidad con porcentajes por
+# zona, y en % con «máximo esperado» (cota de la media) y datos crudos con una fila por grupo.
+
+TANDA = 4
+
+# ---------------------------------------------------------------- W1: «el 18% de los 350» + cota inferior
+n, r = 350, 63
+rc = rc_binomial(n, 0.15, 0.01)
+cota = stats.beta.ppf(0.01, r, n - r + 1)
+ejercicio("W1",
+          "Una aplicación de delivery lanzó una función de propinas. Según una encuesta a 350 usuarios elegidos al azar, "
+          "el 18% de ellos la usó al menos una vez en el primer mes.",
+          [["a", "¿Se puede concluir, con un riesgo del 1%, que más del 15% de los usuarios usa la función?"],
+           ["b", "Con un 99% de confianza, ¿cuál es como mínimo el porcentaje de usuarios que usa la función?"]],
+          [[["d", "rechaza" if r >= rc else "no_rechaza"], ["n", rc]], [["n", r4(cota)]]],
+          nota=f"r = 0,18·350 = 63; H0 p ≤ 0,15, r_c = {rc}; cota inferior 99% = {r4(cota)}")
+
+# ---------------------------------------------------------------- W2: plan ya fijado: aceptar con 8% y α con 2%
+p_ac = stats.binom.cdf(2, 50, 0.08)
+alfa_w2 = stats.binom.sf(2, 50, 0.02)
+ejercicio("W2",
+          "En la recepción de lotes de cables se toman 50 unidades al azar y el lote se rechaza si aparecen 3 o más "
+          "cables defectuosos.",
+          [["a", "¿Cuál es la probabilidad de aceptar un lote que tiene un 8% de cables defectuosos?"],
+           ["b", "Si un lote con un 2% de defectuosos se considera bueno, ¿cuál es el riesgo de rechazarlo?"]],
+          [[["n", r4(p_ac)]], [["n", r4(alfa_w2)]]],
+          nota=f"P(R ≤ 2 | 50; 0,08) = {r4(p_ac)}; α = P(R ≥ 3 | 50; 0,02) = {r4(alfa_w2)}")
+
+# ---------------------------------------------------------------- W3: dos varianzas, tabla de dos procesos sin índice
+pA = [12.1, 11.4, 12.8, 13.0, 11.2, 12.5, 11.9, 12.9, 11.6]
+pB = [12.2, 12.0, 12.4, 12.3, 11.9, 12.5, 12.1, 12.2, 12.0]
+_, sA3, nA3 = media_s(pA)
+_, sB3, nB3 = media_s(pB)
+f3 = (sA3 / sB3) ** 2
+ejercicio("W3",
+          "Se midió el espesor (en mm) de placas producidas con dos procesos distintos:",
+          [["a", "¿Puede afirmarse, al 5%, que el proceso B es más homogéneo que el proceso A?"],
+           ["b", "Estimar con un 95% de confianza el cociente entre las varianzas del espesor de los procesos A y B."]],
+          [[["d", "rechaza" if f3 > stats.f.ppf(0.95, nA3 - 1, nB3 - 1) else "no_rechaza"]],
+           [["n", r4(f3 / stats.f.ppf(0.975, nA3 - 1, nB3 - 1))], ["n", r4(f3 / stats.f.ppf(0.025, nA3 - 1, nB3 - 1))]]],
+          tablas=[{"titulo": "", "columnas": ["Proceso A", "Proceso B"], "filas": [[a_, b_] for a_, b_ in zip(pA, pB)]}],
+          nota=f"H1 σA > σB: F = {r4(f3)}")
+
+# ---------------------------------------------------------------- W4: «reduce en al menos 10 g» (δ0 con dirección menos)
+xNw, sNw, nNw = 482, 12, 20
+xVw, sVw, nVw = 497, 10, 18
+se4w, nu4w = error_dos_medias(sVw, nVw, sNw, nNw)
+ejercicio("W4",
+          "Un fabricante de envases cambió la fórmula del plástico para hacerlos más livianos. Con la fórmula nueva se "
+          "pesaron 20 envases: peso medio 482 g, desvío 12 g. Con la fórmula anterior se habían pesado 18 envases: peso "
+          "medio 497 g, desvío 10 g.",
+          [["a", "Con un riesgo del 5%, ¿se puede afirmar que la fórmula nueva reduce el peso medio de los envases en al "
+                 "menos 10 g?"],
+           ["b", "Con un 95% de confianza, ¿cuál es la reducción mínima del peso medio que se puede garantizar?"]],
+          [[["d", "rechaza" if xVw - xNw > 10 + stats.t.ppf(0.95, nu4w) * se4w else "no_rechaza"]],
+           [["n", r4(xVw - xNw - stats.t.ppf(0.95, nu4w) * se4w)]]],
+          nota=f"H1 μV − μN > 10, ν = {nu4w}; d = 15 vs {r4(10 + stats.t.ppf(0.95, nu4w) * se4w)}")
+
+# ---------------------------------------------------------------- W5: apareadas en listas (mismos autos)
+comun = [11.2, 12.5, 10.8, 13.1, 11.9, 12.2, 10.5]
+premium = [11.8, 12.9, 11.6, 13.4, 12.6, 12.4, 11.3]
+d5w = [b_ - a_ for a_, b_ in zip(comun, premium)]
+dm5w, sd5w, n5w = media_s(d5w)
+e5w = stats.t.ppf(0.975, n5w - 1) * sd5w / sqrt(n5w)
+ejercicio("W5",
+          "Para comparar el rendimiento (en km por litro) de dos combustibles, se cargó cada uno de 7 autos primero con "
+          "nafta común y después con nafta premium, en el mismo recorrido:\n"
+          "Común: 11,2 - 12,5 - 10,8 - 13,1 - 11,9 - 12,2 - 10,5\n"
+          "Premium: 11,8 - 12,9 - 11,6 - 13,4 - 12,6 - 12,4 - 11,3",
+          [["a", "Al 5%, ¿rinde más la nafta premium?"],
+           ["b", "Estimar con un 95% de confianza la diferencia de rendimiento medio entre las dos naftas."]],
+          [[["d", "rechaza" if dm5w > stats.t.ppf(0.95, n5w - 1) * sd5w / sqrt(n5w) else "no_rechaza"]],
+           [["n", r4(dm5w - e5w)], ["n", r4(dm5w + e5w)]]],
+          nota=f"apareadas: d̄ = {r4(dm5w)}, S_d = {r4(sd5w)}")
+
+# ---------------------------------------------------------------- W6: ajuste normal con la tabla de clases horizontal
+lim6w = [10, 12, 14, 16, 18, 20, 22]
+fo6w = [6, 15, 26, 31, 15, 7]
+marcas6 = [(a_ + b_) / 2 for a_, b_ in zip(lim6w, lim6w[1:])]
+m6w = sum(x * f for x, f in zip(marcas6, fo6w)) / sum(fo6w)
+s6w = sqrt(sum(f * (x - m6w) ** 2 for x, f in zip(marcas6, fo6w)) / (sum(fo6w) - 1))
+chi6w, nu6w, k6w = chi_por_clases(lim6w, fo6w, lambda x: stats.norm.cdf(x, m6w, s6w), 2, abajo=True)
+ejercicio("W6",
+          "Se pesaron 100 bolsas de alimento balanceado (en kg) y se agruparon los resultados:",
+          [["a", "¿Se puede aceptar, con α = 0,05, que el peso de las bolsas sigue una distribución normal?"]],
+          [[["d", "rechaza" if chi6w > stats.chi2.ppf(0.95, nu6w) else "no_rechaza"], ["n", r4(chi6w)]]],
+          tablas=[{"titulo": "", "columnas": ["Peso (kg)"] + [f"{a_}-{b_}" for a_, b_ in zip(lim6w, lim6w[1:])],
+                   "filas": [["Cantidad de bolsas"] + fo6w]}],
+          nota=f"x̄ = {r4(m6w)}, S = {r4(s6w)}; {k6w} clases, ν = {nu6w}; χ² = {r4(chi6w)}")
+
+# ---------------------------------------------------------------- W7: ajuste binomial (cajas de 4 huevos)
+fo7w = [45, 25, 8, 2, 0]
+N7w = sum(fo7w)
+p7w = sum(v * f for v, f in enumerate(fo7w)) / N7w / 4
+e7w = [N7w * stats.binom.pmf(v, 4, p7w) for v in range(5)]
+o_, e_ = list(fo7w), list(e7w)
+while e_[-1] < 5:
+    o_[-2:], e_[-2:] = [o_[-2] + o_[-1]], [e_[-2] + e_[-1]]
+chi7w = sum((o - e) ** 2 / e for o, e in zip(o_, e_))
+nu7w = len(o_) - 1 - 1
+ejercicio("W7",
+          "En un control de calidad se revisaron 80 cajas de 4 huevos cada una y se contó cuántos huevos rotos tenía "
+          "cada caja:",
+          [["a", "Con un 5% de riesgo, ¿se puede admitir que la cantidad de huevos rotos por caja responde a un modelo "
+                 "binomial?"]],
+          [[["d", "rechaza" if chi7w > stats.chi2.ppf(0.95, nu7w) else "no_rechaza"], ["n", r4(chi7w)]]],
+          tablas=[{"titulo": "", "columnas": ["Huevos rotos por caja", "Cantidad de cajas"],
+                   "filas": [[str(v), f] for v, f in enumerate(fo7w)]}],
+          nota=f"p = x̄/4 = {r4(p7w)}; {len(o_)} clases, ν = {nu7w}; χ² = {r4(chi7w)}")
+
+# ---------------------------------------------------------------- W8: homogeneidad con porcentajes por zona
+tabla8w = [[60, 90, 50], [64, 56, 40]]
+chi8w, nu8w = chi_contingencia(tabla8w)
+ejercicio("W8",
+          "Una consultora preguntó qué marca de yerba prefieren a 200 personas de la zona norte y a 160 de la zona sur. "
+          "En la zona norte, el 30% eligió la marca A, el 45% la marca B y el 25% la marca C. En la zona sur, el 40% "
+          "eligió la A, el 35% la B y el 25% la C.",
+          [["a", "Con un nivel de significación del 5%, ¿las preferencias de marca son las mismas en las dos zonas?"]],
+          [[["n", r4(chi8w)], ["d", "rechaza" if chi8w > stats.chi2.ppf(0.95, nu8w) else "no_rechaza"]]],
+          nota=f"consistencia con % → frecuencias; χ² = {r4(chi8w)}, ν = {nu8w}")
+
+# ---------------------------------------------------------------- W9: regresión, y en %, máximo esperado de la media
+x9w = [50, 55, 60, 65, 70, 75, 80, 85, 90]
+y9w = [61.2, 63.0, 66.1, 67.4, 70.2, 71.8, 73.5, 76.1, 77.0]
+g9w = regresion(x9w, y9w)
+y0w = g9w["b0"] + g9w["b1"] * 80
+sup9 = y0w + stats.t.ppf(0.95, g9w["n"] - 2) * g9w["s"] * sqrt(1 / g9w["n"] + (80 - g9w["mx"]) ** 2 / g9w["sxx"])
+ejercicio("W9",
+          "En un reactor se registró el rendimiento de la reacción (en %) para distintas temperaturas de operación (en "
+          "°C):",
+          [["a", "Hallar la recta de regresión del rendimiento en función de la temperatura, calcular el coeficiente de "
+                 "determinación y validar el modelo con un riesgo del 5%."],
+           ["b", "¿Cuál es el rendimiento medio máximo que se puede esperar operando a 80 °C, con un 95% de confianza?"]],
+          [[["n", r4(g9w["b1"])], ["n", r4(g9w["r2"])]], [["n", r4(sup9)]]],
+          tablas=[{"titulo": "", "columnas": ["Temperatura (°C)", "Rendimiento (%)"],
+                   "filas": [[x, y] for x, y in zip(x9w, y9w)], "variable_y": "Rendimiento (%)"}],
+          nota=f"b1 = {r4(g9w['b1'])}, r² = {r4(g9w['r2'])}; b) cota superior de la media en x = 80: {r4(sup9)}")
+
+# ---------------------------------------------------------------- W10: dos medias, una fila por grupo con datos crudos
+l1 = [41.2, 39.8, 40.5, 42.1, 40.9, 41.5]
+l2 = [43.0, 42.2, 44.1, 41.9, 43.6, 42.8]
+m1, s1w, n1w = media_s(l1)
+m2, s2w, n2w = media_s(l2)
+se10w, nu10w = error_dos_medias(s2w, n2w, s1w, n1w)
+ejercicio("W10",
+          "Se midió el tiempo de ciclo (en segundos) de dos líneas de montaje en seis ciclos elegidos al azar de cada una:",
+          [["a", "¿Hay evidencia, con α = 0,05, de que la línea 2 tiene un tiempo de ciclo medio mayor que la línea 1?"]],
+          [[["d", "rechaza" if m2 - m1 > stats.t.ppf(0.95, nu10w) * se10w else "no_rechaza"]]],
+          tablas=[{"titulo": "", "columnas": ["Línea"] + [f"Ciclo {i}" for i in range(1, 7)],
+                   "filas": [["Línea 1"] + l1, ["Línea 2"] + l2]}],
+          nota=f"H1 μ2 > μ1: d = {r4(m2 - m1)} vs {r4(stats.t.ppf(0.95, nu10w) * se10w)} (ν = {nu10w})")
+
+
 if __name__ == "__main__":
     for archivo, _, lista in TANDAS.values():
         if not lista:

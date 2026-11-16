@@ -1811,7 +1811,7 @@ def clasificar_inciso(norm: str, tema: str, contexto: str) -> Tuple[str, str]:
         return "ensayo", "Pregunta si hay un efecto (aumenta / reduce / influye): ensayo de hipótesis."
     if _hay(r"(cual|que) (seria|sera|es) la (conclusion|decision)", norm):
         return "ensayo", "Pide la conclusión / decisión: ensayo de hipótesis."
-    if _hay(r"(cual|calcular|hallar|determinar|que)[^.?]{0,30}(probabilidad|error de tipo ii|potencia)|error de tipo ii|"
+    if _hay(r"(cual|calcular|hallar|determinar|que)[^.?]{0,30}(probabilidad|error de tipo ii|potencia|riesgo de)|error de tipo ii|"
             r"probabilidad de (no )?(detectar|aceptar|rechazar|detener|revisar)|"
             r"(con que|que) probabilidad|^\W*(y )?(cual (es|seria) )?(la )?probabilidad\b", norm):
         return "beta", "Pide una probabilidad de error: β (no detectar) o potencia 1-β (detectar)."

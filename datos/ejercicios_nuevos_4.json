@@ -1,0 +1,480 @@
+[
+ {
+  "id": "W1",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una aplicación de delivery lanzó una función de propinas. Según una encuesta a 350 usuarios elegidos al azar, el 18% de ellos la usó al menos una vez en el primer mes.",
+  "incisos": [
+   [
+    "a",
+    "¿Se puede concluir, con un riesgo del 1%, que más del 15% de los usuarios usa la función?"
+   ],
+   [
+    "b",
+    "Con un 99% de confianza, ¿cuál es como mínimo el porcentaje de usuarios que usa la función?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     70
+    ]
+   ],
+   [
+    [
+     "n",
+     0.1347
+    ]
+   ]
+  ],
+  "nota": "r = 0,18·350 = 63; H0 p ≤ 0,15, r_c = 70; cota inferior 99% = 0.1347"
+ },
+ {
+  "id": "W2",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "En la recepción de lotes de cables se toman 50 unidades al azar y el lote se rechaza si aparecen 3 o más cables defectuosos.",
+  "incisos": [
+   [
+    "a",
+    "¿Cuál es la probabilidad de aceptar un lote que tiene un 8% de cables defectuosos?"
+   ],
+   [
+    "b",
+    "Si un lote con un 2% de defectuosos se considera bueno, ¿cuál es el riesgo de rechazarlo?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "n",
+     0.226
+    ]
+   ],
+   [
+    [
+     "n",
+     0.0784
+    ]
+   ]
+  ],
+  "nota": "P(R ≤ 2 | 50; 0,08) = 0.226; α = P(R ≥ 3 | 50; 0,02) = 0.0784"
+ },
+ {
+  "id": "W3",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se midió el espesor (en mm) de placas producidas con dos procesos distintos:",
+  "incisos": [
+   [
+    "a",
+    "¿Puede afirmarse, al 5%, que el proceso B es más homogéneo que el proceso A?"
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza el cociente entre las varianzas del espesor de los procesos A y B."
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Proceso A",
+     "Proceso B"
+    ],
+    "filas": [
+     [
+      12.1,
+      12.2
+     ],
+     [
+      11.4,
+      12.0
+     ],
+     [
+      12.8,
+      12.4
+     ],
+     [
+      13.0,
+      12.3
+     ],
+     [
+      11.2,
+      11.9
+     ],
+     [
+      12.5,
+      12.5
+     ],
+     [
+      11.9,
+      12.1
+     ],
+     [
+      12.9,
+      12.2
+     ],
+     [
+      11.6,
+      12.0
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     2.6179
+    ],
+    [
+     "n",
+     51.4508
+    ]
+   ]
+  ],
+  "nota": "H1 σA > σB: F = 11.6056"
+ },
+ {
+  "id": "W4",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Un fabricante de envases cambió la fórmula del plástico para hacerlos más livianos. Con la fórmula nueva se pesaron 20 envases: peso medio 482 g, desvío 12 g. Con la fórmula anterior se habían pesado 18 envases: peso medio 497 g, desvío 10 g.",
+  "incisos": [
+   [
+    "a",
+    "Con un riesgo del 5%, ¿se puede afirmar que la fórmula nueva reduce el peso medio de los envases en al menos 10 g?"
+   ],
+   [
+    "b",
+    "Con un 95% de confianza, ¿cuál es la reducción mínima del peso medio que se puede garantizar?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     8.9112
+    ]
+   ]
+  ],
+  "nota": "H1 μV − μN > 10, ν = 36; d = 15 vs 16.0888"
+ },
+ {
+  "id": "W5",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Para comparar el rendimiento (en km por litro) de dos combustibles, se cargó cada uno de 7 autos primero con nafta común y después con nafta premium, en el mismo recorrido:\nComún: 11,2 - 12,5 - 10,8 - 13,1 - 11,9 - 12,2 - 10,5\nPremium: 11,8 - 12,9 - 11,6 - 13,4 - 12,6 - 12,4 - 11,3",
+  "incisos": [
+   [
+    "a",
+    "Al 5%, ¿rinde más la nafta premium?"
+   ],
+   [
+    "b",
+    "Estimar con un 95% de confianza la diferencia de rendimiento medio entre las dos naftas."
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ],
+   [
+    [
+     "n",
+     0.3172
+    ],
+    [
+     "n",
+     0.7685
+    ]
+   ]
+  ],
+  "nota": "apareadas: d̄ = 0.5429, S_d = 0.244"
+ },
+ {
+  "id": "W6",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se pesaron 100 bolsas de alimento balanceado (en kg) y se agruparon los resultados:",
+  "incisos": [
+   [
+    "a",
+    "¿Se puede aceptar, con α = 0,05, que el peso de las bolsas sigue una distribución normal?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Peso (kg)",
+     "10-12",
+     "12-14",
+     "14-16",
+     "16-18",
+     "18-20",
+     "20-22"
+    ],
+    "filas": [
+     [
+      "Cantidad de bolsas",
+      6,
+      15,
+      26,
+      31,
+      15,
+      7
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     0.5571
+    ]
+   ]
+  ],
+  "nota": "x̄ = 16.1, S = 2.5643; 6 clases, ν = 3; χ² = 0.5571"
+ },
+ {
+  "id": "W7",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "En un control de calidad se revisaron 80 cajas de 4 huevos cada una y se contó cuántos huevos rotos tenía cada caja:",
+  "incisos": [
+   [
+    "a",
+    "Con un 5% de riesgo, ¿se puede admitir que la cantidad de huevos rotos por caja responde a un modelo binomial?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Huevos rotos por caja",
+     "Cantidad de cajas"
+    ],
+    "filas": [
+     [
+      "0",
+      45
+     ],
+     [
+      "1",
+      25
+     ],
+     [
+      "2",
+      8
+     ],
+     [
+      "3",
+      2
+     ],
+     [
+      "4",
+      0
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "no_rechaza"
+    ],
+    [
+     "n",
+     1.0508
+    ]
+   ]
+  ],
+  "nota": "p = x̄/4 = 0.1469; 3 clases, ν = 1; χ² = 1.0508"
+ },
+ {
+  "id": "W8",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Una consultora preguntó qué marca de yerba prefieren a 200 personas de la zona norte y a 160 de la zona sur. En la zona norte, el 30% eligió la marca A, el 45% la marca B y el 25% la marca C. En la zona sur, el 40% eligió la A, el 35% la B y el 25% la C.",
+  "incisos": [
+   [
+    "a",
+    "Con un nivel de significación del 5%, ¿las preferencias de marca son las mismas en las dos zonas?"
+   ]
+  ],
+  "tablas": null,
+  "esperado": [
+   [
+    [
+     "n",
+     4.7724
+    ],
+    [
+     "d",
+     "no_rechaza"
+    ]
+   ]
+  ],
+  "nota": "consistencia con % → frecuencias; χ² = 4.7724, ν = 2"
+ },
+ {
+  "id": "W9",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "En un reactor se registró el rendimiento de la reacción (en %) para distintas temperaturas de operación (en °C):",
+  "incisos": [
+   [
+    "a",
+    "Hallar la recta de regresión del rendimiento en función de la temperatura, calcular el coeficiente de determinación y validar el modelo con un riesgo del 5%."
+   ],
+   [
+    "b",
+    "¿Cuál es el rendimiento medio máximo que se puede esperar operando a 80 °C, con un 95% de confianza?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Temperatura (°C)",
+     "Rendimiento (%)"
+    ],
+    "filas": [
+     [
+      50,
+      61.2
+     ],
+     [
+      55,
+      63.0
+     ],
+     [
+      60,
+      66.1
+     ],
+     [
+      65,
+      67.4
+     ],
+     [
+      70,
+      70.2
+     ],
+     [
+      75,
+      71.8
+     ],
+     [
+      80,
+      73.5
+     ],
+     [
+      85,
+      76.1
+     ],
+     [
+      90,
+      77.0
+     ]
+    ],
+    "variable_y": "Rendimiento (%)"
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "n",
+     0.4057
+    ],
+    [
+     "n",
+     0.9928
+    ]
+   ],
+   [
+    [
+     "n",
+     74.0485
+    ]
+   ]
+  ],
+  "nota": "b1 = 0.4057, r² = 0.9928; b) cota superior de la media en x = 80: 74.0485"
+ },
+ {
+  "id": "W10",
+  "examen": "Ejercicio nuevo (Claude, 16/11/2026)",
+  "planteo": "Se midió el tiempo de ciclo (en segundos) de dos líneas de montaje en seis ciclos elegidos al azar de cada una:",
+  "incisos": [
+   [
+    "a",
+    "¿Hay evidencia, con α = 0,05, de que la línea 2 tiene un tiempo de ciclo medio mayor que la línea 1?"
+   ]
+  ],
+  "tablas": [
+   {
+    "titulo": "",
+    "columnas": [
+     "Línea",
+     "Ciclo 1",
+     "Ciclo 2",
+     "Ciclo 3",
+     "Ciclo 4",
+     "Ciclo 5",
+     "Ciclo 6"
+    ],
+    "filas": [
+     [
+      "Línea 1",
+      41.2,
+      39.8,
+      40.5,
+      42.1,
+      40.9,
+      41.5
+     ],
+     [
+      "Línea 2",
+      43.0,
+      42.2,
+      44.1,
+      41.9,
+      43.6,
+      42.8
+     ]
+    ]
+   }
+  ],
+  "esperado": [
+   [
+    [
+     "d",
+     "rechaza"
+    ]
+   ]
+  ],
+  "nota": "H1 μ2 > μ1: d = 1.9333 vs 0.8523 (ν = 10)"
+ }
+]
