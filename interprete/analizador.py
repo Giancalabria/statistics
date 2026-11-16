@@ -1085,6 +1085,11 @@ def _apareadas(an: Analisis, t: Texto, l1: List[float], l2: List[float], pista: 
         apareadas, motivo = False, "listas de distinto largo o grupos distintos → muestras independientes"
     elif _cuenta(P_APAREADAS, t.norm) > 0:
         apareadas, motivo = True, "mismas unidades medidas con ambos tratamientos → muestras apareadas"
+    elif any(int(m.group(1)) == len(l1) for m in re.finditer(r"\bcada un[oa] de (?:los |las )?(\d+) [a-z]{3,}", t.norm)):
+        # 'se cargó cada uno de 7 autos primero con … y después con …', con 7 datos en cada lista: cada unidad se
+        # midió con los dos tratamientos
+        apareadas, motivo = True, ("«cada uno de N» con N igual al largo de las dos listas: cada unidad se midió con "
+                                   "los dos tratamientos → muestras apareadas")
     elif pista is not None:
         apareadas = pista
         motivo = (f"la tabla tiene una fila / columna por unidad ({origen}) → muestras apareadas" if pista else
@@ -1594,7 +1599,9 @@ def tabla_porcentajes(t: Texto) -> Optional[Tuple[List[List[float]], List[str], 
         if n.es_entero and not n.pct and n.valor >= 5:
             cola = re.split(r"[\d.,;:?!]|\b(y|e|o|sobre|que|para|con|acerca|respecto|elegid|tomad|al azar)\b",
                             t.norm[n.fin:n.fin + 40])[0]
-            palabras = [w for w in re.findall(r"[a-z]{4,}", cola)][:3]
+            # palabras de 3 letras también ('zona sur'), salvo las de función
+            palabras = [w for w in re.findall(r"[a-z]{3,}", cola)
+                        if w not in ("del", "las", "los", "una", "uno", "por", "sus", "les", "mas", "muy")][:3]
             if palabras and re.match(r"\s+[a-z]", t.norm[n.fin:n.fin + 3]):
                 totales.append(([w[:5] for w in palabras], n.valor, n.ini, " ".join(palabras)))
     # lo que distingue a cada grupo ('200 piezas del turno mañana' / '150 piezas del turno noche' → mañana / noche)
@@ -1811,7 +1818,7 @@ def clasificar_inciso(norm: str, tema: str, contexto: str) -> Tuple[str, str]:
         return "ensayo", "Pregunta si hay un efecto (aumenta / reduce / influye): ensayo de hipótesis."
     if _hay(r"(cual|que) (seria|sera|es) la (conclusion|decision)", norm):
         return "ensayo", "Pide la conclusión / decisión: ensayo de hipótesis."
-    if _hay(r"(cual|calcular|hallar|determinar|que)[^.?]{0,30}(probabilidad|error de tipo ii|potencia|riesgo de)|error de tipo ii|"
+    if _hay(r"(cual|calcular|hallar|determinar|que)[^.?]{0,30}(probabilidad|error de tipo ii|potencia|riesgo de (no )?[a-z]+(ar|er|ir)(lo|la|los|las)?\b)|error de tipo ii|"
             r"probabilidad de (no )?(detectar|aceptar|rechazar|detener|revisar)|"
             r"(con que|que) probabilidad|^\W*(y )?(cual (es|seria) )?(la )?probabilidad\b", norm):
         return "beta", "Pide una probabilidad de error: β (no detectar) o potencia 1-β (detectar)."
@@ -2813,6 +2820,29 @@ def _tabla_de_conteos(tablas) -> bool:
     return False
 
 
+_RE_VALOR_O_CLASE = re.compile(r"^\s*[-−]?\d[\d.,]*\s*(?:[-–]\s*[-−]?\d[\d.,]*)?\s*$|^\s*(menos de|mas de|hasta)\s+\d|"
+                               r"\d[\d.,]*\s*(o mas|y mas|o menos)\s*$")
+
+
+def tabla_vertical(tb: dict) -> dict:
+    """Tabla escrita 'acostada' (los valores o las clases en los encabezados y una o dos filas de frecuencias:
+    'Peso (kg) | 10-12 | 12-14 | …' / 'Cantidad | 6 | 15 | …') → la misma tabla parada, como las demás."""
+    cols, filas = tb.get("columnas") or [], tb.get("filas") or []
+    if len(cols) < 4 or not 1 <= len(filas) <= 3:
+        return tb
+    if not all(isinstance(c, str) and _RE_VALOR_O_CLASE.search(normalizar(c)) for c in cols[1:]):
+        return tb
+    if [normalizar(c).strip() for c in cols[1:]] == [str(k) for k in range(1, len(cols))]:
+        return tb   # 'Proceso | 1 | 2 | 3 …': numeran las observaciones de cada grupo (una fila por grupo), no son valores
+    if not all(len(f) == len(cols) and isinstance(f[0], str) and
+               all(isinstance(x, (int, float)) for x in f[1:]) for f in filas):
+        return tb
+    nueva = dict(tb, columnas=[cols[0]] + [f[0] for f in filas],
+                 filas=[[c] + [f[j] for f in filas] for j, c in enumerate(cols) if j > 0])
+    nueva["_transpuesta"] = True
+    return nueva
+
+
 def tabla_nominal_de_frecuencias(tablas) -> bool:
     """Categorías CON NOMBRE (no números ni intervalos) y una sola columna de conteos enteros, ≥ 3 filas: 'Lunes 32,
     Martes 21, …'. Con una variable nominal no hay media que calcular: es una distribución de frecuencias (χ²)."""
@@ -3098,7 +3128,7 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
 
     an = Analisis(planteo=original)
     an.avisos += notas
-    an.tablas = list(tablas) if tablas else buscar_tablas(planteo)
+    an.tablas = [tabla_vertical(tb) for tb in (list(tablas) if tablas else buscar_tablas(planteo))]
     tabla_props = None if an.tablas else tabla_proporciones_texto(planteo)
     total = planteo if lista[0][0] == "única" else planteo + " " + " ".join(tx for _, tx in lista)
     t_total = Texto(total)
@@ -3166,7 +3196,7 @@ def analizar(planteo: str, incisos: Optional[IncisosIn] = None, tablas: Optional
             an.tema, an.razones_tema = tema_pl, razones_pl + [
                 "El porcentaje / proporción aparece recién en un inciso: ese inciso se resuelve aparte como proporción."]
     if not tema and an.tema in ("media", "proporcion", "dos_medias", "varianza") and \
-            _hay(r"(depend|asocia|independ|relacion|difier|influ|distint|homogene|varia (segun|con))", normalizar(pregunta)) \
+            _hay(r"(depend|asocia|independ|relacion|difier|influ|distint|homogene|varia (segun|con)|\bmism[oa]s\b|\bigual(es)?\b)", normalizar(pregunta)) \
             and tabla_porcentajes(Texto(planteo)):
         an.tema = "chi_contingencia"
         an.razones_tema = ["Da, para cada grupo, los PORCENTAJES de cada categoría y pregunta si la distribución depende "

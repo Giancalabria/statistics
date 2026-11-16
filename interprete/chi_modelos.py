@@ -214,6 +214,11 @@ def conocidos_en(modelo: str, texto: str) -> Dict[str, float]:
         n = _valor_tras(texto, r"muestras? (aleatorias? )?de\s*")
         if n:
             c["n"] = n.valor
+        else:
+            # 'cajas de 4 huevos cada una': los ensayos de cada unidad
+            m = re.search(r"\bde (\d+) [a-z]+ (cada un[oa]|por (caja|unidad|lote|paquete|grupo))\b", normalizar(texto))
+            if m:
+                c["n"] = float(m.group(1))
         p = re.search(r"\bp\s*=\s*(\d+(?:,\d+)?)", texto)
         if p:
             c["p"] = float(p.group(1).replace(",", "."))
@@ -528,6 +533,11 @@ def chi_ajuste_modelos(d, alpha, res, estado):
             vals = d.get("valores_var") or list(range(len(obs)))
             if m != "uniforme":
                 vals = [float(re.sub(r"[^\d.,]", "", str(v)).replace(",", ".") or i) for i, v in enumerate(vals)]
+            if m == "binomial" and "n" not in conocidos and vals == [float(k) for k in range(len(vals))] and len(vals) >= 2:
+                # la tabla cubre el dominio entero 0, 1, …, k (aunque el último tenga Fo = 0): n = k ensayos por unidad
+                conocidos["n"] = vals[-1]
+                res.avisos.append(f"n de la binomial = {fmt(vals[-1])}: la tabla tiene todos los valores posibles, de 0 "
+                                  f"a {fmt(vals[-1])}.")
             r = aj.ajuste_discreto(m, vals, obs, alpha, conocidos)
         else:
             lim = [tuple(x) for x in (d.get("clases") or [])]
