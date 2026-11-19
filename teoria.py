@@ -27,6 +27,8 @@ class Documento:
 
 
 DOCUMENTOS = (
+    Documento("estudio/EXAMEN.md", "Todo para el examen", "🎯",
+              "Un solo archivo para el examen: tarjeta rápida, control de la app, redacción, cada tema, Excel y letras."),
     Documento("estudio/GUIA_CONTROL.md", "Control del planteo", "✅",
               "Qué controlar de la app en cada inciso, cómo se reconoce cada tema y las fallas reales de la app."),
     Documento("estudio/REGLAS_PROFESOR.md", "Reglas del profesor", "📏",

@@ -4,6 +4,7 @@ App Streamlit que resuelve los ejercicios de la cátedra Dopazo: reglas (`interp
 
 - **Estudio para el 2° parcial (19/11/2026):** todo está en [estudio/](estudio/). Al empezar una sesión de estudio, leer `estudio/CLAUDE.md` y la sección «Estado actual» de `estudio/PLAN.md`.
 - **En el examen la app resuelve y el usuario controla el planteo**: `estudio/GUIA_CONTROL.md` tiene el control y el catálogo de fallas reales de la app.
+- **`estudio/EXAMEN.md` es el único archivo para usar durante el examen** (primero en la sección Teoría): junta el control, la redacción, cada tema, Excel y las letras. Si cambia una regla en los otros archivos, actualizarla también ahí.
 - **Sección «Teoría» de la app** (`teoria.py`): muestra los .md útiles para resolver, con buscador. Para sumar uno, agregarlo a `DOCUMENTOS`.
 - Reglas del profesor: `estudio/REGLAS_PROFESOR.md`. Mandan sobre la guía y sobre el solver; si el solver las contradice, se corrige y se anota en `CONVENCIONES_CATEDRA.md`.
 
